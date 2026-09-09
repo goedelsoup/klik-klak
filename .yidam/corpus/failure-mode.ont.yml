@@ -32,3 +32,7 @@ edges:
     target: data-format
     direction: out
     description: A written form whose shape makes this state unrepresentable.
+  - relationship: prevented-by
+    target: subsystem
+    direction: out
+    description: An engine component whose behaviour makes this state unreachable.

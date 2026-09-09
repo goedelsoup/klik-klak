@@ -24,3 +24,7 @@ edges:
     target: room
     direction: out
     description: The room this object is picked up from.
+  - relationship: carried-form-of
+    target: hotspot
+    direction: out
+    description: The region this object was, standing in the room before it was picked up.

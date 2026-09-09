@@ -32,3 +32,7 @@ edges:
     target: subsystem
     direction: out
     description: Another component this one requires in order to do its own work.
+  - relationship: realizes
+    target: conversation
+    direction: out
+    description: The authoring primitive this component is what makes work at runtime.

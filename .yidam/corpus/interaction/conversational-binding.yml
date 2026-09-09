@@ -27,5 +27,7 @@ properties:
 links:
   - target: ../verb/talk-to.yml
     relationship: applies
+  - target: ../conversation/branching-tree.yml
+    relationship: opens
   - target: ../interaction.ont.yml
     relationship: instance-of

@@ -25,5 +25,7 @@ properties:
 links:
   - target: ../room/single-screen.yml
     relationship: found-in
+  - target: ../hotspot/static-region.yml
+    relationship: carried-form-of
   - target: ../inventory-item.ont.yml
     relationship: instance-of

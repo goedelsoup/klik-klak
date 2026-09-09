@@ -20,5 +20,7 @@ properties:
     player gets that a region is targetable at all, which makes it part of the vocabulary
     rather than presentation.
 links:
+  - target: ../room/single-screen.yml
+    relationship: located-in
   - target: ../hotspot.ont.yml
     relationship: instance-of

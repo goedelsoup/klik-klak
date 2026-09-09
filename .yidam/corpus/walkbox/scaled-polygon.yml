@@ -20,5 +20,7 @@ properties:
     deliberately less expressive than the phenomenon.
   passability: always
 links:
+  - target: ../room/single-screen.yml
+    relationship: lies-in
   - target: ../walkbox.ont.yml
     relationship: instance-of

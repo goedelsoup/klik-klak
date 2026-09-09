@@ -31,3 +31,7 @@ edges:
     target: subsystem
     direction: out
     description: The engine component that parses and consumes this format.
+  - relationship: encodes
+    target: interaction
+    direction: out
+    description: The authoring primitive this format is a written form of.

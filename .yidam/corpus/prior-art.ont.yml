@@ -31,3 +31,7 @@ edges:
     target: failure-mode
     direction: out
     description: A class of authoring defect this system's vocabulary permitted.
+  - relationship: reads
+    target: data-format
+    direction: out
+    description: An on-disk form this system parses.

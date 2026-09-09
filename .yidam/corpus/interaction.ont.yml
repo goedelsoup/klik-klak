@@ -42,3 +42,7 @@ edges:
     target: world-flag
     direction: out
     description: The world state this binding writes when it resolves.
+  - relationship: opens
+    target: conversation
+    direction: out
+    description: The exchange control passes to when this binding resolves.

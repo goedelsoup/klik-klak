@@ -31,5 +31,7 @@ properties:
 links:
   - target: ../subsystem/interaction-resolver.yml
     relationship: read-by
+  - target: ../interaction/binary-binding.yml
+    relationship: encodes
   - target: ../data-format.ont.yml
     relationship: instance-of

@@ -27,3 +27,7 @@ edges:
     target: interaction
     direction: in
     description: An interaction directed at this region.
+  - relationship: located-in
+    target: room
+    direction: out
+    description: The room this region is part of.

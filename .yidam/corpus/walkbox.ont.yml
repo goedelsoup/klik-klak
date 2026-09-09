@@ -31,3 +31,7 @@ edges:
     target: subsystem
     direction: in
     description: The engine component that solves paths across this region.
+  - relationship: lies-in
+    target: room
+    direction: out
+    description: The room whose floor this surface describes.

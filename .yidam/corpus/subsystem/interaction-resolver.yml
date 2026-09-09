@@ -11,6 +11,13 @@ description: |
   working life producing a default — so the lookup that matters for perceived quality is the
   *miss* path, not the hit path. An engine that treats the default as an error case has
   optimized the rare branch.
+
+  It is also what makes a topic-list conversation work, which is not obvious and is worth
+  stating rather than leaving to the edge. [inference] A topic list has no interior state
+  and no path through it — `conversation/topic-list.yml` argues that each of its topics
+  reduces to a unary binding against an actor — so the component that resolves bindings is
+  already the component that runs one. The edge is therefore evidence for that reduction
+  rather than an independent claim: if the reduction is wrong, this edge is wrong with it.
 properties:
   responsibility: |
     Given a composed binding, produce exactly one outcome: an authored response, an authored
@@ -29,5 +36,7 @@ links:
     relationship: realizes
   - target: ../subsystem/path-solver.yml
     relationship: depends-on
+  - target: ../conversation/topic-list.yml
+    relationship: realizes
   - target: ../subsystem.ont.yml
     relationship: instance-of
