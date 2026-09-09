@@ -14,7 +14,7 @@ Fields per entry: slug, source type (paper/dataset/API/database/other), descript
                   corpus citation count (used-by).
 Sorted by: type, then slug.
 -->
-_Run `yidam catalog-audit` to populate._
+_No catalog entries yet._
 <!-- /REGEN -->
 
 ## Adding a source

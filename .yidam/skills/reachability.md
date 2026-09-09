@@ -1,3 +1,8 @@
+---
+name: reachability
+description: Whether every reachable world-state configuration can still reach the ending; blocked on an authored game to read
+---
+
 # reachability
 
 **Status: stub, and blocked on an input that does not exist.** Approved in

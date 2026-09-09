@@ -25,7 +25,7 @@ Reads: `.yidam/decisions/kuten.yml` and the profile it names under
        `.yidam/.vendor/prelude/kuten/`. Holding no kuten is a supported state and is
        reported as one.
 -->
-_Run `yidam kuten` to populate._
+_This repository holds no kuten._ That is a supported state: the loop runs on the template's own defaults, and nothing here declares what the work is aimed at. `yidam kuten check` reports it and exits zero.
 <!-- /REGEN -->
 
 This repository adopted **no kuten** at genesis. The one profile the template ships,

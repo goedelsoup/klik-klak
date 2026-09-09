@@ -1,3 +1,8 @@
+---
+name: collapse-signature
+description: Similarity between class pairs' relationship vocabularies — the falsifiable form of 'is cutscene just an interaction?'
+---
+
 # collapse-signature
 
 **Status: stub.** Approved in `.yidam/decisions/proposals.yml`; not implemented.
