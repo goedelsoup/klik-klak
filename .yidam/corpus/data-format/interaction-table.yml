@@ -28,6 +28,30 @@ properties:
     prior-art system reached a general-purpose language at exactly this point. Whether a
     bounded expression language avoids that is `[open]` and is the most valuable open
     question in this corpus.
+
+    **It has an answer now, from the one system that ran the experiment.** Adventure Game Studio
+    built a bounded language for exactly this — eight dialog-script commands, `goto-dialog`,
+    `goto-previous`, `option-on`, `option-off`, `option-off-forever`, `run-script`, `return`,
+    `stop` — and its own manual records that it was not enough: "Often the provided dialog
+    scripting commands won't be enough... AGS now lets you put normal scripting commands in your
+    dialog script, by indenting the line with spaces or tabs."
+    ([ags-manual](../../catalog/ags-manual.md)) [verified]
+
+    That is an admission by the system's authors rather than an inference by this corpus, and it
+    is the most directly relevant evidence retrieved so far. A bounded expression language was
+    tried, in the narrowest domain anyone would try it in — conversations, where the operations
+    really are few — and it still needed a door to a general-purpose language.
+
+    The escape mechanism is worth recording precisely, because it is a design this corpus should
+    either adopt or reject deliberately: **indentation switches languages.** An indented line is
+    ordinary AGS script. There is no delimiter, no fence, no declaration — the boundary between
+    the declarative vocabulary and the general-purpose one is whitespace. [verified]
+
+    What remains `[open]` is narrower and sharper than what this paragraph originally asked.
+    Nobody has tried the middle. AGS's escape goes straight from eight commands to a full
+    scripting language; SCUMM had no declarative layer to escape *from*. Whether a bounded
+    expression language — arithmetic, comparison, inventory counts, and nothing else — would
+    absorb the cases that force the door open is untested by either system this corpus has read.
 links:
   - target: ../subsystem/interaction-resolver.yml
     relationship: read-by

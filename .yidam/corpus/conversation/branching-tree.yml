@@ -11,6 +11,24 @@ description: |
   branches written and never reached are indistinguishable from branches written and
   unreachable — which is `failure-mode/orphaned-dialogue-branch`, and is why that failure
   mode belongs to this structure specifically rather than to conversations generally.
+
+  **The path-dependence this class was founded on is now documented rather than asserted.** AGS's
+  dialog script carries `goto-previous`, which "Returns to the previous topic, or stops dialog if
+  it started there" ([ags-manual](../../catalog/ags-manual.md)). [verified] Returning to *the
+  previous* topic, and behaving differently when there is no previous, means the engine maintains
+  a return stack — interior state belonging to the exchange and to nothing else.
+
+  That is the claim [conversation.ont.yml](../conversation.ont.yml) rests on, and it is why this
+  class survives the collapse into `interaction`: no verb-target binding records a path, and this
+  structure needs one. It is the concrete form of an argument the class definition had only in the
+  abstract.
+
+  The counterweight is worth keeping in view. SCUMM shipped celebrated branching conversations
+  with no engine primitive whatsoever — the v5 opcode table has `print` and `printEgo` and nothing
+  that manages a menu of options
+  ([scumm-v5-opcode-reference](../../catalog/scumm-v5-opcode-reference.md)). [inference] The
+  structure is demonstrably authorable without support. Being irreducible as a *concept* and
+  needing engine support are different claims, and only the first is established here.
 properties:
   structure: branching-tree
   exhaustion: |
