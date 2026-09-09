@@ -29,6 +29,20 @@ description: |
   table records a mode the player is currently in. That is what
   [conversation.ont.yml](../conversation.ont.yml) now rests on, and it is the property this node
   shares with the tree rather than the one that separated them.
+
+  **[open] And no relationship in this corpus writes that availability.**
+  [conversation.ont.yml](../conversation.ont.yml) declares `held-with` and `sets` and nothing
+  that changes which choices are visible, while resting its whole account of the class on a
+  conversation carrying exactly that. AGS spends three of its eight dialog commands on it
+  ([ags-manual](../../catalog/ags-manual.md)) [verified], `state_scope` below records it, and
+  [failure-mode/orphaned-dialogue-branch](../failure-mode/orphaned-dialogue-branch.yml) is
+  entirely about what those three commands do. Documented in three places, modelled in none.
+
+  It is left open rather than closed by adding an edge, because the missing edge has no target:
+  this corpus has no node type for a single conversation option, and inventing one to hang a
+  relationship on would be adding a class speculatively. Found by deriving an effect vocabulary
+  from the ontology in
+  [design/bounded-expression-language.md](../../../design/bounded-expression-language.md).
 properties:
   structure: topic-list
   exhaustion: |

@@ -35,17 +35,33 @@ properties:
     the manual attaches it to Walk, Look, Interact and Talk. [verified] Those four are
     therefore the ordinary verb-like modes, and the set is open at the author's discretion.
   scripting: |
-    A C-like scripting language handles anything beyond a simple response. [inference] The
-    boundary is soft and low in this corpus's recollection, but that recollection is now
-    explicitly unsourced: the manual's scripting reference has not been read, and it is
-    exactly the page that would say where declarative authoring stops. Until it is read, this
-    corpus does not know where AGS's escape hatch sits — only that it has one.
+    A C-like scripting language handles anything beyond a simple response, and where the boundary
+    sits is now known for one part of the surface rather than guessed for all of it. In dialog
+    scripts the boundary is **whitespace**: "Do NOT indent these lines with spaces or tabs.
+    Indented lines signify that AGS should interpret the line as a normal scripting command"
+    ([ags-manual](../../catalog/ags-manual.md)). [verified] There is no delimiter and no
+    declaration, so an author who indents a line by accident has changed which language it is in.
+
+    The other door out of a dialog is `run-script X`, which does not run script in place: it
+    "calls dialog_request event handler if one is present in the game script, passes X as an
+    integer parameter". [verified] A conditional branch in a conversation therefore leaves the
+    conversation entirely and reappears in a global handler keyed by an integer.
+
+    The full scripting reference is still unread, so where the boundary sits *elsewhere* — in room
+    and hotspot interactions, which is most of a game — is still unknown here. `[open]` What is no
+    longer unknown is that AGS has an escape hatch, where one of them is, and that the dialog
+    sub-language holds no conditional of its own for an author to reach past.
   source_standing: |
-    Two pages of the manual source read on 2026-09-09: `EditorCursor.md` and `Dialog.md`. Those
-    two support the `[verified]` claims above and nothing else here. The scripting reference,
-    the room and hotspot model, the character and object models, the inventory system and the
-    GUI system are all unread, and the `[inference]` claims in this node rest on the same
-    recollection they did at genesis.
+    Eight pages of the manual source read on 2026-09-09, listed with what was and was not looked
+    for in [the catalog entry](../../catalog/ags-manual.md), which is where that record lives
+    rather than here. The `[verified]` claims in this node rest on `EditorCursor.md`, `Dialog.md`
+    and `DialogScript.md`.
+
+    This property said "two pages" for thirteen commits while the entry beside it listed eight,
+    which is the drift a source-standing note exists to prevent and did not. The scripting
+    reference, the room and hotspot model, the object model, the inventory system and the GUI
+    system remain unread, and the `[inference]` claims here rest on the same recollection they did
+    at genesis.
 links:
   - target: ../verb/look-at.yml
     relationship: implements

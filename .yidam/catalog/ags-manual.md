@@ -43,7 +43,9 @@ markdown under `ags-manual-source` is the same text and is retrievable.
 
 ## What was actually read
 
-Two pages, and only two:
+Eight pages. The count is kept current because this entry is read to decide what is
+citable, and a stale one understates what is available — it said "two pages, and only
+two" while listing eight, for six of which it was the only record.
 
 - **`EditorCursor.md`** — cursor modes. Names Mode 0 (Walk), Mode 4 (Use Inventory), Mode 6
   (Pointer) and Mode 7 (Wait); refers to modes 1, 2, 3, 5, 8 and 9 without naming them on this
@@ -66,17 +68,55 @@ Two pages, and only two:
   dialog's entry point. Conversation lines "are played in game using standard `Character.Say`
   command by default". **Does not** say how a dialog is started during play, or how a Talk
   interaction reaches one; both were looked for.
-- **`DialogScript.md`** — the dialog sub-language. "Dialog scripts are streamlined for
+- **`DialogScript.md`** — the dialog sub-language, read once for conversation shape and **re-read
+  in full** when a design premise came to rest on it. "Dialog scripts are streamlined for
   conversations and use an extended variant of script syntax that simplifies several common
-  commands." Commands documented: `goto-dialog X`, `goto-previous` ("Returns to the previous
-  topic, or stops dialog if it started there"), `option-off X`, `option-off-forever X`,
-  `option-on X`, `run-script X`, `return`, `stop`.
+  commands."
 
-  And the escape hatch, stated by the system's own authors: "Often the provided dialog scripting
-  commands won't be enough... AGS now lets you put normal scripting commands in your dialog
-  script, by indenting the line with spaces or tabs." That sentence is the most directly relevant
-  thing this corpus has retrieved about its own central question — see
-  `data-format/interaction-table.yml`.
+  The page introduces its command set as "The dialog commands available are:" and lists eight.
+  All eight are recorded here with their descriptions verbatim, because the useful property of
+  this set is not any single command but what the set as a whole does not contain:
+
+  | Command | Documented as |
+  |---|---|
+  | `goto-dialog X` | "Switches the current topic to Topic X, and displays the current list of choices for that topic." |
+  | `goto-previous` | "Returns to the previous topic that this one was called from. If the dialog started on this topic, then the dialog will be stopped." |
+  | `option-off X` | "Turns option X for the current topic off, meaning it won't be displayed in the list of choices next time." |
+  | `option-off-forever X` | "Turns option X off permanently. It will never again be displayed, not even if an 'option-on' command is used." |
+  | `option-on X` | "Turns option X for the current topic on, including it in the list of choices to the player next time they are displayed." |
+  | `run-script X` | "Calls dialog_request event handler if one is present in the game script, passes X as an integer parameter." |
+  | `return` | "Stops the script and returns to the list of choices." |
+  | `stop` | "Stops the conversation and returns the player to the game." |
+
+  **Not one of the eight reads anything.** Four are control flow, three write option state, one
+  is the escape, and none is a predicate — there is no comparison, no flag reference, no
+  conditional and no count in the set. The page was searched on the re-read specifically for a
+  conditional, for any variable reference, and for any way to read game state without leaving the
+  sub-language; it documents none of the three.
+
+  What the page does **not** do is claim the list is complete. It says *available*, and a reader
+  wanting exhaustiveness has to get it somewhere else. The distinction is left standing here
+  rather than smoothed over, because it is exactly the distinction this entry got wrong about
+  cursor modes: the eight commands and their descriptions are quotable, and *"the sub-language
+  has no conditional"* is a claim about the whole language that this page supports without
+  settling.
+
+  **The escape hatch is stated twice and the second statement is the informative one.** First as
+  a concession: "Often the provided dialog scripting commands won't be enough... AGS now lets you
+  put normal scripting commands in your dialog script, by indenting the line with spaces or
+  tabs." Then as a warning attached to the dialog commands themselves: "Do NOT indent these lines
+  with spaces or tabs. Indented lines signify that AGS should interpret the line as a normal
+  scripting command."
+
+  **Indentation switches languages**, and the warning is what shows the boundary is load-bearing
+  rather than incidental — an author who indents a line by accident has silently changed which
+  language it is written in, with no delimiter, no fence and no declaration anywhere to say so.
+
+  `run-script X` is the other half of the escape, and it is weaker than a call. It does not run
+  script *in place*: it "calls dialog_request event handler if one is present in the game script,
+  passes X as an integer parameter", so the logic leaves the conversation entirely and reappears
+  in a global handler switching on an integer tag.
+
 - **`EventTypes.md`** — the event lists, and the page that should have been read before this
   corpus said anything about AGS's mode set. Characters have eight events: Look at, Interact,
   Talk to, **Pick up**, **Use inventory on**, Usermode1, Usermode2, Any click. Hotspots have the
