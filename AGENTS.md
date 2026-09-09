@@ -131,6 +131,19 @@ surface and the worked examples.
 that breaks an edge, orphans a node, or leaves a REGEN block stale fails there. Run it
 before committing rather than after.
 
+**Settling a phase makes the gate fail until you regenerate.** The `status` REGEN block in
+`README.md` counts active phase branches, so `git branch -d phase/<name>` changes generated
+content without changing the corpus. `mise run ci` passes on the phase branch and fails on
+`main` one command later, on a block nobody edited. The merge is not finished until:
+
+```
+git merge --no-ff -m "phase: <name> — <what it produced>" phase/<name>
+git branch -d phase/<name>
+mise run regen && git commit -am "regen: status block after settling phase/<name>"
+```
+
+Found by doing it — `cbd2c9b` merged green and left `main` red.
+
 Run the composite rather than its parts. Each catches something the others do not —
 `graph-check` reads the graph and is blind to a stale REGEN block; `regen --check` reads
 generated content and is blind to a broken edge — and the set is held to CI's by a test
