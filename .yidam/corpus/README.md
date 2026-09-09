@@ -26,20 +26,20 @@ Sorted by: kind, then alphabetically.
 | [non-player-character.yml](actor/non-player-character.yml) | actor | Non-Player Character | 2 | 0v / 2i / 0o | 25 |
 | [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 0v / 1i / 1o | 28 |
 | [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 3 | 2v / 3i / 0o | 61 |
-| [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 3 | 3v / 2i / 0o | 50 |
+| [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 3 | 4v / 2i / 1o | 64 |
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 4 | 0v / 2i / 1o | 35 |
-| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 2v / 2i / 4o | 61 |
+| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 5v / 4i / 4o | 90 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 0v / 2i / 2o | 50 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 3 | 0v / 2i / 0o | 36 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 0v / 2i / 1o | 26 |
-| [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 4i / 1o | 57 |
+| [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 4i / 2o | 65 |
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 0v / 3i / 0o | 40 |
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 0v / 1i / 1o | 33 |
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 2v / 1i / 2o | 47 |
 | [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 0v / 1i / 1o | 32 |
 | [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 0v / 2i / 1o | 33 |
-| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 4v / 1i / 1o | 55 |
+| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 6v / 0i / 2o | 71 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 0v / 6i / 0o | 61 |
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 0v / 4i / 1o | 36 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
@@ -55,7 +55,7 @@ Sorted by: kind, then alphabetically.
 | [use-with.yml](verb/use-with.yml) | verb | Use With | 2 | 2v / 4i / 1o | 57 |
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 0v / 2i / 0o | 26 |
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 0v / 2i / 0o | 26 |
-| [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 0v / 2i / 1o | 26 |
+| [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 0v / 3i / 1o | 36 |
 <!-- /REGEN -->
 
 ## Semantic index status
