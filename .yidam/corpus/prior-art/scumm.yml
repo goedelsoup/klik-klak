@@ -1,0 +1,39 @@
+class: prior-art
+label: SCUMM
+description: |
+  LucasArts' Script Creation Utility for Maniac Mansion — an authoring system whose
+  defining choice was to put the verb vocabulary permanently on screen. The player did not
+  discover what could be done; the verbs were listed, and every one of them could be
+  pointed at every target. [inference] That is the strongest form of a bounded vocabulary:
+  the bound is not merely enforced, it is displayed, and an author who wants a verb that is
+  not there cannot add one for a single puzzle.
+
+  The verb set contracted across the run of games it powered. [inference] Whatever the
+  exact counts — this corpus has retrieved no source and should not assert them — the
+  direction is the interesting part, because it is a vocabulary being *minimized* under
+  production pressure by people who were authoring in it daily. That is the central
+  question of this corpus, answered once already by someone with better evidence than we
+  have. Recovering what they dropped and why is the highest-value extraction available here.
+properties:
+  era: "1987-1998"
+  vocabulary_shape: |
+    A fixed verb bar rendered below the scene, with an inventory panel beside it. Selecting
+    a verb then a target composed the binding; a binary verb took a second target after a
+    connective word. [inference] Composition was therefore visible before commitment — the
+    player read the sentence they were building.
+  scripting: |
+    The authoring surface is itself a scripting language, compiled to bytecode for a
+    virtual machine. [inference] There is no declarative layer beneath it, so the question
+    this corpus asks — where authoring escapes to a general-purpose language — has a
+    degenerate answer here: it starts there.
+  source_standing: |
+    Nothing retrieved. Every claim above is [inference] from secondhand familiarity. The
+    source that would settle most of it is the SCUMM documentation preserved by the ScummVM
+    project, which has not been located, fetched, or read.
+links:
+  - target: ../verb/use-with.yml
+    relationship: implements
+  - target: ../failure-mode/unwinnable-state.yml
+    relationship: exhibits
+  - target: ../prior-art.ont.yml
+    relationship: instance-of

@@ -1,0 +1,33 @@
+class: data-format
+label: Room Manifest
+description: |
+  The written form of a room: its extent, its background layers, its hotspot geometry, its
+  walkbox polygons and their scale factors, and its exits. It is the format an author edits
+  most and the one where the vocabulary is most nearly declarative — everything in it is a
+  fact about the room, and nothing in it is a behaviour.
+
+  [inference] That is why it is the natural home for constraints the engine could otherwise
+  only discover at play. A walkbox polygon that no other polygon adjoins, an exit naming a
+  room that does not exist, a hotspot whose geometry falls outside the background: each is
+  checkable while reading the file, and each is currently a bug found by walking into it.
+properties:
+  syntax: |
+    Text, hand-editable, with geometry in world coordinates. The choice to keep it
+    hand-editable rather than tool-only is a bet that the vocabulary stays small enough to
+    write by hand — which is the central question restated as a file format decision.
+  authored_by: |
+    Both. Geometry comes from a tool because polygons are drawn, not typed; everything else
+    is written directly. A format that survives round-tripping through a tool without losing
+    hand-written structure is a real constraint on the syntax and is not yet specified. [open]
+  escape_hatch: |
+    None intended. If a room needs behaviour beyond what this file states, the behaviour
+    belongs in a binding rather than here — and holding that line is what keeps this format
+    declarative. [inference] Every engine this corpus has examined eventually put a script
+    hook in the room file, which is evidence the line is hard to hold and not that it is wrong.
+links:
+  - target: ../room/single-screen.yml
+    relationship: encodes
+  - target: ../subsystem/path-solver.yml
+    relationship: read-by
+  - target: ../data-format.ont.yml
+    relationship: instance-of

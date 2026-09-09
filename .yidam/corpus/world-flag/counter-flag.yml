@@ -1,0 +1,26 @@
+class: world-flag
+label: Counter Flag
+description: |
+  World state holding a small integer rather than a bit — how many times something has
+  happened, or how far through a sequence the world is. It is seeded to test whether the
+  vocabulary needs it, and the honest answer is that it may not: a counter with a known
+  bound is a set of booleans, and a counter without one is rarely what an author meant.
+
+  [inference] The case that keeps it is the ordered sequence — a puzzle requiring three
+  things in order — where booleans express the state but not the ordering constraint, so
+  the author writes the ordering into preconditions by hand and it is only correct by
+  inspection. Whether that is enough to earn a second `domain` value in the vocabulary is
+  `[open]`, and it is a good worked example of what the central question actually feels like
+  to answer.
+properties:
+  domain: integer
+  scope: global
+  save_semantics: |
+    As for a boolean, with one addition worth naming: a counter is the state most likely to
+    be incremented by a cutscene that the player skipped. [inference] Skip handling and
+    counter state interact, and neither class currently says so.
+links:
+  - target: ../puzzle/state-gate.yml
+    relationship: gates
+  - target: ../world-flag.ont.yml
+    relationship: instance-of

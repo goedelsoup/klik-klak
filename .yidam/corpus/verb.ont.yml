@@ -1,0 +1,27 @@
+class: verb
+label: Verb
+foundational_type:
+  ontology: ufo
+  type: kind
+description: |
+  An action the player may direct at a target — a member of the authoring vocabulary
+  itself, distinct from any particular use of it. Irreducible because the vocabulary is
+  what this corpus is measuring: a verb is a primitive that either earns its place or
+  collapses into another.
+properties:
+  - name: arity
+    type: string
+    required: true
+    description: How many objects the verb takes — unary (one target) or binary (target plus second object).
+  - name: surface
+    type: string
+    description: How the player selects it — verb bar, cursor mode, context menu, or single-click default.
+  - name: default_response
+    type: text
+    prose: true
+    description: What the verb says when directed at a target no interaction was authored for.
+edges:
+  - relationship: originated-in
+    target: prior-art
+    direction: out
+    description: The engine or game whose vocabulary this verb is drawn from.

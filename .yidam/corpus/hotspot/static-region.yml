@@ -1,0 +1,24 @@
+class: hotspot
+label: Static Region
+description: |
+  A region of a room that is targetable whenever the room is loaded, with geometry fixed at
+  authoring time. It is the simplest thing in this vocabulary and it is seeded first for
+  that reason: whatever a minimal vocabulary turns out to be, it contains this.
+
+  Its interest is in what it does *not* have. No state, no behaviour, no position of its
+  own beyond a polygon, and no way to stop being targetable. [inference] Everything an
+  author might want beyond that — a door that is targetable only when closed, an object
+  that vanishes when taken — is expressed by some other class writing a world flag that a
+  conditional region reads, which pushes the complexity out of this class and into
+  `world-flag`. Whether that is the right place for it is `[open]`.
+properties:
+  geometry: polygon
+  visibility: always
+  cursor_feedback: |
+    A name and, in most systems, a change of cursor shape. [inference] The name shown on
+    hover is doing more work than it appears to: it is the only pre-commitment signal the
+    player gets that a region is targetable at all, which makes it part of the vocabulary
+    rather than presentation.
+links:
+  - target: ../hotspot.ont.yml
+    relationship: instance-of

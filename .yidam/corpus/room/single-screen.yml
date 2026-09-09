@@ -1,0 +1,34 @@
+class: room
+label: Single-Screen Room
+description: |
+  A room whose extent is exactly the viewport: everything in it is visible at once, and
+  there is no camera to speak of. It is the form the vocabulary was built around, and its
+  properties are what make the rest of the vocabulary cheap. [inference] Hotspot geometry
+  can be authored directly against the background image because the two share a coordinate
+  space; a walkbox needs no scroll transform; an actor's screen position is its world
+  position.
+
+  Its constraint is that composition and navigation are the same decision. Everything the
+  author wants reachable must fit, so a place too large for one screen becomes several
+  rooms joined by `connects-to` — which is why exits, rather than camera work, carry the
+  burden of expressing space in this form.
+properties:
+  extent: single-screen
+  background: |
+    One still image, optionally with a small number of overlay planes for objects an actor
+    can pass behind.
+  state_variance: |
+    Expressed by swapping overlays and by making hotspots conditional, rather than by
+    changing the background. [inference] A room whose background image itself varies with
+    world state is a second room wearing the first one's name, and treating it as one node
+    is where a class of authoring confusion starts. This corpus has no node arguing that
+    yet; it is worth one.
+links:
+  - target: ../hotspot/static-region.yml
+    relationship: contains
+  - target: ../walkbox/scaled-polygon.yml
+    relationship: bounded-by
+  - target: ../room/scrolling.yml
+    relationship: connects-to
+  - target: ../room.ont.yml
+    relationship: instance-of

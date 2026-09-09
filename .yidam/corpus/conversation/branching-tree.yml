@@ -1,0 +1,31 @@
+class: conversation
+label: Branching Tree
+description: |
+  An exchange in which each choice leads to a node offering further choices, and the tree is
+  descended once. It is the structure that makes the strongest case for `conversation` as a
+  primitive of its own: which choices are available depends on the path taken to reach the
+  current node, and a path is not a thing any verb-target binding records.
+
+  [inference] It is also the structure that produces the most authoring waste. A tree deep
+  enough to feel responsive has more nodes than a player will see in one playthrough, and
+  branches written and never reached are indistinguishable from branches written and
+  unreachable — which is `failure-mode/orphaned-dialogue-branch`, and is why that failure
+  mode belongs to this structure specifically rather than to conversations generally.
+properties:
+  structure: branching-tree
+  exhaustion: |
+    A choice taken is usually removed from its node, and the exchange ends at a leaf or at an
+    explicit exit choice. [inference] "Usually" is doing real work: whether a choice returns
+    is authored per choice in most systems, which means reachability of a subtree depends on
+    a per-choice flag no tool reads.
+  state_scope: |
+    Local to the exchange, except where a choice writes a world flag. That split is where the
+    class touches the rest of the vocabulary, and it is narrow — most of a conversation's
+    state never leaves it.
+links:
+  - target: ../actor/non-player-character.yml
+    relationship: held-with
+  - target: ../world-flag/boolean-flag.yml
+    relationship: sets
+  - target: ../conversation.ont.yml
+    relationship: instance-of

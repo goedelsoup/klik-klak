@@ -1,0 +1,30 @@
+class: interaction
+label: Default Binding
+description: |
+  The binding that resolves when no authored binding matches — a verb applied to a target
+  the author never wrote a response for. It is seeded as an `interaction` rather than as a
+  property of `verb` because that placement is a real design question and putting it here
+  makes the question visible.
+
+  [inference] By the combinatorics above, this binding handles the great majority of what a
+  player actually triggers, which makes it the single highest-leverage piece of authored
+  content in a game and the one most often written once and forgotten. A vocabulary that
+  gives it no first-class place is a vocabulary whose most-used response is an afterthought.
+  Whether defaults should be authorable per room, per verb, per hotspot category, or only
+  globally is `[open]` and this corpus has no node arguing any of the four.
+properties:
+  shape: unary
+  response: |
+    The verb's own default text, unless something narrower is in scope. What "narrower"
+    means is the open question above.
+  precondition: |
+    That no authored binding matched. This is the only precondition in the vocabulary that
+    is about the *content* rather than about the world, which is itself a hint that this node
+    may not belong in this class.
+  refusal: |
+    Not applicable — a default cannot refuse, because it is what a refusal falls through to.
+links:
+  - target: ../verb/look-at.yml
+    relationship: applies
+  - target: ../interaction.ont.yml
+    relationship: instance-of

@@ -1,0 +1,30 @@
+class: conversation
+label: Conversation
+foundational_type:
+  ontology: ufo
+  type: event
+description: |
+  A structured exchange with an actor, in which the player chooses among authored lines
+  and the available choices change as the exchange proceeds. Irreducible because its
+  branching is not expressible as interactions: a dialogue node's availability depends on
+  the path taken through the conversation, which no verb-target binding records.
+properties:
+  - name: structure
+    type: string
+    description: How choices are organized — branching tree, persistent topic list, or single-shot.
+  - name: exhaustion
+    type: text
+    prose: true
+    description: What happens to a choice once taken, and how the exchange ends.
+  - name: state_scope
+    type: string
+    description: Whether progress within the exchange is local to it or written to world state.
+edges:
+  - relationship: held-with
+    target: actor
+    direction: out
+    description: The actor this exchange is with.
+  - relationship: sets
+    target: world-flag
+    direction: out
+    description: World state this exchange writes.

@@ -1,0 +1,44 @@
+class: interaction
+label: Interaction
+foundational_type:
+  ontology: ufo
+  type: relator
+description: |
+  The binding of a verb to a target — and, for a binary verb, to a second object —
+  together with the response it produces. Irreducible because it carries its own
+  preconditions and its own text rather than belonging to either thing it relates: "use
+  crowbar with crate" is a property of neither the crowbar nor the crate.
+properties:
+  - name: shape
+    type: string
+    required: true
+    description: Whether the binding takes one object or two.
+  - name: response
+    type: text
+    prose: true
+    description: What the game does and says when this binding resolves.
+  - name: precondition
+    type: text
+    prose: true
+    description: The world state this binding requires before its response is reachable.
+  - name: refusal
+    type: text
+    prose: true
+    description: What is said when the precondition does not hold — distinct from a verb's default response.
+edges:
+  - relationship: applies
+    target: verb
+    direction: out
+    description: The verb this binding is an application of.
+  - relationship: targets
+    target: hotspot
+    direction: out
+    description: The region this binding is directed at.
+  - relationship: requires
+    target: inventory-item
+    direction: out
+    description: The second object a binary binding takes.
+  - relationship: sets
+    target: world-flag
+    direction: out
+    description: The world state this binding writes when it resolves.

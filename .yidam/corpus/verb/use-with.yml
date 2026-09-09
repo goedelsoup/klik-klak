@@ -1,0 +1,30 @@
+class: verb
+label: Use With
+description: |
+  The binary verb: apply a carried object to a target. It is the verb that forces the shape
+  of everything downstream, and that is its claim to being irreducible rather than any
+  claim about what it means. [inference] Once one verb takes two objects, the interaction
+  table is two-dimensional, the inventory needs a selection state, the interface needs a
+  way to express a pending first object, and every refusal has to name which of the two
+  objects is wrong.
+
+  A vocabulary without it is meaningfully smaller — not by one entry, but by a whole
+  dimension. Whether the puzzles it enables can be expressed by unary verbs over a richer
+  world state is `[open]`, and it is the sharpest form of this corpus's central question:
+  the answer decides whether "minimal" means fewer verbs or simpler ones.
+properties:
+  arity: binary
+  surface: |
+    Composed rather than selected. [inference] SCUMM composed it verb-first (choose the
+    verb, then two targets); Adventure Game Studio composes it object-first (choose the
+    inventory item, then the target), which makes the item the mode. The two orders are not
+    equivalent for the player: only the first shows the sentence before it commits.
+  default_response: |
+    A refusal, in every system this corpus has looked at. [inference] The interesting design
+    variable is whether the refusal is generic ("That doesn't work") or names one of the two
+    objects, since a naming refusal leaks information about which half was right.
+links:
+  - target: ../prior-art/scumm.yml
+    relationship: originated-in
+  - target: ../verb.ont.yml
+    relationship: instance-of

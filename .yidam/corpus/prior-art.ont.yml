@@ -1,0 +1,33 @@
+class: prior-art
+label: Prior Art
+foundational_type:
+  ontology: ufo
+  type: kind
+description: |
+  An existing adventure engine or authoring system, characterized by the vocabulary it
+  gave authors. Irreducible because a comparative claim needs a node to sit on: that two
+  engines answered one question differently is a statement about engines, not about the
+  question.
+properties:
+  - name: era
+    type: string
+    description: Roughly when the system was in active authoring use.
+  - name: vocabulary_shape
+    type: text
+    prose: true
+    description: The shape of the authoring surface it offered — what an author selected, and how.
+  - name: scripting
+    type: string
+    description: Whether authoring escapes to a general-purpose language, and at what point.
+  - name: source_standing
+    type: string
+    description: What this corpus has actually read about it, as distinct from what it recalls.
+edges:
+  - relationship: implements
+    target: verb
+    direction: out
+    description: A verb this system's vocabulary offered.
+  - relationship: exhibits
+    target: failure-mode
+    direction: out
+    description: A class of authoring defect this system's vocabulary permitted.

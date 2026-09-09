@@ -1,0 +1,29 @@
+class: inventory-item
+label: Portable Object
+description: |
+  An object the player has picked up and can offer as the second object of a binary verb.
+  It is seeded as the plain case, and the plain case already carries this corpus's most
+  contested typing decision: the class is a UFO **role**, so this node is not a new thing
+  that came into existence at pickup — it is the same object, playing a part it plays only
+  while carried.
+
+  The claim that makes falsifiable is about engines rather than about ontology. [inference]
+  An engine that models the room object and the inventory object as two separate records
+  has to keep them in step, and every such pair is a place where taking an object twice, or
+  taking one that was already destroyed, becomes representable. Whether real engines do this
+  and what it costs them is `[open]` and is the first thing worth extracting from prior art.
+properties:
+  acquisition: |
+    A binding whose response removes the object's hotspot from the room and adds the item to
+    the inventory. [inference] Those are two writes, and an engine that cannot make them
+    atomic has a window in which the object is in neither place.
+  combinable: yes
+  icon: |
+    A small sprite drawn in the inventory panel. It is the only representation the player
+    has of the object once carried, which makes it part of the vocabulary: an item whose
+    icon does not read is an item the player will not think to use.
+links:
+  - target: ../room/single-screen.yml
+    relationship: found-in
+  - target: ../inventory-item.ont.yml
+    relationship: instance-of

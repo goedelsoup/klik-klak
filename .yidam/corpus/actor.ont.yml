@@ -1,0 +1,30 @@
+class: actor
+label: Actor
+foundational_type:
+  ontology: ufo
+  type: kind
+description: |
+  An entity with a position in a room, an appearance that changes as it moves, and
+  behaviour of its own. Irreducible because occupying and traversing space is separable
+  from being targetable: an actor is what a hotspot is not, and control over one may
+  transfer during play.
+properties:
+  - name: control
+    type: string
+    description: Whether this actor takes player input, runs authored behaviour, or both at different times.
+  - name: locomotion
+    type: text
+    prose: true
+    description: How the actor moves between points, and what it draws while moving.
+  - name: speech
+    type: string
+    description: How the actor's lines are presented — overhead text, portrait, or none.
+edges:
+  - relationship: occupies
+    target: room
+    direction: out
+    description: The room this actor is currently in.
+  - relationship: traverses
+    target: walkbox
+    direction: out
+    description: The pathable geometry this actor moves within.

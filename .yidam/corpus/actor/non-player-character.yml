@@ -1,0 +1,25 @@
+class: actor
+label: Non-Player Character
+description: |
+  An actor whose behaviour comes from authored script rather than from input, and the only
+  thing in this vocabulary a conversation can be held with. It is what separates `actor`
+  from `hotspot`: both are targetable, and only this can occupy a position that changes,
+  run behaviour while unobserved, and be the far end of an exchange.
+
+  That list is also the argument against collapsing `hotspot` into `actor`. [inference] A
+  collapse would give every targetable region a position, a behaviour slot and a
+  conversation slot it never uses, which is a larger vocabulary wearing a smaller class
+  count. The corpus should be able to compute that rather than assert it; see the
+  `collapse-signature` stub.
+properties:
+  control: authored-behaviour
+  locomotion: |
+    Optional. An actor that never moves is still not a hotspot, because the distinction is
+    what it *can* do rather than what it does. [inference] This is the case that most tempts
+    the collapse and the one that should be argued against most carefully.
+  speech: overhead-text
+links:
+  - target: ../room/scrolling.yml
+    relationship: occupies
+  - target: ../actor.ont.yml
+    relationship: instance-of

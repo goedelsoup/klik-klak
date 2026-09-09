@@ -1,0 +1,29 @@
+class: puzzle
+label: State Gate
+description: |
+  A gate held closed until world state reaches some condition that no single binding
+  produces — several things must have happened, or one thing must have happened enough
+  times. This is the pattern that justifies the `puzzle` class, and it is seeded opposite
+  `lock-and-key` for exactly that reason.
+
+  [inference] What it needs and the vocabulary does not provide is a place to write the
+  condition. The flags exist, the bindings that set them exist, and the condition over them
+  is written by hand into every precondition that reads it — so a gate depending on three
+  flags is stated three times, or more, and nothing checks that the statements agree. That
+  duplication is where `unwinnable-state` comes from when it is not caused by a missing
+  refusal. Whether the vocabulary should have a name for the condition itself is `[open]`
+  and is the strongest live case for *adding* a primitive rather than removing one.
+properties:
+  pattern: state-gate
+  gate: |
+    Holds progression closed until a condition over several flags holds. The condition has no
+    single home in the vocabulary; it is restated at each site that reads it.
+  reversibility: |
+    Depends on the flags beneath it. A gate over a counter that only increments is
+    irreversible; a gate over booleans that some other binding clears is not, and nothing in
+    the vocabulary makes the difference declarable. [open]
+links:
+  - target: ../interaction/conversational-binding.yml
+    relationship: solved-by
+  - target: ../puzzle.ont.yml
+    relationship: instance-of

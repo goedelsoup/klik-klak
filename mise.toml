@@ -1,0 +1,168 @@
+# mise.toml — toolchains and tasks for this yidam-derived repository.
+# https://mise.jdx.dev
+#
+# `mise install`          provisions the toolchains below.
+# `mise tasks`            lists every available task.
+# `mise run yidam-build`  installs the yidam CLI (do this once).
+#
+# The yidam CLI tasks live in mise.yidam.toml, pulled in by `includes` below.
+# Domain tasks belong in THIS file — keep mise.yidam.toml as the inherited layer
+# so a future `mise run yidam-vendor-update` can replace it without clobbering
+# anything you wrote.
+#
+# `[task_config] includes` and not a top-level `extends`: mise accepts `extends`
+# on an individual task, never on a config file. It warns about the unknown field
+# and carries on, so the failure looks like nothing at all — every inherited task
+# just isn't there, and `mise run graph-check` reports an unknown task.
+
+[task_config]
+includes = ["mise.yidam.toml"]
+
+# `.yidam/bin` first, so everything mise runs resolves the binary this repository
+# pinned rather than whichever `yidam` some earlier `cargo install` left in
+# ~/.cargo/bin. It has to be here and not in mise.yidam.toml: that is a task
+# file, where `[env]` declares a task named env and mise rejects `_.path` as an
+# unknown field — which orphans every inherited task, so the file that promised
+# the guarantee was the one file that could not make it.
+#
+# This guards anything mise runs. It does not guard a script, a CI step, or an
+# agent that assembles PATH itself; those have to put `.yidam/bin` first
+# themselves. `yidam` warns on stderr when a binary other than the pin answers.
+[env]
+_.path = [".yidam/bin"]
+
+[tools]
+# <!-- YIDAM:TOOLS --> written by yidam-vendor-update from .yidam.toml — do not edit
+# no cli/v* release at this pin — `mise run yidam-build` compiles instead
+# <!-- /YIDAM:TOOLS -->
+#
+# The block above is the one part of this file yidam owns. `mise run
+# yidam-vendor-update` rewrites it from the commit .yidam.toml pins: when that
+# commit carries a `cli/v*` tag it becomes a `github:goedelsoup/yidam` entry and
+# `mise install` fetches the released binary, no compiler involved. When it does
+# not — most commits are not tagged — the block stays as it is and
+# `mise run yidam-build` compiles. The version is never a third pin to keep in
+# step; it is derived from the one in .yidam.toml, by the one writer.
+#
+# Edit anything you like outside those markers. Nothing reads it.
+# No toolchain is provisioned here, and that is the decision rather than a
+# blank left unfilled.
+#
+# Rust is deliberately absent even though this repository's SUBJECT is a Rust
+# engine, and that is the distinction worth holding onto: the engine under study
+# is described by `subsystem` and `data-format` corpus nodes, not compiled here.
+# `crates/` holds the instrument that queries the corpus — a coverage calculator,
+# an index — and it is empty at genesis, so the domain tasks below no-op and
+# `yidam-build` declares Rust as a per-task tool that mise provisions only when
+# that task runs. Adding a toolchain now would buy nothing and cost time on every
+# CI run.
+#
+# Uncomment the day `crates/Cargo.toml` exists:
+# rust = { version = "1.88.0", components = "rustfmt,clippy" }
+#
+# python/uv/node are not expected. If a vocabulary probe is ever built under
+# `web/` (see web/README.md), node comes with it.
+
+# ── hooks ─────────────────────────────────────────────────────────────────
+# `mise install` provisions toolchains and stops. It does not fetch the corpora
+# `.yidam/tonpa.toml` declares, so a fresh clone ended with the tools present, the
+# binary present, and every command that reads a dependency's corpus reading
+# nothing. The ask is that one command leaves a contributor ready to work.
+#
+# It has to be HERE, not in mise.yidam.toml. That is a task file, where mise reads
+# `[hooks]` as a task named hooks and fails the whole include to parse — the same
+# constraint as `[env] _.path` above and the `[tools]` entry, and the one that
+# orphaned all 35 inherited tasks once already.
+#
+# It fires on every `mise install`, including when every tool was already present.
+# That is fine: `tonpa-install` verifies hashes against tonpa.lock and writes
+# nothing when they match.
+#
+# What it costs, measured rather than predicted. The obvious worry is that the
+# first `mise install` in a fresh clone now depends on the network for CORPORA as
+# well as tools, so a rotted dependency URL would fail provisioning rather than
+# first use. It does not: mise 2026.7.0 treats a failing postinstall hook as a
+# warning and exits 0 anyway —
+#
+#   [tonpa-install] ERROR task failed
+#   mise WARN  Postinstall hook in <dir> failed: … exited with code 1
+#   $ echo $?
+#   0
+#
+# So `mise install` fails on nothing it did not already fail on. The cost is the
+# other way round: a corpus that could not be fetched is a WARN in a log people
+# scroll past, and the repository is left in exactly the state this hook exists
+# to prevent. `tonpa-install` returns the failure honestly and mise softens it;
+# neither end of that is ours to change, so the thing to know is that a green
+# `mise install` is not proof the corpora arrived. Re-run `mise run tonpa-install`
+# on its own for an exit code that means what it says — measured: 1 against an
+# unreachable dependency. Nothing else reports this today; `yidam doctor` has no
+# check for it.
+
+[hooks]
+postinstall = "mise run tonpa-install"
+
+# ── domain computer (crates/) ─────────────────────────────────────────────
+# These no-op until crates/Cargo.toml exists — the same condition
+# .github/workflows/ci.yml's `detect` job gates its crates jobs on. They said so
+# in this comment for a while before they did it: `cargo --manifest-path` on a
+# file that does not exist is a usage error, so on a freshly bootstrapped
+# repository every one of them failed, and `mise run ci` — the local gate the
+# README tells a new repo to run first — failed with it.
+
+[tasks.build]
+description = "Build the domain computer (crates/ workspace). No-op until crates/ exists."
+run = """
+if [ ! -f crates/Cargo.toml ]; then echo "no crates/Cargo.toml yet — skipping"; exit 0; fi
+cargo build --workspace --manifest-path crates/Cargo.toml
+"""
+
+[tasks.test]
+description = "Run domain computer tests. No-op until crates/ exists."
+run = """
+if [ ! -f crates/Cargo.toml ]; then echo "no crates/Cargo.toml yet — skipping"; exit 0; fi
+cargo test --workspace --manifest-path crates/Cargo.toml
+"""
+
+[tasks.lint]
+description = "Clippy across the domain computer. No-op until crates/ exists."
+run = """
+if [ ! -f crates/Cargo.toml ]; then echo "no crates/Cargo.toml yet — skipping"; exit 0; fi
+cargo clippy --workspace --all-targets --manifest-path crates/Cargo.toml -- -D warnings
+"""
+
+[tasks.fmt]
+description = "Format domain computer Rust code. No-op until crates/ exists."
+run = """
+if [ ! -f crates/Cargo.toml ]; then echo "no crates/Cargo.toml yet — skipping"; exit 0; fi
+cargo fmt --all --manifest-path crates/Cargo.toml
+"""
+
+# ── ci ────────────────────────────────────────────────────────────────────
+# The local equivalent of what .github/workflows/ci.yml runs, and "equivalent"
+# is checked rather than intended: `the_local_gate_runs_what_ci_gates_on` reads
+# both files and holds them together. It ran `graph-check` alone for a while
+# and CI's corpus job ran three gates, so a repository could pass the gate its
+# own README tells it to run first and fail the build on the next push — with
+# `regen --check`, on generated content nobody had written.
+#
+# These come from mise.yidam.toml and work from the genesis commit onward,
+# before any crate exists.
+
+[tasks.ci]
+description = "Full local gate: corpus graph check, then the domain computer."
+run = """
+set -eu
+mise run graph-check
+mise run graph-lint
+mise run regen-check
+if [ ! -f crates/Cargo.toml ]; then
+  echo
+  echo "no crates/Cargo.toml yet — the domain computer does not exist."
+  echo "corpus gate only, which is the whole gate on day one."
+  exit 0
+fi
+cargo fmt --all --manifest-path crates/Cargo.toml -- --check
+cargo clippy --workspace --all-targets --manifest-path crates/Cargo.toml -- -D warnings
+cargo test --workspace --manifest-path crates/Cargo.toml
+"""

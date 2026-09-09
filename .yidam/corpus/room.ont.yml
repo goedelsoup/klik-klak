@@ -1,0 +1,34 @@
+class: room
+label: Room
+foundational_type:
+  ontology: ufo
+  type: kind
+description: |
+  A bounded location the player character can occupy — everything reachable without a
+  transition, plus the ways out of it. Irreducible because it is the unit an author
+  composes in: hotspots, walkboxes and actors are all positioned relative to one.
+properties:
+  - name: extent
+    type: string
+    required: true
+    description: How the room's space relates to the viewport — single-screen, scrolling, or multi-plane.
+  - name: background
+    type: string
+    description: What the room draws behind its contents.
+  - name: state_variance
+    type: text
+    prose: true
+    description: How the room's appearance and contents change as world state changes.
+edges:
+  - relationship: contains
+    target: hotspot
+    direction: out
+    description: A region within this room that a verb can be directed at.
+  - relationship: bounded-by
+    target: walkbox
+    direction: out
+    description: The pathable geometry limiting where an actor may stand here.
+  - relationship: connects-to
+    target: room
+    direction: out
+    description: An exit leading to another room.

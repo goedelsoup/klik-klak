@@ -1,0 +1,28 @@
+class: verb
+label: Talk To
+description: |
+  The unary verb whose response is not a line but an exchange. It is the verb that breaks
+  the interaction model, and this corpus seeds it as a verb precisely so the break is
+  visible: every other verb resolves to a response and returns control, while this one
+  hands control to a structure with its own state and its own exit conditions.
+
+  Two readings are live and this corpus does not settle them. Either `conversation` is a
+  primitive of its own and this verb is the ordinary way in — or a conversation is what an
+  interaction's response *can be*, and the `opens` relationship is the whole of the
+  additional machinery required. [open] The second reading would remove a class from the
+  vocabulary, which is why it deserves a real argument rather than a preference.
+properties:
+  arity: unary
+  surface: |
+    Usually a distinct verb or cursor mode rather than a special case of another verb.
+    [inference] That separation is itself evidence for the first reading — designers who
+    could have folded it into "use" mostly did not.
+  default_response: |
+    A refusal that distinguishes "cannot be talked to" from "has nothing to say", where the
+    system bothers. [inference] Collapsing the two is a small, common, and entirely avoidable
+    loss of information to the player.
+links:
+  - target: ../prior-art/scumm.yml
+    relationship: originated-in
+  - target: ../verb.ont.yml
+    relationship: instance-of

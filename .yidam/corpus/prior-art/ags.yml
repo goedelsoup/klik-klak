@@ -1,0 +1,32 @@
+class: prior-art
+label: Adventure Game Studio
+description: |
+  An authoring system that replaced the verb bar with cursor modes: the player cycles the
+  cursor through a small set of states — walk, look, interact, talk — and clicking applies
+  whichever is current. [inference] The vocabulary is the same size as SCUMM's late games
+  and occupies no screen space, which is the trade the design makes.
+
+  The consequence worth recording is what the trade costs. A verb bar tells the player what
+  is possible; a cursor mode requires them to remember it and to cycle blindly. [inference]
+  Both are bounded vocabularies, so the bound is not what separates them — the discovery
+  surface is. Whether an authoring vocabulary should include its own discoverability is
+  `[open]` in this corpus and is not obviously a question about verbs at all.
+properties:
+  era: "1997-present"
+  vocabulary_shape: |
+    Cursor modes cycled by right-click or mouse wheel, applied by left-click. [inference]
+    Binary verbs are expressed by clicking an inventory item and then a target, which makes
+    the item the mode rather than the verb — a different composition order from SCUMM's.
+  scripting: |
+    A C-like scripting language handles anything beyond a simple response. [inference] The
+    boundary is soft and low: authors reach for script early and often, which is evidence
+    against any claim that a declarative vocabulary alone is sufficient in practice.
+  source_standing: |
+    Nothing retrieved. The AGS manual is public, maintained, and would settle the cursor
+    mode set, the composition order, and where scripting becomes necessary. It has not been
+    located or fetched.
+links:
+  - target: ../verb/look-at.yml
+    relationship: implements
+  - target: ../prior-art.ont.yml
+    relationship: instance-of

@@ -1,0 +1,26 @@
+class: world-flag
+label: World Flag
+foundational_type:
+  ontology: ufo
+  type: mode
+description: |
+  A unit of persistent state that interactions write and preconditions read. Typed as a
+  mode because it has no existence apart from the game world it inheres in, and it is
+  irreducible because it is the only thing that carries meaning across rooms: without it
+  nothing an author writes in one room can be visible from another.
+properties:
+  - name: domain
+    type: string
+    description: The values the flag can take — boolean, counter, enumeration, or set.
+  - name: scope
+    type: string
+    description: Whether the flag is global, room-local, or local to a conversation.
+  - name: save_semantics
+    type: text
+    prose: true
+    description: Whether the flag is written to a save file, and what a save that omits it would lose.
+edges:
+  - relationship: gates
+    target: puzzle
+    direction: out
+    description: The progression this flag's value holds closed or opens.

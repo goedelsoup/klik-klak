@@ -1,0 +1,97 @@
+id: seed-scope
+summary: >-
+  30 instances seeded against a target of 30; no class is empty — but no source was
+  retrieved for any of them, so every prior-art claim stands at `[inference]` and the
+  catalog is empty by decision rather than by omission.
+context: |
+  The count was met and the record is written anyway, because the shortfall here is not in
+  the count. `corpus_depth` asks how many nodes; it does not ask what they rest on.
+
+  **No source was retrieved during seeding.** No connector was approved (see
+  `proposals.yml`), no document was fetched, and `.yidam/catalog/` holds nothing but its
+  README. Every claim in every node was written from familiarity with the domain rather
+  than from a document, and every non-obvious one is tagged `[inference]` or `[open]`
+  accordingly. **There is no `[verified]` claim anywhere in this corpus at genesis**, and
+  that is a deliberate consequence of the tag's meaning rather than an oversight:
+  `[verified]` says a committed source supports the claim, not that the writer is
+  confident, and no committed source exists.
+
+  Three classes are affected unevenly.
+
+  `prior-art` is affected most, and its three instances each carry a `source_standing`
+  property saying so in the node itself — a field that exists for exactly this reason and
+  that a reader meets before they meet any claim. SCUMM's verb bar, Adventure Game Studio's
+  cursor modes, and Sierra's parser-to-icon transition are structural facts about widely
+  described systems, and they are still recollection. These engines are described secondhand
+  more than they are read, and the secondhand accounts disagree.
+
+  `verb` is affected through its `originated-in` edges, which are provenance claims about
+  where this corpus draws a name from rather than claims about who invented anything — the
+  class description says so — but they still rest on the same unread material.
+
+  `failure-mode` is least affected: `unwinnable-state` and `orphaned-dialogue-branch` are
+  claims about what a vocabulary permits, which are argued from the vocabulary as this
+  corpus draws it and not from any engine's history.
+decision: |
+  Seeded: 30 instances across 15 classes, distributed 4/3/3 to the hub classes
+  (`interaction`, `verb`, `prior-art`), 2 each to eight mid classes, and 1 each to
+  `hotspot`, `inventory-item`, `cutscene` and `walkbox`. No class holds zero.
+
+  **No catalog entry was created, and this was a choice rather than a lapse.** The
+  alternative considered was to register the sources ahead of retrieval with
+  `obtained: false`, which is what that flag is for. It was rejected because a catalog
+  entry's `location` would have had to be guessed: this bootstrap did no network work, and
+  writing a URL from memory produces an entry that resolves to nothing while looking
+  exactly like one that resolves. An honest empty catalog is repairable in one sitting; a
+  catalog of invented locations has to be found wrong first.
+
+  **Nothing was fabricated to reach the target, and the falsifiable form of that claim is
+  what follows.** No engine was invented; the three named — SCUMM, Adventure Game Studio,
+  Sierra's AGI and SCI — are real systems and no fourth was added to round the count. No
+  verb count was asserted for SCUMM despite the temptation, because this corpus does not
+  know it: `prior-art/scumm.yml` says the set contracted across the series and declines to
+  say from what to what. No release dates were asserted beyond coarse ranges, and those
+  ranges are marked as recollection. No failure mode was attributed to a specific shipped
+  game.
+
+  **`reachability` has nothing to read.** The calculator approved in step 5 computes whether
+  every world-state configuration can still reach the ending, over an authored game's state
+  graph. This corpus holds the vocabulary a game would be authored in and holds no game, so
+  the input does not exist — not thinly, but not at all. It is stubbed in `.yidam/skills/`
+  and `graph-topology` is vendored for it. The objection was raised at step 5 before the
+  approval and the approval stands; this record exists so that a reader meeting the stub
+  later does not mistake its silence for a defect in the stub.
+
+  The other two calculators are stubs for the ordinary reason. `vocabulary-coverage` reads
+  `verb` and `interaction`, which hold 3 and 4 instances — enough to run and not enough for
+  the answer to mean anything, since with three verbs the uncovered set is a fact about
+  seeding rather than about the vocabulary. `collapse-signature` reads every class and would
+  produce a ranking dominated by how thinly each class is seeded.
+rationale: |
+  **Why an unsourced-but-tagged instance was preferred to an empty class.** The rule the
+  seeding step states is against *fabrication*, and the asymmetry it rests on is that a
+  fabricated node has to be found before it can be removed while an empty class is a gap
+  everyone can see. A tagged, unsourced claim sits on neither side of that line by accident:
+  it is visible in the same way an empty class is, because `source_standing` and the
+  `[inference]` tags say what it rests on, in the node, to every reader. What it adds over
+  an empty class is a claim somebody can go and check — which is the thing an empty class
+  cannot offer and the reason the corpus is more useful for holding it.
+
+  The rule that keeps this honest is the one about promotion: nothing here proposes an
+  upgrade. When a source is retrieved and cited, `[inference]` becomes `[verified]` by a
+  decision somebody makes, and if the source disagrees the node is corrected instead. Both
+  outcomes are cheap. Neither is available for a node nobody wrote.
+
+  **Why no `[verified]` at all is the right starting state.** `verified-unsourced` reports a
+  `[verified]` claim in a node citing no catalog entry, and with an empty catalog every
+  `[verified]` in this corpus would be one. Writing none means the corpus's first citation
+  is also its first promotion, which puts the two acts in the right order.
+
+  **What the gap costs downstream.** The comparative tier is the part of this corpus that
+  cannot currently do its job. `prior-art -exhibits-> failure-mode` and
+  `prior-art -implements-> verb` are the edges that let this repository ask what every
+  engine did with one authoring question, and each of them currently resolves to a node
+  standing on recollection. The answer to the central question — what a minimal authoring
+  vocabulary is — is supposed to be argued partly from what three decades of authors
+  actually dropped. Until a source is read, that argument is being made from memory of the
+  argument rather than from the evidence.

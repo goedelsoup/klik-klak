@@ -1,0 +1,33 @@
+class: cutscene
+label: Scripted Sequence
+description: |
+  A sequence that takes control from the player, moves actors and the camera on its own
+  schedule, writes state, and returns control. It is the only instance of a class this
+  corpus seeded while doubting it, and the doubt is the point: nothing in this ontology
+  points *at* a cutscene, which is a structural hint that it may not be a primitive.
+
+  The reduction to be argued against is that this is an interaction whose response is long
+  and whose input is locked. [inference] The one thing it has that no binding does is a
+  *trigger* that is not a player action — a sequence can begin because the player entered a
+  room or because a counter reached a value. If that is genuinely inexpressible as a binding,
+  the class survives; if triggers belong on `world-flag` instead, it does not. [open]
+properties:
+  trigger: |
+    Entering a room, a flag reaching a value, or the resolution of a binding. Only the third
+    has a home in the vocabulary; the first two are the reason this class is still here.
+  skippable: |
+    Usually yes, and the skip is where the failure lives. [inference] A sequence that writes
+    state part-way through and is cut short leaves the world in a configuration the author
+    never wrote, and the correct handling — apply every write immediately on skip — is a rule
+    each author reimplements rather than something the vocabulary enforces.
+  control_return: |
+    To the player character, in a room and at a position the sequence chose. A sequence that
+    returns control to a position outside the walkbox set is a stranded actor, and nothing
+    checks it.
+links:
+  - target: ../room/scrolling.yml
+    relationship: plays-in
+  - target: ../world-flag/boolean-flag.yml
+    relationship: sets
+  - target: ../cutscene.ont.yml
+    relationship: instance-of

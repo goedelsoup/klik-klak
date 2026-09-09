@@ -1,0 +1,28 @@
+class: actor
+label: Player Character
+description: |
+  The actor that takes player input: clicks resolve into movement toward a point, and
+  interactions are performed by this actor at the target. It is the anchor the whole
+  vocabulary is written from — "the player" in every interaction's precondition means this
+  actor's position, inventory and state.
+
+  The reason *player* is a role this actor plays rather than a class of its own is that
+  control transfers. [inference] A game in which the player switches between characters has
+  two actors that each take input at different times, and modeling the controlled one as a
+  distinct kind means the transfer is a change of kind — which is exactly the thing UFO
+  says a kind cannot undergo. Whether that transfer needs vocabulary beyond a world flag
+  naming the controlled actor is `[open]`.
+properties:
+  control: player-input
+  locomotion: |
+    Pathfinds to a clicked point within the current walkbox set, drawing a walk cycle
+    scaled by the walkbox it stands in. Arrival is what most interactions wait on: the
+    binding resolves when the actor reaches the target, not when the click lands.
+  speech: overhead-text
+links:
+  - target: ../room/single-screen.yml
+    relationship: occupies
+  - target: ../walkbox/scaled-polygon.yml
+    relationship: traverses
+  - target: ../actor.ont.yml
+    relationship: instance-of

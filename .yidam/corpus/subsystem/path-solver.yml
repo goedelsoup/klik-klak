@@ -1,0 +1,30 @@
+class: subsystem
+label: Path Solver
+description: |
+  The component that finds a route across a room's walkbox set from where an actor is to
+  where it was told to go, and reports arrival. The interaction resolver depends on it
+  because most bindings wait on arrival before resolving — which is the one hard coupling
+  between the two halves of this engine, and it comes from the vocabulary rather than from
+  any implementation choice.
+
+  [inference] The failure this component owns is the unreachable destination: a click inside
+  a walkbox that no path from the current one connects to. Doing nothing reads as a broken
+  click; walking as far as possible reads as intent the player did not have. Neither is
+  wrong, and the vocabulary currently has no way for an author to say which they meant.
+properties:
+  responsibility: |
+    Given a start point, a goal point and a walkbox set, return a path or report that none
+    exists. Reporting *that none exists* is half the job and the half most often left out.
+  state: |
+    None across frames, given the walkbox set. Where walkboxes are state-dependent the
+    solver must be re-run rather than cached, which is a cost `walkbox.passability` implies
+    and does not name.
+  authoring_visibility: |
+    None. An author draws walkboxes and never touches this. That is the cleanest boundary in
+    the engine tier and it is worth holding — a solver with authoring knobs is a solver whose
+    behaviour varies per room for reasons nobody records.
+links:
+  - target: ../walkbox/scaled-polygon.yml
+    relationship: realizes
+  - target: ../subsystem.ont.yml
+    relationship: instance-of

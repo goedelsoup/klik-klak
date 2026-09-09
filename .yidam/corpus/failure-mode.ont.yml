@@ -1,0 +1,34 @@
+class: failure-mode
+label: Failure Mode
+foundational_type:
+  ontology: ufo
+  type: situation
+description: |
+  A state an authored game or its content can enter that no author intended and the
+  vocabulary did not prevent. Irreducible because it is the evidence a primitive is
+  wrong: a vocabulary is measured by what it makes impossible to write, and this is where
+  that is recorded.
+properties:
+  - name: mechanism
+    type: text
+    prose: true
+    description: How an author arrives at this state without meaning to.
+  - name: detectable_at
+    type: string
+    description: The earliest point the state is detectable — authoring, load, or play.
+  - name: player_visible
+    type: string
+    description: Whether a player can tell they are in this state.
+edges:
+  - relationship: arises-from
+    target: puzzle
+    direction: out
+    description: The authoring primitive whose use produces this state.
+  - relationship: arises-from
+    target: conversation
+    direction: out
+    description: The authoring primitive whose use produces this state.
+  - relationship: prevented-by
+    target: data-format
+    direction: out
+    description: A written form whose shape makes this state unrepresentable.

@@ -1,0 +1,26 @@
+class: inventory-item
+label: Inventory Item
+foundational_type:
+  ontology: ufo
+  type: role
+description: |
+  What an object plays when the player is carrying it and can offer it as the second
+  object of a binary verb. Typed as a role rather than a kind because the same object is
+  a hotspot in the room before it is picked up — carriage is contingent, and an engine
+  that models it as a separate kind of thing has to reconcile the two.
+properties:
+  - name: acquisition
+    type: text
+    prose: true
+    description: How the object enters the inventory, and what becomes of its hotspot when it does.
+  - name: combinable
+    type: string
+    description: Whether the object can be the second object of a verb applied to another item.
+  - name: icon
+    type: string
+    description: What the inventory interface draws for it.
+edges:
+  - relationship: found-in
+    target: room
+    direction: out
+    description: The room this object is picked up from.

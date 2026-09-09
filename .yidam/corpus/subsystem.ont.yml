@@ -1,0 +1,34 @@
+class: subsystem
+label: Subsystem
+foundational_type:
+  ontology: ufo
+  type: kind
+description: |
+  A runtime component of the engine, with a boundary an author never sees and a
+  responsibility that can be named without naming any other component. Irreducible
+  because the authoring vocabulary says nothing about what runs it, and the cost of a
+  primitive is only visible on this side.
+properties:
+  - name: responsibility
+    type: text
+    prose: true
+    description: What this component is answerable for, stated without reference to any other component.
+  - name: state
+    type: string
+    description: Whether the component holds state across frames, and what kind.
+  - name: authoring_visibility
+    type: string
+    description: Whether an author configures this component directly, indirectly, or not at all.
+edges:
+  - relationship: realizes
+    target: interaction
+    direction: out
+    description: The authoring primitive this component is what makes work at runtime.
+  - relationship: realizes
+    target: walkbox
+    direction: out
+    description: The authoring primitive this component is what makes work at runtime.
+  - relationship: depends-on
+    target: subsystem
+    direction: out
+    description: Another component this one requires in order to do its own work.

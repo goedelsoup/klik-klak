@@ -1,0 +1,31 @@
+class: cutscene
+label: Cutscene
+foundational_type:
+  ontology: ufo
+  type: event
+description: |
+  A sequence that runs without player input, moving actors and changing state on its own
+  schedule. Whether it is irreducible is a live question in this corpus — it may prove to
+  be an interaction whose response is long and whose input is locked — and it is seeded
+  as a class so that the collapse can be argued rather than assumed.
+properties:
+  - name: trigger
+    type: text
+    prose: true
+    description: What causes the sequence to begin.
+  - name: skippable
+    type: string
+    description: Whether the player may cut the sequence short, and what state results if they do.
+  - name: control_return
+    type: text
+    prose: true
+    description: Where control is returned to when the sequence ends.
+edges:
+  - relationship: plays-in
+    target: room
+    direction: out
+    description: The room the sequence takes place in.
+  - relationship: sets
+    target: world-flag
+    direction: out
+    description: World state the sequence writes.

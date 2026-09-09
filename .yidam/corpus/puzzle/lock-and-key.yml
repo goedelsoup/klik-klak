@@ -1,0 +1,26 @@
+class: puzzle
+label: Lock And Key
+description: |
+  The base pattern: a gate held closed until a specific carried object is applied to a
+  specific target. It is the puzzle every vocabulary can express, and this corpus seeds it
+  as the control case — whatever else changes, a vocabulary that cannot express this is not
+  an adventure game vocabulary.
+
+  Its structure is one binary binding and one flag, which is why it is also the pattern that
+  makes the `puzzle` class look redundant. [inference] Nothing about a lock-and-key is not
+  already in the binding and the flag; the class earns its place only on patterns that span
+  several bindings, and if this were the only pattern the class would collapse. That is a
+  real argument against `puzzle` and it is recorded here rather than in a node that agrees
+  with the class.
+properties:
+  pattern: lock-and-key
+  gate: |
+    Holds a specific exit, container, or interaction closed until the flag is set. The gate
+    is expressed as a precondition on whatever is being held, so the puzzle has no
+    representation of its own — it is visible only as a pattern across the things it touches.
+  reversibility: irreversible
+links:
+  - target: ../interaction/binary-binding.yml
+    relationship: solved-by
+  - target: ../puzzle.ont.yml
+    relationship: instance-of

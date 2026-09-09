@@ -1,0 +1,33 @@
+class: subsystem
+label: Interaction Resolver
+description: |
+  The component that takes a verb, a target and an optional second object, finds the binding
+  that matches, evaluates its precondition, and produces either the response or the refusal.
+  It is the engine tier's counterpart to `interaction`, and its shape is dictated by the
+  vocabulary rather than the other way around.
+
+  The design consequence worth recording is about the fallthrough. [inference] Because most
+  of what a player triggers has no authored binding, this component spends most of its
+  working life producing a default — so the lookup that matters for perceived quality is the
+  *miss* path, not the hit path. An engine that treats the default as an error case has
+  optimized the rare branch.
+properties:
+  responsibility: |
+    Given a composed binding, produce exactly one outcome: an authored response, an authored
+    refusal, or a default. Never nothing. [inference] "Never nothing" is the whole
+    specification — a silent miss is the failure players read as brokenness, and it is
+    entirely preventable at this boundary.
+  state: |
+    None across frames. Resolution is a pure function of the binding and the world state it
+    reads, which is what makes it testable without a running game.
+  authoring_visibility: |
+    Indirect. An author never configures this component; they configure the table it reads.
+    The one thing it exposes is default scoping, which is `[open]` in the vocabulary and
+    would become a real configuration surface if it were settled.
+links:
+  - target: ../interaction/unary-binding.yml
+    relationship: realizes
+  - target: ../subsystem/path-solver.yml
+    relationship: depends-on
+  - target: ../subsystem.ont.yml
+    relationship: instance-of

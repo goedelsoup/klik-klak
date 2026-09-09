@@ -1,0 +1,33 @@
+class: data-format
+label: Data Format
+foundational_type:
+  ontology: ufo
+  type: kind
+description: |
+  An on-disk representation an author writes and the engine reads. Irreducible because it
+  is where the vocabulary becomes concrete: a primitive that cannot be written down is
+  not part of an authoring vocabulary, whatever the runtime does with it.
+properties:
+  - name: syntax
+    type: string
+    description: The concrete surface — the serialization an author edits.
+  - name: authored_by
+    type: string
+    description: Whether a person writes this by hand, a tool emits it, or both.
+  - name: escape_hatch
+    type: text
+    prose: true
+    description: What this format cannot express, and what an author is expected to reach for instead.
+edges:
+  - relationship: encodes
+    target: room
+    direction: out
+    description: The authoring primitive this format is a written form of.
+  - relationship: encodes
+    target: conversation
+    direction: out
+    description: The authoring primitive this format is a written form of.
+  - relationship: read-by
+    target: subsystem
+    direction: out
+    description: The engine component that parses and consumes this format.

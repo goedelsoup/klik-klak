@@ -1,0 +1,36 @@
+class: prior-art
+label: Sierra AGI and SCI
+description: |
+  Sierra's engines span the transition this corpus is really about. The earlier of them
+  took typed text — the player wrote "open door" and a parser resolved it — which is an
+  *unbounded* verb vocabulary: any word the parser knew was a verb, and the author's job
+  was to anticipate phrasings. [inference] The later ones moved to an icon bar, bounding the
+  vocabulary to a handful of pointable actions.
+
+  That transition is the single most useful piece of evidence available to this corpus,
+  because it is the same house making both choices within one product line. [inference]
+  What was gained is that a player can no longer fail by phrasing. What was lost is
+  `[open]` and is exactly what the central question needs to know: whether any puzzle
+  expressible to a parser became inexpressible under an icon bar, or whether the parser's
+  apparent range was always mostly unused.
+properties:
+  era: "1984-1996"
+  vocabulary_shape: |
+    A text parser in the earlier engines; an icon bar in the later ones. [inference] The
+    parser's vocabulary was open at the surface and closed in fact — bounded by whatever
+    the author had written responses for — which is a third position this corpus's binary
+    of bounded-versus-scripted does not currently have a word for.
+  scripting: |
+    A bytecode virtual machine with its own language. [inference] As with SCUMM, authoring
+    starts inside a general-purpose language rather than escaping to one.
+  source_standing: |
+    Nothing retrieved. The ScummVM and SCI decompilation projects have published
+    substantial documentation of both engines. None of it has been located or read, and the
+    era range above is recollection.
+links:
+  - target: ../verb/look-at.yml
+    relationship: implements
+  - target: ../failure-mode/unwinnable-state.yml
+    relationship: exhibits
+  - target: ../prior-art.ont.yml
+    relationship: instance-of

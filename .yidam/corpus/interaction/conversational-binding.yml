@@ -1,0 +1,31 @@
+class: interaction
+label: Conversational Binding
+description: |
+  A binding whose response is not a line but an exchange: the verb resolves, and control
+  passes to a structure with its own state and its own exit. It is seeded to hold one side
+  of this corpus's most consequential open question.
+
+  If this shape is legitimate — if a binding's response may be "enter this conversation" —
+  then `conversation` is a response *type* rather than a primitive, and the vocabulary is
+  one class smaller than currently drawn. If it is not, the reason has to be stated, and the
+  only candidate reason this corpus has found is that a conversation's available choices
+  depend on the path taken through it, which no binding records. [open] Neither side has been
+  argued in a node yet. The `opens` edge exists so the argument can be made from the graph.
+properties:
+  shape: unary
+  response: |
+    Control passes to a conversation held with the target actor. The binding itself produces
+    no text — which is unlike every other binding in this class and is the strongest
+    structural evidence that something different is happening here.
+  precondition: |
+    The target is an actor rather than a hotspot. [inference] This is the only binding whose
+    precondition is about the *class* of its target, which the interaction table currently
+    has no way to express.
+  refusal: |
+    Distinguishes "cannot be talked to" from "has nothing to say". Collapsing the two loses
+    information the player can act on, and most systems collapse them.
+links:
+  - target: ../verb/talk-to.yml
+    relationship: applies
+  - target: ../interaction.ont.yml
+    relationship: instance-of

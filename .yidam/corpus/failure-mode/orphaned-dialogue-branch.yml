@@ -1,0 +1,33 @@
+class: failure-mode
+label: Orphaned Dialogue Branch
+description: |
+  Authored conversation content that no path through the tree reaches. Unlike an unwinnable
+  state it costs the player nothing — they simply never see it — which is why it survives in
+  shipped games and why nobody counts it.
+
+  It belongs to `branching-tree` specifically rather than to conversations generally.
+  [inference] A topic list has no paths, so it cannot orphan anything; a tree can, and the
+  usual route is a per-choice return flag: a choice is authored to be removed once taken, its
+  subtree becomes unreachable, and nothing distinguishes that from a subtree the author
+  intended to be seen once. Written and never reached and written and unreachable look
+  identical in the file, which is the whole difficulty.
+
+  This is the failure mode most directly about the *format* rather than about the runtime.
+  A structure that made reachability computable from the file would make this checkable, and
+  the same structure is what `state-gate` wants for its condition. [open] Whether those are
+  one need or two is unexamined and would be a good first synthesis.
+properties:
+  mechanism: |
+    A choice is removed once taken, or gated on a flag that some other path clears, and the
+    subtree beneath it becomes unreachable. The author does not see it because the file shows
+    the subtree exactly as it always looked.
+  detectable_at: authoring
+  player_visible: |
+    No. The player experiences a shorter conversation, not a broken one, and has no way to
+    know content existed. [inference] That invisibility is why this is under-reported rather
+    than rare.
+links:
+  - target: ../conversation/branching-tree.yml
+    relationship: arises-from
+  - target: ../failure-mode.ont.yml
+    relationship: instance-of

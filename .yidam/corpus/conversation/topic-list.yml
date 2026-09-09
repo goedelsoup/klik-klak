@@ -1,0 +1,27 @@
+class: conversation
+label: Topic List
+description: |
+  An exchange presented as a flat list of topics that persists across visits: topics are
+  added by world events, removed when exhausted, and the list has no path through it.
+
+  It is seeded as the counter-case to `branching-tree`, and it undercuts the argument for
+  this class. [inference] A topic list has no path, so the one property that distinguishes
+  `conversation` from a set of bindings — availability depending on the path taken — does not
+  hold here. A topic is a unary binding against an actor whose precondition is a flag and
+  whose response is a line. If that reduction is right, then this node belongs in
+  `interaction`, and `conversation` is a class that covers one structure rather than a
+  primitive. [open] This corpus states the reduction and does not yet make it.
+properties:
+  structure: topic-list
+  exhaustion: |
+    A topic taken is removed from the list; topics are added by world flags set elsewhere.
+    Both operations are writes to state outside the exchange, which is the tell that this
+    structure has no interior state of its own.
+  state_scope: global
+links:
+  - target: ../actor/non-player-character.yml
+    relationship: held-with
+  - target: ../world-flag/counter-flag.yml
+    relationship: sets
+  - target: ../conversation.ont.yml
+    relationship: instance-of

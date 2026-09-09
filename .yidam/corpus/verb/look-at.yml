@@ -1,0 +1,29 @@
+class: verb
+label: Look At
+description: |
+  The unary verb that returns a description of its target. It is the strongest candidate
+  for an irreducible primitive in this vocabulary, on an argument that is not about
+  convenience: it is the only verb whose response is *always* authorable, because every
+  targetable thing can be described. Every other verb has targets for which no sensible
+  response exists.
+
+  That universality is why it doubles as the vocabulary's error surface. [inference] An
+  author who has not written an interaction for some target still owes the player
+  something, and what they owe is a description — which is why `default_response` on this
+  verb carries more weight than on any other, and why a game with a good default look is
+  perceived as more finished than one with more content.
+properties:
+  arity: unary
+  surface: |
+    Present in every point-and-click vocabulary this corpus has examined, whether as a bar
+    entry, a cursor mode, or the right-click default. [inference]
+  default_response: |
+    The fallback description used when no interaction is authored for a target. [inference]
+    A generic fallback ("Nothing special about it") is the cheapest possible answer and
+    reads as an author's absence; a per-room or per-category fallback costs little more and
+    reads as restraint. This corpus holds no node yet on where that distinction is decided.
+links:
+  - target: ../prior-art/sierra-sci.yml
+    relationship: originated-in
+  - target: ../verb.ont.yml
+    relationship: instance-of

@@ -1,0 +1,35 @@
+class: data-format
+label: Interaction Table
+description: |
+  The written form of the bindings: for each verb, target and optional second object, the
+  response, the precondition and the refusal. It is where this corpus's central question
+  becomes a concrete file, and where the combinatorics stop being an observation and start
+  being a problem somebody has to type.
+
+  [inference] The design pressure is entirely toward sparseness. A dense table is
+  unwritable, so the format must express "everything not listed falls through" — and the
+  moment it does, three distinctions collapse into one another: a binding never authored, a
+  binding authored as empty, and a binding authored to refuse. `interaction/unary-binding.yml`
+  names that collapse as `[open]`; this node is the reason it matters, because the format is
+  where the distinction is either representable or lost.
+properties:
+  syntax: |
+    Text, keyed by verb and target, with the second object as an optional third key.
+    Hand-editable, because the alternative is a tool and a tool for a sparse table is a
+    spreadsheet nobody wants to diff.
+  authored_by: |
+    A person, directly. This is the file that carries the writing, and it should read like
+    writing rather than like data — which is a constraint on the syntax that pulls against
+    the keying above. [open] Nothing here resolves it.
+  escape_hatch: |
+    This is where one is genuinely expected, and naming it honestly is more useful than
+    denying it. [inference] A response that must compute something — count an inventory,
+    compare two flags, pick among several lines — is beyond a declarative table, and every
+    prior-art system reached a general-purpose language at exactly this point. Whether a
+    bounded expression language avoids that is `[open]` and is the most valuable open
+    question in this corpus.
+links:
+  - target: ../subsystem/interaction-resolver.yml
+    relationship: read-by
+  - target: ../data-format.ont.yml
+    relationship: instance-of

@@ -1,0 +1,24 @@
+class: walkbox
+label: Scaled Polygon
+description: |
+  A convex polygon of floor with a scale factor at its near and far edges, interpolated
+  across it. An actor standing inside is drawn at the interpolated size, which is how a
+  two-dimensional scene sells depth without any three-dimensional model of the space.
+
+  What makes it worth a class rather than a property of the room is that it is authored
+  against the *floor* and not against the picture. [inference] The background says where the
+  wall appears to be; the polygon says where the actor may stand; and nothing checks that
+  the two agree. That gap is the ordinary source of an actor walking through scenery, and
+  it is not a bug in either artifact — it is the cost of separating them, which is the same
+  cost that makes the separation worth having.
+properties:
+  geometry: convex-polygon
+  scaling: |
+    A near and a far scale factor, interpolated linearly across the polygon. [inference]
+    Linear interpolation is wrong for real perspective and is used anyway because the error
+    is invisible at the depths a single room spans — a case where the vocabulary is
+    deliberately less expressive than the phenomenon.
+  passability: always
+links:
+  - target: ../walkbox.ont.yml
+    relationship: instance-of

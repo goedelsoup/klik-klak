@@ -1,0 +1,156 @@
+id: ontology
+summary: >-
+  Point-and-click adventure game engine in Rust — 15 classes across two tiers (authoring
+  vocabulary and engine realization) plus a comparative tier, aligned to UFO.
+corpus_depth: 30              # 2 per class × 15 classes; accepted as computed
+governance: single-elector    # single-elector | collective
+electors: [cparent]
+context: |
+  The domain arrived as "development of a point-and-click adventure game engine in Rust."
+  The discovery dialogue turned on one fork the sketch could not defer: whether a corpus
+  node is a thing an adventure game *is* (room, verb, puzzle) or a thing the engine *has*
+  (renderer, scripting runtime, asset pipeline). Those sit at different levels of
+  abstraction, and `directories.md` is explicit that a corpus mixing levels reads as two
+  corpora with the edges between them carrying the confusion rather than resolving it.
+
+  The answer was neither and both: a two-tier ontology in which the levels are distinct
+  class families joined by an explicit `realizes` / `encodes` edge, so the level boundary
+  is a relationship that can be queried rather than a fusion inside a single class.
+
+  Prior art was the second fork. Existing engines (SCUMM, AGS, Wintermute, Ren'Py,
+  Visionaire) could have been catalog sources only — provenance beneath claims about this
+  engine's design. They were made a first-class class instead, so that comparative design
+  becomes queryable: what every engine did with verbs is a traversal, not a literature
+  review that has to be redone each time it is asked.
+
+  Three candidate central questions were put up. "What Rust makes unrepresentable" would
+  have made `failure-mode` the hub and the type system the argument. "Data-driven vs.
+  scripted" would have made the declarative/imperative boundary the spine. The chosen
+  question is narrower than the first and more general than the second.
+
+  Two classes were argued for and one against. `interaction` was argued *for* on the
+  grounds that "use crowbar with crate" is not a property of the crowbar or of the crate —
+  it has its own preconditions, its own response text, and its own failure text — and that
+  every prior-art engine stored it differently, which makes it the node those comparisons
+  land on. `design-decision` was argued *against* and excluded: that namespace is already
+  `.yidam/decisions/`, and duplicating it would split the record of every architectural
+  choice across two places.
+
+  Examples used to explain the alignment options: under BFO, `room` and `inventory-item`
+  are continuants while `cutscene` and `conversation` are occurrents, and `verb` is a
+  disposition realized by an interaction. Under UFO, `interaction` is a Relator — a
+  relationship carrying its own identity and properties — `room` and `inventory-item` are
+  Kinds, and `actor` gets *player* and *NPC* as contingent Roles rather than as subtypes.
+decision: |
+  Central question: **what is the smallest set of authoring primitives that can express a
+  classic point-and-click adventure without escaping to a general-purpose scripting
+  language?** Every class earns its place by being irreducible; the engine is what falls
+  out of the vocabulary rather than what constrains it.
+
+  Fifteen classes, confirmed as drawn.
+
+  Authoring tier — what an adventure game is:
+    room             a navigable location; the unit of scene and of authoring scope
+    hotspot          a region a cursor resolves to and a verb can target
+    verb             an interaction the player may direct at a target — the vocabulary
+                     itself, not any use of it
+    interaction      a specific verb × target (× second object) binding and its response
+    actor            an entity with position, appearance and behavior
+    inventory-item   an object the player carries, and a candidate second object
+    puzzle           a gated progression step — the state transition interactions unlock
+    conversation     a branching dialogue structure held with an actor
+    cutscene         a non-interactive sequence that takes control from the player
+    walkbox          pathable geometry with depth scaling
+    world-flag       a unit of persistent state that interactions read and write
+
+  Engine tier — what realizes the vocabulary:
+    subsystem        a runtime component: renderer, input resolver, state store, path solver
+    data-format      an authored on-disk representation the engine reads
+
+  Comparative tier:
+    prior-art        an existing adventure engine, and what its vocabulary chose
+    failure-mode     a class of authoring bug the vocabulary permits
+
+  Confirmed edges (28 types):
+    room →[contains]→ hotspot
+    room →[bounded-by]→ walkbox
+    room →[connects-to]→ room
+    actor →[occupies]→ room
+    actor →[traverses]→ walkbox
+    inventory-item →[found-in]→ room
+    interaction →[applies]→ verb
+    interaction →[targets]→ hotspot
+    interaction →[requires]→ inventory-item
+    interaction →[sets]→ world-flag
+    world-flag →[gates]→ puzzle
+    puzzle →[solved-by]→ interaction
+    conversation →[held-with]→ actor
+    conversation →[sets]→ world-flag
+    cutscene →[plays-in]→ room
+    cutscene →[sets]→ world-flag
+    verb →[originated-in]→ prior-art
+    data-format →[encodes]→ room
+    data-format →[encodes]→ conversation
+    data-format →[read-by]→ subsystem
+    subsystem →[realizes]→ interaction
+    subsystem →[realizes]→ walkbox
+    subsystem →[depends-on]→ subsystem
+    prior-art →[implements]→ verb
+    prior-art →[exhibits]→ failure-mode
+    failure-mode →[arises-from]→ puzzle
+    failure-mode →[arises-from]→ conversation
+    failure-mode →[prevented-by]→ data-format
+
+  Foundational alignment: **UFO**. Every `.ont.yml` carries `foundational_type` with
+  `ontology: ufo`.
+
+  Governance: **single-elector**, cparent. Phases run on `phase/<name>` branches off
+  `main`. `.yidam/sangha/` is not scaffolded and `sadhana/sangha/` was not read; the
+  constitution is vendored with the rest of the prelude and lies dormant.
+
+  Corpus depth: **30**, the computed default, accepted as offered.
+rationale: |
+  **Why two tiers rather than one.** A single tier would have forced a choice between an
+  ontology that cannot say what implements the vocabulary and one that cannot say what the
+  vocabulary is. The join edge makes the level boundary a first-class relationship, so the
+  question "which subsystem realizes this primitive, and at what cost" is a traversal.
+
+  **Why UFO over BFO.** The central question turns on `interaction`, and an interaction is
+  a textbook Relator: a relationship that carries its own identity and its own authored
+  content — preconditions, response text, refusal text — rather than a bare edge between a
+  verb and a target. BFO has no comfortable seat for that; it would type an interaction as
+  a process and lose the fact that the authored *content* is what is being modeled, not the
+  running of it. UFO also gives `actor` what BFO cannot express cleanly: *player* and *NPC*
+  are Roles the same entity plays contingently, which is a live concern in an engine where
+  control transfers between characters mid-game. BFO's advantage — a crisp object/event
+  boundary — was weighed and judged the lesser one here, since this corpus expects to argue
+  about vocabulary minimality rather than about when a cutscene *is* versus *happens*.
+
+  **Why 15 classes for a corpus asking what the minimal vocabulary is.** The tension is
+  real and was surfaced before the sketch was confirmed. It is not a defect: the class list
+  is itself a standing claim about the answer, and classes collapsing into one another over
+  time is this inquiry succeeding rather than failing. Two collapses were named as live
+  and deliberately left open rather than pre-judged — `cutscene` may prove to be an
+  `interaction` with player input locked out, and `hotspot` may prove to be an `actor` that
+  cannot move. Both were offered as cuts and both were declined. `yidam migrate class`
+  exists for the day either one settles.
+
+  **Why prior-art is a class and not just catalog.** A catalog entry records where a source
+  is; it does not model what the source *chose*. The comparative claims this corpus expects
+  to make — that SCUMM's fixed verb bar and AGS's cursor modes are two answers to one
+  question — are claims about engines, and a claim needs a node to sit on. The catalog
+  entries beneath them are still where provenance goes.
+
+  **Why no kuten record.** The template ships one profile, `inquiry`, glossed "the corpus
+  grows through sustained inquiry — questions opened, and settled." It was stated and
+  declined: no profile here was recognized as describing what this corpus is for. Holding
+  no kuten is a supported state — `yidam kuten check` reports it as one and exits zero —
+  and a record naming a profile the user did not adopt would be worse than none, since a
+  declaration diverged from on the first commit defeats the layer's only purpose. One can
+  be adopted later by a `decide:` commit carrying the record.
+
+  **Why single-elector.** One name came up. The sangha is a real protocol with real
+  overhead — five scaffolded files and a resolution procedure — and a repository that names
+  one elector but adopts it anyway has paid for machinery it does not use. It can be
+  adopted later by scaffolding `.yidam/sangha/` when a second elector actually appears and
+  can be named.

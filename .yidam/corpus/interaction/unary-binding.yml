@@ -1,0 +1,32 @@
+class: interaction
+label: Unary Binding
+description: |
+  A verb applied to one target, resolving to a response. It is the base case of the relator:
+  a verb, a hotspot, and text that belongs to neither of them.
+
+  Seeding it makes one thing checkable that prose about relators does not. [inference] The
+  response here is authored per *pair*, so a room with ten hotspots and four unary verbs has
+  forty authorable cells, of which an author will fill a handful and leave the rest to
+  defaults. That ratio is the real economics of a verb bar, and it is the reason a
+  vocabulary grows expensive faster than its size suggests — adding a fifth verb adds ten
+  cells, not one.
+properties:
+  shape: unary
+  response: |
+    A line of description or a short action performed by the player character at the target.
+    Authored for this verb-target pair specifically; where it is absent, the verb's own
+    default response stands in.
+  precondition: |
+    Optional. A unary binding with no precondition is the common case and is what makes this
+    shape cheap to author.
+  refusal: |
+    Absent here, deliberately. With no precondition there is nothing to refuse, and the
+    difference between an absent refusal and an empty one is a distinction the data format
+    has to be able to make. [open] It currently cannot; see `data-format/interaction-table.yml`.
+links:
+  - target: ../verb/look-at.yml
+    relationship: applies
+  - target: ../hotspot/static-region.yml
+    relationship: targets
+  - target: ../interaction.ont.yml
+    relationship: instance-of

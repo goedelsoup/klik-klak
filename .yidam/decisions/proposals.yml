@@ -1,0 +1,115 @@
+id: proposals
+summary: >-
+  Eight implied edges approved of nine proposed; no connectors; three calculators, of which
+  two draw on a prelude domain — `similarity` and `graph-topology` are vendored.
+context: |
+  Reading the fifteen `.ont.yml` files back after step 4 surfaced a structural defect the
+  confirmed sketch could not show. `hotspot` and `walkbox` appear in the sketch's 28 edges
+  only as targets — `room contains hotspot`, `interaction targets hotspot`, `room
+  bounded-by walkbox`, `actor traverses walkbox`, `subsystem realizes walkbox` — and never
+  as a source. Every instance of either class would therefore carry no outgoing edge and
+  fail `orphan-out`, which is error severity and gates. That is a finding about the sketch,
+  produced by formalizing it, and it is the first entry in the table below.
+
+  Nine implied edges were presented:
+
+    hotspot        -located-in->       room          structural
+    walkbox        -lies-in->          room          structural
+    data-format    -encodes->          interaction   vocabulary
+    interaction    -opens->            conversation  vocabulary
+    inventory-item -carried-form-of->  hotspot       vocabulary
+    subsystem      -realizes->         conversation  vocabulary
+    failure-mode   -prevented-by->     subsystem     comparative
+    prior-art      -reads->            data-format   comparative
+    puzzle         -triggers->         cutscene      weak
+
+  Two connectors were presented and neither was recommended. `ags-docs` would adapt the
+  Adventure Game Studio manual; `scummvm-src` would adapt the ScummVM source tree. The
+  argument against both is that what this corpus needs from either is read once per
+  engine, not polled — a connector against a manual that has not changed in years is a
+  refresh loop over a fixed file, and the honest instrument is a catalog entry carrying a
+  `ttl_days`.
+
+  Three calculators were presented, with the prelude domain each would call into named
+  per the step 5 rule that only named domains are vendored.
+decision: |
+  **Implied edges — eight approved, one discarded.**
+
+  Approved, and to be declared in the relevant `.ont.yml` files and wired into instance
+  `links:` as the `establish:` commit:
+
+    hotspot        -located-in->       room
+    walkbox        -lies-in->          room
+    data-format    -encodes->          interaction
+    interaction    -opens->            conversation
+    inventory-item -carried-form-of->  hotspot
+    subsystem      -realizes->         conversation
+    failure-mode   -prevented-by->     subsystem
+    prior-art      -reads->            data-format
+
+  Discarded: `puzzle -triggers-> cutscene`. It was presented as the weakest of the set —
+  an authoring convention rather than a necessity — and was not approved.
+
+  **Connectors — none approved.** No crate stub is scaffolded and `crates/` holds only its
+  README at genesis.
+
+  **Calculators — all three approved.** `vocabulary-coverage`, `collapse-signature` and
+  `reachability`, each written as a stub in `.yidam/skills/`; none is run at genesis
+  because none has enough to read.
+
+  **prelude_domains: [similarity, graph-topology].** Thirteen of the fifteen domain
+  libraries are dropped at the vendor step.
+prelude_domains: [similarity, graph-topology]
+rationale: |
+  **The two structural edges are not really optional.** The alternative to approving them
+  was to leave `hotspot` and `walkbox` with no instances at all, since any instance would
+  gate the build. Approving them is cheaper and does not weaken anything: both are the
+  inverse of an edge the sketch already confirmed, authored from the other end, and
+  GRAPH.md is explicit that either end may author a relationship and that declaring it
+  twice is permitted rather than required.
+
+  **The four vocabulary edges are where the central question lives.** `data-format
+  -encodes-> interaction` is the sharpest of them: the corpus's hub class had no written
+  form, and a primitive that cannot be written down is not part of an *authoring*
+  vocabulary whatever the runtime does with it. `interaction -opens-> conversation` is the
+  one most likely to become an argument — if a conversation is what a `talk-to` binding
+  resolves to, the case for `conversation` as its own class weakens, and this edge is what
+  makes that arguable rather than assumed. `inventory-item -carried-form-of-> hotspot` is
+  the ontology's own `role` typing made explicit: the class already claims carriage is
+  contingent, and this says what it is contingent on.
+
+  **`puzzle -triggers-> cutscene` was discarded and the reason is the rule about edges.**
+  An edge is a claim, and the honest question is whether the relationship can be defended
+  in one sentence for the specific instances it would join. "A gate opening commonly plays
+  a sequence" is a description of how adventure games are usually authored, not a claim
+  about these two primitives — and the weaker true relationship was not obviously worth
+  coining. A missing edge is a gap somebody fills; a wrong edge is asserted by the corpus
+  and lent credibility by every correct edge around it.
+
+  **No connectors, for a reason that is about this domain rather than about connectors.**
+  The sources here are documentation and released source trees for systems that are
+  finished. They do not produce new observations over time. `scummvm-src` was the one
+  candidate with a real refresh story and it was still declined, because approving it
+  would have meant a `crates/Cargo.toml` workspace at genesis — activating the CI `crates`
+  job and the `cargo fmt`/`clippy`/`test` gate — in exchange for a fetch nobody needs
+  repeated.
+
+  **Which domain each calculator would call into, and one caveat that was raised and
+  overruled.**
+
+  `vocabulary-coverage` names no domain, deliberately. It is a set difference over verb
+  names, and pulling in a shared library to subtract two sets would be naming a domain
+  because it sounds adjacent — which the step 5 instruction warns against by name.
+
+  `collapse-signature` calls `similarity`. Comparing two classes' relationship vocabularies
+  is a Jaccard computation, and a Jaccard implementation pinned across three languages by
+  shared fixtures is worth more than a local reimplementation. This is the calculator that
+  makes "is `cutscene` just an `interaction`?" falsifiable rather than a matter of taste.
+
+  `reachability` calls `graph-topology`, and it was approved over a stated objection.
+  **It has nothing to read.** Unwinnable-state detection is a reachability computation over
+  an authored game's state graph, and this corpus holds the vocabulary a game would be
+  authored in, not any game. The objection was raised before approval and the approval
+  stands, so `graph-topology` is vendored and the stub is written; what the stub cannot do
+  is run. See `.yidam/decisions/seed-scope.yml`, which names it as a calculator whose
+  inputs are absent for a reason that has nothing to do with the calculator.

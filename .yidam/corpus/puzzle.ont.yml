@@ -1,0 +1,25 @@
+class: puzzle
+label: Puzzle
+foundational_type:
+  ontology: ufo
+  type: situation
+description: |
+  A configuration of world state that holds progression closed until a set of
+  interactions opens it. Irreducible because it is the only thing in the vocabulary that
+  spans interactions: no single binding is a puzzle, and the gate is not any one of them.
+properties:
+  - name: pattern
+    type: string
+    description: The recognized shape — lock-and-key, state gate, sequence, or exchange.
+  - name: gate
+    type: text
+    prose: true
+    description: What the puzzle holds closed, and what opening it makes reachable.
+  - name: reversibility
+    type: string
+    description: Whether the state this puzzle sets can be unset once set.
+edges:
+  - relationship: solved-by
+    target: interaction
+    direction: out
+    description: A binding whose resolution advances or opens this gate.

@@ -1,0 +1,36 @@
+class: failure-mode
+label: Unwinnable State
+description: |
+  A configuration of world state from which no sequence of interactions reaches the ending,
+  reached without the player being told. It is the canonical failure of this genre and the
+  clearest evidence that a vocabulary permitted something it should not have.
+
+  [inference] It has two ordinary causes and they are different problems. One is consumption:
+  an object needed later is spent or destroyed earlier, so the state is unwinnable from the
+  moment of the spend. The other is ordering: a gate closes behind the player and something
+  still needed is on the far side. The first is a property of a single binding and is
+  checkable where the binding is written; the second is a property of the graph of gates and
+  is not checkable anywhere in the current vocabulary.
+
+  The reason it is `detectable_at: authoring` despite that is the important part. Both causes
+  are decidable from the authored content alone — no play is required — which is precisely
+  what makes this the strongest available argument for the engine tier doing work the
+  authoring tier cannot. See the `reachability` stub, and note that it has nothing to read.
+properties:
+  mechanism: |
+    An author spends a required object, or closes a gate, without a check that the resulting
+    state can still reach the ending. Neither act looks like a mistake at the point it is
+    written; it becomes one only in combination with something written elsewhere.
+  detectable_at: authoring
+  player_visible: |
+    No, and that is what makes it severe rather than merely annoying. [inference] The player
+    continues to be offered interactions, all of which resolve normally, for an arbitrary
+    length of time. A game that detects the state and says so has converted a lost session
+    into a reload; most did not.
+links:
+  - target: ../puzzle/lock-and-key.yml
+    relationship: arises-from
+  - target: ../data-format/interaction-table.yml
+    relationship: prevented-by
+  - target: ../failure-mode.ont.yml
+    relationship: instance-of

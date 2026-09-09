@@ -1,0 +1,33 @@
+class: walkbox
+label: Walkbox
+foundational_type:
+  ontology: ufo
+  type: kind
+description: |
+  A region of a room's floor an actor may stand on, carrying the scale the actor draws at
+  within it. Irreducible because it separates where an actor may *be* from what the room
+  looks like: the pathable surface is authored independently of the background it sits under.
+properties:
+  - name: geometry
+    type: string
+    description: How the region is described — convex polygon, grid, or navigation mesh.
+  - name: scaling
+    type: text
+    prose: true
+    description: How an actor's drawn size varies across the region, and what that stands in for.
+  - name: passability
+    type: string
+    description: Whether the region is always walkable or conditional on world state.
+edges:
+  - relationship: bounded-by
+    target: room
+    direction: in
+    description: The room whose floor this region describes.
+  - relationship: traverses
+    target: actor
+    direction: in
+    description: An actor that moves within this region.
+  - relationship: realizes
+    target: subsystem
+    direction: in
+    description: The engine component that solves paths across this region.

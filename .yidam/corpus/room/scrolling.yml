@@ -1,0 +1,30 @@
+class: room
+label: Scrolling Room
+description: |
+  A room wider or taller than the viewport, with a camera that follows the player
+  character. It is the form that separates world coordinates from screen coordinates, and
+  every consequence of that separation is a cost the vocabulary pays. [inference] Hotspot
+  geometry is authored in world space and tested in screen space; a cutscene that moves the
+  camera has to say where control returns the camera to; an actor's apparent size and its
+  distance from the camera edge become independent quantities.
+
+  The reason this is a separate node rather than a property value on one `room` is that the
+  costs are borne by other classes. `walkbox`, `hotspot` and `cutscene` all need vocabulary
+  they would not otherwise need, and an edge from those classes to *this* form is what makes
+  the dependency legible. Whether `extent` therefore belongs on the room or on a camera the
+  ontology does not yet have is `[open]`.
+properties:
+  extent: scrolling
+  background: |
+    A single image wider than the viewport, or a set of parallax planes moving at different
+    rates.
+  state_variance: |
+    As for the single-screen form, with one addition: the camera's permitted range may
+    itself be state-dependent, which is how an author fences off part of a room before it
+    is meant to be reachable. [inference] That is a bound on the camera doing the work of a
+    bound on the walkbox, and the two can disagree.
+links:
+  - target: ../room/single-screen.yml
+    relationship: connects-to
+  - target: ../room.ont.yml
+    relationship: instance-of

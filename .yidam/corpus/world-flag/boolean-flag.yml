@@ -1,0 +1,26 @@
+class: world-flag
+label: Boolean Flag
+description: |
+  A single bit of world state — set or not — written by an interaction and read by a
+  precondition. It is the smallest thing that can carry meaning between two rooms, and by
+  that measure it is the least reducible primitive in this vocabulary: remove it and
+  nothing an author writes anywhere is visible anywhere else.
+
+  Its cost is that it carries no reason. [inference] A flag records that something happened
+  and not why, so a precondition reading it cannot distinguish the intended cause from any
+  other write. An engine with many flags and no structure over them is an engine in which
+  every author must hold the whole set in their head, which is where `unwinnable-state`
+  comes from more often than from any single mistake.
+properties:
+  domain: boolean
+  scope: global
+  save_semantics: |
+    Written to the save file. [inference] A flag omitted from a save is a puzzle that
+    reopens on load, and the failure is silent — the game is consistent, just not with what
+    the player did. This is the strongest argument for the save format being derived from
+    the flag declaration rather than written alongside it.
+links:
+  - target: ../puzzle/lock-and-key.yml
+    relationship: gates
+  - target: ../world-flag.ont.yml
+    relationship: instance-of

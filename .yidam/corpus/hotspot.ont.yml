@@ -1,0 +1,29 @@
+class: hotspot
+label: Hotspot
+foundational_type:
+  ontology: ufo
+  type: kind
+description: |
+  A region of a room that the cursor resolves to and a verb can be directed at.
+  Irreducible because targeting is separable from everything else about a thing: a region
+  can be targetable while drawing nothing, moving nowhere and carrying no state.
+properties:
+  - name: geometry
+    type: string
+    description: How the region is described — rectangle, polygon, or colour mask.
+  - name: visibility
+    type: string
+    description: Whether the region is always present or conditional on world state.
+  - name: cursor_feedback
+    type: text
+    prose: true
+    description: What the interface shows when the cursor is over this region, before any verb is chosen.
+edges:
+  - relationship: contains
+    target: room
+    direction: in
+    description: The room this region belongs to.
+  - relationship: targets
+    target: interaction
+    direction: in
+    description: An interaction directed at this region.
