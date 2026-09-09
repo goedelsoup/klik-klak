@@ -8,12 +8,31 @@ description: |
   the bound is not merely enforced, it is displayed, and an author who wants a verb that is
   not there cannot add one for a single puzzle.
 
-  The verb set contracted across the run of games it powered. [inference] Whatever the
-  exact counts — this corpus has retrieved no source and should not assert them — the
-  direction is the interesting part, because it is a vocabulary being *minimized* under
-  production pressure by people who were authoring in it daily. That is the central
-  question of this corpus, answered once already by someone with better evidence than we
-  have. Recovering what they dropped and why is the highest-value extraction available here.
+  The verb set contracted across the run of games it powered, and
+  [Wikipedia's account](../../catalog/wikipedia-scumm.md) now supports that with a shape this
+  corpus did not have at genesis. [inference] It reports the large on-screen set of the early
+  games reduced, by *Full Throttle* (1995) and *The Curse of Monkey Island* (1997), to a "verb
+  coin" at the cursor offering eyes (look), hands (use, pick up, push, pull) and mouth (talk,
+  consume, inhale).
+
+  **That is a third discovery surface**, and it is the finding worth carrying forward. A verb
+  bar is bounded and visible; an AGS cursor mode set is extensible and hidden
+  ([prior-art/ags.yml](../prior-art/ags.yml)); a verb coin is bounded, hidden until summoned,
+  and *grouped by body part* rather than by word. Three answers to one question, from two
+  houses, over ten years.
+
+  The tag stays `[inference]` and will not move. SCUMM's authoring documentation was never
+  released, so the source of record is unreachable rather than unfetched, and everything
+  citable here is a republisher. A cited inference is better than a remembered one and is not
+  evidence.
+
+  **The verb counts were looked for and are still not asserted.** That was the retrieval this
+  node was waiting on and it did not deliver: the article does not state how many verbs
+  *Maniac Mansion* presented. What it offers is a quote about the scripting language having
+  "about 80% of the commands" of later versions, which is not a verb count and points the other
+  way. Aggregator wikis do carry specific figures; the catalog entry records them as material
+  seen and rejected. Recovering what LucasArts dropped and why remains the highest-value
+  extraction available to this corpus, and it now needs a source that does not exist publicly.
 properties:
   era: "1987-1998"
   vocabulary_shape: |
@@ -27,9 +46,12 @@ properties:
     this corpus asks — where authoring escapes to a general-purpose language — has a
     degenerate answer here: it starts there.
   source_standing: |
-    Nothing retrieved. Every claim above is [inference] from secondhand familiarity. The
-    source that would settle most of it is the SCUMM documentation preserved by the ScummVM
-    project, which has not been located, fetched, or read.
+    [Wikipedia's SCUMM article](../../catalog/wikipedia-scumm.md), read 2026-09-09, for the
+    verb coin, the 1987-1998 range and the bytecode claim. That is an aggregator and cannot
+    carry this node past `[inference]` — SCUMM's own authoring documentation was never
+    released, so there is no source of record to reach for. Everything else here is
+    recollection, including the composition order in `vocabulary_shape` above, which the
+    article does not describe.
 links:
   - target: ../verb/use-with.yml
     relationship: implements

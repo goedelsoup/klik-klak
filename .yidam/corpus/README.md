@@ -30,7 +30,7 @@ Sorted by: kind, then alphabetically.
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 3 | 0v / 2i / 1o | 33 |
 | [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 0v / 2i / 3o | 37 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 0v / 2i / 1o | 33 |
-| [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 0v / 2i / 1o | 33 |
+| [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 3 | 0v / 2i / 0o | 36 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 0v / 2i / 1o | 26 |
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 0v / 3i / 0o | 40 |
@@ -38,8 +38,8 @@ Sorted by: kind, then alphabetically.
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 0v / 1i / 1o | 30 |
 | [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 0v / 1i / 1o | 32 |
 | [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 3 | 0v / 2i / 1o | 31 |
-| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 0v / 5i / 2o | 40 |
-| [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 0v / 5i / 0o | 39 |
+| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 4v / 1i / 1o | 55 |
+| [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 0v / 6i / 0o | 61 |
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 0v / 4i / 1o | 36 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
 | [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 0v / 1i / 2o | 29 |

@@ -5,27 +5,39 @@ description: |
   state it costs the player nothing — they simply never see it — which is why it survives in
   shipped games and why nobody counts it.
 
-  It belongs to `branching-tree` specifically rather than to conversations generally.
-  [inference] A topic list has no paths, so it cannot orphan anything; a tree can, and the
-  usual route is a per-choice return flag: a choice is authored to be removed once taken, its
-  subtree becomes unreachable, and nothing distinguishes that from a subtree the author
-  intended to be seen once. Written and never reached and written and unreachable look
-  identical in the file, which is the whole difficulty.
+  It belongs to `branching-tree` specifically rather than to conversations generally. A topic
+  list has no paths, so it cannot orphan anything; a tree can. Written and never reached and
+  written and unreachable look identical in the file, which is the whole difficulty.
 
-  This is the failure mode most directly about the *format* rather than about the runtime.
-  A structure that made reachability computable from the file would make this checkable, and
-  the same structure is what `state-gate` wants for its condition. [open] Whether those are
-  one need or two is unexamined and would be a good first synthesis.
+  **The mechanism is an authored act, not an automatic one.** This node and
+  [prior-art/ags.yml](../prior-art/ags.yml) both said at first that an option is removed "once
+  taken", which implied the system does it. [The AGS manual](../../catalog/ags-manual.md) says
+  otherwise: an option becomes unavailable through `Dialog.SetOptionState()` with `eOptionOff`
+  — "the option is disabled - the player will not see it" — or the equivalent `option-off`
+  dialog command, and the manual makes no connection between an option having been chosen and
+  its becoming unavailable. [verified] `HasOptionBeenChosen()` tracks selection and does not
+  disable anything. [verified]
+
+  That correction makes this failure mode *worse*, not better, and the reason is the whole
+  point of recording it. An automatic removal would be a system behaviour an author could
+  learn once and reason about everywhere. An explicit command is a decision taken separately at
+  every site, by a person holding the reachability of the remaining tree in their head — and
+  `eOptionOffForever` is documented as permanent: "no other command can ever turn it back on
+  again". [verified] A subtree behind one of those is unreachable for the rest of the game, and
+  nothing in the authoring surface says so.
 properties:
   mechanism: |
-    A choice is removed once taken, or gated on a flag that some other path clears, and the
-    subtree beneath it becomes unreachable. The author does not see it because the file shows
-    the subtree exactly as it always looked.
+    An author disables an option with `option-off` or `option-off-forever`, or gates it on a
+    flag some other path clears, and the subtree beneath it becomes unreachable. The author
+    does not see it because the file shows the subtree exactly as it always looked. [verified]
+    for the commands and their permanence; `[inference]` for the claim that this is how
+    orphaning usually arises in practice, which no source here establishes.
   detectable_at: authoring
   player_visible: |
-    No. The player experiences a shorter conversation, not a broken one, and has no way to
-    know content existed. [inference] That invisibility is why this is under-reported rather
-    than rare.
+    No. The player experiences a shorter conversation, not a broken one, and has no way to know
+    content existed. [inference] That invisibility is why this is under-reported rather than
+    rare — and it is `[open]` whether AGS authors experienced it as a loss at all, which the
+    project's own forums might answer and nobody here has read.
 links:
   - target: ../conversation/branching-tree.yml
     relationship: arises-from
