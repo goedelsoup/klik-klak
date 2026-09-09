@@ -13,6 +13,7 @@ used-by:
   - ../corpus/interaction/acquisition-binding.yml
   - ../corpus/verb/talk-to.yml
   - ../corpus/conversation/branching-tree.yml
+  - ../corpus/verb/use-with.yml
 ---
 
 **Reverse-engineered, and it says so.** The footer reads "All material © 2000-2002 David Given,
@@ -41,6 +42,10 @@ The opcode table, for one question: does SCUMM treat acquiring an object as its 
   it is an observation about the *table* rather than about either opcode: a general
   ownership-setting operation and a dedicated pickup operation both exist. Whatever `pickupObject`
   does, it is not merely setting an owner, or it would not need to be there.
+- Read a third time for verbs: `doSentence` (`$19`), `getVerbEntryPoint` (`$0B`) and
+  `saveRestoreVerbs` (`$AB`) are listed, all three **without parameters or description**. The
+  names are suggestive — a "sentence" is SCUMM's verb-and-objects construction — and the
+  entries are empty. `verb/use-with.yml` cites this and rests nothing on it.
 - Also present: `getObjectOwner` (`$10`), `getInventoryCount` (`$31`), `findInventory` (`$3D`),
   `findObject` (`$35`).
 

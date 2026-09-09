@@ -23,6 +23,8 @@ used-by:
   - ../corpus/conversation/branching-tree.yml
   - ../corpus/conversation/topic-list.yml
   - ../corpus/data-format/interaction-table.yml
+  - ../corpus/verb/use-with.yml
+  - ../corpus/verb/give-to.yml
   - ../corpus/failure-mode/orphaned-dialogue-branch.yml
 ---
 
@@ -72,6 +74,25 @@ Two pages, and only two:
   script, by indenting the line with spaces or tabs." That sentence is the most directly relevant
   thing this corpus has retrieved about its own central question — see
   `data-format/interaction-table.yml`.
+- **`EventTypes.md`** — the event lists, and the page that should have been read before this
+  corpus said anything about AGS's mode set. Characters have eight events: Look at, Interact,
+  Talk to, **Pick up**, **Use inventory on**, Usermode1, Usermode2, Any click. Hotspots have the
+  same eight plus Stands on and Mouse moves over.
+
+  Two things follow and both matter.
+
+  **AGS has a pick-up mode.** "Pick up character" and "Pick up hotspot" are documented events.
+  `verb/pick-up.yml` asserted the opposite at `[verified]` on 2026-09-09 and that claim is
+  withdrawn — see the `withdraw:` commit. The failure was this corpus's own and it was
+  *predictable from this very entry*: the `EditorCursor.md` note above already recorded that six
+  of ten modes were unnamed on the page that had been read, and the assessment asserted past the
+  gap anyway.
+
+  **There is no separate "give" event.** The manual describes "Use inventory on character" as
+  "Occurs when the player uses an inventory object on a character. This event could be used to
+  allow the player to give items to characters. You can use the `player.ActiveInventory` property
+  to distinguish which item they used." Giving is using-an-item-on-someone, said by the system's
+  own documentation.
 
 ## What this document holds that nobody here has looked at
 

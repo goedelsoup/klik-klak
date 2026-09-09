@@ -18,32 +18,46 @@ description: |
 properties:
   arity: unary
   surface: |
-    Not offered as a distinct selection by either system this corpus has sources for. SCUMM's
-    late verb coin folds picking up into the hands group with use, push and pull
-    ([wikipedia-scumm](../../catalog/wikipedia-scumm.md)). [inference] Adventure Game Studio's
-    documented standard cursor modes are Walk, Look, Interact and Talk, plus Use Inventory as a
-    non-standard mode; there is no pick-up mode
-    ([ags-manual](../../catalog/ags-manual.md)). [verified]
+    The two systems disagree, and this corpus said otherwise until 2026-09-09.
+
+    Adventure Game Studio ships it. "Pick up character" and "Pick up hotspot" are documented
+    events, one of the eight a character carries
+    ([ags-manual](../../catalog/ags-manual.md)). [verified] An earlier reading of this node said
+    AGS had no pick-up mode of any kind; that claim is withdrawn and the withdrawal is recorded
+    below.
+
+    SCUMM's late verb coin folds picking up into the hands group with use, push and pull
+    ([wikipedia-scumm](../../catalog/wikipedia-scumm.md)). [inference]
   default_response: |
     A refusal that must distinguish three cases, not two: cannot be taken, already taken, and
     takeable but not yet. [inference] The third carries puzzle information, which makes this
     verb's default unusually load-bearing — and it is the one case a general `use` refusal
     cannot phrase, since "that doesn't work" is wrong when the answer is "not yet".
   earns_its_place: |
-    **Assessed 2026-09-09. Verdict: not as a verb; yes as an operation.**
+    **Assessed 2026-09-09; the surface half withdrawn and re-decided the same day.**
+
+    **Verdict: the verb and the operation are independent, and each engine has exactly one of
+    them.** This replaces an earlier verdict of "not as a verb, yes as an operation", which
+    rested on a claim that turned out to be false.
 
     Two hypotheses were weighed.
     *H1 — irreducible*: pick-up is a primitive the vocabulary cannot do without.
     *H2 — collapses*: it is `use` applied to a takeable thing, and the system can work out the rest.
 
-    Evidence for H2, at the discovery surface, and it is one-sided:
-    - Adventure Game Studio documents no built-in pick-up verb, mode or event of any kind, and
-      acquisition is something the author scripts. [verified]
-    - SCUMM, whose authors used a separate pick-up verb daily for roughly a decade, stopped
-      distinguishing it — the late verb coin offers hands for use, pick up, push and pull as one
-      selection. [inference] A system abandoning a distinction under production pressure is the
-      strongest kind of evidence available here, because it is a revealed preference rather than
-      an opinion.
+    **Withdrawn claim.** This assessment first read the discovery-surface evidence as one-sided
+    for H2, on the strength of "Adventure Game Studio documents no built-in pick-up verb, mode or
+    event of any kind", marked `[verified]`. It is false. AGS documents "Pick up character" and
+    "Pick up hotspot" as events. The claim rested on two manual pages that happen not to mention
+    the mode, and the catalog entry for those pages had *already recorded* that six of ten cursor
+    modes were unnamed there. Absence of mention was read as absence, past a note warning that it
+    was not.
+
+    Evidence at the discovery surface, as it actually stands:
+    - AGS ships a pick-up mode with its own event. [verified]
+    - SCUMM's late verb coin folds picking up into the hands group. [inference] A system
+      abandoning a distinction under production pressure is still the strongest kind of evidence
+      available here — it is a revealed preference rather than an opinion — but it is now one
+      system's preference against another's, not a convergence.
 
     Evidence for H1, at the level of the operation, and it is equally one-sided the other way:
     - SCUMM v5 carries a dedicated `pickupObject` opcode, `$25`
@@ -57,9 +71,19 @@ properties:
       object's inventory script. [inference] Weaker than the rest: this is a primary source for
       ScummVM and an inference about SCUMM, and nobody here read the code.
 
-    The two bodies of evidence do not conflict. They are about different tiers, and the verdict
-    follows: **the player-facing verb collapses into `use`; the authoring operation does not
-    collapse into anything.** SCUMM bundled that operation into one opcode. Adventure Game
+    Put the corrected surface evidence beside the operation evidence and a cleaner result
+    appears than the one this node first reported:
+
+    | | verb at the surface | operation in the engine |
+    |---|---|---|
+    | SCUMM | folded into hands | dedicated `pickupObject` opcode |
+    | Adventure Game Studio | `Pick up` event | none — `AddInventory` and author script |
+
+    **A perfect inversion. Each engine has exactly one half and neither has both.** That is
+    stronger support for keeping the tiers apart than the original verdict was, because it shows
+    the two are not merely separable in principle but actually separated in practice, in opposite
+    directions, by the two systems this corpus can read. A verb without an operation beneath it
+    and an operation without a verb above it both shipped, for years, in games people finished. SCUMM bundled that operation into one opcode. Adventure Game
     Studio provides `AddInventory` — one write — and leaves the author to do the rest, saying
     nothing in its manual about what becomes of the room object. [verified] Two engines, opposite
     choices, about a thing neither of them exposes as a verb.

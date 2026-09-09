@@ -23,6 +23,33 @@ properties:
     A refusal, in every system this corpus has looked at. [inference] The interesting design
     variable is whether the refusal is generic ("That doesn't work") or names one of the two
     objects, since a naming refusal leaks information about which half was right.
+  earns_its_place: |
+    **Assessed 2026-09-09. Verdict: yes, and arity is the reason — not meaning.**
+
+    This verb was seeded on the claim that it forces the shape of everything downstream rather
+    than on any claim about what "use" means. The evidence supports that, and from an unexpected
+    direction: AGS's own mode system treats the binary case as structurally different.
+
+    `Use Inventory` is cursor Mode 4, and the manual says `StandardMode` — which marks "a 'normal'
+    cursor mode… using this cursor will fire an event on whatever is clicked on as usual" —
+    applies to Walk, Look, Interact and Talk and **should not be enabled for it**
+    ([ags-manual](../../catalog/ags-manual.md)). [verified] The engine dispatches binary
+    differently from unary, and says so in the property grid an author sees.
+
+    The event lists say the same thing from the other side. Characters and hotspots each carry a
+    "Use inventory on" event distinct from "Interact", so the second object is not a parameter of
+    an ordinary interaction but a different event entirely. [verified]
+
+    SCUMM's side is thin and is recorded as thin: the v5 table carries `doSentence` (`$19`),
+    "sentence" being that engine's term for the verb-and-objects construction, and the reference
+    gives no parameters ([scumm-v5-opcode-reference](../../catalog/scumm-v5-opcode-reference.md)).
+    [inference] The name is suggestive and the entry is empty; nothing here rests on it.
+
+    So arity is not a property a verb happens to have. It is a fork in how an interaction is
+    dispatched, and one system exposes that fork to authors as a checkbox. That is the concrete
+    form of the combinatorics argument in
+    [interaction/binary-binding](../interaction/binary-binding.yml): a binary verb makes the table
+    two-dimensional, and the engine has to know before it can look anything up.
 links:
   - target: ../prior-art/scumm.yml
     relationship: originated-in

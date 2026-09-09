@@ -48,11 +48,11 @@ Sorted by: kind, then alphabetically.
 | [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 2i / 0o | 34 |
 | [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 5 | 0v / 3i / 1o | 44 |
 | [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 0v / 1i / 0o | 30 |
-| [give-to.yml](verb/give-to.yml) | verb | Give To | 2 | 0v / 3i / 1o | 46 |
+| [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 4v / 1i / 1o | 60 |
 | [look-at.yml](verb/look-at.yml) | verb | Look At | 2 | 0v / 3i / 0o | 29 |
-| [pick-up.yml](verb/pick-up.yml) | verb | Pick Up | 2 | 3v / 6i / 1o | 75 |
+| [pick-up.yml](verb/pick-up.yml) | verb | Pick Up | 2 | 3v / 6i / 1o | 99 |
 | [talk-to.yml](verb/talk-to.yml) | verb | Talk To | 2 | 3v / 4i / 1o | 69 |
-| [use-with.yml](verb/use-with.yml) | verb | Use With | 2 | 0v / 3i / 1o | 30 |
+| [use-with.yml](verb/use-with.yml) | verb | Use With | 2 | 2v / 4i / 1o | 57 |
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 0v / 2i / 0o | 26 |
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 0v / 2i / 0o | 26 |
 | [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 0v / 2i / 1o | 26 |
