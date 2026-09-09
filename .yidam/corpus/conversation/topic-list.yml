@@ -1,37 +1,46 @@
 class: conversation
 label: Topic List
 description: |
-  An exchange presented as a flat list of topics that persists across visits: topics are
-  added by world events, removed when exhausted, and the list has no path through it.
+  An exchange presented as a list of topics that persists across visits: topics are added by
+  world events, removed when an author turns them off, and there is no path through the list.
 
-  It is seeded as the counter-case to `branching-tree`, and it undercuts the argument for
-  this class. [inference] A topic list has no path, so the one property that distinguishes
-  `conversation` from a set of bindings — availability depending on the path taken — does not
-  hold here. A topic is a unary binding against an actor whose precondition is a flag and
-  whose response is a line. If that reduction is right, then this node belongs in
-  `interaction`, and `conversation` is a class that covers one structure rather than a
-  primitive. [open] This corpus states the reduction and does not yet make it.
+  **It was seeded as the counter-case to [branching-tree](../conversation/branching-tree.yml)
+  and it is the base case.** That inversion is this node's finding. AGS's dialog script
+  distinguishes `return` — "Stops the script and returns to the choices list" — from `stop`,
+  which "Ends the conversation entirely" ([ags-manual](../../catalog/ags-manual.md)). [verified]
+  Running an option and coming back to the list is what a dialog does when nothing tells it
+  otherwise; a tree is what you get by adding `goto-dialog` on top. The manual describes one
+  feature, "Dialogs or 'dialog topics'", and never distinguishes the two shapes as different
+  kinds of asset. [inference]
 
-  **The evidence gathered for `branching-tree` does not rescue this node, and that is a finding
-  about the class rather than about this instance.** What justified `conversation` as a primitive
-  was `goto-previous` and the return stack it implies
-  ([ags-manual](../../catalog/ags-manual.md)) — path state. [verified] A topic list has no path,
-  so none of that evidence reaches it. AGS's own command set makes the split visible:
-  `goto-dialog` and `goto-previous` are navigation, while `option-on` and `option-off` are the
-  whole of what a flat list needs. [verified]
+  This corpus had it the other way round for two phases, treating the tree as canonical and this
+  as a degenerate form that probably belonged in `interaction`. The reduction argument below is
+  what that reading produced, and it survives as an argument about *bindings* while failing as an
+  argument about this class.
 
-  So `conversation` is carried by one of its two instances. A class justified by half its members
-  is either a class with a badly drawn boundary or two classes wearing one name, and this corpus
-  now has a specific reason to suspect the second. The sharper question: is a topic list a
-  `conversation` at all, or a set of unary bindings against an actor with an interface convention
-  on top?
+  **The argument this node was seeded on, kept because it is still half right.** A topic is a
+  unary binding against an actor whose precondition is a flag and whose response is a line — so at
+  the level of a *single choice*, the reduction to `interaction` holds and nothing here disputes
+  it.
+
+  What does not reduce is the container. A topic list is entered and left, suspends the ordinary
+  interaction surface while it runs, and carries which of its options are visible. A set of
+  bindings has none of that: no binding knows it is one of a group, and nothing in the interaction
+  table records a mode the player is currently in. That is what
+  [conversation.ont.yml](../conversation.ont.yml) now rests on, and it is the property this node
+  shares with the tree rather than the one that separated them.
 properties:
   structure: topic-list
   exhaustion: |
-    A topic taken is removed from the list; topics are added by world flags set elsewhere.
-    Both operations are writes to state outside the exchange, which is the tell that this
-    structure has no interior state of its own.
-  state_scope: global
+    A topic taken returns to the list unless an author disables it with `option-off`, and topics
+    are added by world flags set elsewhere. [verified] for the return, [inference] for the rest.
+    The corpus's earlier claim that a taken topic is "removed" was wrong in the same direction as
+    everything else here: removal is authored, persistence is free.
+  state_scope: |
+    Mostly local. Which options are currently visible is state belonging to the exchange, held by
+    `option-on` and `option-off` and readable by nothing outside it [verified]; a choice may also
+    write a world flag, and that is the narrow channel to the rest of the game.
+
 links:
   - target: ../actor/non-player-character.yml
     relationship: held-with

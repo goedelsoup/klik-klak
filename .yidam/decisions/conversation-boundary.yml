@@ -1,0 +1,80 @@
+id: conversation-boundary
+summary: >-
+  `conversation` is not split — the evidence for splitting it was this corpus reading its own two
+  instances backwards. Two classes retyped from UFO `event` to `kind` instead.
+context: |
+  The `phase/talk-to-collapse` assessment found that `conversation` was "carried by one of its two
+  instances": the return stack implied by AGS's `goto-previous` justified `branching-tree`, and
+  none of that evidence reached `topic-list`, which has no path. The conclusion drawn was that the
+  class was either badly bounded or two classes wearing one name, and that a split should be
+  investigated with `yidam migrate class`.
+
+  Investigating it found that the premise was wrong, from a page already in the ledger.
+
+  `DialogScript.md` distinguishes `return` — "Stops the script and returns to the choices list" —
+  from `stop`, which "Ends the conversation entirely". Coming back to the option list is what a
+  dialog does when nothing tells it otherwise. A branching tree is what an author builds by adding
+  `goto-dialog` on top of that. The manual describes a single feature, "Dialogs or 'dialog
+  topics'", and nowhere distinguishes the two shapes as different kinds of asset.
+
+  So the flat list is the **base** form and the tree is the elaboration. This corpus had read the
+  tree as canonical and the list as degenerate, and every inference downstream of that reading
+  inherited the error — including the proposal to split.
+
+  A second, unrelated defect surfaced while reading the class file against its instances, and it
+  is the one that actually needed fixing. `conversation` was typed UFO `event`. Every instance of
+  it is an authored structure: `topic-list` and `branching-tree` are things that persist and are
+  edited, not occurrences that unfold and are over. The conflation was visible in the graph and
+  had gone unremarked — `data-format -encodes-> conversation` treats it as an artifact while
+  `subsystem -realizes-> conversation` treats it as a runtime behaviour, and both edges point at
+  the same class. `cutscene` carried the identical defect for the identical reason.
+decision: |
+  **No split.** `conversation` remains one class with both instances. `yidam migrate class` was
+  not run and no migration record exists, because no migration happened.
+
+  **The class's foundation is relocated.** It no longer rests on branching or on path-dependence,
+  which is a property half its instances lack and which a class therefore cannot be founded on. It
+  rests on what both shapes share: a conversation is entered and left as a mode, suspending the
+  ordinary interaction surface, and it carries which of its choices are currently available
+  (`option-on` / `option-off` state). A set of bindings has neither property — no binding knows it
+  is one of a group, and nothing in the interaction table records a mode the player is in.
+
+  **Two classes retyped from `event` to `kind`:** `conversation` and `cutscene`. Both describe
+  authored structures. The occurrence — the exchange being held, the sequence being played — is a
+  real thing and this corpus holds no node for it, because a corpus about an *authoring
+  vocabulary* has no reason to.
+
+  **`topic-list`'s reduction argument is kept and narrowed rather than withdrawn.** A single topic
+  really is a unary binding against an actor with a flag precondition and a line response; that
+  half holds. What does not reduce is the container.
+rationale: |
+  **Why not split, when a split was what the previous phase proposed.** The proposal rested
+  entirely on an asymmetry between the two instances, and the asymmetry was an artefact of reading
+  them in the wrong order. Once the list is understood as the base form, the two instances differ
+  by an optional feature rather than by kind, and there is nothing to separate. Splitting would
+  have written this corpus's own misreading into the ontology, where `edge-target-class` and every
+  downstream node would have made it expensive to undo.
+
+  This is the second time in three phases that a conclusion of this corpus was overturned by a
+  page already sitting in its own catalog ledger. The first was the AGS pick-up mode, where the
+  ledger recorded that six of ten cursor modes were unnamed and the assessment asserted past it.
+  Here the `return`/`stop` distinction had been quoted into the ledger during
+  `phase/talk-to-collapse` and was not read back when the split was proposed one commit later.
+
+  The pattern is worth naming because it is not carelessness in either instance: in both, the
+  corpus retrieved the right material, recorded it accurately, and then reasoned from memory of
+  what it had concluded rather than from the record. **A ledger only pays if it is re-read at the
+  point of inference, not at the point of retrieval.**
+
+  **Why retyping matters even though nothing checks it.** No gate reads `foundational_type` — it
+  affects `export-rdf` and nothing else — so a wrong value costs nothing today and misleads every
+  reader who takes the ontology at its word. `agent-conduct` makes exactly this argument about
+  class definitions: they are asserted identically, silently and untagged for every instance, and
+  no instance-level check will ever see them. Reading `.ont.yml` files against the corpus's own
+  evidentiary standards is a thing that has to be done deliberately, and this is the first time
+  this repository has done it.
+
+  **What was considered and rejected:** adding an `exchange` class for the runtime occurrence, so
+  that `subsystem -realizes-> exchange` and `data-format -encodes-> conversation` could point at
+  different things. Rejected as speculative — it would be a class with no instances, added to
+  satisfy a distinction no node in this corpus currently needs to draw.
