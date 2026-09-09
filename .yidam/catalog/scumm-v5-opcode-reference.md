@@ -11,6 +11,8 @@ location:
 used-by:
   - ../corpus/verb/pick-up.yml
   - ../corpus/interaction/acquisition-binding.yml
+  - ../corpus/verb/talk-to.yml
+  - ../corpus/conversation/branching-tree.yml
 ---
 
 **Reverse-engineered, and it says so.** The footer reads "All material © 2000-2002 David Given,
@@ -41,6 +43,17 @@ The opcode table, for one question: does SCUMM treat acquiring an object as its 
   does, it is not merely setting an owner, or it would not need to be there.
 - Also present: `getObjectOwner` (`$10`), `getInventoryCount` (`$31`), `findInventory` (`$3D`),
   `findObject` (`$35`).
+
+The table was read a second time, for dialogue, and **the finding is an absence.** The only
+speech-related opcodes are `print` (`$14`) and `printEgo` (`$D8`), which display a line. **There is
+no opcode managing a menu or tree of selectable dialogue options.** The branching conversations
+those games are remembered for were built in ordinary script, with no engine primitive underneath
+them.
+
+An absence in a reverse-engineered table is weaker evidence than a presence, and the entry says so
+rather than trading on it: the table could be incomplete. What makes this one usable is that it is
+an absence *alongside* a presence — the same document lists a dedicated `pickupObject`, so it is
+not a document that omits gameplay operations as a matter of course.
 
 A second, weaker source was consulted for what `pickupObject` actually does, and it is recorded
 here rather than given an entry of its own because nobody here read it directly: search results

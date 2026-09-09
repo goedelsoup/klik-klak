@@ -1,26 +1,67 @@
 class: verb
 label: Talk To
 description: |
-  The unary verb whose response is not a line but an exchange. It is the verb that breaks
-  the interaction model, and this corpus seeds it as a verb precisely so the break is
-  visible: every other verb resolves to a response and returns control, while this one
-  hands control to a structure with its own state and its own exit conditions.
+  The unary verb whose response is not a line but an exchange. It was seeded as the verb that
+  breaks the interaction model: every other verb resolves to a response and returns control,
+  while this one hands control to a structure with its own state and its own exit conditions.
 
-  Two readings are live and this corpus does not settle them. Either `conversation` is a
-  primitive of its own and this verb is the ordinary way in — or a conversation is what an
-  interaction's response *can be*, and the `opens` relationship is the whole of the
-  additional machinery required. [open] The second reading would remove a class from the
-  vocabulary, which is why it deserves a real argument rather than a preference.
+  Assessed against both engines, it comes out **the opposite way from
+  [pick-up](../verb/pick-up.yml)** — and the contrast is the useful part. Applying the same
+  two-tier test to two verbs gave opposite verdicts, which is what a method looks like when it is
+  doing work rather than confirming a prior.
 properties:
   arity: unary
   surface: |
-    Usually a distinct verb or cursor mode rather than a special case of another verb.
-    [inference] That separation is itself evidence for the first reading — designers who
-    could have folded it into "use" mostly did not.
+    Kept distinct by both systems. Adventure Game Studio ships Talk as a standard cursor mode
+    alongside Walk, Look and Interact ([ags-manual](../../catalog/ags-manual.md)). [verified]
+    SCUMM's late verb coin keeps a whole group for it — mouth, for talk, consume and inhale
+    ([wikipedia-scumm](../../catalog/wikipedia-scumm.md)). [inference]
+
+    That second one is the sharp observation. The verb coin is the same contraction that folded
+    picking up into the hands group, and it did **not** fold talking into anything. One
+    contraction, two verbs, opposite outcomes — so the coin is evidence about which distinctions
+    survive pressure rather than evidence that pressure removes distinctions.
   default_response: |
-    A refusal that distinguishes "cannot be talked to" from "has nothing to say", where the
-    system bothers. [inference] Collapsing the two is a small, common, and entirely avoidable
-    loss of information to the player.
+    A refusal that distinguishes "cannot be talked to" from "has nothing to say". [inference]
+    Collapsing the two loses information the player can act on, and most systems collapse them.
+  earns_its_place: |
+    **Assessed 2026-09-09. Verdict: yes, at both tiers — and the engines disagree about the
+    second one in the mirror image of pick-up.**
+
+    *At the discovery surface* the evidence is one-sided for keeping it. AGS ships it as a
+    standard mode [verified]; SCUMM's contraction preserved it as its own group while folding
+    pick-up away [inference]. Two systems, and the one that was actively minimizing kept this and
+    dropped that.
+
+    *At the level of the operation* the two engines disagree, and each provides exactly one of the
+    two operations this corpus has now assessed:
+
+    | | SCUMM | Adventure Game Studio |
+    |---|---|---|
+    | acquisition | dedicated `pickupObject` opcode | nothing — `AddInventory` and author script |
+    | conversation | nothing — `print`/`printEgo` only | first-class asset, own editor, own language |
+
+    The SCUMM column of that table is an absence read from
+    [the v5 opcode reference](../../catalog/scumm-v5-opcode-reference.md), which is weaker
+    evidence than a presence and is usable here only because the same table lists a dedicated
+    `pickupObject` — so it is not a document that omits gameplay operations as a matter of
+    course. [inference]
+
+    Neither engine made both a primitive. Neither made neither. That symmetry is the strongest
+    single result this corpus holds, and it says something the vocabulary question alone does not:
+    which operations an engine absorbs is a choice each system made differently, while which verbs
+    a player sees converged.
+
+    The decisive evidence for `conversation` being a real structure rather than a response type is
+    one documented command. `goto-previous` "Returns to the previous topic, or stops dialog if it
+    started there" [verified] — which means the engine keeps a return stack. That is interior path
+    state, it is exactly what [conversation.ont.yml](../conversation.ont.yml) claimed made the
+    class irreducible, and no verb-target binding records anything like it.
+
+    What this does not settle: SCUMM shipped celebrated branching conversations with no engine
+    primitive at all, which proves the structure is *authorable* without engine support. Whether
+    it should be supported is a question about cost to authors, and this corpus has no evidence
+    about that from either system. `[open]`
 links:
   - target: ../prior-art/scumm.yml
     relationship: originated-in

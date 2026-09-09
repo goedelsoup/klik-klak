@@ -11,6 +11,20 @@ description: |
   whose response is a line. If that reduction is right, then this node belongs in
   `interaction`, and `conversation` is a class that covers one structure rather than a
   primitive. [open] This corpus states the reduction and does not yet make it.
+
+  **The evidence gathered for `branching-tree` does not rescue this node, and that is a finding
+  about the class rather than about this instance.** What justified `conversation` as a primitive
+  was `goto-previous` and the return stack it implies
+  ([ags-manual](../../catalog/ags-manual.md)) — path state. [verified] A topic list has no path,
+  so none of that evidence reaches it. AGS's own command set makes the split visible:
+  `goto-dialog` and `goto-previous` are navigation, while `option-on` and `option-off` are the
+  whole of what a flat list needs. [verified]
+
+  So `conversation` is carried by one of its two instances. A class justified by half its members
+  is either a class with a badly drawn boundary or two classes wearing one name, and this corpus
+  now has a specific reason to suspect the second. The sharper question: is a topic list a
+  `conversation` at all, or a set of unary bindings against an actor with an interface convention
+  on top?
 properties:
   structure: topic-list
   exhaustion: |
