@@ -46,6 +46,22 @@ over a directed state graph is exactly what that layer holds.
 
 Something authored in this vocabulary: a `data-format/interaction-table` instance filled in
 with real bindings and real flags, small enough to check by hand and large enough to have an
-ordering. That artifact does not belong in `.yidam/corpus/` — it is not a documentary claim —
-and where it should live is an open structural question. See the directory conventions,
-"A directory these conventions do not name".
+ordering.
+
+**And it has to be authored in a language where this question is decidable, which is a
+constraint this section did not previously state.** Reachability over a state graph is
+computable; reachability over a state graph whose preconditions may be arbitrary script is not.
+So a game written in a vocabulary with a general-purpose escape hatch is not a missing input to
+this calculator — it is a counterexample to it, and no amount of it arriving would help.
+`failure-mode/unwinnable-state.yml` marks itself `detectable_at: authoring` on the grounds that
+its causes are "decidable from the authored content alone", which holds exactly while the
+authored content is decidable.
+
+That makes this stub's blockage narrower and more actionable than "no game exists". It is
+waiting on a decidable authoring language, and a proposal for one is
+`design/bounded-expression-language.md`.
+
+Where the specimen itself should live is still open. `design/` now exists and is where
+non-documentary material goes, which answers half of it — but that directory holds prose
+proposals with front matter, and a worked game is neither. Whether a specimen is part of the
+proposal it exercises, or wants somewhere of its own, is not settled here.
