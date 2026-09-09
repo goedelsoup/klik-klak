@@ -2,16 +2,16 @@ class: conversation
 label: Conversation
 foundational_type:
   ontology: ufo
-  type: event
+  type: kind
 description: |
-  A structured exchange with an actor, in which the player chooses among authored lines
-  and the available choices change as the exchange proceeds. Irreducible because its
-  branching is not expressible as interactions: a dialogue node's availability depends on
-  the path taken through the conversation, which no verb-target binding records.
+  An authored structure of choices offered against an actor, entered as a mode and left
+  deliberately, carrying which of its choices are currently available. Irreducible because
+  of that carried availability and that modality — not because of branching, which is an
+  optional elaboration this class was originally and wrongly founded on.
 properties:
   - name: structure
     type: string
-    description: How choices are organized — branching tree, persistent topic list, or single-shot.
+    description: How choices are organized — flat persistent list, branching tree, or single-shot.
   - name: exhaustion
     type: text
     prose: true
@@ -23,8 +23,8 @@ edges:
   - relationship: held-with
     target: actor
     direction: out
-    description: The actor this exchange is with.
+    description: The actor this structure is offered against.
   - relationship: sets
     target: world-flag
     direction: out
-    description: World state this exchange writes.
+    description: World state a choice in this structure writes.

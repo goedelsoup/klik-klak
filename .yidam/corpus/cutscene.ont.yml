@@ -2,12 +2,17 @@ class: cutscene
 label: Cutscene
 foundational_type:
   ontology: ufo
-  type: event
+  type: kind
 description: |
   A sequence that runs without player input, moving actors and changing state on its own
   schedule. Whether it is irreducible is a live question in this corpus — it may prove to
   be an interaction whose response is long and whose input is locked — and it is seeded
   as a class so that the collapse can be argued rather than assumed.
+
+  Retyped from `event` to `kind` on 2026-09-09, for the reason `conversation` was: every instance
+  of this class is an authored sequence — something that persists and is edited — rather than an
+  occurrence, which unfolds and is over. The *playing* of a cutscene is an event and this corpus
+  holds no node for it, because a corpus about an authoring vocabulary has no reason to.
 properties:
   - name: trigger
     type: text

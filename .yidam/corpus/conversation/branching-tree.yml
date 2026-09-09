@@ -29,6 +29,18 @@ description: |
   ([scumm-v5-opcode-reference](../../catalog/scumm-v5-opcode-reference.md)). [inference] The
   structure is demonstrably authorable without support. Being irreducible as a *concept* and
   needing engine support are different claims, and only the first is established here.
+
+  **And the class does not rest on this node after all.** For two phases this corpus read the
+  return stack as what justified `conversation`, and read `topic-list` as a degenerate form that
+  probably belonged in `interaction`. That is backwards. `return` "Stops the script and returns to
+  the choices list" while `stop` "Ends the conversation entirely"
+  ([ags-manual](../../catalog/ags-manual.md)) [verified] — coming back to the list is what a
+  dialog does by default, and this structure is what you get by adding `goto-dialog` on top of it.
+
+  The tree is the elaboration, not the canonical form. Its path state is real and it is *optional*,
+  which disqualifies it as the thing the class is founded on: a class cannot rest on a property
+  half its instances lack. What both forms share — modality, and carried option availability — is
+  what `conversation.ont.yml` now rests on instead.
 properties:
   structure: branching-tree
   exhaustion: |
