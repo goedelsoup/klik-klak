@@ -1,0 +1,42 @@
+class: interaction
+label: Acquisition Binding
+description: |
+  The binding that takes an object out of a room and into the inventory. It is the only binding
+  in this vocabulary whose response changes what *class* its target belongs to: the object stops
+  being reachable as a [hotspot](../hotspot/static-region.yml) and starts being offerable as an
+  [inventory item](../inventory-item/portable-object.yml). Every other binding leaves the world's
+  shape alone and only changes its state.
+
+  That is why it is seeded separately rather than treated as a `unary-binding` with a longer
+  response. [inference] Its response is two writes — remove the hotspot, add the item — and
+  `inventory-item/portable-object` already records that an engine which cannot make them atomic
+  has a window in which the object is in neither place. A vocabulary that hides those two writes
+  inside one authored response gives an author no way to say what should happen if the second
+  fails.
+
+  It is also the binding that makes `inventory-item`'s UFO **role** typing do work. The role is
+  what the object plays while carried; this binding is the event that starts the playing; and
+  `carried-form-of` is the edge that remembers what it was before. Three parts of the model that
+  only make sense together, and the corpus held two of them until now.
+properties:
+  shape: unary
+  response: |
+    The object's hotspot is removed from the room and the item is added to the inventory, as one
+    change or as none. [inference] The atomicity is a requirement this node states and no seeded
+    subsystem yet guarantees.
+  precondition: |
+    The object is present, is takeable, and is not already carried. The third is the one authors
+    forget, and it is the one that produces a duplicate item rather than a refusal.
+  refusal: |
+    Must distinguish three cases, not two: cannot be taken, already taken, and takeable but not
+    yet. [inference] The third carries puzzle information, which makes this the binding whose
+    refusal text is most likely to be load-bearing rather than decorative.
+links:
+  - target: ../verb/pick-up.yml
+    relationship: applies
+  - target: ../hotspot/static-region.yml
+    relationship: targets
+  - target: ../world-flag/boolean-flag.yml
+    relationship: sets
+  - target: ../interaction.ont.yml
+    relationship: instance-of

@@ -29,3 +29,7 @@ edges:
     target: world-flag
     direction: out
     description: World state the sequence writes.
+  - relationship: returns-control-to
+    target: actor
+    direction: out
+    description: The actor control is handed back to when the sequence ends.

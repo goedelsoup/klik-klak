@@ -29,5 +29,7 @@ links:
     relationship: plays-in
   - target: ../world-flag/boolean-flag.yml
     relationship: sets
+  - target: ../actor/player-character.yml
+    relationship: returns-control-to
   - target: ../cutscene.ont.yml
     relationship: instance-of

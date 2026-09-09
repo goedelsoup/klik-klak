@@ -10,6 +10,23 @@ description: |
   only discover at play. A walkbox polygon that no other polygon adjoins, an exit naming a
   room that does not exist, a hotspot whose geometry falls outside the background: each is
   checkable while reading the file, and each is currently a bug found by walking into it.
+
+  **What this node is an instance of is `[open]`, and the graph cannot answer it.** Asking
+  `yidam query 'prior-art -reads-> data-format'` returns nothing and reports the reason as
+  `relationship-unauthored`: the ontology declares `reads` and no instance authors it. That edge
+  was approved during bootstrap on the assumption that `data-format` instances would be format
+  *kinds* — a room manifest, generically, of the sort many engines have. This node was seeded as
+  *this project's* room manifest, arguing design positions this repository is taking: that
+  geometry stays hand-editable, that no script hook belongs in a room file.
+
+  Both readings are coherent and they are not compatible. Under the first, "SCUMM reads a room
+  manifest" is a true and useful comparative claim, and this node's design positions belong
+  somewhere else. Under the second, the `reads` edge is unwireable and should be withdrawn from
+  the ontology rather than left declared and permanently unauthored.
+
+  The cost of leaving it undecided is specific: this is one of two relationships the corpus
+  declares and never uses, and a declared relationship nothing authors is indistinguishable from
+  an ontology that overreached.
 properties:
   syntax: |
     Text, hand-editable, with geometry in world coordinates. The choice to keep it

@@ -27,5 +27,7 @@ links:
     relationship: found-in
   - target: ../hotspot/static-region.yml
     relationship: carried-form-of
+  - target: ../interaction/acquisition-binding.yml
+    relationship: acquired-by
   - target: ../inventory-item.ont.yml
     relationship: instance-of

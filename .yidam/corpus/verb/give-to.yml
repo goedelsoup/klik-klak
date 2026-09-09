@@ -1,0 +1,46 @@
+class: verb
+label: Give To
+description: |
+  The binary verb that transfers a carried object to an actor. It is seeded as a test rather
+  than as a commitment: if `use-with` subsumes it, this corpus has its first demonstrated
+  collapse, and if it does not, the reason will say something about what a verb is.
+
+  The case that it is distinct rests on the target's class, not on the action. "Use crowbar
+  with crate" and "give crowbar to guard" differ in that the second's target is an actor who
+  may refuse, may want something else, or may react — and
+  [interaction/conversational-binding](../interaction/conversational-binding.yml) already
+  records that a binding whose precondition is about the *class* of its target is something the
+  interaction table cannot currently express. If `give-to` is genuinely distinct, it is
+  distinct for the same reason `talk-to` is, and the two should stand or fall together.
+
+  The case that it collapses is that the difference is in the target and not in the verb, and a
+  vocabulary that adds an entry for every kind of target is not a vocabulary. [inference]
+
+  **No evidence here settles it, and one tempting piece of evidence does not.** The verb coin
+  quote in [wikipedia-scumm](../../catalog/wikipedia-scumm.md) lists hands "to use, pick up,
+  push, pull, etc." and does not mention give — but the list is explicitly non-exhaustive, so
+  its absence is not an absence. Reading it as evidence that SCUMM dropped `give` would be
+  exactly the error the catalog entry's own ledger was written to prevent.
+
+  **The `originated-in` edge on this node rests on recollection and nothing else.** [inference]
+  SCUMM's verb bar is remembered here as carrying "Give", and no source this corpus has read
+  says so — `wikipedia-scumm` describes the late verb coin and not the early bar. The edge is
+  written rather than omitted because it is the weakest true thing available, and because
+  omitting it would leave this node with no outgoing edge at all, which the graph gate rejects
+  as an error. That is a poor reason for an edge and is recorded as one: if a source later shows
+  SCUMM's bar had no `give`, this edge is the first thing to withdraw.
+properties:
+  arity: binary
+  surface: |
+    `[open]`. No source read by this corpus says how any system presented it, or whether any
+    presented it separately from `use-with` at all.
+  default_response: |
+    A refusal, and the interesting question is whose. [inference] A refusal from the *system*
+    ("that doesn't work") and a refusal from the *actor* ("I don't want that") are different
+    events and the second is authored content, which suggests this verb's default cannot live
+    on the verb the way `look-at`'s can.
+links:
+  - target: ../verb.ont.yml
+    relationship: instance-of
+  - target: ../prior-art/scumm.yml
+    relationship: originated-in

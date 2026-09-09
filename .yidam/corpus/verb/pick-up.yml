@@ -1,0 +1,39 @@
+class: verb
+label: Pick Up
+description: |
+  The unary verb that moves an object from a room into the inventory. It is added because the
+  corpus demanded it: [inventory-item/portable-object](../inventory-item/portable-object.yml)
+  describes its binding in detail — "a binding whose response removes the object's hotspot from
+  the room and adds the item to the inventory" — and the verb that binding applies did not
+  exist as a node.
+
+  Its interest is that it is the one verb this corpus already has evidence *against*. SCUMM's
+  late vocabulary folded it into a group rather than keeping it as its own entry: the verb coin
+  offers hands "to use, pick up, push, pull", per
+  [Wikipedia's account](../../catalog/wikipedia-scumm.md). [inference] So a system that had this
+  verb separately, and whose authors used it daily for a decade, chose to stop distinguishing it
+  from `use`.
+
+  Whether that is a loss is `[open]` and is the sharpest small version of this corpus's central
+  question. The argument for keeping it separate is that it is the only verb whose response
+  changes an object's *class membership* — the object stops being reachable as a hotspot and
+  starts being offerable as an inventory item — and no other verb in this vocabulary does that.
+  The argument against is that a player who points hands at a crowbar means one thing, and the
+  system can work out whether that means taking it or pulling it.
+properties:
+  arity: unary
+  surface: |
+    A bar entry in the early SCUMM games and a member of the hands group in the late ones.
+    [inference] Adventure Game Studio has no equivalent standard mode — its documented set is
+    Walk, Look, Interact and Talk plus Use Inventory — so picking up is presumably an Interact
+    result there rather than a mode of its own. `[open]`: that "presumably" is unsourced, and
+    the manual pages that would settle it have not been read.
+  default_response: |
+    A refusal that must distinguish "cannot be taken" from "already taken", and in practice a
+    third case too — "can be taken but not yet". [inference] The third is where the refusal
+    text carries puzzle information, which makes this verb's default unusually load-bearing.
+links:
+  - target: ../prior-art/scumm.yml
+    relationship: originated-in
+  - target: ../verb.ont.yml
+    relationship: instance-of
