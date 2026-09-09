@@ -28,3 +28,7 @@ edges:
     target: hotspot
     direction: out
     description: The region this object was, standing in the room before it was picked up.
+  - relationship: acquired-by
+    target: interaction
+    direction: out
+    description: The binding whose response moves this object into the inventory.
