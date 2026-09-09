@@ -20,6 +20,12 @@ properties:
     type: text
     prose: true
     description: What the verb says when directed at a target no interaction was authored for.
+  - name: earns_its_place
+    type: text
+    prose: true
+    description: >-
+      What was weighed for and against this verb being irreducible, and where the weighing
+      landed. Absent means the verb has not been assessed, which is a real state and not a gap.
 edges:
   - relationship: originated-in
     target: prior-art

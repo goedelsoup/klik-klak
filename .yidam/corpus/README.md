@@ -33,7 +33,7 @@ Sorted by: kind, then alphabetically.
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 3 | 0v / 2i / 0o | 36 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 0v / 2i / 1o | 26 |
-| [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 0v / 3i / 0o | 42 |
+| [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 4i / 1o | 57 |
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 0v / 3i / 0o | 40 |
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 0v / 1i / 1o | 33 |
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 0v / 1i / 1o | 30 |
@@ -50,7 +50,7 @@ Sorted by: kind, then alphabetically.
 | [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 0v / 1i / 0o | 30 |
 | [give-to.yml](verb/give-to.yml) | verb | Give To | 2 | 0v / 3i / 1o | 46 |
 | [look-at.yml](verb/look-at.yml) | verb | Look At | 2 | 0v / 3i / 0o | 29 |
-| [pick-up.yml](verb/pick-up.yml) | verb | Pick Up | 2 | 0v / 3i / 2o | 39 |
+| [pick-up.yml](verb/pick-up.yml) | verb | Pick Up | 2 | 3v / 6i / 1o | 75 |
 | [talk-to.yml](verb/talk-to.yml) | verb | Talk To | 2 | 0v / 2i / 1o | 28 |
 | [use-with.yml](verb/use-with.yml) | verb | Use With | 2 | 0v / 3i / 1o | 30 |
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 0v / 2i / 0o | 26 |
