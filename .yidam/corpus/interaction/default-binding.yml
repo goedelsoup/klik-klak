@@ -12,6 +12,23 @@ description: |
   gives it no first-class place is a vocabulary whose most-used response is an afterthought.
   Whether defaults should be authorable per room, per verb, per hotspot category, or only
   globally is `[open]` and this corpus has no node arguing any of the four.
+
+  **Three of the four now have an answer, from AGS, and it is not the one this node guessed.**
+  `unhandled_event(int what, int type)` scopes a default by **entity kind × verb** and by nothing
+  else: `what` is 1 hotspot, 2 object, 3 character, 4 nothing, 5 inventory, and `type` is the verb
+  ([ags-manual](../../catalog/ags-manual.md)). [verified] Defaults are authorable per verb, and
+  per *category* — but the category is the engine's entity taxonomy rather than one an author
+  defines. Per-hotspot is not offered, and on reflection could not be: a hotspot with its own
+  default has simply been authored.
+
+  Whether a default can be defined per room was looked for on the same page and is **not
+  addressed** there. That quarter stays `[open]`.
+
+  The manual also states this node's premise in the AGS authors' own words, which matters because
+  the premise was reached here by arithmetic rather than by evidence: the function is "typically
+  used to display a default 'I can't do that' type response in-order to avoid having to add unique
+  messages for all in-game interactions". [verified] The default exists because the table cannot
+  be filled.
 properties:
   shape: unary
   response: |

@@ -25,6 +25,9 @@ used-by:
   - ../corpus/data-format/interaction-table.yml
   - ../corpus/verb/use-with.yml
   - ../corpus/verb/give-to.yml
+  - ../corpus/verb/look-at.yml
+  - ../corpus/interaction/default-binding.yml
+  - ../corpus/prior-art/ags.yml
   - ../corpus/failure-mode/orphaned-dialogue-branch.yml
 ---
 
@@ -93,6 +96,35 @@ Two pages, and only two:
   allow the player to give items to characters. You can use the `player.ActiveInventory` property
   to distinguish which item they used." Giving is using-an-item-on-someone, said by the system's
   own documentation.
+- **`Globalfunctions_Event.md`** — `unhandled_event(int what, int type)`, "Called when an event
+  occurs, but no corresponding event handler has been configured. This is typically used to
+  display a default 'I can't do that' type response in-order to avoid having to add unique
+  messages for all in-game interactions."
+
+  The parameter table is a **verb × entity-type applicability matrix** and is the most
+  information-dense thing this corpus has retrieved. `what` is the entity kind — 1 hotspot,
+  2 object, 3 character, 4 **nothing**, 5 inventory — and `type` is the verb.
+
+  Two readings fall out of it. **Look, Interact, Talk and Use-inventory each appear against all
+  five entity kinds. Pick up appears against three** — hotspot, object, character — and has no
+  entry for *nothing* or for *inventory*. And **"Look at nothing" (4|1) exists**: a verb applied
+  to no target at all is a first-class event here, which this corpus's ontology has no way to
+  express.
+
+  The page **does not address** whether `unhandled_event` can be defined per room, or whether a
+  default can be scoped to a hotspot or a verb rather than globally. Looked for; absent.
+
+- **`Tumbleweed.md`** — a template shipping with AGS that "enables creation of classic adventure
+  games in the AGS engine, specifically emulating SCUMM-style interfaces", to "recreate those
+  classic SCUMM games, as well as the modern iteration Thimbleweed Park". It provides twelve
+  actions: `eGA_LookAt`, `eGA_TalkTo`, `eGA_GiveTo`, `eGA_PickUp`, `eGA_Use`, `eGA_Open`,
+  `eGA_Close`, `eGA_Push`, `eGA_Pull`, `eGA_UseInv`, `eGA_Default`, `eMG_WalkTo`. Rather than one
+  function per interaction, an author writes a single "any click" handler and asks
+  `Verbs.UsedAction()` which action fired.
+
+  This is counter-evidence to a verdict this corpus reached one phase earlier and it is recorded
+  here plainly: **`eGA_GiveTo` is a distinct action in the template**, alongside `eGA_UseInv`. See
+  `verb/give-to.yml`.
 
 ## What this document holds that nobody here has looked at
 

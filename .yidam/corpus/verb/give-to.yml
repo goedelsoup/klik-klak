@@ -5,7 +5,8 @@ description: |
   than a commitment, on the stated condition that if `use-with` subsumed it the corpus would
   have its first demonstrated collapse.
 
-  **It does, and this is that collapse.** The node is kept rather than deleted, because the
+  **It does at the engine tier — and AGS's own SCUMM-emulating template puts it back at the
+  authoring tier.** The node is kept rather than deleted, because the
   argument is worth more than the entry was: a vocabulary that grows by accident needs a record
   of what it declined to keep, and a deleted node leaves the next author free to propose this
   again from scratch.
@@ -26,7 +27,8 @@ properties:
     want that") are different events, and the second is authored content. [inference] That
     distinction is real; it just is not a distinction between two verbs.
   earns_its_place: |
-    **Assessed 2026-09-09. Verdict: no. Subsumed by `use-with`.**
+    **Assessed 2026-09-09; qualified the same day. Verdict: subsumed at the engine tier, and
+    demonstrably resisted at the authoring tier.**
 
     The case for distinctness rested on the target's class rather than on the action: giving to an
     actor differs from using on a crate because an actor may refuse, may want something else, or
@@ -44,6 +46,27 @@ properties:
     "Use inventory on hotspot" are separate events — but it does so at the level of **which entity
     type the handler hangs off**, not by adding a verb. [verified] So the target's class is a real
     axis and it is orthogonal to the vocabulary: one verb, dispatched per entity type.
+
+    **The qualification, which arrived from AGS's own manual one phase later.** Tumbleweed, a
+    template shipping with AGS to emulate SCUMM-style interfaces, provides twelve actions and
+    `eGA_GiveTo` is one of them — listed separately from `eGA_UseInv`
+    ([ags-manual](../../catalog/ags-manual.md)). [verified] Authors given an extensible vocabulary,
+    building on an engine whose core has exactly one event for applying an item to an entity,
+    put the distinction back.
+
+    So the collapse is real and it is not where this node first put it. The **engine** subsumes
+    giving into using: one event, and the manual says it covers the giving case. The **authoring
+    vocabulary** does not, at least not for the authors who reached for a SCUMM-style interface,
+    and that is a revealed preference of the same kind this corpus treated as strong evidence
+    when SCUMM's coin dropped `pick-up`. Evidence cannot be strong in one direction only.
+
+    What is genuinely settled: `give-to` needs no engine support that `use-with` does not already
+    have. What is not settled and was claimed: that an authoring vocabulary should therefore omit
+    it. `[open]`
+
+    This is the third time the tier split has been the answer to a question this corpus asked as
+    though it had one — after `pick-up` and `talk-to`. That is now a finding about the method
+    rather than about any verb.
 
     That answers a question raised elsewhere in this corpus.
     [interaction/conversational-binding](../interaction/conversational-binding.yml) records that a
