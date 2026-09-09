@@ -33,6 +33,14 @@ description: |
 
   What the evidence does *not* establish is that AGS authors pay for it. The manual's silence is
   consistent with the window this node predicts and does not demonstrate it. `[open]`
+
+  **[open] And the ontology cannot express the second write this whole argument rests on.** The
+  atomicity claim needs there to be two. `inventory-item -acquired-by-> interaction` names the
+  binding that acquires; no declared relationship removes the object from the room. As the
+  ontology stands an `interaction` may `set` a flag and `open` a conversation, and cannot take an
+  object out of a room — so the failure window predicted above is not merely unguaranteed by any
+  seeded subsystem, it is unsayable. Found by deriving an effect vocabulary from the ontology in
+  [design/bounded-expression-language.md](../../../design/bounded-expression-language.md).
 properties:
   shape: unary
   response: |

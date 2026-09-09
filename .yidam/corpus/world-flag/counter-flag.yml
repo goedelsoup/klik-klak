@@ -12,6 +12,16 @@ description: |
   inspection. Whether that is enough to earn a second `domain` value in the vocabulary is
   `[open]`, and it is a good worked example of what the central question actually feels like
   to answer.
+
+  **That open question has the middle as a hidden variable, and this node posed it as though it
+  did not.** A counter is worth having only if something can read it, and nothing in this
+  vocabulary can: preconditions are prose in the interaction table and there is no comparison
+  operator anywhere in the authoring surface. Without a predicate layer, an author holding a
+  counter is back to booleans and hand-written ordering, and the second `domain` value earns
+  nothing. With one, `counter >= 2` states the ordering constraint *and* makes it checkable.
+  [inference] So the answer is conditional — yes given the middle, no without it — and which way
+  it falls is decided somewhere other than in this class. See
+  [design/bounded-expression-language.md](../../../design/bounded-expression-language.md).
 properties:
   domain: integer
   scope: global

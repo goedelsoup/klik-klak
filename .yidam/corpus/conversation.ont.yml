@@ -8,6 +8,11 @@ description: |
   deliberately, carrying which of its choices are currently available. Irreducible because
   of that carried availability and that modality — not because of branching, which is an
   optional elaboration this class was originally and wrongly founded on.
+
+  Nothing in the edges below writes the availability this description rests on — the class is
+  founded on state the ontology gives it no way to change. The claim is carried, tagged and
+  counted by [conversation/topic-list.yml](conversation/topic-list.yml), because a tag asserted
+  in class prose is counted nowhere; this paragraph is the pointer and not the assertion.
 properties:
   - name: structure
     type: string
