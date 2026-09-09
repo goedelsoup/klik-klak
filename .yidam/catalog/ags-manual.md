@@ -19,6 +19,10 @@ used-by:
   - ../corpus/prior-art/ags.yml
   - ../corpus/verb/pick-up.yml
   - ../corpus/interaction/acquisition-binding.yml
+  - ../corpus/verb/talk-to.yml
+  - ../corpus/conversation/branching-tree.yml
+  - ../corpus/conversation/topic-list.yml
+  - ../corpus/data-format/interaction-table.yml
   - ../corpus/failure-mode/orphaned-dialogue-branch.yml
 ---
 
@@ -52,6 +56,22 @@ Two pages, and only two:
   `ActiveInventory` likewise. **The manual does not describe any built-in pick-up verb, mode or
   event, and does not say what happens to a room object when an item is added.** Both absences
   were looked for specifically; see `verb/pick-up.yml`.
+- **`EditorDialog.md`** — dialogs are first-class assets: "When creating a new dialog, or
+  double-clicking on existing dialog within the tree, a new editor panel will open." `@S` labels a
+  dialog's entry point. Conversation lines "are played in game using standard `Character.Say`
+  command by default". **Does not** say how a dialog is started during play, or how a Talk
+  interaction reaches one; both were looked for.
+- **`DialogScript.md`** — the dialog sub-language. "Dialog scripts are streamlined for
+  conversations and use an extended variant of script syntax that simplifies several common
+  commands." Commands documented: `goto-dialog X`, `goto-previous` ("Returns to the previous
+  topic, or stops dialog if it started there"), `option-off X`, `option-off-forever X`,
+  `option-on X`, `run-script X`, `return`, `stop`.
+
+  And the escape hatch, stated by the system's own authors: "Often the provided dialog scripting
+  commands won't be enough... AGS now lets you put normal scripting commands in your dialog
+  script, by indenting the line with spaces or tabs." That sentence is the most directly relevant
+  thing this corpus has retrieved about its own central question — see
+  `data-format/interaction-table.yml`.
 
 ## What this document holds that nobody here has looked at
 
