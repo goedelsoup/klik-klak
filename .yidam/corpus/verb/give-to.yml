@@ -1,46 +1,60 @@
 class: verb
 label: Give To
 description: |
-  The binary verb that transfers a carried object to an actor. It is seeded as a test rather
-  than as a commitment: if `use-with` subsumes it, this corpus has its first demonstrated
-  collapse, and if it does not, the reason will say something about what a verb is.
+  The binary verb that transfers a carried object to an actor. It was seeded as a test rather
+  than a commitment, on the stated condition that if `use-with` subsumed it the corpus would
+  have its first demonstrated collapse.
 
-  The case that it is distinct rests on the target's class, not on the action. "Use crowbar
-  with crate" and "give crowbar to guard" differ in that the second's target is an actor who
-  may refuse, may want something else, or may react — and
-  [interaction/conversational-binding](../interaction/conversational-binding.yml) already
-  records that a binding whose precondition is about the *class* of its target is something the
-  interaction table cannot currently express. If `give-to` is genuinely distinct, it is
-  distinct for the same reason `talk-to` is, and the two should stand or fall together.
+  **It does, and this is that collapse.** The node is kept rather than deleted, because the
+  argument is worth more than the entry was: a vocabulary that grows by accident needs a record
+  of what it declined to keep, and a deleted node leaves the next author free to propose this
+  again from scratch.
 
-  The case that it collapses is that the difference is in the target and not in the verb, and a
-  vocabulary that adds an entry for every kind of target is not a vocabulary. [inference]
-
-  **No evidence here settles it, and one tempting piece of evidence does not.** The verb coin
-  quote in [wikipedia-scumm](../../catalog/wikipedia-scumm.md) lists hands "to use, pick up,
-  push, pull, etc." and does not mention give — but the list is explicitly non-exhaustive, so
-  its absence is not an absence. Reading it as evidence that SCUMM dropped `give` would be
-  exactly the error the catalog entry's own ledger was written to prevent.
-
-  **The `originated-in` edge on this node rests on recollection and nothing else.** [inference]
-  SCUMM's verb bar is remembered here as carrying "Give", and no source this corpus has read
-  says so — `wikipedia-scumm` describes the late verb coin and not the early bar. The edge is
-  written rather than omitted because it is the weakest true thing available, and because
-  omitting it would leave this node with no outgoing edge at all, which the graph gate rejects
-  as an error. That is a poor reason for an edge and is recorded as one: if a source later shows
-  SCUMM's bar had no `give`, this edge is the first thing to withdraw.
+  It is superseded by [use-with](../verb/use-with.yml).
 properties:
   arity: binary
   surface: |
-    `[open]`. No source read by this corpus says how any system presented it, or whether any
-    presented it separately from `use-with` at all.
+    None of its own, in either system this corpus can read. Adventure Game Studio routes it
+    through `Use inventory on character`, which is the same event as using an item on anything
+    else ([ags-manual](../../catalog/ags-manual.md)). [verified] No source read here says whether
+    SCUMM's early verb bar carried a separate "Give"; see the note on `originated-in` below.
   default_response: |
-    A refusal, and the interesting question is whose. [inference] A refusal from the *system*
-    ("that doesn't work") and a refusal from the *actor* ("I don't want that") are different
-    events and the second is authored content, which suggests this verb's default cannot live
-    on the verb the way `look-at`'s can.
+    Moot. Whatever refusal an author writes belongs to `use-with` applied to an actor.
+
+    The observation that motivated seeding this verb survives the collapse and is worth keeping:
+    a refusal from the *system* ("that doesn't work") and a refusal from the *actor* ("I don't
+    want that") are different events, and the second is authored content. [inference] That
+    distinction is real; it just is not a distinction between two verbs.
+  earns_its_place: |
+    **Assessed 2026-09-09. Verdict: no. Subsumed by `use-with`.**
+
+    The case for distinctness rested on the target's class rather than on the action: giving to an
+    actor differs from using on a crate because an actor may refuse, may want something else, or
+    may react. The manual answers it directly, and this is the source of record saying it rather
+    than this corpus inferring it:
+
+      "Use inventory on character... Occurs when the player uses an inventory object on a
+       character. **This event could be used to allow the player to give items to characters.**
+       You can use the `player.ActiveInventory` property to distinguish which item they used."
+
+    [verified] There is one event for applying an item to an entity, and giving is a use of it.
+
+    The refinement is the interesting part, and it rescues the original intuition without
+    rescuing the verb. AGS *does* distinguish by target class — "Use inventory on character" and
+    "Use inventory on hotspot" are separate events — but it does so at the level of **which entity
+    type the handler hangs off**, not by adding a verb. [verified] So the target's class is a real
+    axis and it is orthogonal to the vocabulary: one verb, dispatched per entity type.
+
+    That answers a question raised elsewhere in this corpus.
+    [interaction/conversational-binding](../interaction/conversational-binding.yml) records that a
+    binding whose precondition is about the *class* of its target "is something the interaction
+    table cannot currently express". AGS expresses it by having a table per entity type instead of
+    one table with a class test in it. Whether that is a good trade is `[open]`; that it is a
+    design available to this project is now `[verified]`.
 links:
-  - target: ../verb.ont.yml
-    relationship: instance-of
+  - target: ../verb/use-with.yml
+    relationship: subsumed-by
   - target: ../prior-art/scumm.yml
     relationship: originated-in
+  - target: ../verb.ont.yml
+    relationship: instance-of

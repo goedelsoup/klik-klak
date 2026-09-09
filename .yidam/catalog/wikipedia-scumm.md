@@ -11,7 +11,6 @@ location:
 used-by:
   - ../corpus/prior-art/scumm.yml
   - ../corpus/verb/pick-up.yml
-  - ../corpus/verb/give-to.yml
   - ../corpus/verb/talk-to.yml
 ---
 

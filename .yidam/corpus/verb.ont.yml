@@ -31,3 +31,9 @@ edges:
     target: prior-art
     direction: out
     description: The engine or game whose vocabulary this verb is drawn from.
+  - relationship: subsumed-by
+    target: verb
+    direction: out
+    description: >-
+      A verb this one collapses into — the corpus judged it expressible by the other and kept it
+      as a record of the argument rather than deleting it.
