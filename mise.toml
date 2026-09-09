@@ -138,6 +138,23 @@ if [ ! -f crates/Cargo.toml ]; then echo "no crates/Cargo.toml yet — skipping"
 cargo fmt --all --manifest-path crates/Cargo.toml
 """
 
+# ── design/ ───────────────────────────────────────────────────────────────
+# The gate for the design directory. `directories.md` asks a new top-level
+# directory for a gate, and "if what it holds derives from the corpus, the gate
+# is the derivation" — so this checks that every design document's declared
+# premises still exist in the corpus and that every effect it names is a
+# relationship the ontology actually declares.
+#
+# Bash, awk and grep, not a crate. `crates/Cargo.toml` does not exist and
+# creating it is a separate structural decision this repository has deferred on
+# the record; standing up a Rust workspace to run four path checks would have
+# changed CI for every future commit. The condition for moving it is in
+# .yidam/decisions/design-directory.yml.
+
+[tasks.design-check]
+description = "Check that design/ documents still derive from the corpus they name."
+run = "./design/check.sh"
+
 # ── ci ────────────────────────────────────────────────────────────────────
 # The local equivalent of what .github/workflows/ci.yml runs, and "equivalent"
 # is checked rather than intended: `the_local_gate_runs_what_ci_gates_on` reads
@@ -156,6 +173,7 @@ set -eu
 mise run graph-check
 mise run graph-lint
 mise run regen-check
+mise run design-check
 if [ ! -f crates/Cargo.toml ]; then
   echo
   echo "no crates/Cargo.toml yet — the domain computer does not exist."

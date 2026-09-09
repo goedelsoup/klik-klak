@@ -95,6 +95,41 @@ citable; recollection of how SCUMM behaved is `[inference]` at best, however str
 the failure mode most likely to enter this particular corpus, because these engines are widely
 described secondhand and the secondhand accounts disagree.
 
+## `design/` — where this repository proposes rather than records
+
+The corpus is documentary. Every node says what some engine did, what some source states, or
+what follows from those, and the three claim tags are the whole vocabulary available — none of
+them permits asserting intent. That is the discipline the corpus is worth.
+
+The central question outgrows it. Comparing what other engines chose works for exactly as long
+as somebody else has built the thing being compared, and
+[`data-format/interaction-table.yml`](.yidam/corpus/data-format/interaction-table.yml) reached
+the end of that: AGS built a bounded dialog sub-language and documented that it was not enough,
+SCUMM had no declarative layer to escape from, and nobody built the middle. Recording that
+nobody did is a corpus claim. Saying what the middle should be is a proposal, and proposals go
+in [`design/`](design/).
+
+**The one rule it relaxes: a document there may assert intent.**
+
+**What it does not get to relax:**
+
+- **Provenance.** A claim about an existing system carries the same tag it would carry in the
+  corpus and cites the same catalog entry by link. `[verified]` still means a committed source
+  supports it, and an aggregator still cannot carry one. A design is free to propose; it is not
+  free to invent evidence.
+- **Attachment.** A design declares `rests_on:` — the corpus paths it derives from — and the
+  gate fails when one is gone.
+- **The effect vocabulary.** A design declares `derives_effects_from:` as `class:relationship`
+  pairs, each of which must be a relationship that class declares. A design does not invent an
+  effect; where the ontology has none, that absence is the finding.
+
+Do not put a proposal in `.yidam/corpus/`, and do not put a documentary claim in `design/`.
+The rule is `directories.md`'s: a new top-level directory is fine, and widening the corpus to
+hold something that is not a documentary claim is not.
+
+[`design/README.md`](design/README.md) has the front-matter shape and, more usefully, what the
+gate cannot catch.
+
 ## Reading the corpus
 
 **Do not navigate this corpus with `grep`.** It is a typed graph, and there are commands that
@@ -166,11 +201,27 @@ declaration there no longer matches anything on disk.
 `mise run graph-lint-explain` prints each check's rationale. Read it before deciding a
 check is wrong.
 
-This repository adds **no gates of its own** at genesis. The one it expects to need is a
-vocabulary-coverage check — verbs no interaction exercises, interactions reaching for verbs
-the vocabulary does not declare — and it is not written because the corpus does not yet hold
-enough interactions for the answer to mean anything. When it exists it belongs in `crates/`
-with a `mise` task, and it should be named here beside the command that runs it.
+This repository adds **one gate of its own**, and it arrived with `design/`:
+
+```
+mise run design-check     # or: ./design/check.sh
+```
+
+It checks that every design document's declared premises still resolve in the corpus, that
+every effect it names is a relationship the ontology declares, and that a document carrying
+`[verified]` cites a catalog entry. It runs inside `mise run ci` and as its own step in the
+corpus CI job — not behind `mise run ci` there, because mise is not installed in that job and
+a gate that runs only on a contributor's machine goes stale in the way this one exists to
+prevent. It is bash rather than a crate for a reason recorded in
+[`.yidam/decisions/design-directory.yml`](.yidam/decisions/design-directory.yml), along with
+the condition for moving it.
+
+The other gate this repository expects to need is a vocabulary-coverage check — verbs no
+interaction exercises, interactions reaching for verbs the vocabulary does not declare — and
+it is not written because the corpus does not yet hold enough interactions for the answer to
+mean anything. When it exists it belongs in `crates/` with a `mise` task, and it should be
+named here beside the command that runs it. The day `crates/Cargo.toml` appears for that is
+also the day `design/check.sh` should move into it.
 
 ## Validation while you type
 

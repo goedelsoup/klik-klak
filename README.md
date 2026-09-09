@@ -53,6 +53,7 @@ input locked out, and `hotspot` may prove to be an `actor` that cannot move. See
 | [`.yidam/decisions/`](.yidam/decisions/) | Structured records of choices that shaped this repo |
 | [`.yidam/skills/`](.yidam/skills/) | Domain skills — calculators and procedures agents invoke |
 | [`.yidam/.vendor/`](.yidam/.vendor/) | Inherited yidam prelude; read-only |
+| [`design/`](design/) | Proposals — where this repository designs rather than records |
 | [`crates/`](crates/) | Domain computer: connectors, calculators, index |
 | [`web/`](web/) | Web interface over the corpus |
 

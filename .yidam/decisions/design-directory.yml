@@ -1,0 +1,95 @@
+id: design-directory
+summary: >-
+  A top-level `design/` holds generative proposals, which the corpus forbids by construction;
+  its gate is the derivation from corpus premises, and it is a shell script rather than a crate.
+context: |
+  Every phase of this corpus so far has been documentary. A node says what SCUMM did, what the
+  AGS manual states, or what follows from those, and `agent-conduct` gives it three tags to say
+  which. None of the three permits asserting intent, and that is deliberate: the discipline is
+  what the corpus is worth.
+
+  The central question outgrew it. "What is the smallest set of authoring primitives that can
+  express a classic point-and-click adventure without escaping to a general-purpose scripting
+  language" is answerable by comparison for exactly as long as somebody else has built the thing
+  being compared. `data-format/interaction-table.yml` reached the end of that: AGS built a
+  bounded dialog sub-language and documented that it was not enough; SCUMM had no declarative
+  layer to escape from. Nobody built the middle. The corpus can record that nobody did. It
+  cannot say what the middle should be, because that is a proposal.
+
+  `directories.md` names this case exactly — "A new top-level directory is fine. Widening
+  `.yidam/corpus/` to hold something that is not a documentary claim is not" — and its worked
+  example is a repository that took on an advocacy purpose and needed somewhere to argue, which
+  created a `dossier/` alongside the corpus with its own gate. The parallel is close: that
+  repository could not put argument in the corpus without relaxing the rule against asserting
+  intent, and this one cannot put design there for the same reason.
+
+  Three things were required of a new directory and each was a live choice: what rule it does
+  not get to relax, a decision record, and a gate.
+decision: |
+  **`design/` at the top level.** One markdown document per design, plus a README stating the
+  contract and a gate script.
+
+  **The one rule it relaxes: it may assert intent.** A document here says what a design should
+  contain and why. That is a claim about something that does not exist, and no corpus node is
+  permitted to make one.
+
+  **The rules it does not relax:**
+
+  - Provenance. Every claim about an existing system carries the same tag it would carry in the
+    corpus and cites the same catalog entry by link. `[verified]` still means a committed source
+    supports it; an aggregator still cannot carry one.
+  - Attachment to the corpus. A document declares `rests_on:` — the corpus and catalog paths it
+    derives from — and the gate fails when one no longer exists.
+  - The effect vocabulary. A document declares `derives_effects_from:` as `class:relationship`
+    pairs, each of which must be a relationship that class declares in its `.ont.yml`. A design
+    does not get to invent an effect.
+
+  **The gate is the derivation**, which is what `directories.md` asks for when a directory holds
+  something derived from the corpus. `design/check.sh`, wired into `mise run ci` and into the
+  corpus job in CI.
+
+  **It is bash rather than a crate, and that is the part worth recording.** `crates/` is where
+  the conventions put a check that reads the corpus, and AGENTS.md already anticipates one there.
+  It is not used here because creating `crates/Cargo.toml` is itself a structural decision this
+  repository has deliberately deferred — `mise.toml` says so in the file, at length, and
+  `.github/workflows/ci.yml` gates three whole jobs on that path existing. Standing up a Rust
+  workspace to run four path checks would have made this phase's smallest question the one that
+  changed CI for every future commit.
+
+  **The condition for changing it, so the deferral is a decision and not a drift:** move the gate
+  into `crates/` on the day `crates/Cargo.toml` exists for any other reason — the
+  vocabulary-coverage calculator AGENTS.md names is the likely first — or on the day this gate
+  needs to parse YAML properly rather than pattern-match it. `listitems()` reads a flat list of
+  scalars under a key and nothing else; the first design document that needs nested front matter
+  is the signal.
+rationale: |
+  **Why not `.yidam/corpus/` with a `design` class.** It was the cheaper option and it is the one
+  the conventions specifically forbid. A `design` class would have made every gate the corpus
+  runs apply to material that is not a claim — `graph-check` demanding an outgoing edge from a
+  proposal, `lint` counting proposed primitives as nodes, `yidam status` reporting a corpus that
+  had grown when nothing had been learned. The corpus's discipline "is worth exactly as much as
+  the narrowest thing admitted to it", and a proposal is narrower than anything in there now.
+
+  **Why not `docs/`.** `docs/` is documentation *about the repository* — its purpose, scope and
+  conventions. A design is about the domain, and filing it under `docs/` would have put the
+  corpus's most consequential material in the directory nobody reads for domain content.
+
+  **Why `rests_on:` is the load-bearing check.** This repository has now overturned two
+  conclusions by re-reading a page it already held — the AGS pick-up mode, and which conversation
+  shape is the base case. Both times the material was retrieved correctly and reasoned about from
+  memory of the conclusion. A corpus node that goes stale is caught by a reader eventually,
+  because the corpus is what gets re-read. A design document is not: it is written once, and
+  nothing brings a reader back to it when its premise moves. Naming the premises is the only
+  thing that makes the staleness addressable at all.
+
+  It is also, honestly, the weakest of the three. The check verifies a path resolves, not that
+  the node still says what the design thought. Neither of this repository's two reversals would
+  have tripped it — both nodes existed throughout. That limit is stated in `design/README.md`
+  rather than left for someone to discover, because a gate mistaken for complete is worse than
+  no gate.
+
+  **Why `status:` is required.** A directory of undated ambition is worth less than nothing: a
+  reader meeting a proposal cannot tell it from one the corpus refuted three phases ago, and the
+  natural response is to distrust all of them equally. Making a design say whether it is a
+  proposal, adopted or withdrawn costs one line and is the difference between a design directory
+  and a graveyard.
