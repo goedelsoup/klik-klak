@@ -11,6 +11,12 @@ description: |
   Both are bounded vocabularies, so the bound is not what separates them — the discovery
   surface is. Whether an authoring vocabulary should include its own discoverability is
   `[open]` in this corpus and is not obviously a question about verbs at all.
+
+  One failure mode is attributable to its dialogue system specifically. [inference] A dialogue
+  option can be turned off once taken, and any subtree reachable only through that option
+  becomes unreachable with it — which is `failure-mode/orphaned-dialogue-branch` arriving as a
+  documented feature rather than as a mistake. Whether authors experienced that as a loss is
+  `[open]` and would be answerable from the community's own forums, which nobody here has read.
 properties:
   era: "1997-present"
   vocabulary_shape: |
@@ -28,5 +34,7 @@ properties:
 links:
   - target: ../verb/look-at.yml
     relationship: implements
+  - target: ../failure-mode/orphaned-dialogue-branch.yml
+    relationship: exhibits
   - target: ../prior-art.ont.yml
     relationship: instance-of

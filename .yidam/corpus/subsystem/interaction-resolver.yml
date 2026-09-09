@@ -34,6 +34,8 @@ properties:
 links:
   - target: ../interaction/unary-binding.yml
     relationship: realizes
+  - target: ../interaction/default-binding.yml
+    relationship: realizes
   - target: ../subsystem/path-solver.yml
     relationship: depends-on
   - target: ../conversation/topic-list.yml
