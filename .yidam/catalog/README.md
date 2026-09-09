@@ -16,9 +16,9 @@ Sorted by: type, then slug.
 -->
 | Entry | Type | Description | Obtained | Artifacts | Nodes | Elsewhere |
 |---|---|---|---|---|---|---|
-| [ags-manual.md](ags-manual.md) | other | The AGS manual's own markdown source, maintained by the AGS project — the authoring surface documented by the people who built it. | yes | — | 8 | 0 |
-| [scumm-v5-opcode-reference.md](scumm-v5-opcode-reference.md) | other | Reverse-engineered listing of SCUMM v5 script opcodes by number and name, hosted by ScummVM. | yes | — | 4 | 0 |
-| [wikipedia-scumm.md](wikipedia-scumm.md) | other | Tertiary account of the SCUMM engine, its verb interface, and the years it was in use. | yes | — | 4 | 0 |
+| [ags-manual.md](ags-manual.md) | other | The AGS manual's own markdown source, maintained by the AGS project — the authoring surface documented by the people who built it. | yes | — | 10 | 0 |
+| [scumm-v5-opcode-reference.md](scumm-v5-opcode-reference.md) | other | Reverse-engineered listing of SCUMM v5 script opcodes by number and name, hosted by ScummVM. | yes | — | 5 | 0 |
+| [wikipedia-scumm.md](wikipedia-scumm.md) | other | Tertiary account of the SCUMM engine, its verb interface, and the years it was in use. | yes | — | 3 | 0 |
 
 **Nodes** counts corpus instances that link here — the number every gate reads, and what `catalog-uncited` means by *no corpus node draws on this source*. **Elsewhere** counts other files under `.yidam/corpus/` that link here: class definitions and README prose. They are kept apart rather than summed, because a claim resting on a source and a page linking to one are different things. **Artifacts** counts what an entry records having obtained, by content address, and how many of those records name bytes — `1 of 2` is an entry that recorded two and gave a digest for one. It says nothing about whether the bytes are present or correct: that is a fact about the machine asking, and `yidam vault verify` is where it is answered.
 <!-- /REGEN -->
