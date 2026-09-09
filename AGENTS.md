@@ -95,6 +95,20 @@ citable; recollection of how SCUMM behaved is `[inference]` at best, however str
 the failure mode most likely to enter this particular corpus, because these engines are widely
 described secondhand and the secondhand accounts disagree.
 
+**Re-read the source at the point of inference, not at the point of retrieval.** Three
+conclusions here have been overturned by pages this corpus already held: the AGS pick-up mode,
+which conversation shape is the base case, and what AGS's dialog sub-language demonstrates about
+bounded languages. None of the three was careless retrieval. In every case the material was
+fetched and recorded accurately, and then reasoned about from memory of the conclusion rather
+than from the record — and in the first, the catalog ledger had already written down the exact
+gap the claim asserted past.
+
+The third was caught before it reached anything rather than after. The whole argument turned on
+one property of one page, so the page was fetched again to check that property specifically, and
+it carried a second escape-hatch quote the first reading had never recorded. **A ledger only pays
+if it is re-read at the point of inference.** When a conclusion is about to rest on a source,
+open the source; a re-fetch costs a minute and two phases here have been spent not doing it.
+
 ## `design/` — where this repository proposes rather than records
 
 The corpus is documentary. Every node says what some engine did, what some source states, or
