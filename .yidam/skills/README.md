@@ -4,16 +4,22 @@ Domain-specific skills available to agents in this repository. Generic skills in
 from yidam live in [`.yidam/.vendor/prelude/skills/`](../.vendor/prelude/skills/); skills that require
 knowledge of this domain's corpus or toolkit live here.
 
-No skills are scaffolded at genesis. A skill belongs here when a repeatable procedure has
-emerged from inquiry — not preemptively. Two are anticipated and deliberately not written
-yet, because neither has been performed once:
+Three calculator stubs were scaffolded at genesis, each approved in
+[`../decisions/proposals.yml`](../decisions/proposals.yml). **All three are stubs and none has
+been run.** Each says in its own file why, and the reasons are not the same:
 
-- a **vocabulary-minimality check**, which would ask of a candidate primitive whether any
-  existing `interaction` shape already expresses it — the operation the central question
-  turns on, and the one that cannot be specified until enough interactions are seeded to
-  say what "already expresses" means
-- a **prior-art comparison**, which would read every `prior-art` node's answer to one
-  authoring question and lay them side by side
+| Skill | Reads | Why it is a stub |
+|---|---|---|
+| [`vocabulary-coverage`](vocabulary-coverage.md) | `verb`, `interaction` | Would run; the answer would be about seeding rather than about the vocabulary |
+| [`collapse-signature`](collapse-signature.md) | every class and instance | Would run; the ranking would be dominated by how thinly each class is seeded |
+| [`reachability`](reachability.md) | an authored game's state graph | **Cannot run.** That graph does not exist in this repository |
+
+The third is different in kind from the other two and the table says so on purpose. The first
+two are waiting for the corpus to grow; the third is waiting for an artifact this corpus does
+not hold and has no place to put yet.
+
+Beyond these, add a skill when a repeatable procedure emerges from inquiry — not
+preemptively.
 
 ## Registry
 
