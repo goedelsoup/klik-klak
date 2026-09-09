@@ -18,6 +18,21 @@ description: |
   what the object plays while carried; this binding is the event that starts the playing; and
   `carried-form-of` is the edge that remembers what it was before. Three parts of the model that
   only make sense together, and the corpus held two of them until now.
+
+  **The atomicity claim above was an inference at genesis and both engines now speak to it, from
+  opposite directions.** SCUMM v5 carries a dedicated `pickupObject` opcode
+  ([scumm-v5-opcode-reference](../../catalog/scumm-v5-opcode-reference.md)) alongside a general
+  `setOwnerOf`, which means acquisition was worth its own operation rather than being expressible
+  as a change of owner. [inference] Adventure Game Studio provides `AddInventory`, which adds the
+  item and nothing else, and its manual says nothing about what becomes of the room object
+  ([ags-manual](../../catalog/ags-manual.md)). [verified]
+
+  So one engine bundled the writes and the other did not provide the bundle at all. That is the
+  clearest evidence this corpus has that the operation is real: two systems reached opposite
+  conclusions about whose job it is, which is not a thing that happens about a non-problem.
+
+  What the evidence does *not* establish is that AGS authors pay for it. The manual's silence is
+  consistent with the window this node predicts and does not demonstrate it. `[open]`
 properties:
   shape: unary
   response: |
