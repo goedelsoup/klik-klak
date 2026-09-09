@@ -1,27 +1,67 @@
 class: verb
 label: Look At
 description: |
-  The unary verb that returns a description of its target. It is the strongest candidate
-  for an irreducible primitive in this vocabulary, on an argument that is not about
-  convenience: it is the only verb whose response is *always* authorable, because every
-  targetable thing can be described. Every other verb has targets for which no sensible
-  response exists.
+  The unary verb that returns a description of its target. It is the verb every system keeps,
+  and assessing it completes the sweep over this corpus's vocabulary.
 
-  That universality is why it doubles as the vocabulary's error surface. [inference] An
-  author who has not written an interaction for some target still owes the player
-  something, and what they owe is a description — which is why `default_response` on this
-  verb carries more weight than on any other, and why a game with a good default look is
-  perceived as more finished than one with more content.
+  It was seeded on a uniqueness claim — that it is "the only verb whose response is *always*
+  authorable, because every targetable thing can be described" — and that claim is **wrong**, in
+  a way a source settled precisely. AGS's `unhandled_event` table is a verb × entity-kind matrix,
+  and Look, Interact, Talk and Use-inventory each appear against all five kinds
+  ([ags-manual](../../catalog/ags-manual.md)). [verified] Look-at is universal and it is not
+  uniquely universal. What the matrix does single out is `pick-up`, the one verb absent from two
+  of the five rows.
+
+  So the intuition was pointing at something real and had the polarity backwards. The interesting
+  verb in the matrix is not the one that applies everywhere; it is the one that does not.
 properties:
   arity: unary
   surface: |
-    Present in every point-and-click vocabulary this corpus has examined, whether as a bar
-    entry, a cursor mode, or the right-click default. [inference]
+    Kept distinctly by every system this corpus can read, which no other verb manages. SCUMM's
+    verb coin gives it a whole group — eyes
+    ([wikipedia-scumm](../../catalog/wikipedia-scumm.md)). [inference] AGS ships Look as a standard
+    cursor mode and carries "Look at" events for hotspots, objects, characters, inventory and
+    nothing. [verified] AGS's Tumbleweed template, rebuilding a SCUMM-style bar, lists
+    `eGA_LookAt` first among twelve. [verified]
   default_response: |
-    The fallback description used when no interaction is authored for a target. [inference]
-    A generic fallback ("Nothing special about it") is the cheapest possible answer and
-    reads as an author's absence; a per-room or per-category fallback costs little more and
-    reads as restraint. This corpus holds no node yet on where that distinction is decided.
+    The fallback description used when no interaction is authored for a target — and AGS's manual
+    states the reason such a fallback exists at all, in the same terms this corpus arrived at
+    independently: `unhandled_event` is "typically used to display a default 'I can't do that'
+    type response in-order to avoid having to add unique messages for all in-game
+    interactions". [verified]
+
+    A generic fallback reads as an author's absence; a per-category one reads as restraint.
+    [inference] AGS makes the second possible and the first easy — see
+    [interaction/default-binding](../interaction/default-binding.yml) for what it can and cannot
+    scope by.
+  earns_its_place: |
+    **Assessed 2026-09-09. Verdict: yes at the surface, and it is the purest case of a verb with
+    no operation beneath it.**
+
+    *Surface.* Unanimous, which nothing else in this vocabulary is. Three systems, three
+    interfaces — a verb coin group, a cursor mode, a template's verb bar — and all three keep
+    looking as its own selection. Where `pick-up` was folded by one system and kept by another,
+    and `give-to` was collapsed by an engine and restored by a template, no source read here shows
+    anyone merging `look` into anything.
+
+    *Operation.* Nothing, in either engine. There is no look opcode in SCUMM v5 beyond the
+    general `print`/`printEgo` [inference], and AGS handles it as an ordinary event with no
+    special dispatch — unlike `Use Inventory`, which has `StandardMode` switched off. [verified]
+
+    That combination is what makes this the clean case. The two-tier test has now returned four
+    results and this is the only one where a verb is unanimous above and empty below:
+
+    | verb | surface | operation |
+    |---|---|---|
+    | `look-at` | kept by all three | none anywhere |
+    | `talk-to` | kept by all three | AGS only |
+    | `use-with` | kept by all three | AGS dispatches it separately |
+    | `pick-up` | SCUMM folded, AGS kept | SCUMM only |
+
+    Read down the operation column and the vocabulary question looks answered; read down the
+    surface column and it looks unasked. The verb that needs the least from an engine is the one
+    no one has ever removed. `[inference]` — three systems is not a population, and this is a
+    pattern worth stating and not worth resting on.
 links:
   - target: ../prior-art/sierra-sci.yml
     relationship: originated-in
