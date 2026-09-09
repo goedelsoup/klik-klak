@@ -17,6 +17,8 @@ location:
     description: the rendered manual; JavaScript-driven, so a plain fetch returns an empty page
 used-by:
   - ../corpus/prior-art/ags.yml
+  - ../corpus/verb/pick-up.yml
+  - ../corpus/interaction/acquisition-binding.yml
   - ../corpus/failure-mode/orphaned-dialogue-branch.yml
 ---
 
@@ -44,6 +46,12 @@ Two pages, and only two:
   permanently disabled - no other command can ever turn it back on again"), equivalent to the
   `option-off`, `option-on` and `option-off-forever` dialog script commands. Also
   `HasOptionBeenChosen()` and `SetHasOptionBeenChosen()`.
+- **`Character.md`** — inventory. `AddInventory` "adds one quantity of the specified item to the
+  character's inventory… ensures that the item gets added to the character's inventory list, and
+  that any on-screen inventory display gets updated if appropriate." `LoseInventory` and
+  `ActiveInventory` likewise. **The manual does not describe any built-in pick-up verb, mode or
+  event, and does not say what happens to a room object when an item is added.** Both absences
+  were looked for specifically; see `verb/pick-up.yml`.
 
 ## What this document holds that nobody here has looked at
 
