@@ -179,6 +179,46 @@ was no declarative layer, so there was nothing to bound.
 
 Three parts, and the split between the first two is the whole design.
 
+### Layer 0 — where a binding hangs, which used to go without saying
+
+A binding is sited at a **verb applied to a target**, and for a binary verb a second object. That
+was the whole of it until two assessments — [`verb/walk-to`](../.yidam/corpus/verb/walk-to.yml),
+reading engine documentation, and
+[`cutscene/scripted-sequence`](../.yidam/corpus/cutscene/scripted-sequence.yml), assessed against
+a specimen — arrived at the same missing site by different routes.
+
+There is a second site now:
+
+```
+site    :=  verb target [ object ]        -- what the player did
+         |  'on-enter' room               -- where the player got to
+```
+
+An `on-enter` binding is **forced**. The player is not offered it; it fires on arrival. That makes
+the state it fires from *transient* — nobody rests there — which is a property no other binding
+has, and is the reason this is a site rather than a verb nobody types. It carries an ordinary
+precondition and **cannot carry a refusal**: a refusal answers an attempt, and nobody attempted
+anything.
+
+**It is the second primitive here to cost decidability**, after item quantity, and by a different
+mechanism. Two rooms whose entry bindings throw the player into each other never settle, so the
+game has no resting state and a checker that chases it does not stop. The guard is exact rather
+than a step budget: the states visited in one settling chain are remembered, and a repeat is a
+cycle. Two cases are why a budget was rejected — a description-only entry binding, and one that
+moves the player into the room they are already in — and both are in `crates/reachability/tests/entry.rs`.
+
+What it bought is measured rather than argued. `nightwatch.game` carried this sequence as four
+bindings across two doors, with the body written twice and nothing relating the copies; drifting
+one changed the game while every finding stayed identical. It is one binding now, and the report
+is unchanged at 14 states and 31 transitions. `.yidam/decisions/arrival-trigger.yml` records the
+rest, including the three defects it found in the checker.
+
+**What it does not do.** It does not discharge `walk-to`'s exit residue, and this document said it
+would. An exit refuses when the player *clicks a door* — "Locked, and the salt has taken the
+hinges" — and a binding that fires on entering the far room is too late to say so. The two
+assessments wanted arrival at two granularities: a room, and a place within a room. Only the first
+was demonstrated by a specimen and only the first was built.
+
 ### Layer 1 — predicates
 
 Total, pure, read-only. Used wherever the vocabulary currently says *precondition*: an

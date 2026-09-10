@@ -169,6 +169,22 @@ properties:
     assessment reading engine documentation, and a specimen written to force a collapse — is
     evidence about the primitive. Whatever an arrival trigger turns out to be, it is not a
     property of exits and not a property of sequences.
+
+    **And building it showed the two classes wanted two different things, which corrects the
+    paragraph above.** `on-enter` exists now
+    ([interaction/entry-binding](../interaction/entry-binding.yml)) and it does **not** discharge
+    this residue. The sentence "an exit's trigger is arrival rather than a verb applied to a
+    target" was too quick: an exit's refusal — *"Locked, and the salt has taken the hinges"* — is
+    said when the player clicks a door, before any arrival, and a binding that fires on entering
+    the far room is too late to say it. [inference]
+
+    The two wants were arrival at two **granularities**: a room, for the sequence, and a place
+    within a room, for the exit. AGS provides both and keeps them apart — room entry events on
+    one side, stands-on-hotspot and regions on the other
+    ([ags-manual](../../catalog/ags-manual.md)). [verified] Only the room-level one has been
+    demonstrated by a specimen, so only it was built.
+
+    So this residue stands, unchanged and now better described. `[open]`
 links:
   - target: ../prior-art/ags.yml
     relationship: originated-in

@@ -4,15 +4,25 @@ foundational_type:
   ontology: ufo
   type: relator
 description: |
-  The binding of a verb to a target — and, for a binary verb, to a second object —
-  together with the response it produces. Irreducible because it carries its own
-  preconditions and its own text rather than belonging to either thing it relates: "use
-  crowbar with crate" is a property of neither the crowbar nor the crate.
+  The binding of a **trigger** to the response it produces. Usually the trigger is a verb
+  applied to a target — and, for a binary verb, to a second object — and it may instead be the
+  player arriving in a room. Irreducible because it carries its own preconditions and its own
+  text rather than belonging to any of the things it relates: "use crowbar with crate" is a
+  property of neither the crowbar nor the crate.
+
+  This class was defined as "the binding of a verb to a target" until the arrival trigger was
+  proposed, and the widening is that proposal's ontological cost. Two of its edges are
+  therefore not universal: a binding triggered by arrival authors `triggered-by` and neither
+  `applies` nor `targets`. See `interaction/entry-binding` for what that is for, and
+  `.yidam/decisions/arrival-trigger.yml` for why the alternative — a class of its own — would
+  have undone the collapse it was built to complete.
 properties:
   - name: shape
     type: string
     required: true
-    description: Whether the binding takes one object or two.
+    description: >-
+      Whether the binding takes one object, two, or none. A binding triggered by arrival has no
+      verb and so takes no object, which is what the third value is for.
   - name: response
     type: text
     prose: true
@@ -46,6 +56,13 @@ edges:
     target: conversation
     direction: out
     description: The exchange control passes to when this binding resolves.
+  - relationship: triggered-by
+    target: room
+    direction: out
+    description: >-
+      The room whose entry fires this binding. Mutually exclusive with `applies` and `targets`:
+      arriving somewhere is not a verb directed at a thing, and it is the one trigger an
+      interaction table keyed by verb and target cannot index.
   - relationship: consumes
     target: inventory-item
     direction: out

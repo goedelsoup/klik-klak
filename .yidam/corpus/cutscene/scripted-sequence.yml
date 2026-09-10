@@ -68,8 +68,16 @@ description: |
   two classes wanting one thing is evidence about the thing rather than about either class.
   [inference]
 
-  **So the verdict is a collapse into `interaction`, conditional on the arrival trigger
-  existing** — and the class is kept, unwithdrawn, for the reason [give-to](../verb/give-to.yml)
+  **The condition has since been met.** `on-enter` exists — a binding sited at arriving in a
+  room, forced rather than offered — and `interaction` was widened to carry it rather than a new
+  class being added, precisely so that this reduction would hold
+  ([arrival-trigger](../../decisions/arrival-trigger.yml),
+  [interaction/entry-binding](../interaction/entry-binding.yml)). The specimen's sequence is one
+  binding at that site now, and it reports the same 14 reachable states and 31 transitions it
+  did as four bindings. [inference]
+
+  **So the verdict is a collapse into `interaction`, and the condition it was hedged on is
+  discharged** — and the class is kept, unwithdrawn, for the reason [give-to](../verb/give-to.yml)
   was kept: the argument is worth more than the entry, and a deleted node leaves the next author
   free to propose this from scratch.
 

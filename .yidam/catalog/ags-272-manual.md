@@ -18,6 +18,7 @@ location:
 used-by:
   - ../corpus/prior-art/ags.yml
   - ../corpus/data-format/interaction-table.yml
+  - ../corpus/interaction/entry-binding.yml
 ---
 
 **This is AGS's own documentation and this corpus is not treating it as a source of record.**

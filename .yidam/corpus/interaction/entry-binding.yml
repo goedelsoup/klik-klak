@@ -1,0 +1,47 @@
+class: interaction
+label: Entry Binding
+description: |
+  A binding with no verb and no target: it fires because the player arrived in a room. It is
+  the only trigger in this vocabulary that is not a player action directed at a thing, and it
+  is the one shape [the interaction table](../data-format/interaction-table.yml) — "keyed by
+  verb and target, with the second object as an optional third key" — cannot index.
+
+  **It exists because two unrelated classes asked for it and neither could have it.**
+  [verb/walk-to](../verb/walk-to.yml) found it by reading engine documentation and concluded
+  movement is not a verb; [cutscene/scripted-sequence](../cutscene/scripted-sequence.yml)
+  found it by being assessed against a specimen and reducing on every ground except this one.
+  Two methods, one missing site. [inference]
+
+  Both engines this corpus can read document it. AGS 2.72's interaction event list carries
+  "Player enters room (before fadein)", "Player enters room (after fadein)", "First time enters
+  room" and "Player leaves room" ([ags-272-manual](../../catalog/ags-272-manual.md))
+  [inference]; the current manual carries the same set with the same names
+  ([ags-manual](../../catalog/ags-manual.md)) [verified]. The trigger has been first-class in
+  that system for its whole history, on both sides of the rewrite that deleted everything else
+  about the interaction editor.
+
+  **What makes it a different kind of thing rather than a verb nobody types is that it is
+  forced.** The player is not offered it. A state in which one is available is therefore
+  transient — nobody rests there — and that is a property no other binding in this vocabulary
+  has. [inference] `.yidam/decisions/arrival-trigger.yml` records what it cost to have.
+properties:
+  shape: none
+  response: |
+    Whatever the sequence does. In `nightwatch.game` a watchman takes an item and moves the
+    player to another room, which is a whole cutscene and is four lines.
+  precondition: |
+    Ordinary. The same predicate layer every other binding has, and it is what keeps the
+    trigger from being a room-changed event that fires unconditionally: `when alarm` is why
+    the hall is passable before the theft and a trap after it.
+  refusal: |
+    None, and it cannot have one. A refusal is what the game says when the player tries
+    something the precondition forbids, and nobody tried anything — they walked into a room.
+    [inference] That is the sharpest way to see this is not a verb: the refusal has no
+    occasion, where every other binding in this vocabulary has one.
+links:
+  - target: ../room/single-screen.yml
+    relationship: triggered-by
+  - target: ../world-flag/boolean-flag.yml
+    relationship: sets
+  - target: ../interaction.ont.yml
+    relationship: instance-of

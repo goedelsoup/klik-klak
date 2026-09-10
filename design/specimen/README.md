@@ -115,18 +115,23 @@ yields control, so there is nothing to lock.
 intercepts you for *arriving* in the hall carrying the ledger. No binding can say that: an
 `interaction` site is a room and a target plus a verb, and there is no verb for "got here".
 
-The workaround is to hang the sequence on the click that precedes each arrival — and it costs
+The workaround was to hang the sequence on the click that precedes each arrival — and it cost
 exactly what the specimen was built to make countable:
 
-| | with an arrival trigger | as written |
+| | as first written | with `on-enter` |
 |---|---|---|
-| bindings for the sequence | 1 | **2** — one per door into `hall` |
+| bindings for the sequence | **2** — one per door into `hall` | 1 |
 | bindings for the ordinary passage | 2 | 2 |
-| copies of the sequence body | 1 | **2** |
+| copies of the sequence body | **2** | 1 |
+| reachable states / transitions | 14 / 31 | 14 / 31 |
 
 `when` gates a whole binding and `else` carries only a line, so "if the alarm is on do this,
-otherwise pass through" is two bindings, not one — and that pair is repeated per entrance. A room
-with five doors would carry five copies. [inference]
+otherwise pass through" was two bindings, not one — and that pair repeated per entrance. A room
+with five doors would have carried five copies. [inference]
+
+**The game is now written the second way**, and the last row is the point: the numbers did not
+move, so the primitive is faithful to the game rather than a different game that happens to
+parse. See [`arrival-trigger`](../../.yidam/decisions/arrival-trigger.yml).
 
 **The duplication is a diagnostic cost too, which is the part that was not expected.** One
 authored intent, reported once per copy:
@@ -138,15 +143,20 @@ authored intent, reported once per copy:
 
 Nothing in that output says those are one sequence.
 
-**And the copies can come apart silently.** Drift one copy's guard — `when alarm` to
-`when case-open` on the second only — and the game genuinely changes: 15 reachable states instead
-of 14, 33 transitions instead of 31. **Every finding is identical.** Same two strandings, same
-lines, same cause, same counts, same examples. Only the totals move, and nothing says that a
+**And the copies could come apart silently.** Drifting one copy's guard — `when alarm` to
+`when case-open` on the second only — genuinely changed the game: 15 reachable states instead of
+14, 33 transitions instead of 31. **Every finding stayed identical.** Same two strandings, same
+lines, same cause, same counts, same examples. Only the totals moved, and nothing said that a
 total moving means two copies of one sequence disagree. That is
 [`puzzle/state-gate`](../../.yidam/corpus/puzzle/state-gate.yml)'s complaint — "a gate depending
 on three flags is stated three times, or more, and nothing checks that the statements agree" —
-arriving from a direction that node did not name. `a_copy_may_drift_and_no_check_here_reports_it`
-is the test.
+arriving from a direction that node did not name.
+
+That test is gone, along with the thing it tested: there is one copy now and nothing to keep in
+step. **The two strandings remain and are no longer duplication.** There are two doors into the
+hall, so there are two ways for a player to make the mistake, and a report naming both is
+describing the game. What changed is that neither names the sequence — the blame lands on the
+door the player chose, because a forced binding is not something anybody chose.
 
 **The verdict is in
 [`cutscene/scripted-sequence`](../../.yidam/corpus/cutscene/scripted-sequence.yml).** In short:
@@ -237,15 +247,15 @@ artifact they compose into. Noted rather than proposed — and noted more carefu
 
 ## Using them as fixtures
 
-Thirty-two tests, in `crates/reachability/tests` and `crates/game-format/tests`.
+Thirty-eight tests, in `crates/reachability/tests` and `crates/game-format/tests`.
 
 - **lighthouse, winnable** — and **unwinnable by consumption** if the oil goes into the hinge.
 - **ferry, winnable** — and **unwinnable by ordering** if the river is crossed without the
   lantern, because the boat does not come back.
 - **nightwatch, winnable** — and **unwinnable by consumption** if the hall is entered carrying
-  the ledger, reported twice because the sequence has two homes.
-- **nightwatch + a one-word mutation**, drifting one copy of the sequence away from the other:
-  the totals move and every finding stays identical.
+  the ledger, reported once per door because there are two ways in.
+- **two rooms that throw each other**, reported as a chain that never settles rather than
+  chased — the decidability guard `on-enter` needed.
 - **lighthouse + a two-line mutation** for ordering, applied in memory: `do clear door-open` on
   the quay door's `walk-to` and `when door-open` on the far side's.
 - **ferry + a one-line deletion** for an unbounded supply — an omission rather than an edit,
@@ -256,11 +266,11 @@ Thirty-two tests, in `crates/reachability/tests` and `crates/game-format/tests`.
 The first two carry exactly one defect and assert `strandings.len() == 1`; a fixture with two
 makes a checker's output ambiguous about which it found.
 
-**`nightwatch` asserts two, and that is the point rather than an exception.** It carries one
-*authored* defect and the checker reports it twice, because the sequence is written once per
-entrance. Output that is ambiguous about how many defects it found is exactly what the missing
-arrival trigger produces, and pinning the number at two is what would fail if that stopped
-being true.
+**`nightwatch` asserts two, and it means something different now than when it was written.** It
+used to mean "one authored defect, reported once per copy of a duplicated sequence". It means
+"one authored sequence, and two doors a player can walk through to reach it". The number is the
+same and the reason is not, which is worth noticing: an assertion that survives a change to what
+it is about was not testing what it looked like it was testing.
 
 ## What these specimens are not
 
