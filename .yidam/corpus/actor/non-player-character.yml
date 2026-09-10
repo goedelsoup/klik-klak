@@ -14,9 +14,24 @@ description: |
   nowhere**, which is a cheaper answer than a presence flag and is the one a shipped game used.
   [inference]
 
-  What that costs this vocabulary is recorded in `.yidam/decisions/presentation-layer.yml`: the
-  format can move the player and nobody else, so the position this class is founded on is a fact
-  the ontology declares and no binding can write. `[open]`
+  **That `[open]` is closed and this class is no longer founded on something unwritable.** For
+  eight phases the first item in the list above — an actor "can occupy a position that changes" —
+  was a fact the ontology declared, this node authored as `occupies`, and no binding could write.
+  It can now: `move <actor> to <room>` writes it, `<actor> in <room>` reads it, and `holds
+  <actor>` says where they start (`.yidam/decisions/actor-position.yml`). [verified]
+
+  The class is stronger for it in a way worth stating precisely. **The argument against
+  collapsing `hotspot` into `actor` was resting on a capability nothing could exercise**, which
+  is the weakest form an argument from capability takes — indistinguishable from an ontology that
+  overreached. `design/specimen/patrol.game` exercises it, and the porter is a thing you cannot
+  model as a region: he is somewhere, he can be somewhere else, and what you may do in the
+  corridor depends on which. [inference]
+
+  One consequence the class did not anticipate. **A site follows its actor.** `actor <name>`
+  written inside a room says where they may be *addressed*, which is a different fact from where
+  they are, and the checker now requires the two to agree — so a binding on an actor who has
+  walked off is not offered. [verified] Before this the two were the same fact by default, and
+  nothing in this node distinguished them.
 
   That list is also the argument against collapsing `hotspot` into `actor`. [inference] A
   collapse would give every targetable region a position, a behaviour slot and a
