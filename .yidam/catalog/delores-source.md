@@ -12,7 +12,8 @@ location:
   - kind: url
     value: https://grumpygamer.com/delores_dev/
     description: "\"Delores Source Code Released!\", the announcement"
-used-by: []
+used-by:
+  - ../corpus/data-format/dialogue-script.yml
 ---
 
 **A source of record, and the first one this corpus can *count*.** *Delores: A Thimbleweed Park
