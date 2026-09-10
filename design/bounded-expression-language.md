@@ -262,7 +262,7 @@ worth more here than a permissive grammar:
   quantifier over *that* remains excluded and unmotivated.
 - **Anything that can fail to terminate.** No loops, no recursion, no user-defined functions.
 
-### Layer 2 — effects, which are not designed here
+### Layer 2 — effects, whose vocabulary is not designed here and whose semantics are
 
 Write-only, unconditional, and **read off the ontology rather than invented.** An effect is a
 declared relationship that changes world state, and the corpus declares these:
@@ -286,6 +286,39 @@ needing one rather than by re-reading.
 This is the part the gate checks, and the reason `design/check.sh` exists in the shape it does:
 a design that names an effect the ontology does not declare is either wrong or has just found a
 missing relationship. **Two turned up, and neither was being looked for.**
+
+#### What a *list* of them means
+
+The vocabulary is read off the ontology; what happens when a binding writes several is a choice
+this document has to make, and for five phases it did not — while `crates/reachability` made it
+anyway. It is settled in
+[`effect-list-semantics`](../.yidam/decisions/effect-list-semantics.yml) and the four words are:
+
+- **Sequential** — folded in written order. `set f` then `clear f` leaves `f` clear. Not a set of
+  independent writes.
+- **Total** — every effect applies. No early exit, no effect that can fail.
+- **Instantaneous** — nothing takes time, nothing yields control. No blocking flag, no wait.
+- **Atomic** — a binding is one edge in the state graph, and nothing observes a value between two
+  effects.
+
+`say` is presentation, not an effect. It is not in this table and never was.
+
+**Duration is a mode in the state, not a pause in a transition.** The vocabulary already works
+this way once: `opens → conversation` enters a mode and `returns-control-to → actor` leaves it,
+both instantaneously, while the mode itself persists in the state vector and the checker sees it
+as a state. Anything that takes time is written the same way.
+
+**The alternative is real, it shipped, and it is refused.** AGS's declarative layer made blocking
+a typed argument on the commands that take time (section 1). That is the better *authoring*
+answer — it lets an author write "walk there, then speak" without leaving the language. It is
+refused because it makes a binding an interval rather than an edge: give an effect duration and
+other bindings can fire inside it, so the state space gains a dimension and the search is over
+states-and-time. Every number in section 4 is a number about the graph this preserves.
+
+**And it costs something this document should say plainly.** Nothing here can take time except a
+mode, so a sequence that moves actors on its own schedule is not an effect list — it is a
+`cutscene`. The corpus has that class and **no relationship in it targets `cutscene`**, so a
+binding cannot start one. That gap is recorded rather than filled; the decision says why.
 
 **Four gaps were reported here and one was real.** They were written down as gaps, then each
 was weighed against what the ontology already declares — which is the rule this repository
@@ -411,24 +444,17 @@ or that anybody would enjoy writing in it.
   comes from a system that already had somewhere to escape to. **It is now two data points from
   the same system**: the second is a declarative interaction layer at this document's own scope,
   removed in favour of script, for reasons its manual does not give. See section 1.
-- **Whether effects are sequential, and whether any of them takes time.** Layer 2 is a list — the
-  specimens write three and four `do` lines under one binding, after a `say` — and **nothing in
-  this document says what a list means.** Applied in order? All at once? Does the response line
-  finish before the moves happen? `crates/reachability` answers by fiat: it folds the whole list
-  into one state transition, which is why reachability is a graph search and not a search over
-  states-and-time. That is a real assumption and it has never been written down as one.
+- ~~Whether effects are sequential, and whether any of them takes time.~~ **Settled.** Sequential,
+  total, instantaneous, atomic — see Layer 2 and
+  [`effect-list-semantics`](../.yidam/decisions/effect-list-semantics.yml). AGS's per-command
+  blocking flag is the alternative, it is the better authoring answer, and it is refused because
+  it makes a binding an interval rather than an edge.
 
-  This is the axis AGS named when it removed the equivalent layer, and **the layer it removed had
-  an answer.** Blocking was a typed argument on the commands that take time: Move object and Move
-  character each end in a `BOOL` labelled "Wait for move to finish", Run animation loop blocks
-  always, "Pause command processor for a set time" is an explicit wait, and "Stop running more
-  commands" exits the list early. [verified] Sequential, with duration declared per command.
-
-  That is a design available to this proposal and it is not free. A per-effect blocking flag makes
-  the effect list a small program with an execution order, which is what `crates/reachability`
-  currently gets to ignore — and an early-exit command would make the list conditional on its own
-  progress. Whichever way this goes, it should be a decision. Right now it is an omission that the
-  calculator has been silently resolving.
+  What the decision opened in its place is smaller and sharper: **nothing in this vocabulary can
+  take time except a mode, and the class for things that take time cannot be started.** No
+  relationship in the corpus targets `cutscene`. `interaction -enters-> cutscene` is the obvious
+  mirror of `opens → conversation` and is deliberately unwritten until a game needs one, because a
+  declared relationship no instance authors is a defect this corpus already carries two of. `[open]`
 
   A `say` that blocks and a `move` that does not are already two different kinds of thing, and the
   specimens write them in one list.

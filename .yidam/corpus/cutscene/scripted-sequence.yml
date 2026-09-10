@@ -30,13 +30,32 @@ description: |
   beginning because a counter reached a value. Nothing read here documents a threshold trigger in
   either engine, and it was looked for. [inference] Whether that is a genuine gap or the same
   position trigger wearing a number is the question a later phase inherits.
+
+  **And a phase later the class turns out to have no way in at all.** Nothing in this ontology
+  points at `cutscene` — which the description above noted at genesis as "a structural hint that
+  it may not be a primitive" and then never followed. `effect-list-semantics` followed it, because
+  a decision that effects are instantaneous has to say where duration lives, and the answer was a
+  class no binding can reach. See `trigger` below.
 properties:
   trigger: |
-    Entering a room, a flag reaching a value, or the resolution of a binding. **Two of the three
-    now have a home and the sentence here used to say only the third did.** Binding resolution
-    always did; entering a room is a position event, documented as first-class in AGS and
-    dispatched outside the verb table entirely. [verified] What is left is the threshold — a flag
-    reaching a value — and that is the whole of what keeps this class here. [open]
+    Entering a room, a flag reaching a value, or the resolution of a binding.
+
+    **The claim that binding resolution has a home is false, and this node has made it twice.**
+    No relationship anywhere in this ontology targets `cutscene` — fifteen classes, and the only
+    edge into this one is the `instance-of` below. A binding cannot start a sequence, so the
+    trigger this node has twice called the settled case is the one with no vocabulary at all.
+    Found by [`effect-list-semantics`](../../decisions/effect-list-semantics.yml), which needed
+    somewhere to put duration and discovered the place was unreachable.
+
+    Entering a room does have a home, and that is the part that survives: it is a position event,
+    documented as first-class in AGS and dispatched outside the verb table entirely. [verified]
+
+    So the count is one of three, not two. What is left unhoused is the threshold — a flag
+    reaching a value — and binding resolution, which needs `interaction -enters-> cutscene`, the
+    mirror of `interaction -opens-> conversation`. That edge is deliberately unwritten: no
+    instance would author it, and this corpus already carries two declared-and-unauthored
+    relationships that [room-manifest](../data-format/room-manifest.yml) names as
+    indistinguishable from overreach. It earns its place when a game needs a cutscene. [open]
   skippable: |
     Usually yes, and the skip is where the failure lives. [inference] A sequence that writes
     state part-way through and is cut short leaves the world in a configuration the author
