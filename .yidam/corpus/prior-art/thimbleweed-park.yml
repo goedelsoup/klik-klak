@@ -124,10 +124,14 @@ properties:
     August 2016 after playtests, and the verbs were not: "no one comments on it... It just felt
     right." [verified]
 
-    The set is not enumerated anywhere in the diary, and six members are named in passing while
-    arguing about keyboard shortcuts — Open, Close, Use, Push, Pull, Pickup — with Look At, Talk
-    To and Give attested elsewhere in code (`verbLookAt`, `flags = GIVEABLE|TALKABLE`) and
-    `USE obj WITH obj` recorded as an inventory task. [verified]
+    The set is not enumerated anywhere in the diary. Six members are named in passing while
+    arguing about keyboard shortcuts — Open, Close, Use, Push, Pull, Pickup — and `verbLookAt`,
+    `verbUse`, `verbPickUp` and `verbWalkTo` appear as binding slots in quoted code. [verified]
+
+    Two more are read off a **capability flag** and are therefore weaker: actor tables carry
+    `flags = GIVEABLE|TALKABLE`. [verified] That is a per-target declaration of what may be done
+    to a thing, `TALKABLE` plainly corresponds to a talk verb, and `GIVEABLE` to a give one —
+    which is a reading, not a quotation. [inference]
 
     **Four of those have no node in this corpus.** Open, Close, Push and Pull were kept by the
     newest system in the corpus, built by the people who wrote the oldest, and this vocabulary

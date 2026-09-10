@@ -21,6 +21,7 @@ used-by:
   - ../corpus/cutscene/scripted-sequence.yml
   - ../corpus/world-flag/latched-flag.yml
   - ../corpus/failure-mode/unwinnable-state.yml
+  - ../corpus/verb/give-to.yml
 ---
 
 **A source of record, and the closest one this corpus will ever get to its own question.**
