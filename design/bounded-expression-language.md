@@ -428,6 +428,36 @@ escape. It needs nothing new: a guarded list is `[predicate → line]` evaluated
 which is Layer 1 plus an ordering rule. That collapse is worth stating because the corpus's
 class list is a standing claim about minimality and this is one fewer thing in it.
 
+### Delegation — counted for three phases, read once
+
+The last item on the escape hatch's list was *a binding calling another binding*, recorded as one
+binding in eleven of a shipped game, on the same object, and "the cheapest thing on this list".
+Reading the eighteen rather than counting them again gives a different picture: **six delegate to
+the object the binding is on**, twelve name a different one, and two of those name one in another
+room. Seven distinct shapes, and the one-line description covered two of them.
+
+**Six of the seven go into this language as written**, and the transcription is committed as
+`crates/reachability/tests/delegation.rs` rather than asserted here — real bindings with their
+names and text changed, resolving clean at 36 reachable states. One of the six needs nothing at
+all: a state change written as `verb_turn_off()` in an engine that keeps state behind the verb
+slot is `do clear radio-on` here, because state has somewhere else to live.
+
+The seventh is a response reusing a named sequence, and there is no spelling for it here. Both
+plausible ones are parse errors, which is where that absence is recorded.
+
+**What the six cost is a copy, and the copies drift where nothing can see it.** Four drifts between
+two copies of one binding produce the same 36 states, the same winnability and the same silence as
+the correct transcription: `crates/reachability` asks what is *reachable*, and a redundant route
+going bad does not change what is reachable. That is not fixable by adding a way to call. Two
+bindings that say the same words cannot drift into each other either, and the checker is equally
+blind to that.
+
+So delegation is not a fourth case this language must answer. **Eleven of the twenty sites are not
+about running a response at all** — they are about which object the player is addressing, which is
+`hotspot`'s question and not this document's — and the one that is left is *a name for a shape*,
+which is the pressure `.yidam/decisions/delegation.yml` records as now on its fourth appearance
+and still unacted on. No primitive.
+
 ## 3. The three named cases, answered
 
 The open question listed what a declarative table cannot do: *"count an inventory, compare two
@@ -535,6 +565,16 @@ or that anybody would enjoy writing in it.
   that a bounded language is analysable says nothing about whether it is bearable. Three rooms
   have now been written in it, by the same party that proposed it, which is the weakest possible
   authoring trial and is not evidence of pleasantness.
+
+  **And the one measurement there is points at quantity rather than difficulty.** Transcribing a
+  shipped game's delegation sites into this language works — six of seven shapes go in as written
+  — and every one of them arrives as a copy: the same binding on two hotspots, the same line on
+  three, the same acquisition under two guards. The copies drift silently, because a reachability
+  checker asks what is reachable and a redundant route going bad does not change that. Duplication
+  is now the fourth pressure this corpus has found driving a shipped game's authors out of a
+  declarative form, and the rule this repository judges primitives by — *earn a place by being what
+  the vocabulary cannot say* — cannot see it, because a pressure that shows up as quantity of
+  authored text is invisible to a test of what can be expressed. `[open]`
 - ~~Whether `count item` earns its place.~~ **Settled.** A second specimen written as a tally
   reduced first to distinct items, which costs a declaration and a conjunction term per unit
   and cannot express "any k of n" at all. See
