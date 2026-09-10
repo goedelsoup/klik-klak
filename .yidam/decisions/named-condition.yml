@@ -1,0 +1,99 @@
+id: named-condition
+summary: >-
+  No primitive. The multi-flag gate this corpus called its strongest case for adding one does not
+  occur — 36 predicates across four specimens, one of them compound. What is restated is a
+  counter's steps, the successor relation is already derivable from the bindings, and a thirty-line
+  static check closes the only gap reachability could not see.
+context: |
+  `puzzle/state-gate` has carried this since genesis: *"a gate depending on three flags is stated
+  three times, or more, and nothing checks that the statements agree… whether the vocabulary should
+  have a name for the condition itself is `[open]` and is the strongest live case for adding a
+  primitive rather than removing one."* `world-flag/counter-flag` asks the same question from the
+  other end, about whether an ordered sequence earns the `integer` domain.
+
+  Unlike most questions here this one could be measured **in this repository**, against its own
+  four specimens and its own checker, with no external artifact. `crates/reachability/tests/conditions.rs`
+  is the census and `crates/game-format/tests/sequences.rs` holds the check.
+decision: |
+  **No primitive, and the reason is that the shape was never there.**
+
+  **36 predicates across the four specimens. One joins more than one atom.** [verified] A
+  condition over several flags is what a named condition would abbreviate, and an author writing
+  in this language does not write one. The pressure `state-gate` described was imagined before
+  anything had been authored and never re-checked against what was.
+
+  **What is restated is a counter's position in a sequence, and it is all on one target.**
+  `lighthouse.game`'s `lamp-prep` is read at nine sites, every one sited on the lamp. The sequence
+  is wick → oil → match, and it exists only as an agreement between the value one binding's body
+  writes and the value the next one's head requires. **The range is declared and checked; the steps
+  are neither.**
+
+  **Three ways to break that agreement, each run:**
+
+  | the mistake | before this phase |
+  |---|---|
+  | write the wrong next value | 98 states, ending reachable, **all 16 strandings gone** |
+  | require the wrong value | caught — an `ordering` stranding naming the lamp, 16 → 40 |
+  | require a value only you write | caught — the ending is unreachable |
+
+  **Only the first needed anything, and it needed a check rather than syntax.** A counter can hold
+  its declared floor plus whatever any `set` writes, and that set is already in the bindings.
+  `unreachable_values` in `crates/game-format/src/resolve.rs` refuses a comparison no holdable
+  value satisfies; the first mutation now fails at two sites before the search runs, and all four
+  specimens still resolve clean. [verified] — verified to fail by commenting out the call.
+rationale: |
+  **The first row is the finding.** Writing `set lamp-prep 2` where the next step wants 1 leaves a
+  game that parses, resolves, reaches its ending, and reports **no strandings at all** where the
+  specimen has sixteen. Every signal the corpus had got better. It is also the likeliest of the
+  three mistakes, because it is a typo in a number rather than a misunderstanding of the puzzle.
+
+  That is the second time this corpus has found a defect that presents as good news — after the
+  `is`/`give` disagreement, which took the lighthouse from 14 states and 2 strandings to 6 and 0
+  while staying "winnable". Two instances is this corpus's own threshold, so it is worth naming:
+  **a check that reports fewer problems is not obviously working.**
+
+  **This record first claimed nothing in `crates/` watched for a specimen's findings disappearing,
+  and that was wrong — the experiment was run rather than asserted, and it caught the claim.**
+  With the new check removed and the mutation applied to the committed specimen,
+  `crates/reachability/tests/lighthouse.rs` goes red twice:
+  `the_one_committed_defect_is_the_consumption_trap` pins `strandings.len() == 1` with its cause,
+  target and object by name, and `the_ordering_mutation_is_detected_and_classified` needs that
+  stranding to still be there. [verified]
+
+  So the net exists, and what it protects is the **fixture**. It works because somebody wrote down
+  that lighthouse has exactly one defect and what it is; it would not catch the same typo in a game
+  nobody had pinned, which is every game an author writes. That is the argument for the static
+  check stated properly: not that nothing would have noticed, but that what noticed was a fixture's
+  memory of one specimen rather than a property of the language. [inference]
+
+  **The general lesson is about the instrument.** Reachability could not see the skipped step
+  because it is not a reachability defect: the mutated game is winnable and nothing is stranded.
+  What is wrong is that an authored branch is dead — a fact about declarations, decidable by
+  reading the file, and checkable where it was written all along. Having built a state-space
+  search, this corpus had started reaching past its cheapest instrument: the question was posed as
+  "what primitive is missing" when the answer was "what does resolve already have enough
+  information to say". [inference]
+
+  **The counter earns its domain value a third time, and the third reason is the interesting one.**
+  `counter-flag` argued the `integer` domain is worth having because `counter >= 2` states an
+  ordering constraint and a predicate layer makes it evaluable. It is also **derivable**: the
+  (guard value, written value) pairs across a counter's bindings *are* the successor relation, so
+  the ordering can be checked without ever being declared. Three latched booleans have no such
+  relation to recover. That is a real difference between a counter and the booleans it was
+  suspected of collapsing into, and it was not visible until something tried to check it.
+
+  **A second pressure came out of the same census and it is not a condition.** `case-open` is read
+  at four sites and `cabinet-open` at four, and in both games two of each four are on a *different*
+  hotspot — the thing inside the container. The hotspots are named `ledger-in-case` and
+  `bond-in-cabinet`: the containment written into the identifier because the vocabulary cannot
+  declare it, with the consequence spelled out by hand at both sites.
+
+  This is not one of the three identity relations `hotspot/static-region` is still holding open.
+  The ledger is a separate target with its own bindings; the case being open gates its
+  targetability rather than making the two one thing. **And unlike identity it needs no geometry**,
+  which is why the previous phase's census missed it — that census was looking for drawn regions,
+  and containment is not about drawing. Two instances in this corpus's own specimens, which is
+  where a case for a relation is supposed to come from.
+
+  Nothing is decided about it here. It is recorded so that the next phase to weigh a hotspot-to-
+  hotspot relation weighs both, and knows that one of them arrived without geometry.
