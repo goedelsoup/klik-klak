@@ -33,7 +33,7 @@ Sorted by: kind, then alphabetically.
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 10v / 7i / 2o | 155 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 3v / 5i / 0o | 87 |
-| [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 17v / 8i / 1o | 182 |
+| [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 20v / 8i / 1o | 203 |
 | [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 5i / 1o | 72 |
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 3v / 7i / 0o | 90 |
 | [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 0v / 4i / 0o | 62 |
@@ -41,7 +41,7 @@ Sorted by: kind, then alphabetically.
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 4v / 2i / 0o | 66 |
 | [entry-binding.yml](interaction/entry-binding.yml) | interaction | Entry Binding | 3 | 7v / 8i / 1o | 129 |
 | [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 2v / 1i / 0o | 45 |
-| [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 5v / 4i / 1o | 87 |
+| [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 7v / 4i / 0o | 117 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
 | [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 14v / 3i / 2o | 135 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 0v / 6i / 0o | 61 |
