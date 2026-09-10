@@ -15,6 +15,12 @@ properties:
   - name: scope
     type: string
     description: Whether the flag is global, room-local, or local to a conversation.
+  - name: reversible
+    type: string
+    description: >-
+      Whether anything can put this flag back. `puzzle/state-gate` asked for this by name — a
+      gate over a counter that only increments is irreversible and a gate over clearable
+      booleans is not, and until now nothing made the difference declarable.
   - name: save_semantics
     type: text
     prose: true

@@ -29,6 +29,7 @@ used-by:
   - ../corpus/interaction/default-binding.yml
   - ../corpus/prior-art/ags.yml
   - ../corpus/failure-mode/orphaned-dialogue-branch.yml
+  - ../corpus/world-flag/latched-flag.yml
 ---
 
 **This is a source of record and it is the only one this corpus holds.** The AGS manual is

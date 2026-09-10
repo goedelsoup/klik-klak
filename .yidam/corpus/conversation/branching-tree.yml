@@ -53,6 +53,8 @@ properties:
     class touches the rest of the vocabulary, and it is narrow — most of a conversation's
     state never leaves it.
 links:
+  - target: ../actor/player-character.yml
+    relationship: returns-control-to
   - target: ../actor/non-player-character.yml
     relationship: held-with
   - target: ../world-flag/boolean-flag.yml

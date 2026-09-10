@@ -46,3 +46,9 @@ edges:
     target: conversation
     direction: out
     description: The exchange control passes to when this binding resolves.
+  - relationship: consumes
+    target: inventory-item
+    direction: out
+    description: >-
+      An item this binding spends. Distinct from `requires`, which says the item is offered:
+      an item may be required and returned, or required and gone, and only this says which.

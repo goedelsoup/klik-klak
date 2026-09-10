@@ -61,6 +61,8 @@ properties:
     write a world flag, and that is the narrow channel to the rest of the game.
 
 links:
+  - target: ../actor/player-character.yml
+    relationship: returns-control-to
   - target: ../actor/non-player-character.yml
     relationship: held-with
   - target: ../world-flag/counter-flag.yml

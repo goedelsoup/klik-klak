@@ -25,6 +25,7 @@ description: |
 properties:
   domain: integer
   scope: global
+  reversible: no
   save_semantics: |
     As for a boolean, with one addition worth naming: a counter is the state most likely to
     be incremented by a cutscene that the player skipped. [inference] Skip handling and

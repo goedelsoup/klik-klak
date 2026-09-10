@@ -14,6 +14,7 @@ description: |
 properties:
   domain: boolean
   scope: global
+  reversible: yes
   save_semantics: |
     Written to the save file. [inference] A flag omitted from a save is a puzzle that
     reopens on load, and the failure is silent — the game is consistent, just not with what
