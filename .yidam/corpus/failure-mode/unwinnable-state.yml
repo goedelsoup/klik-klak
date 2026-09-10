@@ -5,6 +5,23 @@ description: |
   reached without the player being told. It is the canonical failure of this genre and the
   clearest evidence that a vocabulary permitted something it should not have.
 
+  **"Canonical failure" was this corpus's assertion and is now a verdict on the record, from the
+  author of the game most often cited for it.** Ron Gilbert, setting the rules for Thimbleweed
+  Park: "Thimbleweed Park will not have the death and dead ends of Maniac Mansion. **Those were
+  born from ignorance more than a focused design decision.**"
+  ([twp-dev-diary](../../catalog/twp-dev-diary.md)) [verified] Not a difficulty setting, not a
+  period convention, not an intentional hazard — a thing the people who did it did not know they
+  were doing.
+
+  **And the way that game avoided them says what this corpus is for.** It followed a design rule
+  — "It will follow my rules of adventure game design" [verified] — applied by hand, by four
+  people, because an authoring surface where every response is a closure in a general-purpose
+  language cannot be asked whether the ending is still reachable
+  ([prior-art/thimbleweed-park](../prior-art/thimbleweed-park.yml)). [inference] That is the
+  same shape as the finding in [puzzle/state-gate](../puzzle/state-gate.yml): the discipline a
+  designer adopts for how the game plays is the discipline that would make it checkable, and the
+  checking is not available to the system that adopted it.
+
   [inference] It has two ordinary causes and they are different problems. One is consumption:
   an object needed later is spent or destroyed earlier, so the state is unwinnable from the
   moment of the spend. The other is ordering: a gate closes behind the player and something
