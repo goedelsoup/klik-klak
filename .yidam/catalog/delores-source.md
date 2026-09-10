@@ -17,6 +17,7 @@ used-by:
   - ../corpus/conversation/topic-list.yml
   - ../corpus/conversation/branching-tree.yml
   - ../corpus/verb/walk-to.yml
+  - ../corpus/prior-art/thimbleweed-park.yml
 ---
 
 **A source of record, and the first one this corpus can *count*.** *Delores: A Thimbleweed Park
