@@ -1,0 +1,166 @@
+class: verb
+label: Walk To
+description: |
+  Movement: send the player character to a place. It is the verb this corpus went looking for,
+  because a specimen authored in this vocabulary reached for it at six sites and no `verb` node
+  declared it — the one member `vocabulary-coverage`'s *undeclared and reached for* list has ever
+  had, and the only evidence this corpus holds that its vocabulary is too **small**.
+
+  **Assessed, and the answer is that it is not a verb.** Not subsumed by another verb, which is
+  what happened to [give-to](../verb/give-to.yml) — nothing here collapses into anything. It fails
+  a different test: it is the one action in this vocabulary whose response is *computed* rather
+  than authored, and a verb with no authorable response has nothing for an interaction table to
+  hold.
+
+  The evidence is unusually clean because AGS's own fallback table states it by omission among
+  inclusions, and because the two engines agree for once. See `earns_its_place`.
+
+  What the specimen actually needed is a different thing, in a class this assessment was not
+  looking at, and this corpus declared it at genesis and then forgot: an **exit**.
+properties:
+  arity: unary
+  surface: |
+    Present in all three surfaces this corpus can read, and each of the three sets it apart.
+
+    Adventure Game Studio ships it as Mode 0, and the manual groups it with the ordinary modes:
+    `StandardMode` marks "a 'normal' cursor mode - i.e. using this cursor will fire an event on
+    whatever is clicked on as usual", and "this mode applies to the standard Walk, Look, Interact
+    and Talk modes" ([ags-manual](../../catalog/ags-manual.md)). [verified]
+
+    **The same page withdraws the footing two paragraphs later**, and this corpus had read the page
+    twice without recording it. "For the standard modes, Mode 0 will cause the player to walk to
+    the mouse pointer location when clicked. Modes 1, 2, 3, 5, 8 and 9 will run the event with the
+    same name as the cursor mode." [verified] Two bullets, and the first is an exception to the
+    second: every standard mode dispatches to an event of its own name, and Mode 0 walks. It is
+    grouped with them and exempted from the thing that makes them what they are.
+
+    SCUMM's verb coin **dropped it out of the verb set entirely.** The article's list is a closed
+    one — "the option to use character's eyes (to *look*), hands (to *use*, *pick up*, *push*,
+    *pull*, etc.), or mouth (to *talk*, *consume*, *inhale*)"
+    ([wikipedia-scumm](../../catalog/wikipedia-scumm.md)). [inference] Three groups, and no legs.
+    The same contraction kept `talk` as a group of its own and folded `pick-up` into hands; it did
+    not fold walking anywhere. It stopped being a verb and became what happens when you click.
+
+    Tumbleweed retyped it. The template provides twelve actions and eleven of them carry one
+    prefix: `eGA_LookAt, eGA_TalkTo, eGA_GiveTo, eGA_PickUp, eGA_Use, eGA_Open, eGA_Close,
+    eGA_Push, eGA_Pull, eGA_UseInv, eGA_Default and eMG_WalkTo`. [verified] The twelfth is
+    `eMG_WalkTo`. **What `eMG_` denotes is not on the page and this corpus does not know it** —
+    what is on the page is that the template's author drew a distinction here and nowhere else in
+    the list. That is the same template that put `eGA_GiveTo` back after the engine had collapsed
+    it, so it is a template willing to add verbs, and it declined to add this one as one.
+  default_response: |
+    **There is none, and that is the finding.** This property asks what a verb says when directed
+    at a target no interaction was authored for, and `walk-to` has no answer in either engine —
+    not a generic refusal, not a per-category one, nothing.
+
+    AGS says so in the strongest available form. `unhandled_event`'s parameter table is a verb ×
+    entity-kind matrix of twenty-six rows, and it is the most information-dense thing this corpus
+    has retrieved ([ags-manual](../../catalog/ags-manual.md)). Look, Interact, Talk, Use-inventory
+    and Pick up all appear in it. **So do "Cursor Mode 8" and "Cursor Mode 9"** — modes the manual
+    declines to name, that an author invents, against hotspots, objects and characters alike.
+    Walk appears in none of the twenty-six. [verified]
+
+    An absence is weak evidence and this one is not, for the reason `pick-up` had to learn the hard
+    way: it is an absence *alongside* the inclusion of things weaker than itself. A table that gives
+    a fallback row to a mode nobody has named yet is not a table that omits modes for want of space.
+
+    The reason is that there is nothing to fall back from. A default response is what the engine
+    says when the author wrote no binding; walking at an unauthored target is not an unhandled
+    interaction, it is walking. The response is produced by [path-solver](../subsystem/path-solver.yml),
+    whose `authoring_visibility` this corpus already recorded as "None. An author draws walkboxes
+    and never touches this." [inference] Every other verb in this vocabulary resolves to something
+    an author wrote. This one resolves to geometry.
+  earns_its_place: |
+    **Assessed 2026-09-09. Verdict: no — and it is the first of the five assessed here to fail,
+    and it fails on a test the other four never had to take.**
+
+    The two-tier test returns a verdict this corpus has not seen before. It is not that the tiers
+    disagree between engines, which is what happened to `pick-up` and `talk-to`. Both tiers agree,
+    and they agree that this is not a verb.
+
+    *At the operation tier it is the heaviest thing in the vocabulary.* SCUMM v5 carries **three**
+    dedicated walk opcodes — `walkActorTo` (`$1E`), `walkActorToActor` (`$0D`), `walkActorToObject`
+    (`$36`) — names and numbers with no descriptions, the same shape as `pickupObject`
+    ([scumm-v5-opcode-reference](../../catalog/scumm-v5-opcode-reference.md)). [inference] No other
+    verb this corpus has assessed gets more than one.
+
+    And the observation that decided `pick-up` holds here in the same form and about the same
+    table: **a general operation coexists with the dedicated ones.** `putActor` (`$01`),
+    `putActorAtObject` (`$0E`) and `putActorInRoom` (`$2D`) place an actor somewhere. Walking is
+    therefore not merely a change of position, or three walk opcodes would be redundant beside
+    three placement opcodes. [inference] The two families even mirror each other on target kind —
+    coordinates, an object, and in the walk family an actor — which is the per-entity-type dispatch
+    [give-to](../verb/give-to.yml) found in AGS, appearing in SCUMM's opcode table for exactly one
+    verb.
+
+    *At the discovery surface it is present everywhere and exceptional in every presence.* Grouped
+    with the standard modes and exempted from what makes them standard; kept by two verb bars and
+    dropped by the contraction that preserved `talk`; retyped by a template that was adding verbs
+    at the time. [verified]
+
+    *And it has no third tier at all.* That is the verdict. Both other tiers can be argued; this
+    one cannot. A verb, in this vocabulary, is a thing an author binds a response to — the
+    `default_response` property exists to ask what happens when they do not. `walk-to` has no
+    answer, AGS's fallback matrix has no row for it, and this corpus's own `path-solver` already
+    recorded that an author never touches the thing that produces its behaviour.
+
+    | verb | surface | operation | authorable response |
+    |---|---|---|---|
+    | `look-at` | kept by all three | none anywhere | yes |
+    | `talk-to` | kept by all three | AGS only | yes |
+    | `use-with` | kept by all three | AGS dispatches it separately | yes |
+    | `pick-up` | SCUMM folded, AGS kept | SCUMM only | yes |
+    | `walk-to` | exceptional in all three | **three opcodes in SCUMM, hard-coded in AGS** | **none** |
+
+    The column that was added to hold this verb is the one that answers the question, and four
+    assessments went by without needing it. [inference] A vocabulary measured only by what engines
+    provide would have kept this verb on the strength of the operation column, which is the
+    strongest in the table.
+
+    **What the specimen was actually writing.** All six sites carry `do move <room>` and nothing
+    else ([design/specimen](../../../design/specimen/README.md)), and `move` is not theirs — the
+    ferry's toll moves the player under `use-with`. So the verb contributed no effect the
+    vocabulary lacked. It contributed a *trigger*, and every system provides that trigger without
+    a verb:
+
+    - AGS stock: "Walk off left edge" and its three siblings are room events; "Stands on hotspot"
+      is a hotspot event; regions carry "Walks onto", "Walks off" and a repeating stands-on.
+      [verified] All position-triggered, and the manual places them outside verb dispatch
+      explicitly — "the 'Character stands on hotspot' event does not trigger this function".
+      [verified]
+    - Tumbleweed needed more than that and built it **outside the action enum**. An exit is
+      declared by writing an extension into the hotspot's *description string* — `Exit>e`, or
+      `>el`, `>er`, `>eu`, `>ed` to leave by a screen edge — and dispatched through `Usermode_1`,
+      landing in a handler named `hExit_Mode8`. "Clicking on such a hotspot will make the player
+      walk to it and change the room afterwards." [verified]
+
+    That last is the specimen's construct exactly, and the template that added `eGA_GiveTo` to the
+    verb list put this one in a description string instead. [inference]
+
+    **This corpus declared exits at genesis and the specimen did not know.** `room -connects-to->
+    room` is "An exit leading to another room", and
+    [data-format/room-manifest](../data-format/room-manifest.yml) lists a room's written form as
+    its extent, backgrounds, hotspot geometry, walkbox polygons "and its exits" — naming "an exit
+    naming a room that does not exist" as checkable while reading the file. The authored game
+    format has no exits, so a game written in it invented a verb to stand in for one.
+
+    **What `connects-to` does not have is the interesting residue, and it is `[open]`.** One of the
+    six sites is guarded and refuses:
+
+        walk-to:
+          when  door-open
+          do    move base
+          else  "Locked, and the salt has taken the hinges."
+
+    A bare edge between two rooms cannot say that. An exit wants a precondition and a refusal,
+    which makes it a binding — and its trigger is arrival rather than a verb applied to a target,
+    which is the one shape [the interaction table](../data-format/interaction-table.yml) cannot
+    index. Proposing that primitive is not this assessment's to do; establishing that the need is
+    real, and that it is not a verb, is.
+links:
+  - target: ../prior-art/ags.yml
+    relationship: originated-in
+  - target: ../prior-art/scumm.yml
+    relationship: originated-in
+  - target: ../verb.ont.yml
+    relationship: instance-of

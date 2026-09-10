@@ -84,7 +84,7 @@ room hut
       say   "Three more coins, and a good deal of dust."
       do    give coin 3
       do    set jar-emptied
-      else  "There is nothing left in it.""
+      else  "There is nothing left in it."
 
   hotspot lantern-hook "a tin lantern on a hook"
     is lantern

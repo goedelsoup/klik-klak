@@ -124,11 +124,39 @@ basis for removing anything.
 
 ## The verb vocabulary
 
-**Used and not declared: `walk-to`**, at eight sites across the two games. Movement is a verb in
-both systems this corpus has read — AGS ships Mode 0 (Walk) and its Tumbleweed template carries
-`eMG_WalkTo` ([ags-manual](../../.yidam/catalog/ags-manual.md)) [verified] — and no `verb` node
-declares it. That is `vocabulary-coverage`'s second list, and it has had one member for three
-phases.
+**Used and not declared: `walk-to`**, at **six** sites across the two games — four in the
+lighthouse, two in the ferry. This document said eight for two phases; the number was never
+counted from the files and is corrected here by counting them.
+
+Movement is a verb in both systems this corpus has read — AGS ships Mode 0 (Walk) and its
+Tumbleweed template carries `eMG_WalkTo` ([ags-manual](../../.yidam/catalog/ags-manual.md))
+[verified] — and no `verb` node declared it. That was `vocabulary-coverage`'s second list, and it
+had one member for three phases.
+
+**Now assessed, and the answer is that these six sites are not verb bindings at all.**
+[verb/walk-to](../../.yidam/corpus/verb/walk-to.yml) finds that no engine lets an author write a
+response to walking: AGS's `unhandled_event` matrix has fallback rows for cursor modes the manual
+never names and no row for Walk. [verified]
+
+The specimens say the same thing from this side, and it is checkable rather than documentary.
+**Every one of the six carries `do move <room>` and nothing else.** The verb contributed no effect
+— `move` is not its own, and the ferry's toll moves the player under `use-with coin`. It
+contributed a *trigger*. What these sites are writing is an **exit**, which
+[`room -connects-to-> room`](../../.yidam/corpus/room.ont.yml) has declared since genesis and this
+game format has no syntax for. [inference]
+
+One of the six is the reason `connects-to` is not simply the answer:
+
+```
+    walk-to:
+      when  door-open
+      do    move base
+      else  "Locked, and the salt has taken the hinges."
+```
+
+A guard and a refusal, on an edge between two rooms. That is a binding whose trigger is arrival
+rather than a verb applied to a target — and the interaction table indexes on verb and target, so
+it has nowhere to put one. `[open]`, and it is the live proposal this assessment leaves behind.
 
 **Declared and not used: `give-to`.** No natural site arose in either game, from a direction the
 documentary assessment in that node did not use.

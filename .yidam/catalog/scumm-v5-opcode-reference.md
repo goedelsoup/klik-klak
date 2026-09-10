@@ -14,6 +14,7 @@ used-by:
   - ../corpus/verb/talk-to.yml
   - ../corpus/conversation/branching-tree.yml
   - ../corpus/verb/use-with.yml
+  - ../corpus/verb/walk-to.yml
 ---
 
 **Reverse-engineered, and it says so.** The footer reads "All material © 2000-2002 David Given,
@@ -48,6 +49,21 @@ The opcode table, for one question: does SCUMM treat acquiring an object as its 
   entries are empty. `verb/use-with.yml` cites this and rests nothing on it.
 - Also present: `getObjectOwner` (`$10`), `getInventoryCount` (`$31`), `findInventory` (`$3D`),
   `findObject` (`$35`).
+
+Read a fourth time, for movement, and it is the richest result the table has given. **Three**
+dedicated walk opcodes — `walkActorTo` (`$1E`), `walkActorToActor` (`$0D`), `walkActorToObject`
+(`$36`) — names and numbers, no descriptions, the same shape as `pickupObject`. No other verb
+this corpus has assessed draws more than one.
+
+And the observation that decided `pick-up` recurs here in the same form: **a general operation
+coexists with the dedicated ones.** `putActor` (`$01`), `putActorAtObject` (`$0E`) and
+`putActorInRoom` (`$2D`) place an actor somewhere, and `loadRoomWithEgo` (`$24`) changes room
+carrying the player. Walking is therefore not merely a change of position, or three walk opcodes
+would be redundant beside three placement opcodes. The two families mirror each other on target
+kind — coordinates, an object, and in the walk family an actor as well. Also present:
+`getActorWalkBox` (`$7B`), `getActorRoom` (`$03`).
+
+`verb/walk-to.yml` rests on this half of the table.
 
 The table was read a second time, for dialogue, and **the finding is an absence.** The only
 speech-related opcodes are `print` (`$14`) and `printEgo` (`$D8`), which display a line. **There is
