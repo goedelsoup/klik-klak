@@ -11,6 +11,27 @@ description: |
   room that does not exist, a hotspot whose geometry falls outside the background: each is
   checkable while reading the file, and each is currently a bug found by walking into it.
 
+  **All three were run against 22 real rooms and none of them is the check it looks like.**
+  ([delores-source](../../catalog/delores-source.md), and every figure below is `[verified]`.)
+
+  *A hotspot outside the background* fires on **23 of 324 rectangles**, and every one of them is a
+  door: `frontDoor`, `AStreetDoor`, `quickiePalDoor`, `highwayDoor`. An exit is deliberately hung
+  over the edge of the room so the player can still click it at the screen boundary. Nothing is
+  fully outside. The check flags exactly the most important object in the room and nothing else.
+
+  *A walkbox nothing adjoins* fires on **4 of 84** in a shipped and working game — a separate floor
+  region in Bank, one in CityHall and two in QuickiePal, disjoint from every other box in the room
+  even by bounding box. Whatever puts an actor there does not walk them there.
+
+  *An exit naming a room that does not exist* cannot be checked from this file at all. **The
+  geometry has no destination field**: fifteen object keys and not one names a room. Where a door
+  goes is in the script, on the far side of the split this node celebrates below.
+
+  So the three are a **warning, a warning, and a category error**, and the confident `[inference]`
+  above is the one that was wrong. What survives is the shape of the claim rather than the
+  examples: a declarative room file *is* the natural place to catch geometry mistakes, and the
+  mistakes it can catch are not the ones that are obvious from a distance. [inference]
+
   **That `[open]` is closed, and by evidence rather than by choosing.** It asked what this node
   is an instance of. `yidam query 'prior-art -reads-> data-format'` returned nothing and reported
   `relationship-unauthored` — the ontology declared `reads` and no instance authored it — and the
@@ -20,7 +41,7 @@ description: |
   the second the edge is unwireable and should be withdrawn.
 
   **A real engine's room file settles it, because it is this one.** Thimbleweed Park's rooms are
-  written as `.JSON` by a standalone editor called Wimpy, and the file Ron Gilbert quotes carries
+  written by a standalone editor called Wimpy, and the file Ron Gilbert quotes carries
   `background`, `name`, `sheet`, and per object `hotspot`, `pos`, `zsort`, `animations` and
   `prop` — extent, backgrounds, hotspot geometry, and nothing else
   ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] Walkboxes are in the same tool.
@@ -32,6 +53,17 @@ description: |
   are *this project's*. They are not: the same positions are visible in a shipped engine, which
   makes them documented facts about a format rather than a repository's preferences sitting in
   the wrong file. The `reads` edge stays; nothing is withdrawn.
+
+  **One detail of that is wrong and it was quoted from the right source.** The diary calls the 2017
+  files `.JSON` and this node repeated it. The 2020 game's `.wimpy` files, written by the same
+  editor, are not JSON and no JSON parser reads one: bare `key: value` lines with no enclosing
+  braces and no commas, arrays separated by newlines, tuples written `(320,180)`, and a legacy
+  vector-as-string encoding `"{320,180}"` still present in some fields
+  ([delores-source](../../catalog/delores-source.md)). [verified] Either the format changed between
+  the two games or the diary was describing it loosely; nothing available here says which. It does
+  not disturb the argument above — the file still carries extent, backgrounds and hotspot geometry
+  and no behaviour — but this node's one concrete claim about the syntax was inherited rather than
+  read, and the syntax is the half this node is about.
 properties:
   syntax: |
     Text, hand-editable, with geometry in world coordinates. The choice to keep it
@@ -40,7 +72,35 @@ properties:
   authored_by: |
     Both. Geometry comes from a tool because polygons are drawn, not typed; everything else
     is written directly. A format that survives round-tripping through a tool without losing
-    hand-written structure is a real constraint on the syntax and is not yet specified. [open]
+    hand-written structure is a real constraint on the syntax and is not yet specified.
+
+    **That `[open]` is closed by watching one do it, and the answer is unattractive: it survives by
+    never removing anything.** 22 room files written and rewritten by the Wimpy editor over a
+    game's development ([delores-source](../../catalog/delores-source.md)):
+
+    - **`roomsize` is a dead key alive in seven of the 22 files.** Every file carries `room_size` as
+      a tuple; seven also carry `roomsize`, six of them in an older string encoding, one in the new
+      one at the other end of the file. In all seven the two agree, because nothing writes the dead
+      one. [verified]
+    - **The hand-written template has drifted out from under the tool.** `Templates/ROOMNAME.wimpy`
+      writes `room_bounds: "{{0,0},{428,240}}"` — the string encoding — and no file the editor has
+      touched writes that key that way. A new room starts in a dialect the tool has stopped
+      speaking. [verified]
+    - **One key is written two ways in the same file kind.** A layer's `parallax` is a scalar in 34
+      of 39 layers and a tuple in five. `Diner.wimpy` carries a top-level `height: 128` no other
+      file has. [verified]
+
+    So round-tripping is survivable, and the property that makes it survivable is **permissiveness**:
+    the reader ignores what it does not know and the writer preserves what it did not write. That is
+    the only strategy that lets a person and a tool edit one file, and its cost is that **nothing
+    tells you a key is dead.** A hand-written key that the tool has stopped reading looks exactly
+    like one it honours, and the seven files above have carried the difference invisibly for a
+    game's development. [inference]
+
+    That is a real constraint on the syntax and it is now specified, in the negative: a format
+    co-authored this way cannot also be one where an unrecognised key is an error, and it therefore
+    cannot check what this node's description wants checked. **The permissiveness and the
+    checkability are the same property with opposite signs.** [inference]
   escape_hatch: |
     None intended. If a room needs behaviour beyond what this file states, the behaviour
     belongs in a binding rather than here — and holding that line is what keeps this format
@@ -67,6 +127,25 @@ properties:
     (`.yidam/decisions/exit-archetype.yml`). [inference] So the same engine answers the two halves
     in the same style, as fields on a declaration, and this corpus has followed it on one and not
     yet on the other: arrival at a place *within* a room is still unbuilt here.
+
+    **The split holds and now has a price on it, which this node had never asked for.** Both halves
+    of one game were counted against each other for the first time: the geometry declares **948
+    objects** and the scripts name **485** of them, so **463 things exist in one file and are
+    unmentioned in the other**. Among them are **106 of the 276 clickable regions**
+    ([delores-source](../../catalog/delores-source.md)). [verified]
+
+    Most of that is benign — 172 unnamed props are scenery, and all 163 `spot`s are read by the
+    engine and by no author's code, which is a declarative field doing its job. What is not benign
+    is `Nickel.newspaper17`: a hotspot rectangle with an approach point and a facing, sitting in the
+    object list between `newspaper16` and the end, whose only mention anywhere in the scripts is a
+    commented-out declaration. [verified] A targetable region wired to nothing.
+
+    **Neither file is wrong, which is the point.** The geometry is a correct description of a region
+    and the script is a correct set of behaviours; the defect exists only in the relation between
+    them, and the relation is exactly what the split has no file for. This node argued the split was
+    holdable and it is right — the engine holds it with a general-purpose language available and
+    unused. What it costs is a class of defect that neither half can see, and the reason to keep
+    both halves declarative is that a checker could then read them together. [inference]
 links:
   - target: ../room/single-screen.yml
     relationship: encodes

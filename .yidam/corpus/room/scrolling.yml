@@ -11,18 +11,61 @@ description: |
   The reason this is a separate node rather than a property value on one `room` is that the
   costs are borne by other classes. `walkbox`, `hotspot` and `cutscene` all need vocabulary
   they would not otherwise need, and an edge from those classes to *this* form is what makes
-  the dependency legible. Whether `extent` therefore belongs on the room or on a camera the
-  ontology does not yet have is `[open]`.
+  the dependency legible.
+
+  **That `[open]` is closed, and the answer is neither of the two it offered.** It asked whether
+  `extent` belongs on the room or on a camera the ontology does not have. A shipped engine's room
+  files declare **both, as two fields side by side**: `room_size` is the extent of the background
+  image, and `room_bounds` is a rectangle in the same coordinates naming where the camera may go
+  ([delores-source](../../catalog/delores-source.md)). [verified] The manual settles which is
+  derived — `roomSize(room)` "Returns the size of a room based on it's image size" — so the extent
+  is a fact about the artwork and the bounds are authored beside it.
+
+  **They differ in ten of twenty-one rooms, and four of the differences are real.** Six are an
+  origin of `(1,1)` against `(0,0)`, which is tool noise. Diner is inset ten pixels on every side;
+  Vista and Nickel are inset at one edge; and **Bathroom's camera bounds are taller than its
+  background** — 240 against 180. [verified] So the camera range is not a derived thing an engine
+  could compute, and an author who writes only one of the two has said less than the format lets
+  them say.
+
+  That is enough to answer the question and not enough to add a class, and the reason is that the
+  engine draws the line in the same place. **A camera there is a runtime thing with an imperative
+  API — `cameraAt`, `cameraFollow`, `cameraOffset`, `cameraZoom`, `cameraZoomFromTo` — and exactly
+  one declarative field, which lives on the room.** [verified] There is no setter for the bounds at
+  all: the rectangle can be declared and cannot be changed, which is the opposite of everything
+  else the camera can do.
+
+  So the evidence is for **a second field, not a second entity**. A camera class here would hold
+  one property and every behaviour that made it interesting is on the far side of the line
+  `effect-list-semantics` draws. `extent` splitting into *what the room is* and *where the view may
+  go* is a property becoming two properties. [inference]
 properties:
-  extent: scrolling
+  extent: |
+    Scrolling — and it is two quantities rather than one. The room's own extent is the size of the
+    background image; the range the camera may occupy is a separate rectangle authored beside it,
+    and the two are equal only by default. [verified] See the description; a real engine writes
+    both, and they disagree in four of its twenty-two rooms for reasons an engine cannot infer.
   background: |
     A single image wider than the viewport, or a set of parallax planes moving at different
     rates.
+
+    **Both forms are exercised and the second is the common one.** Of 22 shipped rooms, 15 declare
+    layers — 39 in all, each with a name, a `zsort` and a `parallax` rate running from 0.25 to 1.35
+    ([delores-source](../../catalog/delores-source.md)). [verified] Parallax is not a special case
+    of a scrolling room; it is what a scrolling room's background usually is.
   state_variance: |
     As for the single-screen form, with one addition: the camera's permitted range may
     itself be state-dependent, which is how an author fences off part of a room before it
     is meant to be reachable. [inference] That is a bound on the camera doing the work of a
     bound on the walkbox, and the two can disagree.
+
+    **The bound-on-the-walkbox half is confirmed and the bound-on-the-camera half is not available
+    at all.** In the one system available to check, `walkboxHidden(name, state)` fences off floor at
+    eleven sites, and the camera's bounds **have no setter in the engine's API**
+    ([delores-source](../../catalog/delores-source.md)). [verified] `room_bounds` is declared once
+    per room and cannot move. So of the two ways this property said an author could fence a room,
+    one is the way it is done and the other is not offered — and the guess that the two can
+    disagree is not wrong so much as unreachable, because only one of them is a variable.
 links:
   - target: ../room/single-screen.yml
     relationship: connects-to

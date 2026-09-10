@@ -27,6 +27,10 @@ used-by:
   - ../corpus/data-format/interaction-table.yml
   - ../corpus/interaction/default-binding.yml
   - ../corpus/interaction/unary-binding.yml
+  - ../corpus/data-format/room-manifest.yml
+  - ../corpus/walkbox/scaled-polygon.yml
+  - ../corpus/room/scrolling.yml
+  - ../corpus/interaction/entry-binding.yml
 ---
 
 **A source of record, and the first one this corpus can *count*.** *Delores: A Thimbleweed Park
@@ -100,10 +104,12 @@ two of those name one in another room. Seven distinct shapes are involved and on
 a response running another response on the same thing; the taxonomy and what it decided are in
 `.yidam/decisions/delegation.yml`.
 
-**Objects.** 164 `DEFINE_OBJECT` declarations. **46 (28%) carry no verb slot at all** — a name,
-an article, some properties, and nothing that happens. 82 carry exactly one. Two carry five or
-more. Alongside them, 290 bare props (`name = {}`): positioned art with no name and no
-behaviour.
+**Objects.** 164 `DEFINE_OBJECT` lines, of which **four are commented out** — the live figure is
+**160**, and the recount is under "The room geometry" below. **45 of the 160 (28%) carry no verb
+slot at all** — a name, an article, some properties, and nothing that happens. 82 carry exactly
+one. Two carry five or more. Alongside them, 290 bare props (`name = {}`): positioned art with no
+name and no behaviour. The share is unchanged by the recount; both halves of it were inflated by
+the same four lines.
 
 ## Touchable against hidden — 2026-09-10
 
@@ -137,7 +143,7 @@ popup, and `openVerbsFor` builds it by walking the master verb list and keeping 
 - **`_known_verbs` is reflection over the object's own fields.** `registerVerbs` iterates the
   object's keys, keeps every one beginning `verb_` that is not a `_text` or `_desc`, and warns if
   any is missing from the master list. An object with none gets no `_known_verbs` and is not
-  interactable at all — which **46 of the 164 objects** are.
+  interactable at all — which **45 of the 160 objects** are.
 - **`_checkVerbValid` hides rather than refuses.** Binary verbs are never shown (`if (verb in
   ROOT(verb_usewith_list)) return NO`); a verb with no `okverb_` is shown; a verb with one is shown
   only if it returns true. So a failing precondition removes the verb from the menu, and no line of
@@ -266,6 +272,168 @@ departure from, a region *within* a room.
 **Room entry code.** 20 of 21 rooms have `enter = function(from_door=null)`; 237 lines between
 them, mean 11.8, and three rooms hold 36-44 of them.
 
+## The room geometry — 2026-09-10
+
+The 22 `.wimpy` files, read in full for the first time. `HelpDocsHtml/wimpy.html` is the single
+word "TDB", so the format is undocumented and everything below is read off the files themselves —
+the same standing as Yack's grammar.
+
+**It is not JSON, and this entry said it was.** `room-manifest` records Thimbleweed Park's rooms
+as "written as `.JSON` by a standalone editor called Wimpy", which is what the development diary
+quotes for the 2017 game. Three years later the same editor writes something else: bare
+`key: value` lines with no enclosing braces and no commas, arrays whose elements are separated by
+newlines, tuples written `(320,180)` and `((0,0),(320,180))`, and a **legacy vector-as-string**
+encoding `"{320,180}"` that survives in some fields and not others. 40 distinct keys across the
+corpus of files. A JSON parser reads none of it.
+
+**948 objects, and the shape vocabulary is three exclusive flags over two orthogonal fields.**
+`prop`, `spot` and `trigger` are each `1` or absent, and **no object carries more than one** — 0
+of 948. Crossed with whether the object has a `hotspot` rectangle and whether it has `animations`,
+every object in the game falls into six cells:
+
+| shape | count | what it is |
+|---|---|---|
+| `prop` + animations | 455 | drawn, not targetable — scenery |
+| `hotspot` rect only | 143 | targetable, not drawn |
+| `hotspot` + animations | 133 | targetable and drawn |
+| `spot` | 163 | neither — a position and a facing |
+| `trigger` + `hotspot` | 48 | a region that fires on entry |
+| `prop`, no animations | 6 | drawn from the sheet with no state |
+
+**The rectangle is a separate field from the drawing, and the two barely overlap.** 598 objects
+are drawn, 324 carry a hotspot rectangle, and only 133 do both. Targetability is not a property of
+the art and is not derived from it: it is its own rectangle, authored separately, and 143 regions
+have one with nothing drawn under them at all.
+
+**A trigger is a hotspot with a boolean.** All 48 carry exactly the same seven keys — `name`,
+`trigger`, `hotspot`, `pos`, `usepos`, `usedir`, `zsort` — which is a hotspot's key set plus the
+flag. None has an animation. The engine types them `OBJECT_TRIGGER` and `_enterObject` calls
+`addTrigger(object)` on them, then `enableTrigger(object, TRIGGER_ENTER|TRIGGER_LEAVE)`.
+
+**A spot is `usepos`/`usedir` promoted to an object.** All 163 carry exactly four keys — `name`,
+`spot`, `usedir`, `pos` — and nothing else. They are the only objects with a `usedir` and no
+`usepos`, and they are exactly that set.
+
+**Every targetable region has an approach point and only targetable regions have one.** `usepos`
+appears on exactly the 324 objects with a hotspot rectangle. 64 of them carry a **second** one,
+and the nesting is perfect: no `usepos2` without a `usepos`, no `usedir2` without a `usepos2`. The
+manual confirms it is an engine concept rather than a convention — `objectUseDir2(object)`
+"Returns the secondary use direction, as defined in Wimpy".
+
+### Walkboxes
+
+**84 polygons across 15 rooms, and a walkbox carries nothing but a polygon and sometimes a name.**
+Those are the only two keys that ever appear on one. Vertex counts run 4 to 118, median 5, mean
+9.5; **42 of the 84 are quadrilaterals**.
+
+**37 of the 84 are not convex.** Tested by cross-product sign change around the ring, ignoring
+collinear vertices.
+
+**No walkbox carries a scale.** The scale is a room-level field: `scaling` is a list of
+`"<factor>@<y>"` breakpoints — `["0.90@54", "0.80@93"]` — present in 12 of 22 rooms, and it is a
+piecewise function of the actor's **y coordinate in the room**, not of which region the actor
+stands in. MainStreet's is a list of five alternative curves each keyed by a `trigger` name, so
+the scale function is state-dependent and the state is a trigger region.
+
+**14 of the 84 are named, and the names come in pairs.** `hydrant` / `hydrant_front`, `jail` /
+`jail_door`, `natalie_desk` / `desk_path`, plus `upperLadder0..2`, `lowerLadder0..2`, `backroom`
+and `stairs`. `walkboxHidden(name, state)` is called at 11 sites, every one naming a named box;
+the 70 unnamed ones are never hidden. In each pair the larger region is non-convex and its partner
+is a 4-vertex quad.
+
+### Extent and camera
+
+**A room declares its size and its camera range as two separate fields, and they differ in ten of
+twenty-one.** `room_size` is the image — the manual says `roomSize(room)` "Returns the size of a
+room based on it's image size" — and `room_bounds` is a rectangle authored beside it. Six of the
+differences are an origin of `(1,1)` against `(0,0)`. Four are real: Diner is inset ten pixels on
+every side (`((10,10),(470,170))` against `(480,180)`), Vista and Nickel are inset at the right
+edge, and **Bathroom's bounds are taller than its image** — `(320,240)` against a `(320,180)`
+background. `Inventory.wimpy` has bounds and no size at all.
+
+### What round-tripping through the tool costs
+
+**`roomsize` is a dead key that survives in seven of the 22 files.** Six carry it near the top in
+the legacy string encoding (`roomsize: "{320,180}"`); PostOffice carries it at the bottom as a
+tuple. Every file also carries `room_size`, and in all seven the two agree — the dead key has
+never drifted, because nothing writes it. The tool rewrites these files and does not remove it.
+
+**The hand-written template is stale against the tool.** `Templates/ROOMNAME.wimpy` writes
+`room_bounds: "{{0,0},{428,240}}"` — the string encoding — and no file the editor has touched uses
+that form for that key. The template also has no `room_size` and no `walkboxes`.
+
+**One key is written two ways within one file kind.** `parallax` on a layer is a scalar in 34 of
+39 layers and a tuple `(1.2,1.2)` in 5. `Diner.wimpy` carries a top-level `height: 128` that no
+other file has.
+
+### The geometry against the scripts
+
+Cross-referencing every `.wimpy` object against the room scripts that declare and bind it. The
+reader is held to this entry's own figures: it reproduces 203 live `VERB` bindings and 107 of them
+`lookat`, and refuses to report anything if it does not.
+
+**The 164 object declarations recorded above is a raw count and four of them are commented out.**
+`AStreet.dime`, `Nickel.newspaper17`, `QuickiePal.tShirt` and `QuickiePal.rat` are commented-out
+`DEFINE_OBJECT` lines. The live figure is **160**, and it is the same error as the `lookat` recount
+in a different key. Every figure below uses 160.
+
+**202 of the 203 bindings are written inside an object declaration. The other one is installed on
+an object passed as an argument** — `obj.VERB(read) { … }` inside `assignHeadline(obj, headline)`
+in `AStreet.dinky`.
+
+**A room script names an object in three ways, and the geometry declares more than it names.**
+A `DEFINE_OBJECT({…})` attaches behaviour, a `DEFINE_INVENTORY` does the same for a carried item,
+and a bare `name = {}` is a stub that names a geometry object and gives it nothing — 290 of those,
+the "bare props" counted above. Against the 948:
+
+| geometry shape | total | named by the script | carries a binding | never named |
+|---|---|---|---|---|
+| `hotspot` (not a trigger) | 276 | 170 | **115** | 106 |
+| `prop` | 461 | 289 | 0 | 172 |
+| `spot` | 163 | **0** | 0 | **163** |
+| `trigger` | 48 | 26 | 0 | 22 |
+| **total** | **948** | **485** | **115** | **463** |
+
+**Of the 276 clickable regions, 115 carry a binding — 41.7%.** 55 are named by the script and bind
+nothing; **106 are never mentioned by it at all.** That is the same question as "46 of 164 carry no
+binding" above asked from the other side of the split, and the answer is much larger, because the
+164 was every object the *script* names and the geometry declares 948.
+
+**The 163 spots are named by the script exactly zero times.** They are read only by the engine —
+`objectUseDir(object)`, "as defined in Wimpy" — and no author's code refers to one. A declarative
+field doing real work with no script surface at all.
+
+**Every name in a room script resolves to an object in that room's geometry.** The only script
+names without one are the fifteen inventory items, which are in no room. There are no orphans in
+that direction; all 463 are on the geometry side.
+
+**`Nickel.newspaper17` is a fully-formed targetable region with no live declaration anywhere.** It
+has a hotspot rectangle, a `usepos`, a `usedir` and a `zsort`, sitting between `newspaper16` and
+the end of the object list; the only line in the scripts that mentions it is a commented-out
+declaration. Finding it means reading the two files together, and they are the two files the
+engine deliberately keeps apart.
+
+**`triggerLeave` is offered by the engine and used zero times.** `enableTrigger` takes
+`TRIGGER_ENTER|TRIGGER_LEAVE`, `_triggerActor` dispatches to `triggerEnter` or `triggerLeave`, and
+across the whole game there are **11 `triggerEnter` bodies and no `triggerLeave` body**.
+
+**`assignHeadline` is one binding shape written 28 times.** The function is defined twice —
+`Nickel.dinky:100` and `AStreet.dinky:62`, near-identical, driving two headline tables — and each
+copy is applied to a run of one-line declarations: sixteen `newspaper1..16 = DEFINE_OBJECT({
+function enter() { assignHeadline(this, N) } })` in Nickel, twelve `assignHeadline(nickelNoteN, N)`
+calls in AStreet. 28 geometry objects, 28 declarations differing only in an integer, two copies of
+one function. `addTriggerCode` in BookStore is the same shape at six.
+
+### What the manual says about touchable and hidden
+
+`object_functions.html` documents `objectHidden` and `objectTouchable` with **the same sentence**:
+"Sets or returns an objects hidden state. Objects that are hidden are also untouchable." The
+second is a copy of the first, wrong for the function it describes.
+
+The same page gives the coupling between drawing and targetability a magic value:
+`objectState(object, state)` — "If the state is set to `"gone"` then the object becomes
+untouchable."
+
 ## Yack — a bounded declarative dialogue language, shipped
 
 `.yack` is a second language, for conversations only. 692 non-blank lines across 11 files:
@@ -316,9 +484,12 @@ about this one, it is `[inference]`.
 
 ## What this artifact holds that nobody here has looked at
 
-The `.wimpy` files themselves, in detail — 307 KB of room geometry, walkboxes, lighting and
-object placement, which is the declarative half of the surface and has been read here only
-through one quoted example. `Scripts/Helpers/SystemHelpers.dinky` (1,258 lines) and
+The `.wimpy` files have since been read in full — see "The room geometry" above — and what they
+turned up is that the two halves of the split had never been counted against each other. What is
+still unread there is the **lighting**: 61 light declarations carrying `color1`, `color2`,
+`iradius`, `oradius`, `rate` and a `clipping` rectangle, which is presentation and was skipped for
+that reason, and the 39 `layers` with their parallax rates.
+`Scripts/Helpers/SystemHelpers.dinky` (1,258 lines) and
 `Options.dinky` (659), which are where the authors' own abstractions live. The 34-page manual,
 of which four pages were read. And `Scripts/Inventory.dinky`, read for binding
 counts and for its one delegation site, and not otherwise.

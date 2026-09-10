@@ -45,6 +45,22 @@ description: |
   What this class needs is a **targetability** property; calling it `visibility` is what invited the
   reading that it fused two things. `.yidam/decisions/hotspot-identity.yml`.
 
+  **That was an inference from call sites and it is now structural.** In the room files, whether a
+  thing can be targeted is a `hotspot` rectangle and what draws it is an `animations` list, and they
+  are **different fields that mostly do not co-occur**: of 948 objects, 324 carry a rectangle, 598
+  are drawn, and only 133 do both. **143 regions are targetable with nothing drawn under them at
+  all** ([delores-source](../../catalog/delores-source.md)). [verified] Targetability is not derived
+  from the art and never was; the format separates them at the point of declaration.
+
+  **Two more confirmations, both from the engine's own manual.** `objectHidden` and `objectTouchable`
+  are documented with **the same sentence** — "Sets or returns an objects hidden state. Objects that
+  are hidden are also untouchable" — the second a copy of the first, wrong for the function it
+  describes. [verified] The people who built it did not hold the two apart in prose either. And the
+  coupling that does exist runs through a magic value: `objectState(object, state)` is documented as
+  "If the state is set to `"gone"` then the object becomes untouchable". [verified] So drawing
+  reaches targetability by one reserved string, which is the fusion this class was accused of,
+  implemented.
+
   **A third absence, and it arrived from the other side of the vocabulary.** This class also has
   no way for a region to say what it is *relative to another region* — that it is part of one,
   that it is the same thing as one, or that it reads the way one does. The evidence for wanting
@@ -76,11 +92,62 @@ description: |
 
   So what would settle it is not a second game but a design with geometry in scope — or the 307 KB
   of `.wimpy` files this corpus has held unread since it catalogued them, which is where those
-  regions actually are. Whether such a design wants one relation or three is untouched, and the
-  three are genuinely different: taking one traffic cone does not take the others. `[open]`
+  regions actually are.
+
+  **They have been read, and the relation is declared in them by name.** A `.wimpy` object may carry
+  a **`parent`**, and 27 objects across six parents do
+  ([delores-source](../../catalog/delores-source.md)). [verified] The parents are machines — an
+  `arrestTron`, a `copyTron`, three coroner's-office consoles — and each has several children: some
+  props that draw a light or a flashing panel, and some **hotspot rectangles that are separate
+  clickable regions of the one machine**, `arrestTronLight1_On` through `_3_On`.
+
+  **Of the 27 children, exactly one is named by any script and none carries a binding. Of the six
+  parents, four are declared and each carries exactly one — a `lookat`.** [verified] So the relation
+  does real work: 27 regions resolve onto 4 bindings, and an author who did not have it would be
+  writing either 27 declarations or the delegation the same game uses elsewhere.
+
+  **That answers the question this node left open about which of three relations is wanted, and the
+  answer is `part-of` alone.** `parent` says this region belongs to that object. It does not say two
+  regions are the same thing, and it does not say one reads the way another does — and the traffic
+  cones that made the three look different are still not expressible by it. [inference] The two
+  mechanisms in that game divide the work: `parent` takes the 27 that are parts of one drawn
+  machine, delegation takes the 11 that are not.
+
+  **And the prediction the last phase closed on was right for the reason it gave.** It said "you
+  only need to say *these two regions are one thing* once regions are things you draw", and the
+  field turns out to live in the file where they are drawn, on objects that have rectangles and
+  animations, declared by a tool that draws them. It is absent from the script side entirely: no
+  binding, no helper and no documented engine call reads `parent`, and the manual's only parenting
+  concept is `imageParentChild`, which is about images. [verified]
+
+  What remains open is narrower and is this corpus's own question rather than a retrieval. This
+  vocabulary has no geometry, so a `part-of` here would attach hotspot to hotspot with nothing drawn
+  under either, and the four specimens exhibit none of it —
+  `crates/reachability/tests/identity.rs` is still the census that says so. The relation is now
+  evidenced, and *named*, and the condition on adopting it has not changed. `[open]`
+
+  **One thing the reading did settle outright: this is checkable.** `quickieToiletTubLit` in
+  `Bathroom.wimpy` declares `parent: "quickieToilet"`, and no object of that name exists in that
+  room, in any other room, or in any script — the nearest is `quickieToiletTube`, twelve objects
+  further down the same file. [verified] A dangling reference inside one file, of the kind
+  [room-manifest](../data-format/room-manifest.yml) argues a declarative room file should catch, and
+  the only one of its examples that survives contact with a real game.
 properties:
-  geometry: polygon
-  visibility: always
+  geometry: |
+    A polygon — and in the one shipped format available to read, a rectangle. All 324 targetable
+    regions in *Delores* are axis-aligned rects given as two corners relative to the object's
+    position, and the polygons in those files are walkboxes rather than hotspots
+    ([delores-source](../../catalog/delores-source.md)). [verified] Nothing here narrows the
+    property to a rectangle on one system's evidence; what the evidence removes is the assumption
+    that a hotspot needs the same expressiveness as a floor region. A shipped game's hotspots
+    never did.
+  targetability: |
+    Always, by default, and separately from whether the region is drawn. Renamed from `visibility`,
+    which fused two things — see the description, and `.yidam/decisions/hotspot-identity.yml` for
+    the census that separated them.
+
+    The separation is not this corpus's invention: the format that ships puts the rectangle and the
+    art in different fields, and 143 of its regions have the first without the second. [verified]
   cursor_feedback: |
     A name and, in most systems, a change of cursor shape. [inference] The name shown on
     hover is doing more work than it appears to: it is the only pre-commitment signal the

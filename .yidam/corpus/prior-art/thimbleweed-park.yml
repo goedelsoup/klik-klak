@@ -144,8 +144,9 @@ description: |
   sample named: 34 bindings (16.7%) block or take time, 18 (8.9%) call another verb slot on the
   same object, 12 start a thread, 7 loop.
 
-  Two shapes dominate everything. **110 of the 203 bindings — 54% — are `lookat`**, and of the
-  164 object declarations in the game, **46 carry no verb slot at all** and 82 carry exactly one.
+  Two shapes dominate everything. **107 of the 203 bindings — 52.7% — are `lookat`**, and of the
+  160 live object declarations in the game, **45 carry no verb slot at all** and 82 carry exactly
+  one.
   [verified] Beside them sit 290 bare props with neither a name nor a behaviour. A real
   interaction table is far emptier than this corpus has been imagining.
 

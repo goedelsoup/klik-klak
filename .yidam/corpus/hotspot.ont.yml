@@ -6,19 +6,23 @@ foundational_type:
 description: |
   A region of a room that the cursor resolves to and a verb can be directed at.
   Irreducible because targeting is separable from everything else about a thing: a region
-  can be targetable while drawing nothing, moving nowhere and carrying no state.
+  can be targetable while drawing nothing, moving nowhere and carrying no state — which a
+  shipped room format makes structural, with 143 of its regions carrying a targeting rectangle
+  and no art at all.
 properties:
   - name: geometry
     type: string
     description: How the region is described — rectangle, polygon, or colour mask.
-  - name: visibility
+  - name: targetability
     type: string
     description: >-
       Whether the region is always targetable or conditional on world state. It is about the
       cursor rather than about drawing: a shipped game changes targetability fifteen times without
-      touching hiddenness, and what an object looks like is its state. The name predates that
-      count and is the reason this property read as two fused together; see
-      `hotspot/static-region`.
+      touching hiddenness, and what an object looks like is its state. Renamed from `visibility`,
+      which is what made it read as two properties fused; its room files put the rectangle that
+      makes a thing targetable and the animations that draw it in different fields, and most
+      objects carry one or the other. See `hotspot/static-region`, which holds the counts and
+      their tags.
   - name: cursor_feedback
     type: text
     prose: true
