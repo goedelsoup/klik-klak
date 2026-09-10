@@ -1,0 +1,68 @@
+id: domain-computer
+summary: >-
+  `crates/` exists — three zero-dependency crates — and the `design/` gate moved into it on
+  the condition `design-directory` named, which fired for both of its reasons at once.
+context: |
+  `.yidam/skills/reachability.md` was scaffolded at genesis and stubbed for four phases, each
+  time for a different reason: no authored game existed; then no *decidable* language existed;
+  then a specimen existed whose one defect was inexpressible. `effect-vocabulary` closed the
+  last of those, so for the first time the calculator had an input.
+
+  Writing it means `crates/Cargo.toml`, which this repository had deliberately not created.
+  `mise.toml` argued at length for provisioning no toolchain, and `.github/workflows/ci.yml`
+  gates three whole jobs on that path existing. `design-directory` recorded the deferral as a
+  decision with a trigger rather than a drift: *"move the gate into `crates/` on the day
+  `crates/Cargo.toml` exists for any other reason … or on the day this gate needs to parse
+  YAML properly rather than pattern-match it."*
+
+  Both fired in the same phase. The calculator needs a real reader for `.game`, and once a
+  real reader exists the shell gate's `names.awk` is strictly worse than calling it.
+decision: |
+  **Three crates, and no dependencies at all.**
+
+  - `game-format` — the `.game` model, its reader, and the admission rule: every operand
+    must name something the game declares, **of the right kind**.
+  - `reachability` — the calculator. The reachable set, the stranded set, and for each
+    stranded set the binding that stranded it, classified as consumption or ordering.
+  - `design-gate` — the gate for `design/`, as tests. `cargo test -p design-gate`.
+
+  **`design/check.sh` and `design/names.awk` are deleted, not kept alongside.** A gate in two
+  places is a gate that disagrees with itself, and the shell one was already the weaker: it
+  matched names against one flat set, so `carrying quay` and `move brass-key` both passed.
+
+  **CI needs no new wiring.** The `crates` job in `.github/workflows/ci.yml` is conditional on
+  `crates/Cargo.toml` and became live the moment the file appeared, which is what the
+  conditional was built for. The shell step in the `corpus` job is removed rather than left
+  duplicating a test.
+
+  **Zero dependencies.** Two reasons and the second is load-bearing: the shapes read here are
+  small enough that a dependency would be larger than the code it replaced, and this
+  repository's CI is required to be hermetic. A build that resolves a registry is a build
+  whose colour depends on somebody else's uptime. It also means `deny.toml` has nothing to
+  say and no advisory can turn this build red for a reason unrelated to the corpus.
+rationale: |
+  **What the move actually bought, measured rather than asserted.** The type-aware resolver
+  found a defect in the specimen on its first run: `hotspot lamp` and `option lamp` shared a
+  name. The shell gate had passed that file for two phases, because a flat namespace cannot
+  tell a hotspot from a dialogue option. That is one real finding on one 190-line file, which
+  is a better argument for the move than the tidiness one.
+
+  **The calculator found a defect in itself on its first run, too.** It reported two
+  strandings where the specimen has one, because it expanded states past the ending — asking
+  whether the player can reach the ending a *second* time, which nothing can. Every
+  post-ending state read as stranded. An ending ends the game; the fix is one branch and the
+  comment naming the false positive stays in the source, because the next person to add a
+  terminal effect will need it.
+
+  **Why the tool does not exit nonzero on a stranded state.** The specimen is deliberately
+  trapped, so a stranding is a finding about the game rather than a failure of the tool. A
+  nonzero exit would make the fixture permanently red and the first response to that is to
+  stop running it. The tests assert the *shape* of the finding instead — exactly one
+  stranding, consumption, at the hinge — which fails if the trap disappears or a second one
+  appears, and that is what a fixture is for.
+
+  **Why `reachability` and not `vocabulary-coverage` first**, when AGENTS.md named the second
+  as the crate this repository expected. Because the input arrived. Vocabulary coverage is
+  still blocked on a question this corpus has not settled — whether a coverage report over a
+  specimen and a calculator over corpus instances are one computation with two inputs or two
+  different questions — and writing it now would answer the wrong one quickly.

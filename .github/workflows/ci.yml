@@ -463,17 +463,11 @@ jobs:
       - name: REGEN blocks are current
         run: yidam regen --check
 
-      # The gate for `design/`, which holds proposals rather than documentary
-      # claims and so sits outside every check above. It verifies that each
-      # design document's declared premises still exist in the corpus, and that
-      # every effect it names is a relationship the ontology declares.
-      #
-      # Deliberately a direct call and not `mise run ci`: mise is not installed
-      # in this job, and a gate that runs only on a contributor's machine goes
-      # stale in exactly the way this one exists to prevent. It needs no
-      # toolchain, so it costs a runner-second wherever it is put.
-      - name: design/ still derives from the corpus
-        run: ./design/check.sh
+      # The gate for `design/` used to be a shell step here. It is now
+      # `cargo test -p design-gate`, which the `crates` job below runs — that
+      # job became live the moment crates/Cargo.toml appeared, and the
+      # conditional wiring is exactly what it was built for. See
+      # .yidam/decisions/domain-computer.yml.
 
   crates:
     name: crates (domain computer)

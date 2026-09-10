@@ -57,8 +57,9 @@ _.path = [".yidam/bin"]
 # that task runs. Adding a toolchain now would buy nothing and cost time on every
 # CI run.
 #
-# Uncomment the day `crates/Cargo.toml` exists:
-# rust = { version = "1.88.0", components = "rustfmt,clippy" }
+# `crates/Cargo.toml` exists as of phase/calculator, so this is live. The workspace has
+# zero dependencies — see crates/Cargo.toml for why — so provisioning is the whole cost.
+rust = { version = "1.88.0", components = "rustfmt,clippy" }
 #
 # python/uv/node are not expected. If a vocabulary probe is ever built under
 # `web/` (see web/README.md), node comes with it.
@@ -145,15 +146,15 @@ cargo fmt --all --manifest-path crates/Cargo.toml
 # premises still exist in the corpus and that every effect it names is a
 # relationship the ontology actually declares.
 #
-# Bash, awk and grep, not a crate. `crates/Cargo.toml` does not exist and
-# creating it is a separate structural decision this repository has deferred on
-# the record; standing up a Rust workspace to run four path checks would have
-# changed CI for every future commit. The condition for moving it is in
-# .yidam/decisions/design-directory.yml.
+# It was bash, awk and grep until `crates/` existed. Both conditions
+# .yidam/decisions/design-directory.yml named for moving it fired at once — a
+# workspace appeared for the reachability calculator, and the gate needed to
+# parse `.game` rather than pattern-match it. `.yidam/decisions/domain-computer.yml`
+# records the move and what it bought.
 
 [tasks.design-check]
 description = "Check that design/ documents still derive from the corpus they name."
-run = "./design/check.sh"
+run = "cargo test -p design-gate --manifest-path crates/Cargo.toml"
 
 # ── ci ────────────────────────────────────────────────────────────────────
 # The local equivalent of what .github/workflows/ci.yml runs, and "equivalent"
@@ -173,7 +174,6 @@ set -eu
 mise run graph-check
 mise run graph-lint
 mise run regen-check
-mise run design-check
 if [ ! -f crates/Cargo.toml ]; then
   echo
   echo "no crates/Cargo.toml yet — the domain computer does not exist."
@@ -182,5 +182,7 @@ if [ ! -f crates/Cargo.toml ]; then
 fi
 cargo fmt --all --manifest-path crates/Cargo.toml -- --check
 cargo clippy --workspace --all-targets --manifest-path crates/Cargo.toml -- -D warnings
+# `design-gate` runs here: the gate for design/ is a test now, so `cargo test` is the
+# whole of it and there is no separate step to forget.
 cargo test --workspace --manifest-path crates/Cargo.toml
 """
