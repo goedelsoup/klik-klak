@@ -14,7 +14,10 @@ properties:
     description: The values the flag can take — boolean, counter, enumeration, or set.
   - name: scope
     type: string
-    description: Whether the flag is global, room-local, or local to a conversation.
+    description: >-
+      Whether the flag is global, room-local, local to a conversation, or local to an object.
+      The last was added when a shipped game turned out to keep most of its state there;
+      `world-flag/object-state` is the instance and carries the evidence.
   - name: reversible
     type: string
     description: >-

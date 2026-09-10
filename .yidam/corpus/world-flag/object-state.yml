@@ -1,0 +1,58 @@
+class: world-flag
+label: Object State
+description: |
+  A named state belonging to one object — `"open"`, `"closed"`, `"gone"`, `"full"`, `"fire"` —
+  written by an interaction and read by a precondition, in a namespace of its own. It is the
+  value `world-flag.ont.yml` has declared under `domain` since genesis and nothing has ever
+  exercised, and it is here because it turns out to be the **dominant** form of state in the one
+  adventure game whose source this corpus can read.
+
+  **What a shipped game actually stores.** Delores calls `objectState(obj, "name")`, and its
+  states are small closed sets per object ([delores-source](../../catalog/delores-source.md)).
+  [verified] They are not incidental: they are what the engine's two declarative archetypes are
+  built on. A door declared with `door_verbs = YES` gets `okverb_open` as `state != "open"`,
+  `okverb_close` as `state == "open"` and `okverb_use` as `state == "open"`; a switch declared
+  with `on_off_verbs = YES` gets the same shape over `"on"` and `"off"`, plus a `stateChange`
+  hook that flips which verb the object offers by default. [verified]
+
+  **That is why it is a different primitive and not a boolean with a nicer name.** A boolean
+  needs an author to pick which way is true and to remember it in every predicate that reads it.
+  A named state makes the values themselves the vocabulary, so `state == "open"` is legible
+  without knowing the flag's story — and, more importantly, **an enumeration is what lets a
+  generated archetype be written at all.** You cannot synthesise "offer *close* only when it is
+  open" over a boolean whose polarity the author chose. [inference]
+
+  **It is also where the state and the picture are the same declaration.** The engine sets an
+  object "that has a state variable" to the last frame of that state's animation on room entry
+  [verified] — so the name is simultaneously a value a predicate reads and an animation the room
+  manifest holds. This corpus separates those completely, and nothing here says which is right;
+  what is clear is that a game with 290 bare props and 164 objects gets a lot of leverage from
+  not separating them.
+
+  **`scope` needed a fourth value and this is the one a real game uses most.** The property was
+  declared as global, room-local, or local to a conversation. An object state is none of those:
+  it belongs to a named thing inside a room and is read from other rooms by qualified name —
+  Yack guards read `Bank.open` and `Alleyway.valve.position` from outside those rooms entirely
+  ([dialogue-script](../data-format/dialogue-script.yml)). [verified] The value is added and
+  authored in the same commit, which is the rule
+  [room-manifest](../data-format/room-manifest.yml) states.
+
+  [open] Whether this collapses into `counter-flag` for a checker is not settled here. A closed
+  set of *n* names is *n* states, exactly as a bounded counter is, and
+  `crates/reachability` would treat them identically. If the only difference is legibility to a
+  human author, that is a real argument and a weaker one than the archetype argument above, and
+  this node should say which it is standing on once a specimen has tried both.
+properties:
+  domain: enumeration
+  scope: object
+  reversible: yes
+  save_semantics: |
+    Written to the save file, and the object's identity is part of the key rather than of the
+    value. [inference] That is the practical difference from a global: a save format derived
+    from the declarations gets the namespace for free, where a flat flag namespace has to encode
+    the owner in the name and cannot check that it did.
+links:
+  - target: ../puzzle/state-gate.yml
+    relationship: gates
+  - target: ../world-flag.ont.yml
+    relationship: instance-of
