@@ -282,6 +282,39 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 (None, _) => p.err(no, "`holds` outside a room section"),
                 (_, None) => p.err(no, "`holds` needs a name"),
             },
+            // `exit <name> to <room>` — the first primitive this corpus has admitted on the
+            // second question in `AGENTS.md` rather than the first. Each of the eighteen bare
+            // exits in a shipped game is sayable here as a hotspot with a `walk-to` that moves;
+            // *an exit* is not, and `chain(n)` writes that shape out once per room in Rust
+            // because of it.
+            //
+            // It expands into exactly the binding an author would have written, before anything
+            // reads the game, so the checker sees no archetype at all — and a `when`/`else`
+            // written under it lands on the expansion the way it lands on any other binding.
+            // That is the whole of what makes an archetype safe here and is not free elsewhere;
+            // see `.yidam/decisions/exit-archetype.yml`.
+            "exit" => match (p.room.clone(), t.get(1), t.get(2), t.get(3)) {
+                (Some(r), Some(name), Some(&"to"), Some(dest)) => {
+                    p.flush();
+                    let scope = Scope::Room(r.clone());
+                    let target = p.declare_in(name, Kind::Hotspot, no, &scope);
+                    let site = Site::InRoom {
+                        room: r,
+                        target: target.clone(),
+                    };
+                    p.site = Some(site.clone());
+                    p.open_binding("walk-to", None, site, no);
+                    if let Some(b) = p.binding.as_mut() {
+                        b.effects.push(Effect::Move(None, dest.to_string()));
+                    }
+                }
+                (None, ..) => p.err(no, "`exit` outside a room section"),
+                (_, None, ..) => p.err(no, "`exit` needs a name"),
+                (_, Some(name), ..) => p.err(
+                    no,
+                    format!("an exit reads `exit {name} to <room>` — the `to` is what names where it goes"),
+                ),
+            },
             "on-enter" => match p.room.clone() {
                 Some(r) => {
                     let site = Site::OnEnter { room: r };
