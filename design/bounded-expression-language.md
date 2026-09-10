@@ -158,6 +158,13 @@ Two properties follow directly, and they are the reason to want this rather than
 
 - **Termination is structural, not proven.** An expression is a finite tree with no loops, no
   recursion and no calls. Evaluation is linear in its size.
+
+  That is *evaluation* terminating. **Analysis terminating is a different property, and the
+  grammar does not buy it** — a distinction this document did not draw until a specimen
+  forced it. A game's state space is finite only if every variable in it is bounded, and an
+  item bearing a quantity is bounded only if its supply is: an acquisition source that can
+  fire twice hands out an unbounded number and the search never closes. Found by running it.
+  Items therefore declare a ceiling exactly as counters declare a range, defaulting to one.
 - **The set of predicates expressible about a given game is finite and enumerable from that
   game's own declarations.** This is the property section 4 is about.
 
@@ -171,9 +178,15 @@ worth more here than a permissive grammar:
 - **`visited room`.** Every engine has something like it, and it is a boolean flag the engine
   could set implicitly. Admitting it means admitting `talked-to`, `seen`, `entered-carrying` and
   the rest, one convenience at a time. The line goes at *the author declared the flag*.
-- **Quantifiers** (`any`, `all`). They need a collection and the vocabulary has no collection
-  type. `world-flag`'s `domain` property lists `set` among its values and no instance uses one;
-  that absence is the answer for now.
+- **Quantifiers** (`any`, `all`) over an arbitrary collection. `count item` is the one
+  quantifier here and it earns its place: an item bearing a quantity **is** the collection this
+  exclusion said the vocabulary lacked. Without it, "any three of five" is a ten-term
+  disjunction of three-term conjunctions and grows combinatorially; with it, `count coin >= 3`.
+  The exclusion and `inventory-item/stackable-item` stand or fall together, and a second
+  specimen written as a tally is what settled which.
+
+  `world-flag`'s `domain` still lists `set` among its values with no instance using one; a
+  quantifier over *that* remains excluded and unmotivated.
 - **Anything that can fail to terminate.** No loops, no recursion, no user-defined functions.
 
 ### Layer 2 — effects, which are not designed here
@@ -327,11 +340,15 @@ or that anybody would enjoy writing in it.
   that a bounded language is analysable says nothing about whether it is bearable. Three rooms
   have now been written in it, by the same party that proposed it, which is the weakest possible
   authoring trial and is not evidence of pleasantness.
-- **Whether `count item` earns its place.** The specimen never reached for it, along with `or`,
-  `!=`, `<=`, `>` and grouping. One small game is thin evidence for removing anything.
-- **Whether the state space stays enumerable.** The specimen is 103 states. Nothing here
-  predicts what a real game costs, and the argument for a bounded language would be in trouble
-  if the answer were exponential in the number of items.
+- ~~Whether `count item` earns its place.~~ **Settled.** A second specimen written as a tally
+  reduced first to distinct items, which costs a declaration and a conjunction term per unit
+  and cannot express "any k of n" at all. See
+  [`stackable-item`](../.yidam/corpus/inventory-item/stackable-item.yml). Still unexercised
+  across both specimens: `or`, `!=`, `<=`, `>` and grouping.
+- **Whether the state space stays enumerable at scale.** The two specimens are 103 and 20
+  states, against 196,608 and 480 combinations of the values their variables take — 0.05% and
+  4%. That collapse is the argument; two small games do not establish it holds for a large one,
+  and nothing here predicts what a real game costs.
 - **Nothing here is implemented as an engine.** No engine reads this. It is exercised by one
   specimen and analysed by `crates/reachability`, which is a checker rather than a runtime —
   the analysis says a game *can* be finished, and nothing here has ever played one.

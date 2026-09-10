@@ -183,8 +183,14 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
                         }
                     }
                 }
-                Effect::Give(x) | Effect::Spend(x) => {
-                    fix(&declared, x, Kind::Item, &scope, line, &mut out)
+                Effect::Give(x, n) | Effect::Spend(x, n) => {
+                    fix(&declared, x, Kind::Item, &scope, line, &mut out);
+                    if *n < 1 {
+                        out.push(Problem {
+                            line,
+                            message: format!("a quantity of {n} is not a quantity"),
+                        });
+                    }
                 }
                 Effect::Move(x) => fix(&declared, x, Kind::Room, &Scope::Global, line, &mut out),
                 Effect::Enter(x) => fix(
@@ -214,6 +220,15 @@ fn walk_pred(
         Pred::Flag(x) => fix(declared, x, Kind::Flag, scope, line, out),
         Pred::Carrying(x) => fix(declared, x, Kind::Item, scope, line, out),
         Pred::Chosen(x) => fix(declared, x, Kind::Option_, scope, line, out),
+        Pred::Count(x, _, n) => {
+            fix(declared, x, Kind::Item, scope, line, out);
+            if *n < 0 {
+                out.push(Problem {
+                    line,
+                    message: format!("`count {x}` cannot be compared against {n}"),
+                });
+            }
+        }
         Pred::Cmp(x, _, v) => {
             fix(declared, x, Kind::Counter, scope, line, out);
             if let Some((lo, hi)) = bounds.get(x.as_str()).copied() {

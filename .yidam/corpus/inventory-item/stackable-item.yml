@@ -1,0 +1,52 @@
+class: inventory-item
+label: Stackable Item
+description: |
+  An object carried as a number rather than as a thing — coins, arrows, lamp oil. It is
+  seeded because a specimen was written as a tally and the reduction to distinct items was
+  tried first, which is the order this corpus works in.
+
+  **The reduction works and it is expensive.** Three coins are three
+  [portable objects](portable-object.yml): three declarations carrying identical labels, a
+  precondition that is a three-term conjunction, and an arbitrary choice of *which* coin is
+  the second object of the verb — a toll paid with `use-with coin-a` while coin-b and coin-c
+  go by side effect. [inference] Each of those grows with the tally.
+
+  **What does not reduce is "any three of five".** With distinct items and no quantifier that
+  is a ten-term disjunction of three-term conjunctions, and it grows combinatorially rather
+  than linearly. The proposed predicate language excluded quantifiers on the stated grounds
+  that they would need a collection and the vocabulary has none —
+  [design/bounded-expression-language.md](../../../design/bounded-expression-language.md).
+  [inference] **This class is that collection**, and `count` is the one question worth asking
+  about it. The exclusion and this class stand or fall together.
+
+  Prior art has it and this corpus had recorded so without reading it as evidence. AGS's
+  `AddInventory` "adds **one quantity** of the specified item to the character's inventory"
+  ([ags-manual](../../catalog/ags-manual.md)) [verified] — a phrase that only makes sense
+  where quantities exist, sitting in the ledger for five phases.
+
+  **Its cost is the sharpest thing about it, and it is not authoring cost.** Every other
+  primitive here leaves a game's state space finite. This one does not: an acquisition source
+  that can fire twice hands out an unbounded supply, and an analysis of the game then does not
+  terminate. [inference] That was found by running it — a mutation that cleared the flag
+  guarding a source, and a search that did not stop. A declared ceiling closes it again, which
+  is why `quantity` on this class is a real property and not a label.
+properties:
+  quantity: many
+  acquisition: |
+    In a number, from a source that must be bounded. The two bounds available are a hotspot
+    that stands for the object — `carried-form-of`, which makes the site one-shot because
+    taking the object is the room losing it — and a latching flag. [inference] A source
+    guarded by a clearable flag is not bounded, and nothing about it looks wrong.
+  combinable: yes
+  icon: |
+    One sprite and a number. [inference] The number is authored content nobody writes: it is
+    the only text in an inventory panel that the vocabulary produces rather than an author,
+    and an interface that omits it makes `count` unreadable to the player while leaving it
+    perfectly readable to the checker.
+links:
+  - target: ../room/single-screen.yml
+    relationship: found-in
+  - target: ../interaction/acquisition-binding.yml
+    relationship: acquired-by
+  - target: ../inventory-item.ont.yml
+    relationship: instance-of

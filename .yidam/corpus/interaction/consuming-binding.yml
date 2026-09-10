@@ -56,5 +56,7 @@ links:
     relationship: requires
   - target: ../inventory-item/portable-object.yml
     relationship: consumes
+  - target: ../inventory-item/stackable-item.yml
+    relationship: consumes
   - target: ../interaction.ont.yml
     relationship: instance-of

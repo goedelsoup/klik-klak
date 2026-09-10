@@ -11,6 +11,11 @@
 # the conversation has an `option lamp` beside the lamp-room's `hotspot lamp` — which is the
 # collision that made scoping necessary, now legal. See README.md.
 #
+# And the two `pick-up` guards are gone. An acquisition site declares `is <item>`, and
+# `inventory-item -carried-form-of-> hotspot` makes taking the object the room losing it —
+# so the site cannot be used twice and `when not carrying X` was guarding against something
+# structurally impossible.
+#
 # It is DELIBERATELY WINNABLE-BUT-TRAPPED. One reachable sequence strands the player, and
 # that is the point: a specimen with no defect tests nothing.
 
@@ -56,14 +61,11 @@ room quay
   hotspot loose-crowbar "a crowbar left in a coil of rope"
     is crowbar
     look-at:
-      when carrying crowbar   "The rope is just rope now."
-      otherwise               "A short crowbar lies half-buried in a coil of tarred rope."
+      "A short crowbar lies half-buried in a coil of tarred rope."
 
     pick-up:
-      when  not carrying crowbar
       say   "You work it free of the rope."
       do    give crowbar
-      else  "You have it."
 
   hotspot crate "a nailed-shut crate"
     look-at:
@@ -163,14 +165,11 @@ room lamp-room
   hotspot loose-match "a single dry match"
     is match
     look-at:
-      when carrying match   "The shelf is bare."
-      otherwise             "One dry match lies on the shelf, well back from the draught."
+      "One dry match lies on the shelf, well back from the draught."
 
     pick-up:
-      when  not carrying match
       say   "You pocket it, carefully."
       do    give match
-      else  "You have it."
 
   hotspot lamp "the great lamp"
     look-at:

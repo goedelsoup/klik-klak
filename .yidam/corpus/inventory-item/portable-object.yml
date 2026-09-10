@@ -31,6 +31,7 @@ properties:
     A binding whose response removes the object's hotspot from the room and adds the item to
     the inventory. [inference] Those are two writes, and an engine that cannot make them
     atomic has a window in which the object is in neither place.
+  quantity: one
   combinable: yes
   icon: |
     A small sprite drawn in the inventory panel. It is the only representation the player

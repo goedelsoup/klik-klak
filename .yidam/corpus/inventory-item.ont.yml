@@ -13,6 +13,13 @@ properties:
     type: text
     prose: true
     description: How the object enters the inventory, and what becomes of its hotspot when it does.
+  - name: quantity
+    type: string
+    description: >-
+      Whether this is carried as one thing or as a number of them — `one` or `many`. An item
+      carried in a number is the collection a quantifier needs; it is also the only thing in
+      this vocabulary that can make an analysis of a game fail to terminate, so it wants a
+      declared ceiling the way a counter wants a range.
   - name: combinable
     type: string
     description: Whether the object can be the second object of a verb applied to another item.

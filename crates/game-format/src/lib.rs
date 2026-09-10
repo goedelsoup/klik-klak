@@ -109,6 +109,12 @@ pub enum Pred {
     Carrying(String),
     Chosen(String),
     Cmp(String, Cmp, i64),
+    /// `count <item> <cmp> <n>` — how many of an item is carried.
+    ///
+    /// The one quantifier this language has. The design excluded `any`/`all` on the grounds
+    /// that they need a collection and the vocabulary has none; an item bearing a quantity
+    /// *is* that collection, and this is the only question worth asking about it.
+    Count(String, Cmp, i64),
     Not(Box<Pred>),
     And(Box<Pred>, Box<Pred>),
     Or(Box<Pred>, Box<Pred>),
@@ -126,9 +132,9 @@ pub enum Effect {
     /// `interaction -sets-> world-flag`, for a counter
     SetCounter(String, i64),
     /// `inventory-item -acquired-by-> interaction`, read from the binding's side
-    Give(String),
+    Give(String, i64),
     /// `interaction -consumes-> inventory-item` — the one effect this corpus had to add
-    Spend(String),
+    Spend(String, i64),
     /// `actor -occupies-> room`
     Move(String),
     /// `interaction -opens-> conversation`
@@ -188,6 +194,15 @@ pub struct Game {
     pub flags: Vec<Flag>,
     pub counters: Vec<Counter>,
     pub items: Vec<String>,
+    /// The most of an item that can be carried at once.
+    ///
+    /// Default 1, which is `inventory-item.quantity: one` — a crowbar. An item declaring a
+    /// range is `quantity: many`, and the ceiling is not decoration: **quantity is the one
+    /// thing in this language that can make the state space infinite.** Loops and recursion
+    /// were excluded to guarantee that *evaluation* terminates; this is *analysis*
+    /// terminating, which is a different property, and an unbounded supply breaks it. A
+    /// ceiling restores it by declaration, the way a counter's range already did.
+    pub item_cap: BTreeMap<String, i64>,
     pub rooms: Vec<String>,
     pub bindings: Vec<Binding>,
     /// hotspot -> the item it is the uncarried form of (`inventory-item -carried-form-of->`)

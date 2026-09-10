@@ -23,10 +23,14 @@ reach the ending — and where it cannot, the binding after which it cannot. Thi
 The two causes are different problems and the output distinguishes them rather than summing
 them:
 
-- **Consumption** — an object needed later is spent earlier. Detected as a stranding
-  transition carrying a `spend` effect.
-- **Ordering** — a gate closes with something still needed behind it. Any other stranding
-  transition.
+- **Consumption** — an object needed later is spent earlier.
+- **Ordering** — a gate closes with something still needed behind it.
+
+They are told apart by a **counterfactual**, not by which effects the stranding binding
+carries. A binding that spends *and* moves carries both kinds, and reading the cause off the
+effect list picks one by fiat: a ferry toll spends three coins and crosses a river, and the
+coins are not why the player is stranded. So the spending is taken away and the state asked
+again — rescued means consumption, still stranded means something else.
 
 The corpus used to hold that the first was "checkable where the binding is written" and the
 second was not. That is wrong and `unwinnable-state` now records the correction: a consuming
@@ -50,23 +54,45 @@ The reachable and stranded counts, whether the ending is reachable, and one entr
 stranding binding: its line, the verb and objects, the cause, how many states it strands, and
 an example of one, described in the terms the game was written in.
 
-## Against the specimen
+## Against the specimens
 
-`design/specimen/lighthouse.game`, which carries one deliberate reachable defect:
+Two games, one defect each, one cause each.
 
 ```
+$ reachability design/specimen/lighthouse.game
 103 reachable state(s), 193 transition(s).
+103 of 196608 combinations of the values these variables take (0.052%).
 The ending is reachable.
 
 16 reachable state(s) can no longer reach the ending.
 Stranded by:
-  line  125  use-with oil-can on hinge  [consumption]
+  line  132  use-with oil-can on base.hinge  [consumption]
             spends oil-can, which is needed later — 4 state(s)
-            e.g. in base; carrying crowbar, brass-key, wick; spent oil-can; lamp-prep=0
+            e.g. in base; carrying crowbar, brass-key, wick; lamp-prep=0
 ```
 
-That is the trap, found by machine, four phases after `unwinnable-state` described the
-mechanism in prose and could not express it.
+```
+$ reachability design/specimen/ferry.game
+20 reachable state(s), 34 transition(s).
+20 of 480 combinations of the values these variables take (4.167%).
+The ending is reachable.
+
+2 reachable state(s) can no longer reach the ending.
+Stranded by:
+  line   64  use-with coin on ferryman  [ordering]
+            a gate closed with something still needed behind it — 2 state(s)
+            e.g. in far; carrying nothing
+```
+
+Those are the traps, found by machine, four phases after `unwinnable-state` described the
+mechanisms in prose and could not express one of them.
+
+**The second game found three defects in this tool and the first had found none.** An ending
+that writes nothing was filtered out as a no-op, so a game whose ending sets no state reported
+as entirely unreachable. The cause classifier read the effect list rather than asking the
+counterfactual. And the search did not terminate at all once items bore quantities, because an
+acquisition source that can fire twice hands out an unbounded supply. A second specimen is
+worth more than a second reading of the first.
 
 ## Prelude domain
 
@@ -86,10 +112,20 @@ transition — `lamp-prep` does not — and reports a **latch violation** when a
 `latched` is cleared anywhere. That second one is what makes `world-flag.reversible` worth
 declaring: a property nothing checks is a comment.
 
-The claim is not yet *tested* in the sense that matters. One specimen with one latching flag
-and one monotone counter shows the declaration can be checked, not that monotonicity buys the
-speedup argued for. That wants a game large enough for the difference to show, and this one
-runs in a millisecond either way.
+It also reports **how many combinations exist of the values the variables were observed to
+take**, beside how many are reachable. That is the collapse claim as a number: 103 of 196,608
+for the lighthouse and 20 of 480 for the ferry — 0.05% and 4%. The gap is how much structure
+the game has.
+
+The claim is still not *tested* in the sense that matters. Two small games show the collapse is
+large and that a declaration can be held against a game; neither shows that exploiting
+monotonicity beats enumerating, because both run in a millisecond either way. That wants a game
+large enough for the difference to show.
+
+And a related check arrived from the other direction: **an item may declare a ceiling, and the
+tool reports where a game hands out more than the declaration has room for.** Without ceilings
+the state space is not finite at all — which is a limit on this whole computation and was found
+by a test that hung, not by anyone reasoning about it.
 
 ## What it does not do
 
