@@ -96,9 +96,25 @@ description: |
   not as a property of latching, but as a property of games designed the way the form's inventor
   designs them. [inference]
 
-  What is still missing is a **measured** width from a shipped game. Gilbert prescribes 2–3 and
-  reports 4–5 for unfinished boxes in Thimbleweed Park; neither is a count off a finished chart,
-  and he does not have Monkey Island's. `[open]`
+  **A measured number exists now, and it was never a retrieval.** A dependency chart is a graph of
+  what must happen before what, which is a read-after-write relation over game state, and
+  [delores-source](../../catalog/delores-source.md) is a shipped game by the same author whose
+  source this corpus has held for four phases. Drawn: 354 units, 115 edges, and where a step
+  unblocks anything it opens **2.45 on average, median 2**. [verified] Gilbert's "2 or 3", measured.
+
+  **The distribution is where it comes apart, and the distribution is what the rule is about.**
+  **43% of unblocking steps open exactly one thing**; only 36% open two or three; the mean is
+  dragged up by a short tail, one step opening nine. [verified] The modal step in that game is a
+  link in a chain, not a branch.
+
+  **And the bottlenecks this node's argument depends on are almost absent.** Two gated exits in
+  twenty, no layer that narrows, a longest chain of five and a whole-game antichain of 54: there is
+  no act structure in it. [verified] So the condition stated above — a bounded width *with
+  bottlenecks* — is not exhibited by the one shipped game available to check it against. That is not
+  a refutation: a whole-game antichain is not "how many are open at once", and a demonstrator game
+  is not the full-length adventure the rule was written about. What it is not any more is
+  unevidenced in either direction. `.yidam/decisions/measured-width.yml` sets out the three readings
+  and declines to choose. `[open]`
 
   **How many flags in a real game latch has its first evidence, and it points at *most*.** A
   shipped adventure game's save file is quoted in Thimbleweed Park's development diary, with real

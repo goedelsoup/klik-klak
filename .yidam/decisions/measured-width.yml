@@ -1,0 +1,88 @@
+id: measured-width
+summary: >-
+  A Puzzle Dependency Chart is a read-after-write graph, and this corpus has a shipped game's
+  source. Gilbert's "two or three" holds at the mean — 2.45 — and fails in shape: 43% of unblocking
+  steps open exactly one thing. The bottlenecks his rule depends on are almost absent, and they are
+  what the corpus's tractability argument rests on.
+context: |
+  **This was recorded four times as a retrieval nobody could do.**
+  [latched-flag](../corpus/world-flag/latched-flag.yml), both design documents and
+  [grumpy-gamer-pdc](../catalog/grumpy-gamer-pdc.md) each say the same thing: Gilbert prescribes a
+  chart 2–3 puzzles wide, no count off a finished chart exists, and the published charts are
+  *deliberately* unreadable — *"Everything is blurred out, so there are no spoilers"*. [verified]
+  The catalog entry states the position plainly: the width "remains the retrieval that would close
+  the question".
+
+  It is not a retrieval. **A Puzzle Dependency Chart is a graph of what must happen before what,
+  and that is a read-after-write relation over game state.** This corpus has had a whole shipped
+  adventure game's source since `delores-source` was catalogued, and has counted its bindings three
+  times without ever drawing the graph they form. [inference]
+decision: |
+  **Measured, from the source of a game Gilbert shipped**
+  ([delores-source](../catalog/delores-source.md) carries the method and the full table): 354
+  units — 203 bindings, 50 room `enter`/`exit` bodies, 101 Yack topics — with an edge wherever one
+  writes a name another reads. 115 edges over 41 state names; 94 units in the graph. [verified]
+
+  | | |
+  |---|---|
+  | out-degree where a step unblocks anything | mean **2.45**, median **2**, max 9 |
+  | longest dependency chain | **5 steps** |
+  | maximum antichain | **54** |
+  | layers by longest-path depth | 31, 39, 19, 3, 2 |
+  | gated exits | **2** of 20 |
+
+  **The prescription holds at the mean and fails in shape.** *"Solving one puzzle should open up 2
+  or 3 new ones"* against a measured mean of 2.45 looks like agreement, and the distribution says
+  otherwise: **43% of unblocking steps open exactly one thing, and only 36% open two or three.**
+  [verified] The mean is dragged to 2.45 by a short tail — one step opens nine. So the modal step
+  in this game is a link in a chain, not a branch, and the rule describes an aim rather than a
+  practice.
+rationale: |
+  **The bottlenecks are the finding, because they are what this corpus's argument rests on.**
+  `latched-flag` restored the tractability claim on the footing that *"a bounded width with
+  bottlenecks is exactly the condition under which this search is cheap"*, and `acts(k, w)` models
+  a game as `k` acts of `w` independent puzzles with a gate between them. The gate is what stops
+  the width compounding.
+
+  This game has **two gated exits in twenty**, no layer that narrows, a longest chain of five, and
+  a whole-game antichain of 54. [verified] There is no act structure in it. By the corpus's own
+  model that is a game whose reachable space is not bounded by anything, and it is a small,
+  shipped, entirely ordinary adventure game.
+
+  Three readings are available and the evidence does not choose between them. [inference]
+
+  - **The measure is not the model's.** A whole-game antichain counts a step in the first ten
+    minutes and a step in the last as independent, because nothing orders them; `acts(k, w)`'s `w`
+    is how many are open *at one time*. Those coincide only when there are acts, which is the thing
+    being tested, so the measure begs the question exactly where it matters.
+  - **The game is too small to have acts.** Delores is a demonstrator for an engine, not a
+    full-length adventure, and Gilbert's rule is written about the latter. A game with no act
+    boundary is not evidence that games have none.
+  - **The argument's premise is a design rule, not a fact about games**, and this is the first
+    chance the corpus has had to check it against a shipped artifact by the person who wrote it.
+    It did not hold.
+
+  What can be said without choosing: **the corpus's tractability claim depends on a structure that
+  the only shipped game available to it does not have.** That is weaker than "the claim is wrong"
+  and much stronger than the position it replaces, which was that no evidence existed either way.
+
+  **A cost of archetypes, found in the middle of the phase that admitted them.** Both gated exits
+  were missed when this corpus first read the exits, and the reason is structural rather than
+  careless. Neither gate is a `VERB_OK`. One is a `VERB_PRE` attached to a binding the engine
+  *generates* from `door_verbs = YES` — a precondition on a response nobody wrote — and the other
+  is an `objectTouchable` call in an unrelated function. [verified] `.yidam/decisions/duplication.yml`
+  had just concluded that a named archetype is the closed, checkable answer to generation. It is
+  also a place a gate can hide, and a reader looking for preconditions where preconditions are
+  written will not find one attached to a binding that does not textually exist. [inference]
+
+  **What this is not.** A chart is a designer's list of puzzles; this is every read-after-write over
+  a named variable. It over-counts — `looked_at`, `seen`, dialogue loop counters — and under-counts,
+  because a dependency carried by anything but a named variable is invisible to it. Dropping edges
+  internal to one object gives 77 units, 90 edges, a chain of 4 and an antichain of 47: the shape
+  survives the obvious correction. [verified]
+
+  **The `[open]` that remains is narrower and no longer about retrieval.** Not *is there a measured
+  width* — there is one now — but whether a whole-game antichain can stand in for the width of an
+  act when the game has no acts, and what a second, larger game would say. Thimbleweed Park's source
+  is not public; its chart is blurred; and the one thing that would settle it is a full-length
+  adventure whose source can be read. `[open]`

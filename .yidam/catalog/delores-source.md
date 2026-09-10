@@ -65,7 +65,12 @@ closure that takes an optional second noun.
 ## What was counted — 2026-09-10
 
 **Bindings.** 203 live `VERB(...)` bindings across the rooms and the inventory; six more are
-commented out. 46 distinct verbs are used. **110 of the 203 — 54% — are `lookat`.**
+commented out. 46 distinct verbs are used. **107 of the 203 — 52.7% — are `lookat`.**
+
+**That figure read 110 until it was recounted.** There are 111 `VERB(lookat)` occurrences in
+`Scripts/`; three are commented out and one is in `Defines/DefineActors.dinky`, which the 203
+excludes. 111 − 1 = 110 was the arithmetic, and it counted three of the six commented-out bindings
+this same entry records. A figure and its own caveat, in one entry, disagreeing.
 
 | | count | share |
 |---|---|---|
@@ -98,11 +103,61 @@ an article, some properties, and nothing that happens. 82 carry exactly one. Two
 more. Alongside them, 290 bare props (`name = {}`): positioned art with no name and no
 behaviour.
 
-**Exits.** 20, and **every one of them is a declaration**: `to_door = @Room.doorObject` plus
+## The dependency graph — 2026-09-10
+
+**What Gilbert draws as a Puzzle Dependency Chart, read off the source instead.** Every unit that
+can read or write named state was extracted — 203 bindings, 50 room `enter`/`exit` bodies, 101
+Yack topics — and an edge drawn from a unit that writes a name to a unit that reads it. `VERB_OK`
+guards are folded into the binding they guard.
+
+| | |
+|---|---|
+| units | 354 |
+| dependency edges | 115, carried by 41 distinct state names |
+| units touched by any edge | 94 |
+| longest dependency chain | **5 steps** |
+| maximum antichain (Dilworth width) | **54** |
+| layer sizes by longest-path depth | 31, 39, 19, 3, 2 |
+| out-degree where a step unblocks anything | mean **2.45**, median **2**, max 9, n = 47 |
+
+Out-degree distribution: 1 → 20 steps, 2 → 12, 3 → 5, 4 → 3, 5 → 3, 6 → 2, 8 → 1, 9 → 1. So
+**43% of unblocking steps open exactly one thing and 36% open two or three.**
+
+The names carrying the most edges are what an adventure game's state looks like:
+`YACK.asked_for_coroner_time` 12, `carrying.glass` 9, `GLOBAL.hired_lenore_state` 9,
+`MainStreet.fireHydrant.isWaterSource` 8, `carrying.screwdriver` 8, `Alleyway.valve.position` 8,
+`Bank.open` 6.
+
+**What this is not.** A Puzzle Dependency Chart is a designer's list of puzzles; this is every
+read-after-write over a named variable. It over-counts — `looked_at`, `seen`, `tried_switch` and
+dialogue loop counters are in it — and it under-counts, because a dependency carried by anything
+other than a named variable is invisible to it. Removing edges internal to one object leaves 77
+units, 90 edges, a longest chain of 4 and an antichain of 47; the shape does not change.
+
+**Reproducing it.** The extractor is not committed, because its input cannot be. Structure comes
+from indentation rather than braces — 8,592 lines here start with a tab against 211 with a space,
+`DEFINE_OBJECT` sits at one tab in 163 of 164 cases and `VERB`/`VERB_OK` at two — and any
+reimplementation should reproduce these four figures before its dependency numbers are trusted:
+**203 bindings, 46 distinct verbs, 107 live `lookat` bindings, 141 Yack bracket expressions.**
+
+**Exits.** 20, and **eighteen of them are a bare declaration**: `to_door = @Room.doorObject` plus
 `door_verbs = YES`, with no code. The engine synthesises the verbs — `_initObject` "sets up door
 verbs if `object.door_verbs` is set". The two door objects that carry any verb slot carry
-`lookat` only. **No exit in the game is ever gated**: no `to_door` object is made untouchable or
-hidden anywhere.
+`lookat` only.
+
+**Two exits are gated, and this entry said none were.** It read *"No exit in the game is ever
+gated: no `to_door` object is made untouchable or hidden anywhere"*, and both halves are false:
+
+- `Nickel.door`, the way out of the newspaper office, carries `VERB_PRE(open)` returning `NO`
+  unless the camera is in inventory — *"I should find the camera before setting out."* It is the
+  gate that starts the game.
+- `MainStreet.bankDoor` runs `objectTouchable(this, Bank.open ? YES : NO)` in its own `enter`.
+  A `to_door` object, made untouchable, conditionally.
+
+Both are invisible to a reader looking for gating *on the exit verb*, which is what the earlier
+reading looked for. Neither is written as a `VERB_OK`: one is a `VERB_PRE` on a binding the engine
+generates from `door_verbs = YES` — a precondition on a response nobody wrote — and the other is a
+touchability write in an unrelated function. The archetype hides the seam.
 
 Separately, 11 `VERB(walkto)` slots exist and every one is an exit or a refusal to exit — 8 are
 a single `exitRoomFromDoor(...)` between outdoor screens with no door object, and 3 are a

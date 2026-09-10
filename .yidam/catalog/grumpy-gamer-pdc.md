@@ -83,8 +83,17 @@ read**, which is a stronger and more permanent obstacle than a JPEG's resolution
 to every chart of a shipped game either author has posted.
 
 So the honest position is that this source supplies a **design rule**, and
-`crates/reachability/tests/scaling.rs` supplies what that rule costs. What neither supplies is a
-measured chart from a shipped game, which remains the retrieval that would close the question.
+`crates/reachability/tests/scaling.rs` supplies what that rule costs.
+
+**What neither supplies is a measured chart — and that turned out not to be a retrieval.** A
+dependency chart is a graph of what must happen before what, which is a read-after-write relation
+over game state, and [delores-source](delores-source.md) is a game this author shipped whose source
+this corpus already held. Drawn from it: a step that unblocks anything opens **2.45 on average,
+median 2**, which is this page's prescription measured — and **43% open exactly one**, which is not.
+The acts-with-bottlenecks half of the rule is not exhibited there at all: two gated exits in twenty
+and no layer that narrows. `.yidam/decisions/measured-width.yml`.
+
+The blurred charts are still blurred. They are no longer the only way to the number.
 
 ## What these sites hold that nobody here has looked at
 

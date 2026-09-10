@@ -630,8 +630,14 @@ or that anybody would enjoy writing in it.
   a bounded chart width makes it cheap; and only the first is anything this design controls.
   [inference]
 
-  Still missing is a **measured** width from a shipped game. Gilbert prescribes 2–3 and reports
-  4–5 for unfinished boxes in Thimbleweed Park, and does not have Monkey Island's chart. `[open]`
+  **Measured now, off a shipped game's source rather than off a chart.** A dependency chart is a
+  read-after-write graph, and Delores's is 354 units and 115 edges: a step that unblocks anything
+  opens 2.45 on average, median 2 — and **43% open exactly one**, with only 36% in the prescribed
+  band. The bottlenecks the argument above needs are two gated exits in twenty, no narrowing layer,
+  and a whole-game antichain of 54. The condition this design's tractability rests on is not
+  exhibited by the only shipped game available to check it against, and `.yidam/decisions/measured-width.yml`
+  sets out why that is weaker than a refutation and much stronger than the silence it replaces.
+  `[open]`
 - **Nothing here is implemented as an engine.** No engine reads this. It is exercised by one
   specimen and analysed by `crates/reachability`, which is a checker rather than a runtime —
   the analysis says a game *can* be finished, and nothing here has ever played one.
