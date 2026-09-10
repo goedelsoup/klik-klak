@@ -1,0 +1,82 @@
+id: exit-archetype
+summary: >-
+  `exit <name> to <room>` — an archetype rather than a template, and the choice turns on *when* it
+  expands rather than on what it is. Expanded at parse time it is invisible to the checker and every
+  exception stays sayable; expanded inside a running engine it is where a gate hides. The first
+  primitive this corpus has admitted on the second question rather than the first.
+context: |
+  Three threads arrive at the same place.
+
+  [duplication](duplication.yml) admitted a generation primitive under the rule and could not say
+  which: a **named archetype** is closed and checkable and only ever covers shapes somebody
+  anticipated, a **parameterised template** covers everything and is one short step from a macro,
+  and choosing *"wants a worked example, which is what this corpus has required of every other
+  addition and it does not have one yet"*.
+
+  [measured-width](measured-width.yml) then found a cost against archetypes, in the middle of the
+  phase that admitted them: both of Delores's gated exits were missed on a first reading because
+  neither gate is where preconditions are written. One is a `VERB_PRE` on a binding the engine
+  generates from `door_verbs = YES` — a precondition attached to a response nobody wrote. **The
+  archetype hides the seam.** [verified]
+
+  And [walk-to](../corpus/verb/walk-to.yml) has carried the exit primitive as residue for five
+  phases, narrowed each time and never discharged.
+decision: |
+  **`exit <name> to <room>`**, declared in a room section, with an optional `when` and `else` under
+  it exactly as on any binding:
+
+      exit stair to lamp-room
+      exit door to base
+        when  door-open
+        else  "Locked, and the salt has taken the hinges."
+
+  It **expands at parse time** into the binding an author would otherwise have written — a hotspot,
+  a `walk-to`, an `Effect::Move` — so nothing downstream knows it exists. Rewriting
+  `lighthouse.game`'s bare exits as declarations moves no figure: same states, transitions,
+  strandings, winnability. [verified] — `crates/reachability/tests/exits.rs`.
+
+  **An archetype, not a template.** No parameterised room or object form is added here.
+rationale: |
+  **The census it was admitted on, and the agreement in it is the argument.** Delores ships 20
+  exits: 18 a bare declaration, 2 gated. This corpus's four specimens, written years later by a
+  different party without reference to that game, contain 20 exits: 15 bare, 5 carrying a guard or
+  refusal. [verified] Same count, same dominant shape, arrived at independently. A primitive whose
+  shape two unrelated bodies of authored work agree on is not a guess about what authors want.
+
+  **Why it needed the second question.** Every one of those exits is sayable without it — a hotspot
+  with a `walk-to` that moves — so under `AGENTS.md`'s first question it earns nothing. Under the
+  second: `crates/reachability/tests/scaling.rs` writes that shape once per room in a Rust `for`
+  loop, because *an exit* is not sayable even though each exit is. [inference] This is the first
+  primitive in this corpus admitted that way, which is what `duplication` predicted would happen and
+  is the check on whether the amended rule does anything.
+
+  **The cost `measured-width` found is a cost of late expansion, not of archetypes.** That is the
+  useful result and it was not obvious. A gate written under an `exit` here is an ordinary `when` on
+  an ordinary binding by the time anything reads the game, so the checker cannot fail to see it —
+  and the test that proves it is the one that breaks the game by removing the write the gate depends
+  on. [verified] Delores's gate hides because `door_verbs = YES` expands **inside the engine at run
+  time**: the generated `okverb_open` exists nowhere in the source, so a `VERB_PRE` hung on it is a
+  precondition on a response that does not textually exist, and the only reader is a person.
+  [inference]
+
+  So the axis is not archetype-versus-template. It is **where the expansion lands relative to the
+  thing that checks**. An archetype that expands before the checker is a shorthand; one that expands
+  after it is a hole. That distinction is available to this design and was not available to Delores,
+  which has no checker at all.
+
+  **And the exception composes, which is what a template would have been wanted for.** `walk-to`
+  predicted the mechanism exactly — *"'locked, and the salt has taken the hinges' would be written
+  on the door's `open` verb while the exit itself stayed a bare declaration"* — and then recorded
+  that nobody had written it. Somebody had: `Nickel.door` carries `VERB_PRE(open)` returning `NO`
+  without the camera, over a bare `to_door` declaration. [verified] The prediction was right and the
+  claim that it was unused was wrong. `exit ... when ... else` is that shape, and it is why an
+  archetype does not need to be escaped from at the first exception.
+
+  **What this does not settle.** It is one archetype, for one shape, chosen because two bodies of
+  work exhibit it. `definePseudoRoom` built 110 hotel rooms and that is a **room** template; nothing
+  here generalises to it, and an archetype per shape does not scale to shapes nobody anticipated —
+  which was the argument against archetypes in the first place and is untouched. Delores ships
+  exactly two archetypes and reached for Squirrel everywhere else. `[open]`
+
+  Prior art's second archetype, `on_off_verbs`, is not adopted: no specimen has wanted a switch, and
+  a primitive with no site is the shape this corpus has declined four times. [inference]

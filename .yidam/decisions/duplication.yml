@@ -97,7 +97,20 @@ rationale: |
   somebody anticipated — Delores has two, for doors and switches, and nothing for hotel rooms. A
   parameterised template is open and helps everywhere, and it is one short step from a macro, which
   is the escape hatch wearing a declaration's clothes. [inference] Choosing wants a worked example,
-  which is what the corpus has required of every other addition. `[open]`
+  which is what the corpus has required of every other addition.
+
+  **The worked example exists and it chose the archetype, on a distinction neither option was
+  framed by.** `exit <name> to <room>` is built, and what makes it safe is not that it is closed —
+  it is that it **expands at parse time**, so the checker never sees an archetype at all and a
+  guard written under it is an ordinary guard on an ordinary binding. The cost recorded against
+  archetypes in [measured-width](measured-width.yml) is a cost of expanding *inside a running
+  engine*, where the generated binding exists nowhere in the source and the only reader is a
+  person. [inference] The axis is where the expansion lands relative to the thing that checks.
+  [exit-archetype](exit-archetype.yml) is the record.
+
+  It settles one shape and not the pressure. `definePseudoRoom` built 110 hotel rooms, which is a
+  *room* template; an archetype per shape does not reach shapes nobody anticipated, and that was
+  the argument against archetypes to begin with. `[open]`
 
   **What this does not touch.** Whether the tractability figures should be re-earned on a game that
   can be written in this language. They are correct measurements of the games measured, and the

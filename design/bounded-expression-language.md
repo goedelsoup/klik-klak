@@ -192,6 +192,8 @@ There is a second site now:
 ```
 site    :=  verb target [ object ]        -- what the player did
          |  'on-enter' room               -- where the player got to
+
+decl    :=  'exit' name 'to' room         -- an edge between two rooms
 ```
 
 An `on-enter` binding is **forced**. The player is not offered it; it fires on arrival. That makes
@@ -218,6 +220,30 @@ would. An exit refuses when the player *clicks a door* — "Locked, and the salt
 hinges" — and a binding that fires on entering the far room is too late to say so. The two
 assessments wanted arrival at two granularities: a room, and a place within a room. Only the first
 was demonstrated by a specimen and only the first was built.
+
+**`exit` is a declaration and not a third site**, which is the point of it. It expands, at parse
+time, into a hotspot and a `walk-to` whose effect is `move <room>` — the binding an author would
+have written — and a `when` or `else` under it lands on that binding the way it lands on any other:
+
+```
+exit stair to lamp-room
+exit door to base
+  when  door-open
+  else  "Locked, and the salt has taken the hinges."
+```
+
+`room -connects-to-> room` has been in the ontology since genesis and two `room` instances author
+it; what did not exist was any way to *write* it here, and six sites in the first specimen wrote it
+out longhand instead. Two bodies of authored work agree on the shape: Delores ships 20 exits, 18
+bare and 2 gated; these specimens contain 20, 15 bare and 5 carrying a guard or refusal.
+
+It is the first primitive admitted on `AGENTS.md`'s **second** question rather than its first —
+every individual exit was sayable, and *an exit* was not. And what makes an archetype safe here is
+not that it is closed but that it expands **before anything reads the game**: the checker never sees
+one, so a gate declared under an exit cannot hide from it. That is not a property of archetypes.
+Delores's two gated exits hid from a reader for exactly the opposite reason — `door_verbs = YES`
+expands inside the running engine, so the binding a precondition hangs on exists nowhere in the
+source. See `.yidam/decisions/exit-archetype.yml`.
 
 ### Layer 1 — predicates
 
