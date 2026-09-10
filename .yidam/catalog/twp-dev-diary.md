@@ -14,6 +14,7 @@ location:
     description: "The blog itself; every post cited below is `<slug>.html` under this host"
 used-by:
   - ../corpus/prior-art/thimbleweed-park.yml
+  - ../corpus/data-format/room-manifest.yml
 ---
 
 **A source of record, and the closest one this corpus will ever get to its own question.**

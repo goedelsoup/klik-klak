@@ -11,22 +11,27 @@ description: |
   room that does not exist, a hotspot whose geometry falls outside the background: each is
   checkable while reading the file, and each is currently a bug found by walking into it.
 
-  **What this node is an instance of is `[open]`, and the graph cannot answer it.** Asking
-  `yidam query 'prior-art -reads-> data-format'` returns nothing and reports the reason as
-  `relationship-unauthored`: the ontology declares `reads` and no instance authors it. That edge
-  was approved during bootstrap on the assumption that `data-format` instances would be format
-  *kinds* — a room manifest, generically, of the sort many engines have. This node was seeded as
-  *this project's* room manifest, arguing design positions this repository is taking: that
-  geometry stays hand-editable, that no script hook belongs in a room file.
+  **That `[open]` is closed, and by evidence rather than by choosing.** It asked what this node
+  is an instance of. `yidam query 'prior-art -reads-> data-format'` returned nothing and reported
+  `relationship-unauthored` — the ontology declared `reads` and no instance authored it — and the
+  question was whether `data-format` instances are format *kinds*, of the sort many engines have,
+  or *this project's* formats, arguing design positions this repository is taking. Both readings
+  were coherent and incompatible: under the first the design positions belong elsewhere, under
+  the second the edge is unwireable and should be withdrawn.
 
-  Both readings are coherent and they are not compatible. Under the first, "SCUMM reads a room
-  manifest" is a true and useful comparative claim, and this node's design positions belong
-  somewhere else. Under the second, the `reads` edge is unwireable and should be withdrawn from
-  the ontology rather than left declared and permanently unauthored.
+  **A real engine's room file settles it, because it is this one.** Thimbleweed Park's rooms are
+  written as `.JSON` by a standalone editor called Wimpy, and the file Ron Gilbert quotes carries
+  `background`, `name`, `sheet`, and per object `hotspot`, `pos`, `zsort`, `animations` and
+  `prop` — extent, backgrounds, hotspot geometry, and nothing else
+  ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] Walkboxes are in the same tool.
+  That is the format this node describes, in a system nobody here designed, so the node reads as
+  a format kind and the edge is now authored by
+  [thimbleweed-park](../prior-art/thimbleweed-park.yml).
 
-  The cost of leaving it undecided is specific: this is one of two relationships the corpus
-  declares and never uses, and a declared relationship nothing authors is indistinguishable from
-  an ontology that overreached.
+  What made the readings look incompatible was the assumption that the design positions below
+  are *this project's*. They are not: the same positions are visible in a shipped engine, which
+  makes them documented facts about a format rather than a repository's preferences sitting in
+  the wrong file. The `reads` edge stays; nothing is withdrawn.
 properties:
   syntax: |
     Text, hand-editable, with geometry in world coordinates. The choice to keep it
@@ -39,8 +44,24 @@ properties:
   escape_hatch: |
     None intended. If a room needs behaviour beyond what this file states, the behaviour
     belongs in a binding rather than here — and holding that line is what keeps this format
-    declarative. [inference] Every engine this corpus has examined eventually put a script
-    hook in the room file, which is evidence the line is hard to hold and not that it is wrong.
+    declarative.
+
+    **This node claimed every engine eventually puts a script hook in the room file. One does
+    not, and it is the one built by the people who invented the form.** Thimbleweed Park splits
+    a room in two: a `.JSON` file with no behaviour in it at all, and a separate table of
+    Squirrel where every response lives. The split is exactly here, and the engine has an
+    unrestricted general-purpose language available on the other side of it and still does not
+    put a hook in the geometry ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] So
+    the line is holdable, and the evidence for it is a system with every reason not to bother.
+
+    Two of that file's fields are the more interesting result, because they are behaviour-shaped
+    and are declared as data anyway. `usepos` says where the actor stands to use an object and
+    `usedir` says which way they face — arrival at *a place within a room*, which is the residue
+    [walk-to](../verb/walk-to.yml) left open and which `on-enter` was built and found not to
+    cover. Thimbleweed Park answers it as two fields on the target rather than as a trigger, a
+    binding, or a verb. [verified] Whether that is the whole of the residue is `[open]`: it
+    positions the actor and it does not carry the precondition and refusal the specimen's locked
+    door needed.
 links:
   - target: ../room/single-screen.yml
     relationship: encodes
