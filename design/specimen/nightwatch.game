@@ -7,10 +7,10 @@
 # The FIRST shape is triggered by a click. It reduces — see `study.case`, which is a whole
 # scripted beat written as one binding and needs nothing the vocabulary lacks.
 #
-# The SECOND shape is triggered by ARRIVAL, which no binding can say. `interaction` sites are
-# (room, target) plus a verb, and there is no verb for "got here". The workaround is below and
-# it is written twice on purpose: `hall` has two doors, so the sequence has two homes and
-# nothing checks that they agree. README.md counts what that costs.
+# The SECOND shape is triggered by ARRIVAL, which no binding could say when this game was
+# written. It went in twice — `hall` has two doors, so the sequence had two homes and nothing
+# checked that they agreed — and that duplication is what argued the arrival trigger into
+# existence. It is now one `on-enter` binding on `hall`. README.md keeps the before and after.
 #
 # Its committed defect is CONSUMPTION, which the lighthouse also carries. That repetition is
 # deliberate — this specimen is not about the cause, and inventing a third one to be different
@@ -53,23 +53,12 @@ room yard
     walk-to:
       do    move study
 
-  # THE SECOND SHAPE, first copy. Two bindings on one site: one for the ordinary case and one
-  # for the sequence, because `when` gates a whole binding and `else` carries only a line. A
-  # trigger that is not a player action has to be written as a player action that happens to
-  # precede it.
   hotspot hall-door "the hall door, standing ajar"
     look-at:
       "It stands ajar on a hall too long to see the end of."
 
     walk-to:
-      when  not alarm
       do    move hall
-
-    walk-to:
-      when  alarm
-      say   "Three steps in, a lamp comes up. The watchman takes the ledger out of your hands without hurrying, and the door at the far end is already open."
-      do    spend ledger
-      do    move cell
 
   hotspot gate "the yard gate"
     look-at:
@@ -87,6 +76,20 @@ room yard
 # the workaround countable rather than arguable.
 
 room hall
+
+  # THE SECOND SHAPE, and the reason this specimen exists. The watchman intercepts you for
+  # ARRIVING, which is not a verb applied to a target. It used to be written twice — once per
+  # door into this room, four bindings for one sequence — and drifting one copy changed the
+  # game while every finding stayed identical. `on-enter` is one binding and there is nothing
+  # to keep in step.
+  #
+  # It is FORCED. The player is not offered this; a state in which it is offered is transient,
+  # and "in the hall carrying the ledger" is not somewhere anybody rests.
+  on-enter:
+    when  alarm
+    say   "Three steps in, a lamp comes up. The watchman takes the ledger out of your hands without hurrying, and the door at the far end is already open."
+    do    spend ledger
+    do    move cell
 
   hotspot yard-door "the door back to the yard"
     look-at:
@@ -144,21 +147,12 @@ room study
     walk-to:
       do    move yard
 
-  # THE SECOND SHAPE, second copy. Every line of the sequence below also appears under
-  # `yard.hall-door`, and nothing in the format, the reader or the checker relates the two.
   hotspot hall-door "the panelled door, from the inside"
     look-at:
       "It stands open on the hall."
 
     walk-to:
-      when  not alarm
       do    move hall
-
-    walk-to:
-      when  alarm
-      say   "Three steps in, a lamp comes up. The watchman takes the ledger out of your hands without hurrying, and the door at the far end is already open."
-      do    spend ledger
-      do    move cell
 
 # ── the cell ──────────────────────────────────────────────────────────────────
 

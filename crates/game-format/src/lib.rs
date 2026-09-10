@@ -152,6 +152,18 @@ pub enum Site {
         conversation: String,
         option: String,
     },
+    /// **arriving in a room**, which is not a verb applied to a target and is the one site an
+    /// interaction table keyed by verb and target cannot index.
+    ///
+    /// Two classes asked for this independently: `verb/walk-to.yml`, reading engine
+    /// documentation, and `cutscene/scripted-sequence.yml`, assessed against a specimen. Both
+    /// AGS eras document it — "Player enters room (after fadein)" in 2.72's interaction event
+    /// list, "Enters room after fade-in" in the current manual.
+    ///
+    /// A binding at this site is **forced**: it is not offered to the player, it fires. That
+    /// is what makes the state it fires from transient, and it is the whole reason this is a
+    /// different kind of site rather than a verb nobody types.
+    OnEnter { room: String },
 }
 
 #[derive(Debug, Clone)]

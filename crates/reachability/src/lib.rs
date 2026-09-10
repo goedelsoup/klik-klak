@@ -89,6 +89,14 @@ pub struct Report {
     /// ceiling — so it says how far the reachable set collapses the space actually used, and
     /// not how far it collapses every space the declarations permit.
     pub observed_space: u128,
+    /// Rooms whose entry bindings move the player in a loop that never settles.
+    ///
+    /// An `on-enter` binding is forced, so a state in which one is offered is transient — the
+    /// player is never left there. Two rooms that each throw the player into the other are
+    /// therefore a game with no resting state at all, and a search that chases it does not
+    /// stop. This is the same shape as an item with no ceiling, and it is reported for the
+    /// same reason: a checker that hangs is worse than one that says what it found.
+    pub entry_cycles: Vec<String>,
 }
 
 struct Index<'a> {
@@ -103,6 +111,11 @@ struct Index<'a> {
     /// hotspots that stand for an item, in declaration order
     takeable: Vec<String>,
     at: BTreeMap<String, usize>,
+    /// bindings sited at `on-enter`, indexed by room slot and kept in written order.
+    ///
+    /// These are not offered to the player, so they are not in `acting` and never appear as a
+    /// choice. They fire in [`Index::settle`], which is what "forced" means here.
+    entries: Vec<Vec<&'a Binding>>,
 }
 
 fn slot(v: &[String], name: &str) -> usize {
@@ -133,8 +146,15 @@ impl<'a> Index<'a> {
         for (i, r) in game.rooms.iter().enumerate() {
             at.insert(r.clone(), i);
         }
+        let mut entries: Vec<Vec<&Binding>> = vec![Vec::new(); game.rooms.len()];
+        for b in &game.bindings {
+            if let Site::OnEnter { room } = &b.site {
+                entries[at[room]].push(b);
+            }
+        }
         Index {
             game,
+            entries,
             caps: game
                 .items
                 .iter()
@@ -148,6 +168,50 @@ impl<'a> Index<'a> {
             options,
             convs,
             at,
+        }
+    }
+
+    /// Fire the forced bindings until the player stops arriving anywhere.
+    ///
+    /// An entry binding fires on *arriving* in a room, not while standing in one — which is
+    /// how both AGS eras document the event, and is what keeps a description-only entry
+    /// binding from firing forever. So: fire this room's offered entry bindings in written
+    /// order; if that moved the player, they have arrived somewhere and the new room's fire
+    /// too; if it did not, the state has settled.
+    ///
+    /// **This is the second primitive in this design that costs decidability**, after item
+    /// quantity. Two rooms whose entry bindings move the player into each other never settle,
+    /// and the search would not terminate. The guard is exact rather than a step budget: the
+    /// states visited in one chain are remembered, and a repeat is a cycle. It terminates
+    /// because a chain that does not repeat a state cannot be longer than the state space.
+    ///
+    /// `Err` carries the room the chain was in when it closed, for the report.
+    fn settle(&self, cur: State) -> Result<State, usize> {
+        self.settle_tracking(cur).map(|(s, _)| s)
+    }
+
+    /// [`Index::settle`], also reporting which forced bindings fired.
+    ///
+    /// The list is what [`Index::apply_without_spending`] needs and could not get from the
+    /// binding it was handed: a chosen binding's effect list is no longer everything that
+    /// happens when it fires.
+    fn settle_tracking(&self, mut cur: State) -> Result<(State, Vec<&'a Binding>), usize> {
+        let mut seen: HashSet<State> = HashSet::new();
+        let mut fired: Vec<&'a Binding> = Vec::new();
+        loop {
+            if !seen.insert(cur.clone()) {
+                return Err(cur.room);
+            }
+            let before = cur.room;
+            for b in &self.entries[cur.room] {
+                if self.offered(b, &cur) {
+                    cur = self.apply(b, &cur);
+                    fired.push(b);
+                }
+            }
+            if cur.room == before {
+                return Ok((cur, fired));
+            }
         }
     }
 
@@ -230,6 +294,14 @@ impl<'a> Index<'a> {
                     }
                 }
             }
+            // An entry binding is offered by being in its room and nowhere else. The `None`
+            // is doing work: a forced binding must not fire while the player is inside a
+            // conversation, or the mode would be left by something the player never chose.
+            (Site::OnEnter { room }, None) => {
+                if self.at[room] != s.room {
+                    return false;
+                }
+            }
             _ => return false,
         }
         if let Some(o) = &b.object {
@@ -242,9 +314,49 @@ impl<'a> Index<'a> {
 
     /// The same transition with its spends left out. Used to ask whether the spending is
     /// what stranded a state, rather than guessing from which effects the binding carries.
+    /// Everything this binding spends when fired from `s` — **including what the bindings it
+    /// forces spend.** A chosen binding's own effect list stopped being the whole answer when
+    /// `on-enter` arrived: walking through a door spends nothing, and the watchman on the
+    /// other side of it takes the ledger.
+    fn spends(&self, b: &Binding, s: &State) -> Vec<String> {
+        let after = self.apply(b, s);
+        let fired = self
+            .settle_tracking(after)
+            .map(|(_, f)| f)
+            .unwrap_or_default();
+        let mut out: Vec<String> = Vec::new();
+        for e in b
+            .effects
+            .iter()
+            .chain(fired.iter().flat_map(|f| &f.effects))
+        {
+            if let Effect::Spend(x, _) = e {
+                if !out.contains(x) {
+                    out.push(x.clone());
+                }
+            }
+        }
+        out
+    }
+
     fn apply_without_spending(&self, b: &Binding, s: &State) -> State {
-        let mut n = self.apply(b, s);
-        for e in &b.effects {
+        let after = self.apply(b, s);
+        // The forced bindings run, as they would have — and what *they* spend counts as this
+        // binding's spending for the purpose of the counterfactual. The player chose to walk
+        // through the door; the watchman taking the ledger is a consequence of that choice
+        // and is nowhere in the door's effect list.
+        //
+        // This is the third time a new primitive has broken the cause classifier, and the
+        // third time in the same place: it assumed everything a binding does is written in
+        // that binding.
+        let (mut n, fired) = self
+            .settle_tracking(after.clone())
+            .unwrap_or((after, Vec::new()));
+        for e in b
+            .effects
+            .iter()
+            .chain(fired.iter().flat_map(|f| &f.effects))
+        {
             if let Effect::Spend(x, _) = e {
                 n.items[slot(&self.items, x)] = s.items[slot(&self.items, x)];
             }
@@ -267,7 +379,11 @@ impl<'a> Index<'a> {
                 if b.ending {
                     return true;
                 }
-                let next = self.apply(b, &cur);
+                // settled, like the real search — a counterfactual that rests where the game
+                // never would is not a counterfactual about this game
+                let Ok(next) = self.settle(self.apply(b, &cur)) else {
+                    continue;
+                };
                 if seen.insert(next.clone()) {
                     q.push_back(next);
                 }
@@ -330,7 +446,13 @@ pub fn analyse(game: &Game) -> Report {
         .bindings
         .iter()
         .filter(|b| {
-            !b.effects.is_empty() || b.ending || matches!(b.site, Site::InConversation { .. })
+            // An entry binding is forced, not offered. It fires in `settle` and must never
+            // appear as something the player chose to do — including in a stranding report,
+            // where naming it as the cause would be true and useless: nobody picked it.
+            !matches!(b.site, Site::OnEnter { .. })
+                && (!b.effects.is_empty()
+                    || b.ending
+                    || matches!(b.site, Site::InConversation { .. }))
         })
         .collect();
 
@@ -339,7 +461,25 @@ pub fn analyse(game: &Game) -> Report {
     let mut edges: Vec<(usize, usize, usize)> = Vec::new(); // from, to, binding index in `acting`
     let mut goals: HashSet<usize> = HashSet::new();
 
-    let start = ix.initial();
+    let mut entry_cycles: Vec<String> = Vec::new();
+    let note_cycle = |room: usize, ix: &Index, out: &mut Vec<String>| {
+        let msg = format!(
+            "entering {} starts a chain of `on-enter` bindings that never settles",
+            ix.rooms[room]
+        );
+        if !out.contains(&msg) {
+            out.push(msg);
+        }
+    };
+
+    // The start room is arrived in too, which is how both AGS eras document it.
+    let start = match ix.settle(ix.initial()) {
+        Ok(s) => s,
+        Err(room) => {
+            note_cycle(room, &ix, &mut entry_cycles);
+            ix.initial()
+        }
+    };
     id.insert(start.clone(), 0);
     states.push(start);
     let mut queue = VecDeque::from([0usize]);
@@ -349,7 +489,13 @@ pub fn analyse(game: &Game) -> Report {
             if !ix.offered(b, &states[cur]) {
                 continue;
             }
-            let next = ix.apply(b, &states[cur]);
+            let next = match ix.settle(ix.apply(b, &states[cur])) {
+                Ok(n) => n,
+                Err(room) => {
+                    note_cycle(room, &ix, &mut entry_cycles);
+                    continue;
+                }
+            };
             let fresh = !id.contains_key(&next);
             let to = match id.get(&next) {
                 Some(i) => *i,
@@ -403,21 +549,14 @@ pub fn analyse(game: &Game) -> Report {
         .into_iter()
         .map(|(bi, n)| {
             let b = acting[bi];
-            let spent: Vec<&str> = b
-                .effects
-                .iter()
-                .filter_map(|e| match e {
-                    Effect::Spend(x, _) => Some(x.as_str()),
-                    _ => None,
-                })
-                .collect();
+            let source = &states[example_from[&bi]];
+            let spent = ix.spends(b, source);
             // Which cause, asked as a counterfactual rather than read off the effect list.
             // A binding that both spends and moves carries both kinds of effect, and reading
             // the cause off the list picks one by fiat — the ferry specimen's toll spends
             // three coins AND crosses a river, and the coins are not why the player is
             // stranded. So take the spending away: if that rescues the state, the spending
             // was the cause; if it is still stranded, something else was.
-            let source = &states[example_from[&bi]];
             let rescued =
                 !spent.is_empty() && ix.can_finish(&acting, &ix.apply_without_spending(b, source));
             let (cause, detail) = if rescued {
@@ -434,6 +573,7 @@ pub fn analyse(game: &Game) -> Report {
             let target = match &b.site {
                 Site::InRoom { target, .. } => target.clone(),
                 Site::InConversation { option, .. } => option.clone(),
+                Site::OnEnter { room } => room.clone(),
             };
             let example = example_of
                 .get(&bi)
@@ -534,6 +674,7 @@ pub fn analyse(game: &Game) -> Report {
     }
 
     Report {
+        entry_cycles,
         states: states.len(),
         transitions: edges.len(),
         winnable: !goals.is_empty(),
@@ -586,6 +727,12 @@ impl Report {
                     "  line {:>4}  {}{} on {}  [{}]\n            {} — {} state(s)\n            e.g. {}\n",
                     st.line, st.verb, obj, st.target, cause, st.detail, st.states, st.example
                 ));
+            }
+        }
+        if !self.entry_cycles.is_empty() {
+            s.push_str("\nForced entry bindings that never settle:\n");
+            for v in &self.entry_cycles {
+                s.push_str(&format!("  {v}\n"));
             }
         }
         if !self.overflows.is_empty() {
