@@ -14,7 +14,9 @@ description: |
   where the distinction is either representable or lost.
 properties:
   syntax: |
-    Text, keyed by verb and target, with the second object as an optional third key.
+    Text, keyed by verb and target, with the second object as an optional third key. The third
+    key is used by about one binding in eight — 26 of Delores's 203 and 11 of these specimens' 87,
+    which is 12.8% and 12.6% arrived at independently.
     Hand-editable, because the alternative is a tool and a tool for a sparse table is a
     spreadsheet nobody wants to diff.
 

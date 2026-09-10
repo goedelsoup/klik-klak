@@ -10,8 +10,29 @@ description: |
 
   A vocabulary without it is meaningfully smaller — not by one entry, but by a whole
   dimension. Whether the puzzles it enables can be expressed by unary verbs over a richer
-  world state is `[open]`, and it is the sharpest form of this corpus's central question:
+  world state was called the sharpest form of this corpus's central question, on the reading that
   the answer decides whether "minimal" means fewer verbs or simpler ones.
+
+  **They can, exactly, and the answer had been sitting in this repository's own code.**
+  `crates/reachability`'s `offered` gates a binding's second object on `items[o] >= 1`, and
+  `Pred::Carrying(o)` evaluates to `items[o] >= 1` — the same expression, ten lines apart.
+  [verified] Moving every second object into its guard leaves all four specimens analysing
+  identically: same reachable set, transitions, strandings, winnability, latch violations.
+  [verified] — `crates/reachability/tests/arity.rs`. Arity costs the state space nothing.
+
+  **This verb keeps its place for a reason it did not give.**
+  [binary-binding](../interaction/binary-binding.yml) says the item being carried is *structural
+  and enforceable by the format* while only the gating flag is authored; the reduction moves it to
+  the authored side, where it can be forgotten and can be written differently in two places. This
+  corpus refused a narrower version of exactly that in
+  [portable-object](../inventory-item/portable-object.yml). [inference] It also costs the report:
+  the reduced form still finds the specimen's consumption trap and can no longer say which item was
+  spent. [verified]
+
+  **And the framing was wrong.** Fewer verbs or simpler ones was a false choice. Delores declares 57
+  verbs, 18 of them binary in a list validated at boot, and has **no generic "use with"** — it kept
+  arity and multiplied verbs, naming each binary application. [verified] See
+  `.yidam/decisions/binary-dimension.yml`.
 properties:
   arity: binary
   surface: |

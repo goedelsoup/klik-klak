@@ -29,11 +29,33 @@ properties:
     The item is carried, the target is present, and any gating flag holds. [inference] The
     first two are structural and enforceable by the format; only the third is authored, which
     suggests a format that expresses the first two implicitly and asks only for the third.
+
+    **That sentence turned out to be the answer to a question two nodes away, and nobody had read
+    it as one.** `verb/use-with` asked whether a binary verb could be reduced to unary verbs over
+    richer state, and it can — exactly, with every figure on every specimen unchanged
+    (`crates/reachability/tests/arity.rs`). [verified] What the reduction does is move *the item is
+    carried* out of the first group and into the third. The verb survives on this property rather
+    than on any claim about what the puzzles need. [inference]
+    `.yidam/decisions/binary-dimension.yml`.
   refusal: |
     Authored per binding where the precondition is authored. [inference] A refusal that names
     which of the two objects was wrong leaks information about which half was right, and that
     leak is sometimes the intended hint and sometimes an unintended one. Nothing in the
     vocabulary lets an author say which.
+
+    **The same naming turns out to matter to the checker and not only to the player**, which this
+    property did not consider. `lighthouse.game`'s committed defect is reported as *consumption of
+    `oil-can` at `base.hinge`*; with the second object moved into a guard the same states are still
+    stranded by the same binding for the same cause, and nothing can say what was spent. [verified]
+    So a design that drops arity loses a diagnostic as well as a hint, and the two are the same
+    fact read by different readers. [inference]
+
+    Both `[verified]` claims added to this node rest on a committed test rather than a document, and
+    this node links no catalog entry, so `yidam lint` reports it as `verified-unsourced`. That is
+    the **second** node in this position; the first is
+    [portable-object](../inventory-item/portable-object.yml), and
+    `.yidam/decisions/found-in.yml` records why neither of the fixes the conduct guideline offers
+    applies.
 links:
   - target: ../verb/use-with.yml
     relationship: applies
