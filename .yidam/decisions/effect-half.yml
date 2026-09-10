@@ -90,10 +90,21 @@ rationale: |
   and never was: *an effect is a relationship an interaction can author*, and the list is closed
   exactly when the ontology is. That is the same shape as the answer on the ask half — guards are
   bounded because the state model closes the questions — and it was sitting in the code as eight
-  comments nobody had read together. [inference]
+  comments nobody had read together.
 
   It also says how the list may grow, which is the useful part: only by the ontology growing, and
   a new relationship is an argument this corpus already knows how to have.
+
+  **And it is held rather than asserted.** `every_effect_realises_a_declared_relationship` in
+  `crates/game-format/tests/effects.rs` maps each variant to the relationship it realises in an
+  **exhaustive** match — a ninth effect does not compile until somebody names one — and checks
+  the six names against the class files, so naming a relationship the ontology does not declare
+  fails the gate. [verified] — by a committed assertion rather than a document, and verified to
+  fail by breaking it: renaming `occupies` to `relocates` fails with a message naming which of
+  the two things to fix.
+
+  Eight doc comments were a claim. This is the claim with something standing behind it, which is
+  the difference this repository keeps finding it has to pay for.
 
   **What is genuinely unbounded is presentation, and it is two-thirds of the work.** 884 sites
   across 53 distinct functions, most used once or twice — a neon sign flickering, an actor's eyes
