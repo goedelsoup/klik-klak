@@ -13,7 +13,12 @@ properties:
     description: How the region is described — rectangle, polygon, or colour mask.
   - name: visibility
     type: string
-    description: Whether the region is always present or conditional on world state.
+    description: >-
+      Whether the region is always targetable or conditional on world state. It is about the
+      cursor rather than about drawing: a shipped game changes targetability fifteen times without
+      touching hiddenness, and what an object looks like is its state. The name predates that
+      count and is the reason this property read as two fused together; see
+      `hotspot/static-region`.
   - name: cursor_feedback
     type: text
     prose: true

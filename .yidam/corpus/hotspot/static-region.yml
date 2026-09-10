@@ -29,9 +29,21 @@ description: |
   `objectHidden` are separate operations there, used 11 and 9 times: a region can be **drawn and
   not targetable** — scenery the player sees and the cursor ignores — or targetable and not drawn.
   [verified] `visibility` below is one property covering both, and the fusion is a guess this
-  corpus made without evidence and now has evidence against. `[open]` — whether they need to be
-  two properties depends on whether anything but presentation reads the difference, and nothing
-  here has asked.
+  corpus made without evidence.
+
+  **Asked, and the fusion survives — but it was described the wrong way round.** Recounted across
+  the whole source rather than the sample: 34 `objectTouchable` calls on 18 receivers, 11
+  `objectHidden` on 6, only three receivers getting both, and where both appear they move in
+  lockstep on adjacent lines. Fifteen receivers change targetability and never hiddenness; three
+  change hiddenness and never targetability, and all three are one gag — a fire hydrant flickering
+  under a `quiet_glitch` sound and being restored. [verified] Nothing but presentation reads the
+  difference, which was the stated condition.
+
+  The correction is that the two are not equal partners. **Drawing is `objectState`'s job there** —
+  146 calls choosing which art an object shows, against 11 blunt hides — so `objectHidden` is a
+  visibility override kept for effects and `objectTouchable` is the load-bearing half. [inference]
+  What this class needs is a **targetability** property; calling it `visibility` is what invited the
+  reading that it fused two things. `.yidam/decisions/hotspot-identity.yml`.
 
   **A third absence, and it arrived from the other side of the vocabulary.** This class also has
   no way for a region to say what it is *relative to another region* — that it is part of one,
@@ -47,8 +59,25 @@ description: |
 
   A region that could say it reads as another would remove all eleven, and no verb primitive
   removes any of them. [inference] What it would cost is a decision this corpus has not made: the
-  eleven want at least three different relations — part-of, same-as, and says-the-same — and one
-  game is not enough to choose among them or to collapse them. `[open]`
+  eleven want at least three different relations — part-of, same-as, and says-the-same.
+
+  **A second game was never what this needed.** Ten of the eleven are two regions of one *drawn*
+  thing, or several drawn things that read alike: a sink and its tap, a circus wanting two click
+  regions, a hotel and its roofline, three traffic cones on a street with one of them seen again
+  from another screen. The eleventh is state rather than geometry — a candy display reading as the
+  candy once you have taken one. [verified]
+
+  The four specimens have none of it, and that is a committed census rather than an impression: the
+  only bindings two hotspots share are bare exits with the same destination, which is two doors and
+  not one door twice. [verified] — `crates/reachability/tests/identity.rs`. The divergence is
+  structural. This format names hotspots and never draws them, `geometry` above is declared and
+  nothing here authors it, and **you only need to say "these two regions are one thing" once regions
+  are things you draw.** [inference]
+
+  So what would settle it is not a second game but a design with geometry in scope — or the 307 KB
+  of `.wimpy` files this corpus has held unread since it catalogued them, which is where those
+  regions actually are. Whether such a design wants one relation or three is untouched, and the
+  three are genuinely different: taking one traffic cone does not take the others. `[open]`
 properties:
   geometry: polygon
   visibility: always
