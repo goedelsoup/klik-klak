@@ -21,8 +21,21 @@ description: |
   defines. Per-hotspot is not offered, and on reflection could not be: a hotspot with its own
   default has simply been authored.
 
-  Whether a default can be defined per room was looked for on the same page and is **not
-  addressed** there. That quarter stays `[open]`.
+  **That quarter closes by dissolving.** Neither system offers a per-room default, and there is now
+  a reason rather than an absence of evidence: a default is a property of the *table*, and a table
+  keyed by verb and target has no room in it. [inference] Scoping one per room would make the room a
+  third key, which is the two-dimensional cost [binary-binding](binary-binding.yml) counts, paid
+  again for a cell nobody authored.
+
+  **And a whole branch of this question turns out to be conditional on an interface.** Delores has
+  no default binding at all, because it has no fixed verb bar: the popup is built from the object's
+  own verb slots and a verb whose precondition fails is removed from it, so no unauthored pair is
+  reachable and nothing needs to stand in ([delores-source](../../catalog/delores-source.md)).
+  [verified] The premise above — that the default handles the great majority of what a player
+  triggers — is true where every cell is reachable and is a fact about **vocabulary size**: 164
+  objects against 57 verbs is 2.17% authored, and this design's four specimens are 42 sites against
+  six verbs, 34.5%. [verified] A conclusion drawn at 57 verbs does not transfer to six.
+  `.yidam/decisions/default-binding.yml`.
 
   The manual also states this node's premise in the AGS authors' own words, which matters because
   the premise was reached here by arithmetic rather than by evidence: the function is "typically

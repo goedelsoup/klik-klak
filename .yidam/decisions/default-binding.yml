@@ -1,0 +1,81 @@
+id: default-binding
+summary: >-
+  The three distinctions land in three layers and the answer differs in each: the format makes them,
+  the checker cannot and is right not to, and what they are *for* belongs to an interface this design
+  has never specified. A fixed verb bar makes every cell reachable and a default carry 98% of the
+  game; a contextual menu makes only authored cells reachable and needs no default at all. This
+  corpus's checker already assumes the second and its ontology reasons from the first.
+context: |
+  Four `[open]`s, all the same question.
+  [unary-binding](../corpus/interaction/unary-binding.yml) says the difference between an absent
+  refusal and an empty one *"is a distinction the data format has to be able to make"*.
+  [interaction-table](../corpus/data-format/interaction-table.yml) names the collapse twice: the
+  format must express *"everything not listed falls through"*, and *"the moment it does, three
+  distinctions collapse into one another: a binding never authored, a binding authored as empty, and
+  a binding authored to refuse"*. And [default-binding](../corpus/interaction/default-binding.yml)
+  asks whether defaults are scoped per room, per verb, per category or globally, on the premise that
+  the default *"handles the great majority of what a player actually triggers"*.
+decision: |
+  **The collapse is not a defect of the data format, and the `[open]` was asked of the wrong layer.**
+
+  - **The format distinguishes all three.** They are three different things to write: nothing, a
+    line, or a guard with two lines. Nothing is lost there.
+  - **The checker cannot distinguish them, and that is correct.** A hotspot nobody can act on, one
+    with a line of description, and one with a guarded pair give `lighthouse.game` the same 103
+    states, the same 193 transitions and the same stranding. [verified] —
+    `crates/reachability/tests/defaults.rs`. A response that writes nothing is not a state
+    transition, so a reachability search has no business telling them apart.
+  - **The layer where the distinction matters is the interface, and this design has never specified
+    one.** That is the finding.
+
+  **`offered` enumerates authored bindings, so this corpus's checker already assumes a contextual
+  menu.** An unauthored cell is not reachable and nothing stands in for it. [verified] Nowhere was
+  that written down, and the ontology reasons from the opposite assumption.
+rationale: |
+  **A shipped game takes the other branch from the one the corpus assumed, and takes it completely.**
+  Delores has no fixed verb bar. `openVerbsFor` builds the popup from
+  `verb_id in object._known_verbs && _checkVerbValid(object, verb_id)`, where `_known_verbs` is
+  reflection over the object's own `verb_*` fields and `_checkVerbValid` returns false for any verb
+  whose `okverb_` fails. [verified] ([delores-source](../catalog/delores-source.md).)
+
+  So a failing precondition **removes the verb from the menu** rather than producing a refusal, and
+  no (verb, object) pair the author did not write is reachable at all. There is no default binding in
+  that engine, and 46 of its 164 objects are not interactable by design. [verified] The word
+  `default_verb` does appear there and means something else entirely — which of an object's authored
+  verbs is the single-click action, resolved by a fixed preference order with boot-time warnings.
+
+  **The premise the corpus reasoned from is true and is a fact about vocabulary size.** 164 objects
+  against 57 verbs is 9,348 cells with 203 authored — 2.17%, so a default would indeed carry
+  everything. This design's four specimens are 42 sites against six verbs: 252 cells, 87 authored,
+  **34.5%**. [verified] Adding a verb adds a row; the default's leverage is what that arithmetic
+  makes it, and this design has the smallest vocabulary of anything the corpus has read. A
+  conclusion drawn at 57 verbs does not transfer to six. [inference]
+
+  **The two branches are a real trade and neither is free.**
+
+  | | fixed verb bar | contextual menu |
+  |---|---|---|
+  | reachable cells | every one | only the authored |
+  | default binding | carries ~98% of what is triggered | not needed |
+  | failed precondition | a refusal, worded by the author | the verb is absent |
+  | what the player learns | nothing, until they try | what the object affords, before trying |
+
+  The second column costs an **information leak**, and it is the same leak
+  [binary-binding](../corpus/interaction/binary-binding.yml) already names as a design variable in
+  its `refusal` property: a refusal that names which half was wrong *"leaks information about which
+  half was right, and that leak is sometimes the intended hint and sometimes an unintended one"*.
+  A contextual menu makes that leak unconditional and takes the wording away from the author.
+  [inference] So it is not simply the cheaper answer; it moves a decision out of the author's hands.
+
+  **Nothing is decided about which branch this design should take**, because the interface is
+  explicitly out of scope: `design/bounded-expression-language.md` is about what is checkable, and a
+  verb bar is a thing a player sees. What is decided is that the question is an *interface* question
+  and that the corpus has been asking it as a format question, and that its own instrument has
+  quietly answered it one way for as long as there has been an instrument. `[open]`
+
+  **The per-room quarter of `default-binding`'s question closes by dissolving.** AGS scopes
+  `unhandled_event` by entity kind and verb; Delores has no defaults to scope. Neither offers per
+  room, and now there is a reason rather than an absence of evidence: a default is a property of the
+  *table*, and a table keyed by verb and target has no room in it. [inference] A room-scoped default
+  would need the room to be a key, which is the two-dimensional-table cost `binary-binding` counts,
+  paid a second time.

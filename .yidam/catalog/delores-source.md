@@ -103,6 +103,37 @@ an article, some properties, and nothing that happens. 82 carry exactly one. Two
 more. Alongside them, 290 bare props (`name = {}`): positioned art with no name and no
 behaviour.
 
+## The verb menu, and why there is no default binding — 2026-09-10
+
+**This game has no fall-through, because it has no fixed verb bar.** Clicking an object opens a
+popup, and `openVerbsFor` builds it by walking the master verb list and keeping only what passes
+`verb_id in object._known_verbs && _checkVerbValid(object, verb_id)`.
+
+- **`_known_verbs` is reflection over the object's own fields.** `registerVerbs` iterates the
+  object's keys, keeps every one beginning `verb_` that is not a `_text` or `_desc`, and warns if
+  any is missing from the master list. An object with none gets no `_known_verbs` and is not
+  interactable at all — which **46 of the 164 objects** are.
+- **`_checkVerbValid` hides rather than refuses.** Binary verbs are never shown (`if (verb in
+  ROOT(verb_usewith_list)) return NO`); a verb with no `okverb_` is shown; a verb with one is shown
+  only if it returns true. So a failing precondition removes the verb from the menu, and no line of
+  refusal is said.
+
+**So no (verb, object) pair the author did not write is reachable by a player.** The distinctions
+*never authored*, *authored and empty* and *authored to refuse* do not collapse here — the first is
+unreachable, the second is reachable and silent, and the third does not exist as a category, because
+what would have refused is simply absent from the menu.
+
+**`default_verb` is in this file and means something else.** Not "what happens when nothing
+matched" but *which of this object's authored verbs is the single-click action*, resolved by a fixed
+preference order — `lookat`, `examine`, `read`, `lookatfar`, `instant`, `walkto` — with a boot-time
+warning for an object that has verbs and none of those, and another if a hand-written `default_verb`
+names a verb the object does not have.
+
+**What it costs is a leak, and it is the same leak recorded elsewhere as a design variable.** A
+verb's presence in the menu tells the player the object affords it, and its disappearance tells them
+a precondition is not met — information a refusal line would have controlled the wording of. That is
+the trade this engine takes in exchange for never authoring a default.
+
 ## Arity — 2026-09-10
 
 **26 of the 203 bindings take a second object — 12.8%** — counted as those whose body or guard
