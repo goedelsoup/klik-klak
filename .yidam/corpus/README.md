@@ -29,11 +29,11 @@ Sorted by: kind, then alphabetically.
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 7v / 5i / 0o | 95 |
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 5v / 8i / 3o | 145 |
 | [dialogue-script.yml](data-format/dialogue-script.yml) | data-format | Dialogue Script | 2 | 7v / 2i / 1o | 104 |
-| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 24v / 14i / 7o | 304 |
+| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 26v / 16i / 7o | 336 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 3v / 1i / 3o | 71 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 2v / 5i / 0o | 78 |
-| [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 0v / 2i / 1o | 26 |
+| [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 2v / 3i / 1o | 47 |
 | [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 5i / 1o | 72 |
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 0v / 4i / 1o | 47 |
 | [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 0v / 4i / 0o | 62 |
@@ -63,7 +63,7 @@ Sorted by: kind, then alphabetically.
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 0v / 2i / 0o | 27 |
 | [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 0v / 3i / 1o | 37 |
 | [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 7v / 5i / 4o | 129 |
-| [object-state.yml](world-flag/object-state.yml) | world-flag | Object State | 2 | 4v / 2i / 1o | 58 |
+| [object-state.yml](world-flag/object-state.yml) | world-flag | Object State | 2 | 4v / 4i / 1o | 72 |
 <!-- /REGEN -->
 
 ## Semantic index status
