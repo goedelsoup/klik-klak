@@ -1,0 +1,107 @@
+id: delegation
+summary: >-
+  "Calls another verb slot on the same object" was one word over seven shapes, and only six of the
+  eighteen bindings are on the same object. Six of the seven shapes go into this vocabulary as
+  written; the seventh is a name for a routine, which is the duplication finding on its fourth
+  appearance rather than a fifth item on the escape list. No delegation primitive.
+context: |
+  Delegation has been on the escape list since that list was written, and described as *"the
+  cheapest thing on this list and there is no way to say it here"*
+  ([interaction-table](../corpus/data-format/interaction-table.yml)). It survived three phases as
+  the outstanding item because it looked settled: a count, a percentage, and a one-line
+  description.
+
+  **The count held and the description did not.** Recounted at the commit
+  [delores-source](../catalog/delores-source.md) records: 34 `verb_<x>(` call sites in `Scripts/`,
+  of which **20 are inside an authored binding** and 14 are engine helpers, room enter and exit
+  code, cutscene bodies and Yack effect blocks. The 20 sit in **18 bindings** — the recorded
+  number, reached independently — because two bindings carry two calls each. [verified]
+
+  **Six of those 18 are on the same object.** The other twelve reach for a different one, and two
+  of those cross a room boundary. So the recorded figure of 8.9% is right about how many bindings
+  delegate and wrong about what they delegate to; the same-object share is **3.0% of 203**. That
+  matters because "another verb on the same object" reads like an alias worth a keyword, and
+  "another object's verb, sometimes in another room" reads like a function call.
+
+  **What the 20 sites actually are.** [verified]
+
+  | shape | sites | bindings | receiver |
+  |---|---|---|---|
+  | a whole forwarding to a part — `sink` hands four verbs to `sinkFaucet` | 4 | 4 | another object |
+  | two regions of one thing — `circus2`, `hotelTop` | 2 | 2 | another object |
+  | distinct things with one response — three traffic cones, one of them across a room | 3 | 3 | another object |
+  | a redirect that depends on state — the shut bank's door reads as its sign | 2 | 2 | another object |
+  | a response continuing into a description — `pickup` ending in `lookat` | 3 | 3 | itself |
+  | a state change written as a verb call — `repair` ending in `turn_on` | 3 | 3 | itself |
+  | reusing a named sequence — both radios run the screwdriver's electrocution | 3 | 1 | another object |
+
+  Only the fifth and sixth rows are what the description said. And the sixth is not delegation at
+  all in a vocabulary that keeps state in flags: `verb_turn_off()` is how that engine writes a
+  state change, because the state lives behind the verb slot rather than beside it. Three of the
+  six same-object sites are an artifact of where Delores keeps state. [inference]
+decision: |
+  **No delegation primitive.** Six of the seven shapes go into this vocabulary as written, and
+  the transcription is committed rather than asserted:
+  `crates/reachability/tests/delegation.rs` carries all six, resolves clean and analyses to 36
+  states.
+
+  The seventh — a response reusing a named sequence that happens to live in a verb slot — has no
+  spelling here, and both plausible ones are parse errors, so the absence is a test rather than a
+  paragraph.
+rationale: |
+  **The corpus's own first move had never been made on this.** *Try to express the thing with what
+  is already here and record what failed.* Delegation was counted, described in one line and left
+  on a list, and the description was what a design decision would have rested on. Counting is not
+  the same as trying.
+
+  **What every one of the six costs is a copy, and the copies drift where nothing can see it.**
+  Four drifts between two copies of one binding — the second region of the circus dropping the
+  shared flag, one cone's text going its own way, either half of the sink forgetting the repair —
+  produce the same 36 states, the same winnability and the same silence as the correct
+  transcription. [verified] A reachability checker asks what is *reachable*, and a redundant route
+  going bad does not change what is reachable. The player who clicks the sink rather than the
+  faucet plays a different game, and nothing in this instrument can say so. [inference] That is a
+  limit of the checker discovered by pointing it at duplication, and it is not fixable by adding a
+  way to call: two bindings that call the same third thing cannot drift, but neither can two that
+  simply say the same words, and the checker would be equally blind to the second.
+
+  **The seventh shape is the duplication finding for the fourth time.** `definePseudoRoom` over
+  110 hotel rooms; `sewerValveSetup` written by a second author "because I didn't want to do more
+  copy-paste"; 21 of 53 presentation names being composites the game defines for itself; and now a
+  whole electrocution sequence kept in a verb slot because a verb slot is the only place that
+  engine has to put a named piece of behaviour. [verified] Every one is *a name for a shape*, and
+  none of them needs an expression a bounded layer lacks. Adding a way to call one binding from
+  another would answer the fourth instance and none of the first three, which is the tell that it
+  is the wrong primitive.
+
+  **Two things the transcription settled on the way past.**
+
+  A response continuing into a description costs the **effect** twice, not the text: one guard per
+  binding makes it two bindings on one site, each carrying its own `give`. [verified] That is the
+  shape `.yidam/decisions/arrival-trigger.yml` found drifting at a smaller scale.
+
+  And a named flag makes a shared once-line safe where an implicit one would not. Delores says the
+  circus line with `ONCE(...)`, which is per-call-site; duplicating that binding onto the second
+  region of the same circus would play the bonus line twice. Here the once-ness has a name, both
+  copies read and write it, and duplicating the binding cannot duplicate the line. [verified] A
+  point in favour of this design that nobody had claimed, found by transcribing rather than by
+  reasoning about it.
+
+  **Where a primitive might actually be earned, and it is not in `verb`.** Eleven of the twenty
+  sites — the first four rows — are not about running a response at all. They are about *which
+  object the player is addressing*: a region that is part of another, two regions that are one
+  thing, distinct things that read alike, and a thing that reads as a different thing while some
+  flag holds. A hotspot that could say it reads as another would remove all eleven, and no verb
+  primitive removes any of them. [inference] That is a `hotspot` question, and this corpus has one
+  `hotspot` instance.
+
+  Not decided here, because one game is one game and because the four rows want three different
+  relations — part-of, same-as, and says-the-same — and a design that collapsed them would be
+  choosing by convenience. `[open]`
+
+  **Duplication is now on its fourth appearance and has never been acted on**, because each
+  individual instance was sayable and the corpus's rule turns on unsayability. Four instances
+  across three different layers of one game is no longer a series of coincidences, and the rule as
+  written cannot see it: a pressure that shows up as *quantity* of authored text is invisible to a
+  test of what can be expressed. Whether the rule needs a second clause is the question this phase
+  hands on. `[open]`
