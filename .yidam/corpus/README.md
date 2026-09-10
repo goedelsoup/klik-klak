@@ -25,10 +25,11 @@ Sorted by: kind, then alphabetically.
 |---|---|---|---|---|---|
 | [non-player-character.yml](actor/non-player-character.yml) | actor | Non-Player Character | 2 | 0v / 2i / 0o | 25 |
 | [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 0v / 1i / 1o | 28 |
-| [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 4 | 2v / 3i / 0o | 63 |
-| [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 6v / 4i / 0o | 86 |
+| [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 4 | 3v / 4i / 0o | 76 |
+| [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 7v / 5i / 0o | 95 |
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 5v / 8i / 3o | 145 |
-| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 18v / 11i / 6o | 246 |
+| [dialogue-script.yml](data-format/dialogue-script.yml) | data-format | Dialogue Script | 2 | 7v / 2i / 1o | 104 |
+| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 24v / 14i / 7o | 304 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 3v / 1i / 3o | 71 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 2v / 5i / 0o | 78 |
@@ -45,7 +46,7 @@ Sorted by: kind, then alphabetically.
 | [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 14v / 3i / 2o | 135 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 0v / 6i / 0o | 61 |
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 0v / 4i / 1o | 36 |
-| [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 10 | 13v / 8i / 1o | 186 |
+| [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 10 | 22v / 9i / 1o | 269 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
 | [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 2v / 3i / 2o | 54 |
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 0v / 2i / 0o | 30 |
@@ -57,11 +58,12 @@ Sorted by: kind, then alphabetically.
 | [pick-up.yml](verb/pick-up.yml) | verb | Pick Up | 2 | 3v / 6i / 1o | 99 |
 | [talk-to.yml](verb/talk-to.yml) | verb | Talk To | 2 | 3v / 4i / 1o | 69 |
 | [use-with.yml](verb/use-with.yml) | verb | Use With | 2 | 2v / 4i / 1o | 57 |
-| [walk-to.yml](verb/walk-to.yml) | verb | Walk To | 3 | 14v / 10i / 2o | 230 |
+| [walk-to.yml](verb/walk-to.yml) | verb | Walk To | 3 | 19v / 11i / 2o | 272 |
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 0v / 2i / 0o | 26 |
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 0v / 2i / 0o | 27 |
 | [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 0v / 3i / 1o | 37 |
-| [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 6v / 5i / 4o | 120 |
+| [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 7v / 5i / 4o | 129 |
+| [object-state.yml](world-flag/object-state.yml) | world-flag | Object State | 2 | 4v / 2i / 1o | 58 |
 <!-- /REGEN -->
 
 ## Semantic index status
