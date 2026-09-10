@@ -132,6 +132,15 @@ free operand and are bounded by the counter they are compared against. There are
 no binding forms, no user-defined names and no strings — there is nothing to name that the game
 has not declared.
 
+**And the rule says nothing about namespaces, which turns out to matter.** A specimen written
+against it put a `hotspot lamp` in one room and an `option lamp` in a conversation, and the two
+collided — one flat space of names for rooms, items, flags, hotspots and dialogue options
+alike. It went unnoticed for two phases because the gate then in use matched names against one
+flat set too. AGS numbers dialogue options *per topic*
+([ags-manual](../.yidam/catalog/ags-manual.md)) [verified], so scoping is not an exotic
+requirement — it is what the one system that built a bounded conversation vocabulary actually
+did. This design does not have it, and a 190-line game was enough to find that out. `[open]`
+
 Two properties follow directly, and they are the reason to want this rather than a VM:
 
 - **Termination is structural, not proven.** An expression is a finite tree with no loops, no
@@ -276,6 +285,18 @@ describe how a game breaks.** Grammar was never the binding constraint. Four of 
 nine unsayable sites were this single defect, and the other five were this document's author
 failing to read an ontology that was already in front of them.
 
+**The argument is no longer an argument.** `crates/reachability` enumerates the specimen's
+state space — 103 reachable states, 193 transitions — finds the ending reachable, finds 16
+states from which it is not, and names the single binding that strands them: `use-with oil-can
+on hinge`, classified as consumption, with an example of what was lost. That is the trap, found
+mechanically, and it is the first claim in this document that was executed rather than
+asserted.
+
+What that demonstrates is narrower than it looks and worth stating at its true size. It shows
+the computation is *possible* on a bounded language, which was the whole claim. It does not
+show the language is adequate for a real game, that the state space stays enumerable at scale,
+or that anybody would enjoy writing in it.
+
 ## 5. What this does not settle
 
 - **Concrete syntax.** Everything above is abstract. The surface belongs with
@@ -295,5 +316,11 @@ failing to read an ontology that was already in front of them.
   authoring trial and is not evidence of pleasantness.
 - **Whether `count item` earns its place.** The specimen never reached for it, along with `or`,
   `!=`, `<=`, `>` and grouping. One small game is thin evidence for removing anything.
-- **Nothing here is implemented.** No engine reads this. It is now exercised by one specimen,
-  which is a different thing from being tested by a running program.
+- **Whether names should be scoped.** See the collision above; AGS scoped its options and this
+  does not.
+- **Whether the state space stays enumerable.** The specimen is 103 states. Nothing here
+  predicts what a real game costs, and the argument for a bounded language would be in trouble
+  if the answer were exponential in the number of items.
+- **Nothing here is implemented as an engine.** No engine reads this. It is exercised by one
+  specimen and analysed by `crates/reachability`, which is a checker rather than a runtime —
+  the analysis says a game *can* be finished, and nothing here has ever played one.
