@@ -30,7 +30,7 @@ Sorted by: kind, then alphabetically.
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 7v / 9i / 3o | 178 |
 | [dialogue-script.yml](data-format/dialogue-script.yml) | data-format | Dialogue Script | 2 | 7v / 2i / 1o | 104 |
 | [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 31v / 19i / 6o | 390 |
-| [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 3v / 1i / 3o | 71 |
+| [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 3v / 2i / 2o | 76 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 3v / 5i / 0o | 87 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 3v / 4i / 2o | 64 |
@@ -58,7 +58,7 @@ Sorted by: kind, then alphabetically.
 | [pick-up.yml](verb/pick-up.yml) | verb | Pick Up | 2 | 3v / 6i / 1o | 99 |
 | [talk-to.yml](verb/talk-to.yml) | verb | Talk To | 2 | 3v / 4i / 1o | 69 |
 | [use-with.yml](verb/use-with.yml) | verb | Use With | 2 | 2v / 4i / 1o | 57 |
-| [walk-to.yml](verb/walk-to.yml) | verb | Walk To | 3 | 19v / 11i / 2o | 272 |
+| [walk-to.yml](verb/walk-to.yml) | verb | Walk To | 3 | 21v / 10i / 1o | 287 |
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 0v / 2i / 0o | 26 |
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 0v / 2i / 0o | 27 |
 | [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 0v / 3i / 1o | 37 |
