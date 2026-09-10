@@ -26,7 +26,7 @@ Sorted by: kind, then alphabetically.
 | [non-player-character.yml](actor/non-player-character.yml) | actor | Non-Player Character | 2 | 0v / 2i / 0o | 25 |
 | [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 0v / 1i / 1o | 28 |
 | [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 4 | 2v / 3i / 0o | 63 |
-| [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 5v / 3i / 0o | 75 |
+| [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 6v / 4i / 0o | 86 |
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 0v / 2i / 1o | 37 |
 | [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 5v / 5i / 4o | 97 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 0v / 2i / 2o | 50 |
