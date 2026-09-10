@@ -43,7 +43,7 @@ decision: |
   |---|---|---|
   | `objectState(x,"name")` | 44 | `SetCounter` over a declared range — see below |
   | `pickupObject` | 13 | `Give` |
-  | `objectTouchable(x,·)` | 11 | `SetFlag`, with `hotspot.visibility` declaring the gate |
+  | `objectTouchable(x,·)` | 11 | `SetFlag`, with `hotspot.targetability` declaring the gate |
   | `objectHidden(x,·)` | 9 | the same |
   | `exitRoomFromDoor` | 8 | `Move` |
   | `removeInventory` | 4 | `Spend` |
@@ -71,7 +71,7 @@ decision: |
   declared range says the same thing to `crates/reachability`. The node keeps its place as a
   record of a real system's choice and does not become a primitive here.
 
-  **`hotspot.visibility` is what covers twenty of the twenty sites the effect list appears to
+  **`hotspot.targetability` is what covers twenty of the twenty sites the effect list appears to
   miss.** `effect-vocabulary` ruled in advance that "a hotspot disappearing for some reason other
   than being picked up is a `world-flag` gating its presence, and needs nothing new", and that
   ruling is now measured: twenty distinct objects in Delores have their presence written

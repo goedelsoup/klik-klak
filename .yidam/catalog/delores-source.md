@@ -27,6 +27,9 @@ used-by:
   - ../corpus/data-format/interaction-table.yml
   - ../corpus/interaction/default-binding.yml
   - ../corpus/interaction/unary-binding.yml
+  - ../corpus/data-format/room-manifest.yml
+  - ../corpus/walkbox/scaled-polygon.yml
+  - ../corpus/room/scrolling.yml
 ---
 
 **A source of record, and the first one this corpus can *count*.** *Delores: A Thimbleweed Park

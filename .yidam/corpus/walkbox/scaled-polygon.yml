@@ -11,14 +11,60 @@ description: |
   the two agree. That gap is the ordinary source of an actor walking through scenery, and
   it is not a bug in either artifact — it is the cost of separating them, which is the same
   cost that makes the separation worth having.
+
+  **Eighty-four real ones have now been read, and this class is wrong about the half it is named
+  for.** *Delores* carries 84 walkbox polygons across 15 of its 22 rooms, and **a walkbox there
+  carries a polygon and, in fourteen cases, a name. Those are the only two keys that ever appear
+  on one** ([delores-source](../../catalog/delores-source.md)). [verified] There is no scale on a
+  walkbox, and no near edge and far edge to put one on.
+
+  **The scale is a property of the room, not of the region.** It is a room-level `scaling` list of
+  `"<factor>@<y>"` breakpoints — `["0.90@54", "0.80@93"]` — present in 12 of the 22 rooms, and it
+  is a piecewise function of the actor's y coordinate anywhere in the room. [verified] An actor
+  crossing from one polygon to another does not change how it is scaled; an actor walking upstage
+  within one polygon does.
+
+  That is a better design than the one this node described, and the reason is the one this node
+  already gave for the polygon. The floor is authored separately from the picture because the two
+  are different things — and *depth* is a property of the picture, shared by everything standing
+  at that height, so putting it on the floor regions would mean re-stating the same curve on each
+  of them and keeping them agreeing. [inference] The class was carrying a copy where the room has
+  one declaration, which is the pressure `.yidam/decisions/duplication.yml` names, found this time
+  in this corpus's own vocabulary rather than in somebody else's game.
+
+  **`geometry: convex-polygon` is refuted too.** Of the 84, **37 are not convex** — tested by
+  cross-product sign around the ring, ignoring collinear vertices. Vertex counts run 4 to 118,
+  median 5, and half the set is quadrilaterals. [verified] Convexity is a property a path-solver
+  might *want*; it is not one the authoring tool enforces or the authors observed.
+
+  **What survives is the separation, which was the actual argument.** A polygon is still authored
+  against the floor rather than the picture, and nothing still checks that the two agree. The class
+  keeps its place; what it loses is the scale in its name.
+
+  **And the scale can be state-dependent, by a mechanism this corpus has no name for.**
+  MainStreet's `scaling` is not one list but five, each keyed by a `trigger` — a named region in
+  the same geometry file — so walking into `scalingBank` swaps the whole depth curve. [verified]
+  Whether that trigger is a primitive this vocabulary lacks is asked in three other places and
+  settled in none; `interaction/entry-binding` holds the nearest form of it.
 properties:
-  geometry: convex-polygon
+  geometry: polygon
   scaling: |
-    A near and a far scale factor, interpolated linearly across the polygon. [inference]
-    Linear interpolation is wrong for real perspective and is used anyway because the error
-    is invisible at the depths a single room spans — a case where the vocabulary is
-    deliberately less expressive than the phenomenon.
-  passability: always
+    **Not a property of this class.** The one shipped system available to check declares depth on
+    the *room*, as a piecewise function of y, and puts nothing on the walkbox at all — see the
+    description. What is stated here is what a region needs in order to be one, and a scale is not
+    part of it.
+
+    What the room-level form keeps is the deliberate inexactness this property was seeded to
+    record: a handful of breakpoints interpolated between, which is wrong for real perspective and
+    invisible at the depths a single room spans. [inference] The vocabulary is less expressive than
+    the phenomenon on purpose; that judgement was right and was attached to the wrong class.
+  passability: |
+    Always, unless the region is addressable — and it is addressable exactly when it is named.
+    [verified] Of 84 real walkboxes, 14 carry a name and 70 do not, and every one of the eleven
+    `walkboxHidden(name, state)` calls in the game names a named one. So conditional passability is
+    not a property some regions have and others lack; it is a consequence of the region having an
+    identity to refer to, which is the same shape `hotspot` reaches from the other side
+    ([static-region](../hotspot/static-region.yml)).
 links:
   - target: ../room/single-screen.yml
     relationship: lies-in
