@@ -20,9 +20,24 @@ description: |
   in AGS is expressed by making the item the mode rather than the verb, which is a different
   composition order from SCUMM's and not merely a different presentation of the same one.
 
-  Whether an authoring vocabulary should include its own discoverability remains `[open]`, and
+  Whether an authoring vocabulary should include its own discoverability was the question here, and
   the third data point is in [prior-art/scumm.yml](../prior-art/scumm.yml): the verb coin is
   neither a bar nor a mode.
+
+  **There is a fourth, this corpus read it, and it answers the question in the one direction
+  nobody had listed: the two are not separate things.** In Dinky the verb menu is computed from the
+  target. `master_verb_list` holds 57 verbs and fixes display order; an object's `_known_verbs` is
+  built by scanning its own fields for anything named `verb_*`; and `openVerbsFor` shows a verb only
+  when it is in both **and** the object's precondition for it passes
+  ([delores-source](../../catalog/delores-source.md)). [verified] The surface is the authoring,
+  filtered twice — by declaration and by precondition — at the moment the player asks.
+
+  What that buys is measured: no unauthored verb-target pair is reachable, so nothing needs a
+  default binding to stand in for one, and 46 of that game's 164 objects are simply not interactable
+  by design rather than by omission (`.yidam/decisions/default-binding.yml`). [verified] What it
+  costs is that a player cannot learn what a verb *is* until they find something that has it — the
+  opposite trade from the bar above, which shows the whole vocabulary and nothing about which parts
+  of it apply. [inference] `.yidam/decisions/tier-split.yml` collects the four.
 properties:
   era: "1997-present"
   vocabulary_shape: |

@@ -81,19 +81,34 @@ properties:
     when SCUMM's coin dropped `pick-up`. Evidence cannot be strong in one direction only.
 
     What is genuinely settled: `give-to` needs no engine support that `use-with` does not already
-    have. What is not settled and was claimed: that an authoring vocabulary should therefore omit
-    it. `[open]`
+    have. What was claimed and does not follow: that an authoring vocabulary should therefore omit
+    it.
+
+    **And it does not follow for a reason with a name now.** An engine subsuming an operation says
+    nothing about whether the surface should offer it, because the two tiers answer separately and
+    a shipped system has taken each position: SCUMM's engine absorbed acquisition and its surface
+    dropped the verb; AGS's engine absorbed giving and its surface kept it. [verified] The evidence
+    here is about the engine tier and the claim was about the authoring one.
 
     This is the third time the tier split has been the answer to a question this corpus asked as
-    though it had one — after `pick-up` and `talk-to`. That is now a finding about the method
-    rather than about any verb.
+    though it had one — after `pick-up` and `talk-to` — and it has since happened a fourth time in
+    `default-binding`, where the deciding tier turned out to be neither. That is a finding about
+    the method rather than about any verb, and it is recorded:
+    `.yidam/decisions/tier-split.yml`.
 
     That answers a question raised elsewhere in this corpus.
     [interaction/conversational-binding](../interaction/conversational-binding.yml) records that a
     binding whose precondition is about the *class* of its target "is something the interaction
     table cannot currently express". AGS expresses it by having a table per entity type instead of
-    one table with a class test in it. Whether that is a good trade is `[open]`; that it is a
-    design available to this project is now `[verified]`.
+    one table with a class test in it. That it is a design available to this project is
+    `[verified]`.
+
+    **Whether it is a good trade is a tier question and reads differently in each.** In the engine
+    tier a table per entity kind is what `unhandled_event(what, type)` already assumes, so the
+    split is free. In the authoring tier it is the cost `binary-binding` counts — a second key on
+    a table — paid for a distinction the author did not ask for. [inference] Nothing here chooses,
+    and what has changed is that the question is no longer being asked as though it had one
+    answer. `.yidam/decisions/tier-split.yml`.
 links:
   - target: ../verb/use-with.yml
     relationship: subsumed-by

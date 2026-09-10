@@ -34,6 +34,8 @@ used-by:
   - ../corpus/interaction/binary-binding.yml
   - ../corpus/subsystem/interaction-resolver.yml
   - ../corpus/inventory-item/portable-object.yml
+  - ../corpus/prior-art/ags.yml
+  - ../corpus/prior-art/scumm.yml
 ---
 
 **A source of record, and the first one this corpus can *count*.** *Delores: A Thimbleweed Park

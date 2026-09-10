@@ -18,8 +18,19 @@ description: |
   **That is a third discovery surface**, and it is the finding worth carrying forward. A verb
   bar is bounded and visible; an AGS cursor mode set is extensible and hidden
   ([prior-art/ags.yml](../prior-art/ags.yml)); a verb coin is bounded, hidden until summoned,
-  and *grouped by body part* rather than by word. Three answers to one question, from two
-  houses, over ten years.
+  and *grouped by body part* rather than by word.
+
+  **There is a fourth, from a third house, and this corpus had read it before it finished counting
+  to three.** Dinky computes the menu from the target: a closed 57-verb master list for order,
+  membership from the object's own `verb_*` fields, and a precondition test that removes a verb
+  rather than refusing it ([delores-source](../../catalog/delores-source.md)). [verified] So it is
+  **four answers to one question, from three houses, over thirty years**, and they do not converge
+  — the bar and the coin are bounded where the mode set is not, the bar is visible where the other
+  three are summoned, and only the popup is computed per target.
+
+  Which verbs a player sees converged across these systems. **How they see them did not**, which is
+  the same shape this corpus found one tier down about which operations an engine absorbs.
+  [inference] `.yidam/decisions/tier-split.yml`.
 
   The tag stays `[inference]` and will not move. SCUMM's authoring documentation was never
   released, so the source of record is unreachable rather than unfetched, and everything
