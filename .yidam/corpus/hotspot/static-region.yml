@@ -10,7 +10,28 @@ description: |
   author might want beyond that — a door that is targetable only when closed, an object
   that vanishes when taken — is expressed by some other class writing a world flag that a
   conditional region reads, which pushes the complexity out of this class and into
-  `world-flag`. Whether that is the right place for it is `[open]`.
+  `world-flag`.
+
+  **Whether that is the right place is measurable now, and the one shipped alternative is worse.**
+  *Delores* writes presence imperatively, at 20 call sites across 20 distinct objects —
+  `objectTouchable(x, NO)`, `objectHidden(x, YES)` — from whichever binding happens to be
+  responsible ([delores-source](../../catalog/delores-source.md)). [verified] There is no
+  declaration anywhere that the object's presence is conditional, so there is nothing to check
+  the twenty sites against, and an object left untouchable by a binding that fired in the wrong
+  order is a hotspot that has silently stopped existing.
+
+  The declaration this class proposes moves the invariant from twenty call sites to one property.
+  That does not prove `world-flag` is the right home; it removes the possibility that some obvious
+  better home was being overlooked, because the only system this corpus can read chose *no home at
+  all*. [inference]
+
+  **And it shows this class fuses two things a real game keeps apart.** `objectTouchable` and
+  `objectHidden` are separate operations there, used 11 and 9 times: a region can be **drawn and
+  not targetable** — scenery the player sees and the cursor ignores — or targetable and not drawn.
+  [verified] `visibility` below is one property covering both, and the fusion is a guess this
+  corpus made without evidence and now has evidence against. `[open]` — whether they need to be
+  two properties depends on whether anything but presentation reads the difference, and nothing
+  here has asked.
 properties:
   geometry: polygon
   visibility: always

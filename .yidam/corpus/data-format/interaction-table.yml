@@ -140,9 +140,41 @@ properties:
     shipped bounded language actually found is not between hard responses and easy ones. It is
     between **asking and doing**: the predicate layer held, the effect layer did not.
 
-    That is what this node should have been asking. The question that survives is whether the
-    *effect* half can be bounded too, and it is narrower, harder, and untried by anybody.
-    `[open]`
+    That is what this node should have been asking. The question that survived was whether the
+    *effect* half can be bounded too.
+
+    **It can, it already was, and the bound is the ontology.** Every authored behaviour in that
+    game was extracted and every call site in it classified — 1,328 sites, 107 functions, across
+    203 bindings, 22 triggers, 40 room enter and exit bodies and 49 Yack effect blocks
+    (`.yidam/decisions/effect-half.yml`). **The part that changes the world is 7.3% of it and it
+    is ten functions**, and 120 of its 125 write sites map onto the eight effects this design
+    already has. [verified] The four that do not turn a *trigger* on or off, which is
+    [walk-to](../verb/walk-to.yml)'s residue and not an effect gap.
+
+    And the bound was never chosen. Each variant of the effect enum in `crates/game-format`
+    carries a comment naming the relationship it realises — eight variants over six
+    relationships. **An effect is a relationship an interaction can author**, so the list is
+    closed exactly when the ontology is, and it grows only by an argument this corpus already
+    knows how to have. [inference] That is the same shape as the answer on the ask half, and it
+    had been sitting in the code as eight comments nobody had read together.
+
+    **So the escape hatch this property is named for is not needed for effects, and the reason it
+    looks needed is a category error.** In a real game a response body is one list in which
+    `sayLine`, `playAnimation`, `breaktime` and `pickupObject` sit side by side, indistinguishable
+    — so anyone reading one concludes that effects require a general-purpose language. They are
+    right about the body and wrong about the effects. [inference]
+
+    **What actually needs the escape is the other two-thirds, and it is not state.** 884 of the
+    1,328 sites are response text, sound, animation, camera and lighting, across 53 distinct
+    functions most of which are used once — a neon sign flickering, an actor's eyes following
+    something, a star twinkling. A further 168 are duration, which
+    [effect-list-semantics](../../decisions/effect-list-semantics.yml) refuses on purpose.
+    [verified]
+
+    That is the honest statement of what this format is: **a table that can express what a game
+    means and not what it shows.** Whether a bounded vocabulary should carry a presentation layer
+    beside the effect list is the question that replaces the one just answered, and unlike its
+    predecessor it is about the part nobody claims can be closed. `[open]`
 
     **One construct worth taking whole.** `ONCE(...)` wraps a line and expands to
     `_once(__LOC__, ...)` — once-only keyed by the **source location** of the line itself.

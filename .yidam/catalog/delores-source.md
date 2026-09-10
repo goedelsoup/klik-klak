@@ -19,8 +19,10 @@ used-by:
   - ../corpus/verb/walk-to.yml
   - ../corpus/prior-art/thimbleweed-park.yml
   - ../corpus/data-format/interaction-table.yml
+  - ../corpus/hotspot/static-region.yml
   - ../corpus/world-flag/object-state.yml
   - ../corpus/world-flag/latched-flag.yml
+  - ../corpus/data-format/interaction-table.yml
 ---
 
 **A source of record, and the first one this corpus can *count*.** *Delores: A Thimbleweed Park
