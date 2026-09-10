@@ -53,10 +53,34 @@ description: |
   question was malformed — it treated monotonicity as the property that makes the search cheap,
   and monotonicity is common to both cases.
 
-  What replaces it is narrower and answerable: **how ordered are a real game's puzzles?** A hub
-  of twenty-two independent tokens is 4.2 million states and thirty-six seconds; a corridor of
-  a hundred and twenty-eight is 385 states and sixteen milliseconds. Real games sit between,
-  and nothing here knows where. `[open]`
+  What replaced it was narrower and answerable: **how ordered are a real game's puzzles?** That
+  has since been asked of the person who invented the notation for answering it.
+
+  Ron Gilbert's Puzzle Dependency Chart is the arrangement of a game's puzzles drawn as a graph,
+  and he states its shape as a rule: "Solving one puzzle should open up 2 or 3 new ones, and then
+  those collapses down… to a single solution that then opens up more non-linear puzzles", and "I
+  tend to design adventures games in 'acts', where each act ends with a bottle neck to the next
+  act" ([grumpy-gamer-pdc](../../catalog/grumpy-gamer-pdc.md)). [verified] Both extremes are named
+  as failures in the same sentence — "too linear, or too unwieldy with choice (also bad)" — so the
+  width is bounded from both sides by the aesthetics of the form.
+
+  **A bounded width with bottlenecks is exactly the condition under which this search is cheap**,
+  and the cost is measured rather than argued. Holding forty-eight puzzles fixed and varying only
+  the width of each act: 97 reachable states at width 2, **129 at the prescribed 3**, 1,537 at 8,
+  and 196,609 at 16. Same puzzle count, a factor of two thousand, decided by width alone. At width
+  3 the count scales linearly — six hundred puzzles is 1,601 states and 73 milliseconds, a game
+  larger than any published adventure and cheaper to check than the lighthouse. [verified] —
+  `crates/reachability/tests/scaling.rs`.
+
+  So the reachable set is **linear in the number of puzzles and exponential in the width of the
+  dependency chart**, and design practice bounds the width at 2–5. That restores this corpus's
+  tractability claim on a footing it did not have before: not as a property of the language, and
+  not as a property of latching, but as a property of games designed the way the form's inventor
+  designs them. [inference]
+
+  What is still missing is a **measured** width from a shipped game. Gilbert prescribes 2–3 and
+  reports 4–5 for unfinished boxes in Thimbleweed Park; neither is a count off a finished chart,
+  and he does not have Monkey Island's. `[open]`
 
   [open] How many flags in a real game latch is still not known. The guess worth testing is
   *most* — a bridge burned, a character told, a door forced — and one specimen declaring one of

@@ -311,9 +311,42 @@ the corrected one separates them completely. A number that measures the represen
 than the game is worse than no number, because it looks like evidence.
 
 **What survives.** Decidability is untouched — the space is finite and the search terminates,
-which is what a bounded predicate layer buys and what no escape hatch can offer. Tractability is
-a different claim, it was being made on three small games, and it is now open in a narrower
-form: *how ordered are a real game's puzzles?* Nothing here knows.
+which is what a bounded predicate layer buys and what no escape hatch can offer.
+
+### And the narrower question has an answer
+
+*How ordered are a real game's puzzles?* Ron Gilbert invented the notation for arranging them —
+the Puzzle Dependency Chart — and states its shape as a rule: "Solving one puzzle should open up
+2 or 3 new ones", each act ending in "a bottle neck to the next act", with **both** extremes
+named as failures, "too linear, or too unwieldy with choice (also bad)"
+([grumpy-gamer-pdc](../../.yidam/catalog/grumpy-gamer-pdc.md)). [verified]
+
+A third generated family is that shape — *k* acts of *w* parallel puzzles, each act gated on all
+of them. Holding the puzzle count at forty-eight and varying only the width:
+
+| acts × width | reachable states |
+|---|---|
+| 48 × 1 | 97 |
+| 24 × 2 | 97 |
+| **16 × 3** | **129** |
+| 12 × 4 | 193 |
+| 8 × 6 | 513 |
+| 6 × 8 | 1,537 |
+| 4 × 12 | 16,385 |
+| 3 × 16 | 196,609 |
+
+Same forty-eight puzzles, a factor of two thousand. **The reachable set is linear in the number
+of puzzles and exponential in the chart's width.** At the prescribed width the count stops
+mattering: six hundred puzzles in acts of three is 1,601 states and 73 milliseconds — larger than
+any published adventure game, and cheaper to check than the lighthouse.
+
+So the checker is tractable exactly on games whose charts are the shape their designers already
+aim for. That is contingent where the collapse claim was pretending not to be, and it is a
+better position for being so. [inference]
+
+What is still missing is a **measured** width from a shipped game. Gilbert prescribes 2–3, and
+reports 4–5 for the unfinished boxes in Thimbleweed Park's chart; neither is a count off a
+finished one, and he does not have Monkey Island's. [open]
 
 ## What these specimens are not
 

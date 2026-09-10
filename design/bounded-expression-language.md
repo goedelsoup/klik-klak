@@ -530,7 +530,28 @@ or that anybody would enjoy writing in it.
   **What survives.** Decidability is not in question — the space is finite and the search
   terminates, which is what Layer 1 buys and no general-purpose escape hatch can offer.
   Tractability is a different claim and this document had been making it on three small games.
-  It is now open in a narrower form: *how ordered are a real game's puzzles?* `[open]`
+
+  **And the narrower question it became has an answer.** *How ordered are a real game's puzzles?*
+  — asked of Ron Gilbert, who invented the notation for arranging them. His rule: "Solving one
+  puzzle should open up 2 or 3 new ones", each act ending in "a bottle neck to the next act",
+  with **both** extremes named as failures — too linear, or "too unwieldy with choice (also bad)"
+  ([grumpy-gamer-pdc](../.yidam/catalog/grumpy-gamer-pdc.md)). [verified]
+
+  A third generated family measures what that shape costs. Forty-eight puzzles arranged in acts
+  of two are 97 reachable states; of three, 129; of eight, 1,537; of sixteen, 196,609. Same
+  count, a factor of two thousand, decided by width alone. At width three the count scales
+  linearly — six hundred puzzles is 1,601 states and 73 milliseconds. **The reachable set is
+  linear in the number of puzzles and exponential in the width of the dependency chart.**
+  [verified]
+
+  So the tractability claim stands again, on a footing this document did not have and should
+  state plainly: **not as a property of this language, but as a property of games designed the
+  way the form's inventor designs them.** A bounded predicate layer makes the question decidable;
+  a bounded chart width makes it cheap; and only the first is anything this design controls.
+  [inference]
+
+  Still missing is a **measured** width from a shipped game. Gilbert prescribes 2–3 and reports
+  4–5 for unfinished boxes in Thimbleweed Park, and does not have Monkey Island's chart. `[open]`
 - **Nothing here is implemented as an engine.** No engine reads this. It is exercised by one
   specimen and analysed by `crates/reachability`, which is a checker rather than a runtime —
   the analysis says a game *can* be finished, and nothing here has ever played one.

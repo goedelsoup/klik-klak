@@ -13,6 +13,24 @@ description: |
   duplication is where `unwinnable-state` comes from when it is not caused by a missing
   refusal. Whether the vocabulary should have a name for the condition itself is `[open]`
   and is the strongest live case for *adding* a primitive rather than removing one.
+  **How many of these a game holds open at once turns out to be the number that decides whether
+  this project's checker is usable**, and it has a name outside this corpus. Ron Gilbert's Puzzle
+  Dependency Chart draws a game's puzzles as a graph of what depends on what, and the count of
+  gates open in parallel is that graph's width ([grumpy-gamer-pdc](../../catalog/grumpy-gamer-pdc.md)).
+  [verified]
+
+  He prescribes it: "Solving one puzzle should open up 2 or 3 new ones", with each act ending in
+  "a bottle neck to the next act", and names both extremes as failures — too linear, or "too
+  unwieldy with choice (also bad)". [verified] The reachable state space is linear in the number
+  of gates and exponential in how many stand open together, so a rule adopted for how a game
+  *feels* is the same rule that keeps it checkable. [inference] Nobody in either literature
+  appears to have noticed the two are the same constraint.
+
+  That is also the answer to the duplication complaint above, from an unexpected direction: a
+  gate whose condition is restated at three sites is three sites that must agree, and a chart is
+  where a designer sees that three things converge. The vocabulary still has no name for the
+  condition; the *practice* has a picture of it.
+
 properties:
   pattern: state-gate
   gate: |
