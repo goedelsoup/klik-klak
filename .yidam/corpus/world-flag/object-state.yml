@@ -37,11 +37,25 @@ description: |
   authored in the same commit, which is the rule
   [room-manifest](../data-format/room-manifest.yml) states.
 
-  [open] Whether this collapses into `counter-flag` for a checker is not settled here. A closed
-  set of *n* names is *n* states, exactly as a bounded counter is, and
-  `crates/reachability` would treat them identically. If the only difference is legibility to a
-  human author, that is a real argument and a weaker one than the archetype argument above, and
-  this node should say which it is standing on once a specimen has tried both.
+  **That `[open]` is closed and the answer is that it collapses.** It asked whether this is a
+  `counter-flag` for a checker, and said the answer turned on which of two arguments it stands
+  on: legibility to a human, or the archetype. **It is the archetype, and this design has no
+  archetypes.** Delores needs `"open"` to be a name because `door_verbs = YES` synthesises
+  `okverb_open` as `state != "open"` — a generator has to refer to a value it did not write, and
+  cannot be handed a boolean whose polarity an author chose. Nothing here generates bindings, so
+  nothing here needs the name, and a counter over a declared range says the same thing to
+  `crates/reachability` (`.yidam/decisions/effect-half.yml`). [inference]
+
+  So this node stays what it is: a record of what a real system keeps and why, and not a
+  primitive proposed here. That is the same standing [give-to](../verb/give-to.yml) and
+  [walk-to](../verb/walk-to.yml) have, and it is the third time the reason for keeping a node has
+  been the argument rather than the entry.
+
+  The finding worth carrying out of it is the conditional. **A named state is what an enumerated
+  domain buys you, and what it buys is a vocabulary that can generate bindings.** If this design
+  ever wants archetypes — and `interaction-table` records that repetition, not expressiveness,
+  is what broke the declarative form in practice — this is the primitive that has to come first.
+  [inference]
 properties:
   domain: enumeration
   scope: object
