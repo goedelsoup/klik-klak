@@ -16,7 +16,7 @@ Sorted by: type, then slug.
 -->
 | Entry | Type | Description | Obtained | Artifacts | Nodes | Elsewhere |
 |---|---|---|---|---|---|---|
-| [ags-manual.md](ags-manual.md) | other | The AGS manual's own markdown source, maintained by the AGS project — the authoring surface documented by the people who built it. | yes | — | 13 | 0 |
+| [ags-manual.md](ags-manual.md) | other | The AGS manual's own markdown source, maintained by the AGS project — the authoring surface documented by the people who built it. | yes | — | 14 | 0 |
 | [scumm-v5-opcode-reference.md](scumm-v5-opcode-reference.md) | other | Reverse-engineered listing of SCUMM v5 script opcodes by number and name, hosted by ScummVM. | yes | — | 5 | 0 |
 | [wikipedia-scumm.md](wikipedia-scumm.md) | other | Tertiary account of the SCUMM engine, its verb interface, and the years it was in use. | yes | — | 4 | 0 |
 
