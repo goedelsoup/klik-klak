@@ -1,0 +1,109 @@
+id: presentation-layer
+summary: >-
+  A binding needs three presentation verbs — say, play a sound, play an animation — and they
+  cover 92% of what a shipped game writes in one. Camera and walkbox appear in bindings exactly
+  zero times; scene-setting belongs to room entry. The unbounded-looking tail is 40% functions
+  the game's own authors wrote.
+context: |
+  `effect-half` closed the question of whether the effect vocabulary can be bounded — it can, at
+  eight, and the bound is the ontology. It replaced that question with the one it had been
+  hiding: **two-thirds of what an author writes in a response body is presentation, and this
+  design has one presentation verb.** 884 of 1,328 call sites across 53 distinct names, and it
+  looked unbounded.
+
+  It is not, and two measurements say so.
+
+  **First: 40% of those names are not the engine's.** Every function the Delores manual documents
+  was extracted (393) and every function the game defines for itself (213), and the 53 split
+  ([delores-source](../catalog/delores-source.md)):
+
+  | | distinct | sites |
+  |---|---|---|
+  | engine primitives | 25 | 421 |
+  | **written by the game's own authors** | **21** | **77** |
+  | macros (`SAY`, `SOUNDID`, `ONCE`) | 5 | 377 |
+  | undetermined | 2 | 9 |
+
+  Every oddity `effect-half` cited as evidence of unboundedness — `twinkleStar`,
+  `flickerNeonLight`, `flashDinerSign`, `flashBulletHole`, `randomRatMovement`, `lookAtTrons`,
+  `createBooks` — is a function Delores's authors wrote, composed from engine primitives.
+  [verified] The long tail is not vocabulary. It is **a name for a shape**, which is the third
+  time that pattern has decided a question here: `definePseudoRoom` and `sewerValveSetup` for
+  rooms and objects, `door_verbs = YES` for behaviour, and now this for presentation.
+
+  **Second: where a call is written decides what it is.** Split by site rather than by kind:
+
+  | kind | binding | room-enter | trigger | yack | total |
+  |---|---|---|---|---|---|
+  | say | **538** | 6 | 13 | 14 | 571 |
+  | sound | **77** | 8 | 6 | 13 | 106 |
+  | actor pose/motion | 46 | 11 | 8 | 16 | 82 |
+  | object offset / light | 4 | **44** | 2 | 2 | 52 |
+  | animation | **25** | 2 | 0 | 10 | 37 |
+  | image / UI | 2 | 5 | 0 | 0 | 13 |
+  | camera | **0** | 3 | 0 | 8 | 11 |
+  | walkbox | **0** | 6 | 0 | 0 | 6 |
+
+  **Camera and walkbox appear in a binding exactly zero times.** Object offset and lighting are 44
+  of 52 in room entry — the twinkling stars behind a bank window. And in bindings, **say, sound
+  and animation are 640 of 695 sites: 92.1%.** [verified]
+decision: |
+  **The presentation layer a bounded interaction table needs is three verbs wide: say, play a
+  sound, play an animation.** This design has the first. Recording the width is the decision;
+  adopting the other two is not, and the reason is below.
+
+  **Scene-setting is not a binding's job, and the site for it already exists.** Camera, walkbox,
+  lighting and object offset are what a room does when the player arrives — 44 of 52
+  offset-and-light calls and every camera call outside a cutscene are in `enter` code.
+  [verified] `interaction/entry-binding` is that site here, and this is the second thing the
+  arrival trigger turns out to be for.
+
+  **The three are not adopted, because nothing has earned them.** No specimen in this repository
+  has been unable to write a scene; three games have been authored in this vocabulary and none
+  reached for a sound. Under this corpus's standing rule a primitive earns its place by being
+  something the existing vocabulary cannot say *in a case somebody actually wrote*, and there is
+  no such case here — only a measurement of somebody else's game.
+
+  What makes that easy to leave open is the cost, which is zero and unusual. Presentation sits
+  outside the state model by `effect-list-semantics`, so `play` and `animate` would change no
+  reachable state, no state space, and nothing the checker reads. **They are the first primitives
+  this corpus has weighed that cost nothing** — which is exactly why they should wait for a case
+  rather than be taken because they are cheap.
+rationale: |
+  **The two measurements answer different halves and neither alone is enough.** That 40% of the
+  names are game-written says the *tail* is composites. That camera and walkbox never appear in a
+  binding says the *head* is smaller than the total. Together they say a binding's presentation
+  vocabulary is three kinds, and that everything else is either a scene being set somewhere else
+  or an author naming a shape.
+
+  **The engine's own presentation surface is large and open, and that is not a contradiction.**
+  Its manual documents 39 actor functions, 37 image, 23 object, 19 sound, 19 room and 4 camera —
+  perhaps 140 in all, of which this game used 26. [verified] Fidelity is unbounded and always
+  will be: there is no last way to make a neon sign flicker. What is bounded is the set of
+  *kinds* a binding reaches for, and the gap between 140 and 3 is filled by composites, by scene
+  code, and by not being used.
+
+  So the honest statement replaces the one `effect-half` left. It said this format "can express
+  what a game means and not what it shows". A binding shows three things: a line, a sound, and an
+  animation. Everything past that is a scene, and a scene is entered rather than triggered.
+  [inference]
+
+  **What the measurement corrected on the way is worth more than what it confirmed.**
+  `effect-half` classified `actorAt` as presentation. It is not: `actorAt(lenore, Bank,
+  bankTellerSpot)` in a room's entry code puts a non-player actor in a room, and
+  `actorAt(x, Void, point(0,0))` is that game's idiom for **removing an actor from the world**.
+  [verified] That is `actor -occupies-> room`, a relationship this ontology declares and
+  `actor/non-player-character` authors, written as state and read back by `isActorInRoom`.
+
+  It is a state write this vocabulary cannot make, and
+  [cutscene/scripted-sequence](../corpus/cutscene/scripted-sequence.yml) predicted it exactly —
+  "it never tested whether a non-player actor's position needs to be state... `actor -occupies->
+  room` could carry it and the format has no syntax for moving anyone but the player." A phase
+  written to measure presentation found the thing a phase written to assess cutscenes had said
+  would be there. [inference]
+
+  Under `effect-half`'s rule it is not a new effect. `Move` already realises `occupies`; what is
+  missing is an argument place, and eight variants over six relationships stays true. The cost is
+  not zero and is why it stays `[open]`: a checker that tracks *n* actors' rooms multiplies its
+  state space by rooms^n, and the mitigation is the one `observed_space` already uses — track
+  only the actors some precondition asks about, which is free when nobody asks. `[open]`
