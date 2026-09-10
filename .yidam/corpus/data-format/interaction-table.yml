@@ -221,12 +221,34 @@ properties:
     which the object offers by default. [verified] That is *a name for a shape*, which is what
     the escape hatch was being used for, moved into the declaration.
 
-    **And the split it forced is the useful part.** Those archetypes are why that vocabulary has
-    `okverb_<verb>` — a precondition declared apart from its response, this design's `when`. Every
-    use in the game is engine-supplied inside an archetype; **every precondition the game's
-    authors wrote by hand is an `if` inside a response.** [verified] A separated precondition is
-    what you need when the vocabulary *generates* bindings, not when a person writes one.
-    [inference] The person reaches for `if`, because the refusal and the response are one thought.
+    **And the split it forced was read backwards, on a search for the wrong spelling.** Those
+    archetypes are why that vocabulary has `okverb_<verb>` — a precondition declared apart from
+    its response. This paragraph said every use in the game was engine-supplied inside an
+    archetype and that the humans always reached for an `if`, and built a rule on it: *a separated
+    precondition is what you need when the vocabulary generates bindings, not when a person writes
+    one.*
+
+    **The game's authors write 62 of them by hand**, in eleven room files, the inventory and the
+    actor definitions ([delores-source](../../catalog/delores-source.md)). [verified] `okverb_` is
+    what the macro *expands to*; the authors write `VERB_OK(x)`, and a search for the expanded name
+    finds four engine files and no game file. Third time this corpus has read a zero-hit search for
+    a name the source does not use as an absence, and `.yidam/decisions/stale-markers.yml` is the
+    record of the second.
+
+    **So the rule inverts, and it lands on this design rather than on that one.** A person writing
+    a single binding by hand reached for the separated precondition sixty-two times. What the 62
+    are *for* is the part worth keeping: `VERB_OK` returns a boolean and cannot carry prose, and a
+    failing one removes the verb from the menu without saying anything — measured, 62 sites at 0.02
+    characters of writing per character of frame, the largest prose-free repetition in the game.
+    [verified] It is availability, not refusal.
+
+    This design's `when` is the other thing. It guards a response and its failure is an `else` with
+    a line in it, so the two are not the same primitive read at different scales, and **this
+    vocabulary has no way to say a verb should not be offered at all**. Nothing here has argued
+    about it: the four specimens refuse in prose everywhere and never withdraw an option, and
+    whether that is a choice or an omission is a question for whatever weighs the interface —
+    `.yidam/decisions/tier-split.yml` is where this corpus put questions that have three answer
+    sites. `[open]`
 
     **The most valuable open question splits in two, and one half is answered.** Yack — the same
     authors' conversation language, in the same repository — has a guard layer of 79 real
