@@ -264,11 +264,19 @@ lists declare per-verb behaviour — `verb_no_walkto` (4), `verb_no_reach` (15),
 **warns if a verb is not in `master_verb_list`** — a load-time check that the authored table
 draws only on the declared vocabulary.
 
-**Preconditions exist in the vocabulary and the game never authors one.** `VERB_OK($a)` declares
-`okverb_<verb>`, a predicate the engine consults before offering a verb. The only uses anywhere
-are engine-supplied defaults for declarative doors in `SystemHelpers.dinky` — a door may be
-opened only if `state != "open"`, closed only if `state == "open"`. Every precondition the game's
-authors wrote is an `if` inside a response.
+**Preconditions exist in the vocabulary and the game authors sixty-two of them.** `VERB_OK($a)`
+declares `okverb_<verb>`, a predicate the engine consults before offering a verb. It has
+engine-supplied defaults for declarative doors in `SystemHelpers.dinky` — a door may be opened
+only if `state != "open"`, closed only if `state == "open"` — **and 62 live hand-written sites
+besides**, 45 in `Rooms/`, 11 in `Inventory.dinky`, 6 on actors, with a 63rd commented out in
+`Bathroom.dinky`. `Nickel.dinky`'s file drawer carries four: `VERB_OK(lookin) { return state ==
+"open" }` and three like it.
+
+This entry said for three phases that there were none, and the cause is recorded because it is
+the second time: the search was for `okverb_`, which is what the **macro expands to**, and the
+authors write the macro. `okverb_` appears in four engine files and no game file. It is the same
+mistake as searching for `triggerExit` in an engine that spells it `triggerLeave` — a spelling
+this source does not use, and a zero-hit search read as an absence.
 
 **Triggers.** `Templates/TRIGGERNAME.dinky` declares `triggerEnter(actor)` and
 `triggerLeave(actor)`. The game uses 11 and 13 of them across six rooms — arrival at, and
@@ -445,6 +453,44 @@ second is a copy of the first, wrong for the function it describes.
 The same page gives the coupling between drawing and targetability a magic value:
 `objectState(object, state)` — "If the state is set to `"gone"` then the object becomes
 untouchable."
+
+## Frame width — 2026-09-10
+
+A different cut through the same 287 authored verb slots, taken to answer a question about *this*
+design: how much of what an author types is theirs? **Frame** is every non-space character
+outside a string literal; **prose** is what is inside one. The ratio is what the author gets back
+for what they had to write.
+
+Comments stripped, braces matched:
+
+| slot | sites | frame/site | prose/site | prose : frame |
+|---|---|---|---|---|
+| `VERB(x)` on an object | 203 | 85.1 | 52.1 | 0.61 |
+| `VERB(x)` on an actor | 18 | 74.0 | 54.9 | 0.74 |
+| `VERB_OK(x)` | 62 | 34.2 | 0.8 | **0.02** |
+| `VERB_PRE(x)` | 4 | 59.2 | 46.5 | 0.78 |
+| all | 287 | 73.1 | 41.1 | 0.56 |
+
+**The reader reconciles exactly, which is why the figures above can be trusted.** Excluding
+`Defines/DefineActors.dinky` it reproduces all three of this entry's pinned counts — **203
+bindings, 46 distinct verbs, 107 live `lookat`** — and that reconciliation is itself a small
+correction: the 203 is *bindings on objects*, and the game has **221**, the other 18 being on
+actors, 11 of them `talkto`.
+
+By verb, and the shape of the distribution is the finding: `lookat` 108 sites at 1.35, `talkto`
+11 at 0.77, `walkto` 11 at 0.36, `read` 10 at 1.12, `pickup` 6 at 0.37, `open` 5 at 0.43. The
+commonest slot is the most prose-dense and everything mechanical is thin.
+
+**`VERB_OK` at 0.02 is the largest prose-free repetition in the game** — 62 sites, about 2,100
+characters of frame carrying fifty of writing. It is a predicate and returns a boolean, so it
+*cannot* carry prose: a failing `okverb_` removes the verb from the menu and says nothing, as
+"The verb menu, and why there is no default binding" above records.
+
+**`assignHeadline` is what the authors did about it, and the split is clean.** `AStreet.dinky`
+declares twelve newspapers by calling one function twelve times. Measured the same way: the
+`_noteHeadlines` table is 47 lines at **2.13**, the function is 17 lines at **0.01**, and the
+twelve call sites are 12 lines at **0.00**. The factoring took the frame and left every word of
+the writing where it was.
 
 ## Yack — a bounded declarative dialogue language, shipped
 

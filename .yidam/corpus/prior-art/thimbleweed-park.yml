@@ -168,17 +168,27 @@ description: |
     not a helper function — a property. That is *a name for a shape*, which is what this node
     said the escape hatch was actually being used for, moved into the vocabulary.
 
-  **And the preconditions are declarable, and the humans never declare them.** `VERB_OK(x)`
-  defines `okverb_x`, a predicate the engine consults before offering a verb at all — this
-  design's `when`, in that vocabulary. Every use in the entire game is engine-supplied, inside
-  the two archetypes. [verified] Every precondition the game's authors wrote by hand is an `if`
-  inside a response.
+  **And the preconditions are declarable, and the humans declare sixty-two of them.** `VERB_OK(x)`
+  defines `okverb_x`, a predicate the engine consults before offering a verb at all. This node said
+  every use in the entire game was engine-supplied inside the two archetypes, and that every
+  precondition the authors wrote by hand was an `if` inside a response. There are **62 live
+  hand-written sites** across eleven room files, the inventory and the actor definitions, with a
+  63rd commented out ([delores-source](../../catalog/delores-source.md)). [verified] The search was
+  for `okverb_`, which is what the macro expands to; the authors write the macro, and the expanded
+  name occurs in four engine files and no game file.
 
-  That is worth stating as a rule rather than a curiosity: **a precondition separate from its
-  response is what you need when the vocabulary *generates* bindings, and not when a person
-  writes one.** [inference] An author writing a single binding reaches for `if`, because the
-  refusal and the response are one thought. A generator cannot, because it must decide whether to
-  offer the verb before it knows what the author would have said.
+  The rule built on it — *a precondition separate from its response is what you need when the
+  vocabulary generates bindings, and not when a person writes one* — is withdrawn. A person writing
+  by hand reached for it sixty-two times.
+
+  **What replaces it is a distinction this corpus did not have, and it is about the interface.**
+  `VERB_OK` returns a boolean and so cannot carry a line; a failing one **removes the verb from the
+  menu and says nothing**, which is the mechanism [default-binding](../interaction/default-binding.yml)
+  turned on. Measured, the 62 sites average 34 characters of frame and under one of writing — the
+  largest prose-free repetition in the game. [verified] This design's `when` is a different thing:
+  it guards a response and its failure is an `else` with a refusal in it. Availability and refusal
+  are two primitives in that engine and one here, and which is right is a question about the verb
+  menu rather than about the authoring vocabulary. [inference]
 
   **The verb vocabulary is a list, and it is meant to be edited.** `master_verb_list` holds 63
   verbs; the file's opening comment is "When adding a new verb, it must be added to the following

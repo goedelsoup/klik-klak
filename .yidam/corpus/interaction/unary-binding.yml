@@ -10,6 +10,19 @@ description: |
   defaults. That ratio is the real economics of a verb bar, and it is the reason a
   vocabulary grows expensive faster than its size suggests — adding a fifth verb adds ten
   cells, not one.
+
+  **And this is where the writing in an adventure game actually is.** Of the four specimens' 91
+  bindings, **42 are `look-at`** — the commonest by nearly double — and measured as frame against
+  prose they are the thinnest frame and the densest writing in the language: 15 characters outside
+  a string literal per site, 62 inside, a ratio of 4.1 where the whole corpus averages 2.0.
+  [verified] — `crates/game-format/tests/duplication.rs`. Thirty-one of the 42 carry no
+  precondition at all, which is the `precondition` property below, counted.
+
+  That settles something a shape census made look urgent. Thirty-one of those 31 have an identical
+  *shape* — a verb, a target, no guard, no effect — and share not one sentence: across all four
+  specimens 186 of 188 string literals are different. [verified] So the commonest repetition in
+  this language is not a candidate for factoring; it is what an author came to write, wearing a
+  two-word frame. `.yidam/decisions/frame-width.yml`.
 properties:
   shape: unary
   response: |

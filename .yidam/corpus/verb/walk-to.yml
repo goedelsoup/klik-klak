@@ -279,6 +279,17 @@ properties:
     across six rooms. [verified] A region within a room, entered and left, with the actor passed
     in. It is a separate object kind rather than a verb, which is the same answer this corpus
     reached for `on-enter` one granularity up.
+
+    **A fourth arrival at the same conclusion, from a direction that knew nothing about verbs.**
+    Measured as characters of frame against characters of writing, `walk-to` is **the only verb in
+    this language whose response blocks cost more to type than they carry** — 0.94, where `look-at`
+    is 4.12 and the corpus averages 1.98 — and the fifteen bare exits are the only response blocks
+    in 664 lines of authored game containing no prose at all. [verified] —
+    `crates/game-format/tests/duplication.rs`.
+
+    A verb whose responses are empty of writing is a verb the author is not writing anything with,
+    which is what this node concluded from engine documentation four phases before anything could be
+    counted. `.yidam/decisions/frame-width.yml`.
 links:
   - target: ../prior-art/ags.yml
     relationship: originated-in

@@ -277,3 +277,54 @@ fn the_corpus_generates_ten_times_the_game_source_it_can_write() {
         "if this ratio has moved, the record in .yidam/decisions/duplication.yml has to move too"
     );
 }
+
+/// **And what those loops write is not what an author writes**, which is the measurement that
+/// says how far the pressure above actually reaches.
+///
+/// `crates/game-format/tests/duplication.rs` counts the four specimens: one hundred and
+/// eighty-eight string literals, one hundred and eighty-six of them different, and roughly two
+/// characters of writing for every character of frame. Run the same count on what these three
+/// functions emit and it inverts — barely half the strings are distinct, and the distinct half is
+/// `"Room 7"` and `"Key 7"`, an index in a template. Frame outweighs writing three to one.
+///
+/// That is the difference between a shape with instances and a shape with *content*. A generation
+/// primitive removes frame, so it is worth having exactly where the repeated part is frame — and
+/// these games are almost nothing else, because nobody wrote them. [inference]
+/// `.yidam/decisions/frame-width.yml`.
+#[test]
+fn a_generated_game_is_frame_where_an_authored_one_is_writing() {
+    for src in [chain(16), hub(8), acts(4, 4)] {
+        let (mut frame, mut prose) = (0usize, 0usize);
+        let mut strings: Vec<String> = vec![];
+        for l in src.lines() {
+            let mut cur = String::new();
+            let mut quoted = false;
+            for c in l.trim().chars() {
+                match c {
+                    '"' => {
+                        if quoted {
+                            prose += cur.chars().count();
+                            strings.push(std::mem::take(&mut cur));
+                        }
+                        quoted = !quoted;
+                    }
+                    _ if quoted => cur.push(c),
+                    ' ' => {}
+                    _ => frame += 1,
+                }
+            }
+        }
+        let distinct: std::collections::BTreeSet<&String> = strings.iter().collect();
+        assert!(
+            2 * distinct.len() < 3 * strings.len() / 2,
+            "an authored game repeats almost no line; this one repeats a third of them: \
+             {} of {}",
+            distinct.len(),
+            strings.len()
+        );
+        assert!(
+            3 * prose < frame + frame / 10,
+            "and it is frame where an authored game is writing: {prose} prose, {frame} frame"
+        );
+    }
+}
