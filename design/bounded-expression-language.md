@@ -132,14 +132,27 @@ free operand and are bounded by the counter they are compared against. There are
 no binding forms, no user-defined names and no strings — there is nothing to name that the game
 has not declared.
 
-**And the rule says nothing about namespaces, which turns out to matter.** A specimen written
-against it put a `hotspot lamp` in one room and an `option lamp` in a conversation, and the two
-collided — one flat space of names for rooms, items, flags, hotspots and dialogue options
-alike. It went unnoticed for two phases because the gate then in use matched names against one
-flat set too. AGS numbers dialogue options *per topic*
-([ags-manual](../.yidam/catalog/ags-manual.md)) [verified], so scoping is not an exotic
-requirement — it is what the one system that built a bounded conversation vocabulary actually
-did. This design does not have it, and a 190-line game was enough to find that out. `[open]`
+**And a name is scoped to the thing that contains it.** The rule was not part of this design
+at first, and a specimen written without it put a `hotspot lamp` in one room and an `option
+lamp` in a conversation. They collided — one flat space of names for rooms, items, flags,
+hotspots and dialogue options alike — and it went unnoticed for two phases because the gate
+then in use matched names against one flat set too.
+
+The scoping rule is **read off the ontology rather than invented**, which is why it costs
+nothing to state: a name belongs to whatever contains it, and containment is already declared.
+A room owns its hotspots (`room -contains-> hotspot`); an exchange owns its options and its
+conversation-scoped flags (`world-flag.scope` has allowed that since genesis); everything else
+is the world's, because nothing contains it. An item cannot be room-scoped — it moves between
+rooms, which is what `inventory-item` being a UFO *role* means — and a flag cannot be, because
+`world-flag` is described as the only thing that carries meaning across rooms.
+
+A bare reference means the local one, then the world's. A name carrying a `.` is explicit:
+`chosen north.greet` reaches across from anywhere. Scoping widens the space of legal names and
+does not remove the rule — two hotspots named `door` in one room is still a collision.
+
+AGS numbers dialogue options *for the current topic*
+([ags-manual](../.yidam/catalog/ags-manual.md)) [verified], so this is what the one system that
+built a bounded conversation vocabulary did. See `.yidam/decisions/name-scoping.yml`.
 
 Two properties follow directly, and they are the reason to want this rather than a VM:
 
@@ -316,8 +329,6 @@ or that anybody would enjoy writing in it.
   authoring trial and is not evidence of pleasantness.
 - **Whether `count item` earns its place.** The specimen never reached for it, along with `or`,
   `!=`, `<=`, `>` and grouping. One small game is thin evidence for removing anything.
-- **Whether names should be scoped.** See the collision above; AGS scoped its options and this
-  does not.
 - **Whether the state space stays enumerable.** The specimen is 103 states. Nothing here
   predicts what a real game costs, and the argument for a bounded language would be in trouble
   if the answer were exponential in the number of items.

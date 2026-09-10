@@ -50,6 +50,36 @@ impl fmt::Display for Kind {
     }
 }
 
+/// Where a name lives.
+///
+/// Not invented for the format: it is the ontology's containment read as a namespace.
+/// `room -contains-> hotspot` makes a hotspot's name the room's to give, and a conversation
+/// owns its options — which is what AGS does, numbering options *for the current topic*.
+/// Everything else is the world's and is global.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub enum Scope {
+    Global,
+    Room(String),
+    Conversation(String),
+}
+
+impl Scope {
+    pub fn qualifier(&self) -> Option<&str> {
+        match self {
+            Scope::Global => None,
+            Scope::Room(r) => Some(r),
+            Scope::Conversation(c) => Some(c),
+        }
+    }
+    /// The canonical name of something declared in this scope.
+    pub fn qualify(&self, name: &str) -> String {
+        match self.qualifier() {
+            Some(q) => format!("{q}.{name}"),
+            None => name.to_string(),
+        }
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Cmp {
     Eq,
@@ -121,6 +151,8 @@ pub enum Site {
 #[derive(Debug, Clone)]
 pub struct Binding {
     pub site: Site,
+    /// where this binding was written, and therefore what a bare name in it means
+    pub scope: Scope,
     pub verb: String,
     /// the second object of a binary verb
     pub object: Option<String>,
@@ -177,6 +209,24 @@ impl fmt::Display for Problem {
 }
 
 impl Game {
+    /// Resolve a name as written, from the scope it was written in: the local scope first,
+    /// then the world. A name carrying a `.` is already explicit and is taken as given.
+    pub fn lookup(&self, name: &str, from: &Scope) -> Option<(String, Kind, usize)> {
+        if name.contains('.') {
+            return self
+                .declared
+                .get(name)
+                .map(|(k, l)| (name.to_string(), *k, *l));
+        }
+        let local = from.qualify(name);
+        if let Some((k, l)) = self.declared.get(&local) {
+            return Some((local, *k, *l));
+        }
+        self.declared
+            .get(name)
+            .map(|(k, l)| (name.to_string(), *k, *l))
+    }
+
     pub fn flag(&self, name: &str) -> Option<&Flag> {
         self.flags.iter().find(|f| f.name == name)
     }

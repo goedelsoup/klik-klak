@@ -282,8 +282,8 @@ pub fn check(root: &Path) -> Findings {
             continue;
         };
         let name = game_path.display().to_string();
-        let (game, mut problems) = game_format::parse(&source, &name);
-        problems.extend(game_format::resolve(&game));
+        let (mut game, mut problems) = game_format::parse(&source, &name);
+        problems.extend(game_format::resolve(&mut game));
         for p in problems {
             f.say(game_path, root, p.to_string());
         }

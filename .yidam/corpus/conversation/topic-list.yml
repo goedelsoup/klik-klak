@@ -49,6 +49,17 @@ description: |
   [world-flag/latched-flag](../world-flag/latched-flag.yml), and a **property** rather than an
   edge: a latching flag is a different kind of flag, not a different kind of relationship.
 
+  **An option's identity is local to its exchange, and the manual says so in passing.**
+  `option-off X` "Turns option X **for the current topic** off"
+  ([ags-manual](../../catalog/ags-manual.md)) [verified] — so an option is numbered within a
+  topic rather than within a game, and two topics may each have an option 3. [inference] That
+  is a scoping rule, stated as an aside about a command, and it is the only place either
+  system this corpus has read says anything about how names are spaced. It matters because
+  the same question arrives for hotspots — every room has a door — and the ontology answers it
+  the same way for both: whatever contains a thing owns its name. See
+  [design/bounded-expression-language.md](../../../design/bounded-expression-language.md) and
+  `.yidam/decisions/name-scoping.yml`.
+
   **And leaving is `returns-control-to`.** `interaction -opens-> conversation` declared the
   entering; `cutscene` had declared the leaving since it was seeded, and the same relationship
   fits this class without alteration. Both instances now carry it, including this one.

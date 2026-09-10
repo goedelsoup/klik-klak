@@ -5,8 +5,11 @@
 #
 # It was written against an effect vocabulary that could not express nine of its sites, and
 # rewritten against the corrected one. Every `?? UNSAYABLE` is gone: one was a real gap and
-# is now `interaction -consumes-> inventory-item`; the rest were expressible all along. See
-# README.md for what changed and what that cost.
+# is now `interaction -consumes-> inventory-item`; the rest were expressible all along.
+#
+# Rewritten again once names became scoped. Two rooms each have a `door` and a `stair`, and
+# the conversation has an `option lamp` beside the lamp-room's `hotspot lamp` — which is the
+# collision that made scoping necessary, now legal. See README.md.
 #
 # It is DELIBERATELY WINNABLE-BUT-TRAPPED. One reachable sequence strands the player, and
 # that is the point: a specimen with no defect tests nothing.
@@ -35,8 +38,11 @@ flag    door-open   "the lighthouse door is unlocked"
 
 # An option's availability is a conversation-scoped flag, which `world-flag.scope` has
 # allowed since genesis. There is no `disable` effect and none is wanted: with a predicate
-# layer, availability is a `when` re-read at display time rather than a write.
-flag    asked-lamp  in keeper-talk "the keeper has been asked about the lamp"
+# layer, availability is a `when` re-read at display time rather than a write. `chosen`
+# is sugar for the one such flag an engine keeps for you.
+#
+# Names are scoped to what contains them, so this flag is `keeper-talk.asked-key` and a
+# bare `asked-key` means it only inside that exchange.
 flag    asked-key   in keeper-talk "the keeper has been asked for the key"
 
 counter lamp-prep 0..3 "how far the lamp is from lit: 0 bare, 1 wicked, 2 oiled, 3 burning"
@@ -98,14 +104,13 @@ room quay
 
 conversation keeper-talk with keeper
 
-  option lamp-out "The lamp is out."
-    when  not asked-lamp
+  option lamp "The lamp is out."
+    when  not chosen lamp
     say   "Aye. Three nights now. I've not the hands for that stair any more."
     do    give wick
-    do    set asked-lamp
 
   option wick-ask "Could I take the wick up myself?"
-    when  asked-lamp and not asked-key
+    when  chosen lamp and not asked-key
     say   "If you can get through the door. Key's under the coil of rope."
     do    give brass-key
     do    set asked-key
@@ -137,7 +142,7 @@ room base
     walk-to:
       do    move lamp-room
 
-  hotspot door-inner "the iron door, from the inside"
+  hotspot door "the iron door, from the inside"
     look-at:
       "It stands open on the quay, and the grey water beyond it."
 
@@ -148,7 +153,7 @@ room base
 
 room lamp-room
 
-  hotspot stair-head "the head of the stair"
+  hotspot stair "the head of the stair"
     look-at:
       "The treads drop away into the dark below."
 

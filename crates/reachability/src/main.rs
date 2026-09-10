@@ -13,8 +13,8 @@ fn main() -> ExitCode {
             return ExitCode::from(2);
         }
     };
-    let (game, mut problems) = game_format::parse(&source, &path);
-    problems.extend(game_format::resolve(&game));
+    let (mut game, mut problems) = game_format::parse(&source, &path);
+    problems.extend(game_format::resolve(&mut game));
     if !problems.is_empty() {
         for p in &problems {
             eprintln!("{path}:{p}");
