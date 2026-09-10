@@ -50,7 +50,7 @@ description: |
   | go somewhere | `verbWalkTo` → `enterRoomFromDoor` | yes — `move` |
   | take an item, decrement a stock, flip state at zero | `bankFlyerHolder.verbPickup` | yes — a counter and three gates |
   | say one of four, on a count the response advances | `bankPainting.lookAt` | yes, at four bindings for one cell |
-  | **call another binding on the same object** | `verbPickUp = function() { verbUse() }` | **no** |
+  | **call another binding** | `verbPickUp = function() { verbUse() }` | **no**, and six of seven shapes of it turned out sayable |
   | **start something that outlives the click** | `startthread(playRadio, this)` | **no** |
   | **rebuild the room from global state** | `enter` | **not as written** |
   | **build 110 rooms from one template** | `definePseudoRoom` in a `for` loop | **no** |
@@ -73,6 +73,21 @@ description: |
   "twenty-three bindings is not a test of scale." [inference] The same pressure appeared one
   scale down in `.yidam/decisions/arrival-trigger.yml`, where four bindings carried one intent
   and one copy drifted.
+
+  **It has since appeared three more times, and the last of them is in this repository.** Twenty-one
+  of Delores's 53 presentation names are composites its authors wrote for themselves; eleven of
+  twenty of its delegation sites are one object drawn as several regions; and
+  `crates/reachability/tests/scaling.rs` writes the games carrying this corpus's tractability
+  argument with three Rust `for` loops, 6,315 generated lines against 664 authored, because a
+  corridor of sixty-four rooms cannot be written by hand in the language being measured. [verified]
+
+  So the two rows above that this node called repetition are five instances across two games, and
+  the word covers two different pressures: **generation**, which is all of these but one, and
+  **identity**, which is the delegation sites. What this row got right is that they broke the
+  declarative form first. What it did not have is that the same authors shipped a declarative
+  answer to the generation half — `door_verbs = YES` — so the escape hatch was reached for at every
+  shape nobody had written an archetype for, and not because generation needs a language.
+  [inference] `.yidam/decisions/duplication.yml`.
 
   **Duration is the other, and it is why Squirrel was not enough either.** Squirrel had to be
   extended before the first room existed. `scripting_test.html`, 20 January 2015: "one of the
