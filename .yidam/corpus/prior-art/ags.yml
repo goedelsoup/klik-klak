@@ -66,10 +66,22 @@ properties:
     has been removed from AGS 3.0. When you import your game, AGS will attempt to convert all your
     interactions into scripts." [verified] Through 2.72 a hotspot carried an "Interaction..."
     button, an event bound to an ordered list of commands chosen from a closed combobox, each with
-    typed parameters and a default of "Do nothing" — and the list included at least one predicate,
-    `Conditional - if inventory item was used`
-    ([ags-272-manual](../../catalog/ags-272-manual.md)). [inference] The removal is `[verified]`
-    from the current manual; what the thing *was* rests on an archive and stays `[inference]`.
+    typed parameters and a default of "Do nothing"
+    ([ags-272-manual](../../catalog/ags-272-manual.md)). [inference]
+
+    **And the vocabulary itself is not lost: the 2.x-to-3.0 conversion still ships in the editor,
+    so the definition of the deleted layer is in the repository.** Forty-eight actions
+    (`NUM_ACTION_TYPES 48`), six argument types, four action flags, and seven predicates marked
+    `AFLG_COND` — including `If a variable is set to a certain value` and `If the player has an
+    inventory item`. Predicates nest, guarding a child command list; the structure is bounded at
+    30 events per entity and 40 commands per list ([ags-source](../../catalog/ags-source.md)).
+    [verified] What it has no form of is composition: no disjunction, no negation, no grouping,
+    no comparison beyond equality. The full table and what follows from it are in
+    [data-format/interaction-table](../data-format/interaction-table.yml).
+
+    So the standing of the claim has changed twice in two phases. That the editor was removed was
+    always `[verified]`; what it *was* was `[inference]` from an archived manual for one phase;
+    it is `[verified]` now, from this project's own code.
 
     The vestiges are still in the current manual and corroborate the shape:
     `GetGraphicalVariable`/`SetGraphicalVariable` "allow your script to access the values of
@@ -84,12 +96,22 @@ properties:
     [verified] The declarative action list was sequential and blocking by default; the language it
     was converted into was not.
 
-    **Why it was removed is `[open]` and the manual does not reason about it.** The page opens by
-    calling 3.0 "this new editor" and "a massive improvement over the old one" — 3.0 was a full
-    editor rewrite, so the removal is equally consistent with a rewrite's scope as with a judgement
-    about declarative authoring. Nobody here has read the AGS forums or the 3.0 development
-    discussion, and that is the retrieval that would settle it. Treating the removal as a verdict
-    would be the same error this node made about cursor modes and about the eight dialog commands.
+    **Why it was removed is `[open]`, was looked for directly, and was not found.** The manual
+    reasons about migration hazards and never about the decision; it opens by calling 3.0 "this new
+    editor" and "a massive improvement over the old one", and 3.0 was a full editor rewrite, so
+    removal is as consistent with a rewrite's scope as with a judgement about declarative
+    authoring. The code says what the thing was and nothing about why it went.
+
+    Three retrievals were made for the reason and none produced it: Adventure Classic Gaming's
+    interview with Chris Jones, which discusses 3.0 as "a complete re-write of the editor" and
+    does not mention the Interaction Editor; and two searches of the AGS forums, which return the
+    manual's removal note and no discussion behind it. The forum's own search and the 2007-2008
+    beta threads have not been read. [inference]
+
+    Treating the removal as a verdict would be the same error this node made about cursor modes
+    and about the eight dialog commands — and it is a worse bet than it looked a phase ago, since
+    the thing removed turns out to have been forty-eight commands with a type system rather than
+    something thin.
   source_standing: |
     Eight pages of the manual source read on 2026-09-09, listed with what was and was not looked
     for in [the catalog entry](../../catalog/ags-manual.md), which is where that record lives
@@ -99,7 +121,8 @@ properties:
     This property said "two pages" for thirteen commits while the entry beside it listed eight,
     which is the drift a source-standing note exists to prevent and did not. **Seventeen pages
     now**, plus five pages of [the archived 2.72 manual](../../catalog/ags-272-manual.md), which is
-    a second source with a weaker standing and its own entry. The object model, the inventory
+    a second source with a weaker standing and its own entry, and four files of
+    [the AGS source](../../catalog/ags-source.md), which is a stronger one than either. The object model, the inventory
     system and the GUI system remain unread; the scripting reference has been read for its extent
     and its index rather than page by page, which is what the claim above needs and is less than
     reading it.
