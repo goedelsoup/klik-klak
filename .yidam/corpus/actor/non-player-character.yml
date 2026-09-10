@@ -6,6 +6,18 @@ description: |
   from `hotspot`: both are targetable, and only this can occupy a position that changes,
   run behaviour while unobserved, and be the far end of an exchange.
 
+  **The first of those three is now measured, and it is state rather than staging.** Delores
+  moves non-player actors by writing `actorAt(actor, room, spot)`, and reads the result back with
+  `isActorInRoom` in preconditions ([delores-source](../../catalog/delores-source.md)).
+  [verified] It also has an idiom for the boundary case this class does not discuss: an actor is
+  removed from the world by being put in a room called `Void`. **Not existing is occupying
+  nowhere**, which is a cheaper answer than a presence flag and is the one a shipped game used.
+  [inference]
+
+  What that costs this vocabulary is recorded in `.yidam/decisions/presentation-layer.yml`: the
+  format can move the player and nobody else, so the position this class is founded on is a fact
+  the ontology declares and no binding can write. `[open]`
+
   That list is also the argument against collapsing `hotspot` into `actor`. [inference] A
   collapse would give every targetable region a position, a behaviour slot and a
   conversation slot it never uses, which is a larger vocabulary wearing a smaller class

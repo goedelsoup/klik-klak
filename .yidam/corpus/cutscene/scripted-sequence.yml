@@ -90,6 +90,28 @@ description: |
   undocumented in either engine. Neither of those is a property unique to a sequence, which is
   what makes them limits on the specimen rather than defences of the class. [open]
 
+  **The first of the two is confirmed, from a direction nothing here was looking in.** A phase
+  measuring *presentation* found it: Delores writes `actorAt(lenore, Bank, bankTellerSpot)` in
+  room-entry code to put a non-player actor somewhere, and `actorAt(x, Void, point(0,0))` — a room
+  named `Void` — to take one out of the world entirely
+  ([delores-source](../../catalog/delores-source.md)). [verified] It is read back by
+  `isActorInRoom`, so it is state and not staging. That is exactly the sentence above: `actor
+  -occupies-> room`, carrying a non-player actor's position, which this format has no syntax for.
+
+  Two things follow and neither rescues the class. It is **not a property unique to a sequence**
+  — most of those writes are room entry, not scenes — so the reduction holds and this is a gap in
+  the effect vocabulary that a sequence would have exercised first. And it is **not a new
+  relationship**: `.yidam/decisions/effect-half.yml` establishes that an effect is a relationship
+  an interaction can author, `occupies` is declared and authored by
+  [non-player-character](../actor/non-player-character.yml), and what is missing is an argument
+  place on `move`. [inference]
+
+  The prediction being right is the useful part. This node reasoned from one small specimen to
+  what a real sequence would need, said so, and marked it open; four phases later a game that
+  does it was read and it does exactly that. `[open]` stays open — the cost is real, and
+  `.yidam/decisions/presentation-layer.yml` states it: a checker tracking *n* actors' rooms
+  multiplies its state space by rooms^*n*.
+
 properties:
   trigger: |
     Entering a room, a flag reaching a value, or the resolution of a binding.

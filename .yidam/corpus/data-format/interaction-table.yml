@@ -171,10 +171,27 @@ properties:
     [effect-list-semantics](../../decisions/effect-list-semantics.yml) refuses on purpose.
     [verified]
 
-    That is the honest statement of what this format is: **a table that can express what a game
-    means and not what it shows.** Whether a bounded vocabulary should carry a presentation layer
-    beside the effect list is the question that replaces the one just answered, and unlike its
-    predecessor it is about the part nobody claims can be closed. `[open]`
+    That was the honest statement of what this format is: **a table that can express what a game
+    means and not what it shows.** It stood for one phase.
+
+    **A binding shows three things, and the count is measured.** Split by where a call is written
+    rather than by what it does, the presentation in a *binding* is say 538 sites, sound 77,
+    animation 25, actor pose 46, and then nothing worth a row. **Camera and walkbox appear in a
+    binding exactly zero times**; object offset and lighting are 44 of 52 in room-entry code.
+    Say, sound and animation are **640 of 695 — 92.1%** (`.yidam/decisions/presentation-layer.yml`).
+    [verified]
+
+    **And the tail that made it look unbounded is 40% functions the game's own authors wrote.**
+    Of the 53 names, 25 are engine primitives and 21 are composites Delores defines for itself —
+    `twinkleStar`, `flickerNeonLight`, `flashBulletHole`. [verified] The same *name for a shape*
+    that this property already records as what repetition drives authors to, appearing a third
+    time and in the one place this corpus had concluded nothing could be closed.
+
+    So this format needs a presentation layer of three verbs and has one of them, and what it
+    cannot show is a **scene** rather than a response — which is entered rather than triggered,
+    and has a site of its own in [entry-binding](../interaction/entry-binding.yml). Neither `play`
+    nor `animate` is adopted: they would cost nothing, because presentation is outside the state
+    model, and nothing authored here has yet been unable to say what it meant without them.
 
     **One construct worth taking whole.** `ONCE(...)` wraps a line and expands to
     `_once(__LOC__, ...)` — once-only keyed by the **source location** of the line itself.
