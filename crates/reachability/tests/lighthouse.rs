@@ -10,10 +10,10 @@ use reachability::{analyse, Cause};
 const SPECIMEN: &str = include_str!("../../../design/specimen/lighthouse.game");
 
 fn load(source: &str) -> game_format::Game {
-    let (game, problems) = game_format::parse(source, "lighthouse.game");
+    let (mut game, problems) = game_format::parse(source, "lighthouse.game");
     let problems: Vec<String> = problems
         .into_iter()
-        .chain(game_format::resolve(&game))
+        .chain(game_format::resolve(&mut game))
         .map(|p| p.to_string())
         .collect();
     assert!(
@@ -31,12 +31,17 @@ fn the_specimen_parses_and_resolves() {
     assert!(game.bindings.iter().any(|b| b.ending));
     // `is <item>` is `inventory-item -carried-form-of-> hotspot`, and it is what makes
     // "the object leaves the room" a derived fact rather than an effect.
+    // names are canonical after resolution: a hotspot belongs to its room
     assert_eq!(
-        game.carried_form.get("loose-crowbar").map(|s| s.as_str()),
+        game.carried_form
+            .get("quay.loose-crowbar")
+            .map(|s| s.as_str()),
         Some("crowbar")
     );
     assert_eq!(
-        game.carried_form.get("loose-match").map(|s| s.as_str()),
+        game.carried_form
+            .get("lamp-room.loose-match")
+            .map(|s| s.as_str()),
         Some("match")
     );
 }
@@ -62,7 +67,7 @@ fn the_one_committed_defect_is_the_consumption_trap() {
     );
     let s = &r.strandings[0];
     assert_eq!(s.cause, Cause::Consumption);
-    assert_eq!(s.target, "hinge");
+    assert_eq!(s.target, "base.hinge");
     assert_eq!(s.object.as_deref(), Some("oil-can"));
     assert!(r.stranded > 0);
 }

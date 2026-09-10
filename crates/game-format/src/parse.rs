@@ -72,6 +72,17 @@ struct P {
 }
 
 impl P {
+    /// The scope a bare name means, here.
+    fn scope(&self) -> Scope {
+        match (&self.room, &self.conv) {
+            (Some(r), _) => Scope::Room(r.clone()),
+            (_, Some(c)) => Scope::Conversation(c.clone()),
+            _ => Scope::Global,
+        }
+    }
+}
+
+impl P {
     fn err(&mut self, no: usize, message: impl Into<String>) {
         self.problems.push(Problem {
             line: no,
@@ -79,15 +90,24 @@ impl P {
         });
     }
 
-    fn declare(&mut self, name: &str, kind: Kind, no: usize) {
-        if let Some((prior, at)) = self.game.declared.get(name) {
+    /// Declare `name` in `scope`, under its canonical name. A declaration always knows its
+    /// own scope, so only *references* need a second pass.
+    fn declare_in(&mut self, name: &str, kind: Kind, no: usize, scope: &Scope) -> String {
+        let canonical = scope.qualify(name);
+        if let Some((prior, at)) = self.game.declared.get(&canonical) {
+            let (prior, at) = (*prior, *at);
             self.err(
                 no,
-                format!("`{name}` is already declared as a {prior} on line {at}"),
+                format!("`{canonical}` is already declared as a {prior} on line {at}"),
             );
-            return;
+            return canonical;
         }
-        self.game.declared.insert(name.to_string(), (kind, no));
+        self.game.declared.insert(canonical.clone(), (kind, no));
+        canonical
+    }
+
+    fn declare(&mut self, name: &str, kind: Kind, no: usize) {
+        self.declare_in(name, kind, no, &Scope::Global);
     }
 
     fn flush(&mut self) {
@@ -98,8 +118,10 @@ impl P {
 
     fn open_binding(&mut self, verb: &str, object: Option<String>, site: Site, no: usize) {
         self.flush();
+        let scope = self.scope();
         self.binding = Some(Binding {
             site,
+            scope,
             verb: verb.to_string(),
             object,
             when: None,
@@ -173,17 +195,21 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 p.game.items.push(t[1].to_string());
             }
             "flag" => {
-                p.declare(t[1], Kind::Flag, no);
                 let latched = t.contains(&"latched");
-                let scope = t
+                let owner = t
                     .iter()
                     .position(|x| *x == "in")
                     .and_then(|i| t.get(i + 1))
                     .map(|s| s.to_string());
+                let scope = match &owner {
+                    Some(c) => Scope::Conversation(c.clone()),
+                    None => Scope::Global,
+                };
+                let name = p.declare_in(t[1], Kind::Flag, no, &scope);
                 p.game.flags.push(Flag {
-                    name: t[1].to_string(),
+                    name,
                     latched,
-                    scope,
+                    scope: owner,
                     line: no,
                 });
             }
@@ -212,30 +238,27 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
             }
             "hotspot" => {
                 p.flush();
-                p.declare(t[1], Kind::Hotspot, no);
-                match &p.room {
+                match p.room.clone() {
                     Some(r) => {
-                        p.site = Some(Site::InRoom {
-                            room: r.clone(),
-                            target: t[1].to_string(),
-                        })
+                        let scope = Scope::Room(r.clone());
+                        let target = p.declare_in(t[1], Kind::Hotspot, no, &scope);
+                        p.site = Some(Site::InRoom { room: r, target });
                     }
                     None => p.err(no, "a hotspot outside a room section"),
                 }
             }
-            "option" => {
-                p.declare(t[1], Kind::Option_, no);
-                match p.conv.clone() {
-                    Some(c) => {
-                        let site = Site::InConversation {
-                            conversation: c,
-                            option: t[1].to_string(),
-                        };
-                        p.open_binding("option", None, site, no);
-                    }
-                    None => p.err(no, "an option outside a conversation"),
+            "option" => match p.conv.clone() {
+                Some(c) => {
+                    let scope = Scope::Conversation(c.clone());
+                    let option = p.declare_in(t[1], Kind::Option_, no, &scope);
+                    let site = Site::InConversation {
+                        conversation: c,
+                        option,
+                    };
+                    p.open_binding("option", None, site, no);
                 }
-            }
+                None => p.err(no, "an option outside a conversation"),
+            },
 
             // ── room- and site-level facts ──────────────────────────────────
             "start" => match p.room.clone() {
