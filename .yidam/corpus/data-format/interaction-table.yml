@@ -28,6 +28,20 @@ properties:
     Text, keyed by verb and target, with the second object as an optional third key. The third
     key is used by about one binding in eight — 26 of Delores's 203 and 11 of these specimens' 87,
     which is 12.8% and 12.6% arrived at independently.
+
+    **The key was a description for eight phases and is a rule now.** Nothing enforced it: two
+    `use-with key:` blocks on one hotspot resolved clean, and so did two unguarded `pick-up:`
+    blocks, with only one of the pair ever able to fire and the order they were typed deciding
+    which. `ambiguous_cells` refuses the pair nothing tells apart — a flag asserted and denied
+    separates them, two comparisons on one counter whose intervals do not meet separates them, and
+    two `carrying` guards do not, because the player can hold both. [verified] —
+    `crates/game-format/tests/cells.rs`.
+
+    It is not a rule against writing two bindings in one cell, which would refuse a shape a shipped
+    game writes: a `pick-up` that also describes the thing the first time, beside a bare one after.
+    [verified] The four specimens key every cell distinctly, so nothing here was found by it — it
+    was written to make a *different* question answerable, and `.yidam/decisions/arity-cost.yml`
+    is what it answered.
     Hand-editable, because the alternative is a tool and a tool for a sparse table is a
     spreadsheet nobody wants to diff.
 

@@ -24,7 +24,6 @@ used-by:
   - ../corpus/actor/non-player-character.yml
   - ../corpus/world-flag/object-state.yml
   - ../corpus/world-flag/latched-flag.yml
-  - ../corpus/data-format/interaction-table.yml
   - ../corpus/interaction/default-binding.yml
   - ../corpus/interaction/unary-binding.yml
   - ../corpus/data-format/room-manifest.yml
@@ -36,6 +35,8 @@ used-by:
   - ../corpus/inventory-item/portable-object.yml
   - ../corpus/prior-art/ags.yml
   - ../corpus/prior-art/scumm.yml
+  - ../corpus/verb/use-with.yml
+  - ../corpus/interaction/binary-binding.yml
 ---
 
 **A source of record, and the first one this corpus can *count*.** *Delores: A Thimbleweed Park

@@ -598,6 +598,17 @@ or that anybody would enjoy writing in it.
   three, the same acquisition under two guards. The copies drift silently, because a reachability
   checker asks what is reachable and a redundant route going bad does not change that.
 
+  **There are three measurements now, and they agree.** A response block is 27 characters of frame
+  returning 54 of writing — call it two to one — where the same count over a shipped game's 287
+  verb slots is 73 returning 41. Sixteen blocks in 664 authored lines carry no writing at all and
+  fifteen of them are the bare exit. And removing the one construct that looks like a luxury — the
+  binary verb's second key — makes the source **longer**, by eleven or twelve characters at every
+  one of eleven sites, because each has to say `carrying <item>` in a guard instead.
+
+  None of that is evidence of pleasantness either. What it is evidence of is that the frame is thin,
+  and that where this design has been tempted to think a construct costs the author something, the
+  arithmetic has gone the other way twice.
+
   **And the largest authoring trial this design has had is one it failed.** The generated families
   in `crates/reachability/tests/scaling.rs` are 6,315 lines of this language against 664 written by
   hand, and they are generated because a corridor of sixty-four rooms cannot be written by hand.

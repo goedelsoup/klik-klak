@@ -190,13 +190,19 @@ description: |
   are two primitives in that engine and one here, and which is right is a question about the verb
   menu rather than about the authoring vocabulary. [inference]
 
-  **The verb vocabulary is a list, and it is meant to be edited.** `master_verb_list` holds 63
+  **The verb vocabulary is a list, and it is meant to be edited.** `master_verb_list` holds **57**
   verbs; the file's opening comment is "When adding a new verb, it must be added to the following
-  three lists, and the forth if it is a use-with verb." 46 are used in the game and **26 of those
-  are used exactly once** — `dissolve`, `jab_with`, `scrape`, `lick`, `tighten`. [verified] This
-  is not a bounded vocabulary that authors live within; it is a table authors extend per puzzle,
-  with a load-time check — `registerVerbs` warns when a binding names a verb the list does not
-  hold — standing in for the discipline.
+  three lists, and the forth if it is a use-with verb." 46 are used on objects, 49 counting actors,
+  and **23 of those are used exactly once** — `dissolve`, `jab_with`, `scrape`, `lick`, `tighten`
+  ([delores-source](../../catalog/delores-source.md)). [verified] This is not a bounded vocabulary
+  that authors live within; it is a table authors extend per puzzle, with a load-time check —
+  `registerVerbs` warns when a binding names a verb the list does not hold — standing in for the
+  discipline.
+
+  This paragraph carried 63 and 26. Both are wrong, and the corpus disagreed with itself about the
+  first in two other places — [ags](ags.yml) and `.yidam/decisions/tier-split.yml` both say 57,
+  which is what the file says. The figures were `[verified]` against a source entry that had never
+  recorded them; it records them now.
 
   What *is* bounded is the **schema**: six lists declare, per verb, its menu position, its display
   text with `$NOUN1$`/`$NOUN2$` slots, whether it is binary, whether the actor walks to the
