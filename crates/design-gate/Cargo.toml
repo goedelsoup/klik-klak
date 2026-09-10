@@ -1,0 +1,10 @@
+[package]
+name = "design-gate"
+version.workspace = true
+edition.workspace = true
+description = "The derivation check for design/: premises still resolve, effects are relationships the ontology declares."
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+game-format = { path = "../game-format" }

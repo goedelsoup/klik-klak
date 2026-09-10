@@ -4,19 +4,27 @@ Domain-specific skills available to agents in this repository. Generic skills in
 from yidam live in [`.yidam/.vendor/prelude/skills/`](../.vendor/prelude/skills/); skills that require
 knowledge of this domain's corpus or toolkit live here.
 
-Three calculator stubs were scaffolded at genesis, each approved in
-[`../decisions/proposals.yml`](../decisions/proposals.yml). **All three are stubs and none has
-been run.** Each says in its own file why, and the reasons are not the same:
+Three calculators were scaffolded at genesis, each approved in
+[`../decisions/proposals.yml`](../decisions/proposals.yml). **One is implemented and two are
+still stubs**, and the reasons the two are stubs are not the same:
 
-| Skill | Reads | Why it is a stub |
+| Skill | Reads | State |
 |---|---|---|
-| [`vocabulary-coverage`](vocabulary-coverage.md) | `verb`, `interaction` | Would run; the answer would be about seeding rather than about the vocabulary |
-| [`collapse-signature`](collapse-signature.md) | every class and instance | Would run; the ranking would be dominated by how thinly each class is seeded |
-| [`reachability`](reachability.md) | an authored game's state graph | **Cannot run.** That graph does not exist in this repository |
+| [`vocabulary-coverage`](vocabulary-coverage.md) | `verb`, `interaction` | Stub. Both its lists have been computed once by hand, over a *specimen* rather than the corpus — whether those are one computation with two inputs is `[open]` |
+| [`collapse-signature`](collapse-signature.md) | every class and instance | Stub. Would run; the ranking would be dominated by how thinly each class is seeded |
+| [`reachability`](reachability.md) | an authored game's state graph | **Implemented** — `crates/reachability`. Was blocked for four phases, each time on something different |
 
-The third is different in kind from the other two and the table says so on purpose. The first
-two are waiting for the corpus to grow; the third is waiting for an artifact this corpus does
-not hold and has no place to put yet.
+Reachability is the one worth reading about, because what blocked it kept changing and none
+of the reasons were the one predicted. It waited for an authored game; then for a *decidable*
+authoring language, since reachability over arbitrary script is not computable; then for an
+effect vocabulary that could express the specimen's own defect, which was consumption and
+which the ontology had no relationship for. `.yidam/decisions/domain-computer.yml` records
+the phase that finished it.
+
+Its prelude domain is a footnote worth keeping: `graph-topology` was approved for it at
+genesis and is not used. Two breadth-first searches over an explicit edge list did not need a
+vendored layer, and reaching for one would have been naming a domain because it sounds
+adjacent.
 
 Beyond these, add a skill when a repeatable procedure emerges from inquiry — not
 preemptively.
@@ -30,7 +38,7 @@ Fields per skill: filename, name, description, agents that invoke it.
 | Skill | Description |
 |---|---|
 | [collapse-signature](collapse-signature.md) | Similarity between class pairs' relationship vocabularies — the falsifiable form of 'is cutscene just an interaction?' |
-| [reachability](reachability.md) | Whether every reachable world-state configuration can still reach the ending; blocked on an authored game to read |
+| [reachability](reachability.md) | Whether every reachable world-state configuration can still reach the ending, and which binding stranded the ones that cannot |
 | [vocabulary-coverage](vocabulary-coverage.md) | Which verbs no interaction exercises, and which interactions reach for a verb the vocabulary does not declare |
 <!-- /REGEN -->
 

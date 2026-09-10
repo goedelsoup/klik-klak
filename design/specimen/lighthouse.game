@@ -98,7 +98,7 @@ room quay
 
 conversation keeper-talk with keeper
 
-  option lamp "The lamp is out."
+  option lamp-out "The lamp is out."
     when  not asked-lamp
     say   "Aye. Three nights now. I've not the hands for that stair any more."
     do    give wick

@@ -166,23 +166,60 @@ a near-miss for `ending`; nothing is a candidate for `start`.
 Noted rather than proposed — and noted more carefully after this phase, since the last four
 things this document called missing were mostly not.
 
+## What the checker found when it was finally run
+
+`crates/reachability` exists now. Against the committed specimen:
+
+```
+103 reachable state(s), 193 transition(s).
+The ending is reachable.
+
+16 reachable state(s) can no longer reach the ending.
+Stranded by:
+  line  125  use-with oil-can on hinge  [consumption]
+            spends oil-can, which is needed later — 4 state(s)
+            e.g. in base; carrying crowbar, brass-key, wick; spent oil-can; lamp-prep=0
+```
+
+The deliberate trap, found by machine. Three cases hold it in `crates/reachability/tests`:
+this one, the two-line ordering mutation below (detected *and classified as ordering*, so the
+two causes are distinguished rather than summed), and a cleared latch reported as a violation.
+
+**Two defects surfaced on first contact and both are worth recording.**
+
+**A name collision the old gate could not see.** `hotspot lamp` and `option lamp` shared a
+name and had done for two phases. The shell gate matched names against one flat set, so it
+passed; a type-aware resolver rejected it immediately. That is a defect in this specimen *and*
+a gap in the proposal — the admission rule says an operand names something declared and says
+nothing about namespaces, while AGS numbers dialogue options per topic. Recorded in
+[`../bounded-expression-language.md`](../bounded-expression-language.md) as `[open]`.
+
+**A false positive in the checker, caused by this game's shape.** It first reported two
+strandings, the second at `pick-up loose-match`. The cause was the calculator expanding states
+past the ending — asking whether the player can reach the ending a *second* time, which nothing
+can, so every post-ending state read as stranded. An ending ends the game. Worth keeping
+because it is the failure mode of a fixture doing its job: the tool was wrong, the specimen was
+right, and only running one against the other said so.
+
 ## Using it as a fixture
 
-[`reachability`](../../.yidam/skills/reachability.md) can now describe this game. Three cases:
+Three cases, all covered by tests:
 
 - **Winnable.** Crowbar, then the crate for oil; the keeper for the wick and then the key; the
   door, the stair, the match; then wick, oil and match into the lamp in that order.
 - **Unwinnable by consumption.** Oil the hinge in `base`. Reachable from the winning path, and
-  the game continues answering normally forever. Expressible for the first time.
-- **Unwinnable by ordering** — a two-line mutation rather than committed. Add `do clear
-  door-open` to the quay door's `walk-to`, and `when door-open` to `door-inner`'s.
+  the game continues answering normally forever.
+- **Unwinnable by ordering** — a two-line mutation rather than committed, applied in the test
+  in memory. Add `do clear door-open` to the quay door's `walk-to`, and `when door-open` to
+  `door-inner`'s.
 
 The ordering case stays a mutation so the committed specimen has exactly one defect. A fixture
-with two makes a checker's output ambiguous about which it found.
+with two makes a checker's output ambiguous about which it found — and the test asserts
+`strandings.len() == 1`, so a second one appearing fails the build.
 
-One flag latches (`crate-open`) and one counter does (`lamp-prep`), which is what makes the
-partial-order walk in [`latched-flag`](../../.yidam/corpus/world-flag/latched-flag.yml) testable
-against something rather than argued in the abstract.
+One flag latches (`crate-open`) and the counter is monotone (`lamp-prep`), which is what makes
+[`latched-flag`](../../.yidam/corpus/world-flag/latched-flag.yml)'s claim checkable. Checkable,
+not yet tested: this game runs in a millisecond whether or not the search exploits monotonicity.
 
 ## What this specimen is not
 

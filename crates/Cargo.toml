@@ -1,0 +1,22 @@
+# The domain computer.
+#
+# `directories.md` calls this the instrument that makes the corpus queryable, and warns that
+# this domain has a hazard most do not: the subject of study is a Rust program and this is
+# also Rust. They are different things. Nothing here renders, plays, or runs a game — these
+# crates READ an authored artifact and compute over it. An engine would execute one, and an
+# engine's code is not this corpus's to hold.
+#
+# Deliberately zero dependencies. Two reasons and the second is the load-bearing one:
+# the shapes read here are small enough that a dependency would be larger than the code it
+# replaced, and CI for this repository is required to be hermetic. A build that resolves a
+# registry is a build whose colour depends on somebody else's uptime.
+
+[workspace]
+resolver = "2"
+members = ["game-format", "reachability", "design-gate"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+publish = false

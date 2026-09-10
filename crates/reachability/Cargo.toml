@@ -1,0 +1,10 @@
+[package]
+name = "reachability"
+version.workspace = true
+edition.workspace = true
+description = "Whether every reachable world state can still reach the ending, and which binding stranded the ones that cannot."
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+game-format = { path = "../game-format" }

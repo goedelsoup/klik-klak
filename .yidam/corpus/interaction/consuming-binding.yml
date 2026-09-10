@@ -19,6 +19,15 @@ description: |
   this binding, which is locally correct and will stay correct, but on what remains reachable
   after it resolves.
 
+  **That is now where the check is.** `crates/reachability` finds a stranding as an edge
+  stepping out of the set of states from which an ending is still reachable, and classifies it
+  by whether the binding carries a spend. Against a specimen it named exactly one — a can of oil
+  poured into a hinge — and reported the state it lost rather than only that one was lost.
+  [inference] The classification is cheap in a way worth noting: consumption and ordering are
+  the same computation and differ only in which effect the stranding edge carried, which is
+  further evidence that `unwinnable-state`'s account of them as two different kinds of problem
+  was about authoring rather than about detection.
+
   [inference] The consequence for the format is that consumption has to be *declarable* rather
   than written into response prose. A checker asking which bindings spend a given item gets an
   answer from the graph; a reader asking the same question of prose gets one only if every author
