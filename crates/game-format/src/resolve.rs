@@ -205,7 +205,66 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
             }
         }
     }
+    dead_writes(game, &mut out);
     out
+}
+
+/// What part of the state an effect writes in full. Two effects naming the same slot in one
+/// list means the earlier one cannot be observed: the list is a fold applied between two
+/// player-visible states, so nothing reads the value in between.
+///
+/// `Give` and `Spend` are deliberately absent. They accumulate rather than overwrite, so
+/// `give coin 3` followed by `spend coin 1` is a net change and not a dead write.
+fn slot_written(e: &Effect) -> Option<String> {
+    match e {
+        Effect::SetFlag(x) | Effect::ClearFlag(x) => Some(format!("flag {x}")),
+        Effect::SetCounter(x, _) => Some(format!("counter {x}")),
+        Effect::Move(_) => Some("the player's room".into()),
+        Effect::Enter(_) | Effect::Leave => Some("the current mode".into()),
+        Effect::Give(..) | Effect::Spend(..) => None,
+    }
+}
+
+fn render(e: &Effect) -> String {
+    match e {
+        Effect::SetFlag(x) => format!("set {x}"),
+        Effect::ClearFlag(x) => format!("clear {x}"),
+        Effect::SetCounter(x, v) => format!("set {x} {v}"),
+        Effect::Give(x, q) => format!("give {x} {q}"),
+        Effect::Spend(x, q) => format!("spend {x} {q}"),
+        Effect::Move(x) => format!("move {x}"),
+        Effect::Enter(x) => format!("enter {x}"),
+        Effect::Leave => "leave".into(),
+    }
+}
+
+/// A write no one can read. This check exists *because* of the decision recorded in
+/// `.yidam/decisions/effect-list-semantics.yml`: an effect list is one atomic transition, so
+/// there is no moment between two effects at which the first value is visible. Under any
+/// other reading — a list that yields, or one an author can step through — an overwritten
+/// write might be something the player sees, and this would be a false positive.
+fn dead_writes(game: &Game, out: &mut Vec<Problem>) {
+    for b in &game.bindings {
+        for (i, e) in b.effects.iter().enumerate() {
+            let Some(slot) = slot_written(e) else {
+                continue;
+            };
+            if let Some(later) = b.effects[i + 1..]
+                .iter()
+                .find(|f| slot_written(f).as_deref() == Some(slot.as_str()))
+            {
+                out.push(Problem {
+                    line: b.line,
+                    message: format!(
+                        "`{}` is overwritten by `{}` in the same list — both write {slot}, \
+                         and nothing reads it in between",
+                        render(e),
+                        render(later)
+                    ),
+                });
+            }
+        }
+    }
 }
 
 fn walk_pred(
