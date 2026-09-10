@@ -17,6 +17,21 @@ properties:
     Text, keyed by verb and target, with the second object as an optional third key.
     Hand-editable, because the alternative is a tool and a tool for a sparse table is a
     spreadsheet nobody wants to diff.
+
+    **Every clause of that describes a shipped format**, which this node did not know when it
+    was written. Thimbleweed Park's bindings are text, keyed by verb and target, hand-edited,
+    and sparse by the only mechanism a nested table has: a verb slot nobody wrote is a field
+    that is not there ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] Wimpy, the
+    tool, edits the *geometry* file and never this one — which is the split this format assumes
+    and the reason the "tool for a sparse table" problem does not arise there.
+
+    **And it charges a price for keying bindings in the same namespace as declarations.** The
+    slots were `lookAt` and `walkTo` in February 2015 and `verbLookAt` and `verbWalkTo` by
+    January 2016. [verified] The prefix is there because `name`, `initState`, `flags`,
+    `look_count` and `verbUse` are all fields of one table, and nothing but a naming convention
+    keeps an author's variable from colliding with a verb. [inference] A format that keys
+    bindings separately from declarations never needs the prefix, and this is the first concrete
+    cost this corpus has of not doing so.
   authored_by: |
     A person, directly. This is the file that carries the writing, and it should read like
     writing rather than like data — which is a constraint on the syntax that pulls against
@@ -30,11 +45,54 @@ properties:
     table with real combinatorics is untested; twenty-three bindings is not a test of scale.
   escape_hatch: |
     This is where one is genuinely expected, and naming it honestly is more useful than
-    denying it. [inference] A response that must compute something — count an inventory,
-    compare two flags, pick among several lines — is beyond a declarative table, and every
-    prior-art system reached a general-purpose language at exactly this point. Whether a
-    bounded expression language avoids that is `[open]` and is the most valuable open
+    denying it. [inference] Every prior-art system reached a general-purpose language, and
+    whether a bounded expression language avoids that is `[open]` and is the most valuable open
     question in this corpus.
+
+    **The three examples this node gave of what forces the escape were all wrong, and the
+    correction is the useful part.** It said a response "that must compute something — count an
+    inventory, compare two flags, pick among several lines — is beyond a declarative table". This
+    design's predicate layer does all three: `count <item> <cmp> <n>` is the one quantifier,
+    `and`/`or`/`not` compose flags, and several lines at one site are several bindings with
+    different guards. They were named as the hard cases before anything had been built, and they
+    turned out to be the easy ones.
+
+    **What the hard cases are is now measured against a shipped game rather than guessed.**
+    Thimbleweed Park's authoring surface *is* this table — a room is a table, an object is a
+    table in it, a binding is a field named for the verb — with an arbitrary Squirrel closure in
+    every cell ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] Taking every object
+    the diary shows as a sample of one game's bindings, the responses that escape are:
+
+    - **a binding calling another binding on the same object.** `verbPickUp = function() {
+      verbUse() }` on a telephone; `verbPickup` falling through to `verbLookAt` on an empty stack
+      of flyers. [verified] The cheapest thing on this list and there is no way to say it here.
+    - **a response that outlives the click.** `startthread(playRadio, this)`. That one is
+      refused on purpose — see `.yidam/decisions/effect-list-semantics.yml` — and the refusal has
+      a price this corpus can now quote from the other side of it.
+    - **abstraction over repeated authoring.** 110 hotel rooms built by a `for` loop over
+      `definePseudoRoom`; a `sewerValveSetup(this)` helper written by a second author, in a
+      separate file, because "I didn't want to do more copy-paste". [verified]
+    - room state rebuilt from global state on entry, and randomised initial state.
+
+    **The third is the finding.** Two of the diary's authors reached for the escape hatch
+    independently and neither did it to compute anything — both did it because the same content
+    had to be written many times. Nothing in `definePseudoRoom` or `sewerValveSetup` needs an
+    expression a bounded layer lacks; they need a *name for a shape*. [inference]
+
+    That re-aims the open question. This corpus has been asking whether a bounded expression
+    language is expressive enough, and the one system built by the people who invented the form
+    says the pressure that broke the declarative form first was **duplication, not
+    expressiveness**. `authored_by` already records scale as the untested axis — "twenty-three
+    bindings is not a test of scale" — and the same pressure appeared one scale down in
+    `.yidam/decisions/arrival-trigger.yml`, where four bindings carried one intent and one copy
+    drifted without anything noticing. `[open]`, and now about the right thing.
+
+    **A second data point on why nobody builds the middle, and it is weaker than it looks.** AGS
+    built a declarative interaction layer and deleted it; Thimbleweed Park never built one. But
+    the diary shows no consideration and rejection — Gilbert weighs three general-purpose
+    options, costs writing his own *scripting language* at about a month, and the alternative
+    this corpus is testing does not appear. [inference] from silence. Two systems declining to
+    hold a layer is not two verdicts on it.
 
     **One system ran an experiment adjacent to this, and its result was misread here for two
     phases.** Adventure Game Studio built a bounded sub-language at exactly this scope — eight
