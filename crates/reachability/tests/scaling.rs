@@ -78,6 +78,41 @@ fn hub(n: usize) -> String {
     s
 }
 
+/// **Acts.** *k* of them, each holding *w* tokens with no order between them and a door that
+/// wants all *w*, and no way back. This is the shape the form's inventor prescribes: "Solving
+/// one puzzle should open up 2 or 3 new ones, and then those collapses down… to a single
+/// solution that then opens up more non-linear puzzles", and "each act ends with a bottle neck
+/// to the next act" (`.yidam/catalog/grumpy-gamer-pdc.md`).
+///
+/// It is the corridor and the hub composed: a hub inside each act, a corridor between them.
+fn acts(k: usize, w: usize) -> String {
+    let mut s = String::new();
+    for j in 0..=k {
+        s += &format!("room    a{j} \"Act {j}\"\n");
+    }
+    for j in 0..k {
+        for i in 0..w {
+            s += &format!("item    t{j}x{i} \"Token {j}.{i}\"\n");
+        }
+    }
+    for j in 0..k {
+        s += &format!("\nroom a{j}\n");
+        if j == 0 {
+            s += "  start\n";
+        }
+        for i in 0..w {
+            s += &format!("  hotspot h{j}x{i} \"a token\"\n    is t{j}x{i}\n    pick-up:\n      do    give t{j}x{i}\n");
+        }
+        let all = (0..w)
+            .map(|i| format!("carrying t{j}x{i}"))
+            .collect::<Vec<_>>()
+            .join(" and ");
+        s += &format!("  hotspot door{j} \"the way on\"\n    walk-to:\n      when  {all}\n      do    move a{}\n      else  \"Not yet.\"\n", j + 1);
+    }
+    s += &format!("\nroom a{k}\n  hotspot out \"the way out\"\n    walk-to:\n      ending\n");
+    s
+}
+
 /// **The collapse, where it holds.** Ordered dependencies mean the reachable set is *linear* in
 /// the number of rooms while the space is exponential. This is the case the argument was built
 /// on and it is real.
@@ -145,4 +180,44 @@ fn a_space_too_large_to_count_says_so() {
     assert!(r.space_saturated);
     assert!(r.render().contains("no fraction is reported"));
     assert!(!r.render().contains('%'));
+}
+
+/// **The answer to "how ordered are a real game's puzzles", turned into a number.**
+///
+/// Hold the puzzle count fixed at forty-eight and vary only the width of each act. The reachable
+/// set is **linear in the number of puzzles and exponential in the width** — which is why the
+/// question that replaced the collapse claim was the right one, and why its answer decides
+/// tractability by itself.
+#[test]
+fn width_decides_and_the_puzzle_count_does_not() {
+    let measure = |k: usize, w: usize| analyse(&load(&acts(k, w))).states;
+
+    // forty-eight puzzles, arranged four ways
+    let narrow = measure(24, 2);
+    let prescribed = measure(16, 3);
+    let wide = measure(6, 8);
+    let very_wide = measure(4, 12);
+
+    assert!(narrow < 150, "24 acts of 2: {narrow}");
+    assert!(prescribed < 250, "16 acts of 3: {prescribed}");
+    assert!(wide > 1000, "6 acts of 8: {wide}");
+    assert!(very_wide > 15000, "4 acts of 12: {very_wide}");
+    assert!(
+        very_wide > prescribed * 100,
+        "same forty-eight puzzles, {prescribed} states against {very_wide}"
+    );
+}
+
+/// And at the prescribed width the count is what scales linearly. Three hundred puzzles in acts
+/// of three is a few hundred states — a game far larger than any of the three specimens, and
+/// cheaper to check than the lighthouse.
+#[test]
+fn a_large_game_at_the_prescribed_width_is_small() {
+    let r = analyse(&load(&acts(100, 3)));
+    assert!(r.winnable);
+    assert!(
+        r.states < 1500,
+        "three hundred puzzles should stay in the hundreds; got {}",
+        r.states
+    );
 }

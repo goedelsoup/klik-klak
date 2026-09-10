@@ -136,6 +136,39 @@ So the collapse is a property of the game's dependency structure, not of the lan
 metric could not have found this — it reported ~0% for both families, because the redundancy it
 was measuring grew at the same rate as the thing it was hiding. `scaling.rs` holds both curves.
 
+## What this costs, as a function of the thing that decides it
+
+The question the collapse claim collapsed into — *how ordered are a real game's puzzles?* — has
+an answer from the person who invented the notation for asking it. Ron Gilbert's Puzzle
+Dependency Chart is a game's puzzles drawn as a dependency graph, and he states its shape as a
+rule: "Solving one puzzle should open up 2 or 3 new ones", each act ending in "a bottle neck to
+the next act", with both extremes named as failures — too linear, or "too unwieldy with choice
+(also bad)" (`.yidam/catalog/grumpy-gamer-pdc.md`).
+
+A third generated family in `scaling.rs` is that shape: *k* acts of *w* parallel puzzles, each
+act gated on all of them. Holding the puzzle count at forty-eight and varying only the width:
+
+| acts × width | reachable states |
+|---|---|
+| 48 × 1 | 97 |
+| 24 × 2 | 97 |
+| **16 × 3** | **129** |
+| 12 × 4 | 193 |
+| 8 × 6 | 513 |
+| 6 × 8 | 1,537 |
+| 4 × 12 | 16,385 |
+| 3 × 16 | 196,609 |
+
+Same forty-eight puzzles; a factor of two thousand. **The reachable set is linear in the number
+of puzzles and exponential in the width of the chart.** At the prescribed width, size stops
+mattering: six hundred puzzles in acts of three is 1,601 states and 73 milliseconds — a game
+larger than any published adventure, checked faster than the lighthouse.
+
+So this tool is tractable exactly on games whose charts are the shape their designers already
+aim for, and intractable on games that are "too unwieldy with choice". That is a much better
+position than the collapse claim it replaces, and it is contingent in a way that claim was
+pretending not to be.
+
 And a related check arrived from the other direction: **an item may declare a ceiling, and the
 tool reports where a game hands out more than the declaration has room for.** Without ceilings
 the state space is not finite at all — which is a limit on this whole computation and was found
