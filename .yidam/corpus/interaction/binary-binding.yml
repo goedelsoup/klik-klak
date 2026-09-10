@@ -18,6 +18,13 @@ properties:
     An action performed on the target using the carried item, and a write to world state
     recording that it happened. The write is what makes the binding matter beyond the
     moment: without it the same binding resolves identically forever.
+
+    **[open] Folding the two into one property may not survive.** A bounded effect vocabulary is
+    a closed list and authored prose is not one, so a specimen written in the proposed language
+    splits every binding into a `say` and a `do`
+    ([design/specimen](../../../design/specimen/README.md)). [inference] If effects are ever
+    to be checked rather than read, this property is two properties, and `interaction.ont.yml`
+    describes a world in which it is one.
   precondition: |
     The item is carried, the target is present, and any gating flag holds. [inference] The
     first two are structural and enforceable by the format; only the third is authored, which

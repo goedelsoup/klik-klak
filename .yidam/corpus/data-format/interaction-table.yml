@@ -20,7 +20,14 @@ properties:
   authored_by: |
     A person, directly. This is the file that carries the writing, and it should read like
     writing rather than like data — which is a constraint on the syntax that pulls against
-    the keying above. [open] Nothing here resolves it.
+    the keying above. [open] Nothing here resolves it, and one thing now tries.
+
+    A specimen authored in the proposed language resolves it by splitting the two rather than
+    reconciling them: declarations are keyed like data, bindings are written as blocks, and the
+    construct carrying the join is the guarded response list — `when <predicate> "<line>"`, which
+    keys and reads like writing on the same line
+    ([design/specimen](../../../design/specimen/README.md)). [inference] Whether that survives a
+    table with real combinatorics is untested; twenty-three bindings is not a test of scale.
   escape_hatch: |
     This is where one is genuinely expected, and naming it honestly is more useful than
     denying it. [inference] A response that must compute something — count an inventory,
