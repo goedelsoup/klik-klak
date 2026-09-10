@@ -1,0 +1,70 @@
+id: name-scoping
+summary: >-
+  A name is scoped to the thing that contains it — a hotspot to its room, an option to its
+  exchange — and the rule is read off the ontology's containment rather than invented.
+context: |
+  The proposed authoring language had one flat namespace for rooms, actors, items, flags,
+  counters, conversations, hotspots and dialogue options alike. `domain-computer` found the
+  cost on the first run of a type-aware resolver: `hotspot lamp` and `option lamp` had shared
+  a name in the specimen for two phases, and the shell gate that preceded it passed the file
+  because it matched names against one flat set too.
+
+  The specimen had already been working around it without anyone noticing, which is the more
+  telling half. It carried `door` and `door-inner`, `stair` and `stair-head`, and a
+  `lamp-out` renamed by hand out of the way of `lamp`. Those are not names an author chose;
+  they are a scoping convention invented one collision at a time, unwritten and unchecked.
+
+  Prior art is not silent. AGS numbers dialogue options **for the current topic** — its
+  `option-off X` is documented in exactly those words — so the one system that built a
+  bounded conversation vocabulary scoped option identity to the exchange rather than to the
+  game.
+decision: |
+  **A name is declared in the scope of the thing that contains it, and containment is a
+  relationship the ontology already declares.**
+
+  | Scope | What lives there | The edge it comes from |
+  |---|---|---|
+  | the world | `room`, `actor`, `item`, `counter`, `conversation`, a global flag | nothing contains these |
+  | a room | its hotspots | `room -contains-> hotspot` |
+  | an exchange | its options, and its conversation-scoped flags | the exchange holds them; `world-flag.scope` already said so |
+
+  **A bare reference means the local one, then the world's.** A name carrying a `.` is
+  explicit and is taken as given, so `chosen north.greet` reaches across from anywhere.
+
+  **Resolution rewrites.** Every reference is canonicalised at resolve time, so everything
+  downstream — the reachability search included — goes on treating names as unique strings
+  and needs no scope model of its own.
+
+  Scoping widens the space of legal names; it does not remove the rule. Two hotspots named
+  `door` in one room is still a collision and is still reported.
+rationale: |
+  **Why the ontology decides, rather than a rule about the format.** The question "which
+  names may be scoped" has an answer already written down: the ones belonging to something
+  that contains them. An item cannot be room-scoped because it moves between rooms — that is
+  what `inventory-item` being a UFO *role* means. A flag cannot be room-scoped by default
+  because `world-flag` is described as "the only thing that carries meaning across rooms".
+  Reading the rule off the ontology means the format cannot drift from the model it is a
+  surface for, and it meant this decision took no invention at all.
+
+  **Why not keep it flat and require unique names.** That is what was already happening, and
+  the cost is visible in the specimen's own identifiers. A convention nobody wrote down and
+  nothing checks is the worst of both: authors pay for it, and it fails silently when two
+  people pick the same prefix. The 190-line specimen produced one real collision, which is a
+  rate that does not survive a real game.
+
+  **Why not scope everything.** Because most things are not contained by anything, and
+  qualifying them would make every reference longer for no gain. The temptation is symmetry;
+  the answer is that the ontology is not symmetric and should not be made to look it.
+
+  **What it cost to check.** Six cases, not a green run — two rooms each with a `door`, a
+  bare name meaning the local one in two exchanges that both declare `asked`, a fall-back to
+  the world, an option deliberately unreachable from a room, a qualified name reaching
+  across, and a collision inside one scope still failing. The last is the one worth having:
+  a widening rule is easy to widen too far, and nothing else would have caught that.
+
+  **A side finding, from the calculator rather than from the reader.** Rewriting the specimen
+  under the new rule replaced a conversation-scoped `asked-lamp` flag with `chosen lamp`, and
+  the reachable state count did not move — 103 before and after. The flag was set exactly when
+  the option was chosen, so no reachable state ever distinguished them. A declared flag that
+  duplicates state the engine already keeps is free at runtime and costs an author a name,
+  and the reachable-state count is what makes that visible rather than arguable.
