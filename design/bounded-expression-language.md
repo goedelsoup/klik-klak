@@ -233,6 +233,7 @@ atom    :=  '(' pred ')'
          |  flag                    -- a boolean world-flag; true iff set
          |  'carrying' item
          |  'chosen' option         -- this choice has been taken before
+         |  actor 'in' room           -- where a non-player actor is
          |  value cmp value
 value   :=  integer | counter | 'count' item
 cmp     :=  '=' | '!=' | '<' | '<=' | '>' | '>='
@@ -240,7 +241,8 @@ cmp     :=  '=' | '!=' | '<' | '<=' | '>' | '>='
 
 **The admission rule, which is what keeps it finite:** *every operand names something the corpus
 already declares.* `flag` and `counter` resolve to `world-flag` instances, `item` to an
-`inventory-item`, `option` to a choice within a `conversation`. Integer literals are the single
+`inventory-item`, `option` to a choice within a `conversation`, `actor` to an `actor` and the
+`room` it is in to a `room` — `actor -occupies-> room`, read. Integer literals are the single
 free operand and are bounded by the counter they are compared against. There are no variables,
 no binding forms, no user-defined names and no strings — there is nothing to name that the game
 has not declared.
@@ -313,7 +315,7 @@ declared relationship that changes world state, and the corpus declares these:
 | enter an exchange | `opens` → `conversation` | `interaction` |
 | return control | `returns-control-to` → `actor` | `cutscene` |
 | acquire an item | `acquired-by` → `interaction`, read backwards | `inventory-item` |
-| move the player | `occupies` → `room` | `actor` |
+| move an actor | `occupies` → `room` | `actor` |
 | spend an item | `consumes` → `inventory-item` | `interaction` |
 | leave a mode | `returns-control-to` → `actor` | `cutscene`, `conversation` |
 
@@ -322,6 +324,21 @@ The last row was not in this table when it was written. It was added after
 the relationship declared since genesis — this table had read `occupies` as a static fact about
 where an actor is rather than as something a binding writes. Five effects, not four, found by
 needing one rather than by re-reading.
+
+**And it read the same row at half its width for six more phases.** It said *move the player*.
+`occupies` is declared on `actor` and authored by
+[`actor/non-player-character`](../.yidam/corpus/actor/non-player-character.yml), whose founding
+claim is that a non-player actor "can occupy a position that changes" — so the relationship was
+never about the player specifically. The effect now takes one: `move <room>` is the player,
+`move <actor> to <room>` is anybody, and the `to` is what tells the two forms apart.
+
+The pair was added together, because **an effect nothing can read is not state**. Writing where
+an actor is without being able to ask makes the write unobservable, and an unobservable write is
+not a change to the world — it is a comment. The predicate above is the other half.
+
+That symmetry is not general and should not be assumed: `set` has no matching read that this
+design invented, because a flag *is* its own predicate. What it applies to is any effect writing
+a thing the predicate layer had no operand for, and this was the first.
 
 This is the part the gate checks, and the reason `design/check.sh` exists in the shape it does:
 a design that names an effect the ontology does not declare is either wrong or has just found a

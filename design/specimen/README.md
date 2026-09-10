@@ -33,15 +33,20 @@ derives_effects_from:
 
 # what the specimens found
 
-Two games authored in the language proposed by
+Four games authored in the language proposed by
 [`../bounded-expression-language.md`](../bounded-expression-language.md), each written to
 break it.
 
-| | [`lighthouse.game`](lighthouse.game) | [`ferry.game`](ferry.game) | [`nightwatch.game`](nightwatch.game) |
-|---|---|---|---|
-| written for | *can this say a game at all?* | *does `count item` earn its place?* | *does `cutscene` earn its place?* |
-| committed defect | consumption | ordering | consumption |
-| reachable states | 103 of 49,152 (0.21%) | 20 of 120 (16.7%) | 14 of 64 (21.9%) |
+| | [`lighthouse.game`](lighthouse.game) | [`ferry.game`](ferry.game) | [`nightwatch.game`](nightwatch.game) | [`patrol.game`](patrol.game) |
+|---|---|---|---|---|
+| written for | *can this say a game at all?* | *does `count item` earn its place?* | *does `cutscene` earn its place?* | *does an actor's position need to be state?* |
+| committed defect | consumption | ordering | consumption | ordering |
+| reachable states | 103 of 49,152 (0.21%) | 20 of 120 (16.7%) | 14 of 64 (21.9%) | 20 of 128 (15.6%) |
+
+**Each was written to answer one question and none of the four answered only that.** The list
+below is in the order they were written; `patrol` is the first written *after* a real game's
+source had been read, and it is the only one that exists because a shipped game was found doing
+something this vocabulary could not say.
 
 Those fractions were published as 0.05%, 4% and 5.5% for several phases. They were too small by
 2^(takeable objects): the metric multiplied in one bit per acquisition site for the checker's own
@@ -355,3 +360,42 @@ finished one, and he does not have Monkey Island's. [open]
 - **Not a test of scale, and the test of scale has since been run without them.** See below.
 - **They do not run.** No engine reads them. Every claim here is about what could be written
   down and what could be computed from it.
+
+## patrol — a person standing in a doorway
+
+Written for one question, from an `[open]` two classes had been carrying:
+[`cutscene/scripted-sequence`](../../.yidam/corpus/cutscene/scripted-sequence.yml) said it did
+not know whether a non-player actor's position needs to be state, from a specimen too small to
+tell, and [`actor/non-player-character`](../../.yidam/corpus/actor/non-player-character.yml) is
+founded on an actor being able to "occupy a position that changes".
+
+**The demand was already visible on disk.** `nightwatch.game`'s watchman carries a `look-at`
+reading *"Not here. He is somewhere down the hall"* — an actor site sitting in a room the actor
+is not in, with prose covering for the format.
+
+Two primitives, added together because **an effect nothing can read is not state**:
+`do move <actor> to <room>` writes `actor -occupies-> room`, `when <actor> in <room>` reads it,
+and `holds <actor>` in a room section says where they start.
+
+**The committed defect is a new mechanism for an old cause.** The porter stands in the corridor
+and will not let you into the strongroom; the kettle brings him to the canteen; the key is in the
+canteen. Boil before you take the key and you are stranded — reported as `ordering`, and blamed on
+**leaving** the canteen rather than on boiling it, which is correct: while you are still in there
+with him, nothing is lost.
+
+### what it cost, and where the cost came from
+
+An actor is tracked when a predicate names them **or an effect moves them**, and the second
+condition had to be discovered rather than designed. `offered` gates an actor's site on where the
+actor is — so a site is itself a read, and there is no such thing as moving an actor nobody reads.
+
+An actor nobody moves and nobody asks about is absent from the state altogether, which is every
+actor in the three specimens above; their figures are unchanged by this addition. A game pays
+rooms^n for the *n* actors it actually moves, and nothing otherwise.
+
+### what it did not settle
+
+`nightwatch` still says its watchman is down the hall in prose. Rewriting it to use the primitive
+would make the specimen test what it was written to say it could not, and would move figures three
+phases of records quote. It has not been done, and whether a specimen should be revised to
+exercise a primitive it argued for is a question this directory has not had to answer before.
