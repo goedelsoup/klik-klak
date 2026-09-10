@@ -1,0 +1,110 @@
+id: effect-list-semantics
+summary: >-
+  An effect list is **sequential, total, instantaneous and atomic**: one binding is one state
+  transition, folded in written order, with nothing observing an intermediate value. Duration
+  is expressed as a mode in the state rather than as a pause inside a binding. AGS's
+  per-command blocking flag is the alternative and is refused, for the reason the whole design
+  exists.
+context: |
+  `design/bounded-expression-language.md` designs Layer 1 in detail, reads Layer 2's effects
+  off the ontology, and **never says what a list of them means.** Both specimens write several
+  under one binding, after a `say`:
+
+      pick-up:
+        say   "Three more coins, and a good deal of dust."
+        do    give coin 3
+        do    set jar-emptied
+
+  Order? Simultaneity? Does the line finish before the coins arrive? The document is silent,
+  and silence would be tolerable except that something has been answering: `crates/reachability`
+  folds the whole list into one state transition, which is exactly why reachability is a graph
+  search and not a search over states-and-time. That assumption has been load-bearing since the
+  calculator was written and was never stated.
+
+  The question became answerable rather than merely open when `phase/why-removed` read AGS's
+  source. The declarative layer AGS deleted had a worked answer: blocking was a **typed
+  argument on the commands that take time** — `Object - Move object` and `Character - Move
+  character` each end in a `BOOL` the editor labelled "Wait for move to finish", `Character -
+  Run animation loop` blocks unconditionally, `Game - Pause command processor for a set time`
+  is an explicit wait, and `Stop running more commands` exits the list early
+  ([ags-source](../catalog/ags-source.md)). So there is a real design on the other side of this
+  and it shipped, which makes the choice a decision rather than a default.
+decision: |
+  **Four words, and each of them excludes something.**
+
+  - **Sequential.** The list is folded in written order. `set f` then `clear f` leaves `f`
+    clear. This is not a set of independent writes and must not be read as one.
+  - **Total.** Every effect in the list applies. There is no early exit, no `Stop running more
+    commands`, and no effect may fail.
+  - **Instantaneous.** No effect takes time and no effect yields control. There is no blocking
+    flag and no wait.
+  - **Atomic.** A binding is one edge in the state graph. Nothing observes a value between two
+    effects — not the player, not another binding, not the checker.
+
+  **`say` is presentation and not an effect.** It was already: the reader has matched
+  `"say" | "otherwise" => {}` since it was written, and `Binding` has no field for response
+  text. That is now the stated position rather than an omission in a parser.
+
+  **Duration is a mode in the state, not a pause in a transition.** This vocabulary already has
+  one — `interaction -opens-> conversation` enters it, `conversation -returns-control-to->
+  actor` leaves it, and both effects are instantaneous while the *mode* persists in the state
+  vector. Anything that takes time is expressed the same way: entered by an instantaneous
+  effect, left by another, and visible to the checker as a state rather than as a gap.
+
+  **One consequence is checkable and is now checked.** If nothing reads a value between two
+  effects, a write another write in the same list overwrites cannot be observed, and is a
+  defect. `game_format::resolve` reports it. `Give` and `Spend` are exempt because they
+  accumulate rather than overwrite — `give coin 3` then `spend coin 1` is a net change, and a
+  rule that merely forbade naming a target twice would make the ferry's toll unwritable.
+rationale: |
+  **The refusal is the substance, and the thing refused is good.** AGS's per-command blocking
+  flag is a better authoring answer than this one in every respect except the one that matters
+  here. It lets an author write "walk there, *then* speak" without leaving the declarative
+  layer, and it puts the choice where the author can see it rather than in a semantics note.
+
+  It is refused because it would make the effect list a small program with an execution order
+  that the player can observe, and that is not a detail of taste. `design/` argues that a
+  bounded language is worth having **because the reachable set is computable**, and the
+  computation is a breadth-first search over states in which each binding is one edge. Give an
+  effect duration and a binding stops being an edge: it becomes an interval during which other
+  bindings may fire, so the state space gains a dimension and the search is over
+  states-and-time. Every number this project has published — 103 of 196,608, 20 of 480 — is a
+  number about the graph this decision preserves.
+
+  AGS's own migration note is the empirical form of the same point, from the other side:
+  in 2.72 "it was still possible for interactions to run at the same time if they didn't
+  include any scripting", and that concurrency is precisely what a checker cannot enumerate.
+  [verified] The system that had the good answer also had the problem it creates.
+
+  **What this costs, stated rather than hidden.** Nothing in this vocabulary can take time
+  except a mode, so a sequence that moves actors on its own schedule is not writable as an
+  effect list. That is `cutscene`, and the corpus has the class.
+
+  **And that is where this decision lands a defect rather than a design.** *No relationship in
+  the entire ontology targets `cutscene`.* Fifteen classes, and the only edge into that one is
+  its instance's own `instance-of`. So a binding cannot start a cutscene, which means the one
+  construct this decision defers duration to is unreachable from the one construct an author
+  writes. `cutscene/scripted-sequence.yml` says the resolution of a binding is a trigger that
+  "always did" have a home in the vocabulary; that sentence is false and is corrected in this
+  phase.
+
+  **The missing relationship is deliberately not added here.** `interaction -enters-> cutscene`
+  is the obvious mirror of `opens -> conversation` and writing it now would create a
+  relationship no instance authors — which `data-format/room-manifest.yml` records this corpus
+  as already carrying two of, and names as "indistinguishable from an ontology that
+  overreached". No specimen has a cutscene. The edge earns its place when a game needs one, and
+  the gap is recorded so the next reader does not rediscover it.
+
+  **What the decision found on its first run.** Two of the calculator's own fixtures mutated a
+  specimen by appending `clear X` beside `set X` in the same list, which this decision makes a
+  dead write rather than the thing each test claimed to be testing.
+
+  The ferry's unbounded-supply mutation is now an *omission* — delete the `do set jar-emptied`
+  line — which is both expressible and the realistic authoring mistake.
+
+  The lighthouse's was the more interesting error. It tested that a latching flag being cleared
+  is reported, by clearing it in the same binding that sets it. **A latch violation is
+  inherently across bindings**: one binding writes the flag, another puts it back. Within one
+  list nothing has read the flag, so no latch has been broken — there is only a value nobody
+  can see. The test passed for two phases for the wrong reason, and now clears the flag from a
+  different binding.
