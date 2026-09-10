@@ -1,0 +1,106 @@
+id: duplication
+summary: >-
+  The rule does not need a second clause. It was asked of the instance and never of the
+  generalisation, and the generalisation is never sayable. Five instances across two games, one of
+  them this repository's own — and asked correctly the rule admits something on quantity grounds
+  for the first time.
+context: |
+  `.yidam/decisions/delegation.yml` left this: duplication is on its fourth appearance across three
+  layers of one game, never acted on because each instance was sayable, and *"a pressure that shows
+  up as quantity of authored text is invisible to a test of what can be expressed"*.
+
+  The test it means is `AGENTS.md`, verbatim: *"A node earns its place by being something the
+  existing vocabulary cannot say. Before adding a class or a primitive, the first move is to try to
+  express the thing with what is already here and record what failed — a negative result about
+  expressiveness is the most valuable kind of node this corpus holds."*
+
+  **Four instances were on the record, all from one shipped game.** 110 hotel rooms built by a
+  `for` loop over `definePseudoRoom`; a `sewerValveSetup(this)` helper written by a second author,
+  in a separate file, because *"I didn't want to do more copy-paste"*; 21 of 53 presentation names
+  being composites the game defines for itself — `twinkleStar`, `flickerNeonLight`,
+  `flashBulletHole`; and eleven of twenty delegation sites that are one object drawn as several
+  regions. [verified] ([delores-source](../catalog/delores-source.md),
+  [twp-dev-diary](../catalog/twp-dev-diary.md).)
+
+  **The fifth is in this repository, and it decides the question.**
+  `crates/reachability/tests/scaling.rs` writes its games with three Rust `for` loops — `chain`,
+  `hub`, `acts` — because a corridor of sixty-four rooms cannot be written by hand in the proposed
+  language. **664 lines of hand-authored game across four specimens; 6,315 generated across
+  seventeen.** [verified] — both figures asserted exactly in that file, so they cannot drift
+  without something failing.
+
+  That file called it *"generated rather than authored, which costs realism and buys a curve"*, and
+  filed it as a methodological trade. It is `definePseudoRoom`. This corpus reached for a
+  general-purpose language in order to author in its own bounded one, for duplication and not for
+  expressiveness, and did not recognise the pressure it had written down three times in somebody
+  else's game.
+
+  And it is not incidental to the argument. The figures those generators produce are the corpus's
+  central evidence about tractability, quoted in
+  [latched-flag](../corpus/world-flag/latched-flag.yml) and in the design — 97 states at width 2,
+  129 at the prescribed 3, 196,609 at 16. **The games carrying that argument are games this
+  vocabulary cannot express.** [inference]
+decision: |
+  **The rule stands and gains a second question, not a second clause.** `AGENTS.md` now reads on
+  from the first move: *read what you wrote; if expressing it meant writing the same thing more
+  than once, ask the question again about the copy.*
+
+  **Duplication is two pressures and this corpus has been counting them as one.**
+
+  - **Generation** — one shape, many instances differing by parameters. Four of the five: the hotel
+    rooms, the sewer valves, the presentation composites, and `chain`/`hub`/`acts`.
+  - **Identity** — several regions that are one thing. One of the five, and already open as
+    [static-region](../corpus/hotspot/static-region.yml)'s third absence.
+
+  They pull opposite ways: generation wants a way to *make* declarations, identity wants a way to
+  *not repeat* them. A single answer to "duplication" would have been an answer to neither.
+
+  **No primitive here.** What this settles is that the question was mis-asked; asking it correctly
+  admits something, and what that something should be is a design with a worked example behind it,
+  which is the form this corpus requires and does not have yet.
+rationale: |
+  **Why the rule was already right.** "Cannot say" was read four times as *cannot say this site*,
+  and the answer was always yes it can. The generalisation is a thing too, and it is the one the
+  author was reaching for: a vocabulary that requires 110 rooms to be written out cannot say *110
+  rooms like this one*. Nothing about the rule excludes that reading. What excluded it was that
+  nobody asked. [inference]
+
+  **The tell is checkable, which is what makes this more than a caution.** When a rejection is
+  asked at the right level, nothing is written twice afterwards.
+  [walk-to](../corpus/verb/walk-to.yml) was rejected as a verb and its six sites became one exit
+  primitive — no copies. `verb/give-to` was rejected and nothing was written at all. Delegation was
+  rejected and **every one of its six sayable shapes arrives as a copy**: the same binding on two
+  hotspots, the same line on three, the same acquisition under two guards
+  (`crates/reachability/tests/delegation.rs`). [verified] So: express the thing with what is here,
+  then look at what you wrote. A copy is the residue a mis-asked question leaves.
+
+  One copy is a coincidence and the criterion has to be a count. All five instances are large —
+  110 rooms, 20 valve sites, 21 composites, 11 identity sites, 17 generated games — and none of
+  them is a designer disliking two similar lines.
+
+  **Generation already has a shipped declarative answer, which is the strongest thing this record
+  holds.** The same authors who reached for Squirrel to build 110 hotel rooms also shipped
+  `door_verbs = YES` and `on_off_verbs = YES`: a boolean on an object from which the engine
+  synthesises a whole set of preconditions and responses. [verified] That is a name for a shape,
+  moved into the declaration rather than into a loop. So the escape hatch was never *required* for
+  generation — it was reached for at every shape for which nobody had written an archetype.
+  [inference] The pressure that broke the declarative form first is the one pressure prior art
+  demonstrates a bounded answer to.
+
+  **What asking correctly now admits, and why it is not taken here.** *Can this vocabulary say `n`
+  rooms like this one?* No. Under the rule as written, unamended, a template or an archetype earns
+  its place — the first admission this corpus has made on grounds of quantity rather than
+  expressiveness.
+
+  Which of the two it should be is the design question and it is not obvious. An archetype is a
+  fixed shape the vocabulary knows by name, checkable and closed, and it only helps for shapes
+  somebody anticipated — Delores has two, for doors and switches, and nothing for hotel rooms. A
+  parameterised template is open and helps everywhere, and it is one short step from a macro, which
+  is the escape hatch wearing a declaration's clothes. [inference] Choosing wants a worked example,
+  which is what the corpus has required of every other addition. `[open]`
+
+  **What this does not touch.** Whether the tractability figures should be re-earned on a game that
+  can be written in this language. They are correct measurements of the games measured, and the
+  games are honest instances of the shapes they claim to be; what they cannot be is evidence that
+  an *author* would ever produce those shapes, and `design/specimen/README.md` has said as much
+  about authoring trials since it was written. Nothing here changes a number. `[open]`
