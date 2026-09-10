@@ -325,7 +325,78 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
     }
 
     dead_writes(game, &mut out);
+    unreachable_values(game, &mut out);
     out
+}
+
+/// A comparison no value the counter can actually hold will ever satisfy.
+///
+/// The declared range is already checked above — `lamp-prep = 7` against `0..3` is refused. What
+/// that check cannot see is that **a counter's range is declared and its steps are not**. A
+/// staged puzzle is written as a run of bindings, each guarded on the value the last one wrote,
+/// and the agreement between the write and the read is maintained by the author and by nothing
+/// else. `puzzle/state-gate` carried the general form of this as the strongest live case for
+/// adding a primitive.
+///
+/// This is the narrower thing the specimens actually want, and it needs no new syntax: the steps
+/// are already implicit in the bindings, and the set of values a counter can hold is its
+/// starting value plus everything any `set` writes. A guard selecting outside that set is text
+/// no player can reach — and the mutation that produces it is the likeliest one, because writing
+/// the wrong next value makes the *report improve*. Changing lighthouse's wick step to write 2
+/// instead of 1 removes every stranding the specimen has and leaves the ending reachable.
+fn unreachable_values(game: &Game, out: &mut Vec<Problem>) {
+    for c in &game.counters {
+        let mut holdable: Vec<i64> = vec![c.lo];
+        for b in &game.bindings {
+            for e in &b.effects {
+                if let Effect::SetCounter(x, n) = e {
+                    if *x == c.name && !holdable.contains(n) {
+                        holdable.push(*n);
+                    }
+                }
+            }
+        }
+        let mut report = |line: usize, cmp: Cmp, v: i64| {
+            if holdable.iter().any(|h| cmp.holds(*h, v)) {
+                return;
+            }
+            let mut seen: Vec<String> = holdable.iter().map(|h| h.to_string()).collect();
+            seen.sort();
+            out.push(Problem {
+                line,
+                message: format!(
+                    "no value `{}` can hold satisfies `{} {} {v}` — it starts at {} and is only ever set to {}, so this is a branch the game cannot reach",
+                    c.name,
+                    c.name,
+                    cmp.spelling(),
+                    c.lo,
+                    seen.join(", ")
+                ),
+            });
+        };
+        for b in &game.bindings {
+            let mut walk = |p: &Pred| {
+                let mut stack = vec![p];
+                while let Some(q) = stack.pop() {
+                    match q {
+                        Pred::Cmp(x, cmp, v) if *x == c.name => report(b.line, *cmp, *v),
+                        Pred::Not(a) => stack.push(a),
+                        Pred::And(a, b) | Pred::Or(a, b) => {
+                            stack.push(a);
+                            stack.push(b);
+                        }
+                        _ => {}
+                    }
+                }
+            };
+            if let Some(w) = &b.when {
+                walk(w);
+            }
+            for g in &b.guards {
+                walk(g);
+            }
+        }
+    }
 }
 
 fn collect_asked(q: &Pred, into: &mut Vec<String>) {
