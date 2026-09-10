@@ -12,7 +12,8 @@ location:
   - kind: url
     value: https://blog.thimbleweedpark.com/
     description: "The blog itself; every post cited below is `<slug>.html` under this host"
-used-by: []
+used-by:
+  - ../corpus/prior-art/thimbleweed-park.yml
 ---
 
 **A source of record, and the closest one this corpus will ever get to its own question.**
