@@ -155,7 +155,29 @@ properties:
     expressiveness**. `authored_by` already records scale as the untested axis — "twenty-three
     bindings is not a test of scale" — and the same pressure appeared one scale down in
     `.yidam/decisions/arrival-trigger.yml`, where four bindings carried one intent and one copy
-    drifted without anything noticing. `[open]`, and now about the right thing.
+    drifted without anything noticing. That was `[open]` for four phases and it is answered below.
+
+    **Measured, and the generation half closes.** A response block's *frame* is every non-space
+    character outside a string literal and its *prose* is what is inside one, and across the four
+    specimens the ratio is roughly two to one in prose's favour: 188 string literals of which **186
+    are different**, and the two that repeat are five words long. [verified] —
+    `crates/game-format/tests/duplication.rs`. Structural repetition is real and pervasive — 91
+    bindings in 29 shapes, 70 of them sharing one — and it is almost all a frame two words wide
+    around a paragraph nobody else wrote. A shape census cannot see that, which is why the count
+    alone settled nothing.
+
+    **Sixteen blocks in 664 lines contain no prose at all. Fifteen are the bare exit.** The
+    sixteenth is this corpus's one conversation opener and it occurs once. `walk-to` is the only
+    verb in the language whose blocks cost more frame than they carry writing; `look-at` is the
+    commonest by nearly double and the most prose-dense of all, so an archetype there would take
+    the frame and leave the work. [verified] The criterion is mechanical, it runs on any candidate,
+    and applied to this language it returns exactly the shape
+    [`exit-archetype`](../../decisions/exit-archetype.yml) had already admitted on a census of two
+    unrelated bodies of authored work.
+
+    So *an archetype per shape does not reach shapes nobody anticipated* assumed the difficulty is
+    enumerating shapes. It is not: the shapes are cheap and the writing is the work.
+    `.yidam/decisions/frame-width.yml`.
 
     **Two more instances since, and the second is this corpus's own.** Eleven of twenty delegation
     sites are one object drawn as several regions; and `crates/reachability/tests/scaling.rs`
