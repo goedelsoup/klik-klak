@@ -36,6 +36,52 @@ description: |
   it may not be a primitive" and then never followed. `effect-list-semantics` followed it, because
   a decision that effects are instantaneous has to say where duration lives, and the answer was a
   class no binding can reach. See `trigger` below.
+  **Assessed against a specimen, and the class does not survive on any ground it was seeded
+  on.** `design/specimen/nightwatch.game` is four rooms written to want a sequence twice, in two
+  shapes, so that the reduction could be argued rather than agreed to.
+
+  *"A response that is long"* is not a claim about the vocabulary. The specimen's picked lock —
+  wire past the wafers, the lock turning over, the lid rising on its own weight — is **one binding
+  with one effect**. Everything that makes it a scene is in the response text, and response text
+  is presentation: [effect-list-semantics](../../decisions/effect-list-semantics.yml) puts it
+  outside the state model. [inference]
+
+  *"Input is locked"* is vacuous under the same decision. An atomic binding never yields control,
+  so there is nothing to lock.
+
+  *`skippable`* is not answered so much as **eliminated**, and that distinction is worth keeping.
+  This property names a real failure — a sequence cut short part-way leaves a configuration the
+  author never wrote — and atomicity means there is no part-way. That is defining the problem
+  away, and it is legitimate only because the design paid for it explicitly, refusing AGS's
+  per-command blocking flag. Under a design that admitted duration, this property would
+  distinguish the class. Under this one it cannot. [inference]
+
+  *`control_return`* reduces to `occupies`: a binding that never took control has none to return,
+  and the room it leaves the player in is a `move`.
+
+  *`plays-in`* reduces: a binding is already sited in a room.
+
+  **What does not reduce is the trigger, and the trigger is not this class's.** The specimen's
+  watchman intercepts the player for *arriving*, and no binding can say that — an `interaction`
+  site is a room and a target plus a verb, and there is no verb for having got somewhere. That is
+  the same missing primitive [walk-to](../verb/walk-to.yml) found for exits two phases ago, and
+  two classes wanting one thing is evidence about the thing rather than about either class.
+  [inference]
+
+  **So the verdict is a collapse into `interaction`, conditional on the arrival trigger
+  existing** — and the class is kept, unwithdrawn, for the reason [give-to](../verb/give-to.yml)
+  was kept: the argument is worth more than the entry, and a deleted node leaves the next author
+  free to propose this from scratch.
+
+  **What the specimen could not reach, which is the honest limit of a reduction argued from one
+  small game.** The watchman crosses the hall, takes the ledger and opens the far door, and *all
+  of that is prose*. Nothing in that game depends on where he is, so it never tested whether a
+  non-player actor's position needs to be state — which is the one thing a real sequence does that
+  nothing in this vocabulary does. `actor -occupies-> room` could carry it and the format has no
+  syntax for moving anyone but the player. And `trigger`'s threshold case is untested here and
+  undocumented in either engine. Neither of those is a property unique to a sequence, which is
+  what makes them limits on the specimen rather than defences of the class. [open]
+
 properties:
   trigger: |
     Entering a room, a flag reaching a value, or the resolution of a binding.
