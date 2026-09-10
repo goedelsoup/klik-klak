@@ -11,6 +11,13 @@ the first move is to try to express the thing with what is already here and reco
 failed — a negative result about expressiveness is the most valuable kind of node this
 corpus holds.
 
+Then read what you wrote. **If expressing it meant writing the same thing more than once,
+ask the question again about the copy.** The vocabulary could say each instance and could
+not say what they have in common, which is the same negative result one level up. A copy is
+the residue a question asked at the wrong level leaves behind, and this rule missed the
+pressure five times before that was noticed — once in this repository's own test suite. See
+`.yidam/decisions/duplication.yml`.
+
 This repository is a living knowledge artifact. Its git history is the knowledge graph:
 files are nodes, commits are knowledge events, links are edges.
 
