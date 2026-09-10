@@ -12,6 +12,18 @@ description: |
   has to keep them in step, and every such pair is a place where taking an object twice, or
   taking one that was already destroyed, becomes representable. Whether real engines do this
   and what it costs them is `[open]` and is the first thing worth extracting from prior art.
+
+  **[open] Every relationship this class declares is about an object arriving, and none is about
+  spending one.** `found-in` says where it is, `carried-form-of` what it was, `acquired-by` which
+  binding took it. Nothing anywhere says an item leaves the inventory. A specimen written in the
+  proposed authoring language needed to say exactly that at four sites — oil poured, wick fitted,
+  match struck — and could not
+  ([design/specimen](../../../design/specimen/README.md)). [inference] This is not a gap in the
+  proposal; the proposal reads its effects off this ontology, and the ontology has no such
+  effect to read.
+
+  It matters more than its size suggests, and
+  [failure-mode/unwinnable-state](../failure-mode/unwinnable-state.yml) is where.
 properties:
   acquisition: |
     A binding whose response removes the object's hotspot from the room and adds the item to

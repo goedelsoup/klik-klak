@@ -40,8 +40,12 @@ scalar() {
   frontmatter "$1" | awk -v k="$2:" '$1==k { $1=""; sub(/^[[:space:]]+/,""); print; exit }'
 }
 
+# Subdirectories included: a specimen lives under design/specimen/ and its findings are a
+# document like any other. Only design/README.md is skipped, because it is the directory's
+# contract rather than a design.
 shopt -s nullglob
-docs=(design/*.md)
+docs=()
+while IFS= read -r f; do docs+=("$f"); done < <(find design -name '*.md' | sort)
 
 if [ ${#docs[@]} -eq 0 ]; then
   echo "design-check: no documents in design/ — nothing to derive."
@@ -102,7 +106,7 @@ for doc in "${docs[@]}"; do
   # ── provenance is not relaxed here ──────────────────────────────────────
   # design/ may assert intent, which the corpus forbids. It may not assert evidence.
   # A document carrying [verified] must cite a catalog entry by link.
-  if grep -q '\[verified\]' "$doc" && ! grep -q '](\.\./\.yidam/catalog/' "$doc"; then
+  if grep -q '\[verified\]' "$doc" && ! grep -q ']([^)]*\.yidam/catalog/' "$doc"; then
     err "$doc carries [verified] and links no catalog entry. design/ may propose; it may not source a claim to nothing."
   fi
 
@@ -112,8 +116,26 @@ for doc in "${docs[@]}"; do
     case "$link" in http*|mailto:*) continue ;; esac
     link=${link%%#*}
     [ -n "$link" ] || continue
-    [ -e "design/$link" ] || err "$doc links $link — which does not resolve."
+    [ -e "$(dirname "$doc")/$link" ] || err "$doc links $link — which does not resolve."
   done < <(grep -oE '\]\([^)]+\)' "$doc" | sed -e 's/^](//' -e 's/)$//')
+done
+
+# ── specimens ───────────────────────────────────────────────────────────────
+# A `.game` file is a worked example authored in a proposed language. The one property it
+# must have before any other question about it means anything is that no binding reaches
+# for a name nothing declares — which is the predicate layer's admission rule, checked.
+#
+# What this deliberately does not do is decide whether the game is winnable. That is
+# `reachability`'s job, it needs the effect vocabulary to be complete, and
+# design/specimen/README.md records that it is not.
+games=(design/*/*.game design/*.game)
+for game in "${games[@]}"; do
+  echo "design-check: $game"
+  out=$(awk -f design/names.awk "$game" "$game")
+  if [ -n "$out" ]; then
+    printf '%s\n' "$out" | while IFS= read -r line; do printf 'ERROR  %s\n' "$line" >&2; done
+    err "$game reaches for names it does not declare (above)."
+  fi
 done
 
 if [ "$fail" -ne 0 ]; then
@@ -122,4 +144,4 @@ if [ "$fail" -ne 0 ]; then
   exit 1
 fi
 
-echo "design-check: $checked document(s), derivation intact."
+echo "design-check: $checked document(s), ${#games[@]} specimen(s), derivation intact."

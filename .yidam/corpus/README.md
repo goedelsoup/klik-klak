@@ -26,19 +26,19 @@ Sorted by: kind, then alphabetically.
 | [non-player-character.yml](actor/non-player-character.yml) | actor | Non-Player Character | 2 | 0v / 2i / 0o | 25 |
 | [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 0v / 1i / 1o | 28 |
 | [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 3 | 2v / 3i / 0o | 61 |
-| [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 3 | 4v / 2i / 1o | 64 |
+| [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 3 | 4v / 2i / 2o | 69 |
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 4 | 0v / 2i / 1o | 35 |
-| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 5v / 4i / 4o | 90 |
+| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 5v / 5i / 4o | 97 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 0v / 2i / 2o | 50 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
-| [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 3 | 0v / 2i / 0o | 36 |
+| [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 3 | 0v / 3i / 1o | 50 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 0v / 2i / 1o | 26 |
 | [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 4i / 2o | 65 |
-| [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 0v / 3i / 0o | 40 |
+| [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 0v / 4i / 1o | 47 |
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 0v / 1i / 1o | 33 |
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 2v / 1i / 2o | 47 |
 | [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 0v / 1i / 1o | 32 |
-| [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 0v / 2i / 1o | 33 |
+| [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 0v / 3i / 2o | 45 |
 | [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 6v / 0i / 2o | 71 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 0v / 6i / 0o | 61 |
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 0v / 4i / 1o | 36 |
@@ -48,7 +48,7 @@ Sorted by: kind, then alphabetically.
 | [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 2i / 0o | 34 |
 | [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 5 | 0v / 3i / 1o | 44 |
 | [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 0v / 1i / 0o | 30 |
-| [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 5v / 1i / 2o | 83 |
+| [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 5v / 2i / 2o | 91 |
 | [look-at.yml](verb/look-at.yml) | verb | Look At | 2 | 5v / 4i / 0o | 69 |
 | [pick-up.yml](verb/pick-up.yml) | verb | Pick Up | 2 | 3v / 6i / 1o | 99 |
 | [talk-to.yml](verb/talk-to.yml) | verb | Talk To | 2 | 3v / 4i / 1o | 69 |

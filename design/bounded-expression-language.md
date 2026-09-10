@@ -21,6 +21,7 @@ derives_effects_from:
   - cutscene:sets
   - cutscene:returns-control-to
   - inventory-item:acquired-by
+  - actor:occupies
 ---
 
 # A bounded expression language for authored interaction
@@ -162,6 +163,13 @@ declared relationship that changes world state, and the corpus declares these:
 | enter an exchange | `opens` → `conversation` | `interaction` |
 | return control | `returns-control-to` → `actor` | `cutscene` |
 | acquire an item | `acquired-by` → `interaction`, read backwards | `inventory-item` |
+| move the player | `occupies` → `room` | `actor` |
+
+The last row was not in this table when it was written. It was added after
+[the specimen](specimen/README.md) needed to move a player between rooms at four sites and found
+the relationship declared since genesis — this table had read `occupies` as a static fact about
+where an actor is rather than as something a binding writes. Five effects, not four, found by
+needing one rather than by re-reading.
 
 This is the part the gate checks, and the reason `design/check.sh` exists in the shape it does:
 a design that names an effect the ontology does not declare is either wrong or has just found a
@@ -184,6 +192,16 @@ as *"two writes — remove the hotspot, add the item — as one change or as non
 whole atomicity argument on there being two. `acquired-by` names the binding that acquires;
 nothing names the removal. As declared, an `interaction` can write a flag and open a
 conversation and cannot take an object out of a room.
+
+**Gap 3 — nothing says an item leaves the inventory.** `inventory-item` declares `found-in`,
+`carried-form-of` and `acquired-by`, and all three are about an object arriving or being. Nothing
+is about spending one. This gap was not found by reading the ontology; it was found by writing a
+game that could not say the oil ran out, at four separate sites. It is the most consequential of
+the four and section 4 says why.
+
+**Gap 4 — nothing says a conversation is left.** `opens` enters one.
+`conversation.ont.yml` describes its class as *"entered as a mode and left deliberately"*, and
+declares the entering.
 
 ### Layer 3 — which turns out not to be a layer
 
@@ -241,6 +259,17 @@ So the case for the middle is not that authors want it. It is:
 Neither engine had a reason to make that argument. SCUMM had no declarative layer to analyse.
 AGS's analysis ended at the first indented line, and the indentation is invisible.
 
+**And the specimen shows this argument is necessary and not sufficient, which is the sharpest
+thing to come out of testing it.** [`lighthouse.game`](specimen/lighthouse.game) carries one
+deliberate, reachable unwinnable state, and its mechanism is consumption — the oil is spent on a
+hinge and the lamp can never be filled. Consumption is Gap 3. So the game contains exactly the
+defect a checker exists to find, the language cannot express the mechanism that produces it, and
+a checker reading that game reports it winnable.
+
+The escape hatch was never the only thing standing between this corpus and a checker. An effect
+vocabulary too small to describe how a game breaks does the same damage, quietly, and no amount
+of grammar repairs it. See [the specimen's findings](specimen/README.md).
+
 This also sharpens what [`reachability`](../.yidam/skills/reachability.md) is waiting for. That
 calculator is blocked on an authored game's state graph, which this repository does not hold —
 but it cannot be *any* authored game. It has to be one written in a language where the question
@@ -260,7 +289,11 @@ counterexample to it.
   point of it or a fatal omission. The one group who ran the experiment concluded an escape was
   needed and wrote so in their own manual. That is a single data point, it is against, and it
   comes from a system that already had somewhere to escape to.
-- **What it costs an author.** Every claim above is about what is checkable. Nobody has written
-  a room in this language, and the argument that a bounded language is analysable says nothing
-  about whether it is bearable.
-- **Nothing here is implemented.** No engine reads this and no test exercises it.
+- **What it costs an author.** Every claim above is about what is checkable, and the argument
+  that a bounded language is analysable says nothing about whether it is bearable. Three rooms
+  have now been written in it, by the same party that proposed it, which is the weakest possible
+  authoring trial and is not evidence of pleasantness.
+- **Whether `count item` earns its place.** The specimen never reached for it, along with `or`,
+  `!=`, `<=`, `>` and grouping. One small game is thin evidence for removing anything.
+- **Nothing here is implemented.** No engine reads this. It is now exercised by one specimen,
+  which is a different thing from being tested by a running program.

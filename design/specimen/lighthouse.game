@@ -1,0 +1,187 @@
+# lighthouse — a specimen for ../bounded-expression-language.md
+#
+# Three rooms, five items, one counter, one conversation. Small enough to check by hand,
+# large enough to have an ordering. Written to find out what the proposed language cannot
+# say, so every place it could not say something is marked `?? UNSAYABLE` and counted in
+# README.md rather than quietly worked around.
+#
+# It is DELIBERATELY WINNABLE-BUT-TRAPPED. One reachable sequence strands the player, and
+# that is the point: a specimen with no defect tests nothing.
+
+# ── declarations ──────────────────────────────────────────────────────────────
+# Every name used below is declared here. The predicate layer's admission rule is that an
+# operand must name something declared, and this block is what "declared" means.
+
+room    quay        "The Quay"
+room    base        "The Lighthouse, Ground Floor"
+room    lamp-room   "The Lamp Room"
+
+actor   keeper      "the lighthouse keeper"
+
+item    crowbar     "a short crowbar"
+item    brass-key   "a small brass key"
+item    oil-can     "a can of lamp oil"
+item    wick        "a length of braided wick"
+item    match       "one dry match"
+
+flag    crate-open  "the crate has been prised open"
+flag    door-open   "the lighthouse door is unlocked"
+
+counter lamp-prep 0..3 "how far the lamp is from lit: 0 bare, 1 wicked, 2 oiled, 3 burning"
+
+# ── the quay ──────────────────────────────────────────────────────────────────
+
+room quay
+  start
+  holds crowbar
+
+  hotspot loose-crowbar "a crowbar left in a coil of rope"
+    look-at:
+      when carrying crowbar   "The rope is just rope now."
+      otherwise               "A short crowbar lies half-buried in a coil of tarred rope."
+
+    pick-up:
+      when  not carrying crowbar
+      say   "You work it free of the rope."
+      do    give crowbar
+      do    remove loose-crowbar    ?? UNSAYABLE — see loose-match
+      else  "You have it."
+
+  hotspot crate "a nailed-shut crate"
+    look-at:
+      when crate-open   "The crate stands open and empty."
+      otherwise         "A crate, nailed shut. Something shifts when you rock it."
+
+    use-with crowbar:
+      when  not crate-open
+      say   "The lid comes away with a squeal of nails. A can of oil sits in the straw."
+      do    set crate-open
+      do    give oil-can
+      else  "It is open already, and empty."
+
+  hotspot door "the iron door"
+    look-at:
+      when carrying brass-key   "Iron, salt-pitted, locked — and you are holding a small key."
+      otherwise                 "Iron, salt-pitted, and locked."
+
+    use-with brass-key:
+      when  not door-open
+      say   "The key turns over stiffly. The door swings inward."
+      do    set door-open
+      else  "It stands open."
+
+    walk-to:
+      when  door-open
+      do    move base
+      else  "Locked, and the salt has taken the hinges."
+
+  actor keeper
+    look-at:
+      "Weathered, patient, and entirely uninterested in the weather."
+
+    talk-to:
+      do    enter keeper-talk
+
+# ── the keeper ────────────────────────────────────────────────────────────────
+
+conversation keeper-talk with keeper
+
+  option lamp "The lamp is out."
+    say   "Aye. Three nights now. I've not the hands for that stair any more."
+    do    give wick
+    do    disable lamp              ?? UNSAYABLE — no relationship writes option state
+
+  option wick-ask "Could I take the wick up myself?"
+    when  chosen lamp and not carrying brass-key
+    say   "If you can get through the door. Key's under the coil of rope."
+    do    give brass-key
+    do    disable wick-ask          ?? UNSAYABLE — same
+
+  option leave "Never mind."
+    say   "Mm."
+    do    leave                     ?? UNSAYABLE — `opens` enters a conversation and
+                                    ?? nothing declares leaving one
+
+# ── the ground floor ──────────────────────────────────────────────────────────
+
+room base
+
+  hotspot hinge "a shutter hanging off one hinge"
+    look-at:
+      "A shutter swings off a single hinge, orange with rust, squealing in the wind."
+
+    use-with oil-can:
+      say   "You work the oil in until it swings sweetly. The can comes away empty."
+      do    take oil-can            ?? UNSAYABLE — nothing declares an item leaving
+                                    ?? THE TRAP. The oil is gone and the lamp cannot be
+                                    ?? filled. Reachable, silent, and unwinnable.
+      else  "It squeals."
+
+  hotspot stair "a spiral stair"
+    look-at:
+      "Iron treads, worn to a shine in the middle, turning up into the dark."
+
+    walk-to:
+      do    move lamp-room
+
+  hotspot door-inner "the iron door, from the inside"
+    look-at:
+      "It stands open on the quay, and the grey water beyond it."
+
+    walk-to:
+      do    move quay
+
+# ── the lamp room ─────────────────────────────────────────────────────────────
+
+room lamp-room
+
+  hotspot stair-head "the head of the stair"
+    look-at:
+      "The treads drop away into the dark below."
+
+    walk-to:
+      do    move base
+
+  hotspot loose-match "a single dry match"
+    look-at:
+      when carrying match   "The shelf is bare."
+      otherwise             "One dry match lies on the shelf, well back from the draught."
+
+    pick-up:
+      when  not carrying match
+      say   "You pocket it, carefully."
+      do    give match
+      do    remove loose-match      ?? UNSAYABLE — `acquired-by` names the binding and
+                                    ?? nothing removes the object from the room
+      else  "You have it."
+
+  hotspot lamp "the great lamp"
+    look-at:
+      when lamp-prep = 3   "The lamp burns steady, and the bay is lit for eleven miles."
+      when lamp-prep = 2   "Wick and oil both. It wants only a flame."
+      when lamp-prep = 1   "A fresh wick, dry as bone."
+      otherwise            "The lamp is bare and dark. No wick, no oil."
+
+    use-with wick:
+      when  lamp-prep = 0
+      say   "You thread the wick and trim it square."
+      do    set lamp-prep 1
+      do    take wick               ?? UNSAYABLE — same as the oil
+      else  "It is wicked already."
+
+    use-with oil-can:
+      when  lamp-prep = 1
+      say   "You fill the reservoir. The wick darkens as it drinks."
+      do    set lamp-prep 2
+      do    take oil-can            ?? UNSAYABLE — same
+      else when lamp-prep = 0    "It would run straight through. It wants a wick first."
+      else when lamp-prep >= 2   "The reservoir is full."
+
+    use-with match:
+      when  lamp-prep = 2
+      say   "The wick catches, gutters, and stands up bright. The bay comes back."
+      do    set lamp-prep 3
+      do    take match              ?? UNSAYABLE — same
+      ending
+      else when lamp-prep < 2    "Nothing to burn. You would waste the match."
+      else                       "It is already lit."

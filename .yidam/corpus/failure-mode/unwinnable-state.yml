@@ -16,6 +16,20 @@ description: |
   are decidable from the authored content alone — no play is required — which is precisely
   what makes this the strongest available argument for the engine tier doing work the
   authoring tier cannot. See the `reachability` stub, and note that it has nothing to read.
+
+  **[open] The first of those two causes cannot be written down in this vocabulary.**
+  Consumption is an object being spent, and no relationship in this corpus says an item leaves
+  the inventory — see
+  [inventory-item/portable-object](../inventory-item/portable-object.yml). A specimen authored
+  in the proposed language was built with a consumption trap in it and could not express the
+  spending, so the trap is invisible to the analysis this node calls decidable
+  ([design/specimen](../../../design/specimen/README.md)). [inference]
+
+  That inverts the paragraph above rather than qualifying it. "Decidable from the authored
+  content alone" is a claim about a vocabulary in which the content can be authored, and half of
+  what this node describes currently cannot be. The consumption case is not the easy half that
+  is "checkable where the binding is written" — it is the half that is unsayable, and the
+  ordering case is the one the vocabulary can express.
 properties:
   mechanism: |
     An author spends a required object, or closes a gate, without a check that the resulting

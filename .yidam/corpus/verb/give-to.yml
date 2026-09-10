@@ -11,6 +11,14 @@ description: |
   of what it declined to keep, and a deleted node leaves the next author free to propose this
   again from scratch.
 
+  **A third line of evidence, from a direction the assessment above did not use.** A specimen
+  authored in this vocabulary — three rooms, twenty-three bindings, an actor who hands the player
+  two objects — never reached for this verb
+  ([design/specimen](../../../design/specimen/README.md)). [inference] The earlier
+  verdict was documentary: the manual says giving is using-an-item-on-someone. This one is not
+  about what a manual says but about what a game wanted, and it wanted `use-with`. Weak on its
+  own — one small game — and it points the same way.
+
   It is superseded by [use-with](../verb/use-with.yml).
 properties:
   arity: binary

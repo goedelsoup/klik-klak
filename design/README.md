@@ -58,6 +58,21 @@ derives_effects_from:
 `status` is required because a reader cannot otherwise tell a live proposal from one the
 corpus has already refuted, and a directory of undated ambition is worth less than nothing.
 
+## Specimens
+
+A `design/*/` subdirectory holds a worked example authored in a proposed language — a
+specimen. It is part of the proposal it exercises rather than a thing beside it, because a
+design nothing exercises cannot be wrong. See
+[`.yidam/decisions/specimen-placement.yml`](../.yidam/decisions/specimen-placement.yml).
+
+A specimen's `.game` file is checked for one property: every name a binding reaches for must
+be declared by the specimen that uses it. That is the predicate layer's own admission rule —
+*an operand names something declared* — applied to a game's declarations instead of the
+corpus's, and it is the strongest property available without an engine to run.
+
+Whether the game is **winnable** is not checked and cannot be. That is `reachability`, and it
+needs the effect vocabulary to be complete.
+
 ## The gate
 
 ```

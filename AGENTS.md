@@ -141,6 +141,11 @@ Do not put a proposal in `.yidam/corpus/`, and do not put a documentary claim in
 The rule is `directories.md`'s: a new top-level directory is fine, and widening the corpus to
 hold something that is not a documentary claim is not.
 
+A **specimen** — a worked example authored in a proposed language — is a design artifact too,
+and lives in `design/specimen/` as part of the proposal it exercises. It is not corpus input and
+no calculator over the corpus should read it. See
+[`.yidam/decisions/specimen-placement.yml`](.yidam/decisions/specimen-placement.yml).
+
 [`design/README.md`](design/README.md) has the front-matter shape and, more usefully, what the
 gate cannot catch.
 
