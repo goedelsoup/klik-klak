@@ -140,13 +140,34 @@ description: |
   the consequence — targetable only when the container is open — was written out by hand at both
   sites.
 
-  That is **containment gating targetability**, not one of the three identity relations above: the
-  ledger is a separate target with its own bindings, and the case being open is a precondition on
-  it rather than a claim that the two are one thing. [inference] So the condition on the identity
-  open is unchanged and a second, narrower relation now has two instances in this corpus's own
-  specimens rather than in somebody else's game — and unlike identity, **it needs no geometry**,
-  which is what made it invisible to a census that was looking for drawn regions.
-  `.yidam/decisions/named-condition.yml`.
+  That is **containment**, not one of the three identity relations above: the ledger is a separate
+  target with its own bindings, and the case being open is a precondition on them rather than a
+  claim that the two are one thing. [inference] It is not targetability either, which is worth
+  saying because the property renamed above is the obvious place to reach for. The ledger is
+  targetable throughout — the point of *"Under glass, and face down"* is that the player reads it
+  — so what containment gates is what the bindings **do**, not whether the region can be clicked.
+
+  **Weighed as a candidate primitive, and refused.** The two-hotspot shape is not an idiom that a
+  relation would tidy: it is what `carried-form-of` makes of a container. The contents must be
+  their own hotspot **because that hotspot vanishes when the item is taken and the container does
+  not**. Fold them into one the way the shipped engine does — *Delores*'s file drawer is a single
+  object and the camera it holds has no room object at all — and this vocabulary expresses it, and
+  the checker immediately draws a line the two-hotspot form does not: *"gives 1 bond where 1 is
+  already carried and 1 is the declared ceiling."* [verified] —
+  `crates/reachability/tests/containment.rs`. The split is load-bearing.
+
+  **What it would have bought is one predicate, and the corpus measured both.** Of the two derived
+  sites, the `look-at` guard has a footprint of exactly zero — remove it and every figure is
+  identical, because a response that writes no state is not a transition. The `pick-up` guard is
+  the one that matters, and removing it lets the player take the bond through a locked cabinet:
+  26 states against 20, and **every stranding gone**. [verified] Undetectable, and the third defect
+  here that presents as good news.
+
+  So the residue is real and small: **one unchecked predicate per instance, and two instances.**
+  Six of the eight `is <item>` hotspots in these specimens are simply lying about with an unguarded
+  `pick-up`; two are inside something, and those two are exactly the two whose names carry `-in-`.
+  [verified] `.yidam/decisions/containment.yml` records what a declaration would have to say and
+  why two instances did not earn it.
 
   **One thing the reading did settle outright: this is checkable.** `quickieToiletTubLit` in
   `Bathroom.wimpy` declares `parent: "quickieToilet"`, and no object of that name exists in that
