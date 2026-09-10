@@ -91,6 +91,17 @@ pub enum Cmp {
 }
 
 impl Cmp {
+    /// How the comparison is written in a `.game` file.
+    pub fn spelling(self) -> &'static str {
+        match self {
+            Cmp::Eq => "=",
+            Cmp::Ne => "!=",
+            Cmp::Lt => "<",
+            Cmp::Le => "<=",
+            Cmp::Gt => ">",
+            Cmp::Ge => ">=",
+        }
+    }
     pub fn holds(self, a: i64, b: i64) -> bool {
         match self {
             Cmp::Eq => a == b,

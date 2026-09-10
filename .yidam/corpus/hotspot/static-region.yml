@@ -126,6 +126,28 @@ description: |
   `crates/reachability/tests/identity.rs` is still the census that says so. The relation is now
   evidenced, and *named*, and the condition on adopting it has not changed. `[open]`
 
+  **And a different hotspot-to-hotspot relation is in the specimens after all — it is not identity,
+  which is why the census above missed it.** A census of every predicate in the four specimens found
+  `case-open` read at four sites and `cabinet-open` at four, and in both games **two of the four are
+  on a different hotspot: the thing inside the container, asking about the container's state.**
+  [verified] — `crates/reachability/tests/conditions.rs`. The container's own two are ordinary — one
+  describes it, one opens it. The other two exist only because what is inside is not reachable until
+  it is open.
+
+  **The relation is written into the identifier, which is as plain as this pressure gets.** Those
+  hotspots are called `ledger-in-case` and `bond-in-cabinet`. [verified] The author could name the
+  containment and could not declare it, so it went in the only place the format would take it, and
+  the consequence — targetable only when the container is open — was written out by hand at both
+  sites.
+
+  That is **containment gating targetability**, not one of the three identity relations above: the
+  ledger is a separate target with its own bindings, and the case being open is a precondition on
+  it rather than a claim that the two are one thing. [inference] So the condition on the identity
+  open is unchanged and a second, narrower relation now has two instances in this corpus's own
+  specimens rather than in somebody else's game — and unlike identity, **it needs no geometry**,
+  which is what made it invisible to a census that was looking for drawn regions.
+  `.yidam/decisions/named-condition.yml`.
+
   **One thing the reading did settle outright: this is checkable.** `quickieToiletTubLit` in
   `Bathroom.wimpy` declares `parent: "quickieToilet"`, and no object of that name exists in that
   room, in any other room, or in any script — the nearest is `quickieToiletTube`, twelve objects

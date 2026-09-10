@@ -11,8 +11,49 @@ description: |
   is written by hand into every precondition that reads it — so a gate depending on three
   flags is stated three times, or more, and nothing checks that the statements agree. That
   duplication is where `unwinnable-state` comes from when it is not caused by a missing
-  refusal. Whether the vocabulary should have a name for the condition itself is `[open]`
-  and is the strongest live case for *adding* a primitive rather than removing one.
+  refusal. Whether the vocabulary should have a name for the condition itself was called here
+  the strongest live case for *adding* a primitive rather than removing one.
+
+  **It was, and the answer is no primitive — because the gate described above does not occur.**
+  Across the four specimens there are **36 predicates and exactly one joins more than one atom**.
+  [verified] — `crates/reachability/tests/conditions.rs`. There is no three-flag gate anywhere to
+  give a name to. A condition over several flags is the thing this node was seeded worrying about
+  and it is not what an author writes.
+
+  **What is restated is a counter's position in a sequence, and it is all on one target.**
+  `lighthouse.game`'s `lamp-prep` is read at **nine sites, every one of them sited on the lamp**
+  — wick, then oil, then the match, each binding guarded on the value the last one wrote.
+  [verified] So the ordering 0→1→2→3 exists only as an agreement between a `set` in one binding's
+  body and a `when` in another's head, and the language relates them not at all: **the range is
+  declared and checked, and the steps are neither.**
+
+  **Three ways to break that agreement were run against the specimen, and the important one made
+  the report better.** [verified]
+
+  | the mistake | what the checker said |
+  |---|---|
+  | write the wrong next value (`set 2` where the next step wants 1) | 98 states, ending reachable, **and all 16 of the specimen's strandings gone** |
+  | require the wrong value (two steps accepting 0) | caught: an `ordering` stranding on the lamp, 16 → 40 |
+  | require a value only you write | caught loudly: the ending is unreachable |
+
+  The middle and the last were already covered. The first was invisible, and it is the likeliest
+  mistake of the three, and the report it produces is *healthier than the specimen's* — which is
+  the same signature the `is`/`give` disagreement had, and the second time this corpus has found a
+  defect that presents as good news.
+
+  **It needed a check and not a primitive, and the check needed no new syntax.** The set of values
+  a counter can hold is its declared floor plus everything any `set` writes, and that is already in
+  the bindings; a comparison no holdable value satisfies is a branch the game cannot reach.
+  `unreachable_values` in `crates/game-format/src/resolve.rs` refuses it, the first mutation now
+  fails at two sites before the search runs, and all four specimens still resolve clean.
+  [verified] — verified to fail by commenting out the call.
+
+  **The general lesson is about the instrument, not the vocabulary.** Reachability could not see
+  this because *it is not a reachability defect* — the mutated game is still winnable and nothing
+  is stranded. What is wrong is that an authored branch is dead, which is a fact about declarations
+  and was checkable where it was written all along. This corpus reached for a third instrument
+  when it had stopped noticing it owned the cheapest one. [inference]
+  `.yidam/decisions/named-condition.yml`.
   **How many of these a game holds open at once turns out to be the number that decides whether
   this project's checker is usable**, and it has a name outside this corpus. Ron Gilbert's Puzzle
   Dependency Chart draws a game's puzzles as a graph of what depends on what, and the count of
@@ -36,6 +77,12 @@ properties:
   gate: |
     Holds progression closed until a condition over several flags holds. The condition has no
     single home in the vocabulary; it is restated at each site that reads it.
+
+    **Measured, the "several flags" half is wrong and the "restated" half is right about
+    something else.** One predicate in thirty-six joins two atoms. What is restated is a
+    counter's position in a staged sequence — nine sites on one hotspot in `lighthouse.game` —
+    and what has no home is not the condition but the *step*: which value follows which.
+    [verified] The condition already has a name, and it is the counter.
   reversibility: |
     Depends on the flags beneath it. A gate over a counter that only increments is
     irreversible; a gate over booleans that some other binding clears is not.

@@ -9,8 +9,8 @@ description: |
   [inference] The case that keeps it is the ordered sequence — a puzzle requiring three
   things in order — where booleans express the state but not the ordering constraint, so
   the author writes the ordering into preconditions by hand and it is only correct by
-  inspection. Whether that is enough to earn a second `domain` value in the vocabulary is
-  `[open]`, and it is a good worked example of what the central question actually feels like
+  inspection. Whether that is enough to earn a second `domain` value in the vocabulary was the
+  question here, and it is a good worked example of what the central question actually feels like
   to answer.
 
   **That open question has the middle as a hidden variable, and this node posed it as though it
@@ -22,6 +22,27 @@ description: |
   [inference] So the answer is conditional — yes given the middle, no without it — and which way
   it falls is decided somewhere other than in this class. See
   [design/bounded-expression-language.md](../../../design/bounded-expression-language.md).
+
+  **It is enough, and the case is stronger than this node made it.** The predicate layer arrived
+  and `lighthouse.game` writes exactly the puzzle described above — wick, then oil, then the match,
+  three things in order over a `counter lamp-prep 0..3`. Measured, it is read at **nine sites,
+  every one on the lamp**, and the ordering lives entirely in the agreement between the value each
+  binding writes and the value the next one requires. [verified] —
+  `crates/reachability/tests/conditions.rs`.
+
+  **This node said the ordering would be "only correct by inspection", and it was right until this
+  phase.** Writing the wrong next value passes every check the corpus had: the game still resolves,
+  the ending is still reachable, and *every stranding disappears*. The report improves. That is now
+  refused at resolve time, because the steps turn out to be derivable — a counter can hold its
+  declared floor and whatever any `set` writes, and a comparison outside that set is a branch
+  nothing can reach (`crates/game-format/src/resolve.rs`). [verified]
+
+  So the second `domain` value earns its place three times over: `counter >= 2` **states** the
+  ordering, the predicate layer makes it **evaluable**, and the write/read pairs make it
+  **checkable without being declared**. The third was not foreseen here and is the one that
+  distinguishes a counter from the booleans this node worried it collapses into: three latched
+  booleans have no successor relation to derive. [inference]
+  `.yidam/decisions/named-condition.yml`.
 properties:
   domain: integer
   scope: global
