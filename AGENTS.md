@@ -231,27 +231,29 @@ declaration there no longer matches anything on disk.
 `mise run graph-lint-explain` prints each check's rationale. Read it before deciding a
 check is wrong.
 
-This repository adds **one gate of its own**, and it arrived with `design/`:
+This repository adds **one gate of its own**, and it is a test:
 
 ```
-mise run design-check     # or: ./design/check.sh
+mise run design-check     # cargo test -p design-gate
 ```
 
 It checks that every design document's declared premises still resolve in the corpus, that
-every effect it names is a relationship the ontology declares, and that a document carrying
-`[verified]` cites a catalog entry. It runs inside `mise run ci` and as its own step in the
-corpus CI job — not behind `mise run ci` there, because mise is not installed in that job and
-a gate that runs only on a contributor's machine goes stale in the way this one exists to
-prevent. It is bash rather than a crate for a reason recorded in
-[`.yidam/decisions/design-directory.yml`](.yidam/decisions/design-directory.yml), along with
-the condition for moving it.
+every effect it names is a relationship the ontology declares, that a document carrying
+`[verified]` cites a catalog entry, and that every `.game` specimen resolves — every operand
+naming something declared, of the right kind. `mise run ci` runs it as part of `cargo test`,
+and so does the `crates` CI job; there is no separate step to forget.
+
+It was a shell script until `crates/` existed, and moved on the condition
+[`.yidam/decisions/design-directory.yml`](.yidam/decisions/design-directory.yml) wrote down.
+[`.yidam/decisions/domain-computer.yml`](.yidam/decisions/domain-computer.yml) records the
+move and what it bought.
 
 The other gate this repository expects to need is a vocabulary-coverage check — verbs no
-interaction exercises, interactions reaching for verbs the vocabulary does not declare — and
-it is not written because the corpus does not yet hold enough interactions for the answer to
-mean anything. When it exists it belongs in `crates/` with a `mise` task, and it should be
-named here beside the command that runs it. The day `crates/Cargo.toml` appears for that is
-also the day `design/check.sh` should move into it.
+interaction exercises, interactions reaching for verbs the vocabulary does not declare. It is
+still unwritten, and now for a sharper reason than "not enough interactions": whether a
+coverage report over a *specimen* and a calculator over *corpus instances* are one computation
+with two inputs is `[open]`. Writing it before that is settled answers the wrong question
+quickly.
 
 ## Validation while you type
 
