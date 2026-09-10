@@ -43,6 +43,17 @@ properties:
     keys and reads like writing on the same line
     ([design/specimen](../../../design/specimen/README.md)). [inference] Whether that survives a
     table with real combinatorics is untested; twenty-three bindings is not a test of scale.
+
+    **A real one has been counted and it is emptier than expected, which cuts the other way.**
+    Delores holds 164 object declarations of which **46 carry no binding at all** and 82 carry
+    exactly one; beside them sit 290 bare props with neither a name nor a behaviour, and 110 of
+    the 203 bindings — 54% — are a single verb, `lookat`
+    ([delores-source](../../catalog/delores-source.md)). [verified] The combinatorial explosion
+    this node was seeded to worry about does not appear in a shipped game: the table is not dense
+    and nobody tried to fill it. What an author actually types, over and over, is a name and one
+    line of description.
+
+    That is 203 bindings rather than 23, and it is still one small game. [inference]
   escape_hatch: |
     This is where one is genuinely expected, and naming it honestly is more useful than
     denying it. [inference] Every prior-art system reached a general-purpose language, and
@@ -93,6 +104,53 @@ properties:
     options, costs writing his own *scripting language* at about a month, and the alternative
     this corpus is testing does not appear. [inference] from silence. Two systems declining to
     hold a layer is not two verdicts on it.
+
+    ---
+
+    **Counted, on a whole shipped game, and the sample was honest.** *Delores* is 203 live
+    bindings across 21 rooms ([delores-source](../../catalog/delores-source.md)). **155 of them —
+    76.4% — contain no loop, no thread, no blocking call and no delegation**, and the 28
+    functions those 155 call between them are `sayLine` and `SAY` and a short tail: `objectState`
+    9, `exitRoomFromDoor` 8, `pickupObject` 7, `inInventory` 4, `removeInventory` 3. [verified]
+    The escapes are the ones the blog's sample named, in the same order: 34 bindings (16.7%)
+    block or take time, **18 (8.9%) call another verb slot on the same object**, 12 start a
+    thread, 7 loop.
+
+    So delegation is not an oddity of two examples. It is one binding in eleven, it is the
+    cheapest thing on the list, and there is still no way to say it here.
+
+    **The duplication finding has an answer in the vocabulary, and it is not a macro.**
+    `door_verbs = YES` and `on_off_verbs = YES` are **named archetypes**: a boolean on an object
+    from which the engine synthesises a whole set of preconditions and responses — for a door, a
+    `state`-gated open, close and go-through; for a switch, a turn-on, a turn-off, and a rule for
+    which the object offers by default. [verified] That is *a name for a shape*, which is what
+    the escape hatch was being used for, moved into the declaration.
+
+    **And the split it forced is the useful part.** Those archetypes are why that vocabulary has
+    `okverb_<verb>` — a precondition declared apart from its response, this design's `when`. Every
+    use in the game is engine-supplied inside an archetype; **every precondition the game's
+    authors wrote by hand is an `if` inside a response.** [verified] A separated precondition is
+    what you need when the vocabulary *generates* bindings, not when a person writes one.
+    [inference] The person reaches for `if`, because the refusal and the response are one thought.
+
+    **The most valuable open question splits in two, and one half is answered.** Yack — the same
+    authors' conversation language, in the same repository — has a guard layer of 79 real
+    expressions and **not one of them escapes**, while 46 brace blocks carry effects and escape
+    freely ([dialogue-script](../data-format/dialogue-script.yml)). [verified] The boundary a
+    shipped bounded language actually found is not between hard responses and easy ones. It is
+    between **asking and doing**: the predicate layer held, the effect layer did not.
+
+    That is what this node should have been asking. The question that survives is whether the
+    *effect* half can be bounded too, and it is narrower, harder, and untried by anybody.
+    `[open]`
+
+    **One construct worth taking whole.** `ONCE(...)` wraps a line and expands to
+    `_once(__LOC__, ...)` — once-only keyed by the **source location** of the line itself.
+    [verified] 22 uses in the bindings and 47 more in the conversations. It is the primitive AGS
+    carried as a flag on an action and that this corpus derived for acquisition sources, and its
+    form here costs the author nothing: no flag to name, no state to declare, no way to get the
+    bookkeeping wrong. Whether a checker can see through it is a different question and this
+    corpus would need to answer it. [inference]
 
     **One system ran an experiment adjacent to this, and its result was misread here for two
     phases.** Adventure Game Studio built a bounded sub-language at exactly this scope — eight
