@@ -81,6 +81,15 @@ description: |
   larger than any published adventure and cheaper to check than the lighthouse. [verified] —
   `crates/reachability/tests/scaling.rs`.
 
+  **Those games are generated, and what that costs is now known to be more than realism.** They are
+  written by three Rust `for` loops because a corridor of sixty-four rooms cannot be written by hand
+  in the language being measured. [verified] Every figure above is a correct measurement of an
+  honest instance of the shape it claims to be, and none of them is evidence that an author would
+  ever produce that shape, because no author could produce it here at all. See
+  `.yidam/decisions/duplication.yml`. What this node rests on is the *shape* of a real game's
+  puzzle dependencies, and that comes from Gilbert rather than from the generator; what the
+  generator supplies is the cost of the shape once you have it.
+
   So the reachable set is **linear in the number of puzzles and exponential in the width of the
   dependency chart**, and design practice bounds the width at 2–5. That restores this corpus's
   tractability claim on a footing it did not have before: not as a property of the language, and

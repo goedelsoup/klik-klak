@@ -570,11 +570,18 @@ or that anybody would enjoy writing in it.
   shipped game's delegation sites into this language works — six of seven shapes go in as written
   — and every one of them arrives as a copy: the same binding on two hotspots, the same line on
   three, the same acquisition under two guards. The copies drift silently, because a reachability
-  checker asks what is reachable and a redundant route going bad does not change that. Duplication
-  is now the fourth pressure this corpus has found driving a shipped game's authors out of a
-  declarative form, and the rule this repository judges primitives by — *earn a place by being what
-  the vocabulary cannot say* — cannot see it, because a pressure that shows up as quantity of
-  authored text is invisible to a test of what can be expressed. `[open]`
+  checker asks what is reachable and a redundant route going bad does not change that.
+
+  **And the largest authoring trial this design has had is one it failed.** The generated families
+  in `crates/reachability/tests/scaling.rs` are 6,315 lines of this language against 664 written by
+  hand, and they are generated because a corridor of sixty-four rooms cannot be written by hand.
+  Every one of those rooms is sayable here; *sixty-four rooms like this one* is not. So the
+  question section 5 asks — what this costs an author — has an answer for the first time, and the
+  answer is that at scale it costs a `for` loop in some other language.
+  `.yidam/decisions/duplication.yml` settles what that means for the rule and separates the two
+  pressures hiding under the word: **generation**, which wants a way to make declarations, and
+  **identity**, which wants a way not to repeat them. What neither has yet is a worked example, and
+  this document should not name a primitive before one exists. `[open]`
 - ~~Whether `count item` earns its place.~~ **Settled.** A second specimen written as a tally
   reduced first to distinct items, which costs a declaration and a conjunction term per unit
   and cannot express "any k of n" at all. See

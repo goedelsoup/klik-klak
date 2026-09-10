@@ -101,7 +101,12 @@ rationale: |
 
   **Duplication is now on its fourth appearance and has never been acted on**, because each
   individual instance was sayable and the corpus's rule turns on unsayability. Four instances
-  across three different layers of one game is no longer a series of coincidences, and the rule as
-  written cannot see it: a pressure that shows up as *quantity* of authored text is invisible to a
-  test of what can be expressed. Whether the rule needs a second clause is the question this phase
-  hands on. `[open]`
+  across three different layers of one game is no longer a series of coincidences.
+
+  **Closed, and the rule needed a question rather than a clause** ([duplication](duplication.yml)).
+  It was being asked of the instance and never of the generalisation: the vocabulary could say each
+  of the 110 hotel rooms and could not say *110 rooms like this one*, and that is the same negative
+  result one level up. The tell is what this record itself supplies — a rejection asked at the right
+  level leaves nothing written twice, and every one of the six shapes above arrives as a copy.
+  `AGENTS.md` now carries the second question. The fifth instance turned out to be in this
+  repository's own test suite.
