@@ -43,8 +43,8 @@ Sorted by: kind, then alphabetically.
 | [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 2v / 1i / 0o | 45 |
 | [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 7v / 4i / 0o | 117 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
-| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 14v / 3i / 2o | 135 |
-| [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 0v / 6i / 0o | 61 |
+| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 16v / 4i / 1o | 150 |
+| [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 1v / 7i / 0o | 72 |
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 0v / 4i / 1o | 36 |
 | [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 10 | 23v / 10i / 1o | 285 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
@@ -53,10 +53,10 @@ Sorted by: kind, then alphabetically.
 | [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 2i / 0o | 34 |
 | [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 5 | 1v / 3i / 0o | 54 |
 | [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 0v / 1i / 0o | 30 |
-| [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 6v / 4i / 2o | 103 |
+| [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 7v / 5i / 0o | 118 |
 | [look-at.yml](verb/look-at.yml) | verb | Look At | 2 | 5v / 5i / 0o | 81 |
 | [pick-up.yml](verb/pick-up.yml) | verb | Pick Up | 2 | 3v / 6i / 1o | 99 |
-| [talk-to.yml](verb/talk-to.yml) | verb | Talk To | 2 | 3v / 4i / 1o | 69 |
+| [talk-to.yml](verb/talk-to.yml) | verb | Talk To | 2 | 4v / 5i / 0o | 82 |
 | [use-with.yml](verb/use-with.yml) | verb | Use With | 2 | 6v / 5i / 0o | 78 |
 | [walk-to.yml](verb/walk-to.yml) | verb | Walk To | 3 | 21v / 10i / 0o | 288 |
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 5v / 3i / 0o | 72 |
