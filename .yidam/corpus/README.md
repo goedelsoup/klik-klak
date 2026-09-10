@@ -33,7 +33,7 @@ Sorted by: kind, then alphabetically.
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 3v / 2i / 2o | 76 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 3v / 5i / 0o | 87 |
-| [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 3v / 4i / 2o | 64 |
+| [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 6v / 6i / 1o | 93 |
 | [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 5i / 1o | 72 |
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 2v / 6i / 1o | 69 |
 | [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 0v / 4i / 0o | 62 |
