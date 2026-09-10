@@ -21,18 +21,21 @@
 use game_format::{Binding, Effect, Game, Pred, Site};
 use std::collections::{BTreeMap, HashMap, HashSet, VecDeque};
 
-#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
-pub enum Held {
-    Unclaimed,
-    Carried,
-    Spent,
-}
-
 #[derive(Clone, PartialEq, Eq, Hash, Debug)]
 pub struct State {
     pub room: usize,
     pub mode: Option<usize>,
-    pub items: Vec<Held>,
+    /// how many of each item is carried — items bear a quantity, which is what makes
+    /// `count` a question worth asking and `carrying` sugar for `count >= 1`
+    pub items: Vec<i64>,
+    /// per acquisition site, whether its object has been taken.
+    ///
+    /// `inventory-item -carried-form-of-> hotspot` says the hotspot is what the object *is*
+    /// when it is not carried, so taking it is the room losing it — the corpus settled that
+    /// in `effect-vocabulary` and this is where it stops being an argument. Without it an
+    /// acquisition site would hand out an unbounded supply and the state space would not
+    /// close.
+    pub taken: Vec<bool>,
     pub flags: Vec<bool>,
     pub counters: Vec<i64>,
     pub chosen: Vec<bool>,
@@ -70,6 +73,22 @@ pub struct Report {
     pub latch_violations: Vec<String>,
     /// per counter, whether it only ever rises across a reachable transition
     pub monotone_counters: Vec<(String, bool)>,
+    /// Where a game handed out more of an item than it declared room for.
+    ///
+    /// Found by a mutation test: clearing a latch that guarded an acquisition source made
+    /// that source unbounded, the item count rose forever, and the search did not stop. The
+    /// declared ceiling closes the space; this reports where the game pressed against it,
+    /// because a clamp that says nothing is a wrong answer given confidently.
+    pub overflows: Vec<String>,
+    /// How many combinations exist of the values these variables were *observed* to take.
+    ///
+    /// `world-flag/latched-flag` argues that flags moving one way make the reachable space a
+    /// lattice rather than a graph. This is the measurable form of that: the gap between
+    /// this number and [`Report::states`] is how much structure the game has. It is an
+    /// observed bound rather than a declared one — an item's quantity has no declared
+    /// ceiling — so it says how far the reachable set collapses the space actually used, and
+    /// not how far it collapses every space the declarations permit.
+    pub observed_space: u128,
 }
 
 struct Index<'a> {
@@ -80,6 +99,9 @@ struct Index<'a> {
     counters: Vec<String>,
     options: Vec<String>,
     convs: Vec<String>,
+    caps: Vec<i64>,
+    /// hotspots that stand for an item, in declaration order
+    takeable: Vec<String>,
     at: BTreeMap<String, usize>,
 }
 
@@ -113,6 +135,12 @@ impl<'a> Index<'a> {
         }
         Index {
             game,
+            caps: game
+                .items
+                .iter()
+                .map(|i| game.item_cap.get(i).copied().unwrap_or(1))
+                .collect(),
+            takeable: game.carried_form.keys().cloned().collect(),
             rooms: game.rooms.clone(),
             items: game.items.clone(),
             flags: game.flags.iter().map(|f| f.name.clone()).collect(),
@@ -132,7 +160,8 @@ impl<'a> Index<'a> {
                 .map(|r| self.at[r])
                 .unwrap_or(0),
             mode: None,
-            items: vec![Held::Unclaimed; self.items.len()],
+            items: vec![0; self.items.len()],
+            taken: vec![false; self.takeable.len()],
             flags: vec![false; self.flags.len()],
             counters: self.game.counters.iter().map(|c| c.lo).collect(),
             chosen: vec![false; self.options.len()],
@@ -143,28 +172,24 @@ impl<'a> Index<'a> {
     fn describe(&self, s: &State) -> String {
         let mut parts = Vec::new();
         parts.push(format!("in {}", self.rooms[s.room]));
-        let carried: Vec<&str> = self
+        let carried: Vec<String> = self
             .items
             .iter()
             .enumerate()
-            .filter(|(i, _)| s.items[*i] == Held::Carried)
-            .map(|(_, n)| n.as_str())
-            .collect();
-        let spent: Vec<&str> = self
-            .items
-            .iter()
-            .enumerate()
-            .filter(|(i, _)| s.items[*i] == Held::Spent)
-            .map(|(_, n)| n.as_str())
+            .filter(|(i, _)| s.items[*i] > 0)
+            .map(|(i, n)| {
+                if s.items[i] == 1 {
+                    n.clone()
+                } else {
+                    format!("{n}×{}", s.items[i])
+                }
+            })
             .collect();
         parts.push(if carried.is_empty() {
             "carrying nothing".to_string()
         } else {
             format!("carrying {}", carried.join(", "))
         });
-        if !spent.is_empty() {
-            parts.push(format!("spent {}", spent.join(", ")));
-        }
         for (i, c) in self.counters.iter().enumerate() {
             parts.push(format!("{c}={}", s.counters[i]));
         }
@@ -174,7 +199,8 @@ impl<'a> Index<'a> {
     fn holds(&self, q: &Pred, s: &State) -> bool {
         match q {
             Pred::Flag(x) => s.flags[slot(&self.flags, x)],
-            Pred::Carrying(x) => s.items[slot(&self.items, x)] == Held::Carried,
+            Pred::Carrying(x) => s.items[slot(&self.items, x)] >= 1,
+            Pred::Count(x, c, v) => c.holds(s.items[slot(&self.items, x)], *v),
             Pred::Chosen(x) => s.chosen[slot(&self.options, x)],
             Pred::Cmp(x, c, v) => c.holds(s.counters[slot(&self.counters, x)], *v),
             Pred::Not(a) => !self.holds(a, s),
@@ -193,19 +219,61 @@ impl<'a> Index<'a> {
                     return false;
                 }
             }
-            (Site::InRoom { room, .. }, None) => {
+            (Site::InRoom { room, target }, None) => {
                 if self.at[room] != s.room {
                     return false;
+                }
+                // an acquisition site whose object has been taken is not there any more
+                if let Some(i) = self.takeable.iter().position(|t| t == target) {
+                    if s.taken[i] {
+                        return false;
+                    }
                 }
             }
             _ => return false,
         }
         if let Some(o) = &b.object {
-            if s.items[slot(&self.items, o)] != Held::Carried {
+            if s.items[slot(&self.items, o)] < 1 {
                 return false;
             }
         }
         b.when.as_ref().map(|q| self.holds(q, s)).unwrap_or(true)
+    }
+
+    /// The same transition with its spends left out. Used to ask whether the spending is
+    /// what stranded a state, rather than guessing from which effects the binding carries.
+    fn apply_without_spending(&self, b: &Binding, s: &State) -> State {
+        let mut n = self.apply(b, s);
+        for e in &b.effects {
+            if let Effect::Spend(x, _) = e {
+                n.items[slot(&self.items, x)] = s.items[slot(&self.items, x)];
+            }
+        }
+        n
+    }
+
+    /// Can an ending still be reached from here? A forward search from an arbitrary state,
+    /// which is what makes the counterfactual above answerable: `winning` is defined only
+    /// over states a player can actually get to, and a counterfactual state is one they
+    /// cannot.
+    fn can_finish(&self, acting: &[&Binding], from: &State) -> bool {
+        let mut seen: HashSet<State> = HashSet::from([from.clone()]);
+        let mut q: VecDeque<State> = VecDeque::from([from.clone()]);
+        while let Some(cur) = q.pop_front() {
+            for b in acting {
+                if !self.offered(b, &cur) {
+                    continue;
+                }
+                if b.ending {
+                    return true;
+                }
+                let next = self.apply(b, &cur);
+                if seen.insert(next.clone()) {
+                    q.push_back(next);
+                }
+            }
+        }
+        false
     }
 
     fn apply(&self, b: &Binding, s: &State) -> State {
@@ -218,11 +286,29 @@ impl<'a> Index<'a> {
                 Effect::SetFlag(x) => n.flags[slot(&self.flags, x)] = true,
                 Effect::ClearFlag(x) => n.flags[slot(&self.flags, x)] = false,
                 Effect::SetCounter(x, v) => n.counters[slot(&self.counters, x)] = *v,
-                Effect::Give(x) => n.items[slot(&self.items, x)] = Held::Carried,
-                Effect::Spend(x) => n.items[slot(&self.items, x)] = Held::Spent,
+                Effect::Give(x, q) => {
+                    let i = slot(&self.items, x);
+                    n.items[i] = (n.items[i] + q).min(self.caps[i]);
+                }
+                Effect::Spend(x, q) => {
+                    let i = slot(&self.items, x);
+                    n.items[i] = (n.items[i] - q).max(0);
+                }
                 Effect::Move(x) => n.room = self.at[x],
                 Effect::Enter(x) => n.mode = Some(slot(&self.convs, x)),
                 Effect::Leave => n.mode = None,
+            }
+        }
+        // taking the object is the room losing it
+        if let Site::InRoom { target, .. } = &b.site {
+            if let Some(i) = self.takeable.iter().position(|t| t == target) {
+                let stands_for = &self.game.carried_form[target];
+                if b.effects
+                    .iter()
+                    .any(|e| matches!(e, Effect::Give(x, _) if x == stands_for))
+                {
+                    n.taken[i] = true;
+                }
             }
         }
         n
@@ -231,12 +317,21 @@ impl<'a> Index<'a> {
 
 pub fn analyse(game: &Game) -> Report {
     let ix = Index::new(game);
-    // effect-free bindings are responses: they say something and change nothing, so they
+    // Effect-free bindings are responses: they say something and change nothing, so they
     // cannot move the search and are left out of it.
+    //
+    // `b.ending` is the exception and was missing until a second specimen found it. A
+    // binding that ends the game need write nothing — "you open the gate and walk out" is a
+    // complete ending — and filtering it left the search with no goal at all, so the whole
+    // game reported as unreachable. The first specimen hid this: its ending also set a
+    // counter and spent an item, so it survived the filter for reasons that had nothing to
+    // do with being an ending.
     let acting: Vec<&Binding> = game
         .bindings
         .iter()
-        .filter(|b| !b.effects.is_empty() || matches!(b.site, Site::InConversation { .. }))
+        .filter(|b| {
+            !b.effects.is_empty() || b.ending || matches!(b.site, Site::InConversation { .. })
+        })
         .collect();
 
     let mut id: HashMap<State, usize> = HashMap::new();
@@ -296,10 +391,12 @@ pub fn analyse(game: &Game) -> Report {
     // a stranding is an edge stepping out of the winning set
     let mut per_binding: BTreeMap<usize, usize> = BTreeMap::new();
     let mut example_of: BTreeMap<usize, usize> = BTreeMap::new();
+    let mut example_from: BTreeMap<usize, usize> = BTreeMap::new();
     for (from, to, bi) in &edges {
         if winning.contains(from) && !winning.contains(to) {
             *per_binding.entry(*bi).or_insert(0) += 1;
             example_of.entry(*bi).or_insert(*to);
+            example_from.entry(*bi).or_insert(*from);
         }
     }
     let mut strandings: Vec<Stranding> = per_binding
@@ -310,19 +407,28 @@ pub fn analyse(game: &Game) -> Report {
                 .effects
                 .iter()
                 .filter_map(|e| match e {
-                    Effect::Spend(x) => Some(x.as_str()),
+                    Effect::Spend(x, _) => Some(x.as_str()),
                     _ => None,
                 })
                 .collect();
-            let (cause, detail) = if spent.is_empty() {
-                (
-                    Cause::Ordering,
-                    "a gate closed with something still needed behind it".to_string(),
-                )
-            } else {
+            // Which cause, asked as a counterfactual rather than read off the effect list.
+            // A binding that both spends and moves carries both kinds of effect, and reading
+            // the cause off the list picks one by fiat — the ferry specimen's toll spends
+            // three coins AND crosses a river, and the coins are not why the player is
+            // stranded. So take the spending away: if that rescues the state, the spending
+            // was the cause; if it is still stranded, something else was.
+            let source = &states[example_from[&bi]];
+            let rescued =
+                !spent.is_empty() && ix.can_finish(&acting, &ix.apply_without_spending(b, source));
+            let (cause, detail) = if rescued {
                 (
                     Cause::Consumption,
                     format!("spends {}, which is needed later", spent.join(", ")),
+                )
+            } else {
+                (
+                    Cause::Ordering,
+                    "a gate closed with something still needed behind it".to_string(),
                 )
             };
             let target = match &b.site {
@@ -370,6 +476,55 @@ pub fn analyse(game: &Game) -> Report {
     latch_violations.sort();
     latch_violations.dedup();
 
+    // the product of the ranges each variable was observed to take
+    let mut observed: u128 = 1;
+    let mut span = |vals: Vec<i64>| {
+        let lo = vals.iter().copied().min().unwrap_or(0);
+        let hi = vals.iter().copied().max().unwrap_or(0);
+        observed = observed.saturating_mul((hi - lo + 1).max(1) as u128);
+    };
+    span(states.iter().map(|s| s.room as i64).collect());
+    span(
+        states
+            .iter()
+            .map(|s| s.mode.map(|m| m as i64 + 1).unwrap_or(0))
+            .collect(),
+    );
+    for i in 0..ix.items.len() {
+        span(states.iter().map(|s| s.items[i]).collect());
+    }
+    for i in 0..ix.flags.len() {
+        span(states.iter().map(|s| s.flags[i] as i64).collect());
+    }
+    for i in 0..ix.counters.len() {
+        span(states.iter().map(|s| s.counters[i]).collect());
+    }
+    for i in 0..ix.options.len() {
+        span(states.iter().map(|s| s.chosen[i] as i64).collect());
+    }
+    for i in 0..ix.takeable.len() {
+        span(states.iter().map(|s| s.taken[i] as i64).collect());
+    }
+
+    // where the game handed out more than it declared room for
+    let mut overflows: Vec<String> = Vec::new();
+    for (from, _, bi) in &edges {
+        let b = acting[*bi];
+        for e in &b.effects {
+            if let Effect::Give(x, q) = e {
+                let i = slot(&ix.items, x);
+                if states[*from].items[i] + q > ix.caps[i] {
+                    overflows.push(format!(
+                        "line {}: gives {q} {x} where {} is already carried and {} is the declared ceiling",
+                        b.line, states[*from].items[i], ix.caps[i]
+                    ));
+                }
+            }
+        }
+    }
+    overflows.sort();
+    overflows.dedup();
+
     let mut monotone_counters = Vec::new();
     for (ci, c) in game.counters.iter().enumerate() {
         let rises_only = edges
@@ -386,6 +541,8 @@ pub fn analyse(game: &Game) -> Report {
         strandings,
         latch_violations,
         monotone_counters,
+        overflows,
+        observed_space: observed,
     }
 }
 
@@ -396,6 +553,13 @@ impl Report {
             "{} reachable state(s), {} transition(s).\n",
             self.states, self.transitions
         ));
+        if self.observed_space > 0 {
+            let pct = self.states as f64 * 100.0 / self.observed_space as f64;
+            s.push_str(&format!(
+                "{} of {} combinations of the values these variables take ({:.3}%).\n",
+                self.states, self.observed_space, pct
+            ));
+        }
         s.push_str(if self.winnable {
             "The ending is reachable.\n"
         } else {
@@ -422,6 +586,12 @@ impl Report {
                     "  line {:>4}  {}{} on {}  [{}]\n            {} — {} state(s)\n            e.g. {}\n",
                     st.line, st.verb, obj, st.target, cause, st.detail, st.states, st.example
                 ));
+            }
+        }
+        if !self.overflows.is_empty() {
+            s.push_str("\nMore of an item given than the declaration has room for:\n");
+            for v in &self.overflows {
+                s.push_str(&format!("  {v}\n"));
             }
         }
         if !self.latch_violations.is_empty() {

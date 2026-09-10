@@ -193,6 +193,15 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
             "item" => {
                 p.declare(t[1], Kind::Item, no);
                 p.game.items.push(t[1].to_string());
+                // `item coin 0..9` is `quantity: many`; a bare `item crowbar` is one.
+                let cap = match t.get(2).and_then(|r| r.split_once("..")) {
+                    Some((_, hi)) => hi.parse().unwrap_or(1),
+                    None => 1,
+                };
+                if cap < 1 {
+                    p.err(no, "an item that cannot be carried at all is not an item");
+                }
+                p.game.item_cap.insert(t[1].to_string(), cap.max(1));
             }
             "flag" => {
                 let latched = t.contains(&"latched");
@@ -335,8 +344,16 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
 fn effect(t: &[&str], game: &Game) -> Result<Effect, String> {
     match t {
         ["leave"] => Ok(Effect::Leave),
-        ["give", x] => Ok(Effect::Give(x.to_string())),
-        ["spend", x] => Ok(Effect::Spend(x.to_string())),
+        ["give", x] => Ok(Effect::Give(x.to_string(), 1)),
+        ["spend", x] => Ok(Effect::Spend(x.to_string(), 1)),
+        ["give", x, n] => n
+            .parse()
+            .map(|v| Effect::Give(x.to_string(), v))
+            .map_err(|_| format!("`{n}` is not a number")),
+        ["spend", x, n] => n
+            .parse()
+            .map(|v| Effect::Spend(x.to_string(), v))
+            .map_err(|_| format!("`{n}` is not a number")),
         ["move", x] => Ok(Effect::Move(x.to_string())),
         ["enter", x] => Ok(Effect::Enter(x.to_string())),
         ["clear", x] => Ok(Effect::ClearFlag(x.to_string())),
@@ -428,6 +445,19 @@ fn atom<'a>(t: &'a [&'a str]) -> Result<(Pred, &'a [&'a str]), String> {
             Some(x) => Ok((Pred::Chosen(x.to_string()), &t[2..])),
             None => Err("`chosen` needs an option".into()),
         },
+        Some(&"count") => {
+            let name = t.get(1).ok_or("`count` needs an item")?;
+            let c = t
+                .get(2)
+                .and_then(|x| cmp_of(x))
+                .ok_or("`count <item>` must be compared, as `count coin >= 3`")?;
+            let v: i64 = t
+                .get(3)
+                .ok_or("a comparison needs a value")?
+                .parse()
+                .map_err(|_| format!("`{}` is not a number", t[3]))?;
+            Ok((Pred::Count(name.to_string(), c, v), &t[4..]))
+        }
         Some(name) => {
             if let Some(c) = t.get(1).and_then(|s| cmp_of(s)) {
                 let v: i64 = t

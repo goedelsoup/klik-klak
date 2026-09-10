@@ -1,0 +1,121 @@
+# ferry — a second specimen, for one question: does `count item` earn its place?
+#
+# `../bounded-expression-language.md` admitted `count item` to answer "count an inventory",
+# one of the three cases the open question named as forcing an escape hatch. The lighthouse
+# never reached for it. This game is a tally on purpose.
+#
+# It was written FIRST with what the format supported at the time — three separately
+# declared coins with identical labels, a three-term conjunction to test the toll, and an
+# arbitrary choice of WHICH coin is handed over. That version was measured and then rewritten
+# in place rather than committed, so it is not in the history; README.md records what it cost,
+# which is the part worth keeping. This is the same game once items bear a quantity.
+#
+# Its committed defect is ORDERING, where the lighthouse's is consumption. Two specimens,
+# the two causes `failure-mode/unwinnable-state` names, one each.
+
+# ── declarations ──────────────────────────────────────────────────────────────
+
+room    bank    "The Near Bank"
+room    hut     "The Ferryman's Hut"
+room    far     "The Far Bank"
+
+actor   ferryman "the ferryman"
+
+# One declaration, and a quantity. `inventory-item.quantity` is what makes `count` a
+# question worth asking: without it every coin is a separate name and "three coins" is a
+# conjunction that grows with the tally.
+#
+# The `0..4` is not decoration. Quantity is the one thing in this language that can make the
+# state space INFINITE — loops and recursion were excluded so that evaluation terminates,
+# and this is analysis terminating, which is a different property. An unbounded supply
+# breaks it. The ceiling restores it by declaration, the way a counter's range already did.
+item    coin  0..4 "a copper coin"
+item    lantern "a tin lantern"
+
+flag    jar-emptied latched "the jar has been turned out"
+flag    paid        latched "the ferryman has had his three coins"
+
+# ── the near bank ─────────────────────────────────────────────────────────────
+
+room bank
+  start
+  holds coin
+
+  hotspot loose-coin "a coin, half under a flat stone"
+    is coin
+    look-at:
+      "Something catches the light where a flat stone has shifted."
+
+    pick-up:
+      say   "A copper coin, green at the edges."
+      do    give coin
+
+  hotspot path "a path up to the hut"
+    look-at:
+      "A trodden path climbs the bank to a hut with one window."
+
+    walk-to:
+      do    move hut
+
+  actor ferryman
+    look-at:
+      when paid   "He is already unmooring."
+      otherwise   "He sits with the pole across his knees and does not look up."
+
+    use-with coin:
+      when  count coin >= 3
+      say   "He counts three of them twice, pockets them, and nods at the boat."
+      do    spend coin 3
+      do    set paid
+      do    move far
+      else  "\"Three,\" he says, without looking up."
+
+# ── the hut ───────────────────────────────────────────────────────────────────
+
+room hut
+
+  hotspot jar "a cracked jar on the sill"
+    look-at:
+      when jar-emptied   "Empty, and cracked from lip to foot."
+      otherwise          "A cracked jar. Something chinks in the bottom of it."
+
+    pick-up:
+      when  not jar-emptied
+      say   "Three more coins, and a good deal of dust."
+      do    give coin 3
+      do    set jar-emptied
+      else  "There is nothing left in it.""
+
+  hotspot lantern-hook "a tin lantern on a hook"
+    is lantern
+    look-at:
+      "A tin lantern, lit, hanging where the draught cannot reach it."
+
+    pick-up:
+      say   "You lift it off the hook. It is warm."
+      do    give lantern
+
+  hotspot door "the hut door"
+    look-at:
+      "Open onto the path, and the grey water below it."
+
+    walk-to:
+      do    move bank
+
+# ── the far bank ──────────────────────────────────────────────────────────────
+#
+# THE TRAP. The boat does not come back. Cross without the lantern and the gate can never
+# be opened — `unwinnable-state` by ordering: a gate closed with something still needed
+# behind it. Reachable, silent, and the game goes on answering normally.
+
+room far
+
+  hotspot gate "a barred gate"
+    look-at:
+      when carrying lantern   "Barred, and the bar is on this side."
+      otherwise               "Barred. Too dark to see how."
+
+    use-with lantern:
+      say   "By lantern-light the bar lifts clear, and the road beyond it is dry."
+      ending
+      else  "You can feel the bar but not the catch."
