@@ -61,7 +61,20 @@ properties:
     What this does not settle: SCUMM shipped celebrated branching conversations with no engine
     primitive at all, which proves the structure is *authorable* without engine support. Whether
     it should be supported is a question about cost to authors, and this corpus has no evidence
-    about that from either system. `[open]`
+    about that from either system.
+
+    **A third system does carry that evidence, and it lands on the engine side.** Dinky ships Yack
+    — a separate language, separate files, its own grammar — for exactly this structure, and its
+    guard layer is 79 expressions that escape zero times
+    ([dialogue-script](../data-format/dialogue-script.yml)). [verified] So of the three systems
+    this corpus can read, two built a conversation primitive and one did not, and the one that did
+    not is the one whose authoring documentation was never released — which means the cost-to-
+    authors question has evidence on one side only and cannot be settled from these sources.
+    [inference]
+
+    That is a tier answer rather than a verdict: the engine tier is now two-to-one for supporting
+    it, and the authoring tier is untouched, because a structure being authorable without support
+    says nothing about what it costs to author that way. `.yidam/decisions/tier-split.yml`.
 links:
   - target: ../prior-art/scumm.yml
     relationship: originated-in
