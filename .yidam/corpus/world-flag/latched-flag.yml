@@ -22,10 +22,21 @@ description: |
   against `graph-topology` for exactly that search, and a corpus whose flags mostly latch and
   never say so is one where the cheap computation is available and invisible.
 
-  [open] How many flags in a real game latch is not known here. The guess worth testing is
-  *most* — a bridge burned, a character told, a door forced — and nothing in this corpus measures
-  it. If it is most, then `reversible` is the wrong default and the property should ask which
-  flags can be *un*set.
+  **The declaration is checked rather than asserted.** `crates/reachability` reports a
+  violation when a flag declared latched is cleared anywhere in the reachable graph, and
+  reports per counter whether it ever falls. [inference] That is what makes `reversible` worth
+  having at all: a property nothing reads is a comment, and this class exists partly to give
+  the property a site.
+
+  What has *not* been shown is the performance claim above. One specimen with one latching flag
+  and one monotone counter demonstrates that the declaration can be held against a game, not
+  that walking a partial order beats searching — that game runs in a millisecond either way,
+  and the difference wants something large enough to show it. `[open]`
+
+  [open] How many flags in a real game latch is still not known. The guess worth testing is
+  *most* — a bridge burned, a character told, a door forced — and one specimen declaring one of
+  its two flags latched is a data point rather than a measurement. If it is most, then
+  `reversible` is the wrong default and the property should ask which flags can be *un*set.
 properties:
   domain: boolean
   scope: global

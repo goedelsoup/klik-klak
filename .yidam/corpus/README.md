@@ -31,11 +31,11 @@ Sorted by: kind, then alphabetically.
 | [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 5v / 5i / 4o | 97 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 0v / 2i / 2o | 50 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
-| [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 0v / 3i / 0o | 55 |
+| [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 0v / 4i / 0o | 61 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 0v / 2i / 1o | 26 |
 | [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 5i / 1o | 72 |
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 0v / 4i / 1o | 47 |
-| [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 5 | 0v / 3i / 0o | 51 |
+| [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 5 | 0v / 4i / 0o | 60 |
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 0v / 1i / 1o | 33 |
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 2v / 1i / 2o | 47 |
 | [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 0v / 1i / 1o | 32 |
@@ -57,7 +57,7 @@ Sorted by: kind, then alphabetically.
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 0v / 2i / 0o | 26 |
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 0v / 2i / 0o | 27 |
 | [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 0v / 3i / 1o | 37 |
-| [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 1v / 2i / 1o | 42 |
+| [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 1v / 3i / 2o | 53 |
 <!-- /REGEN -->
 
 ## Semantic index status

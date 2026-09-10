@@ -15,7 +15,13 @@ description: |
   The reason it is `detectable_at: authoring` despite that is the important part. Both causes
   are decidable from the authored content alone — no play is required — which is precisely
   what makes this the strongest available argument for the engine tier doing work the
-  authoring tier cannot. See the `reachability` stub, and note that it has nothing to read.
+  authoring tier cannot. That is no longer a
+  claim about what could be done. `crates/reachability` does it: over a specimen authored in
+  the proposed vocabulary it enumerates 103 reachable states, finds the ending reachable, finds
+  16 states from which it is not, and names the single binding that strands them. [inference]
+  This node described the mechanism in prose for four phases and could not express it; the
+  interval between describing a failure and detecting one is what the two-tier ontology was
+  drawn to make visible.
 
   **For fifteen commits the first of those two causes could not be written down.** Consumption is
   an object being spent, and no relationship in this corpus said an item leaves the inventory — so
