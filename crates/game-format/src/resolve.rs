@@ -156,6 +156,9 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
                 );
                 fix(&declared, option, Kind::Option_, &scope, line, &mut out);
             }
+            Site::OnEnter { room } => {
+                fix(&declared, room, Kind::Room, &Scope::Global, line, &mut out)
+            }
         }
         if let Some(o) = &mut b.object {
             fix(&declared, o, Kind::Item, &scope, line, &mut out);

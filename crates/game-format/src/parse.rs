@@ -275,6 +275,14 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 None => p.err(no, "`start` outside a room section"),
             },
             "holds" => {}
+            "on-enter" => match p.room.clone() {
+                Some(r) => {
+                    let site = Site::OnEnter { room: r };
+                    p.site = None; // an entry binding belongs to the room, not to a target
+                    p.open_binding("on-enter", None, site, no);
+                }
+                None => p.err(no, "`on-enter` outside a room section"),
+            },
             "is" => match (&p.site, t.get(1)) {
                 (Some(Site::InRoom { target, .. }), Some(item)) => {
                     p.game.carried_form.insert(target.clone(), item.to_string());

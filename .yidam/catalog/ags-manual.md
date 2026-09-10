@@ -23,6 +23,7 @@ used-by:
   - ../corpus/conversation/branching-tree.yml
   - ../corpus/conversation/topic-list.yml
   - ../corpus/data-format/interaction-table.yml
+  - ../corpus/interaction/entry-binding.yml
   - ../corpus/verb/use-with.yml
   - ../corpus/verb/give-to.yml
   - ../corpus/verb/look-at.yml

@@ -1,0 +1,116 @@
+id: arrival-trigger
+summary: >-
+  `on-enter` — a binding whose trigger is the player arriving in a room, with no verb and no
+  target. It is **forced** rather than offered, which makes the state it fires from transient.
+  It widens `interaction` rather than adding a class, and it is the second primitive in this
+  design to cost decidability.
+context: |
+  Two unrelated assessments asked for the same missing site, by two different methods.
+
+  [`verb/walk-to`](../corpus/verb/walk-to.yml) read engine documentation and found that
+  movement is not a verb: AGS's `unhandled_event` matrix has fallback rows for cursor modes the
+  manual never names and none for Walk, and every system provides room transitions by *position*
+  — screen edges, stands-on-hotspot, regions, or an extension written into a hotspot's
+  description string.
+
+  [`cutscene/scripted-sequence`](../corpus/cutscene/scripted-sequence.yml) was assessed against
+  `nightwatch.game` and reduced on every ground it was seeded on except one: a sequence that
+  begins because the player *arrived* somewhere. Everything else about a cutscene turned out to
+  be an interaction with a long response, and a long response is presentation.
+
+  The specimen measured what its absence cost. `hall` has two doors, `when` gates a whole
+  binding and `else` carries only a line, so "if the alarm is on do this, otherwise pass
+  through" was two bindings per entrance — four bindings for one intent, with the sequence body
+  written twice. Drifting one copy changed the game (15 reachable states instead of 14) while
+  **every finding stayed identical**. Nothing in the format, the reader or the checker related
+  the copies.
+decision: |
+  **A binding may be sited at `on-enter <room>` instead of at a verb and a target.**
+
+      room hall
+        on-enter:
+          when  alarm
+          say   "Three steps in, a lamp comes up..."
+          do    spend ledger
+          do    move cell
+
+  - **It is forced.** The player is not offered it; it fires. A state in which one is available
+    is *transient* — nobody rests there — which is a property no other binding has and is what
+    makes this a different kind of site rather than a verb nobody types.
+  - **It fires on arriving, not while standing.** Both AGS eras document the event that way, and
+    it is what keeps a description-only entry binding from firing forever.
+  - **It has an ordinary precondition and no refusal.** A refusal answers an attempt, and nobody
+    attempted anything. That is the sharpest way to see this is not a verb.
+  - **It does not fire inside a conversation.** A forced binding leaving a mode the player is in
+    would end an exchange nobody chose to end.
+
+  **`interaction` is widened rather than joined by a new class.** Its definition changes from
+  "the binding of a verb to a target" to "the binding of a trigger to the response it produces",
+  it gains `triggered-by -> room`, and `shape` gains the value `none`. `applies` and `targets`
+  stop being universal.
+
+  **`interaction/entry-binding`** is the instance, so the new relationship is authored on the
+  day it is declared.
+rationale: |
+  **Why widen the class instead of adding one.** A new class would have undone the assessment
+  that produced the primitive. `cutscene` reduces *into* `interaction`, and the reduction only
+  holds if an interaction can carry this trigger; a `sequence` class holding the arrival trigger
+  would be `cutscene` again with the properties that failed removed. The widening is the
+  collapse, written down.
+
+  It has a cost and the class file states it: two of `interaction`'s edges are no longer
+  universal. That is worse than a class where every instance authors every relationship, and it
+  is better than a class whose only justification is that the alternative was untidy.
+
+  **What it does not do, and this corrects an over-claim.** `walk-to.yml` said an exit "wants a
+  precondition and a refusal, which makes it a binding — and its trigger is arrival rather than
+  a verb applied to a target". The first half stands; the second was too quick. An exit's
+  refusal — *"Locked, and the salt has taken the hinges"* — is said when the player **clicks a
+  door**, before any arrival. `on-enter` fires after the player is already through. The two
+  assessments wanted arrival at two different granularities: a **room** for the sequence, a
+  **place within a room** for the exit, which is what AGS's stands-on-hotspot and regions are.
+
+  Only the room-level one is built, because only it was demonstrated by a specimen. The exit
+  residue is untouched and stays open. Recording that is the point: the case for this primitive
+  was stated as "two classes want one thing", and on inspection they wanted two related things,
+  one of which is still missing.
+
+  **The decidability cost, which is the second.** Item quantity was the first: an unbounded
+  supply makes the state space infinite, and the guard was a declared ceiling. This is the
+  second and the mechanism is different. Two rooms whose entry bindings throw the player into
+  each other never settle, so the game has no resting state and a search that chases it does not
+  stop. The guard is exact rather than a budget: the states visited in one settling chain are
+  remembered and a repeat is a cycle, reported rather than chased. It terminates because a chain
+  that repeats no state cannot outrun the state space.
+
+  A step budget was considered and rejected, and two cases in `entry.rs` are why. A
+  description-only entry binding fires and changes nothing; an entry binding that moves the
+  player into the room they are already in does the same. Both settle immediately under the
+  arrival rule and both would have burned a budget.
+
+  **What it broke, which is the useful part.** Three defects, each found by running it and none
+  by reasoning about it.
+
+  `offered` carried a catch-all rejecting any site it did not name, so the entry binding was
+  never offered and the trapped room was simply unreachable — a wrong answer given confidently,
+  which is the failure mode this checker exists to avoid in games and had in itself.
+
+  The cause classifier reported **ordering** where an item is plainly spent, because it reads
+  the blamed binding's effect list and `walk-to` spends nothing — the watchman does, on the
+  other side of the door. **Third primitive, third classifier defect, and the same assumption
+  every time**: that everything a binding does is written in that binding. Consumption,
+  quantity, and now a forced chain have each broken it. The assumption is not stated anywhere in
+  the code and should probably become a comment that outlives the next primitive.
+
+  And `can_finish` had to settle too, or the counterfactual would rest where the game never
+  would.
+
+  **What it bought, measured.** `nightwatch.game` reports 14 reachable states and 31 transitions
+  before and after, which is what says the primitive is faithful to the game rather than a
+  different game that happens to parse. Four bindings became one. The drift is inexpressible —
+  there is nothing left to keep in step.
+
+  Two strandings remain, and they are no longer two copies of anything: there are two doors into
+  the hall, so there are two ways for a player to make the mistake, and a report naming both
+  describes the game. What changed is that neither names the sequence. The blame lands on the
+  door the player chose, because a forced binding is not something anybody chose.

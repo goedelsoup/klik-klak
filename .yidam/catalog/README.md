@@ -16,8 +16,8 @@ Sorted by: type, then slug.
 -->
 | Entry | Type | Description | Obtained | Artifacts | Nodes | Elsewhere |
 |---|---|---|---|---|---|---|
-| [ags-272-manual.md](ags-272-manual.md) | other | The AGS manual as it stood before version 3.0 removed the Interaction Editor — the only description this corpus has of a shipped declarative interaction layer. | yes | — | 2 | 0 |
-| [ags-manual.md](ags-manual.md) | other | The AGS manual's own markdown source, maintained by the AGS project — the authoring surface documented by the people who built it. | yes | — | 16 | 0 |
+| [ags-272-manual.md](ags-272-manual.md) | other | The AGS manual as it stood before version 3.0 removed the Interaction Editor — the only description this corpus has of a shipped declarative interaction layer. | yes | — | 3 | 0 |
+| [ags-manual.md](ags-manual.md) | other | The AGS manual's own markdown source, maintained by the AGS project — the authoring surface documented by the people who built it. | yes | — | 17 | 0 |
 | [ags-source.md](ags-source.md) | other | AGS's own editor and engine source, which still contains the complete action table of the Interaction Editor that version 3.0 removed. | yes | — | 2 | 0 |
 | [scumm-v5-opcode-reference.md](scumm-v5-opcode-reference.md) | other | Reverse-engineered listing of SCUMM v5 script opcodes by number and name, hosted by ScummVM. | yes | — | 6 | 0 |
 | [wikipedia-scumm.md](wikipedia-scumm.md) | other | Tertiary account of the SCUMM engine, its verb interface, and the years it was in use. | yes | — | 5 | 0 |
