@@ -39,6 +39,14 @@ pub struct State {
     pub flags: Vec<bool>,
     pub counters: Vec<i64>,
     pub chosen: Vec<bool>,
+    /// where each **observed** actor is, by room slot.
+    ///
+    /// Observed means *some predicate asks*. An actor nobody asks about is not in this vector
+    /// and `move <actor> to <room>` on them writes nothing, because an effect nothing can read
+    /// is not state and two states differing only there are the same state. That is what keeps
+    /// the cost proportional to the question: a game that never reads a position pays nothing,
+    /// and one that reads *n* of them multiplies its space by rooms^*n*.
+    pub actors: Vec<usize>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -117,6 +125,8 @@ struct Index<'a> {
     /// hotspots that stand for an item, in declaration order
     takeable: Vec<String>,
     at: BTreeMap<String, usize>,
+    /// actors some predicate names, in declaration order. See [`State::actors`].
+    actors: Vec<String>,
     /// bindings sited at `on-enter`, indexed by room slot and kept in written order.
     ///
     /// These are not offered to the player, so they are not in `acting` and never appear as a
@@ -152,6 +162,45 @@ impl<'a> Index<'a> {
         for (i, r) in game.rooms.iter().enumerate() {
             at.insert(r.clone(), i);
         }
+        // Which actors are **tracked**: those some predicate asks about, and those some effect
+        // moves. Collected before anything else, because it decides the width of the state and
+        // therefore the size of the search.
+        //
+        // Being *moved* has to be enough on its own, and that was not obvious. `offered` gates
+        // an actor's site on the actor being in the room, so the site is itself a read — an
+        // actor who is moved and never named in a predicate still has to be followed, or their
+        // bindings would stay live in a room they have left. An actor nobody moves and nobody
+        // asks about is absent from `State` entirely, which is every actor in the three
+        // specimens written before this primitive existed.
+        let mut actors: Vec<String> = Vec::new();
+        fn asked(q: &Pred, into: &mut Vec<String>) {
+            match q {
+                Pred::At(a, _) => {
+                    if !into.contains(a) {
+                        into.push(a.clone());
+                    }
+                }
+                Pred::Not(x) => asked(x, into),
+                Pred::And(x, y) | Pred::Or(x, y) => {
+                    asked(x, into);
+                    asked(y, into);
+                }
+                _ => {}
+            }
+        }
+        for b in &game.bindings {
+            for q in b.when.iter().chain(b.guards.iter()) {
+                asked(q, &mut actors);
+            }
+            for e in &b.effects {
+                if let Effect::Move(Some(a), _) = e {
+                    if !actors.contains(a) {
+                        actors.push(a.clone());
+                    }
+                }
+            }
+        }
+
         let mut entries: Vec<Vec<&Binding>> = vec![Vec::new(); game.rooms.len()];
         for b in &game.bindings {
             if let Site::OnEnter { room } = &b.site {
@@ -160,6 +209,7 @@ impl<'a> Index<'a> {
         }
         Index {
             game,
+            actors,
             entries,
             caps: game
                 .items
@@ -235,6 +285,17 @@ impl<'a> Index<'a> {
             flags: vec![false; self.flags.len()],
             counters: self.game.counters.iter().map(|c| c.lo).collect(),
             chosen: vec![false; self.options.len()],
+            actors: self
+                .actors
+                .iter()
+                .map(|a| {
+                    self.game
+                        .actor_start
+                        .get(a)
+                        .map(|r| self.at[r])
+                        .unwrap_or(0)
+                })
+                .collect(),
         }
     }
 
@@ -263,12 +324,16 @@ impl<'a> Index<'a> {
         for (i, c) in self.counters.iter().enumerate() {
             parts.push(format!("{c}={}", s.counters[i]));
         }
+        for (i, a) in self.actors.iter().enumerate() {
+            parts.push(format!("{a} in {}", self.rooms[s.actors[i]]));
+        }
         parts.join("; ")
     }
 
     fn holds(&self, q: &Pred, s: &State) -> bool {
         match q {
             Pred::Flag(x) => s.flags[slot(&self.flags, x)],
+            Pred::At(a, r) => s.actors[slot(&self.actors, a)] == self.at[r],
             Pred::Carrying(x) => s.items[slot(&self.items, x)] >= 1,
             Pred::Count(x, c, v) => c.holds(s.items[slot(&self.items, x)], *v),
             Pred::Chosen(x) => s.chosen[slot(&self.options, x)],
@@ -292,6 +357,16 @@ impl<'a> Index<'a> {
             (Site::InRoom { room, target }, None) => {
                 if self.at[room] != s.room {
                     return false;
+                }
+                // an actor who has walked off is not there to be addressed. `actor <name>`
+                // inside a room says where you may talk to them; `holds` and `move ... to`
+                // say where they *are*, and the site is only live when the two agree. This is
+                // the same shape as the acquisition check below it — a site whose subject has
+                // gone is not a site.
+                if let Some(i) = self.actors.iter().position(|a| a == target) {
+                    if s.actors[i] != s.room {
+                        return false;
+                    }
                 }
                 // an acquisition site whose object has been taken is not there any more
                 if let Some(i) = self.takeable.iter().position(|t| t == target) {
@@ -416,7 +491,14 @@ impl<'a> Index<'a> {
                     let i = slot(&self.items, x);
                     n.items[i] = (n.items[i] - q).max(0);
                 }
-                Effect::Move(x) => n.room = self.at[x],
+                Effect::Move(None, x) => n.room = self.at[x],
+                Effect::Move(Some(a), x) => {
+                    // Unobserved: nothing reads it, so writing it would split states that are
+                    // not distinguishable. See `State::actors`.
+                    if let Some(i) = self.actors.iter().position(|n| n == a) {
+                        n.actors[i] = self.at[x];
+                    }
+                }
                 Effect::Enter(x) => n.mode = Some(slot(&self.convs, x)),
                 Effect::Leave => n.mode = None,
             }
@@ -664,6 +746,12 @@ pub fn analyse(game: &Game) -> Report {
     }
     for i in 0..ix.options.len() {
         span(states.iter().map(|s| s.chosen[i] as i64).collect());
+    }
+    // An observed actor's room is a variable the author declared — `holds` gave it a value and
+    // a predicate reads it — so it belongs in the product for the same reason the player's room
+    // does, and an unobserved one is absent from `State` and so cannot be counted by mistake.
+    for i in 0..ix.actors.len() {
+        span(states.iter().map(|s| s.actors[i] as i64).collect());
     }
 
     // where the game handed out more than it declared room for

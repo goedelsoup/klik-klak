@@ -120,6 +120,44 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
         game.carried_form.insert(hotspot, item);
     }
 
+    // `holds` sorts into two things and neither of them is new. An actor held by a room is
+    // `actor -occupies-> room` at rest — the starting value of a thing `move <actor> to <room>`
+    // writes. An item held by a room is what this keyword has always meant and is still
+    // decoration: `is <item>` on a hotspot is what places one, so the two must not disagree
+    // and nothing here yet checks that they do not.
+    let holds = std::mem::take(&mut game.holds);
+    for (room, name, line) in &holds {
+        let mut n = name.clone();
+        match look(&declared, &n, &Scope::Room(room.clone())) {
+            Some((canonical, Kind::Actor)) => {
+                if let Some(prev) = game.actor_start.insert(canonical.clone(), room.clone()) {
+                    if prev != *room {
+                        out.push(Problem {
+                            line: *line,
+                            message: format!(
+                                "`{canonical}` is held by {prev} and by {room}; an actor                                  starts in one place"
+                            ),
+                        });
+                    }
+                }
+            }
+            Some((_, Kind::Item)) => {}
+            Some((canonical, k)) => out.push(Problem {
+                line: *line,
+                message: format!("`{canonical}` is a {k}, and a room holds actors and items"),
+            }),
+            None => fix(
+                &declared,
+                &mut n,
+                Kind::Item,
+                &Scope::Global,
+                *line,
+                &mut out,
+            ),
+        }
+    }
+    game.holds = holds;
+
     for b in &mut game.bindings {
         let line = b.line;
         let scope = b.scope.clone();
@@ -195,7 +233,12 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
                         });
                     }
                 }
-                Effect::Move(x) => fix(&declared, x, Kind::Room, &Scope::Global, line, &mut out),
+                Effect::Move(who, x) => {
+                    if let Some(a) = who {
+                        fix(&declared, a, Kind::Actor, &Scope::Global, line, &mut out);
+                    }
+                    fix(&declared, x, Kind::Room, &Scope::Global, line, &mut out)
+                }
                 Effect::Enter(x) => fix(
                     &declared,
                     x,
@@ -208,8 +251,55 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
             }
         }
     }
+    // An actor a predicate asks about must have somewhere to start. This is the one check the
+    // pair of primitives needs that neither has on its own: `move <actor> to <room>` writes a
+    // value, `<actor> in <room>` reads one, and without a `holds` the read has no initial value
+    // to compare against and the answer would be whatever the search happened to default to.
+    let mut asked: Vec<String> = Vec::new();
+    for b in &game.bindings {
+        for q in b.when.iter().chain(b.guards.iter()) {
+            collect_asked(q, &mut asked);
+        }
+        // Being moved counts too: `crates/reachability` gates an actor's site on where the
+        // actor is, so an actor a binding moves is followed whether or not anything asks.
+        for e in &b.effects {
+            if let Effect::Move(Some(a), _) = e {
+                if !asked.contains(a) {
+                    asked.push(a.clone());
+                }
+            }
+        }
+    }
+    for a in asked {
+        if !game.actor_start.contains_key(&a) {
+            let line = game.declared.get(&a).map(|(_, l)| *l).unwrap_or(0);
+            out.push(Problem {
+                line,
+                message: format!(
+                    "`{a} in <room>` is asked and no room `holds {a}`, so the question has no                      answer before anything moves them"
+                ),
+            });
+        }
+    }
+
     dead_writes(game, &mut out);
     out
+}
+
+fn collect_asked(q: &Pred, into: &mut Vec<String>) {
+    match q {
+        Pred::At(a, _) => {
+            if !into.contains(a) {
+                into.push(a.clone())
+            }
+        }
+        Pred::Not(x) => collect_asked(x, into),
+        Pred::And(x, y) | Pred::Or(x, y) => {
+            collect_asked(x, into);
+            collect_asked(y, into);
+        }
+        _ => {}
+    }
 }
 
 /// What part of the state an effect writes in full. Two effects naming the same slot in one
@@ -222,7 +312,8 @@ fn slot_written(e: &Effect) -> Option<String> {
     match e {
         Effect::SetFlag(x) | Effect::ClearFlag(x) => Some(format!("flag {x}")),
         Effect::SetCounter(x, _) => Some(format!("counter {x}")),
-        Effect::Move(_) => Some("the player's room".into()),
+        Effect::Move(None, _) => Some("the player's room".into()),
+        Effect::Move(Some(a), _) => Some(format!("{a}'s room")),
         Effect::Enter(_) | Effect::Leave => Some("the current mode".into()),
         Effect::Give(..) | Effect::Spend(..) => None,
     }
@@ -235,7 +326,8 @@ fn render(e: &Effect) -> String {
         Effect::SetCounter(x, v) => format!("set {x} {v}"),
         Effect::Give(x, q) => format!("give {x} {q}"),
         Effect::Spend(x, q) => format!("spend {x} {q}"),
-        Effect::Move(x) => format!("move {x}"),
+        Effect::Move(None, x) => format!("move {x}"),
+        Effect::Move(Some(a), x) => format!("move {a} to {x}"),
         Effect::Enter(x) => format!("enter {x}"),
         Effect::Leave => "leave".into(),
     }
@@ -280,6 +372,10 @@ fn walk_pred(
 ) {
     match q {
         Pred::Flag(x) => fix(declared, x, Kind::Flag, scope, line, out),
+        Pred::At(a, r) => {
+            fix(declared, a, Kind::Actor, &Scope::Global, line, out);
+            fix(declared, r, Kind::Room, &Scope::Global, line, out);
+        }
         Pred::Carrying(x) => fix(declared, x, Kind::Item, scope, line, out),
         Pred::Chosen(x) => fix(declared, x, Kind::Option_, scope, line, out),
         Pred::Count(x, _, n) => {

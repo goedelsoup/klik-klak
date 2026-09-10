@@ -130,7 +130,11 @@ fn relationship_realised(e: &Effect) -> &'static str {
         Effect::SetFlag(_) | Effect::ClearFlag(_) | Effect::SetCounter(..) => "sets",
         Effect::Give(..) => "acquired-by",
         Effect::Spend(..) => "consumes",
-        Effect::Move(_) => "occupies",
+        // `Move` gained an actor and this line is where that had to be justified: the match
+        // stopped compiling, and the answer was that `occupies` is declared on `actor` and
+        // authored by `actor/non-player-character`, so widening the effect did not widen the
+        // ontology. Eight variants, six relationships, still.
+        Effect::Move(..) => "occupies",
         Effect::Enter(_) => "opens",
         Effect::Leave => "returns-control-to",
     }
@@ -159,7 +163,8 @@ fn every_effect_realises_a_declared_relationship() {
         Effect::SetCounter(String::new(), 0),
         Effect::Give(String::new(), 1),
         Effect::Spend(String::new(), 1),
-        Effect::Move(String::new()),
+        Effect::Move(None, String::new()),
+        Effect::Move(Some(String::new()), String::new()),
         Effect::Enter(String::new()),
         Effect::Leave,
     ];
