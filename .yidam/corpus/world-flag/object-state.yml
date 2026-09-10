@@ -26,7 +26,7 @@ description: |
   object "that has a state variable" to the last frame of that state's animation on room entry
   [verified] — so the name is simultaneously a value a predicate reads and an animation the room
   manifest holds. This corpus separates those completely, and nothing here says which is right;
-  what is clear is that a game with 290 bare props and 164 objects gets a lot of leverage from
+  what is clear is that a game with 290 bare props and 160 objects gets a lot of leverage from
   not separating them.
 
   **`scope` needed a fourth value and this is the one a real game uses most.** The property was
