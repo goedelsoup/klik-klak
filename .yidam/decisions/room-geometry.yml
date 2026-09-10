@@ -1,0 +1,103 @@
+id: room-geometry
+summary: >-
+  The 307 KB of room geometry this corpus had held unread answers three open questions and refutes
+  a class's two defining properties. A room declares 948 things and the script names 485 of them;
+  the relation the vocabulary has wanted for three phases is a field in those files called
+  `parent`; and the checks a declarative room format was supposed to make possible mostly are not
+  checks.
+context: |
+  `hotspot/static-region` closed its previous phase by re-aiming at the `.wimpy` files: *"what
+  would settle it is not a second game but a design with geometry in scope — or the 307 KB of
+  `.wimpy` files this corpus has held unread since it catalogued them, which is where those regions
+  actually are."* Two other opens pointed at the same artifact without saying so —
+  `room-manifest.authored_by` on round-tripping, and `room/scrolling` on whether `extent` belongs
+  to a camera — and `walkbox/scaled-polygon` had never been checked against a real polygon at all.
+
+  22 files, 40 keys, 948 objects, 84 walkbox polygons, cross-referenced against the 16 room scripts
+  that bind them ([delores-source](../catalog/delores-source.md)).
+decision: |
+  **Four questions close, one relation is named, and no primitive is added.**
+
+  **1. `extent` is two fields, not a class.** `room_size` is the background image and `room_bounds`
+  is where the camera may go; they differ in four of twenty-two rooms for reasons nothing can
+  infer, including one room whose camera bounds are taller than its background. A camera class is
+  refused because the bounds are the **only** thing about that engine's camera with no setter —
+  `cameraAt`, `cameraFollow`, `cameraOffset`, `cameraZoom` and `cameraZoomFromTo` are all
+  imperative and all presentation. A camera node would hold one property and nothing else this
+  corpus is allowed to model.
+
+  **2. `walkbox/scaled-polygon` loses both its properties and keeps its argument.** No walkbox
+  carries a scale; the scale is a room-level list of `factor@y` breakpoints. 37 of 84 polygons are
+  not convex. What survives is the claim the node led with — the floor is authored against the
+  floor and not against the picture — and the reason the scale belongs to the room turns out to be
+  the same one: **depth is a property of the picture and shared by everything at that height**, so
+  putting it on regions means writing one curve many times. The class was carrying a copy, which is
+  `duplication.yml`'s pressure found in this corpus's own vocabulary.
+
+  **3. Round-tripping is survivable by permissiveness, and that is the whole answer.** A dead
+  `roomsize` key is alive in seven of 22 files; the hand-written template writes an encoding the
+  tool has stopped emitting; `parallax` appears as both a scalar and a tuple. The reader ignores
+  what it does not know and the writer preserves what it did not write, which is the only strategy
+  that lets a person and a tool share a file. **Its cost is that a dead key is indistinguishable
+  from a live one**, and the corollary is the finding: a format co-authored this way cannot also
+  treat an unrecognised key as an error, so **permissiveness and checkability are the same property
+  with opposite signs.**
+
+  **4. The identity relation is `part-of`, and it is declared rather than delegated.** 27 objects
+  carry a `parent`, across six machines; the children include hotspot rectangles that are separate
+  clickable regions of one drawn thing. **27 regions resolve onto four bindings**, each a single
+  `lookat`. That chooses among the three relations `static-region` could not choose among, and it
+  chooses the narrowest: `parent` cannot say two regions are the same thing and cannot say one
+  reads like another, so the traffic cones that motivated the other two are still unexpressible.
+
+  **The open stays open and its condition is unchanged.** This vocabulary draws nothing, so a
+  `part-of` here would relate two hotspots with no art under either, and the four specimens exhibit
+  none of it. What changed is that the relation now has a name, a shape, and a count.
+rationale: |
+  **The two mechanisms divide the same job and neither file can see the other's half.** The
+  previous phase counted 11 delegation sites that were "not about running a response at all" —
+  one object drawn as several regions. Those 11 are the cases where `parent` was *not* used. Add
+  the 27 that use it and one small game carries **38 instances of one missing relation, handled two
+  ways**: declaratively in the geometry, imperatively in the script. Neither half is visible from
+  the other, which is the split's cost stated precisely.
+
+  **The split has a price and it is now measured.** The geometry declares 948 objects and the
+  scripts name 485, so 463 things exist in one file and are unmentioned in the other — among them
+  106 of the 276 clickable regions. Most is benign: 172 unnamed props are scenery, and all 163
+  `spot`s are read by the engine and by no author's code, which is a declarative field doing its
+  job perfectly. What is not benign is `Nickel.newspaper17`, a hotspot rectangle with an approach
+  point and a facing whose only mention in the scripts is a commented-out declaration, and
+  `Nickel.copyTron`, a targetable machine with five child regions and no script presence at all.
+
+  **Neither file is wrong in either case, which is the point.** The defect exists only in the
+  relation between them, and the relation is exactly what the split provides no file for. That is
+  not an argument against the split — `room-manifest` is right that a shipped engine holds it with
+  a general-purpose language available and unused — it is the reason to keep *both* halves
+  declarative, because a checker can read two declarations together and cannot read a declaration
+  against a program.
+
+  **The three checks that motivated all of this mostly are not checks.** `room-manifest` named
+  three defects a declarative room file could catch. A hotspot outside the background fires on 23
+  of 324 rectangles and **every one is a door**, deliberately hung over the room's edge so it stays
+  clickable at the screen boundary. A walkbox nothing adjoins fires on four in a shipped, working
+  game. An exit naming a room that does not exist cannot be checked at all: the geometry has no
+  destination field. The one real instance found is a dangling `parent: "quickieToilet"` — a name
+  reference inside one file resolving to nothing — which is the shape of check that works, and it
+  is the shape nobody proposed.
+
+  **The reader was held to figures this corpus already had, and it earned that twice.** It refuses
+  to report unless it reproduces 203 bindings, 107 `lookat` and 290 bare props. It caught an
+  attribution pass that looked only for `DEFINE_OBJECT` and missed the 290 bare `name = {}`
+  declarations — which would have reported 118 unreachable regions where there are 106 — and a
+  polygon vertex count that was counting characters in a string and would have put "1,167-vertex
+  walkboxes" into the corpus. Both were wrong in the direction that makes a finding look more
+  dramatic.
+
+  **Two figure corrections fall out, and they are one error in three copies.** The catalog's "164
+  object declarations" is a raw grep count including four commented-out lines; the live figure is
+  160 and the derived "46 of 164 carry no binding" becomes 45 of 160, leaving the 28% share
+  unchanged. That is the same mistake this entry had already caught and fixed for `lookat`
+  (110 → 107) — and the corrected `lookat` figure had been copied *uncorrected* into three corpus
+  nodes, which had to be fixed one at a time. A figure living in four places takes four edits to
+  correct, and nothing in this repository notices when three of them are stale. That is
+  `duplication.yml` again, in prose rather than in code, and it is the second time this phase.

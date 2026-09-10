@@ -61,7 +61,32 @@ description: |
   has asked for. [verified] What that engine uses it for in the one example shown is stopping
   sounds — presentation, on the far side of the line `effect-list-semantics` draws — so it is not
   evidence of a missing primitive. It is a reminder that the arrival trigger has an obvious twin
-  and nothing here has argued about it. `[open]`
+  and nothing here has argued about it.
+
+  **That `[open]` closes by counting the twin, and the one example was representative.** Every one
+  of the 20 rooms declares both halves, because the room template ships both.
+  **`enter` carries 237 statements across 17 non-empty bodies; `exit` carries 15 across 6, and 14
+  of the 20 are empty** ([delores-source](../../catalog/delores-source.md)). [verified] Sixteen to
+  one, in a game where the author had no reason to prefer one over the other.
+
+  **Eleven of those 15 statements are presentation teardown** — `stopRoomMusic`, `stopSound`,
+  `deleteImage`, `deleteExitButton`, the last two from the three close-up rooms that draw a page of
+  text and take it away again. [verified] One is a flag being released (`toilet.inUse = NO`). The
+  remaining six are one room's: SheriffsOffice checks where two non-player actors are as the player
+  leaves and either resets a puzzle or puts the sheriff back on his spot.
+
+  So the twin is real, symmetric, offered, and **almost unused** — and the same shape repeats one
+  level down, where a trigger region may carry `triggerEnter` or `triggerLeave` and
+  `enableTrigger` takes `TRIGGER_ENTER|TRIGGER_LEAVE`: the game has **11 `triggerEnter` bodies and
+  no `triggerLeave` body at all**. [verified] Two independent places where an engine offered
+  departure alongside arrival and the authors wrote arrival.
+
+  **The reason is legible in the one exception.** Leaving a room is the last moment an author can
+  repair the world before it stops being observable, and that is what SheriffsOffice uses it for.
+  It is a *convenience about when code runs*, not a relationship an interaction can author — which
+  is the test `effect-half` established for whether something belongs in the effect vocabulary.
+  [inference] This vocabulary should not add it, and the evidence is that the people who had it
+  reached for it six times in a whole game, mostly to turn sounds off.
 properties:
   shape: none
   response: |
