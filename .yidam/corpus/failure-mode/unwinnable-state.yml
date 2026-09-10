@@ -17,19 +17,22 @@ description: |
   what makes this the strongest available argument for the engine tier doing work the
   authoring tier cannot. See the `reachability` stub, and note that it has nothing to read.
 
-  **[open] The first of those two causes cannot be written down in this vocabulary.**
-  Consumption is an object being spent, and no relationship in this corpus says an item leaves
-  the inventory — see
-  [inventory-item/portable-object](../inventory-item/portable-object.yml). A specimen authored
-  in the proposed language was built with a consumption trap in it and could not express the
-  spending, so the trap is invisible to the analysis this node calls decidable
-  ([design/specimen](../../../design/specimen/README.md)). [inference]
+  **For fifteen commits the first of those two causes could not be written down.** Consumption is
+  an object being spent, and no relationship in this corpus said an item leaves the inventory — so
+  a specimen built with a consumption trap in it could not express the spending, and the trap was
+  invisible to the analysis this node calls decidable ([design/specimen](../../../design/specimen/README.md)).
 
-  That inverts the paragraph above rather than qualifying it. "Decidable from the authored
-  content alone" is a claim about a vocabulary in which the content can be authored, and half of
-  what this node describes currently cannot be. The consumption case is not the easy half that
-  is "checkable where the binding is written" — it is the half that is unsayable, and the
-  ordering case is the one the vocabulary can express.
+  **Closed by `interaction -consumes-> inventory-item`**, whose site is
+  [consuming-binding](../interaction/consuming-binding.yml), linked below by `arises-from`. That
+  connection is what makes the paragraph above true rather than aspirational: a checker can ask
+  which bindings spend a given item and get an answer from the graph rather than from prose.
+
+  **[inference] What does not survive is this node's account of which cause is the easy one.** It
+  called consumption "a property of a single binding and checkable where the binding is written",
+  and that is exactly backwards. A consuming binding is *locally correct* and stays correct —
+  `consuming-binding` argues that its success is the mistake — so there is nothing at the site to
+  check. The question is what remains reachable afterwards, which is the same computation the
+  ordering cause needs. Both causes want reachability; neither is checkable where it is written.
 properties:
   mechanism: |
     An author spends a required object, or closes a gate, without a check that the resulting
@@ -42,6 +45,8 @@ properties:
     length of time. A game that detects the state and says so has converted a lost session
     into a reload; most did not.
 links:
+  - target: ../interaction/consuming-binding.yml
+    relationship: arises-from
   - target: ../puzzle/lock-and-key.yml
     relationship: arises-from
   - target: ../data-format/interaction-table.yml

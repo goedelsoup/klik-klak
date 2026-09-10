@@ -7,9 +7,12 @@ rests_on:
   - .yidam/corpus/data-format/interaction-table.yml
   - .yidam/corpus/interaction.ont.yml
   - .yidam/corpus/interaction/binary-binding.yml
+  - .yidam/corpus/interaction/consuming-binding.yml
   - .yidam/corpus/interaction/acquisition-binding.yml
   - .yidam/corpus/inventory-item.ont.yml
   - .yidam/corpus/conversation.ont.yml
+  - .yidam/corpus/world-flag.ont.yml
+  - .yidam/corpus/world-flag/latched-flag.yml
   - .yidam/corpus/world-flag/counter-flag.yml
   - .yidam/corpus/failure-mode/unwinnable-state.yml
   - .yidam/corpus/verb/give-to.yml
@@ -19,6 +22,9 @@ rests_on:
 derives_effects_from:
   - interaction:sets
   - interaction:opens
+  - interaction:consumes
+  - conversation:sets
+  - conversation:returns-control-to
   - inventory-item:acquired-by
   - inventory-item:found-in
   - actor:occupies
@@ -29,73 +35,103 @@ derives_effects_from:
 [`lighthouse.game`](lighthouse.game) is a small adventure authored in the language proposed by
 [`../bounded-expression-language.md`](../bounded-expression-language.md). Three rooms, one
 actor, five items, two boolean flags, one counter, one conversation of three options, nine
-hotspots and twenty-three bindings, in 187 lines.
+hotspots, twenty-three bindings.
 
-It was written to break the proposal, and it did. **This document is the result, not the
-advertisement.**
+It was written to break the proposal. It did, once — and then the break turned out to be
+four-fifths the specimen's own author, which is the more useful finding.
 
-## The headline: the predicate layer held and the effect layer did not
+## What happened, in order
 
-Every precondition in the specimen is expressible in Layer 1. Not one needed a construct the
-grammar lacks, and the guarded list — Layer 3, which the design argued was not a layer at all —
-carried the whole burden of "pick among several lines" without complaint.
+**First writing.** Nine sites could not be expressed and were marked `?? UNSAYABLE`: an item
+leaving the inventory (4), an object leaving the room (2), an option's availability changing
+(2), a conversation being left (1). This document concluded that the effect vocabulary "was the
+whole problem".
 
-**Nine effects could not be expressed at all.** Each is marked `?? UNSAYABLE` at its site:
+**Then each of the four was weighed against what the ontology already declared**, which is the
+rule AGENTS.md states and which this document had not applied. Three could be expressed:
 
-| What the game needs to say | Sites | Status in the ontology |
-|---|---|---|
-| an item leaves the inventory | 4 | nothing declares it |
-| an object leaves the room | 2 | known gap; `acquired-by` names the binding only |
-| an option's availability changes | 2 | known gap; no relationship writes option state |
-| a conversation is left | 1 | `opens` enters one; nothing exits |
+| Marked unsayable | Verdict |
+|---|---|
+| an object leaves the room | **Entailed by `carried-form-of`.** `inventory-item` is a UFO role; the hotspot is what the same object is when not carried. Acquiring it *is* the room losing it. One change described twice. |
+| an option's availability | **A conversation-scoped `world-flag`.** That scope value has been declared since genesis. |
+| a conversation is left | **`returns-control-to`**, declared on `cutscene` since that class was seeded, and it fits without alteration. |
+| an item leaves the inventory | **Real.** Nothing said an object is spent. Now `interaction -consumes-> inventory-item`. |
 
-That inversion is worth sitting with. The design spent most of its length on the grammar,
-excluded three constructs from it with arguments, and read the effect vocabulary off the
-ontology in a table of four rows it treated as settled. The grammar needed no defending. **The
-table of four was the whole problem.**
+**Second writing.** Every `?? UNSAYABLE` is gone. The cost of the four was **one new
+relationship, one new property** (`world-flag.reversible`, for the one third of option state that
+does not reduce — a permanent disable) **and one existing relationship applied to a second
+class.**
 
-## The finding that undermines the design's own justification
+## The finding this specimen is actually for
 
-The specimen has one deliberate, reachable defect. Oil is needed to fill the lamp, and a rusted
-hinge on the ground floor will also accept it — so a player who oils the hinge has stranded
-themselves, silently, with every remaining interaction still resolving normally. That is
+**A specimen measures where its author could not write something down. That is not a measurement
+of the ontology, and nothing in the method separates the two.**
+
+Three of four sites were *I did not find the way this says it*, by the same party who wrote both
+the design and the specimen — after the same party had already missed `actor -occupies-> room`
+in the design's own effect table. Three misreadings of one ontology in two phases.
+
+That is the failure this repository has now recorded four times and has as a conduct norm about
+*sources*: material accurately held, then reasoned about from memory rather than from the
+record. It applies to an ontology exactly as it applies to a catalog entry. `yidam
+open-questions` would have gone further still — `puzzle/state-gate` had asked in prose for
+`world-flag.reversible`, by name, two phases before it was added here from the other direction
+entirely. It was not run.
+
+So the honest reading of the first writing is not that the effect vocabulary was too small. It
+is that **a worked example is an excellent detector of trouble and a poor diagnostician of it.**
+Every site it marks is worth checking; roughly one in four was what it said it was.
+
+## The one that was real, and why it was the one that mattered
+
+The specimen carries a deliberate reachable defect: oil needed for the lamp is also accepted by a
+rusted hinge, so a player who oils the hinge is stranded silently while every remaining
+interaction resolves normally. That is
 [`unwinnable-state`](../../.yidam/corpus/failure-mode/unwinnable-state.yml) by **consumption**,
-the first of the two causes it names.
+the first cause it names — and consumption was the gap that survived.
 
-The design's entire argument for building a bounded language was that it makes the checker
-possible: *"A bounded predicate language is what makes the checker possible. A general-purpose
-escape hatch is what makes it impossible."*
+Which is why the count was the wrong measure. Four of the nine sites were the single defect that
+made the design's whole justification fail: a bounded language exists to make the checker
+possible, and the checker could not have seen this game's only bug.
 
-**But consumption is one of the nine things the effect vocabulary cannot say.** The specimen
-contains exactly the defect the checker exists to find, and the language cannot express the
-mechanism that produces it. A checker reading this game would find the oil acquired once and
-never spent, and report the game winnable.
+It can now. `spend oil-can` is an edge, and a checker asks the graph which bindings spend a given
+item instead of asking prose.
 
-So the bounded language is not yet sufficient for the argument that motivated it. The escape
-hatch was never the only thing standing between this corpus and a checker; the effect vocabulary
-being too small does the same damage, quietly, and no amount of grammar fixes it.
+`consuming-binding` also says something the specimen only hinted at: this is **the only binding
+shape whose success is the mistake.** Every other shape resolves correctly or refuses, and a
+refusal is a message. This one resolves correctly on the wrong target and reads as a success,
+because at that moment it is one.
 
-That is the most useful thing this specimen produced and it is an argument against its own
-proposal.
+## A new finding from the rewrite: predicates delete two of AGS's eight commands
 
-## Corrections to the design
+Once availability is a conversation-scoped flag, the option in the rewritten specimen reads
 
-**The effect table missed one, and it is not an ontology gap.** The specimen needs to move the
-player between rooms, at four sites. `actor -occupies-> room` has been declared since genesis;
-the design's table read it as a static fact about where an actor is rather than as something a
-binding writes. Five effects, not four. Found by needing it rather than by re-reading.
+```
+option lamp "The lamp is out."
+  when  not asked-lamp
+```
 
-**`response` has to split, and the class does not.**
-[`interaction.ont.yml`](../../.yidam/corpus/interaction.ont.yml) gives `response` as one prose
-property, and [`binary-binding`](../../.yidam/corpus/interaction/binary-binding.yml) folds the
-state write into it: *"An action performed on the target using the carried item, and a write to
-world state recording that it happened."* A specimen cannot do that. Effects are a closed list
-and prose is not one, so every binding here splits into `say` and `do`. The class describes a
-world in which the two are one field, and the proposal requires that they are two.
+— a `when` re-read each time the list is displayed. There is no `disable` effect and none is
+wanted.
+
+**`option-on` and `option-off` exist because the command list cannot ask a question.**
+[ags-manual](../../.yidam/catalog/ags-manual.md) documents all eight and none of them reads
+anything [verified]; an option whose availability depends on the world therefore has to be
+switched from outside, imperatively, at every site that changes the world. [inference] Given a
+predicate layer, both commands are unnecessary — availability is a function of state rather than
+a copy of it.
+
+`option-off-forever` is the exception and is the reason `world-flag.reversible` exists. A
+permanent disable is not a value but a constraint on one, and no predicate re-read at display
+time can express *and this can never come back*.
+
+That closes a loop with the design's first finding. The bounded command list had to write
+because it could not read, and three of its eight commands are the bill for that.
 
 ## Grammar coverage, and why it is weak evidence
 
-Six constructs went unexercised: `or`, `count item`, `!=`, `<=`, `>`, and grouping parentheses.
+Six constructs went unexercised across both writings: `or`, `count item`, `!=`, `<=`, `>`, and
+grouping parentheses.
 
 `count item` is the one that stings. The design admitted it specifically to answer *"count an
 inventory"* — one of the three cases the open question named as forcing the escape hatch — and a
@@ -104,59 +140,55 @@ whole game never reached for it. By
 primitive with no demonstrated need.
 
 **One specimen is much better evidence that a primitive *was* needed than that one is not.**
-Twenty-three bindings in a deliberately small game is a thin basis for removing anything, and
-the honest reading is that a second specimen — a game with a shop, a tally, or a collect-five
-puzzle — would settle `count` properly and nothing here does. Recorded as a coverage result, not
-as a verdict.
+Twenty-three bindings in a deliberately small game is a thin basis for removing anything, and a
+second specimen — a shop, a tally, a collect-five puzzle — would settle `count` where this
+cannot.
 
-## The verb vocabulary, measured for the first time
-
-The specimen produces `vocabulary-coverage`'s two lists by hand, on the first artifact this
-corpus has held that could produce them at all.
+## The verb vocabulary, measured
 
 **Used and not declared: `walk-to`**, at four sites. Movement is a verb in both systems this
 corpus has read — AGS ships Mode 0 (Walk) and its Tumbleweed template carries `eMG_WalkTo`
-([ags-manual](../../.yidam/catalog/ags-manual.md)) [verified] — and this corpus declares no
-node for it. That is the vocabulary being too small, which is the finding that argues for
-adding a primitive rather than removing one.
+([ags-manual](../../.yidam/catalog/ags-manual.md)) [verified] — and no `verb` node declares it.
+That is the vocabulary being too small, which is the finding that argues for *adding* a
+primitive. Unchanged by the rewrite.
 
-**Declared and not used: `give-to`.** No natural site for it arose. That corpus node already
-carries `subsumed-by: use-with` from an earlier assessment made on documentary grounds, and this
-is independent confirmation from a direction that assessment did not use: not *the manual says
-giving is using-on*, but *a game got written and never wanted it*.
+**Declared and not used: `give-to`.** No natural site arose in either writing. That node already
+carries `subsumed-by: use-with` from an assessment made on documentary grounds; this agrees from
+a direction that assessment did not use.
 
 ## What the corpus has no class for
 
-The specimen needs two markers that belong to the game rather than to any part of it: `start`,
+The specimen needs two markers belonging to the game rather than to any part of it: `start`,
 where play begins, and `ending`, the binding that finishes it. Fifteen classes model rooms,
 verbs, bindings, flags and failures, and none models the artifact they compose into. `puzzle` is
-a near-miss for `ending` — a final gated step — and nothing at all is a candidate for `start`.
+a near-miss for `ending`; nothing is a candidate for `start`.
 
-Noted rather than proposed. This corpus does not add classes speculatively, and one specimen
-needing two markers is not yet a class asking to exist.
+Noted rather than proposed — and noted more carefully after this phase, since the last four
+things this document called missing were mostly not.
 
 ## Using it as a fixture
 
-`reachability` cannot run against this yet, for the reason above. When the effect vocabulary can
-express consumption, this game is a three-case fixture:
+[`reachability`](../../.yidam/skills/reachability.md) can now describe this game. Three cases:
 
-- **Winnable.** Crowbar, then the crate for oil; the keeper for the wick and then the key;
-  the door, the stair, the match; then wick, oil and match into the lamp in that order.
+- **Winnable.** Crowbar, then the crate for oil; the keeper for the wick and then the key; the
+  door, the stair, the match; then wick, oil and match into the lamp in that order.
 - **Unwinnable by consumption.** Oil the hinge in `base`. Reachable from the winning path, and
-  the game continues answering normally forever.
-- **Unwinnable by ordering** — not in the file, a two-line mutation. Add `do clear door-open` to
-  the quay door's `walk-to`, and `when door-open` to `door-inner`'s. The door closes behind the
-  player and the oil is on the wrong side of it.
+  the game continues answering normally forever. Expressible for the first time.
+- **Unwinnable by ordering** — a two-line mutation rather than committed. Add `do clear
+  door-open` to the quay door's `walk-to`, and `when door-open` to `door-inner`'s.
 
-The ordering case is left as a mutation rather than built in so that the committed specimen has
-exactly one defect. A fixture with two makes a checker's output ambiguous about which it found.
+The ordering case stays a mutation so the committed specimen has exactly one defect. A fixture
+with two makes a checker's output ambiguous about which it found.
+
+One flag latches (`crate-open`) and one counter does (`lamp-prep`), which is what makes the
+partial-order walk in [`latched-flag`](../../.yidam/corpus/world-flag/latched-flag.yml) testable
+against something rather than argued in the abstract.
 
 ## What this specimen is not
 
-- **It is not evidence the language is pleasant to write.** It was written by the same party
-  that proposed the language, which is the weakest possible authoring trial.
-- **It is not a test of scale.** Twenty-three bindings is small enough to check by hand, which
-  was the requirement, and far too small to say anything about a table with the combinatorics
+- **Not evidence the language is pleasant to write.** It was written by the party that proposed
+  the language, which is the weakest possible authoring trial, twice over now.
+- **Not a test of scale.** Twenty-three bindings is small enough to check by hand, which was the
+  requirement, and far too small to say anything about a table with the combinatorics
   [`binary-binding`](../../.yidam/corpus/interaction/binary-binding.yml) describes.
-- **It does not run.** No engine reads it. Every claim here is about what could be written down,
-  not about what happened when it was played.
+- **It does not run.** No engine reads it. Every claim here is about what could be written down.

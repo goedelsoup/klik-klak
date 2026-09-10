@@ -33,3 +33,10 @@ edges:
     target: world-flag
     direction: out
     description: World state a choice in this structure writes.
+  - relationship: returns-control-to
+    target: actor
+    direction: out
+    description: >-
+      The actor control is handed back to when the exchange ends. The same relationship
+      `cutscene` declares, and for the same reason: both are modes that seize control and
+      give it back, which is a structure this ontology had encoded once and not seen.

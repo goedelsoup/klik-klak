@@ -25,6 +25,13 @@ edges:
     direction: out
     description: The authoring primitive whose use produces this state.
   - relationship: arises-from
+    target: interaction
+    direction: out
+    description: >-
+      The binding whose response produces this failure. Added when `unwinnable-state` needed
+      to point at `consuming-binding` and could not: this class could arise from a puzzle or
+      an exchange and not from the one shape whose response is its own first named cause.
+  - relationship: arises-from
     target: conversation
     direction: out
     description: The authoring primitive whose use produces this state.

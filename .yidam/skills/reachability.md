@@ -65,9 +65,25 @@ Where the specimen lives is settled: `design/specimen/`, as part of the proposal
 rather than as a purpose beside it. See
 [`.yidam/decisions/specimen-placement.yml`](../decisions/specimen-placement.yml).
 
-One exists — `design/specimen/lighthouse.game` — and this stub still cannot run against it, for
-a reason the specimen itself established rather than a reason anyone predicted. The specimen's
-one deliberate defect is a **consumption** trap, which is the first of the two causes named
-above, and the proposed effect vocabulary has no way to say that an item leaves the inventory.
-So the mechanism that produces the defect is unsayable, and a checker reading that game would
-report it winnable. See `design/specimen/README.md`.
+One exists — `design/specimen/lighthouse.game` — and for a while this stub could not have run
+against it even so. Its one deliberate defect is a **consumption** trap, the first of the two
+causes named above, and the effect vocabulary had no way to say an item leaves the inventory. A
+checker reading that game would have reported it winnable.
+
+`interaction -consumes-> inventory-item` closes that, so **the input to this calculator now
+exists in principle**: a game whose one defect is expressible, whose flags declare whether they
+latch, and small enough to check the answer by hand. What is still missing is the calculator.
+
+Two things about that game are worth knowing before writing one:
+
+- **Monotonicity is the whole performance story.** `world-flag/latched-flag` argues that a flag
+  which only moves one way makes the reachable state space a lattice rather than a graph, so the
+  search is a walk over a partial order rather than over every combination. The specimen declares
+  one latching flag and one latching counter, which is enough to test that claim rather than
+  assert it.
+- **Neither cause is checkable at the site.** `failure-mode/unwinnable-state` used to hold that
+  consumption was "checkable where the binding is written" and now records the correction: a
+  consuming binding is locally correct and stays correct. Both causes want this computation.
+
+See `design/specimen/README.md`, and note that its first version reported four gaps where one
+was real — a worked example detects trouble well and diagnoses it badly.

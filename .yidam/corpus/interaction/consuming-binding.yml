@@ -1,0 +1,51 @@
+class: interaction
+label: Consuming Binding
+description: |
+  A binary binding whose response spends its second object: the item is used and does not come
+  back. It is the inverse of [acquisition-binding](acquisition-binding.yml) — that binding moves
+  an object into the inventory, this one takes it out of the world — and it is seeded because
+  [unwinnable-state](../failure-mode/unwinnable-state.yml) names spending as the first of its two
+  causes and this corpus had nowhere that a spend happens.
+
+  **[inference] It is the only binding in this vocabulary whose success can be the mistake.**
+  Every other shape either resolves correctly or refuses, and a refusal is a message the player
+  can act on. This one resolves correctly on the wrong target: the oil goes into the hinge rather
+  than the lamp, and the text that follows is written as a success because at that moment it is
+  one. Nothing distinguishes the right use from the wrong use except what will be needed later,
+  which is written somewhere else entirely.
+
+  That is the mechanism of consumption-caused `unwinnable-state` stated as a property of a
+  binding shape rather than as an authoring mistake, and it says where a check belongs: not on
+  this binding, which is locally correct and will stay correct, but on what remains reachable
+  after it resolves.
+
+  [inference] The consequence for the format is that consumption has to be *declarable* rather
+  than written into response prose. A checker asking which bindings spend a given item gets an
+  answer from the graph; a reader asking the same question of prose gets one only if every author
+  happened to phrase it the same way.
+properties:
+  shape: binary
+  response: |
+    The item is used on the target and leaves the inventory. Two facts, and the second is the one
+    an author is least likely to state twice: response text reading "you pour out the last of the
+    oil" is not the same artifact as an edge saying the item is gone, and only the edge is
+    readable by anything but a person.
+  precondition: |
+    The item is carried and the target accepts it. [inference] Neither is about the state this
+    binding leaves behind, which is the point — a consuming binding's precondition cannot say
+    *and you will still need this later*, because that is a fact about the rest of the game
+    rather than about this moment. No precondition in this vocabulary can reach that far.
+  refusal: |
+    Ordinary, and beside the point. The failure that matters here is the acceptance rather than
+    the refusal; see the description.
+links:
+  - target: ../verb/use-with.yml
+    relationship: applies
+  - target: ../hotspot/static-region.yml
+    relationship: targets
+  - target: ../inventory-item/portable-object.yml
+    relationship: requires
+  - target: ../inventory-item/portable-object.yml
+    relationship: consumes
+  - target: ../interaction.ont.yml
+    relationship: instance-of

@@ -1,0 +1,108 @@
+id: effect-vocabulary
+summary: >-
+  Of the four effects a specimen could not write, one is a real gap in the ontology and three
+  were the specimen's author not finding what the ontology already had.
+context: |
+  `design/specimen/lighthouse.game` marked nine sites `?? UNSAYABLE` across four kinds of effect:
+  an item leaving the inventory (4), an object leaving the room (2), an option's availability
+  changing (2), and a conversation being left (1). `specimen-placement` recorded that as the
+  phase's headline — the effect vocabulary is too small to describe how a game breaks.
+
+  A specimen marks what *it* could not write. That is not the same as what the ontology cannot
+  say, and nothing in the specimen's method distinguishes the two. Each of the four was weighed
+  against the declarations that already exist before anything was added, on this corpus's
+  standing rule: a primitive earns its place by being something the existing vocabulary cannot
+  say, and the first move is to try to express the thing with what is already here.
+
+  Three of the four could be expressed. That is the finding, and it is about the specimen's
+  method as much as about the ontology.
+decision: |
+  **1. An item leaving the inventory — a real gap. Add `interaction -consumes-> inventory-item`.**
+
+  Nothing in the ontology says an object is spent. `found-in` says where it is, `carried-form-of`
+  what it was, `acquired-by` which binding took it; all three are about arriving or being. It is
+  not reducible to a flag: a flag says a thing happened, and consumption changes what the player
+  can still offer as a second object, which is a fact about the inventory rather than about the
+  world.
+
+  Declared on `interaction` and pointing out, which is the direction every other effect in this
+  ontology runs — `sets`, `opens`, `plays-in`, `returns-control-to`. That makes it asymmetric with
+  `acquired-by`, which sits on `inventory-item` and points back at the binding, and the asymmetry
+  is kept deliberately rather than repaired. The two answer different questions: *where did this
+  object come from* is asked of the object and usually has one answer, while *what does this
+  binding do* is asked of the binding and is the query a checker runs. Whether they should be
+  unified anyway is `[open]`, and unifying them means severing a committed edge, which wants its
+  own event.
+
+  **2. An object leaving the room — not a gap. It is entailed by `carried-form-of`.**
+
+  `inventory-item` is typed a UFO **role**, and `carried-form-of` names the hotspot the same
+  object is when it is not being carried. So acquiring the object *is* the hotspot ceasing to
+  stand in the room; they are one change described twice, not two writes that must be made
+  atomic. The specimen wrote both `give` and `remove` and the second was redundant.
+
+  This does not delete `acquisition-binding`'s atomicity concern — it relocates it. The window
+  that node predicts exists in an *engine* that keeps two records, which is what
+  `portable-object` already says. The authoring vocabulary has one fact, and an engine that
+  splits it owns the consequence.
+
+  A hotspot disappearing for some reason other than being picked up is a `world-flag` gating its
+  presence, and needs nothing new either.
+
+  **3. An option's availability — mostly not a gap. `world-flag` already has the scope.**
+
+  `world-flag.scope` has read "global, room-local, or **local to a conversation**" since genesis,
+  and `conversation -sets-> world-flag` is declared. An option's availability, and whether it has
+  been chosen, are conversation-scoped boolean flags. `topic-list.state_scope` describes exactly
+  that and calls the state local; nothing was missing but an instance.
+
+  One third of it does not reduce. `option-off-forever` is documented as permanent — "no other
+  command can ever turn it back on again" — and a flag that can be cleared cannot express a flag
+  that cannot. So: a new **property**, `reversible`, on `world-flag`, and not a new relationship.
+  A latching flag is a different kind of flag, not a different kind of edge.
+
+  **4. A conversation being left — not a gap. The relationship exists on another class.**
+
+  `cutscene -returns-control-to-> actor` has been declared since the class was seeded.
+  `conversation` describes itself as entered as a mode and left deliberately, and declares only
+  the entering. The same relationship is added to `conversation`; no new relationship type.
+
+  That it fits without alteration is evidence about both classes: a cutscene and a conversation
+  are two things that seize control and hand it back, which is a shared structure this ontology
+  had encoded once and not seen.
+
+  **Net: one new relationship, one new property, one existing relationship applied to a second
+  class, and two new instances to give them sites** — `interaction/consuming-binding` and
+  `world-flag/latched-flag`.
+rationale: |
+  **Why the reductions were looked for at all.** AGENTS.md states the rule and this is the first
+  phase where following it changed the answer: "A node earns its place by being something the
+  existing vocabulary cannot say. Before adding a class or a primitive, the first move is to try
+  to express the thing with what is already here and record what failed." Four candidate
+  additions arrived with a worked example behind each, which is the most persuasive form the
+  argument for an addition takes, and three of them did not survive the first move.
+
+  **What the specimen actually measured.** It marked every site where its author could not write
+  something down. That is a real and useful signal and it is not a measurement of the ontology —
+  it cannot separate *the ontology has no way to say this* from *I did not find the way it has*.
+  Three of four sites were the second. The specimen's own findings document claims the effect
+  table "was the whole problem" and that claim is now too strong: the table was under-read by the
+  same party that wrote it, twice — first missing `occupies`, then missing three of these four.
+
+  That is the same failure this repository has recorded three times: material accurately
+  retrieved, then reasoned about from memory rather than from the record. AGENTS.md now carries
+  it as a conduct norm about sources. It applies to the ontology exactly as it applies to a
+  catalog entry, and this decision is the case that shows so.
+
+  **Why `consumes` survives.** Every attempt to reduce it reached for a flag, and a flag is the
+  wrong shape. `world-flag` is described as what "carries meaning across rooms"; consumption
+  changes what the player can offer as a second object, which the interaction table reads
+  structurally rather than through a precondition — `binary-binding` says as much, that the item
+  being carried is one of the two structural preconditions "enforceable by the format". A flag
+  standing in for it would mean every consumable item's availability is authored twice, once
+  structurally and once by hand, with nothing holding them in step.
+
+  **Why this matters more than its size.** `failure-mode/unwinnable-state` names consumption as
+  the first of its two causes and marks itself decidable from authored content alone. Until now
+  the corpus could not say what a consumption is. The one addition here is the one that makes
+  that node's own claim about itself true.

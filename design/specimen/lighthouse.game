@@ -1,9 +1,12 @@
 # lighthouse — a specimen for ../bounded-expression-language.md
 #
 # Three rooms, five items, one counter, one conversation. Small enough to check by hand,
-# large enough to have an ordering. Written to find out what the proposed language cannot
-# say, so every place it could not say something is marked `?? UNSAYABLE` and counted in
-# README.md rather than quietly worked around.
+# large enough to have an ordering.
+#
+# It was written against an effect vocabulary that could not express nine of its sites, and
+# rewritten against the corrected one. Every `?? UNSAYABLE` is gone: one was a real gap and
+# is now `interaction -consumes-> inventory-item`; the rest were expressible all along. See
+# README.md for what changed and what that cost.
 #
 # It is DELIBERATELY WINNABLE-BUT-TRAPPED. One reachable sequence strands the player, and
 # that is the point: a specimen with no defect tests nothing.
@@ -24,8 +27,17 @@ item    oil-can     "a can of lamp oil"
 item    wick        "a length of braided wick"
 item    match       "one dry match"
 
-flag    crate-open  "the crate has been prised open"
+# `latched` is `world-flag.reversible: no` — nothing can put it back. A crate does not
+# re-nail itself, and saying so is what lets a checker walk a partial order instead of
+# searching every combination of flags.
+flag    crate-open  latched "the crate has been prised open"
 flag    door-open   "the lighthouse door is unlocked"
+
+# An option's availability is a conversation-scoped flag, which `world-flag.scope` has
+# allowed since genesis. There is no `disable` effect and none is wanted: with a predicate
+# layer, availability is a `when` re-read at display time rather than a write.
+flag    asked-lamp  in keeper-talk "the keeper has been asked about the lamp"
+flag    asked-key   in keeper-talk "the keeper has been asked for the key"
 
 counter lamp-prep 0..3 "how far the lamp is from lit: 0 bare, 1 wicked, 2 oiled, 3 burning"
 
@@ -36,6 +48,7 @@ room quay
   holds crowbar
 
   hotspot loose-crowbar "a crowbar left in a coil of rope"
+    is crowbar
     look-at:
       when carrying crowbar   "The rope is just rope now."
       otherwise               "A short crowbar lies half-buried in a coil of tarred rope."
@@ -44,7 +57,6 @@ room quay
       when  not carrying crowbar
       say   "You work it free of the rope."
       do    give crowbar
-      do    remove loose-crowbar    ?? UNSAYABLE — see loose-match
       else  "You have it."
 
   hotspot crate "a nailed-shut crate"
@@ -87,20 +99,20 @@ room quay
 conversation keeper-talk with keeper
 
   option lamp "The lamp is out."
+    when  not asked-lamp
     say   "Aye. Three nights now. I've not the hands for that stair any more."
     do    give wick
-    do    disable lamp              ?? UNSAYABLE — no relationship writes option state
+    do    set asked-lamp
 
   option wick-ask "Could I take the wick up myself?"
-    when  chosen lamp and not carrying brass-key
+    when  asked-lamp and not asked-key
     say   "If you can get through the door. Key's under the coil of rope."
     do    give brass-key
-    do    disable wick-ask          ?? UNSAYABLE — same
+    do    set asked-key
 
   option leave "Never mind."
     say   "Mm."
-    do    leave                     ?? UNSAYABLE — `opens` enters a conversation and
-                                    ?? nothing declares leaving one
+    do    leave
 
 # ── the ground floor ──────────────────────────────────────────────────────────
 
@@ -112,9 +124,10 @@ room base
 
     use-with oil-can:
       say   "You work the oil in until it swings sweetly. The can comes away empty."
-      do    take oil-can            ?? UNSAYABLE — nothing declares an item leaving
-                                    ?? THE TRAP. The oil is gone and the lamp cannot be
-                                    ?? filled. Reachable, silent, and unwinnable.
+      do    spend oil-can
+      ?? THE TRAP, and it is now expressible. The oil is gone and the lamp cannot be
+      ?? filled. Reachable, silent, unwinnable — and visible to a checker for the first
+      ?? time, because `spend` is an edge rather than a sentence in the response text.
       else  "It squeals."
 
   hotspot stair "a spiral stair"
@@ -143,6 +156,7 @@ room lamp-room
       do    move base
 
   hotspot loose-match "a single dry match"
+    is match
     look-at:
       when carrying match   "The shelf is bare."
       otherwise             "One dry match lies on the shelf, well back from the draught."
@@ -151,8 +165,6 @@ room lamp-room
       when  not carrying match
       say   "You pocket it, carefully."
       do    give match
-      do    remove loose-match      ?? UNSAYABLE — `acquired-by` names the binding and
-                                    ?? nothing removes the object from the room
       else  "You have it."
 
   hotspot lamp "the great lamp"
@@ -166,14 +178,14 @@ room lamp-room
       when  lamp-prep = 0
       say   "You thread the wick and trim it square."
       do    set lamp-prep 1
-      do    take wick               ?? UNSAYABLE — same as the oil
+      do    spend wick
       else  "It is wicked already."
 
     use-with oil-can:
       when  lamp-prep = 1
       say   "You fill the reservoir. The wick darkens as it drinks."
       do    set lamp-prep 2
-      do    take oil-can            ?? UNSAYABLE — same
+      do    spend oil-can
       else when lamp-prep = 0    "It would run straight through. It wants a wick first."
       else when lamp-prep >= 2   "The reservoir is full."
 
@@ -181,7 +193,7 @@ room lamp-room
       when  lamp-prep = 2
       say   "The wick catches, gutters, and stands up bright. The bay comes back."
       do    set lamp-prep 3
-      do    take match              ?? UNSAYABLE — same
+      do    spend match
       ending
       else when lamp-prep < 2    "Nothing to burn. You would waste the match."
       else                       "It is already lit."

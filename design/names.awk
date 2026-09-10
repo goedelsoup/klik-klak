@@ -26,7 +26,7 @@ function isname(t) {
 
 BEGIN {
   split("when else otherwise not and or carrying chosen count do say start ending holds " \
-        "with set clear incr give take move enter leave remove enable disable retire " \
+        "with set clear incr give spend move enter leave is in latched otherwise " \
         "look-at use-with talk-to pick-up walk-to give-to " \
         "room actor item flag counter hotspot option conversation", k, " ")
   for (i in k) KW[k[i]] = 1

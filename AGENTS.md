@@ -109,6 +109,17 @@ it carried a second escape-hatch quote the first reading had never recorded. **A
 if it is re-read at the point of inference.** When a conclusion is about to rest on a source,
 open the source; a re-fetch costs a minute and two phases here have been spent not doing it.
 
+**The ontology is a record too, and so is the list of open questions.** The same failure arrived
+a fourth time from a different direction: a worked specimen marked four things the vocabulary
+could not express, and three of them were already expressible by relationships declared since
+genesis. Before adding a class, a relationship or a property, run `yidam open-questions` and read
+the `.ont.yml` of every class involved. One of the properties added that way had been requested
+by name, in prose, in a corpus node, two phases earlier — and was arrived at from the opposite
+end without anyone noticing.
+
+A worked example is an excellent detector of trouble and a poor diagnostician of it. Treat every
+site it flags as worth checking and none of them as diagnosed.
+
 ## `design/` — where this repository proposes rather than records
 
 The corpus is documentary. Every node says what some engine did, what some source states, or

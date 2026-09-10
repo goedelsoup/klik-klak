@@ -1,0 +1,42 @@
+class: world-flag
+label: Latched Flag
+description: |
+  A boolean that can be set and never cleared. It is the shape
+  [state-gate](../puzzle/state-gate.yml) asked for by name — *"a gate over a counter that only
+  increments is irreversible; a gate over booleans that some other binding clears is not, and
+  nothing in the vocabulary makes the difference declarable"* — and the `reversible` property on
+  this class is that difference, made declarable.
+
+  Its grounding is one feature of one system, and it is a good one. AGS documents
+  `option-off-forever` as permanent: "the option is permanently disabled - no other command can
+  ever turn it back on again" ([ags-manual](../../catalog/ags-manual.md)). [verified] That is a
+  latch shipped as a primitive, in the one place a system built a bounded vocabulary and had to
+  choose what went into it. AGS's instance is local to a conversation; this node models the
+  general case as global, and no instance in this corpus exercises `scope: conversation` even
+  though the class has declared that value since genesis.
+
+  **[inference] The reason to declare a latch is the checker, not the author.** A flag that moves
+  one way makes the reachable state space a lattice rather than a graph — no configuration is
+  ever revisited — so reachability over latching flags is a walk over a partial order instead of
+  a search over every combination. [`reachability`](../../skills/reachability.md) is stubbed
+  against `graph-topology` for exactly that search, and a corpus whose flags mostly latch and
+  never say so is one where the cheap computation is available and invisible.
+
+  [open] How many flags in a real game latch is not known here. The guess worth testing is
+  *most* — a bridge burned, a character told, a door forced — and nothing in this corpus measures
+  it. If it is most, then `reversible` is the wrong default and the property should ask which
+  flags can be *un*set.
+properties:
+  domain: boolean
+  scope: global
+  reversible: no
+  save_semantics: |
+    As for a boolean, with the latch itself as the thing a save must not lose. [inference] A save
+    that restores a latched flag as clearable has corrupted no value — every flag reads exactly
+    as it should — and has quietly made reachable a state the author had proved unreachable. That
+    is a worse failure than a wrong value, because nothing about it looks wrong.
+links:
+  - target: ../puzzle/state-gate.yml
+    relationship: gates
+  - target: ../world-flag.ont.yml
+    relationship: instance-of

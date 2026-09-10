@@ -34,13 +34,20 @@ description: |
   What the evidence does *not* establish is that AGS authors pay for it. The manual's silence is
   consistent with the window this node predicts and does not demonstrate it. `[open]`
 
-  **[open] And the ontology cannot express the second write this whole argument rests on.** The
-  atomicity claim needs there to be two. `inventory-item -acquired-by-> interaction` names the
-  binding that acquires; no declared relationship removes the object from the room. As the
-  ontology stands an `interaction` may `set` a flag and `open` a conversation, and cannot take an
-  object out of a room — so the failure window predicted above is not merely unguaranteed by any
-  seeded subsystem, it is unsayable. Found by deriving an effect vocabulary from the ontology in
-  [design/bounded-expression-language.md](../../../design/bounded-expression-language.md).
+  **The ontology's inability to express the second write turned out to be this node counting
+  wrong.** A specimen marked the removal unsayable, and the weighing that followed found there is
+  no second write: `inventory-item` is typed a UFO **role**, and `carried-form-of` names the
+  hotspot the same object *is* when it is not being carried. So acquiring the object and the
+  hotspot ceasing to stand in the room are one change described twice.
+
+  [inference] That does not dissolve the atomicity concern, it relocates it — and to exactly
+  where [portable-object](../inventory-item/portable-object.yml) already put it. The window is a
+  property of an *engine* that keeps two records and has to hold them in step, not of an
+  authoring vocabulary that has one fact. An engine that splits the fact owns the consequence,
+  and the vocabulary is not what made it split.
+
+  A hotspot that disappears for some reason other than being picked up is a `world-flag` gating
+  its presence, and wants nothing new either. See `.yidam/decisions/effect-vocabulary.yml`.
 properties:
   shape: unary
   response: |

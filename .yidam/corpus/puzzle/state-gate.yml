@@ -20,8 +20,15 @@ properties:
     single home in the vocabulary; it is restated at each site that reads it.
   reversibility: |
     Depends on the flags beneath it. A gate over a counter that only increments is
-    irreversible; a gate over booleans that some other binding clears is not, and nothing in
-    the vocabulary makes the difference declarable. [open]
+    irreversible; a gate over booleans that some other binding clears is not.
+
+    **This asked for a declaration and now has one.** The sentence here used to end "and nothing
+    in the vocabulary makes the difference declarable. [open]" — `world-flag.reversible` is that
+    difference, and [latched-flag](../world-flag/latched-flag.yml) is the instance that shows
+    what a one-way flag is for. [inference] It was added from the other end entirely, by weighing
+    what a specimen could not write, and only afterwards found to be a request this node had
+    already made. A corpus that reads its own open questions before adding a primitive would have
+    got here first.
 links:
   - target: ../interaction/conversational-binding.yml
     relationship: solved-by
