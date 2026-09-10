@@ -28,7 +28,7 @@ Sorted by: kind, then alphabetically.
 | [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 4 | 2v / 3i / 0o | 63 |
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 6v / 4i / 0o | 86 |
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 3v / 3i / 2o | 59 |
-| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 8v / 8i / 5o | 142 |
+| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 13v / 8i / 5o | 188 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 0v / 2i / 2o | 50 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 0v / 4i / 0o | 61 |
@@ -41,7 +41,7 @@ Sorted by: kind, then alphabetically.
 | [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 0v / 1i / 1o | 32 |
 | [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 0v / 3i / 1o | 48 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
-| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 12v / 2i / 2o | 112 |
+| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 14v / 3i / 2o | 135 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 0v / 6i / 0o | 61 |
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 0v / 4i / 1o | 36 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |

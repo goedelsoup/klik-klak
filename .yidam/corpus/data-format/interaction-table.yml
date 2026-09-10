@@ -97,12 +97,47 @@ properties:
     item was used`.
 
     **That is not the middle, and it is much closer to it than anything else this corpus holds.**
-    A predicate that is a *command in a list* is not an expression language: nothing read here
-    shows two conditions combined, negated, or grouped. So the artifact sits between AGS's dialog
-    script, which has no predicate at all, and a bounded expression language, which has
-    composition. One conditional is documented and the combobox is never enumerated
-    ([ags-272-manual](../../catalog/ags-272-manual.md)), so how far it went is unknown here and
-    guessing would repeat the error this node has already made twice.
+    A predicate that is a *command in a list* is not an expression language: nothing shows two
+    conditions combined, negated, or grouped. So the artifact sits between AGS's dialog script,
+    which has no predicate at all, and a bounded expression language, which has composition.
+
+    **The combobox is enumerated now, and not from a manual.** The code that converts 2.x games
+    to 3.0 still ships in the AGS editor, so the definition of the layer 3.0 deleted is in the
+    repository ([ags-source](../../catalog/ags-source.md)). `NUM_ACTION_TYPES` is **48**.
+    [verified] Each action declares a name, an argument count, argument types drawn from
+    `ARG_TYPE_INT`, `_INV`, `_MSG`, `_CHAR`, `_BOOL`, `_VARONLY`, and flags — one of which,
+    `AFLG_COND`, marks it a predicate. Seven carry it:
+
+    | # | Conditional |
+    |---|---|
+    | 20 | If inventory item was used |
+    | 21 | If the player has an inventory item |
+    | 22 | If a character is moving |
+    | 23 | If a variable is set to a certain value |
+    | 45 | If the player character is |
+    | 46 | If mouse cursor mode is |
+    | 47 | If the player has been in room |
+
+    They **nest**: an `InteractionCommand` carries `Children`, a sub-list, and the converter emits
+    the command, then the child list, then a closing brace — a conditional guards the block under
+    it. So the artifact is a tree of guarded command lists, bounded at 30 events per entity, 40
+    commands per list, 5 arguments per command. [verified] Arguments are literal *or variable*.
+
+    **What it does not have is exactly what this corpus's design proposes, item for item.** No
+    `or` — nesting yields conjunction only. No `not`. No grouping. No comparison operators:
+    "If a variable is set to a certain value" takes a variable and an integer and tests equality,
+    and there is no other test over a variable in the table. No arithmetic — `Game - Set variable
+    value` assigns and nothing increments. Nothing counts an inventory. [verified]
+
+    That is the measurement this node had been asserting. **The gap is real and it is exactly one
+    thing: composition.** Predicates over world state are not what AGS lacked; combining them is.
+
+    Two further things the table says, neither of which was being looked for. **The escape is
+    action number 1** — `Run script`, second in a forty-eight-entry table after `Do nothing`,
+    present from the beginning and near the top of an alphabetical list. It was never a last
+    resort bolted on. And **once-only was a property of an action**: `Add score on first
+    execution` converts to `if (Game.DoOnceOnly(...))`, which is the same rule this corpus derived
+    for acquisition sources from `carried-form-of`, appearing here as a flag on a command.
 
     **The open question survives and it costs more than it did.** "Untested" is withdrawn.
     Something substantially in this region shipped for years at this exact scope and was
@@ -117,10 +152,21 @@ properties:
     behaviours changed, both named: interactions without scripting could previously run alongside
     a blocking script and "now, that is no longer the case"; and a `Run Dialog` action "waits until
     the dialog has finished before moving onto the next action", where the script equivalent "does
-    not block". [verified] The declarative action list was sequential and blocking by default and
-    the general-purpose language was not. That is a property of the declarative form, stated by
-    its own authors, and it is the axis this corpus's proposed language has never been asked
-    about.
+    not block". [verified] That is a property of the declarative form, stated by its own authors,
+    and it is the axis this corpus's proposed language has never been asked about.
+
+    **And the table shows how that layer answered it, which is more useful than the migration
+    note.** Not "blocking by default" — blocking is a *typed argument on the commands that take
+    time*. `Object - Move object` and `Character - Move character` each end in a `BOOL` the editor
+    labelled "Wait for move to finish"; `Character - Run animation loop` blocks unconditionally;
+    `Game - Pause command processor for a set time` is an explicit wait; and `Stop running more
+    commands` is an early exit from the list. [verified] So the action list was sequential, and
+    duration was declared per command by an author rather than inferred.
+
+    One more thing visible only in the converter: where an event's list is entirely inventory
+    checks, it appends `else { unhandled_event(<type>, 3); }`. [verified] The editor had an
+    **implicit default refusal**, which `interaction/default-binding` treats as a design choice
+    and which this system made silently.
 
     One smaller thing, for the collapse named at the top of this node. The 2.72 action editor's
     box "currently says 'Do nothing'" at the same moment the tutorial says "nothing is set to
