@@ -1,0 +1,113 @@
+id: found-in
+summary: >-
+  `inventory-item -found-in-> room` is not information. A hotspot belongs to a room, so where an
+  item is found is the room of the hotspot it is the carried form of — and where it has no carried
+  form it has no room at all. The format's realisation of it, `holds <item>`, is refused; the pair
+  that does carry the fact, `carried-form-of` and `acquired-by`, is held against itself for the
+  first time.
+context: |
+  This was opened as a check to write. `.yidam/decisions/actor-position.yml` left it in these
+  words: *"`holds <item>` remains decoration. `is <item>` on a hotspot is what places an object,
+  so a `holds` naming an item is a second statement of the same fact with nothing holding the two
+  in step — the shape of defect this corpus has found three times. It is a cheap check and it is
+  not written."*
+
+  It is not a check, and the reason is worth more than the check would have been.
+
+  **`inventory-item` declares three ways an object gets into play** — `found-in -> room`,
+  `carried-form-of -> hotspot`, `acquired-by -> interaction` — and the proposed format realises
+  all three: `holds <item>` in a room section, `is <item>` on a hotspot, `give <item>` as an
+  effect. [verified] — `.yidam/corpus/inventory-item.ont.yml`, and the three keywords in
+  `crates/game-format/src/parse.rs`.
+
+  **Nobody wrote the first one.** Across the four specimens: eleven items declared, eight of them
+  with an `is <item>` site, and three `holds <item>` lines in total. [verified] All three sit in
+  the game's start room directly above a hotspot that already says the same thing, and none of the
+  three games uses the keyword for its *second* item.
+  [`patrol.game`](../../design/specimen/patrol.game) — written in the phase that made `holds
+  <actor>` load-bearing, with the keyword freshly in hand — never reaches for it once. A keyword
+  used once per game at the top of the first room and then abandoned is not a convention. It is
+  what an author writes when the format offers a slot and the slot turns out not to matter.
+
+  **It does not matter, and that is measured rather than argued.** Four ways of writing `holds
+  <item>` wrong, against `lighthouse.game`: [verified] — the probe is reproduced as
+  `crates/game-format/tests/placement.rs`.
+
+  | what was written                          | states | strandings | problems |
+  |-------------------------------------------|--------|------------|----------|
+  | the specimen as committed                 | 103    | 1          | none     |
+  | `holds` removed entirely                  | 103    | 1          | none     |
+  | `holds` moved to a different room          | 103    | 1          | none     |
+  | `holds` naming an item nothing stands for | 103    | 1          | none     |
+  | `holds` contradicting itself, two rooms   | 103    | 1          | none     |
+
+  Not "cheap to check". **Indistinguishable.** Writing it wrong in every way available produced
+  the same analysis as writing it right, because nothing downstream reads it.
+decision: |
+  **`holds` holds actors.** An item named there is a resolve error, and the error names what does
+  say the thing: *"a room holds actors, and `coin` is an item — where an item starts is `is coin`
+  on the hotspot it stands in the room as"*. Three lines leave `ferry`, `lighthouse` and
+  `nightwatch`.
+
+  **`carried-form-of` and `acquired-by` are checked against each other.** A hotspot that stands
+  for an item must have a binding *on that hotspot* that gives *that item*.
+
+  **`found-in` stays in the ontology.** What leaves is the demand that an author write it. An item
+  *is* found in a room; the claim is true and the edge is real. It is simply never independent of
+  the other two, and a vocabulary that asks for it is asking for a copy.
+rationale: |
+  **Why not the check that was asked for.** A check holds two statements in step. That is worth
+  doing when both statements have consequences and they can disagree about something. Here one of
+  them has no consequence at all — the table above is what that looks like — so a check would be
+  asking the author to maintain a fact whose only purpose is to be verified against the fact it
+  was copied from. [inference] The cheaper vocabulary is the one that does not offer the slot.
+
+  **The corpus had already written the rule and had not applied it to itself.**
+  [`inventory-item/portable-object`](../corpus/inventory-item/portable-object.yml) rejected a
+  proposal — a flag standing in for consumption — in these words: *"every consumable item's
+  availability is authored twice… with nothing holding the two in step"*. [verified] It wrote that
+  sentence with `found-in` in its own `links:` block, authored twice by exactly that description.
+  A node can state a rule and carry an instance of its violation, and the instance will not
+  announce itself, because the node was looking outward when it wrote the rule.
+
+  **`found-in` is derived where it is defined and undefined where it is not.** Of
+  `lighthouse.game`'s five items, two have a carried form and so a room; one comes from a binding
+  on a hotspot, whose room is the site's; and two — `wick` and `brass-key` — come from `option`
+  bindings inside a conversation, and a conversation is not in a room. [verified] So for two of
+  five items in the largest specimen there is no room they are found in, and the format was
+  offering a slot for it anyway. An author who filled that slot honestly would have had to invent
+  an answer.
+
+  **The real instance of the shape was one line away, and the design was already leaning on it.**
+  [`bounded-expression-language.md`](../../design/bounded-expression-language.md) rules an object
+  leaving the room *not* a gap, because `carried-form-of` means "acquiring it and the room losing
+  it are one change described twice", and relocates the atomicity worry to "an engine that keeps
+  two records, not to a vocabulary with one fact". [verified]
+
+  The vocabulary has one fact **only if the two names agree**, and nothing made them. `is <item>`
+  says which hotspot goes away; the `give` in a binding on that hotspot is what makes it go. Let
+  them name different items and the hotspot stays in the room forever while the player carries the
+  thing.
+
+  **And the failure is silent in the direction that matters.** Making `nightwatch.game`'s
+  `loose-wire` hand over the ledger instead of the wire resolved without a word and took the
+  analysis from **fourteen states and two strandings to six and none**, still reporting the game
+  winnable — because handing the player the ledger at the front gate wins it. [verified] —
+  `crates/game-format/tests/placement.rs` applies that exact mutation to the committed specimen.
+
+  A defect that makes the report *longer* an author will investigate. A defect that makes it
+  *shorter* looks like progress. [inference] That asymmetry is the whole argument for why this
+  pair earned a check and the other did not: one of them cannot be got wrong, and the other gets
+  wrong quietly and in the flattering direction.
+
+  **What is not decided.** `found-in` is now known to be a real relationship that no author should
+  be asked to write, and the ontology has no way to say that about an edge. Marking derived edges
+  would be a schema change, and this is one instance. The corpus's own rule — that a thing earns
+  its place by being what the vocabulary cannot say — cuts against adding the marker until a
+  second edge wants it, and no search has been made for one. `[open]`
+
+  Whether the check should also refuse a give of some *other* item on a hotspot that stands for
+  one is untested. All eight `is` sites in the four specimens give exactly what they stand for and
+  nothing else [verified], so the corpus has no case where a hotspot legitimately hands over
+  something besides itself — and no case where it does not, either. The narrow rule is what the
+  derivation needs; the broad one is a guess. `[open]`

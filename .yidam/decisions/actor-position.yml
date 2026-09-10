@@ -111,7 +111,18 @@ rationale: |
   exercise a primitive it argued for is a question `design/specimen` has not had to answer
   before. `[open]`
 
-  And `holds <item>` remains decoration. `is <item>` on a hotspot is what places an object, so a
-  `holds` naming an item is a second statement of the same fact with nothing holding the two in
-  step — the shape of defect this corpus has found three times. It is a cheap check and it is not
-  written. `[open]`
+  And `holds <item>` remains decoration. This asked for a check, on the reading that `is <item>`
+  and a `holds` naming the same item are a second statement of the same fact with nothing holding
+  the two in step.
+
+  **Closed, and not by writing it.** `holds <item>` was not a second statement worth holding in
+  step: omitted, moved to another room, aimed at an item nothing stood for, or made to contradict
+  itself, it produced the same states, the same strandings and the same silence as writing it
+  right. Nothing read it. It is a resolve error now, and the relationship behind it —
+  `inventory-item -found-in-> room` — turns out to be derived where it is defined and undefined
+  where it is not.
+
+  The shape was real and it was one line away, in the pair the design already leans on: `is
+  <item>` names the hotspot that goes away and a `give` on that hotspot is what makes it go, and
+  a disagreement between them makes the checker *quieter*. That pair is checked now. See
+  [`found-in`](found-in.yml).
