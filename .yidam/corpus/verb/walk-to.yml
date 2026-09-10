@@ -8,12 +8,13 @@ description: |
 
   **Assessed, and the answer is that it is not a verb.** Not subsumed by another verb, which is
   what happened to [give-to](../verb/give-to.yml) — nothing here collapses into anything. It fails
-  a different test: it is the one action in this vocabulary whose response is *computed* rather
-  than authored, and a verb with no authorable response has nothing for an interaction table to
-  hold.
+  a different test: what an author can write in this slot is always the same thing, and that
+  thing is an exit.
 
-  The evidence is unusually clean because AGS's own fallback table states it by omission among
-  inclusions, and because the two engines agree for once. See `earns_its_place`.
+  **The verdict is unchanged and the argument that produced it is withdrawn.** This node said the
+  response is *computed* rather than authored, and that "a verb with no authorable response has
+  nothing for an interaction table to hold". A fourth system gives it one. See `earns_its_place`:
+  the correction makes the case stronger, because an absence has been replaced by a witness.
 
   What the specimen actually needed is a different thing, in a class this assessment was not
   looking at, and this corpus declared it at genesis and then forgot: an **exit**.
@@ -41,6 +42,16 @@ properties:
     The same contraction kept `talk` as a group of its own and folded `pick-up` into hands; it did
     not fold walking anywhere. It stopped being a verb and became what happens when you click.
 
+    **Thimbleweed Park keeps it in the table and, as far as the diary shows, not in the
+    surface.** `verbWalkTo` is a first-class binding slot on an object, written exactly like
+    `verbLookAt` and `verbUse` beside it ([twp-dev-diary](../../catalog/twp-dev-diary.md)).
+    [verified] The only place the diary names verbs as a set is an argument about keyboard
+    shortcuts, and it lists six — Open, Close, Use, Push, Pull, Pickup — with no walk.
+    [verified] So the slot exists where a binding is written and the word does not appear where
+    verbs are chosen, which is the **exact reverse of AGS**, where Mode 0 sits in the standard
+    mode list and is missing from the dispatch table. [inference] Neither system has it in both
+    places, and they fail to in opposite directions.
+
     Tumbleweed retyped it. The template provides twelve actions and eleven of them carry one
     prefix: `eGA_LookAt, eGA_TalkTo, eGA_GiveTo, eGA_PickUp, eGA_Use, eGA_Open, eGA_Close,
     eGA_Push, eGA_Pull, eGA_UseInv, eGA_Default and eMG_WalkTo`. [verified] The twelfth is
@@ -50,8 +61,11 @@ properties:
     it, so it is a template willing to add verbs, and it declined to add this one as one.
   default_response: |
     **There is none, and that is the finding.** This property asks what a verb says when directed
-    at a target no interaction was authored for, and `walk-to` has no answer in either engine —
-    not a generic refusal, not a per-category one, nothing.
+    at a target no interaction was authored for, and `walk-to` has no answer in any of the four
+    systems read here — not a generic refusal, not a per-category one, nothing. Thimbleweed Park
+    is the one that gives the verb an authorable response and it does not change this: a slot an
+    author fills per door is not a default, and no post describes what happens at a target where
+    the slot is empty. [inference]
 
     AGS says so in the strongest available form. `unhandled_event`'s parameter table is a verb ×
     entity-kind matrix of twenty-six rows, and it is the most information-dense thing this corpus
@@ -98,24 +112,39 @@ properties:
     dropped by the contraction that preserved `talk`; retyped by a template that was adding verbs
     at the time. [verified]
 
-    *And it has no third tier at all.* That is the verdict. Both other tiers can be argued; this
-    one cannot. A verb, in this vocabulary, is a thing an author binds a response to — the
-    `default_response` property exists to ask what happens when they do not. `walk-to` has no
-    answer, AGS's fallback matrix has no row for it, and this corpus's own `path-solver` already
-    recorded that an author never touches the thing that produces its behaviour.
+    *And the third tier is where the assessment was wrong, and where it is now strongest.* This
+    said `walk-to` has no authorable response at all, and rested it on an absence: AGS's fallback
+    matrix has no row for it, and this corpus's own `path-solver` records that an author never
+    touches the thing that produces its behaviour.
+
+    **A fourth system was read a phase later and it has one.** Thimbleweed Park's objects carry
+    `verbWalkTo` as an ordinary binding slot ([twp-dev-diary](../../catalog/twp-dev-diary.md)),
+    and the sentence "no engine lets an author write its response" is false. [verified]
 
     | verb | surface | operation | authorable response |
     |---|---|---|---|
-    | `look-at` | kept by all three | none anywhere | yes |
-    | `talk-to` | kept by all three | AGS only | yes |
-    | `use-with` | kept by all three | AGS dispatches it separately | yes |
-    | `pick-up` | SCUMM folded, AGS kept | SCUMM only | yes |
-    | `walk-to` | exceptional in all three | **three opcodes in SCUMM, hard-coded in AGS** | **none** |
+    | `look-at` | kept by all four | none anywhere | yes |
+    | `talk-to` | kept by all four | AGS only | yes |
+    | `use-with` | kept by all four | AGS dispatches it separately | yes |
+    | `pick-up` | SCUMM folded, AGS and TWP kept | SCUMM only | yes |
+    | `walk-to` | exceptional in all four | **three opcodes in SCUMM, hard-coded in AGS** | **yes, in one — and it is always the same response** |
 
-    The column that was added to hold this verb is the one that answers the question, and four
-    assessments went by without needing it. [inference] A vocabulary measured only by what engines
-    provide would have kept this verb on the strength of the operation column, which is the
-    strongest in the table.
+    **What is written in it decides, and it is better evidence than the absence was.** Every
+    `verbWalkTo` the diary shows — on a hall door, on a hotel-room door, on a test street's bank
+    door — is `enterRoomFromDoor(<the door on the other side>)` and nothing else. [verified]
+    Three of three, and the sample is small and consistent. The slot is authorable and what
+    authors put in it is an **exit**.
+
+    So the verdict stands on a positive finding instead of a missing table row. `walk-to` is not
+    a verb because its response does not vary with the target the way a verb's does: `look-at`
+    says something different about every object in the game, and this says *go through*. A verb
+    whose authorable response is a fixed shape parameterised by a destination is a different
+    primitive wearing a verb's clothes.
+
+    The column that was added to hold this verb is still the one that answers the question, and
+    four assessments went by without needing it. [inference] A vocabulary measured only by what
+    engines provide would have kept this verb on the strength of the operation column, which is
+    the strongest in the table.
 
     **What the specimen was actually writing.** All six sites carry `do move <room>` and nothing
     else ([design/specimen](../../../design/specimen/README.md)), and `move` is not theirs — the
@@ -142,7 +171,14 @@ properties:
     [data-format/room-manifest](../data-format/room-manifest.yml) lists a room's written form as
     its extent, backgrounds, hotspot geometry, walkbox polygons "and its exits" — naming "an exit
     naming a room that does not exist" as checkable while reading the file. The authored game
-    format has no exits, so a game written in it invented a verb to stand in for one.
+    format has no exits, so a game written in it reached for a verb to stand in for one.
+
+    **"Invented" is the word this said and it is the wrong one.** A walk-to binding on a door
+    whose whole body is *go to the other room* is what Thimbleweed Park's authors write, in the
+    same slot, for the same reason. [verified] The specimen converged on a shipped engine's
+    construct from five verbs and no knowledge of it — which is a stronger result than the
+    invention it was described as, and is the reason the residue below is worth more than a tidy
+    verdict would have been.
 
     **What `connects-to` does not have is the interesting residue, and it is `[open]`.** One of the
     six sites is guarded and refuses:
