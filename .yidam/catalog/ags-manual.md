@@ -27,7 +27,6 @@ used-by:
   - ../corpus/verb/give-to.yml
   - ../corpus/verb/look-at.yml
   - ../corpus/interaction/default-binding.yml
-  - ../corpus/prior-art/ags.yml
   - ../corpus/failure-mode/orphaned-dialogue-branch.yml
   - ../corpus/world-flag/latched-flag.yml
   - ../corpus/inventory-item/stackable-item.yml
@@ -47,7 +46,7 @@ markdown under `ags-manual-source` is the same text and is retrievable.
 
 ## What was actually read
 
-Eight pages. The count is kept current because this entry is read to decide what is
+Seventeen pages. The count is kept current because this entry is read to decide what is
 citable, and a stale one understates what is available — it said "two pages, and only
 two" while listing eight, for six of which it was the only record.
 
@@ -221,6 +220,76 @@ two" while listing eight, for six of which it was the only record.
 
   A template that was willing to add `eGA_GiveTo` to the action list put its exits in a
   description string and a user mode instead. See `verb/walk-to.yml`.
+
+- **`UpgradeTo30.md`** — read for where the escape hatch sits in room and hotspot interactions,
+  and it answers a question this corpus had been asking of the wrong document. **"The Interaction
+  Editor has been removed from AGS 3.0. When you import your game, AGS will attempt to convert all
+  your interactions into scripts."**
+
+  So AGS had a declarative authoring layer for room and hotspot interactions and deleted it. The
+  page states two things that changed, and neither is about expressiveness:
+
+  > "Concurrency issues -- that is, while a blocking script was running in 2.72 it was still
+  > possible for interactions to run at the same time if they didn't include any scripting. Now,
+  > that is no longer the case."
+
+  > "Blocking interactions -- in 2.72, a 'Run Dialog' interaction, for example, waits until the
+  > dialog has finished before moving onto the next action. If you had a Run Dialog followed by a
+  > Change Room, then the dialog would finish before the room change happened. With scripting, you
+  > need to be careful because the dialog[x].Start() command does not block".
+
+  And a third thing died with it: "Global Messages are no longer supported and should be
+  considered obsolete -- **there's really no need for them now that the interaction editor has
+  gone.**"
+
+  **What the page does not say is why it was removed.** It reasons about migration hazards and
+  never about the decision. It also opens by calling 3.0 "this new editor" and "a massive
+  improvement over the old one" — 3.0 was a full editor rewrite, so the removal is consistent with
+  a rewrite's scope and does not by itself demonstrate a verdict on declarative authoring. That
+  distinction is load-bearing and is kept in `prior-art/ags.yml`.
+- **`acintro3.md`** — the tutorial's hotspot chapter, and the page that shows where the boundary
+  sits *now*. Clicking the "..." button on an event "will create an entry in the script for this
+  event, and you'll find yourself taken to the script editor". The tutorial's first interaction is
+  a function body:
+
+      function hSignHome_Look()
+      {
+          Display("The sign says 'EWOH'. I have no idea what that could mean.");
+      }
+
+  Also here: the walk-to point is a hotspot *property*, and "whenever the player clicks interact
+  or talk on the hotspot, the main character will first walk to the walk-to point before the
+  relevant event is triggered." Movement is the automatic prelude to an interaction rather than
+  something an author binds — see `verb/walk-to.yml`.
+- **`Hotspot.md`** — the whole hotspot API, read to check whether any declarative facility
+  survives. It does not. Sixteen members, all script: `GetProperty`, `SetProperty`,
+  `RunInteraction`, `IsInteractionAvailable`, `Enabled`, `WalkToX`, `WalkToY` and the rest.
+- **`CustomProperties.md`** — the one declarative surface that did survive, and its own motivating
+  example says what it is worth. Characters, objects, hotspots, rooms and inventory items carry
+  author-defined properties of type "Boolean", "Number" and "Text". The page opens by wanting a
+  per-hotspot default verb — "if the player right-clicks a window, for example, 'Open' will be the
+  default, but if they click on a pen, 'Pick up' will be the default" — and resolves it as: create
+  the property, "and then have some simple code in the global script to use the setting
+  accordingly." **Declarative data, script behaviour**, stated by the manual as the pattern.
+- **`GlobalVariables.md`, `Globalfunctions_General.md`, `Game.md`** — read for the vestiges of the
+  removed layer, which are still documented. `GetGraphicalVariable`/`SetGraphicalVariable` "allow
+  your script to access the values of variables set in the interaction editor", example
+  `GetGraphicalVariable("climbed rock")==1`; both marked obsolete, "only provided for backwards
+  compatibility with AGS 2.x". `GlobalVariables.md` names them: "GlobalInts and Graphical
+  Variables were ways in which previous versions of AGS provided global variable capabilities."
+  `Game.GlobalMessages` and `DisplayMessage` are the message tables the editor displayed from;
+  "Global Messages were a feature of AGS 2.x and are now obsolete."
+- **`BlockingScripts.md`** — the page that exists because interactions became script. Three script
+  threads, a queue of five, events lost when a thread blocks too long, and a worked example of
+  event ordering that surprises authors. None of this was an authoring concern when a
+  non-scripted interaction could run alongside a blocking script, which `UpgradeTo30.md` says it
+  could.
+- **`Scripting.md` and `ScriptingLanguage.md`** — the indexes, read to size the thing being
+  escaped to rather than to cite it. Roughly sixty API pages and twenty language pages. For room
+  and hotspot interactions this is not a hatch at the end of a declarative surface; it is the
+  surface.
+- Also read and not cited: `EditorRoom.md`, which mentions interactions nowhere, and
+  `Globalfunctions_Message.md`.
 
 ## What this document holds that nobody here has looked at
 
