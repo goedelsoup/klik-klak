@@ -1,0 +1,104 @@
+class: data-format
+label: Dialogue Script
+description: |
+  The written form of a conversation: who says what, in what order, which lines the player may
+  choose, what each choice leads to, and — the part this corpus cares about — **the condition
+  under which a line is offered at all**.
+
+  It exists as a node because a shipped game contains one, and because reading it answers the
+  question [interaction-table](../data-format/interaction-table.yml) calls the most valuable
+  open one in this corpus.
+
+  **A bounded expression language was tried at exactly this scope, by the people who invented
+  the form, and it shipped.** *Delores* carries eleven `.yack` files, 692 non-blank lines, in a
+  language that is not the engine's general-purpose one
+  ([delores-source](../../catalog/delores-source.md)). [verified] It has seven line kinds and
+  nothing else:
+
+      === main ===
+      1 SAY(12046,"You got evicted from the Mansion mansion?") -> invicted [once]
+      2 SAY(12051,"There is a job opening at the bank.") -> job_opening [YACK(knows_about_invicted) and !Bank.open and MainStreet.bankDoorSign.seen]
+      9 SAY(12056,"See ya around, sis.") -> done
+
+      === invicted ===
+      { YACK(knows_about_invicted) = YES }
+      lenore: SAY(12058,"Yes!")
+      -> main
+
+  A section label, an actor line, a numbered player option, a jump, a guard in square brackets,
+  a brace block, and `if`/`endif`. That is the whole surface.
+
+  **The guard layer is real and it never escaped.** 141 guards. 62 are bare modifier tags —
+  `once` 47, `showonce` 13, `temponce` 2 — and **79 are expressions**, using equality (39),
+  negation (16), conjunction (7 `&&` and 3 `and`), disjunction (3), inequality (2) and ordering
+  (6). [verified] They read conversation-local variables, globals, the inventory, and object
+  fields in other rooms by name — `MainStreet.bankDoorSign.took_photo`, `Bathroom.tried_switch`,
+  `Bank.open`.
+
+  **Not one of the 79 reaches for the general-purpose language.** That is the finding. This
+  corpus has carried an open question asking whether a bounded expression language avoids the
+  escape, and the answer from the only system that ran the experiment is **yes, for guards**.
+
+  **The escape is real, it is somewhere else, and it is delimited.** 46 `{ … }` blocks carry
+  *effects*: mostly assignments to conversation variables, and in a minority arbitrary Dinky —
+  `inputOff`, `startthread`, `actorWalkTo`, `verb_open()`, `saveGame`, `startEnding`. [verified]
+  So the boundary in a shipped dialogue language falls between **asking** and **doing**: the
+  predicate layer held, the effect layer did not.
+
+  That is not what this corpus expected and it is more useful. `interaction-table`'s
+  `escape_hatch` had the escape sited at responses "that must compute something" — a question
+  about expressiveness. The measured boundary is about *kind*: guards are closed, effects are
+  open.
+
+  **And it is the same experiment AGS ran and lost, with the missing piece restored.** AGS's
+  dialog script has eight commands, **none of which reads anything**, and escapes to ordinary
+  script by indentation ([ags-manual](../../catalog/ags-manual.md)). [verified] Yack has the
+  predicate layer AGS's lacked, and its escape is a brace rather than a whitespace convention —
+  which is the deliberate answer to a hazard `interaction-table` recorded and could not resolve:
+  "An author who indents by accident has silently changed which language the line is written in."
+
+  **The structure it encodes is a hub, not a tree.** Of 91 jumps, 33 go to `main`, 30 to `exit`
+  and 8 to `done`; the rest are local hubs of the same shape. [verified] There is **no
+  return-stack construct anywhere** — no equivalent of AGS's `goto-previous`, and no `back`.
+  Every return to the list is an explicit named jump. That confirms
+  [topic-list](../conversation/topic-list.yml) as the base case from a second, independent
+  system, and it says how path-dependence is actually carried: by **state**, in 47 conversation-
+  scoped variables, written by the author. [inference]
+properties:
+  syntax: |
+    Line-oriented and hand-written, with one construct per line and no nesting except
+    `if`/`endif`. Sections are labelled with `=== name ===`; control flow is `-> label` and
+    nothing else. A player option is a digit, a line, and a jump — and the digit is a *sort key*
+    for the menu rather than an identifier, so several options may share one.
+
+    Author-visible text is never bare: every line is `SAY(<id>,"<text>")`, a macro expanding to
+    the string `"<id>:<text>"`, so the translation key travels with the text in the file the
+    writer edits. [verified] This corpus's response text has no such thing, and the omission is
+    invisible until somebody translates a game.
+  authored_by: |
+    A person, writing dialogue. It reads as a script — speaker, colon, line — which is the
+    constraint [interaction-table](../data-format/interaction-table.yml) sets itself and cannot
+    fully meet, and this format meets it by giving up on being general: it encodes one class and
+    is unusable for anything else.
+
+    [inference] That is the trade worth taking from this node. A format that reads like writing
+    is achievable when its scope is one kind of content. The interaction table is harder because
+    it must carry declarations and prose in one file.
+  escape_hatch: |
+    `{ … }`, and it is used for effects rather than for questions. See the description: 79 guard
+    expressions escape zero times; 46 brace blocks escape often.
+
+    Two properties of it are worth copying and one is worth refusing. **It is delimited** —
+    a reader can see where the language changes, which AGS's indentation does not give.
+    **It is positional** — a brace block sits between lines, so it fires at a point in the
+    exchange rather than being attached to a choice. And **it is unbounded**: anything Dinky can
+    do, a brace block can do, including starting threads and quitting the game. [verified]
+
+    Whether the effect side could have been bounded the way the guard side was is not answerable
+    from this artifact — nobody tried. `[open]` It is the sharper form of this corpus's central
+    question, because the guard half now has a demonstrated answer and the effect half does not.
+links:
+  - target: ../conversation/topic-list.yml
+    relationship: encodes
+  - target: ../data-format.ont.yml
+    relationship: instance-of

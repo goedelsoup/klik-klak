@@ -127,7 +127,7 @@ properties:
     | `talk-to` | kept by all four | AGS only | yes |
     | `use-with` | kept by all four | AGS dispatches it separately | yes |
     | `pick-up` | SCUMM folded, AGS and TWP kept | SCUMM only | yes |
-    | `walk-to` | exceptional in all four | **three opcodes in SCUMM, hard-coded in AGS** | **yes, in one — and it is always the same response** |
+    | `walk-to` | exceptional in all four | **three opcodes in SCUMM, hard-coded in AGS, a phase of every verb in Delores** | **yes, in one — and it is always the same response** |
 
     **What is written in it decides, and it is better evidence than the absence was.** Every
     `verbWalkTo` the diary shows — on a hall door, on a hotel-room door, on a test street's bank
@@ -220,7 +220,49 @@ properties:
     ([ags-manual](../../catalog/ags-manual.md)). [verified] Only the room-level one has been
     demonstrated by a specimen, so only it was built.
 
-    So this residue stands, unchanged and now better described. `[open]`
+    **The residue has an answer now, measured off a shipped game rather than argued.** *Delores*
+    is the same engine three years later, and its whole source is public
+    ([delores-source](../../catalog/delores-source.md)). Four counts settle most of this.
+
+    **Walking is a phase of every verb, declared by exception.** The engine's verb table carries
+    a list called `verb_no_walkto` with **four** members; every other verb in the game walks the
+    actor to the target first, and the manual says what happens then: `execSentence(actor, verb,
+    noun1, noun2)` — "If the actor has to walk, the verb code will be called from
+    `_actorArrived`." [verified] That is this node's verdict stated by the engine's own data
+    structure. Walking is not one of the things you can do to an object; it is what happens
+    before you do any of them, and a verb opts out of it by being named in a list.
+
+    **The unconditional exit is a declaration and there are twenty of them.** An object writes
+    `to_door = @Room.doorObject` and `door_verbs = YES`, and carries no code at all. The engine
+    synthesises the rest — `_initObject` "sets up door verbs if `object.door_verbs` is set" — and
+    what it synthesises is exactly the shape this residue asked for: `okverb_use` returning
+    `state == "open"`, and a `verb_use` that calls `exitRoomFromDoor` when it does. [verified]
+    **A precondition and a response, generated from one boolean.**
+
+    **The exit that must refuse is a binding, and there are three.** `VERB(walkto)` appears
+    eleven times in the game: eight are a single `exitRoomFromDoor(...)` between outdoor screens
+    that have no door object to declare, and three are a `sayLine` — *"The street looks blocked
+    off."* [verified] So both halves of the residue are visible in one game, and they are
+    written differently: the exit that needs nothing is data, and the exit that needs to speak is
+    code.
+
+    **What is not answered is the gated exit, and the reason is that game.** No exit in Delores
+    is ever gated: no `to_door` object is made untouchable or hidden anywhere, and no door is
+    locked and later opened — every barrier in it is permanent. [verified] The machinery for it
+    exists unused, one level down: a declared door's `state` gates `okverb_open`, `okverb_close`
+    and `okverb_use`, so *"locked, and the salt has taken the hinges"* would be written on the
+    door's `open` verb while the exit itself stayed a bare declaration. Nobody wrote that, so it
+    is a reading of the vocabulary rather than a use of it. [inference]
+
+    So the residue narrows to one thing and stops being about exits. `[open]`
+
+    **And the other granularity is built there too.** This node concluded that the two classes
+    wanting arrival wanted it at two granularities — a room, and a place within a room — and that
+    only the first had been built here. Delores has the second: `Templates/TRIGGERNAME.dinky`
+    declares `triggerEnter(actor)` and `triggerLeave(actor)`, and the game uses 11 and 13 of them
+    across four rooms. [verified] A region within a room, entered and left, with the actor passed
+    in. It is a separate object kind rather than a verb, which is the same answer this corpus
+    reached for `on-enter` one granularity up.
 links:
   - target: ../prior-art/ags.yml
     relationship: originated-in

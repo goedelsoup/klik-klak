@@ -112,12 +112,72 @@ description: |
   how the game plays is the rule that makes it checkable, and the checking is not available to
   the system that adopted it.
 
-  [open] What the escape hatch was *used for* is answered here from a blog's sample. The
-  complete Delores game scripts run on this engine and are public
-  ([twp-dev-diary](../../catalog/twp-dev-diary.md)); reading them would replace every
-  `[inference]` in the table above with a count.
+  ---
+
+  **That `[open]` is closed. The scripts were read, and this node now covers one system across
+  two games.** *Delores: A Thimbleweed Park Mini-Adventure* shipped in 2020 on this engine,
+  programmed by Gilbert and David Fox, and its complete source is public
+  ([delores-source](../../catalog/delores-source.md)). There is one node rather than two because
+  there is one system: the language is Squirrel with a preprocessor, renamed **Dinky**, and
+  everything the diary described is recognisably here three years on. What changed is the
+  vocabulary around it, and the direction it changed in is the finding.
+
+  **The table above survives and the sample was honest.** Counted over the whole game — 203 live
+  bindings across 21 rooms — 121 (59.6%) are a single statement, **91 (44.8%) are a single
+  `sayLine`**, 62 (30.5%) hold a conditional, and **155 of 203 (76.4%) contain no loop, no
+  thread, no blocking call and no delegation**. [verified] The escapes are the ones the blog's
+  sample named: 34 bindings (16.7%) block or take time, 18 (8.9%) call another verb slot on the
+  same object, 12 start a thread, 7 loop.
+
+  Two shapes dominate everything. **110 of the 203 bindings — 54% — are `lookat`**, and of the
+  164 object declarations in the game, **46 carry no verb slot at all** and 82 carry exactly one.
+  [verified] Beside them sit 290 bare props with neither a name nor a behaviour. A real
+  interaction table is far emptier than this corpus has been imagining.
+
+  **The direction of travel is toward declaration, on every axis this corpus argues about.**
+
+  - The binding slot became a **declared form**: `verbLookAt = function()` in 2016 is
+    `VERB(lookat) { … }` in 2020, a macro expanding to `verb_lookat <- function(noun2=null)`.
+    The prefix this node recorded as a namespace collision hazard is now generated. [verified]
+  - The exit became **data**. Twenty exits, every one `to_door = @Room.doorObject` with
+    `door_verbs = YES` and no code, from which the engine synthesises a precondition and a
+    response. See [walk-to](../verb/walk-to.yml). [verified]
+  - Conversations left the general-purpose language entirely, into **Yack** — see
+    [dialogue-script](../data-format/dialogue-script.yml), which is this phase's largest finding.
+  - Repetition — the pressure this node identified as what broke the declarative form first — is
+    answered by **named archetypes selected with a boolean**. `door_verbs = YES` and
+    `on_off_verbs = YES` expand into a full set of preconditions and responses: a switch declares
+    `okverb_turn_on` as `state == "off"`, `verb_turn_on` as `objectState(this,"on")`, and a
+    `stateChange` that flips which verb the object offers by default. [verified] Not a macro and
+    not a helper function — a property. That is *a name for a shape*, which is what this node
+    said the escape hatch was actually being used for, moved into the vocabulary.
+
+  **And the preconditions are declarable, and the humans never declare them.** `VERB_OK(x)`
+  defines `okverb_x`, a predicate the engine consults before offering a verb at all — this
+  design's `when`, in that vocabulary. Every use in the entire game is engine-supplied, inside
+  the two archetypes. [verified] Every precondition the game's authors wrote by hand is an `if`
+  inside a response.
+
+  That is worth stating as a rule rather than a curiosity: **a precondition separate from its
+  response is what you need when the vocabulary *generates* bindings, and not when a person
+  writes one.** [inference] An author writing a single binding reaches for `if`, because the
+  refusal and the response are one thought. A generator cannot, because it must decide whether to
+  offer the verb before it knows what the author would have said.
+
+  **The verb vocabulary is a list, and it is meant to be edited.** `master_verb_list` holds 63
+  verbs; the file's opening comment is "When adding a new verb, it must be added to the following
+  three lists, and the forth if it is a use-with verb." 46 are used in the game and **26 of those
+  are used exactly once** — `dissolve`, `jab_with`, `scrape`, `lick`, `tighten`. [verified] This
+  is not a bounded vocabulary that authors live within; it is a table authors extend per puzzle,
+  with a load-time check — `registerVerbs` warns when a binding names a verb the list does not
+  hold — standing in for the discipline.
+
+  What *is* bounded is the **schema**: six lists declare, per verb, its menu position, its display
+  text with `$NOUN1$`/`$NOUN2$` slots, whether it is binary, whether the actor walks to the
+  target, whether the actor reaches, and whether proximity is required. [verified] The primitive
+  is not the verb. The primitive is the verb schema, and the verbs are its instances.
 properties:
-  era: "2015-2017"
+  era: "2015-2020"
   vocabulary_shape: |
     An on-screen verb grid below the scene, with the inventory beside it — the *Maniac Mansion*
     surface rather than the verb coin, kept deliberately. The sentence line was removed in
@@ -133,6 +193,13 @@ properties:
     to a thing, `TALKABLE` plainly corresponds to a talk verb, and `GIVEABLE` to a give one —
     which is a reading, not a quotation. [inference]
 
+    **Three years later the set is not six or nine but sixty-three, and it is a file.** See the
+    description: `master_verb_list` is authored data with instructions at the top for extending
+    it, and the surface is a per-object pop-up rather than a fixed bar — an object offers the
+    verbs it has slots for, in the list's order, with a `default_verb` for a plain click that
+    falls back through look-at, examine, read, look-at-far, instant and finally walk-to.
+    [verified]
+
     **Four of those have no node in this corpus.** Open, Close, Push and Pull were kept by the
     newest system in the corpus, built by the people who wrote the oldest, and this vocabulary
     declares none of them. That is not the same finding as `vocabulary-coverage`'s *undeclared
@@ -145,6 +212,13 @@ properties:
     cooperative threads before the first room existed. There is no declarative layer beneath it
     for behaviour.
 
+    **And by 2020 there are two, and one of them is a language they wrote.** Conversations moved
+    out of Dinky entirely into `.yack`, which has its own grammar and a guard layer that never
+    escapes ([dialogue-script](../data-format/dialogue-script.yml)). Exits, doors and on/off
+    switches moved out of code into declared archetypes. So the answer this node leads with — a
+    general-purpose language, chosen in week two — is where the system *started*, and every
+    subsequent movement was away from it. [inference]
+
     The structure around the cells is declarative and is not the same question: rooms and
     objects are tables, geometry is a JSON file written by a tool, and neither contains code.
     So the boundary is drawn one level lower than this corpus proposes — around the *response*
@@ -155,14 +229,23 @@ properties:
     is weak, and it is the honest reading: the alternative this corpus is testing does not
     appear to have been on the table.
   source_standing: |
-    [The development diary](../../catalog/twp-dev-diary.md), read 2026-09-10 — twenty-two posts
+    Two sources, and the second is stronger than any this corpus holds.
+    [Delores's complete authored source](../../catalog/delores-source.md), read 2026-09-10 — the
+    whole game, plus the engine's own manual, countable and reproducible. And
+    [the development diary](../../catalog/twp-dev-diary.md), read the same day — twenty-two posts
     of 258, primary, by the authors, with their own source in them. Everything above that quotes
     is `[verified]`; everything that generalises from a sample of illustrated code to the game is
     `[inference]` and marked.
 
     This is the corpus's first prior-art node whose source is neither a manual nor a reverse
-    engineering. It is also the only one where a claim about *why* a choice was made rests on
-    the person who made it saying so.
+    engineering, and the only one where a claim about *why* a choice was made rests on the person
+    who made it saying so. It is also the only one where a claim about *what was built* can be
+    counted rather than quoted.
+
+    The two sources divide cleanly and the division is worth keeping: the diary carries the
+    reasons and no numbers, the source carries the numbers and no reasons. Neither covers the
+    other, and Thimbleweed Park's own source — five times the size of Delores — is not public, so
+    every proportion here is a proportion of the smaller game.
 links:
   - target: ../verb/look-at.yml
     relationship: implements

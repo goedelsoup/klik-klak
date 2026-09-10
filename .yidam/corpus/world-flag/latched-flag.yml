@@ -12,8 +12,17 @@ description: |
   ever turn it back on again" ([ags-manual](../../catalog/ags-manual.md)). [verified] That is a
   latch shipped as a primitive, in the one place a system built a bounded vocabulary and had to
   choose what went into it. AGS's instance is local to a conversation; this node models the
-  general case as global, and no instance in this corpus exercises `scope: conversation` even
-  though the class has declared that value since genesis.
+  general case as global.
+
+  **`scope: conversation` is exercised now, by a second system, and it is not a curiosity.**
+  Delores's dialogue language declares conversation-local variables with `YACK(x)`, and its
+  guards read them **47 times** — more than every other kind of reference in those guards
+  combined ([delores-source](../../catalog/delores-source.md)). [verified] What they record is
+  what the player has been told: `knows_about_invicted`, `heard_about_job`. So the scope earns
+  its place for the reason `conversation.ont.yml` says the class does — the exchange carries
+  state that belongs to it — and every one of those 47 is a latch in the sense this node means.
+  Still no instance in this corpus *declares* that scope; see
+  [object-state](../world-flag/object-state.yml), which added a fourth value the same way.
 
   **The reason to declare a latch is the checker, not the author — and the reason this node gave
   for that is wrong.** It said a flag that moves one way makes the reachable space "a lattice
