@@ -246,15 +246,30 @@ properties:
     written differently: the exit that needs nothing is data, and the exit that needs to speak is
     code.
 
-    **What is not answered is the gated exit, and the reason is that game.** No exit in Delores
-    is ever gated: no `to_door` object is made untouchable or hidden anywhere, and no door is
-    locked and later opened — every barrier in it is permanent. [verified] The machinery for it
-    exists unused, one level down: a declared door's `state` gates `okverb_open`, `okverb_close`
-    and `okverb_use`, so *"locked, and the salt has taken the hinges"* would be written on the
-    door's `open` verb while the exit itself stayed a bare declaration. Nobody wrote that, so it
-    is a reading of the vocabulary rather than a use of it. [inference]
+    **The gated exit was recorded here as unanswered, on a claim that is false.** This node said
+    no exit in Delores is ever gated — no `to_door` object made untouchable, no door locked and
+    later opened — and predicted where a gate would go if anyone wrote one: *"on the door's `open`
+    verb while the exit itself stayed a bare declaration"*.
 
-    So the residue narrows to one thing and stops being about exits. `[open]`
+    **The prediction was right and the claim that nobody had used it was wrong.** `Nickel.door`
+    carries `door_verbs = YES`, `to_door = @AStreet.nickelDoor`, and a `VERB_PRE(open)` that returns
+    `NO` unless the camera is in inventory — *"I should find the camera before setting out."* The
+    engine's dispatcher aborts the verb on that `NO`. [verified] A bare declaration with a
+    precondition and a refusal on its `open` verb: exactly the shape read off the vocabulary here,
+    written down, and it is the gate that starts the game. A second exit is gated by the other
+    mechanism this node said was unused — `MainStreet.bankDoor` runs `objectTouchable(this,
+    Bank.open ? YES : NO)` in its own `enter`. [verified]
+
+    Both were missed because neither is a `VERB_OK`, which is where a reader looks for a
+    precondition, and one of them hangs on a binding the engine generates and never writes down.
+    See [delores-source](../../catalog/delores-source.md), which carried the same error.
+
+    **So the residue is discharged rather than narrowed.** Both halves are exhibited in one shipped
+    game — eighteen bare declarations and two gated — and the primitive is built:
+    `exit <name> to <room>`, with an optional `when` and `else` under it, expanding at parse time
+    into the binding this node's own example was written as. The specimens agree on the shape
+    without having been consulted about it: 20 exits, 15 bare, 5 carrying a guard or refusal.
+    [verified] `.yidam/decisions/exit-archetype.yml`.
 
     **And the other granularity is built there too.** This node concluded that the two classes
     wanting arrival wanted it at two granularities — a room, and a place within a room — and that

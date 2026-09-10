@@ -59,9 +59,14 @@ properties:
     `usedir` says which way they face — arrival at *a place within a room*, which is the residue
     [walk-to](../verb/walk-to.yml) left open and which `on-enter` was built and found not to
     cover. Thimbleweed Park answers it as two fields on the target rather than as a trigger, a
-    binding, or a verb. [verified] Whether that is the whole of the residue is `[open]`: it
-    positions the actor and it does not carry the precondition and refusal the specimen's locked
-    door needed.
+    binding, or a verb. [verified] Whether that was the whole of the residue is answered and it was
+    not: `usepos` and `usedir` position the actor and carry no precondition and no refusal, which
+    is what the specimen's locked door needed. The other half of the residue — the exit itself — is
+    now `exit <name> to <room>` with an optional guard under it, declared the way this file declares
+    things and expanded before anything reads the game
+    (`.yidam/decisions/exit-archetype.yml`). [inference] So the same engine answers the two halves
+    in the same style, as fields on a declaration, and this corpus has followed it on one and not
+    yet on the other: arrival at a place *within* a room is still unbuilt here.
 links:
   - target: ../room/single-screen.yml
     relationship: encodes
