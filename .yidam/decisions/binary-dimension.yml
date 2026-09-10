@@ -1,0 +1,84 @@
+id: binary-dimension
+summary: >-
+  The reduction works exactly — every specimen analyses identically with its second objects moved
+  into guards — and `use-with` keeps its place anyway, because the binary form is what makes *the
+  item is carried* structural rather than authored. The framing was wrong too: a shipped game
+  answers "fewer verbs or simpler ones" with neither.
+context: |
+  [use-with](../corpus/verb/use-with.yml) was seeded with the sharpest form of this corpus's central
+  question: *"A vocabulary without it is meaningfully smaller — not by one entry, but by a whole
+  dimension. Whether the puzzles it enables can be expressed by unary verbs over a richer world
+  state is `[open]`, and the answer decides whether 'minimal' means fewer verbs or simpler ones."*
+
+  **It had been answerable all along, in this repository's own code.** `crates/reachability`'s
+  `offered` gates a binding's second object on `items[o] >= 1`, and `Pred::Carrying(o)` evaluates to
+  `items[o] >= 1`. [verified] The same expression, reached two ways, ten lines apart. So the
+  reduction is not an approximation of the binary form — it *is* the binary form, spelled
+  differently, and the question of whether the puzzles survive it was never in doubt once anyone
+  looked.
+decision: |
+  **`use-with` keeps its place, and none of the three reasons the node offered is the reason.**
+
+  The reduction is exact. `crates/reachability/tests/arity.rs` applies it to the model on all four
+  specimens — every second object becomes a `carrying` conjunct, no verb renamed, none added — and
+  every figure is unchanged: reachable set, transitions, strandings, stranded count, winnability,
+  observed space, latch violations. [verified] Arity costs the state space nothing.
+
+  What it costs is two things, and only the second is decisive.
+
+  **The report.** `lighthouse.game` strands the player by pouring the oil into the wrong hinge, and
+  the checker names the oil. Reduced, the same states are stranded by the same binding for the same
+  cause, and nothing can say what was spent. [verified] `use-with` predicted this when it was seeded
+  — *"every refusal has to name which of the two objects is wrong"* — and predicted it as a cost to
+  the player. It is also a cost to the checker, which nobody had said.
+
+  **The structure**, and this is why the verb stays.
+  [binary-binding](../corpus/interaction/binary-binding.yml) already wrote the answer in a property
+  nobody read as one: *"The item is carried, the target is present, and any gating flag holds. The
+  first two are structural and enforceable by the format; only the third is authored."* The
+  reduction moves *the item is carried* from the first group to the third. It becomes a thing an
+  author writes, and can forget, and can write differently in two places.
+rationale: |
+  **This corpus has already rejected a proposal on exactly that ground.**
+  [portable-object](../corpus/inventory-item/portable-object.yml) refused a flag standing in for
+  consumption because it would mean an item's availability was *"authored twice — once structurally
+  by the format, which binary-binding says is where 'the item is carried' belongs, and once by hand
+  — with nothing holding the two in step"*. [verified] The unary reduction is that proposal
+  generalised: it makes *every* binary binding's carrying precondition hand-written. Accepting it
+  after refusing the narrower version would be deciding the same question two ways. [inference]
+
+  **The framing was wrong, and a shipped game says so.** The node offered a choice between fewer
+  verbs and simpler ones. Delores declares 57 verbs, **18 of them binary in an engine list validated
+  at boot**, and there is **no generic "use with" among them** — `giveto`, `unlock_with`, `jab_with`,
+  `fill`, `puton`, `scrape`, `dissolve`, `tighten`. 26 of its 203 bindings take a second object.
+  [verified] ([delores-source](../catalog/delores-source.md).)
+
+  So it went the other way from the reduction and further than the corpus's own design: it kept
+  arity *and* multiplied verbs, naming each binary application instead of routing them through one.
+  Sixteen of those verbs are exercised, thirty are used unarily, and **the two sets do not
+  intersect at all** — not one verb in that game is used both ways. [verified] Arity is not a
+  property a verb sometimes has there; it is what a verb is. [inference]
+
+  That is the third system to make arity explicit and the second to declare it. AGS exposes it as a
+  cursor-mode checkbox an author must not tick for `Use Inventory`; Delores as a list checked at
+  boot. Neither infers it. [verified]
+
+  **And the binary share agrees across two unrelated bodies of work, which is the third time this
+  has happened.** Delores is 26 of 203 — 12.8%. These four specimens, written years later by a
+  different party with a six-verb vocabulary and no reference to that game, are 11 of 87 — **12.6%**.
+  [verified] After the exit census (20 and 20) and the out-degree measurement, this is the third
+  independent agreement, and the pattern is worth naming: **the shapes this corpus arrives at by
+  writing specimens keep matching the proportions of a shipped game it did not consult.**
+  [inference] That is weak evidence that the specimens are representative and strong evidence that
+  they are not idiosyncratic, which is more than an authoring trial by the proposing party is
+  usually worth.
+
+  **What stays open.** The reduction being free to the analysis is a fact about *this* checker, and
+  this checker treats inventory as a count per item with a declared ceiling. A checker that modelled
+  the item's identity — which of two crowbars — might not be indifferent, and nothing here has one.
+  `[open]`
+
+  And the thing the measurement did not touch: **a binary verb makes the table two-dimensional**,
+  which is `binary-binding`'s combinatorics argument, and n×m cells is a cost to an *author* rather
+  than to a checker. Every measurement in this record is a checker's. The authoring cost of arity is
+  the same axis `duplication` found this corpus cannot see, and it is unmeasured here too. `[open]`
