@@ -73,7 +73,7 @@ commented out. 46 distinct verbs are used. **110 of the 203 — 54% — are `loo
 | …and that statement is a `sayLine` | 91 | 44.8% |
 | contains a conditional | 62 | 30.5% |
 | contains a blocking or timed call | 34 | 16.7% |
-| calls another verb slot on the same object | 18 | 8.9% |
+| calls another verb slot | 18 | 8.9% |
 | starts a thread | 12 | 5.9% |
 | contains a loop | 7 | 3.4% |
 | **free of loops, threads, blocking and delegation** | **155** | **76.4%** |
@@ -81,6 +81,17 @@ commented out. 46 distinct verbs are used. **110 of the 203 — 54% — are `loo
 The 155 call 28 distinct functions between them, and the census is short: `SAY` 219, `sayLine`
 180, `ONCE` 22, `objectState` 9, `exitRoomFromDoor` 8, `pickupObject` 7, `inInventory` 4,
 `removeInventory` 3, and a tail of sound, animation and camera calls.
+
+**Delegation, recounted — 2026-09-10.** That row read *"calls another verb slot on the same
+object"* when it was first written, and the count is right while the description is not. 34
+`verb_<x>(` call sites appear in `Scripts/`; **20 are inside an authored binding** and 14 are
+engine helpers, room enter and exit code, cutscene bodies and Yack effect blocks. The 20 sit in
+the 18 bindings above, two of which carry two calls each.
+
+**Six of the 18 delegate to the object the binding is on.** Twelve name a different object, and
+two of those name one in another room. Seven distinct shapes are involved and only two of them are
+a response running another response on the same thing; the taxonomy and what it decided are in
+`.yidam/decisions/delegation.yml`.
 
 **Objects.** 164 `DEFINE_OBJECT` declarations. **46 (28%) carry no verb slot at all** — a name,
 an article, some properties, and nothing that happens. 82 carry exactly one. Two carry five or
@@ -176,5 +187,5 @@ The `.wimpy` files themselves, in detail — 307 KB of room geometry, walkboxes,
 object placement, which is the declarative half of the surface and has been read here only
 through one quoted example. `Scripts/Helpers/SystemHelpers.dinky` (1,258 lines) and
 `Options.dinky` (659), which are where the authors' own abstractions live. The 34-page manual,
-of which four pages were read. And `Scripts/Inventory.dinky`, read only as a source of binding
-counts.
+of which four pages were read. And `Scripts/Inventory.dinky`, read for binding
+counts and for its one delegation site, and not otherwise.

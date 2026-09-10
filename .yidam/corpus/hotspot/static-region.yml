@@ -32,6 +32,23 @@ description: |
   corpus made without evidence and now has evidence against. `[open]` — whether they need to be
   two properties depends on whether anything but presentation reads the difference, and nothing
   here has asked.
+
+  **A third absence, and it arrived from the other side of the vocabulary.** This class also has
+  no way for a region to say what it is *relative to another region* — that it is part of one,
+  that it is the same thing as one, or that it reads the way one does. The evidence for wanting
+  that came out of a count of delegation, which is a `verb` question on its face: of the twenty
+  sites where a Delores binding runs another binding, **eleven are not about running a response at
+  all**. Four are a sink handing its mechanical verbs to its own faucet; two are a second clickable
+  region of one circus and one hotel; three are traffic cones that read alike, one of them seen
+  from another room; two are a thing that reads as a different thing while some flag holds — a
+  shut bank's door reading as the sign on it. [verified]
+  ([delores-source](../../catalog/delores-source.md), and
+  `.yidam/decisions/delegation.yml` for the taxonomy.)
+
+  A region that could say it reads as another would remove all eleven, and no verb primitive
+  removes any of them. [inference] What it would cost is a decision this corpus has not made: the
+  eleven want at least three different relations — part-of, same-as, and says-the-same — and one
+  game is not enough to choose among them or to collapse them. `[open]`
 properties:
   geometry: polygon
   visibility: always
