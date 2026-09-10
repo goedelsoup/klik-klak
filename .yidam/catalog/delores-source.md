@@ -103,6 +103,28 @@ an article, some properties, and nothing that happens. 82 carry exactly one. Two
 more. Alongside them, 290 bare props (`name = {}`): positioned art with no name and no
 behaviour.
 
+## Arity — 2026-09-10
+
+**26 of the 203 bindings take a second object — 12.8%** — counted as those whose body or guard
+mentions `noun2`. They use **16 distinct binary verbs**, and the 30 verbs used unarily do not
+overlap them at all: **not one verb in the game is used both ways.**
+
+    fill 4   empty 4   giveto 2   loosen 2   tighten 2   repair 2
+    takephoto, toss, burnin, dropin, puton, jab_with, dissolve, scrape, vandalize_with, unlock_with — 1 each
+
+**Arity is declared rather than inferred.** `Scripts/Helpers/VerbHelpers.dinky` holds
+`ROOT(verb_usewith_list)` — 18 verb ids — beside `verb_no_walkto`, `verb_no_reach` and
+`verb_not_close`, and a boot-time loop warns if any member is missing from the master list. The
+master list declares 57 verbs.
+
+**There is no generic "use with" in it.** No `VERB(use)` appears anywhere in `Rooms/` or
+`Inventory.dinky`; the only `verb_use` in the game is the one `door_verbs = YES` synthesises for
+going through a door, which is unary. Every binary interaction is a *named* verb — `unlock_with`,
+`jab_with`, `puton`, `scrape` — so this game kept arity and multiplied verbs rather than routing
+them through one. That is the opposite of the reduction
+`.yidam/decisions/binary-dimension.yml` was testing, and further from it than this corpus's own
+six-verb design.
+
 ## The dependency graph — 2026-09-10
 
 **What Gilbert draws as a Puzzle Dependency Chart, read off the source instead.** Every unit that
