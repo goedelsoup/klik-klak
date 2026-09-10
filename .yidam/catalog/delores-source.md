@@ -98,7 +98,44 @@ an article, some properties, and nothing that happens. 82 carry exactly one. Two
 more. Alongside them, 290 bare props (`name = {}`): positioned art with no name and no
 behaviour.
 
-**Exits.** 20, and **every one of them is a declaration**: `to_door = @Room.doorObject` plus
+## The dependency graph — 2026-09-10
+
+**What Gilbert draws as a Puzzle Dependency Chart, read off the source instead.** Every unit that
+can read or write named state was extracted — 203 bindings, 50 room `enter`/`exit` bodies, 101
+Yack topics — and an edge drawn from a unit that writes a name to a unit that reads it. `VERB_OK`
+guards are folded into the binding they guard.
+
+| | |
+|---|---|
+| units | 354 |
+| dependency edges | 115, carried by 41 distinct state names |
+| units touched by any edge | 94 |
+| longest dependency chain | **5 steps** |
+| maximum antichain (Dilworth width) | **54** |
+| layer sizes by longest-path depth | 31, 39, 19, 3, 2 |
+| out-degree where a step unblocks anything | mean **2.45**, median **2**, max 9, n = 47 |
+
+Out-degree distribution: 1 → 20 steps, 2 → 12, 3 → 5, 4 → 3, 5 → 3, 6 → 2, 8 → 1, 9 → 1. So
+**43% of unblocking steps open exactly one thing and 36% open two or three.**
+
+The names carrying the most edges are what an adventure game's state looks like:
+`YACK.asked_for_coroner_time` 12, `carrying.glass` 9, `GLOBAL.hired_lenore_state` 9,
+`MainStreet.fireHydrant.isWaterSource` 8, `carrying.screwdriver` 8, `Alleyway.valve.position` 8,
+`Bank.open` 6.
+
+**What this is not.** A Puzzle Dependency Chart is a designer's list of puzzles; this is every
+read-after-write over a named variable. It over-counts — `looked_at`, `seen`, `tried_switch` and
+dialogue loop counters are in it — and it under-counts, because a dependency carried by anything
+other than a named variable is invisible to it. Removing edges internal to one object leaves 77
+units, 90 edges, a longest chain of 4 and an antichain of 47; the shape does not change.
+
+**Reproducing it.** The extractor is not committed, because its input cannot be. Structure comes
+from indentation rather than braces — 8,592 lines here start with a tab against 211 with a space,
+`DEFINE_OBJECT` sits at one tab in 163 of 164 cases and `VERB`/`VERB_OK` at two — and any
+reimplementation should reproduce these four figures before its dependency numbers are trusted:
+**203 bindings, 46 distinct verbs, 107 live `lookat` bindings, 141 Yack bracket expressions.**
+
+**Exits.** 20, and **almost every one of them is a declaration**: `to_door = @Room.doorObject` plus
 `door_verbs = YES`, with no code. The engine synthesises the verbs — `_initObject` "sets up door
 verbs if `object.door_verbs` is set". The two door objects that carry any verb slot carry
 `lookat` only. **No exit in the game is ever gated**: no `to_door` object is made untouchable or
