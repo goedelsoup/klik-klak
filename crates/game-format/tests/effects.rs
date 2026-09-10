@@ -116,3 +116,76 @@ fn neither_specimen_contains_a_dead_write() {
         );
     }
 }
+
+/// `.yidam/decisions/effect-half.yml` claims the effect list is bounded by the ontology rather
+/// than by anyone's judgement: **an effect is a relationship an interaction can author**, so the
+/// list is closed exactly when the ontology is. That claim rested on eight doc comments nobody
+/// had read together, which is worth nothing unless something breaks when it stops being true.
+///
+/// Two things break here. The match is **exhaustive**, so a ninth effect does not compile until
+/// somebody names the relationship it realises. And the names are checked against the class
+/// files, so naming one the ontology does not declare fails in the gate rather than in a review.
+fn relationship_realised(e: &Effect) -> &'static str {
+    match e {
+        Effect::SetFlag(_) | Effect::ClearFlag(_) | Effect::SetCounter(..) => "sets",
+        Effect::Give(..) => "acquired-by",
+        Effect::Spend(..) => "consumes",
+        Effect::Move(_) => "occupies",
+        Effect::Enter(_) => "opens",
+        Effect::Leave => "returns-control-to",
+    }
+}
+
+/// The class files that declare them. Read as text on purpose: this workspace has no
+/// dependencies, and a substring search over a `relationship:` line is enough to catch the
+/// failure this test exists for — a relationship named here and nowhere in the corpus.
+const ONTOLOGY: [&str; 6] = [
+    include_str!("../../../.yidam/corpus/interaction.ont.yml"),
+    include_str!("../../../.yidam/corpus/inventory-item.ont.yml"),
+    include_str!("../../../.yidam/corpus/actor.ont.yml"),
+    include_str!("../../../.yidam/corpus/conversation.ont.yml"),
+    include_str!("../../../.yidam/corpus/cutscene.ont.yml"),
+    include_str!("../../../.yidam/corpus/world-flag.ont.yml"),
+];
+
+#[test]
+fn every_effect_realises_a_declared_relationship() {
+    // Every variant, so that the assertion runs over all of them rather than over a sample.
+    // The exhaustive match above is what forces a ninth to be accounted for; this list is what
+    // forces it to be *checked*, and a variant added to one and not the other is a gap.
+    let every = [
+        Effect::SetFlag(String::new()),
+        Effect::ClearFlag(String::new()),
+        Effect::SetCounter(String::new(), 0),
+        Effect::Give(String::new(), 1),
+        Effect::Spend(String::new(), 1),
+        Effect::Move(String::new()),
+        Effect::Enter(String::new()),
+        Effect::Leave,
+    ];
+
+    let mut named: Vec<&str> = Vec::new();
+    for e in &every {
+        let r = relationship_realised(e);
+        assert!(
+            ONTOLOGY
+                .iter()
+                .any(|o| o.contains(&format!("relationship: {r}"))),
+            "{e:?} claims to realise `{r}`, and no class in the ontology declares it. \
+             Either the relationship belongs in a class file or the effect does not belong \
+             in the vocabulary — see .yidam/decisions/effect-half.yml"
+        );
+        if !named.contains(&r) {
+            named.push(r);
+        }
+    }
+
+    // Eight variants over six relationships. The gap is `sets`, which three effects share
+    // because a flag has three ways to be written and one way to be related to.
+    assert_eq!(
+        named.len(),
+        6,
+        "the effect list realises {} relationships, not six: {named:?}",
+        named.len()
+    );
+}
