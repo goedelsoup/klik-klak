@@ -13,6 +13,15 @@ description: |
   feature, "Dialogs or 'dialog topics'", and never distinguishes the two shapes as different
   kinds of asset. [inference]
 
+  **A second system, built independently, agrees.** Delores's conversations are hubs: of 91 jumps,
+  33 return to a label named `main`, 30 leave, 8 reach a terminal, and the remainder go to local
+  hubs of the same shape ([delores-source](../../catalog/delores-source.md)). [verified] Options
+  carry `once` and `showonce` — 47 and 13 uses — which is exhaustion declared per choice, on the
+  choice, and it is the only removal mechanism in the language. Nothing there descends a tree.
+
+  Two systems is not a survey, and it is two more than this node had when it was seeded as the
+  counter-case. [inference]
+
   This corpus had it the other way round for two phases, treating the tree as canonical and this
   as a degenerate form that probably belonged in `interaction`. The reduction argument below is
   what that reading produced, and it survives as an argument about *bindings* while failing as an

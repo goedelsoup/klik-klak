@@ -41,6 +41,19 @@ description: |
   which disqualifies it as the thing the class is founded on: a class cannot rest on a property
   half its instances lack. What both forms share — modality, and carried option availability — is
   what `conversation.ont.yml` now rests on instead.
+
+  **And a shipped game shows the path state being carried without any structure to carry it.**
+  Delores's eleven conversations have **no return-stack construct at all** — nothing answering to
+  `goto-previous`, no `back`, no implicit return; every return to a hub is a named jump, and 33 of
+  91 jumps go to one label ([delores-source](../../catalog/delores-source.md)). [verified] What
+  they have instead is **47 conversation-scoped variables** the author sets and then reads in
+  guards: `[YACK(knows_about_invicted) and !Bank.open and MainStreet.bankDoorSign.seen]`.
+
+  So this node's founding sentence — "a path is not a thing any verb-target binding records" — is
+  answered in the plainest way available. A path *is* recorded, by the author, as ordinary state,
+  in the same predicate layer everything else in that game is gated by. [inference] The stack is
+  one way to remember where you have been. A flag is the other, and it is the one a real game
+  used, because a flag survives the conversation ending and a stack does not.
 properties:
   structure: branching-tree
   exhaustion: |
