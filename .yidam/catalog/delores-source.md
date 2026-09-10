@@ -65,7 +65,12 @@ closure that takes an optional second noun.
 ## What was counted — 2026-09-10
 
 **Bindings.** 203 live `VERB(...)` bindings across the rooms and the inventory; six more are
-commented out. 46 distinct verbs are used. **110 of the 203 — 54% — are `lookat`.**
+commented out. 46 distinct verbs are used. **107 of the 203 — 52.7% — are `lookat`.**
+
+**That figure read 110 until it was recounted.** There are 111 `VERB(lookat)` occurrences in
+`Scripts/`; three are commented out and one is in `Defines/DefineActors.dinky`, which the 203
+excludes. 111 − 1 = 110 was the arithmetic, and it counted three of the six commented-out bindings
+this same entry records. A figure and its own caveat, in one entry, disagreeing.
 
 | | count | share |
 |---|---|---|
@@ -135,11 +140,24 @@ from indentation rather than braces — 8,592 lines here start with a tab agains
 reimplementation should reproduce these four figures before its dependency numbers are trusted:
 **203 bindings, 46 distinct verbs, 107 live `lookat` bindings, 141 Yack bracket expressions.**
 
-**Exits.** 20, and **almost every one of them is a declaration**: `to_door = @Room.doorObject` plus
+**Exits.** 20, and **eighteen of them are a bare declaration**: `to_door = @Room.doorObject` plus
 `door_verbs = YES`, with no code. The engine synthesises the verbs — `_initObject` "sets up door
 verbs if `object.door_verbs` is set". The two door objects that carry any verb slot carry
-`lookat` only. **No exit in the game is ever gated**: no `to_door` object is made untouchable or
-hidden anywhere.
+`lookat` only.
+
+**Two exits are gated, and this entry said none were.** It read *"No exit in the game is ever
+gated: no `to_door` object is made untouchable or hidden anywhere"*, and both halves are false:
+
+- `Nickel.door`, the way out of the newspaper office, carries `VERB_PRE(open)` returning `NO`
+  unless the camera is in inventory — *"I should find the camera before setting out."* It is the
+  gate that starts the game.
+- `MainStreet.bankDoor` runs `objectTouchable(this, Bank.open ? YES : NO)` in its own `enter`.
+  A `to_door` object, made untouchable, conditionally.
+
+Both are invisible to a reader looking for gating *on the exit verb*, which is what the earlier
+reading looked for. Neither is written as a `VERB_OK`: one is a `VERB_PRE` on a binding the engine
+generates from `door_verbs = YES` — a precondition on a response nobody wrote — and the other is a
+touchability write in an unrelated function. The archetype hides the seam.
 
 Separately, 11 `VERB(walkto)` slots exist and every one is an exit or a refusal to exit — 8 are
 a single `exitRoomFromDoor(...)` between outdoor screens with no door object, and 3 are a
