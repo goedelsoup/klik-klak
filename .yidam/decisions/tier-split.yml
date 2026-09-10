@@ -1,0 +1,83 @@
+id: tier-split
+summary: >-
+  Four questions this corpus asked as though they had one answer resolved only by being asked of
+  each tier separately, and the fourth turned up a third answer site the ontology does not declare:
+  the interface. The two-tier split is a working method rather than a taxonomy convenience, and the
+  tell that it is needed is a question that resists an answer for several phases.
+context: |
+  `verb/give-to` names this and records it nowhere: *"This is the third time the tier split has
+  been the answer to a question this corpus asked as though it had one — after `pick-up` and
+  `talk-to`. That is now a finding about the method rather than about any verb."*
+
+  It has since happened a fourth time in `default-binding`, and that one is different in kind. This
+  record collects all four and states what the fourth added.
+
+  The tiers are `ontology.yml`'s: an **authoring tier** — what an adventure game is, eleven classes
+  — and an **engine tier** — what realizes the vocabulary, two classes — plus a comparative tier
+  for prior art and failure modes.
+decision: |
+  **The split is a method. Four questions have resolved by it and none resolved without it.**
+
+  | asked as | authoring tier | engine tier |
+  |---|---|---|
+  | *does `pick-up` earn its place?* | collapses — both systems folded the verb into a general one | distinct — SCUMM ships a `pickupObject` opcode, AGS ships nothing |
+  | *does `conversation` earn its place?* | a verb both systems offer | SCUMM has no primitive at all, AGS has a first-class asset with its own editor and language |
+  | *does `give-to` earn its place?* | kept by the authors who chose a SCUMM-style surface | subsumed — one event, and the manual says it covers giving |
+  | *where should a default binding scope?* | per entity kind × verb | — and the branch that mattered is in neither tier |
+
+  **Neither engine made both a primitive; neither made neither.** [verified] Each of the first
+  three is an inversion: a verb without an operation beneath it and an operation without a verb
+  above it both shipped, for years, in games people finished.
+
+  **The fourth added a third answer site, and the ontology has no tier for it.** `default-binding`
+  asked where a default scopes and found the question conditional on **the interface** — an engine
+  that builds its verb menu from the target offers no unauthored pair, so nothing needs a default
+  to stand in for it. That is not the authoring vocabulary and it is not the engine's realization
+  of it. It is a design decision about what the player is shown, and **this design has never
+  specified one.**
+
+  No tier is added. A tier in `ontology.yml` groups classes and this corpus has no interface
+  classes and should not invent them speculatively. What is recorded is that questions of this kind
+  have **three** answer sites and the third is not a class.
+rationale: |
+  **The tell is a question that will not resolve.** Three of the four sat open for phases while
+  being asked in the singular. `pick-up` was assessed twice; `give-to` records the collapse being
+  "not where this node first put it"; `default-binding` had four sub-questions and the node "has
+  no node arguing any of the four". In every case the question was well posed *within a tier* and
+  malformed across them, and the symptom was the same: evidence arriving that seemed to contradict
+  earlier evidence, when it was answering a different question.
+
+  **A single-tier ontology would have had to answer each yes or no and would have been wrong
+  either way.** That is a stronger defence of the tiers than the argument they were drawn on at
+  genesis, which was that the engine is what falls out of the vocabulary. Four independent
+  questions, none of them about tiers, have since been decidable only by using them. [inference]
+
+  **The interface is now four shipped answers, and this corpus had counted three.**
+  `prior-art/scumm` says "three answers to one question, from two houses, over ten years":
+
+  - a **verb bar** — bounded, visible, fixed; an author who wants a verb SCUMM lacks cannot add one
+  - a **cursor mode set** — extensible and hidden; an AGS author can add one and pays for it in a
+    cursor the player cycles blindly
+  - a **verb coin** — bounded, hidden until summoned, and grouped by body part rather than by word
+  - and a **per-target popup**, which this corpus read itself and never added to the count
+
+  The fourth is Dinky's, and it is the sharpest of them. `master_verb_list` holds **57 verbs** and
+  fixes display order; `_known_verbs` is built by scanning an object's own fields for anything
+  named `verb_*`; and `openVerbsFor` shows a verb only when it is in both **and**
+  `_checkVerbValid` passes ([delores-source](../catalog/delores-source.md)). [verified] So the
+  menu is a closed vocabulary filtered twice — by declaration and by precondition — and computed
+  per target at the moment of asking.
+
+  **That answers `prior-art/ags`'s open in the one direction nobody had listed.** It asks whether
+  an authoring vocabulary should include its own discoverability. In Dinky they are not two things:
+  the popup *is* the object's verb slots, so the surface is derived from the authoring rather than
+  declared beside it. What that buys is what `default-binding` measured — no unauthored pair is
+  reachable, and 46 of 164 objects are simply not interactable, by design rather than by omission.
+  What it costs is that the player cannot see what a verb *is* until they find a thing that has it.
+  [inference]
+
+  So four answers, from three houses, over thirty years, and they do not converge. The bar and the
+  coin are bounded and the mode set is not; the bar is visible and the other three are summoned;
+  only the popup is computed from the target. **Which verbs a player sees converged across these
+  systems; how they see them did not** — which is the same shape as `verb/talk-to`'s finding one
+  tier down, where which verbs converged and which operations an engine absorbs did not.
