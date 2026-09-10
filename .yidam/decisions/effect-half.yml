@@ -1,0 +1,122 @@
+id: effect-half
+summary: >-
+  The effect vocabulary stays at eight. A shipped adventure game's entire state-writing
+  vocabulary is ten operations, 120 of its 125 write sites map onto the existing eight, and the
+  thing that made the effect half look unbounded is that in every engine the effect list and the
+  presentation list are the same list.
+context: |
+  `data-format/interaction-table` had carried "whether a bounded expression language avoids the
+  escape" as the most valuable open question in this corpus. The previous phase split it. Yack —
+  a shipped bounded language by the people who invented the form — has 79 real guard expressions
+  and **not one escapes**, while its 46 effect blocks escape freely. So the boundary a real
+  bounded language found is between **asking and doing**, and the surviving question was whether
+  the doing half can be bounded too.
+
+  That question was asked of the same artifact, because it is the only one that can answer it by
+  counting. Every authored behaviour in *Delores* was extracted — 203 verb bindings, 22 trigger
+  bodies, 20 room-entry and 20 room-exit bodies, and 49 Yack effect blocks — and every call site
+  in them classified ([delores-source](../catalog/delores-source.md)).
+
+  **1,328 call sites, 107 distinct functions.**
+
+  | what the call does | sites | share | distinct |
+  |---|---|---|---|
+  | response text | 571 | 43.0% | 9 |
+  | presentation — visual, camera, lighting | 207 | 15.6% | 38 |
+  | control and duration | 168 | 12.7% | 13 |
+  | presentation — sound | 106 | 8.0% | 6 |
+  | **state writes** | **97** | **7.3%** | **10** |
+  | pure helpers (`point`, `random`) | 65 | 4.9% | 5 |
+  | queries — the ask half | 47 | 3.5% | 11 |
+  | variable references | 39 | 2.9% | 2 |
+  | delegation | 23 | 1.7% | 9 |
+  | system (`saveGame`, `quitGame`) | 3 | 0.2% | 3 |
+
+  Two-thirds of everything an author writes in a response body is text, sound or animation.
+  **The part that changes the world is 7.3% of it and it is ten functions.**
+decision: |
+  **No new effects. The eight stand.**
+
+  The ten functions, every site, against the existing vocabulary:
+
+  | Delores | sites | expressible as |
+  |---|---|---|
+  | `objectState(x,"name")` | 44 | `SetCounter` over a declared range — see below |
+  | `pickupObject` | 13 | `Give` |
+  | `objectTouchable(x,·)` | 11 | `SetFlag`, with `hotspot.visibility` declaring the gate |
+  | `objectHidden(x,·)` | 9 | the same |
+  | `exitRoomFromDoor` | 8 | `Move` |
+  | `removeInventory` | 4 | `Spend` |
+  | `enableTrigger` | 4 | **nothing** |
+  | `enterRoom` | 2 | `Move` |
+  | `startYack` | 1 | `Enter` |
+  | `takePhoto` | 1 | a game-specific composite of `SetFlag` and presentation |
+  | `GLOBAL(x) = …` | 5 | `SetFlag` / `ClearFlag` / `SetCounter` |
+  | `YACK(x) = …` | 23 | the same, at `Scope::Conversation` |
+
+  **120 of 125 state-write sites map onto the existing eight.** Four enable or disable a trigger,
+  and one is a composite.
+
+  **The four that do not are not an effect gap.** A trigger is a region within a room that fires
+  on entry and on leaving, and `verb/walk-to` has carried the absence of exactly that primitive as
+  its residue for four phases. Turning one on and off is downstream of having one. So the residue
+  is unchanged and this decision does not touch it.
+
+  **`world-flag/object-state`'s `[open]` closes, and against the primitive.** That node asked
+  whether an enumerated state collapses into a counter for a checker and said the answer turned on
+  whether legibility or the archetype argument was load-bearing. It is the archetype argument, and
+  **this design has no archetypes.** Delores needs its states named because `door_verbs = YES`
+  synthesises `okverb_open` as `state != "open"` — a generator has to refer to a value it did not
+  write. Nothing here generates bindings, so nothing here needs the name, and a counter with a
+  declared range says the same thing to `crates/reachability`. The node keeps its place as a
+  record of a real system's choice and does not become a primitive here.
+
+  **`hotspot.visibility` is what covers twenty of the twenty sites the effect list appears to
+  miss.** `effect-vocabulary` ruled in advance that "a hotspot disappearing for some reason other
+  than being picked up is a `world-flag` gating its presence, and needs nothing new", and that
+  ruling is now measured: twenty distinct objects in Delores have their presence written
+  imperatively, and every one is a flag plus a declaration under this design. What the two
+  approaches differ on is who holds the invariant — there, the author, at each of the twenty
+  sites; here, the hotspot, once.
+rationale: |
+  **The effect list was already bounded and nobody had said why.** Each variant in
+  `crates/game-format`'s `Effect` enum carries a comment naming the relationship it realises:
+  `SetFlag` and `ClearFlag` and `SetCounter` are `interaction -sets-> world-flag`, `Give` is
+  `inventory-item -acquired-by-> interaction`, `Spend` is `interaction -consumes->
+  inventory-item`, `Move` is `actor -occupies-> room`, `Enter` is `interaction -opens->
+  conversation`, `Leave` is `conversation -returns-control-to-> actor`.
+
+  **Eight variants, six relationships.** So the bound on the effect half is not a design choice
+  and never was: *an effect is a relationship an interaction can author*, and the list is closed
+  exactly when the ontology is. That is the same shape as the answer on the ask half — guards are
+  bounded because the state model closes the questions — and it was sitting in the code as eight
+  comments nobody had read together. [inference]
+
+  It also says how the list may grow, which is the useful part: only by the ontology growing, and
+  a new relationship is an argument this corpus already knows how to have.
+
+  **What is genuinely unbounded is presentation, and it is two-thirds of the work.** 884 sites
+  across 53 distinct functions, most used once or twice — a neon sign flickering, an actor's eyes
+  following something, a camera zoom, a star twinkling. No vocabulary bounds that and none
+  should. [inference]
+
+  **So the reason the effect half looked open is a category error, and it is not this corpus's.**
+  In Delores a response body is one list of calls in which `sayLine`, `playAnimation`, `breaktime`
+  and `pickupObject` sit side by side, indistinguishable. Anyone reading it concludes that effects
+  need a general-purpose language, and they are right about the *body* and wrong about the
+  effects. This design already made the split — response text is presentation and outside the
+  state model, per `effect-list-semantics` — and having made it, never went back to ask what was
+  left. What is left is ten operations.
+
+  **The cost of the split is now quotable and it is large.** Two-thirds of what a real author
+  writes has no home in this vocabulary at all. That is not an argument against the bound; it is
+  the statement of what a bounded authoring language is *for*, and the honest form of it is:
+  **these bindings can express what a game means and not what it shows.** A design that wants
+  both needs a presentation layer beside the effect list, and nothing here has one or has argued
+  for one. `[open]`
+
+  **And the control third is the same story from the other side.** 168 sites — 12.7% — are
+  `breaktime`, `startthread`, `breakwhiletalking`, `inputOff`. `effect-list-semantics` refused all
+  of it deliberately and the last phase quoted the price that engine paid for admitting it: a
+  running thread cannot be saved. What this measurement adds is the size of the refusal. It is
+  not a corner case; it is an eighth of everything written.

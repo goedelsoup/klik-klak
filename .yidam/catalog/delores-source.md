@@ -21,6 +21,7 @@ used-by:
   - ../corpus/data-format/interaction-table.yml
   - ../corpus/world-flag/object-state.yml
   - ../corpus/world-flag/latched-flag.yml
+  - ../corpus/data-format/interaction-table.yml
 ---
 
 **A source of record, and the first one this corpus can *count*.** *Delores: A Thimbleweed Park
