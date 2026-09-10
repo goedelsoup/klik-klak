@@ -184,6 +184,11 @@ overlap them at all: **not one verb in the game is used both ways.**
 `verb_not_close`, and a boot-time loop warns if any member is missing from the master list. The
 master list declares 57 verbs.
 
+**How much of that list the game uses.** 46 distinct verbs carry a binding on an object and 49 do
+counting actors, so **8 of the 57 are declared and never used**. Of the 49, **23 are used exactly
+once** — `lick`, `dissolve`, `jab_with`, `scrape`, `tighten` among them. Comment-stripped and not,
+the figures are the same.
+
 **There is no generic "use with" in it.** No `VERB(use)` appears anywhere in `Rooms/` or
 `Inventory.dinky`; the only `verb_use` in the game is the one `door_verbs = YES` synthesises for
 going through a door, which is unary. Every binary interaction is a *named* verb — `unlock_with`,
@@ -191,6 +196,27 @@ going through a door, which is unary. Every binary interaction is a *named* verb
 them through one. That is the opposite of the reduction
 `.yidam/decisions/binary-dimension.yml` was testing, and further from it than this corpus's own
 six-verb design.
+
+**All eighteen binary verbs are used, and the two the object census misses are on actors.**
+`show` and `takefrom` carry no binding on any object; `Defines/DefineActors.dinky` has one and
+four. Counting actors as well, the game is 221 bindings of which 32 take a second object — 14.5%.
+
+**The cell count, which is the thing the arity question is actually about.** Both verb lists are
+57 entries and they name the same set — `master_verb_list` and `master_verb_names`, checked against
+each other at boot — with 18 of the 57 in `verb_usewith_list`, leaving 39 unary. `Inventory.dinky`
+declares **15 items** with `DEFINE_INVENTORY`, none commented out.
+
+So the authorable space is not objects × verbs. A unary verb offers one cell per object and a
+binary verb offers one per (object, item):
+
+    164 x 39            =  6,396 unary cells
+    164 x 18 x 15       = 44,280 binary cells
+                          ------
+                          50,676, with 203 authored — 0.40%
+
+Counted flat, as `.yidam/decisions/default-binding.yml` counted it, that is 164 × 57 = 9,348 and
+2.17%. The correction is five-fold and runs in the direction of that record's own argument: the
+sparser the table, the more a default would have to carry.
 
 ## The dependency graph — 2026-09-10
 
