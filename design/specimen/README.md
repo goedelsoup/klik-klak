@@ -355,9 +355,12 @@ So the checker is tractable exactly on games whose charts are the shape their de
 aim for. That is contingent where the collapse claim was pretending not to be, and it is a
 better position for being so. [inference]
 
-What is still missing is a **measured** width from a shipped game. Gilbert prescribes 2–3, and
-reports 4–5 for the unfinished boxes in Thimbleweed Park's chart; neither is a count off a
-finished one, and he does not have Monkey Island's. [open]
+**There is a measured number now, and it did not need a chart.** Delores's dependency graph, read
+off its source: 354 units, 115 edges, a step that unblocks anything opening 2.45 on average and 2
+at the median — but **43% opening exactly one**, and two gated exits in twenty where the argument
+wants a bottleneck per act. [verified] See `.yidam/decisions/measured-width.yml`. What is still
+missing is a *second* game, and a full-length one: Thimbleweed Park's source is not public and its
+chart is blurred on purpose. [open]
 
 ## What these specimens are not
 
