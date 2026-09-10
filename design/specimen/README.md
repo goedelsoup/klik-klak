@@ -27,7 +27,6 @@ derives_effects_from:
   - conversation:sets
   - conversation:returns-control-to
   - inventory-item:acquired-by
-  - inventory-item:found-in
   - actor:occupies
 ---
 
@@ -69,6 +68,13 @@ room is entailed by `carried-form-of`, option availability is a conversation-sco
 `world-flag`, and leaving an exchange is `returns-control-to`, which `cutscene` had declared
 since it was seeded. Roughly one site in four was what it said it was. The reasoning is in
 `.yidam/decisions/effect-vocabulary.yml`.
+
+**The first of those entailments went unchecked for four phases.** An object leaves the room when
+`is <item>` and the `give` on that hotspot name the same item, and nothing said so: make
+`nightwatch.game`'s wire hand over the ledger and the analysis goes from fourteen states and two
+strandings to **six and none**, still winnable, without a word at resolve. An entailment is only
+as good as the agreement it rests on, and this list did not ask what its three rested on. The pair
+is checked now — `.yidam/decisions/found-in.yml`.
 
 The one that was real mattered more than the count suggested. The lighthouse's deliberate
 defect is a can of oil poured into a rusted hinge instead of the lamp — `unwinnable-state` by

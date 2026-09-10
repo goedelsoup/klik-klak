@@ -396,6 +396,22 @@ room losing it are one change described twice. `acquisition-binding`'s atomicity
 relocated: the window belongs to an engine that keeps two records, not to a vocabulary with one
 fact.
 
+**And there is one fact only if two names agree, which nothing made them do for four phases.**
+`is <item>` names the hotspot that stops being in the room; the `give` in a binding *on that
+hotspot* is what makes it stop. Name different items and the hotspot stays there forever while the
+player carries the thing — resolving without a word, and taking `nightwatch.game` from fourteen
+reachable states and two strandings to six and none, still reported winnable. A defect that
+lengthens a report gets investigated; one that shortens it looks like progress. The two are held
+against each other now, and the check is sited the way the derivation is.
+
+**`holds <item>` is gone**, and it is the third row of the same table. It realised `inventory-item
+-found-in-> room`, which is a relationship a hotspot's own room already answers — and which two of
+`lighthouse.game`'s five items do not have at all, being given inside a conversation. Removed,
+moved to another room, aimed at an item nothing stood for, or made to contradict itself across two
+rooms, it produced the same states, the same stranding and the same silence every time. Not a
+check to write: a slot to stop offering. A room holds actors.
+`.yidam/decisions/found-in.yml` has the table.
+
 **Not a gap: option availability.** `world-flag.scope` has read "local to a conversation" since
 genesis, and `conversation -sets-> world-flag` with it. One third of it did not reduce —
 `option-off-forever` is permanent, and a clearable flag cannot express an unclearable one — and
