@@ -1,0 +1,79 @@
+id: containment
+summary: >-
+  No relation. The two-hotspot container is not an idiom a `part-of` would tidy — it is what
+  `carried-form-of` makes of a container, and folding it into one hotspot the way the shipped
+  engine does is expressible here and immediately refused by the checker. What a declaration would
+  have bought is one unchecked predicate per instance, across two instances.
+context: |
+  `.yidam/decisions/named-condition.yml` recorded this without deciding it. A predicate census
+  found `case-open` read at four sites and `cabinet-open` at four, with two of each four on a
+  *different* hotspot — the thing inside the container — and those hotspots named `ledger-in-case`
+  and `bond-in-cabinet`. The containment is in the identifier because nothing declares it.
+
+  It arrived as the strongest candidate primitive this corpus has had: two instances in its own
+  specimens rather than in somebody else's game, needing no geometry, and therefore not blocked on
+  the condition `hotspot/static-region` still holds open for identity.
+decision: |
+  **No relation, and the reason is that the shape is already correct and already load-bearing.**
+
+  **It is not targetability, which is the obvious place to reach.** The property was renamed for
+  this kind of reason two phases ago, and it is the wrong home: the ledger is targetable the whole
+  time. *"Under glass, and face down"* is a description the player is meant to read, and *"The
+  glass is in the way"* is a refusal they are meant to receive. What containment gates is what the
+  bindings **do**, not whether the region can be clicked.
+
+  **The two-hotspot shape is not an idiom.** The contents must be their own hotspot because that
+  hotspot *vanishes when the item is taken* and the container does not. That is `carried-form-of`
+  doing exactly its job, and it is why a container cannot be one hotspot here.
+
+  **The one-hotspot alternative is expressible, is what the shipped engine does, and is refused.**
+  *Delores*'s file drawer is a single object; the camera it holds has **no room object at all** —
+  `Nickel.wimpy` declares `fileCabinet` and `fileDrawer` and nothing else. Written that way here,
+  a specimen gives the same 20 states and the same three strandings, and the checker draws a line
+  the two-hotspot form does not: *"gives 1 bond where 1 is already carried and 1 is the declared
+  ceiling."* [verified] — `crates/reachability/tests/containment.rs`.
+
+  **What a declaration would have bought is one predicate.** Of the two derived sites, the
+  `look-at` guard has a measured footprint of exactly zero — both branches are text, and a
+  response that writes no state is not a transition. Only the `pick-up` guard carries anything.
+rationale: |
+  **The residue is real and it is the third of its kind.** Removing the `pick-up` guard lets the
+  player take the bond through a locked cabinet: 26 states against 20, ending still reachable, and
+  **every stranding gone**. [verified] Nothing notices. That is the third defect this corpus has
+  found whose signature is the report improving — after the `is`/`give` disagreement and the
+  skipped counter step — and all three are the same kind of mistake: a guard or an agreement
+  dropped, making the game more permissive and the analysis shorter.
+
+  Three instances is past this corpus's own threshold for naming a thing. **A shorter report is
+  not evidence of a better game**, and nothing in `crates/` treats a finding's disappearance as a
+  finding. The previous phase established that the specimen fixtures do catch it, and only because
+  somebody pinned each specimen's defects by name — which protects the fixtures and not the
+  language.
+
+  **Why two instances did not earn syntax.** The rule is that a node earns its place by being
+  something the existing vocabulary cannot say. The vocabulary *can* say the gating — it is the
+  guard — and what it cannot say is why the guard is there. That is worth one predicate per
+  instance and this corpus has two of them, both correct. A declaration would also enable a check
+  nothing has needed yet: that the gate flag is one the named container actually writes, which
+  would catch `in cabinet when case-open` — a copy-paste between these two specimens that nobody
+  has made. Speculative harm is not evidence.
+
+  **What would change the answer.** A third instance, or an instance where the container is in a
+  different room from its contents, or a game where one container holds several things — that last
+  one is where the predicate stops being one line and starts being one line per item, which is the
+  shape `duplication.yml` is about. None of the four specimens has it.
+
+  **A prediction landed, and that is the durable part of this phase.**
+  `inventory-item/portable-object` wrote before anything had been built: *"an engine that models
+  the room object and the inventory object as two separate records has to keep them in step, and
+  every such pair is a place where taking an object twice, or taking one that was already
+  destroyed, becomes representable."* Folding the two records into one is exactly what the shipped
+  engine does, and building that here produced exactly that failure, in the same words, reported by
+  a checker written four phases later. [verified]
+
+  The open beside it — *whether real engines do this and what it costs them* — closes at the same
+  time and in the direction that makes the design's choice look better rather than worse. Delores
+  does not keep two records, and what it pays instead is four hand-written `inInventory` tests in
+  one room file, three of them on the drawer itself. **The window this class worried about is
+  closed here by derivation, and the alternative pays at every site that has to ask a question the
+  structure would have answered.** [inference]

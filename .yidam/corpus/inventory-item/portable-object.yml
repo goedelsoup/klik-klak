@@ -11,7 +11,33 @@ description: |
   An engine that models the room object and the inventory object as two separate records
   has to keep them in step, and every such pair is a place where taking an object twice, or
   taking one that was already destroyed, becomes representable. Whether real engines do this
-  and what it costs them is `[open]` and is the first thing worth extracting from prior art.
+  and what it costs them was the question here, and it was called the first thing worth
+  extracting from prior art.
+
+  **Both halves are answered, and the answer to the first is no.** *Delores*'s camera sits in a
+  file drawer, and **there is no room object for it**: `Nickel.wimpy` declares `fileCabinet` and
+  `fileDrawer` and nothing else, and the camera exists only as an inventory item
+  ([delores-source](../../catalog/delores-source.md)). [verified] The drawer's `VERB(lookin)` calls
+  `pickupObject(Inventory.camera, delores)` directly. One record, not two, so there is no pair to
+  keep in step.
+
+  **What that costs is the question asked in reverse, and it is four hand-written tests.** With no
+  room object, nothing stops being anywhere when the camera is taken, so every site that cares has
+  to ask. `inInventory(Inventory.camera)` appears **four times in `Nickel.dinky`** — three of them
+  on the drawer itself, branching `lookin`, `lookat` and `open` — and each is prose the author
+  maintains. [verified] This design writes `is <item>` once and the hotspot's absence follows.
+
+  **And the failure this node predicted for the fused design was built and produced exactly it.**
+  Rewriting a specimen's container the way that engine writes one — the contents folded into the
+  container as a `pick-up` on it, no separate hotspot — gives the same 20 states and the same
+  three strandings, and the checker adds a line the two-hotspot form does not draw: *"gives 1 bond
+  where 1 is already carried and 1 is the declared ceiling"*. [verified] —
+  `crates/reachability/tests/containment.rs`. **Taking an object twice becomes representable**, in
+  the words this node used before anything had been built.
+
+  So the two-record model is this design's and not the shipped engine's, the window it opens is
+  closed here by derivation rather than by atomicity, and the one-record alternative pays for it at
+  every site that has to ask a question the structure would have answered. `.yidam/decisions/containment.yml`.
 
   **Every relationship this class declared was about an object arriving, and none about spending
   one.** `found-in` says where it is, `carried-form-of` what it was, `acquired-by` which binding
@@ -54,10 +80,14 @@ description: |
   two are held against each other now — a binding on the hotspot must give the item it stands
   for — and `.yidam/decisions/found-in.yml` is the record.
 
-  Every `[verified]` above rests on a committed test rather than on a document, and this node
-  links no catalog entry, so `yidam lint` reports it as `verified-unsourced`. The tags are right
-  and the report is right; what is missing is a way to cite the second kind of evidence. The
-  record names it.
+  Most of the `[verified]`s above rest on a committed test rather than on a document, and for four
+  phases this node linked no catalog entry at all, so `yidam lint` reported it as
+  `verified-unsourced`. It no longer does — the paragraphs about Delores's file drawer cite a
+  source, and one citation is enough to silence the rule for a whole node. That is worth noticing
+  rather than being pleased about: **the warning went away without any of the claims it was about
+  becoming better sourced.** The tags were right and the report was right, and what is missing is
+  still a way to cite the second kind of evidence; `.yidam/decisions/found-in.yml` names it, and
+  [counter-flag](../world-flag/counter-flag.yml) is now the node carrying the warning instead.
 properties:
   acquisition: |
     A binding whose response removes the object's hotspot from the room and adds the item to

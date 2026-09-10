@@ -33,6 +33,7 @@ used-by:
   - ../corpus/interaction/entry-binding.yml
   - ../corpus/interaction/binary-binding.yml
   - ../corpus/subsystem/interaction-resolver.yml
+  - ../corpus/inventory-item/portable-object.yml
 ---
 
 **A source of record, and the first one this corpus can *count*.** *Delores: A Thimbleweed Park
