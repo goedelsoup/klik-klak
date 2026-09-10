@@ -29,7 +29,7 @@ Sorted by: kind, then alphabetically.
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 7v / 5i / 0o | 95 |
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 7v / 9i / 3o | 178 |
 | [dialogue-script.yml](data-format/dialogue-script.yml) | data-format | Dialogue Script | 2 | 7v / 2i / 1o | 104 |
-| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 31v / 19i / 6o | 392 |
+| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 32v / 20i / 5o | 404 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 3v / 2i / 2o | 76 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 3v / 5i / 0o | 87 |
@@ -38,9 +38,9 @@ Sorted by: kind, then alphabetically.
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 2v / 6i / 1o | 69 |
 | [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 0v / 4i / 0o | 62 |
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 0v / 1i / 1o | 33 |
-| [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 2v / 1i / 2o | 47 |
+| [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 4v / 2i / 1o | 60 |
 | [entry-binding.yml](interaction/entry-binding.yml) | interaction | Entry Binding | 3 | 4v / 6i / 1o | 85 |
-| [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 0v / 1i / 1o | 32 |
+| [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 2v / 1i / 0o | 45 |
 | [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 5v / 4i / 1o | 87 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
 | [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 14v / 3i / 2o | 135 |
