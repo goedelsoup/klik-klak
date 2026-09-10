@@ -1,0 +1,81 @@
+id: escape-hatch
+summary: >-
+  A bounded expression language does avoid the general-purpose escape, for everything that is a
+  fact about the world. What the escape is actually used for in the one system that shipped one is
+  presentation and repetition, and neither is a limit on expressiveness. The surface is 51
+  constructs; five were admitted, one withdrawn, twelve candidates refused; a whole shipped game
+  was read against it without it moving.
+context: |
+  `data-format/interaction-table.escape_hatch` has carried since genesis: *"Every prior-art system
+  reached a general-purpose language, and whether a bounded expression language avoids that is
+  `[open]` and is the most valuable open question in this corpus."*
+
+  Six phases were spent on it and the marker never moved. Each phase settled a piece elsewhere —
+  in `effect-half`, `presentation-layer`, `effect-list-semantics`, `duplication`,
+  `dialogue-script` — and the property grew to eleven screens of argument beneath a sentence
+  saying the question was open. This record collects the verdict and states what it cost.
+decision: |
+  **The question splits five ways and four of them are settled.**
+
+  | what a response has to do | bounded? | established by |
+  |---|---|---|
+  | **ask** — read world state | **yes, demonstrated** | Yack's 79 real guard expressions, zero escapes |
+  | **do** — write world state | **yes, and not by choice** | 120 of 125 write sites map onto eight effects |
+  | **show** — text, sound, animation | **no, and should not be** | 884 of 1,328 sites, 53 functions |
+  | **take time** | **refused on purpose** | `effect-list-semantics` |
+  | **say the same thing many times** | **no, and this is what broke it** | `duplication` |
+
+  **The premise inverts.** The question assumed the escape exists because the declarative layer
+  cannot express something. In the one shipped system available to read, it does not: the ask half
+  never escapes, and the do half is ten functions of which eight are already here. What forces the
+  general-purpose language is **presentation** — two-thirds of everything an author writes — and
+  **repetition**, and neither is an expression problem. [inference]
+
+  **The escape hatch and the duplication pressure were the same marker for six phases, and they are
+  different questions.** `duplication` survives; calling it *the escape hatch* is what kept it
+  hidden.
+rationale: |
+  **The bound is stated where it goes red.** `crates/game-format/tests/surface.rs` enumerates the
+  whole authoring surface — 6 verbs, 19 keywords, 8 effects, 9 predicate forms, 6 comparisons, 3
+  sites, **51 constructs** — reading the verbs and keywords off the parser and holding the enums
+  with exhaustive matches, so a tenth predicate does not compile until somebody names it there.
+  [verified] A change is not a failure; it is a signal that this record needs reading again, which
+  is the reason the figures are pinned rather than described.
+
+  **What that surface cost is the real evidence, and it is a ratio.** Nineteen of this corpus's
+  twenty-six decision records weigh a candidate against the authoring language.
+
+  - **Admitted, five:** `interaction -consumes-> inventory-item`; `move <actor> to <room>` and
+    `<actor> in <room>`, added as a pair; `on-enter`; `exit <name> to <room>`.
+  - **Withdrawn, one:** `holds <item>`, which turned out never to be information.
+  - **Refused, twelve:** three of the four effects a specimen said it needed; a delegation
+    primitive; a containment relation; a named condition; a cutscene class; a camera class; a
+    per-room default; splitting `conversation`; splitting a binding's response; three presentation
+    verbs identified and none adopted; a fourth `object-state` value; and the reduction that would
+    have removed `use-with`.
+
+  **Every refusal was for one of three reasons and never for a fourth.** The vocabulary already
+  said it; or the pressure cannot arise in a design without geometry, without duration, without a
+  verb bar; or the thing wanted was a **check** rather than a construct. Not one candidate was
+  refused on the grounds that it was too hard to express or that the language should stay small
+  for its own sake. [inference] A bound that only ever refuses on those grounds is being tested
+  rather than defended — which is the difference between a measurement and a preference, and it is
+  the strongest thing this record has.
+
+  **And the surface was read against a whole game rather than against its own specimens.** 203
+  bindings, 1,328 call sites, 107 distinct functions, 22 room geometry files, 11 conversation
+  files. The reading corrected this corpus a dozen times and added four constructs. It did not
+  produce a case the vocabulary could not state, and where it produced one — a trigger region
+  inside a room — the residue is recorded and unbuilt rather than papered over.
+
+  **The honest limit.** One game, and a small one. Delores is 21 rooms and about two hours;
+  Thimbleweed Park is five times the size and its source is not public. Every share above is a
+  share of *that* game. What makes the conclusion better than a sample of one is that the two halves
+  were established by different methods — the ask half by counting escapes in a shipped bounded
+  language, the do half by mapping a foreign vocabulary onto this one's ontology — and both had to
+  hold. [inference]
+
+  **A note on how this was found.** The answer was assembled entirely from work already done. Every
+  figure in the verdict was in the corpus before this phase began; what was missing was somebody
+  reading the property from the top and noticing that its first sentence disagreed with its last
+  eleven screens. That is the second time in three phases, and it is now recorded twice.
