@@ -81,7 +81,7 @@ fn two_rooms_may_each_have_a_door() {
         Some(Kind::Hotspot)
     );
     // and the bare name is not a declaration of its own
-    assert!(game.declared.get("door").is_none());
+    assert!(!game.declared.contains_key("door"));
 }
 
 #[test]
