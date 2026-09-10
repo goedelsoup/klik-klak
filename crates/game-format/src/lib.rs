@@ -233,8 +233,10 @@ pub struct Game {
     /// every `holds <name>` as written, with the room it was written in and its line.
     ///
     /// Kept raw because a room section may be written before the thing it holds is declared,
-    /// and resolution is where kinds are known. `resolve` sorts them: an actor becomes a
-    /// starting position, an item stays the decoration it has always been.
+    /// and resolution is where kinds are known. `resolve` turns an actor into a starting
+    /// position and refuses everything else — including the item this once took, which was
+    /// `inventory-item -found-in-> room` and was never information: a hotspot belongs to a
+    /// room, so the room an item is found in is the room of its carried form.
     pub holds: Vec<(String, String, usize)>,
     /// actor -> the room it starts in, from `holds`. `actor -occupies-> room`, at rest.
     pub actor_start: BTreeMap<String, String>,

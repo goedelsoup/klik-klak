@@ -30,7 +30,13 @@ edges:
   - relationship: found-in
     target: room
     direction: out
-    description: The room this object is picked up from.
+    description: >-
+      The room this object is picked up from — real, and never authored. A hotspot belongs to a
+      room, so an item with a carried form is found in that hotspot's room; an item without one
+      is found where the binding that gives it is sited; and an item given inside a conversation
+      is found nowhere, because a conversation is not in a room. A format that asks an author to
+      write this is asking for a copy of `carried-form-of`, and the measurement is in
+      `inventory-item/portable-object` and `.yidam/decisions/found-in.yml`.
   - relationship: carried-form-of
     target: hotspot
     direction: out
@@ -38,4 +44,9 @@ edges:
   - relationship: acquired-by
     target: interaction
     direction: out
-    description: The binding whose response moves this object into the inventory.
+    description: >-
+      The binding whose response moves this object into the inventory. It and `carried-form-of`
+      are one fact from two ends — which binding gives the item, and which hotspot stops being
+      there when it does — so they have to name the same item or the room keeps an object the
+      player is carrying. Nothing held them together until a checker did; see
+      `inventory-item/portable-object`.

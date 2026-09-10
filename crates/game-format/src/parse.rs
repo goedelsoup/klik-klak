@@ -274,11 +274,9 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 Some(r) => p.game.start_room = Some(r),
                 None => p.err(no, "`start` outside a room section"),
             },
-            // `holds <name>` is a room-level fact about what starts there. For an item it has
-            // always been decoration — `is <item>` on a hotspot is what actually places one —
-            // and for an actor it is the only way to say where they begin. Recorded raw and
-            // sorted out in `resolve`, because a room may be written before the actor is
-            // declared.
+            // `holds <actor>` says where an actor begins, and it is the only way to say it.
+            // It once took an item too; `resolve` is where that stopped, and why. Recorded
+            // raw and sorted out there, because a room may be written before the actor is.
             "holds" => match (p.room.clone(), t.get(1)) {
                 (Some(r), Some(x)) => p.game.holds.push((r, x.to_string(), no)),
                 (None, _) => p.err(no, "`holds` outside a room section"),
