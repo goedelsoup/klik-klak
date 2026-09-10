@@ -61,7 +61,13 @@ That makes this stub's blockage narrower and more actionable than "no game exist
 waiting on a decidable authoring language, and a proposal for one is
 `design/bounded-expression-language.md`.
 
-Where the specimen itself should live is still open. `design/` now exists and is where
-non-documentary material goes, which answers half of it — but that directory holds prose
-proposals with front matter, and a worked game is neither. Whether a specimen is part of the
-proposal it exercises, or wants somewhere of its own, is not settled here.
+Where the specimen lives is settled: `design/specimen/`, as part of the proposal it exercises
+rather than as a purpose beside it. See
+[`.yidam/decisions/specimen-placement.yml`](../decisions/specimen-placement.yml).
+
+One exists — `design/specimen/lighthouse.game` — and this stub still cannot run against it, for
+a reason the specimen itself established rather than a reason anyone predicted. The specimen's
+one deliberate defect is a **consumption** trap, which is the first of the two causes named
+above, and the proposed effect vocabulary has no way to say that an item leaves the inventory.
+So the mechanism that produces the defect is unsayable, and a checker reading that game would
+report it winnable. See `design/specimen/README.md`.

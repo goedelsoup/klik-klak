@@ -1,0 +1,57 @@
+id: specimen-placement
+summary: >-
+  A worked specimen belongs to the proposal it exercises — `design/specimen/` rather than a
+  second top-level directory — and the gate grows a name-resolution check to cover it.
+context: |
+  `design-directory` created `design/` for material that is not a documentary claim, and left one
+  question open in two places. `design/README.md` said a specimen "is neither" a prose proposal
+  nor a documentary claim and that whether it belongs to the proposal it exercises "is not
+  settled here". `.yidam/skills/reachability.md` said the same from the other end: the artifact
+  it is blocked on "does not belong in `.yidam/corpus/`" and where it should live "is an open
+  structural question."
+
+  The question became live the moment a specimen was actually written, which is the order these
+  conventions ask for — create a directory the day something goes in it.
+
+  Two options were real. A second top-level directory would have made specimens a purpose of
+  their own, with their own AGENTS.md note, decision record and gate. A subdirectory of `design/`
+  makes a specimen part of the proposal it tests.
+decision: |
+  **`design/specimen/`.** A worked example authored in a proposed language is part of that
+  proposal, not a purpose beside it. It relaxes the same one rule — it asserts intent, because it
+  is written in a language nothing implements — and it relaxes nothing else.
+
+  **The gate grows rather than a second gate appearing.** `design/check.sh` now walks
+  subdirectories for design documents, and adds one check for `*.game` files: every name a
+  binding reaches for must be declared by the specimen that uses it. That is the predicate
+  layer's own admission rule — *an operand must name something the corpus declares* — applied to
+  a game's declarations instead of to the corpus's, which is the only rule a specimen can be held
+  to without a running engine.
+
+  Two defects in the existing gate surfaced from having a subdirectory at all and are fixed here:
+  prose links were resolved relative to `design/` rather than to the document's own directory,
+  and the catalog-citation check matched one specific relative depth.
+
+  **What the gate deliberately does not check is whether the game is winnable.** That is
+  `reachability`, it needs the effect vocabulary to be complete, and it is not.
+rationale: |
+  **Why not a second top-level directory.** `directories.md` is explicit that the rule is about
+  the corpus's boundary rather than the count of directories, and a specimen crosses no boundary
+  `design/` had not already crossed. A separate directory would have bought a second AGENTS.md
+  section and a second gate to say the same two things, and the cost of that is not tidiness —
+  it is that the contract would then exist in two places and drift.
+
+  **Why the specimen is part of the proposal rather than beside it.** A design nothing exercises
+  cannot be wrong. The specimen is the only thing that can falsify the proposal, so binding them
+  in one directory is a claim about what the proposal is *for*: if the design changes and the
+  specimen is not re-read against it, the design has stopped being tested and nothing will say
+  so. Putting them apart would have made that easier to not notice.
+
+  **Why the gate checks names and nothing else.** It is the strongest property available without
+  an engine. Winnability needs a complete effect vocabulary; coherence needs a reader; but a
+  binding reaching for a name nothing declares is decidable from the file alone, and it is the
+  same admission rule the proposed language rests on. Checking the rule the design claims is what
+  makes this a derivation rather than a spell-check.
+
+  It found nothing on the specimen it was written for, which is worth recording honestly: the
+  check was verified against deliberately broken copies rather than by a green run.
