@@ -56,12 +56,13 @@ an example of one, described in the terms the game was written in.
 
 ## Against the specimens
 
-Two games, one defect each, one cause each.
+Two games, one defect each, one cause each. (There are three specimens now; these two are
+kept because they carry the two different causes.)
 
 ```
 $ reachability design/specimen/lighthouse.game
 103 reachable state(s), 193 transition(s).
-103 of 196608 combinations of the values these variables take (0.052%).
+103 of 49152 combinations of the values these variables take (0.210%).
 The ending is reachable.
 
 16 reachable state(s) can no longer reach the ending.
@@ -74,12 +75,12 @@ Stranded by:
 ```
 $ reachability design/specimen/ferry.game
 20 reachable state(s), 34 transition(s).
-20 of 480 combinations of the values these variables take (4.167%).
+20 of 120 combinations of the values these variables take (16.667%).
 The ending is reachable.
 
 2 reachable state(s) can no longer reach the ending.
 Stranded by:
-  line   64  use-with coin on ferryman  [ordering]
+  line   65  use-with coin on ferryman  [ordering]
             a gate closed with something still needed behind it — 2 state(s)
             e.g. in far; carrying nothing
 ```
@@ -113,14 +114,27 @@ transition — `lamp-prep` does not — and reports a **latch violation** when a
 declaring: a property nothing checks is a comment.
 
 It also reports **how many combinations exist of the values the variables were observed to
-take**, beside how many are reachable. That is the collapse claim as a number: 103 of 196,608
-for the lighthouse and 20 of 480 for the ferry — 0.05% and 4%. The gap is how much structure
-the game has.
+take**, beside how many are reachable — and both halves of what this paragraph used to say about
+that number were wrong.
 
-The claim is still not *tested* in the sense that matters. Two small games show the collapse is
-large and that a declaration can be held against a game; neither shows that exploiting
-monotonicity beats enumerating, because both run in a millisecond either way. That wants a game
-large enough for the difference to show.
+**The number was inflated.** It multiplied in one bit per acquisition site for `taken`, which is
+this checker's bookkeeping and determined by the item count. The corrected figures are 103 of
+49,152 for the lighthouse (0.21%), 20 of 120 for the ferry (16.7%) and 14 of 64 for the
+nightwatch (21.9%) — where 0.05%, 4% and 5.5% had been published. Every one was too small by
+2^(takeable objects).
+
+**And the claim it was evidence for is false.** The test that was wanted — a game large enough
+for the difference to show — was generated rather than authored, and it answers no. A corridor
+whose every door needs the key behind the last one has 3n+1 reachable states and runs 128 rooms
+in sixteen milliseconds. A hub of *n* unordered tokens, all wanted at one gate, has **2^n
+reachable states and 100.000% of the declared space at every size** — 4.2 million states and
+thirty-six seconds at twenty-two tokens. Both families are made **entirely of monotone
+variables**, which is what settles it: monotonicity bounds the path and not the size of the set,
+and a lattice over *n* independent monotone variables is every combination.
+
+So the collapse is a property of the game's dependency structure, not of the language. The old
+metric could not have found this — it reported ~0% for both families, because the redundancy it
+was measuring grew at the same rate as the thing it was hiding. `scaling.rs` holds both curves.
 
 And a related check arrived from the other direction: **an item may declare a ceiling, and the
 tool reports where a game hands out more than the declaration has room for.** Without ceilings

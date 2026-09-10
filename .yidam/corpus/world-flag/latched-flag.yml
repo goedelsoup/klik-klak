@@ -15,12 +15,31 @@ description: |
   general case as global, and no instance in this corpus exercises `scope: conversation` even
   though the class has declared that value since genesis.
 
-  **[inference] The reason to declare a latch is the checker, not the author.** A flag that moves
-  one way makes the reachable state space a lattice rather than a graph — no configuration is
-  ever revisited — so reachability over latching flags is a walk over a partial order instead of
-  a search over every combination. [`reachability`](../../skills/reachability.md) is stubbed
-  against `graph-topology` for exactly that search, and a corpus whose flags mostly latch and
-  never say so is one where the cheap computation is available and invisible.
+  **The reason to declare a latch is the checker, not the author — and the reason this node gave
+  for that is wrong.** It said a flag that moves one way makes the reachable space "a lattice
+  rather than a graph… a walk over a partial order instead of a search over every combination",
+  and marked the performance half `[open]` pending a game large enough to show it. That game was
+  generated and it shows the opposite.
+
+  **A lattice over *n* independent monotone variables has 2^n elements. It *is* every
+  combination.** A generated hub — *n* tokens in one room, no order between them, all wanted at
+  the gate — has no clearable state anywhere in it, and its reachable set is 2^n: **100.000% of
+  the declared space at every size measured**, from two tokens to sixteen. [verified] — by a
+  committed assertion rather than a document: `crates/reachability/tests/scaling.rs` generates
+  the family and holds `states == 1 << n` and `observed_space == 1 << n` against it, and a
+  reader who doubts this can run it. Monotonicity bounds the *path* — no configuration is
+  revisited — and says nothing about how many configurations there are.
+
+  What actually produces the collapse is **dependency**: an order between the flags, not merely
+  within each one. A generated corridor whose every door needs the key behind the last one has
+  3n+1 reachable states against an exponential space, and runs 128 rooms in sixteen
+  milliseconds. Same language, same checker, and the difference is entirely whether the author
+  ordered the puzzles. [verified] — `scaling.rs` again, holding `states == 3 * n + 1`.
+
+  So this class keeps `reversible` for the two reasons this node gave *second* — the declaration
+  is checkable, and a save that loses it makes reachable a state the author had proved
+  unreachable — and not for the first. The cheap computation is not available merely because the
+  flags latch.
 
   **The declaration is checked rather than asserted.** `crates/reachability` reports a
   violation when a flag declared latched is cleared anywhere in the reachable graph, and
@@ -28,10 +47,16 @@ description: |
   having at all: a property nothing reads is a comment, and this class exists partly to give
   the property a site.
 
-  What has *not* been shown is the performance claim above. One specimen with one latching flag
-  and one monotone counter demonstrates that the declaration can be held against a game, not
-  that walking a partial order beats searching — that game runs in a millisecond either way,
-  and the difference wants something large enough to show it. `[open]`
+  **That `[open]` is closed, and the answer is no.** It asked for something large enough to show
+  that walking a partial order beats searching. Two generated families answered it: the corridor
+  is linear and the hub is exponential, and *both are made entirely of monotone variables*. The
+  question was malformed — it treated monotonicity as the property that makes the search cheap,
+  and monotonicity is common to both cases.
+
+  What replaces it is narrower and answerable: **how ordered are a real game's puzzles?** A hub
+  of twenty-two independent tokens is 4.2 million states and thirty-six seconds; a corridor of
+  a hundred and twenty-eight is 385 states and sixteen milliseconds. Real games sit between,
+  and nothing here knows where. `[open]`
 
   [open] How many flags in a real game latch is still not known. The guess worth testing is
   *most* — a bridge burned, a character told, a door forced — and one specimen declaring one of

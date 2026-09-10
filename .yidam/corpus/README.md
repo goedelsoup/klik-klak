@@ -60,7 +60,7 @@ Sorted by: kind, then alphabetically.
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 0v / 2i / 0o | 26 |
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 0v / 2i / 0o | 27 |
 | [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 0v / 3i / 1o | 37 |
-| [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 1v / 3i / 2o | 53 |
+| [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 3v / 2i / 4o | 78 |
 <!-- /REGEN -->
 
 ## Semantic index status

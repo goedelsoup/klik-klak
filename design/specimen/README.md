@@ -37,11 +37,16 @@ Two games authored in the language proposed by
 [`../bounded-expression-language.md`](../bounded-expression-language.md), each written to
 break it.
 
-| | [`lighthouse.game`](lighthouse.game) | [`ferry.game`](ferry.game) |
-|---|---|---|
-| written for | *can this say a game at all?* | *does `count item` earn its place?* |
-| committed defect | consumption | ordering |
-| reachable states | 103 of 196,608 observed combinations (0.05%) | 20 of 480 (4%) |
+| | [`lighthouse.game`](lighthouse.game) | [`ferry.game`](ferry.game) | [`nightwatch.game`](nightwatch.game) |
+|---|---|---|---|
+| written for | *can this say a game at all?* | *does `count item` earn its place?* | *does `cutscene` earn its place?* |
+| committed defect | consumption | ordering | consumption |
+| reachable states | 103 of 49,152 (0.21%) | 20 of 120 (16.7%) | 14 of 64 (21.9%) |
+
+Those fractions were published as 0.05%, 4% and 5.5% for several phases. They were too small by
+2^(takeable objects): the metric multiplied in one bit per acquisition site for the checker's own
+`taken` bookkeeping, which the item count already determines. See **Scale**, below, for how that
+was found and what it cost.
 
 **The single most useful thing either produced is a fact about method.** A specimen measures
 where its author could not write something down, and where a tool disagrees with a game. It is
@@ -272,14 +277,48 @@ used to mean "one authored defect, reported once per copy of a duplicated sequen
 same and the reason is not, which is worth noticing: an assertion that survives a change to what
 it is about was not testing what it looked like it was testing.
 
+## Scale — the claim these three could not test, tested
+
+Three games small enough to enumerate by hand cannot say whether enumeration scales, and this
+document said so for six phases. `crates/reachability/tests/scaling.rs` **generates** the large
+games instead. That costs realism and buys a curve: one game is one point, and tractability is a
+question about growth.
+
+Two families, both legitimate adventure-game shapes.
+
+| | **corridor** — door *i* needs the key behind door *i-1* | **hub** — *n* tokens, no order, all wanted at one gate |
+|---|---|---|
+| reachable states | 3n+1 | **2ⁿ** |
+| fraction of declared space | → 0 | **100.000%, at every size** |
+| n = 16 | 49 states | 65,536 states |
+| n = 22 | — | 4.2 million states, 36 seconds |
+| n = 128 | 385 states, 16 ms | — |
+
+**The collapse is a property of the game's dependency structure, not of the language.** Same
+language, same checker; the difference is entirely whether the author ordered the puzzles. And a
+hub is not a contrived shape — *find the three map pieces*, *collect the four keys*.
+
+**The sharper half: both families are made entirely of monotone variables.** Nothing is ever
+unset in either. So monotonicity is not what makes the search cheap —
+[`latched-flag`](../../.yidam/corpus/world-flag/latched-flag.yml) had said it was, and that claim
+is withdrawn. Monotonicity bounds the *path*, not the size of the set, and a lattice over *n*
+independent monotone variables is every combination.
+
+**And the metric could not have found this.** Counting `taken` gave the hub 2ⁿ states against a
+reported 4ⁿ space — a "collapse" to 2⁻ⁿ that was pure redundancy, and which looked exactly like
+the corridor's. The old number reported ~0% for a linear family and an exponential one alike;
+the corrected one separates them completely. A number that measures the representation rather
+than the game is worse than no number, because it looks like evidence.
+
+**What survives.** Decidability is untouched — the space is finite and the search terminates,
+which is what a bounded predicate layer buys and what no escape hatch can offer. Tractability is
+a different claim, it was being made on three small games, and it is now open in a narrower
+form: *how ordered are a real game's puzzles?* Nothing here knows.
+
 ## What these specimens are not
 
 - **Not evidence the language is pleasant to write.** All three were written by the party that
   proposed it, which is the weakest possible authoring trial.
-- **Not a test of scale.** 103, 20 and 14 states. The collapse against the observed space —
-  0.05%, 4% and 5.5% — is the argument for the whole approach, and three small games do not
-  establish it holds for a large one. Three points all under six percent is not a trend, and
-  the two *smallest* games have the worst ratios — which is what you would expect if the ratio
-  is mostly a fact about how many variables a game declares rather than about the collapse.
+- **Not a test of scale, and the test of scale has since been run without them.** See below.
 - **They do not run.** No engine reads them. Every claim here is about what could be written
   down and what could be computed from it.

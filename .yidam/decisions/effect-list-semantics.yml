@@ -68,8 +68,16 @@ rationale: |
   computation is a breadth-first search over states in which each binding is one edge. Give an
   effect duration and a binding stops being an edge: it becomes an interval during which other
   bindings may fire, so the state space gains a dimension and the search is over
-  states-and-time. Every number this project has published — 103 of 196,608, 20 of 480 — is a
-  number about the graph this decision preserves.
+  states-and-time. Every number this project has published about the reachable set is a number
+  about the graph this decision preserves.
+
+  *(Amended after `phase/collapse-scale`. This paragraph used to cite "103 of 196,608, 20 of
+  480", and both figures were wrong — the metric counted the checker's own bookkeeping as world
+  state, and the corrected pair is 103 of 49,152 and 20 of 120. The reasoning is unaffected:
+  the argument is that a binding must stay one edge, and it does not turn on how deep the
+  collapse is. But the same phase found that the collapse is a property of the game's
+  dependency structure rather than of this language, so "every number this project has
+  published" is a thinner endorsement than it read as when it was written.)*
 
   AGS's own migration note is the empirical form of the same point, from the other side:
   in 2.72 "it was still possible for interactions to run at the same time if they didn't

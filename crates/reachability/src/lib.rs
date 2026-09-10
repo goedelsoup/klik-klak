@@ -89,6 +89,12 @@ pub struct Report {
     /// ceiling — so it says how far the reachable set collapses the space actually used, and
     /// not how far it collapses every space the declarations permit.
     pub observed_space: u128,
+    /// Whether [`Report::observed_space`] overflowed and is a ceiling rather than a count.
+    ///
+    /// A generated corridor of eighty rooms reached it, and the report went on printing a
+    /// percentage computed from `u128::MAX` as though it had measured something. A number
+    /// that cannot be produced must not be presented as one.
+    pub space_saturated: bool,
     /// Rooms whose entry bindings move the player in a loop that never settles.
     ///
     /// An `on-enter` binding is forced, so a state in which one is offered is transient — the
@@ -616,12 +622,29 @@ pub fn analyse(game: &Game) -> Report {
     latch_violations.sort();
     latch_violations.dedup();
 
-    // the product of the ranges each variable was observed to take
+    // The product of the ranges each variable was observed to take — over the variables an
+    // author *declared*, which is not the same as the fields of `State`.
+    //
+    // `taken` is excluded and its exclusion is the whole reason this comment exists. It is one
+    // bit per acquisition site, recording that the site has fired, and it is determined by the
+    // item count: it is bookkeeping this checker keeps, not world state anybody wrote down.
+    // Counting it doubled the space per takeable object and doubled nothing in the reachable
+    // set, so it made every game look more collapsed than it is. A generated family of
+    // n-token games made this unmissable: 2^n reachable states against a reported 4^n space,
+    // a "collapse" of 2^-n that was entirely this redundancy.
     let mut observed: u128 = 1;
+    let mut saturated = false;
     let mut span = |vals: Vec<i64>| {
         let lo = vals.iter().copied().min().unwrap_or(0);
         let hi = vals.iter().copied().max().unwrap_or(0);
-        observed = observed.saturating_mul((hi - lo + 1).max(1) as u128);
+        let factor = (hi - lo + 1).max(1) as u128;
+        match observed.checked_mul(factor) {
+            Some(v) => observed = v,
+            None => {
+                saturated = true;
+                observed = u128::MAX;
+            }
+        }
     };
     span(states.iter().map(|s| s.room as i64).collect());
     span(
@@ -641,9 +664,6 @@ pub fn analyse(game: &Game) -> Report {
     }
     for i in 0..ix.options.len() {
         span(states.iter().map(|s| s.chosen[i] as i64).collect());
-    }
-    for i in 0..ix.takeable.len() {
-        span(states.iter().map(|s| s.taken[i] as i64).collect());
     }
 
     // where the game handed out more than it declared room for
@@ -675,6 +695,7 @@ pub fn analyse(game: &Game) -> Report {
 
     Report {
         entry_cycles,
+        space_saturated: saturated,
         states: states.len(),
         transitions: edges.len(),
         winnable: !goals.is_empty(),
@@ -694,7 +715,12 @@ impl Report {
             "{} reachable state(s), {} transition(s).\n",
             self.states, self.transitions
         ));
-        if self.observed_space > 0 {
+        if self.space_saturated {
+            s.push_str(
+                "The declared variables have more combinations than can be counted here, so no \
+                 fraction is reported.\n",
+            );
+        } else if self.observed_space > 0 {
             let pct = self.states as f64 * 100.0 / self.observed_space as f64;
             s.push_str(&format!(
                 "{} of {} combinations of the values these variables take ({:.3}%).\n",

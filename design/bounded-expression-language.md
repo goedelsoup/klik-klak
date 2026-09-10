@@ -507,10 +507,30 @@ or that anybody would enjoy writing in it.
   and cannot express "any k of n" at all. See
   [`stackable-item`](../.yidam/corpus/inventory-item/stackable-item.yml). Still unexercised
   across both specimens: `or`, `!=`, `<=`, `>` and grouping.
-- **Whether the state space stays enumerable at scale.** The two specimens are 103 and 20
-  states, against 196,608 and 480 combinations of the values their variables take — 0.05% and
-  4%. That collapse is the argument; two small games do not establish it holds for a large one,
-  and nothing here predicts what a real game costs.
+- ~~Whether the state space stays enumerable at scale.~~ **Answered, and the answer is that it
+  depends on the game and this language does nothing to make it so.**
+
+  Two generated families settle it. A **corridor** — every door needing the key behind the last
+  one — has 3n+1 reachable states and analyses 128 rooms in sixteen milliseconds. A **hub** — *n*
+  tokens in one room, no order between them, all wanted at the gate — has 2^n reachable states
+  and **100.000% of the declared space at every size**, reaching 4.2 million states and
+  thirty-six seconds at twenty-two tokens. `crates/reachability/tests/scaling.rs` generates both.
+
+  Both families are made entirely of **monotone** variables, which is the part that matters:
+  nothing is ever unset in either. So monotonicity is not what makes the search cheap — it bounds
+  the path and not the size of the set, and a lattice over *n* independent monotone variables is
+  every combination. What makes the search cheap is **dependency**, and a hub is an ordinary
+  adventure-game shape: find the three map pieces, collect the four keys.
+
+  The numbers this document used to quote were also too small by 2^(takeable objects), because
+  the metric counted the checker's own bookkeeping as world state. Corrected: 103 of 49,152,
+  20 of 120, 14 of 64. That old metric reported ~0% for *both* generated families, so it could
+  not have found any of this.
+
+  **What survives.** Decidability is not in question — the space is finite and the search
+  terminates, which is what Layer 1 buys and no general-purpose escape hatch can offer.
+  Tractability is a different claim and this document had been making it on three small games.
+  It is now open in a narrower form: *how ordered are a real game's puzzles?* `[open]`
 - **Nothing here is implemented as an engine.** No engine reads this. It is exercised by one
   specimen and analysed by `crates/reachability`, which is a checker rather than a runtime —
   the analysis says a game *can* be finished, and nothing here has ever played one.
