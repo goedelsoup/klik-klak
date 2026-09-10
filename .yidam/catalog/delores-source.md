@@ -103,6 +103,29 @@ an article, some properties, and nothing that happens. 82 carry exactly one. Two
 more. Alongside them, 290 bare props (`name = {}`): positioned art with no name and no
 behaviour.
 
+## Touchable against hidden — 2026-09-10
+
+**34 `objectTouchable` calls on 18 receivers; 11 `objectHidden` on 6.** Only three receivers get
+both, and one of those three is the literal `this`.
+
+Where both are used they move in lockstep, adjacent, saying one thing twice:
+
+    objectHidden(SheriffsOffice.jailKey, NO)      objectHidden(SheriffsOffice.jailKey, YES)
+    objectTouchable(SheriffsOffice.jailKey, YES)  objectTouchable(SheriffsOffice.jailKey, NO)
+
+**Fifteen receivers change targetability and never hiddenness** — `jailDoor` four times, `ladder`,
+`sheriff`, `coroner`, `trashcan`, `trafficCone1` and the rest. Those objects stay drawn and the
+cursor is switched on and off over them.
+
+**Three receivers change hiddenness and never targetability**, and all three are one gag:
+`greenFireHydrantTrigger` flickers `objectHidden(fireHydrant, randomfrom(YES, NO))` under a
+`quiet_glitch` sound and then restores it. Briefly invisible and still clickable, for a moment, as
+an effect.
+
+**So drawing is not what `objectHidden` mostly governs — `objectState` is.** 146 `objectState`
+calls choose which art an object shows, against 11 blunt on/off hides. Targetability is
+`objectTouchable`'s alone, and it is the load-bearing one.
+
 ## The verb menu, and why there is no default binding — 2026-09-10
 
 **This game has no fall-through, because it has no fixed verb bar.** Clicking an object opens a
