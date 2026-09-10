@@ -31,6 +31,7 @@ used-by:
   - ../corpus/failure-mode/orphaned-dialogue-branch.yml
   - ../corpus/world-flag/latched-flag.yml
   - ../corpus/inventory-item/stackable-item.yml
+  - ../corpus/verb/walk-to.yml
 ---
 
 **This is a source of record and it is the only one this corpus holds.** The AGS manual is
@@ -54,6 +55,15 @@ two" while listing eight, for six of which it was the only record.
   page. States that an author "may create more if necessary", and that the `StandardMode`
   property marks a mode that fires an event on whatever is clicked — applying to Walk, Look,
   Interact and Talk, and explicitly *not* to Use Inventory.
+
+  **Re-read for movement, and it carries an exception this entry had twice failed to record.**
+  Two bullets, at the foot of the page: "For the standard modes, Mode 0 will cause the player to
+  walk to the mouse pointer location when clicked. Modes 1, 2, 3, 5, 8 and 9 will run the event
+  with the same name as the cursor mode."
+
+  So Walk is named among the standard modes in one paragraph and exempted, in the next, from the
+  thing that makes a mode standard: every other one dispatches to an event of its own name, and
+  Mode 0 walks. `verb/walk-to.yml` rests on this.
 - **`Dialog.md`** — dialog option state. `Dialog.SetOptionState()` with `eOptionOff` ("the
   option is disabled - the player will not see it") and `eOptionOffForever` ("the option is
   permanently disabled - no other command can ever turn it back on again"), equivalent to the
@@ -138,6 +148,16 @@ two" while listing eight, for six of which it was the only record.
   allow the player to give items to characters. You can use the `player.ActiveInventory` property
   to distinguish which item they used." Giving is using-an-item-on-someone, said by the system's
   own documentation.
+
+  **Read a second time for movement, and it holds a whole family of events organized by position
+  rather than by verb.** Rooms carry "Walk off left edge" and its three siblings — top, bottom,
+  right. Hotspots carry "Stands on hotspot", whose handler the page names `hHotspot_WalkOn`.
+  Regions carry "Walks onto region", "Walks off region", and an event that "occurs repeatedly
+  while the player character stands on this region."
+
+  None of them is a verb applied to a target. Every one is the engine reporting where the actor
+  is, and together they are how a stock AGS game changes rooms. `verb/walk-to.yml` rests on this
+  and on the `unhandled_event` note below.
 - **`Globalfunctions_Event.md`** — `unhandled_event(int what, int type)`, "Called when an event
   occurs, but no corresponding event handler has been configured. This is typically used to
   display a default 'I can't do that' type response in-order to avoid having to add unique
@@ -153,6 +173,20 @@ two" while listing eight, for six of which it was the only record.
   to no target at all is a first-class event here, which this corpus's ontology has no way to
   express.
 
+  **A third reading, for movement, and the finding is an absence that is safe to use.** The table
+  has twenty-six rows and Walk is in none of them. What makes that usable rather than merely
+  unrecorded is what the table *does* include: `1|8` "Cursor Mode 8 on hotspot" and `1|9`
+  "Cursor Mode 9 on hotspot", with the same pair against objects and characters. Those are modes
+  this manual declines to name anywhere, that an author invents. A table that gives a fallback row
+  to an unnamed custom mode is not a table omitting modes for want of room, so Walk's absence is
+  a statement: **there is no unhandled walk.** See `verb/walk-to.yml`.
+
+  The page's closing note points the same way and is quoted here because it draws the boundary
+  explicitly: "the 'Character stands on hotspot' event does not trigger this function, nor will it
+  be triggered if there is an 'Any click' event handler defined, nor if the player clicks on
+  nothing (hotspot 0)". Position-triggered events sit outside verb dispatch, by the manual's own
+  statement rather than by inference from silence.
+
   The page **does not address** whether `unhandled_event` can be defined per room, or whether a
   default can be scoped to a hotspot or a verb rather than globally. Looked for; absent.
 
@@ -167,6 +201,25 @@ two" while listing eight, for six of which it was the only record.
   This is counter-evidence to a verdict this corpus reached one phase earlier and it is recorded
   here plainly: **`eGA_GiveTo` is a distinct action in the template**, alongside `eGA_UseInv`. See
   `verb/give-to.yml`.
+
+  **Two further things, found on a re-read for movement.**
+
+  *The twelfth constant is typed differently from the other eleven.* The list as the page gives
+  it: "eGA_LookAt, eGA_TalkTo, eGA_GiveTo, eGA_PickUp, eGA_Use, eGA_Open, eGA_Close, eGA_Push,
+  eGA_Pull, eGA_UseInv, eGA_Default and eMG_WalkTo". Eleven `eGA_`, one `eMG_`. **The page never
+  says what `eMG_` denotes and this corpus does not know** — searched for, absent. What is on the
+  page is the prefix. Do not expand the abbreviation; a plausible expansion is exactly the kind of
+  guess this entry exists to prevent.
+
+  *And the template's room transition is not an action at all.* Under "Exit Extensions":
+  "Clicking on such a hotspot will make the player walk to it and change the room afterwards."
+  It is declared by writing an extension into the hotspot's **description** — `Exit>e`, or `>el`,
+  `>er`, `>eu`, `>ed` to continue off a screen edge — and dispatched by adding the `Usermode_1`
+  hotspot event, which lands in a handler the page names `hExit_Mode8`. The page lists what it
+  improves on: "the usual methods like 'screen edges' or stand-on hotspot functions".
+
+  A template that was willing to add `eGA_GiveTo` to the action list put its exits in a
+  description string and a user mode instead. See `verb/walk-to.yml`.
 
 ## What this document holds that nobody here has looked at
 

@@ -13,6 +13,7 @@ used-by:
   - ../corpus/verb/pick-up.yml
   - ../corpus/verb/talk-to.yml
   - ../corpus/verb/look-at.yml
+  - ../corpus/verb/walk-to.yml
 ---
 
 **This is an aggregator and it can never support a `[verified]` claim in this corpus.** SCUMM
@@ -35,6 +36,13 @@ character's eyes (to *look*), hands (to *use*, *pick up*, *push*, *pull*, etc.),
 That supports the contraction this corpus claimed at genesis, and it adds something the corpus
 did not have: the verb coin is a *third* discovery surface, distinct from both the on-screen
 verb bar and AGS's cursor modes.
+
+**Re-read for movement, and the quoted list is usable as a closed one.** Three groups — eyes,
+hands, mouth — and no legs. The sentence enumerates the coin's options rather than sampling them
+("with the option to use character's eyes…, hands…, or mouth…"), which is what makes the absence
+readable at all; it is still an aggregator and still `[inference]`. The same contraction kept
+`talk` as a group of its own and folded `pick-up` into hands, and it did not fold walking
+anywhere. See `verb/walk-to.yml`.
 
 Also read: SCUMM converted human-readable commands into byte-sized tokens read by an
 interpreter; it was developed in 1987 and abandoned in 1998; Humongous Entertainment continued
