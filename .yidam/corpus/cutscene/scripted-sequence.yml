@@ -115,6 +115,19 @@ properties:
     state part-way through and is cut short leaves the world in a configuration the author
     never wrote, and the correct handling — apply every write immediately on skip — is a rule
     each author reimplements rather than something the vocabulary enforces.
+
+    **An engine that admitted duration made sequences atomic anyway, and paid at a different
+    boundary.** Thimbleweed Park cannot save inside a cut-scene: the running threads and the
+    animation state cannot be serialized, so the engine silently saves *just before* one, and a
+    save during a cut-scene restores the state from before it began
+    ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] From the player's side a
+    cut-scene is therefore all-or-nothing, which is the property the reduction above gets by
+    refusing duration in the first place.
+
+    The price is visible in the same post and it runs the other way, from implementation into
+    design: "we're trying to keep all cut-scenes to less than 10 seconds, so you won't really
+    loose much." [verified] A limit on how long a scene may be, chosen because of what a save
+    file can hold. This design has no such limit because a response has no length. [inference]
   control_return: |
     To the player character, in a room and at a position the sequence chose. A sequence that
     returns control to a position outside the walkbox set is a stranded actor, and nothing

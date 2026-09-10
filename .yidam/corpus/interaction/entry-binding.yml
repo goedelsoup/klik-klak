@@ -24,6 +24,31 @@ description: |
   forced.** The player is not offered it. A state in which one is available is therefore
   transient — nobody rests there — and that is a property no other binding in this vocabulary
   has. [inference] `.yidam/decisions/arrival-trigger.yml` records what it cost to have.
+
+  **A third engine carries this trigger and gives it a second job, which this one does not need
+  and the reason is worth recording.** Thimbleweed Park rooms have `enter`, `exit` and
+  `initRoom`, and `enter` is also the **save system**: "When a game loads, I just re-enter the
+  room" ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] It is what puts the
+  characters back where they belong, restarts the ambient sounds and re-launches the threads,
+  because a running thread cannot be serialized and is therefore not saved at all. So that
+  engine's entry hook must be **idempotent and a pure function of global state**, and its
+  effects have to live somewhere else.
+
+  This vocabulary's entry binding is the opposite — it spends an item and moves the player — and
+  that is safe here for one reason: effects are instantaneous, so nothing is running that a save
+  could miss, and the state *is* the save. There is no room to reconstruct. [inference]
+
+  Those are the two halves of one trade, and the diary shows both. An engine that admits duration
+  needs a reconstruction hook and must keep effects out of it; a vocabulary that refuses duration
+  needs no reconstruction and may put effects in. This is the first place the atomicity decision
+  in `.yidam/decisions/effect-list-semantics.yml` has paid off somewhere other than where it was
+  argued.
+
+  It also carries **`exit`**, which this vocabulary does not have and which no assessment here
+  has asked for. [verified] What that engine uses it for in the one example shown is stopping
+  sounds — presentation, on the far side of the line `effect-list-semantics` draws — so it is not
+  evidence of a missing primitive. It is a reminder that the arrival trigger has an obvious twin
+  and nothing here has argued about it. `[open]`
 properties:
   shape: none
   response: |

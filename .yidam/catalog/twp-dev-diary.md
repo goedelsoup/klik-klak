@@ -17,6 +17,9 @@ used-by:
   - ../corpus/data-format/room-manifest.yml
   - ../corpus/verb/walk-to.yml
   - ../corpus/data-format/interaction-table.yml
+  - ../corpus/interaction/entry-binding.yml
+  - ../corpus/cutscene/scripted-sequence.yml
+  - ../corpus/world-flag/latched-flag.yml
 ---
 
 **A source of record, and the closest one this corpus will ever get to its own question.**
