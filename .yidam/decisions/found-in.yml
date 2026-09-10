@@ -120,7 +120,14 @@ rationale: |
   and cataloguing what it produces would file a result as a source — the conflation `CLAUDE.md`
   names as this repository's characteristic mistake. So neither of the two fixes the conduct
   guideline offers applies: a citation would be false and a demotion would under-report. The
-  report stands, with this as its reason. `[open]`
+  report stands, with this as its reason.
+
+  **There are two of them now.** `interaction/binary-binding` arrived in the same position from
+  [binary-dimension](binary-dimension.yml) — claims measured on committed tests, no catalog entry to
+  cite. One instance was a curiosity about a lint; two is a gap in the evidence vocabulary, and this
+  corpus's own threshold for a schema change is a second instance. The question is no longer whether
+  to record the reason but whether `[verified]` needs a way to say *by a committed assertion*.
+  `[open]`
 
   Whether the check should also refuse a give of some *other* item on a hotspot that stands for
   one is untested. All eight `is` sites in the four specimens give exactly what they stand for and
