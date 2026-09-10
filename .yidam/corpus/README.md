@@ -23,16 +23,16 @@ Sorted by: kind, then alphabetically.
 -->
 | Instance | Class | Label | Links out | Claims | Lines |
 |---|---|---|---|---|---|
-| [non-player-character.yml](actor/non-player-character.yml) | actor | Non-Player Character | 2 | 1v / 3i / 1o | 37 |
+| [non-player-character.yml](actor/non-player-character.yml) | actor | Non-Player Character | 2 | 3v / 4i / 1o | 52 |
 | [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 0v / 1i / 1o | 28 |
 | [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 4 | 3v / 4i / 0o | 76 |
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 7v / 5i / 0o | 95 |
-| [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 6v / 9i / 4o | 167 |
+| [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 7v / 9i / 3o | 178 |
 | [dialogue-script.yml](data-format/dialogue-script.yml) | data-format | Dialogue Script | 2 | 7v / 2i / 1o | 104 |
 | [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 28v / 16i / 6o | 353 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 3v / 1i / 3o | 71 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
-| [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 2v / 5i / 0o | 78 |
+| [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 3v / 5i / 0o | 87 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 2v / 3i / 1o | 47 |
 | [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 5i / 1o | 72 |
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 0v / 4i / 1o | 47 |
