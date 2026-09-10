@@ -6,6 +6,11 @@
 //! ones. They are generated rather than authored, which costs realism and buys a *curve*: a
 //! single game gives one point, and tractability is a question about growth.
 //!
+//! That reading is true and it is not the whole of what the generators are. See the last test in
+//! this file: they are this corpus's own instance of the pressure it had recorded three times in
+//! somebody else's game, and the games carrying its central tractability argument are games this
+//! vocabulary cannot express.
+//!
 //! **The finding is that the collapse is a property of the game's dependency structure and not
 //! of the language.** A corridor collapses totally. A hub does not collapse at all, and a hub is
 //! an ordinary adventure-game shape — find the three map pieces, collect the four keys.
@@ -219,5 +224,56 @@ fn a_large_game_at_the_prescribed_width_is_small() {
         r.states < 1500,
         "three hundred puzzles should stay in the hundreds; got {}",
         r.states
+    );
+}
+
+/// **What the three functions above are, which took five phases and somebody else's game to see.**
+///
+/// `chain`, `hub` and `acts` are `definePseudoRoom`. They are Rust `for` loops emitting source in
+/// the proposed language, written because a corridor of sixty-four rooms cannot be written by
+/// hand — and every one of those rooms is individually sayable. What is not sayable is *sixty-four
+/// rooms like this one*.
+///
+/// The file's own opening called that "generated rather than authored, which costs realism and
+/// buys a curve", filing it as a methodological trade. It is the same pressure this corpus had
+/// already recorded three times in a shipped game — 110 hotel rooms built by a loop, a helper
+/// written because a second author "didn't want to do more copy-paste", 21 presentation names the
+/// game defines for itself — and did not recognise in its own repository.
+///
+/// It matters because the figures these generators produce are this corpus's central evidence
+/// about tractability, quoted in `world-flag/latched-flag` and in the design. **The games that
+/// carry that argument are games this vocabulary could not express.**
+///
+/// The numbers, at the sizes the tests above actually run: 664 lines of hand-authored game across
+/// four specimens, and 6,315 generated across seventeen. `.yidam/decisions/duplication.yml` is
+/// the record.
+#[test]
+fn the_corpus_generates_ten_times_the_game_source_it_can_write() {
+    let authored: usize = [
+        include_str!("../../../design/specimen/ferry.game"),
+        include_str!("../../../design/specimen/lighthouse.game"),
+        include_str!("../../../design/specimen/nightwatch.game"),
+        include_str!("../../../design/specimen/patrol.game"),
+    ]
+    .iter()
+    .map(|s| s.lines().count())
+    .sum();
+
+    let mut generated = 0usize;
+    for n in [4usize, 8, 16, 32, 64] {
+        generated += chain(n).lines().count();
+    }
+    for n in [2usize, 4, 6, 8, 10, 12, 16] {
+        generated += hub(n).lines().count();
+    }
+    for (k, w) in [(24usize, 2usize), (16, 3), (6, 8), (4, 12), (100, 3)] {
+        generated += acts(k, w).lines().count();
+    }
+
+    assert_eq!(authored, 664, "four specimens, by hand");
+    assert_eq!(generated, 6315, "seventeen games, by loop");
+    assert!(
+        generated > 9 * authored,
+        "if this ratio has moved, the record in .yidam/decisions/duplication.yml has to move too"
     );
 }
