@@ -30,24 +30,28 @@ description: |
   [conversation.ont.yml](../conversation.ont.yml) now rests on, and it is the property this node
   shares with the tree rather than the one that separated them.
 
-  **[open] And no relationship in this corpus writes that availability.**
-  [conversation.ont.yml](../conversation.ont.yml) declares `held-with` and `sets` and nothing
-  that changes which choices are visible, while resting its whole account of the class on a
+  **No relationship in this corpus writes that availability — and none needs to.**
+  [conversation.ont.yml](../conversation.ont.yml) declares `held-with` and `sets` and nothing that
+  changes which choices are visible, while resting its whole account of the class on a
   conversation carrying exactly that. AGS spends three of its eight dialog commands on it
-  ([ags-manual](../../catalog/ags-manual.md)) [verified], `state_scope` below records it, and
-  [failure-mode/orphaned-dialogue-branch](../failure-mode/orphaned-dialogue-branch.yml) is
-  entirely about what those three commands do. Documented in three places, modelled in none.
+  ([ags-manual](../../catalog/ags-manual.md)) [verified], and `state_scope` below records it.
 
-  It is left open rather than closed by adding an edge, because the missing edge has no target:
-  this corpus has no node type for a single conversation option, and inventing one to hang a
-  relationship on would be adding a class speculatively. Found by deriving an effect vocabulary
-  from the ontology in
-  [design/bounded-expression-language.md](../../../design/bounded-expression-language.md).
+  **The weighing found the answer already declared.** `world-flag.scope` has read "global,
+  room-local, or **local to a conversation**" since genesis, and `conversation -sets-> world-flag`
+  with it. An option's availability, and whether it has been chosen, are conversation-scoped
+  boolean flags — which is what `state_scope` below has been describing all along without
+  noticing it was describing a declared thing. [inference] No new class for an option, and no new
+  relationship.
 
-  **[open] Nor does anything say a conversation is left.** `interaction -opens-> conversation`
-  declares the entering. [conversation.ont.yml](../conversation.ont.yml) describes its class as
-  entered as a mode *and left deliberately*, and declares one half of that. A specimen needed to
-  write the exit and could not ([design/specimen](../../../design/specimen/README.md)).
+  One third of it did not reduce and was fixed rather than argued away. `option-off-forever` is
+  documented as permanent — "no other command can ever turn it back on again" [verified] — and a
+  flag that can be cleared cannot express one that cannot. That is
+  [world-flag/latched-flag](../world-flag/latched-flag.yml), and a **property** rather than an
+  edge: a latching flag is a different kind of flag, not a different kind of relationship.
+
+  **And leaving is `returns-control-to`.** `interaction -opens-> conversation` declared the
+  entering; `cutscene` had declared the leaving since it was seeded, and the same relationship
+  fits this class without alteration. Both instances now carry it, including this one.
 properties:
   structure: topic-list
   exhaustion: |
