@@ -249,7 +249,14 @@ One of the six is the reason `connects-to` is not simply the answer:
 
 A guard and a refusal, on an edge between two rooms. That is a binding whose trigger is arrival
 rather than a verb applied to a target — and the interaction table indexes on verb and target, so
-it has nowhere to put one. `[open]`, and it is the live proposal this assessment leaves behind.
+it has nowhere to put one.
+
+**Built, and it did not need a third site.** `exit <name> to <room>` is a declaration that expands
+at parse time into exactly the binding above, so the guard and the refusal are written under it and
+the table indexes nothing new. The four specimens turn out to supply half the evidence for its
+shape without having been asked: **20 exits, 15 bare and 5 carrying a guard or refusal**, against
+Delores's 20, 18 bare and 2 gated. Same count, same dominant shape, arrived at independently.
+`.yidam/decisions/exit-archetype.yml`.
 
 **Declared and not used: `give-to`.** No natural site arose in either game, from a direction the
 documentary assessment in that node did not use.
