@@ -62,7 +62,19 @@ properties:
     building on an engine whose core has exactly one event for applying an item to an entity,
     put the distinction back.
 
-    So the collapse is real and it is not where this node first put it. The **engine** subsumes
+    **A third case, and it is the one with no engine constraining it.** Thimbleweed Park's actors
+    carry `flags = GIVEABLE|TALKABLE` — a per-target declaration of what may be done to a thing,
+    with give-ability listed beside talk-ability as a peer
+    ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] Reading `GIVEABLE` as a give
+    verb rather than as a filter on *use inventory* is a reading and not a quotation
+    [inference], and what makes it worth recording either way is that this system had no
+    inherited event model to work around: it was written from nothing by the authors of SCUMM,
+    and giving is a declared capability of a target in it.
+
+    So the pattern holds across every SCUMM-style surface this corpus has read and never across
+    an engine core. [inference]
+
+    The collapse is real and it is not where this node first put it. The **engine** subsumes
     giving into using: one event, and the manual says it covers the giving case. The **authoring
     vocabulary** does not, at least not for the authors who reached for a SCUMM-style interface,
     and that is a revealed preference of the same kind this corpus treated as strong evidence

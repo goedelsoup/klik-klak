@@ -74,10 +74,13 @@ acts, not how many puzzles are open at once. The 2014 post prescribes "2 or 3"; 
 says an unfinished box becomes "4 or 5". Neither is a measurement of a completed game, and this
 entry was read twice looking for one.
 
-**The charts themselves are images.** The Thimbleweed Park chart and the DeathSpank chart
-(linked from the 2014 post) are pictures of graphs. A width could in principle be counted off
-them by eye; nobody here has done that, and a number read off a JPEG by an agent would be worth
-less than the prescription it was meant to check.
+**The charts themselves are images, and that is not the obstacle.** The Thimbleweed Park chart
+and the DeathSpank chart (linked from the 2014 post) are pictures of graphs, and this entry
+recorded that a width could in principle be counted off them by eye. It cannot. The development
+diary states why: "Everything is blurred out, so there are no spoilers"
+([twp-dev-diary](twp-dev-diary.md)). The published charts were **produced so the boxes cannot be
+read**, which is a stronger and more permanent obstacle than a JPEG's resolution, and it applies
+to every chart of a shipped game either author has posted.
 
 So the honest position is that this source supplies a **design rule**, and
 `crates/reachability/tests/scaling.rs` supplies what that rule costs. What neither supplies is a
@@ -85,7 +88,13 @@ measured chart from a shipped game, which remains the retrieval that would close
 
 ## What these sites hold that nobody here has looked at
 
-The rest of both blogs: fifteen years of Grumpy Gamer, and the entire Thimbleweed Park
-development diary, which is a near-daily record of an adventure game being designed by the
-people who defined the form. It is the largest unread body of primary material this corpus has
-identified.
+**The Thimbleweed Park development diary has since been read, in part**, and has its own entry
+([twp-dev-diary](twp-dev-diary.md)) — twenty-two posts of 258, aimed at the engine's authoring
+surface rather than at the charts. It did not supply a measured width and it explained why one
+cannot be had from these sources.
+
+What is still unread is fifteen years of Grumpy Gamer, and 236 of the diary's posts. One thing
+named there and not read is worth more than the rest together: the essay these design rules are
+a restatement of. "It will follow my rules of adventure game design" is a reference to *Why
+Adventure Games Suck*, Gilbert's 1989 piece, which is the document the prescription in this
+entry descends from and which nobody here has retrieved.

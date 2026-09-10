@@ -82,10 +82,28 @@ description: |
   reports 4–5 for unfinished boxes in Thimbleweed Park; neither is a count off a finished chart,
   and he does not have Monkey Island's. `[open]`
 
-  [open] How many flags in a real game latch is still not known. The guess worth testing is
-  *most* — a bridge burned, a character told, a door forced — and one specimen declaring one of
-  its two flags latched is a data point rather than a measurement. If it is most, then
-  `reversible` is the wrong default and the property should ask which flags can be *un*set.
+  **How many flags in a real game latch has its first evidence, and it points at *most*.** A
+  shipped adventure game's save file is quoted in Thimbleweed Park's development diary, with real
+  variable names in it ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] The
+  author-written booleans visible across that post are `talked_to_sheriff`, `ate_hotdog`,
+  `ordered_hotdog`, `picked_up_tape`, `sawRaysBadge`, `sawReyesBadge`, `detective` and
+  `receiverOff`. Six of the eight are records that something happened and cannot un-happen; one
+  is a constant; **one is genuinely reversible**, and it is a telephone receiver being on or off
+  the hook. [inference] — eight names from a blog post is not a measurement, and it is the first
+  evidence this question has had that is not this corpus's own specimen.
+
+  **The names are what separate them, and that is cheaper than a declaration.** Every latch there
+  is named for an event in the past tense — *talked to*, *ate*, *picked up*, *saw* — and the one
+  reversible flag is named for a state. [inference] A convention that falls out of what authors
+  are actually recording, rather than one anybody imposed. It is not a substitute for the
+  `reversible` property, because a checker cannot read English tense and because the convention
+  will break the first time someone writes `door_open`, but it suggests the property will
+  usually be predictable from the name and therefore that getting it wrong will be quiet.
+
+  [open] So *most* is now a supported guess rather than a bare one, and the consequence stated
+  when it was bare still follows: if it is most, `reversible: no` is the wrong default and the
+  property should ask which flags can be *un*set. Nothing here changes the default, because eight
+  names is not enough to invert a schema on.
 properties:
   domain: boolean
   scope: global

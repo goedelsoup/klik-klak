@@ -1,0 +1,186 @@
+class: prior-art
+label: Thimbleweed Park
+description: |
+  A 2D point-and-click adventure shipped in 2017, and the engine written for it, by Ron Gilbert,
+  Gary Winnick and David Fox — the authors of *Maniac Mansion*. It is the one system in this
+  corpus where the people who invented the form built the form again, from nothing, with no
+  compatibility to keep and thirty years to think about it. Whatever they chose, they chose
+  freely.
+
+  They chose a **general-purpose scripting language, in the second week, before anything else
+  existed.** `engine.html`, 5 January 2015: "I think my engine has everything I need... Except a
+  scripting language." Lua is rejected on syntax; writing one is costed at "about a month" and
+  declined for time; Squirrel is taken
+  ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified]
+
+  **That is the most direct answer to this corpus's central question that exists, and it is
+  no.** It is also not the whole answer, because *where* they put the language is precisely
+  where this corpus argues about, and on two of the three boundaries they drew the line in the
+  same place this design does.
+
+  **The keying is this corpus's interaction table, exactly.** A room is a table; an object is a
+  table inside it; a binding is a field on the object named for the verb. [verified]
+
+      hotelRoomRadio =
+      {
+          name = "radio"
+          initState = OFF
+          verbLookAt = function() { ... }
+          verbUse = function() { ... }
+      }
+
+  Verb by target, sparse, with everything unwritten falling through — the shape
+  [interaction-table](../data-format/interaction-table.yml) describes and the shape
+  [interaction](../interaction.ont.yml) calls a relator. Nobody arrived at it from this corpus's
+  premises; they arrived at it from SCUMM, and Gilbert says that was the intent from the start:
+  the plan for Squirrel was "to modify the syntax a little to mimic how SCUMM laid out code for
+  rooms and objects." [verified]
+
+  So the disagreement is not about the table. It is about what goes in a cell, and there the
+  answer is an arbitrary closure.
+
+  **What the cells actually needed, counted rather than argued.** Every object shown in the
+  diary, taken as a sample of one game's bindings:
+
+  | what the response does | example | expressible here |
+  |---|---|---|
+  | say a line | `hotelRoomBed.verbLookAt` | yes |
+  | say one of two, on a flag | `hotelRoomRadio.verbLookAt` | yes — `when`/`else` |
+  | write a flag or object state | `objectState(this, ON)` | yes — `set` |
+  | go somewhere | `verbWalkTo` → `enterRoomFromDoor` | yes — `move` |
+  | take an item, decrement a stock, flip state at zero | `bankFlyerHolder.verbPickup` | yes — a counter and three gates |
+  | say one of four, on a count the response advances | `bankPainting.lookAt` | yes, at four bindings for one cell |
+  | **call another binding on the same object** | `verbPickUp = function() { verbUse() }` | **no** |
+  | **start something that outlives the click** | `startthread(playRadio, this)` | **no** |
+  | **rebuild the room from global state** | `enter` | **not as written** |
+  | **build 110 rooms from one template** | `definePseudoRoom` in a `for` loop | **no** |
+  | **randomise an initial state** | `objectState(bed, random(1,3))` | **no** |
+  | **share a parameterised helper across rooms** | `sewerValveSetup(this)` | **no** |
+
+  [inference] — a sample from a development blog is not the game, and the entry says so.
+
+  **The finding is in which rows failed.** Not the puzzle rows. Every response in the sample
+  that does what an adventure game does — describe a thing, refuse, gate on state, take an
+  object, change a room — is inside this vocabulary, including the two that look hardest. What
+  broke out was **repetition and duration**, and repetition twice, independently: Gilbert wrote
+  `definePseudoRoom` because the Edmund Hotel is 110 rooms, and Jenn Sandercock wrote
+  `SewerHelpers.nut` because the sewers are full of valves and "I didn't want to do more
+  copy-paste". [verified]
+
+  This corpus has been asking whether a bounded expression language is *expressive* enough. The
+  one system that ran the experiment says the thing that broke the declarative form first was
+  **duplication**, and `interaction-table` already records that scale is the untested axis:
+  "twenty-three bindings is not a test of scale." [inference] The same pressure appeared one
+  scale down in `.yidam/decisions/arrival-trigger.yml`, where four bindings carried one intent
+  and one copy drifted.
+
+  **Duration is the other, and it is why Squirrel was not enough either.** Squirrel had to be
+  extended before the first room existed. `scripting_test.html`, 20 January 2015: "one of the
+  things I always liked about SCUMM was how it handled multi-tasking... I just want to start a
+  function and have it run until told otherwise... Squirrel didn't have the ability 'out of the
+  box'." [verified] A general-purpose language was chosen and immediately found short on exactly
+  the axis `.yidam/decisions/effect-list-semantics.yml` refused to cross.
+
+  **And the price is stated, in the one place a designer cannot avoid stating it.** A running
+  thread cannot be saved: "I looked at the Squirrel source code and I don't see an easy way to
+  serialize and recreate a running thread." Global threads are therefore not saved at all, local
+  threads are killed on leaving a room and restarted by the room's `enter` code, and a save
+  during a cut-scene silently restores the state from just before it. [verified] Three separate
+  workarounds, all for the same fact: **a response with duration is not a state.** This corpus
+  reached the same conclusion by refusing the duration; that engine reached it by paying for it.
+
+  **Where they held the line this corpus draws.** The room file has no behaviour in it — see
+  [room-manifest](../data-format/room-manifest.yml), whose claim that every engine eventually
+  puts a script hook in the room file this system falsifies. Two of its fields, `usepos` and
+  `usedir`, are the residue [walk-to](../verb/walk-to.yml) left open, declared as data on the
+  target rather than authored as a binding. [verified]
+
+  **And where the shape of the language leaked into the table.** In February 2015 the slots were
+  `lookAt` and `walkTo`; by January 2016 they are `verbLookAt` and `verbWalkTo`. [verified] The
+  prefix is there because a binding and the object's own state share one namespace — `name`,
+  `initState`, `flags`, `look_count`, `flyers_left` and `verbUse` are fields of the same table —
+  and nothing but a naming convention keeps a verb slot from colliding with a variable. A format
+  that keys bindings separately from declarations never needs the prefix. [inference]
+
+  **Dead ends were prevented by a rule and not by anything in the vocabulary.** "Thimbleweed Park
+  will not have the death and dead ends of Maniac Mansion. Those were born from ignorance more
+  than a focused design decision. It will follow my rules of adventure game design."
+  [verified] That is the strongest available witness saying
+  [unwinnable-state](../failure-mode/unwinnable-state.yml) is a defect rather than a genre
+  feature — and saying it as *discipline*, because a general-purpose language cannot be asked
+  the question. It is the same shape as the finding in `puzzle/state-gate`: a rule adopted for
+  how the game plays is the rule that makes it checkable, and the checking is not available to
+  the system that adopted it.
+
+  [open] What the escape hatch was *used for* is answered here from a blog's sample. The
+  complete Delores game scripts run on this engine and are public
+  ([twp-dev-diary](../../catalog/twp-dev-diary.md)); reading them would replace every
+  `[inference]` in the table above with a count.
+properties:
+  era: "2015-2017"
+  vocabulary_shape: |
+    An on-screen verb grid below the scene, with the inventory beside it — the *Maniac Mansion*
+    surface rather than the verb coin, kept deliberately. The sentence line was removed in
+    August 2016 after playtests, and the verbs were not: "no one comments on it... It just felt
+    right." [verified]
+
+    The set is not enumerated anywhere in the diary. Six members are named in passing while
+    arguing about keyboard shortcuts — Open, Close, Use, Push, Pull, Pickup — and `verbLookAt`,
+    `verbUse`, `verbPickUp` and `verbWalkTo` appear as binding slots in quoted code. [verified]
+
+    Two more are read off a **capability flag** and are therefore weaker: actor tables carry
+    `flags = GIVEABLE|TALKABLE`. [verified] That is a per-target declaration of what may be done
+    to a thing, `TALKABLE` plainly corresponds to a talk verb, and `GIVEABLE` to a give one —
+    which is a reading, not a quotation. [inference]
+
+    **Four of those have no node in this corpus.** Open, Close, Push and Pull were kept by the
+    newest system in the corpus, built by the people who wrote the oldest, and this vocabulary
+    declares none of them. That is not the same finding as `vocabulary-coverage`'s *undeclared
+    and reached for*, which is about bindings; it is the comparative question, and it is the
+    first time traversing `prior-art -implements-> verb` returns something this corpus lacks.
+    [inference]
+  scripting: |
+    **Immediately, deliberately, and at the level of the individual response.** Squirrel, chosen
+    in week two over writing a bounded language that was costed at a month, and extended with
+    cooperative threads before the first room existed. There is no declarative layer beneath it
+    for behaviour.
+
+    The structure around the cells is declarative and is not the same question: rooms and
+    objects are tables, geometry is a JSON file written by a tool, and neither contains code.
+    So the boundary is drawn one level lower than this corpus proposes — around the *response*
+    rather than around the *game* — and everything above it agrees.
+
+    Nothing in the diary records a bounded response language being considered and rejected.
+    Gilbert weighs three general-purpose options and picks one. [inference] from silence, which
+    is weak, and it is the honest reading: the alternative this corpus is testing does not
+    appear to have been on the table.
+  source_standing: |
+    [The development diary](../../catalog/twp-dev-diary.md), read 2026-09-10 — twenty-two posts
+    of 258, primary, by the authors, with their own source in them. Everything above that quotes
+    is `[verified]`; everything that generalises from a sample of illustrated code to the game is
+    `[inference]` and marked.
+
+    This is the corpus's first prior-art node whose source is neither a manual nor a reverse
+    engineering. It is also the only one where a claim about *why* a choice was made rests on
+    the person who made it saying so.
+links:
+  - target: ../verb/look-at.yml
+    relationship: implements
+  - target: ../verb/pick-up.yml
+    relationship: implements
+  - target: ../verb/talk-to.yml
+    relationship: implements
+  - target: ../verb/use-with.yml
+    relationship: implements
+  - target: ../verb/give-to.yml
+    relationship: implements
+  - target: ../verb/walk-to.yml
+    relationship: implements
+  - target: ../data-format/room-manifest.yml
+    relationship: reads
+  - target: ../data-format/interaction-table.yml
+    relationship: reads
+  - target: ../failure-mode/unwinnable-state.yml
+    relationship: exhibits
+  - target: ../prior-art.ont.yml
+    relationship: instance-of
