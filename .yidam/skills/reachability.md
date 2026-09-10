@@ -56,12 +56,13 @@ an example of one, described in the terms the game was written in.
 
 ## Against the specimens
 
-Two games, one defect each, one cause each.
+Two games, one defect each, one cause each. (There are three specimens now; these two are
+kept because they carry the two different causes.)
 
 ```
 $ reachability design/specimen/lighthouse.game
 103 reachable state(s), 193 transition(s).
-103 of 196608 combinations of the values these variables take (0.052%).
+103 of 49152 combinations of the values these variables take (0.210%).
 The ending is reachable.
 
 16 reachable state(s) can no longer reach the ending.
@@ -74,12 +75,12 @@ Stranded by:
 ```
 $ reachability design/specimen/ferry.game
 20 reachable state(s), 34 transition(s).
-20 of 480 combinations of the values these variables take (4.167%).
+20 of 120 combinations of the values these variables take (16.667%).
 The ending is reachable.
 
 2 reachable state(s) can no longer reach the ending.
 Stranded by:
-  line   64  use-with coin on ferryman  [ordering]
+  line   65  use-with coin on ferryman  [ordering]
             a gate closed with something still needed behind it — 2 state(s)
             e.g. in far; carrying nothing
 ```
