@@ -106,6 +106,22 @@ rationale: |
   its place by being what the vocabulary cannot say — cuts against adding the marker until a
   second edge wants it, and no search has been made for one. `[open]`
 
+  **A finding about the evidence vocabulary, found by tripping it.** The claims above are
+  measurements of committed, runnable tests, and `inventory-item/portable-object` now carries four
+  of them at `[verified]` while linking no catalog entry — so `yidam lint` reports it as
+  `verified-unsourced`. The check is right about what it can see. The tags are right too:
+  [`world-flag/latched-flag`](../corpus/world-flag/latched-flag.yml) already settled that a
+  committed assertion verifies, in as many words — *"by a committed assertion rather than a
+  document… a reader who doubts this can run it"* — and it escapes the report only because it
+  happens to cite documents for its other claims. [verified] That is an accident, not a rule.
+
+  This corpus has two kinds of evidence and can cite one of them. `catalog/` "tracks data
+  sources", which are things read from outside; `crates/` is an instrument this repository built,
+  and cataloguing what it produces would file a result as a source — the conflation `CLAUDE.md`
+  names as this repository's characteristic mistake. So neither of the two fixes the conduct
+  guideline offers applies: a citation would be false and a demotion would under-report. The
+  report stands, with this as its reason. `[open]`
+
   Whether the check should also refuse a give of some *other* item on a hotspot that stands for
   one is untested. All eight `is` sites in the four specimens give exactly what they stand for and
   nothing else [verified], so the corpus has no case where a hotspot legitimately hands over

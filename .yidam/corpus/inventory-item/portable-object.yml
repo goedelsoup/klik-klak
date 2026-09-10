@@ -26,11 +26,50 @@ description: |
   [consuming-binding](../interaction/consuming-binding.yml) is where a spend happens; see
   `.yidam/decisions/effect-vocabulary.yml` for the three sibling gaps that did not survive the
   same test.
+
+  **The rule in that paragraph convicts this node's own link list, and nothing announced it.**
+  *Authored twice, with nothing holding the two in step* was written against a flag standing in
+  for consumption. It is an exact description of `found-in`, which this node authors beside
+  `carried-form-of` — the room, and the hotspot that is in the room. [inference] A node can state
+  a rule and carry an instance of its violation, because it is looking outward when it writes the
+  rule.
+
+  **`found-in` is real and it is never information.** In the proposed format it was `holds <item>`
+  in a room section, and four ways of writing it wrong — omitted, moved to another room, aimed at
+  an item nothing stood for, contradicting itself across two rooms — gave the same 103 states, the
+  same one stranding and the same silence as the specimen as committed
+  ([design/specimen](../../../design/specimen/README.md)). [verified] It is a resolve error now.
+  Of `lighthouse.game`'s five items, two are found in the room of their carried form, one in the
+  room its binding is sited in, and two are given inside a conversation and so are found nowhere
+  at all. [verified] The relationship is derived where it is defined and undefined where it is
+  not, which is not a thing to ask an author for.
+
+  **The pair that *is* stated twice is `carried-form-of` and `acquired-by`, and its disagreements
+  are silent in the flattering direction.** `is <item>` names the hotspot that stops being in the
+  room; the `give` in a binding on that hotspot is what makes it stop. Name different items and
+  the hotspot stays there forever while the player carries the thing. Making `nightwatch.game`'s
+  wire hand over the ledger instead resolved without a word and took the analysis from fourteen
+  states and two strandings to **six and none**, still reporting the game winnable. [verified] A
+  defect that lengthens a report gets investigated; one that shortens it looks like progress. The
+  two are held against each other now — a binding on the hotspot must give the item it stands
+  for — and `.yidam/decisions/found-in.yml` is the record.
+
+  Every `[verified]` above rests on a committed test rather than on a document, and this node
+  links no catalog entry, so `yidam lint` reports it as `verified-unsourced`. The tags are right
+  and the report is right; what is missing is a way to cite the second kind of evidence. The
+  record names it.
 properties:
   acquisition: |
     A binding whose response removes the object's hotspot from the room and adds the item to
     the inventory. [inference] Those are two writes, and an engine that cannot make them
     atomic has a window in which the object is in neither place.
+
+    **The proposed format has one write and a derivation, so the window does not open** — `give
+    <item>` is the effect and the hotspot's absence follows from `is <item>` naming it. [verified]
+    What replaced the atomicity problem is an agreement problem: the derivation fires only when
+    the two name the same item, and it fires silently when they do not. That is checked now, and
+    it was not checked for the four phases in which the derivation was the argument for calling
+    this not-a-gap.
   quantity: one
   combinable: yes
   icon: |
