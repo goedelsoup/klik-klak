@@ -1,0 +1,80 @@
+id: hotspot-identity
+summary: >-
+  Both of `static-region`'s open questions close. The property stays one, because nothing but
+  presentation reads the difference between drawn and targetable — and it is about *targetability*,
+  which is what calling it `visibility` obscured. And the identity pressure is a consequence of drawn
+  geometry, not of scale, so a format with no geometry cannot produce it and a second game was never
+  what this needed.
+context: |
+  [static-region](../corpus/hotspot/static-region.yml) carries two `[open]`s and this corpus has
+  exactly one `hotspot` instance, which makes the class under-developed relative to how much rests
+  on it.
+
+  **The first** says `visibility` fuses two things a real game keeps apart — `objectTouchable` and
+  `objectHidden`, used 11 and 9 times — so a region can be *"drawn and not targetable"* or
+  targetable and not drawn, and *"whether they need to be two properties depends on whether anything
+  but presentation reads the difference, and nothing here has asked"*.
+
+  **The second** came from counting delegation: eleven of twenty sites are one object drawn as
+  several regions, wanting at least three relations — part-of, same-as, says-the-same — and *"one
+  game is not enough to choose among them or to collapse them"*.
+decision: |
+  **`visibility` stays one property, and what it is about is targetability.**
+
+  Recounted across the whole source rather than the sample: **34 `objectTouchable` calls on 18
+  receivers, 11 `objectHidden` on 6**, and only three receivers get both. [verified] —
+  [delores-source](../catalog/delores-source.md). Where both appear they move in lockstep on
+  adjacent lines. Fifteen receivers change targetability and never hiddenness. Three change
+  hiddenness and never targetability, and all three are one gag — a fire hydrant flickering under a
+  `quiet_glitch` sound and being restored.
+
+  **The second open closes too, and not by choosing among the three relations.** It closes because
+  the pressure that produces them cannot arise here.
+rationale: |
+  **Nothing but presentation reads the difference, which is the condition the first open set.**
+  The one place the two diverge is a flicker lasting a moment. Everywhere they mean *presence* they
+  are written together and could not disagree without being a bug — `jailKey` is hidden NO and
+  touchable YES in one branch and the reverse in the other, one fact written twice because that
+  engine separates them. [verified] A design that fuses them loses a gag and keeps everything else.
+
+  **But the fusion was described the wrong way round, and that is the useful correction.** The node
+  reads the pair as *drawn* versus *targetable*, equal partners. They are not. Drawing is
+  `objectState`'s job in that game — 146 calls choosing which art an object shows — against 11 blunt
+  hides. [verified] So `objectHidden` is a visibility override used mostly for effects, and
+  `objectTouchable` is the load-bearing half. [inference] The property this class needs is
+  **targetability**; calling it `visibility` is what invited the confusion, and the fifteen
+  touchable-only receivers are not evidence for splitting it but evidence for renaming what it is
+  about.
+
+  **The identity pressure is a consequence of drawn geometry, and this format has none.**
+  Ten of the eleven sites are two regions of one drawn thing or several drawn things that read
+  alike: a sink and its tap, a circus needing two click regions, a hotel and its roofline, three
+  traffic cones on a street, one of them seen again from another screen. [verified] The eleventh —
+  a candy display reading as the candy once you have taken one — is state, not geometry.
+
+  **The four specimens have none of it**, and that is now a committed census rather than an
+  impression: the only bindings two hotspots share are bare exits with the same destination, which
+  is a different thing entirely. [verified] — `crates/reachability/tests/identity.rs`.
+
+  So the divergence between the two bodies of work is structural. This format names hotspots and
+  never draws them; `hotspot.geometry` is declared and nothing here authors it, and
+  [room-manifest](../corpus/data-format/room-manifest.yml) records why — geometry comes from a tool
+  because polygons are drawn rather than typed. **You only need to say "these two regions are one
+  thing" once regions are things you draw.** [inference]
+
+  That is a better answer than the one the node asked for. A second game would not settle it; a
+  second game *with geometry in scope* would, and so would reading the geometry this corpus already
+  has and has never opened. The 307 KB of `.wimpy` files are where those regions actually are, and
+  they are the corpus's longest-standing unread artifact.
+
+  **What this does not decide.** Whether a design that did include geometry should have one relation
+  or three. Nothing here bears on it, and the three are genuinely different — a part is contained by
+  its whole, two regions of one thing are interchangeable, and two things that read alike are not
+  interchangeable at all, since taking one cone does not take the others. `[open]`
+
+  And a limit found while writing the census: **the model cannot see identity, because it does not
+  keep response text.** Written against `Binding` the census reported seven of `ferry.game`'s
+  hotspots as one thing, since every text-only `look-at` is the same record. [verified] That is the
+  same fact `default-binding` turned on — a response that writes nothing is not a transition — read
+  from the other side, and it means any identity check here is a check on the source and not on the
+  game. [inference]
