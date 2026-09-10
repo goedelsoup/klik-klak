@@ -29,7 +29,7 @@ Sorted by: kind, then alphabetically.
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 7v / 5i / 0o | 95 |
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 7v / 9i / 3o | 178 |
 | [dialogue-script.yml](data-format/dialogue-script.yml) | data-format | Dialogue Script | 2 | 8v / 3i / 0o | 122 |
-| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 32v / 20i / 5o | 404 |
+| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 33v / 22i / 4o | 449 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 10v / 7i / 2o | 155 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 3v / 5i / 0o | 87 |
