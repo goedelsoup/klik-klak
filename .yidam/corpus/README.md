@@ -23,13 +23,13 @@ Sorted by: kind, then alphabetically.
 -->
 | Instance | Class | Label | Links out | Claims | Lines |
 |---|---|---|---|---|---|
-| [non-player-character.yml](actor/non-player-character.yml) | actor | Non-Player Character | 2 | 0v / 2i / 0o | 25 |
+| [non-player-character.yml](actor/non-player-character.yml) | actor | Non-Player Character | 2 | 1v / 3i / 1o | 37 |
 | [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 0v / 1i / 1o | 28 |
 | [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 4 | 3v / 4i / 0o | 76 |
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 7v / 5i / 0o | 95 |
-| [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 5v / 8i / 3o | 145 |
+| [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 6v / 9i / 4o | 167 |
 | [dialogue-script.yml](data-format/dialogue-script.yml) | data-format | Dialogue Script | 2 | 7v / 2i / 1o | 104 |
-| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 26v / 16i / 7o | 336 |
+| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 28v / 16i / 6o | 353 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 3v / 1i / 3o | 71 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 2v / 5i / 0o | 78 |
@@ -39,7 +39,7 @@ Sorted by: kind, then alphabetically.
 | [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 0v / 4i / 0o | 62 |
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 0v / 1i / 1o | 33 |
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 2v / 1i / 2o | 47 |
-| [entry-binding.yml](interaction/entry-binding.yml) | interaction | Entry Binding | 3 | 3v / 5i / 1o | 72 |
+| [entry-binding.yml](interaction/entry-binding.yml) | interaction | Entry Binding | 3 | 4v / 6i / 1o | 85 |
 | [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 0v / 1i / 1o | 32 |
 | [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 0v / 3i / 1o | 48 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
