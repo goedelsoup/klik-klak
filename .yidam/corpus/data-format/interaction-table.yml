@@ -73,16 +73,61 @@ properties:
     normal scripting command." [verified] An author who indents by accident has silently changed
     which language the line is written in.
 
-    What remains `[open]` is what it was, on repaired reasoning. Nobody has tried the middle. The
-    correction is to *why* AGS is not a counter-example: its dialog script sits inside a system
-    that already had a general-purpose language, so a predicate layer would have duplicated
-    something one indent away, and the missing conditional is entirely consistent with a
-    deliberate judgement that the escape hatch **is** the conditional. [inference] Nobody here has
-    read that project's design discussions and the manual does not reason about the choice. So
-    AGS is not a system whose bounded language failed — it is a system with no reason to build
-    one, and SCUMM had no declarative layer to escape from at all. The middle is untested rather
-    than tested and found wanting, which is a materially different open question from the one this
-    node carried.
+    The correction above is to *why* the dialog script is not a counter-example: it sits inside a
+    system that already had a general-purpose language, so a predicate layer would have duplicated
+    something one indent away, and the missing conditional is consistent with a deliberate
+    judgement that the escape hatch **is** the conditional. [inference] That still holds.
+
+    **What was concluded from it does not. This node said "nobody has tried the middle" and the
+    same system had tried it, at exactly this scope, for years.**
+
+    AGS shipped an **Interaction Editor** through version 2.72 and removed it: "The Interaction
+    Editor has been removed from AGS 3.0. When you import your game, AGS will attempt to convert
+    all your interactions into scripts." ([ags-manual](../../catalog/ags-manual.md)) [verified]
+    Not the dialog scope — hotspots, objects, characters and rooms, which is what this node is
+    about. Its vestiges are still documented: `GetGraphicalVariable` reads "the values of variables
+    set in the interaction editor", and Global Messages are obsolete because "there's really no
+    need for them now that the interaction editor has gone." [verified]
+
+    What it was, from the archived 2.72 manual and therefore `[inference]`
+    ([ags-272-manual](../../catalog/ags-272-manual.md)): an event list per entity; each event bound
+    to an **ordered list** of commands, added one at a time and shown as a tree; each command drawn
+    from a closed combobox and carrying typed parameters; the default a value rather than an
+    absence — "Do nothing". And **the list contained a predicate**: `Conditional - if inventory
+    item was used`.
+
+    **That is not the middle, and it is much closer to it than anything else this corpus holds.**
+    A predicate that is a *command in a list* is not an expression language: nothing read here
+    shows two conditions combined, negated, or grouped. So the artifact sits between AGS's dialog
+    script, which has no predicate at all, and a bounded expression language, which has
+    composition. One conditional is documented and the combobox is never enumerated
+    ([ags-272-manual](../../catalog/ags-272-manual.md)), so how far it went is unknown here and
+    guessing would repeat the error this node has already made twice.
+
+    **The open question survives and it costs more than it did.** "Untested" is withdrawn.
+    Something substantially in this region shipped for years at this exact scope and was
+    withdrawn by the people who built it, and this node was two documents away from knowing that
+    while calling the question its most valuable. What is still genuinely open is *why*: the
+    manual reasons about migration hazards and never about the decision, and AGS 3.0 was a
+    complete editor rewrite, so removal is as consistent with a rewrite's scope as with a verdict
+    on declarative authoring. [inference] The AGS forums and the 3.0 development discussion would
+    settle it; nobody here has read them. `[open]`
+
+    **What the manual does say about the difference is not expressiveness — it is time.** Two
+    behaviours changed, both named: interactions without scripting could previously run alongside
+    a blocking script and "now, that is no longer the case"; and a `Run Dialog` action "waits until
+    the dialog has finished before moving onto the next action", where the script equivalent "does
+    not block". [verified] The declarative action list was sequential and blocking by default and
+    the general-purpose language was not. That is a property of the declarative form, stated by
+    its own authors, and it is the axis this corpus's proposed language has never been asked
+    about.
+
+    One smaller thing, for the collapse named at the top of this node. The 2.72 action editor's
+    box "currently says 'Do nothing'" at the same moment the tutorial says "nothing is set to
+    happen in response to any of the events" [inference] — so that system represented *never
+    authored* and *authored to do nothing* with one value. `interaction/unary-binding` names that
+    collapse as `[open]`; here is one system that made the choice, and made it in the direction
+    that loses the distinction.
 
     A proposal for it is in
     [design/bounded-expression-language.md](../../../design/bounded-expression-language.md),

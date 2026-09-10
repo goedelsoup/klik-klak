@@ -47,10 +47,49 @@ properties:
     integer parameter". [verified] A conditional branch in a conversation therefore leaves the
     conversation entirely and reappears in a global handler keyed by an integer.
 
-    The full scripting reference is still unread, so where the boundary sits *elsewhere* — in room
-    and hotspot interactions, which is most of a game — is still unknown here. `[open]` What is no
-    longer unknown is that AGS has an escape hatch, where one of them is, and that the dialog
-    sub-language holds no conditional of its own for an author to reach past.
+    **Read, and for room and hotspot interactions there is no boundary, because there is no
+    declarative side.** The tutorial is the clearest statement of it: clicking the "..." button on
+    a hotspot event "will create an entry in the script for this event, and you'll find yourself
+    taken to the script editor", and the first interaction the manual teaches is a function body —
+    `function hSignHome_Look() { Display("The sign says 'EWOH'…"); }`
+    ([ags-manual](../../catalog/ags-manual.md)). [verified] The `Hotspot` API is sixteen members
+    and every one is script. The scripting reference this property called unread is roughly sixty
+    API pages beside twenty language pages; for this part of the surface it is not a hatch at the
+    end of a declarative vocabulary, it is the floor.
+
+    That puts AGS where this corpus had already put the other two. SCUMM: "there is no declarative
+    layer beneath it… it starts there." Sierra: "authoring starts inside a general-purpose language
+    rather than escaping to one." All three now answer the same way, and only this one is
+    `[verified]`.
+
+    **And AGS is the only one that arrived there by removing something.** "The Interaction Editor
+    has been removed from AGS 3.0. When you import your game, AGS will attempt to convert all your
+    interactions into scripts." [verified] Through 2.72 a hotspot carried an "Interaction..."
+    button, an event bound to an ordered list of commands chosen from a closed combobox, each with
+    typed parameters and a default of "Do nothing" — and the list included at least one predicate,
+    `Conditional - if inventory item was used`
+    ([ags-272-manual](../../catalog/ags-272-manual.md)). [inference] The removal is `[verified]`
+    from the current manual; what the thing *was* rests on an archive and stays `[inference]`.
+
+    The vestiges are still in the current manual and corroborate the shape:
+    `GetGraphicalVariable`/`SetGraphicalVariable` "allow your script to access the values of
+    variables set in the interaction editor" and are obsolete; Global Messages are obsolete
+    because "there's really no need for them now that the interaction editor has gone."
+    [verified] A whole data concept existed to serve a layer that no longer exists.
+
+    **What the manual states about the change is not about expressiveness.** It names concurrency
+    — in 2.72 a non-scripted interaction could run while a blocking script ran, and "now, that is
+    no longer the case" — and sequencing: a `Run Dialog` action "waits until the dialog has
+    finished before moving onto the next action", where `dialog[x].Start()` "does not block".
+    [verified] The declarative action list was sequential and blocking by default; the language it
+    was converted into was not.
+
+    **Why it was removed is `[open]` and the manual does not reason about it.** The page opens by
+    calling 3.0 "this new editor" and "a massive improvement over the old one" — 3.0 was a full
+    editor rewrite, so the removal is equally consistent with a rewrite's scope as with a judgement
+    about declarative authoring. Nobody here has read the AGS forums or the 3.0 development
+    discussion, and that is the retrieval that would settle it. Treating the removal as a verdict
+    would be the same error this node made about cursor modes and about the eight dialog commands.
   source_standing: |
     Eight pages of the manual source read on 2026-09-09, listed with what was and was not looked
     for in [the catalog entry](../../catalog/ags-manual.md), which is where that record lives
@@ -58,10 +97,12 @@ properties:
     and `DialogScript.md`.
 
     This property said "two pages" for thirteen commits while the entry beside it listed eight,
-    which is the drift a source-standing note exists to prevent and did not. The scripting
-    reference, the room and hotspot model, the object model, the inventory system and the GUI
-    system remain unread, and the `[inference]` claims here rest on the same recollection they did
-    at genesis.
+    which is the drift a source-standing note exists to prevent and did not. **Seventeen pages
+    now**, plus five pages of [the archived 2.72 manual](../../catalog/ags-272-manual.md), which is
+    a second source with a weaker standing and its own entry. The object model, the inventory
+    system and the GUI system remain unread; the scripting reference has been read for its extent
+    and its index rather than page by page, which is what the claim above needs and is less than
+    reading it.
 links:
   - target: ../verb/look-at.yml
     relationship: implements
