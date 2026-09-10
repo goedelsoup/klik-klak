@@ -77,10 +77,11 @@ fn the_one_committed_defect_is_an_ordering_trap() {
 /// mutation and watching the search fail to stop.
 #[test]
 fn an_unbounded_source_is_reported_rather_than_chased() {
-    let broken = FERRY.replace(
-        "      do    set jar-emptied\n",
-        "      do    set jar-emptied\n      do    clear jar-emptied\n",
-    );
+    // The mutation is an *omission*, and it was not always. It used to append
+    // `do clear jar-emptied` beside the `set`, which `effect-list-semantics` made
+    // inexpressible: two writes to one flag in one list is a dead write, since nothing reads
+    // the value in between. Forgetting to latch the source is the realistic mistake anyway.
+    let broken = FERRY.replace("      do    set jar-emptied\n", "");
     assert_ne!(broken, FERRY);
     let r = analyse(&load(&broken));
     assert!(

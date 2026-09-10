@@ -120,10 +120,17 @@ fn a_latch_declaration_is_held_against_the_game() {
         clean.latch_violations
     );
 
+    // The clear goes in a *different* binding, and that is not incidental.
+    // `effect-list-semantics` makes set-then-clear in one list a dead write rather than a
+    // latch violation, and it is right to: nothing reads the flag between two effects of one
+    // binding, so no latch is broken there. A latch violation is inherently across bindings —
+    // one writes the flag, another puts it back — and this mutation is now the thing it
+    // claims to test rather than a cheaper edit that happened to trip the same report.
     let broken = SPECIMEN.replace(
-        "      do    set crate-open\n",
-        "      do    set crate-open\n      do    clear crate-open\n",
+        "      do    set door-open\n",
+        "      do    set door-open\n      do    clear crate-open\n",
     );
+    assert_ne!(broken, SPECIMEN);
     let r = analyse(&load(&broken));
     assert!(
         r.latch_violations.iter().any(|v| v.contains("crate-open")),
