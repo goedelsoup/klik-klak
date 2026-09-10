@@ -14,6 +14,7 @@ rests_on:
   - .yidam/corpus/failure-mode/orphaned-dialogue-branch.yml
   - .yidam/catalog/ags-manual.md
   - .yidam/catalog/scumm-v5-opcode-reference.md
+  - .yidam/catalog/ags-272-manual.md
 derives_effects_from:
   - interaction:sets
   - interaction:opens
@@ -37,11 +38,21 @@ nobody has answered:
 > expression language — arithmetic, comparison, inventory counts, and nothing else — would
 > absorb the cases that force the door open is untested by either system this corpus has read.
 
-This is a proposal for that middle. It is a proposal and not a finding: nothing here is
-implemented, no engine reads it, and it is filed in `design/` rather than in the corpus for
-exactly that reason.
+**The first sentence of that quote is withdrawn, and this document is the thing that has to
+answer for it.** AGS shipped an Interaction Editor for room, hotspot, object and character
+interactions through version 2.72 and removed it in 3.0 — declarative, closed command set,
+ordered action lists, typed parameters, and at least one conditional
+([ags-manual](../.yidam/catalog/ags-manual.md) [verified];
+[ags-272-manual](../.yidam/catalog/ags-272-manual.md) [inference]). Section 1 now covers both
+AGS experiments, because this document had been reasoning from the wrong one.
 
-## 1. What AGS's experiment actually shows
+The proposal survives it and the *argument* for the proposal is weaker than it was. Read section
+1 before section 2.
+
+This is a proposal and not a finding: nothing here is implemented, no engine reads it, and it is
+filed in `design/` rather than in the corpus for exactly that reason.
+
+## 1. What AGS's two experiments actually show
 
 The corpus read AGS's dialog script as *a bounded language was tried and was not enough*. That
 reading does not survive looking at the command set as a set.
@@ -92,10 +103,56 @@ with a deliberate judgement that the escape hatch *is* the conditional, and this
 evidence about which it was. Nobody here has read the AGS project's design discussions, and the
 manual does not reason about the choice.
 
-That objection does not rescue the corpus's original reading — it replaces it. AGS is not
-evidence that a bounded expression language is insufficient. **It is a system that had no reason
-to try one.** The gap stands and its shape is different: the middle is untested rather than
-tested and failed.
+That objection does not rescue the corpus's original reading — it replaces it. The dialog script
+is not evidence that a bounded expression language is insufficient, because it contains no
+expressions to be insufficient.
+
+### The other experiment, which is the one that mattered
+
+**"A system that had no reason to try one" was this document's conclusion and it was wrong.**
+AGS tried one, at this document's exact scope, and ran it for years.
+
+Through version 2.72 a hotspot carried an "Interaction..." button. It opened a list of events;
+double-clicking an event opened an action editor whose combobox defaulted to "Do nothing"; an
+author picked a command from a closed list, filled in its typed parameters, and could "add as
+many commands as you like to be run when an event happens", shown as an ordered tree
+([ags-272-manual](../.yidam/catalog/ags-272-manual.md)). [inference] Nine commands are named
+across that manual in a `Category - Verb` shape — `Game - Display a message`,
+`Player - Go to a different room`, `Player - Add inventory`, `Object - Remove an object`,
+`Character - Move Character`, `Game - Run Dialog` — and **one of them is a predicate**:
+`Conditional - if inventory item was used`.
+
+Then: "The Interaction Editor has been removed from AGS 3.0. When you import your game, AGS will
+attempt to convert all your interactions into scripts."
+([ags-manual](../.yidam/catalog/ags-manual.md)) [verified]
+
+Three things follow, and only the third is comfortable.
+
+**It is not the middle, and it is nearer than anything else on record.** A predicate that is a
+*command in a list* is not an expression language: nothing read shows two conditions combined,
+negated or grouped, and this proposal's Layer 1 is exactly composition. One conditional is
+documented and the combobox is never enumerated, so how far it went is unknown here. [inference]
+The artifact sits between AGS's dialog script, which has no predicate at all, and what section 2
+proposes.
+
+**Why it was removed is unknown and the manual does not reason about it.** It names migration
+hazards and never the decision, and 3.0 was a complete editor rewrite — "this new editor", "a
+massive improvement over the old one" — so removal is as consistent with a rewrite's scope as
+with a verdict on declarative authoring. [inference] Reading it as a verdict would be this
+project's characteristic error, committed twice already in this document's own sources.
+
+**What the manual does say about the difference is not expressiveness. It is time.** Two
+behaviours changed and both were named: non-scripted interactions could previously run alongside
+a blocking script and "now, that is no longer the case"; and a `Run Dialog` action "waits until
+the dialog has finished before moving onto the next action" where `dialog[x].Start()` "does not
+block". [verified] The declarative action list was **sequential and blocking by default** and the
+general-purpose language it became was not. That is the one property of the declarative form its
+own authors bothered to write down, and section 5 records that this proposal has never stated
+whether it has that property.
+
+So the gap is real and narrower than this document claimed. The middle — composition, not a
+conditional command — is still untried. What is no longer available is the comfort of "nobody
+went near it."
 
 SCUMM is the other half and says less. Its v5 opcode table has `print` and `printEgo` and
 nothing that manages a menu of options
@@ -335,7 +392,26 @@ or that anybody would enjoy writing in it.
 - **Whether an escape hatch is needed anyway.** This design proposes none, which is either the
   point of it or a fatal omission. The one group who ran the experiment concluded an escape was
   needed and wrote so in their own manual. That is a single data point, it is against, and it
-  comes from a system that already had somewhere to escape to.
+  comes from a system that already had somewhere to escape to. **It is now two data points from
+  the same system**: the second is a declarative interaction layer at this document's own scope,
+  removed in favour of script, for reasons its manual does not give. See section 1.
+- **Whether effects are sequential, and whether any of them takes time.** Layer 2 is a list — the
+  specimens write three and four `do` lines under one binding, after a `say` — and **nothing in
+  this document says what a list means.** Applied in order? All at once? Does the response line
+  finish before the moves happen? `crates/reachability` answers by fiat: it folds the whole list
+  into one state transition, which is why reachability is a graph search and not a search over
+  states-and-time. That is a real assumption and it has never been written down as one.
+
+  This is the axis AGS named when it removed the equivalent layer. Its declarative actions were
+  sequential and blocking by default — a `Run Dialog` action "waits until the dialog has finished
+  before moving onto the next action" — and the script that replaced them was not, which the
+  manual flags as a migration hazard for authors. [verified] So the property is not a detail: it
+  is the one difference between the two forms that the system's own authors thought worth
+  documenting.
+
+  Stating it is cheap and this document should have. Whether it *survives* stating is the open
+  part — a `say` that blocks and a `move` that does not are already two different kinds of thing,
+  and the specimens write them in one list.
 - **What it costs an author.** Every claim above is about what is checkable, and the argument
   that a bounded language is analysable says nothing about whether it is bearable. Three rooms
   have now been written in it, by the same party that proposed it, which is the weakest possible
