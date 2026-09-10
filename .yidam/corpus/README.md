@@ -27,7 +27,7 @@ Sorted by: kind, then alphabetically.
 | [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 0v / 1i / 1o | 28 |
 | [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 4 | 2v / 3i / 0o | 63 |
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 6v / 4i / 0o | 86 |
-| [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 3v / 3i / 2o | 59 |
+| [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 3v / 3i / 2o | 78 |
 | [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 13v / 8i / 5o | 188 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 0v / 2i / 2o | 50 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
