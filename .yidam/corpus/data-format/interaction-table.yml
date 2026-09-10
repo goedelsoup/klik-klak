@@ -9,9 +9,20 @@ description: |
   [inference] The design pressure is entirely toward sparseness. A dense table is
   unwritable, so the format must express "everything not listed falls through" — and the
   moment it does, three distinctions collapse into one another: a binding never authored, a
-  binding authored as empty, and a binding authored to refuse. `interaction/unary-binding.yml`
-  names that collapse as `[open]`; this node is the reason it matters, because the format is
-  where the distinction is either representable or lost.
+  binding authored as empty, and a binding authored to refuse.
+
+  **"The moment it does" is the whole of the condition, and it is an interface choice rather than a
+  format one.** A table only has to express fall-through if every cell is reachable, which is what a
+  fixed verb bar makes true. Delores builds its verb menu from each object's own verb slots and
+  removes any verb whose precondition fails, so only authored cells are reachable, nothing falls
+  through, and there is no default binding in the engine at all
+  ([delores-source](../../catalog/delores-source.md)). [verified] The three distinctions do not
+  collapse there; the first is unreachable, the second is silent, and the third is not a category.
+
+  So the format is not where the distinction is lost. It makes all three. This corpus's own checker
+  already enumerates authored bindings and offers nothing else — so it has assumed the contextual
+  branch for as long as it has existed, while this node reasoned from the other.
+  `.yidam/decisions/default-binding.yml`.
 properties:
   syntax: |
     Text, keyed by verb and target, with the second object as an optional third key. The third
@@ -377,7 +388,8 @@ properties:
     happen in response to any of the events" [inference] — so that system represented *never
     authored* and *authored to do nothing* with one value. `interaction/unary-binding` names that
     collapse as `[open]`; here is one system that made the choice, and made it in the direction
-    that loses the distinction.
+    that loses the distinction. It is also a system with a fixed verb bar, which is what obliges it
+    to make the choice at all. [inference]
 
     A proposal for it is in
     [design/bounded-expression-language.md](../../../design/bounded-expression-language.md),

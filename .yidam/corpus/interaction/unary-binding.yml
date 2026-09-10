@@ -21,8 +21,21 @@ properties:
     shape cheap to author.
   refusal: |
     Absent here, deliberately. With no precondition there is nothing to refuse, and the
-    difference between an absent refusal and an empty one is a distinction the data format
-    has to be able to make. [open] It currently cannot; see `data-format/interaction-table.yml`.
+    difference between an absent refusal and an empty one was recorded as a distinction the data
+    format has to be able to make.
+
+    **The format makes it, and it was the wrong layer to ask about.** Nothing, a line, and a guard
+    with two lines are three different things to write. What cannot tell them apart is the
+    *checker*, and it is right not to: a response that writes nothing is not a state transition, so
+    a hotspot nobody can act on, one with a description and one with a guarded pair give the
+    specimen the same 103 states and the same 193 transitions. [verified] —
+    `crates/reachability/tests/defaults.rs`.
+
+    Where the distinction matters is the **interface**, which this design has never specified, and
+    a shipped game shows the branch on which it stops mattering at all: Delores builds its verb menu
+    from the object's own verb slots and removes any verb whose precondition fails, so an unrefused
+    verb is an absent one ([delores-source](../../catalog/delores-source.md)). [verified]
+    `.yidam/decisions/default-binding.yml`.
 links:
   - target: ../verb/look-at.yml
     relationship: applies
