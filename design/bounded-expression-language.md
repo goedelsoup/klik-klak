@@ -22,6 +22,8 @@ derives_effects_from:
   - cutscene:returns-control-to
   - inventory-item:acquired-by
   - actor:occupies
+  - interaction:consumes
+  - conversation:returns-control-to
 ---
 
 # A bounded expression language for authored interaction
@@ -164,6 +166,8 @@ declared relationship that changes world state, and the corpus declares these:
 | return control | `returns-control-to` → `actor` | `cutscene` |
 | acquire an item | `acquired-by` → `interaction`, read backwards | `inventory-item` |
 | move the player | `occupies` → `room` | `actor` |
+| spend an item | `consumes` → `inventory-item` | `interaction` |
+| leave a mode | `returns-control-to` → `actor` | `cutscene`, `conversation` |
 
 The last row was not in this table when it was written. It was added after
 [the specimen](specimen/README.md) needed to move a player between rooms at four sites and found
@@ -175,33 +179,33 @@ This is the part the gate checks, and the reason `design/check.sh` exists in the
 a design that names an effect the ontology does not declare is either wrong or has just found a
 missing relationship. **Two turned up, and neither was being looked for.**
 
-**Gap 1 — nothing writes option availability.**
-[`conversation.ont.yml`](../.yidam/corpus/conversation.ont.yml) declares `held-with` and `sets`
-and nothing else, while its own description now rests on a conversation *"carrying which of its
-choices are currently available."* The class is founded on state the ontology gives it no way to
-change. AGS spends three of its eight commands on precisely this
-([`topic-list.yml`](../.yidam/corpus/conversation/topic-list.yml) records the state as local and
-`[verified]`), and
-[`orphaned-dialogue-branch`](../.yidam/corpus/failure-mode/orphaned-dialogue-branch.yml) is
-entirely about what those three commands do. The behaviour is documented in two nodes and
-modelled in none.
+**Four gaps were reported here and one was real.** They were written down as gaps, then each
+was weighed against what the ontology already declares — which is the rule this repository
+states and which this document had not applied to itself. The account below is what survived;
+the reasoning is in `.yidam/decisions/effect-vocabulary.yml` and the method finding, which is
+the more useful one, is in [the specimen's findings](specimen/README.md).
 
-**Gap 2 — nothing removes the object from the room.**
-[`acquisition-binding`](../.yidam/corpus/interaction/acquisition-binding.yml) states its response
-as *"two writes — remove the hotspot, add the item — as one change or as none"*, and stakes its
-whole atomicity argument on there being two. `acquired-by` names the binding that acquires;
-nothing names the removal. As declared, an `interaction` can write a flag and open a
-conversation and cannot take an object out of a room.
+**Real: nothing said an item is spent.** `inventory-item` declared `found-in`, `carried-form-of`
+and `acquired-by`, all three about an object arriving or being. It does not reduce to a flag: a
+flag standing in for consumption means every consumable item's availability is authored twice,
+once structurally by the format and once by hand, with nothing holding them in step. Now
+`interaction -consumes-> inventory-item`, with `interaction/consuming-binding` as its site. It
+is the row in the table above that this document had to earn rather than read.
 
-**Gap 3 — nothing says an item leaves the inventory.** `inventory-item` declares `found-in`,
-`carried-form-of` and `acquired-by`, and all three are about an object arriving or being. Nothing
-is about spending one. This gap was not found by reading the ontology; it was found by writing a
-game that could not say the oil ran out, at four separate sites. It is the most consequential of
-the four and section 4 says why.
+**Not a gap: an object leaving the room.** `inventory-item` is typed a UFO *role* and
+`carried-form-of` names the hotspot the same object is when not carried, so acquiring it and the
+room losing it are one change described twice. `acquisition-binding`'s atomicity worry survives,
+relocated: the window belongs to an engine that keeps two records, not to a vocabulary with one
+fact.
 
-**Gap 4 — nothing says a conversation is left.** `opens` enters one.
-`conversation.ont.yml` describes its class as *"entered as a mode and left deliberately"*, and
-declares the entering.
+**Not a gap: option availability.** `world-flag.scope` has read "local to a conversation" since
+genesis, and `conversation -sets-> world-flag` with it. One third of it did not reduce —
+`option-off-forever` is permanent, and a clearable flag cannot express an unclearable one — and
+that wanted a **property**, `world-flag.reversible`, rather than an edge.
+
+**Not a gap: leaving a conversation.** `cutscene -returns-control-to-> actor` was declared when
+that class was seeded and fits `conversation` without alteration. Two modes that seize control
+and give it back: a structure this ontology had encoded once and not seen.
 
 ### Layer 3 — which turns out not to be a layer
 
@@ -259,22 +263,18 @@ So the case for the middle is not that authors want it. It is:
 Neither engine had a reason to make that argument. SCUMM had no declarative layer to analyse.
 AGS's analysis ended at the first indented line, and the indentation is invisible.
 
-**And the specimen shows this argument is necessary and not sufficient, which is the sharpest
-thing to come out of testing it.** [`lighthouse.game`](specimen/lighthouse.game) carries one
-deliberate, reachable unwinnable state, and its mechanism is consumption — the oil is spent on a
-hinge and the lamp can never be filled. Consumption is Gap 3. So the game contains exactly the
-defect a checker exists to find, the language cannot express the mechanism that produces it, and
-a checker reading that game reports it winnable.
+**The specimen showed this argument was necessary and not sufficient, and then it was made
+sufficient.** [`lighthouse.game`](specimen/lighthouse.game) carries one deliberate reachable
+unwinnable state whose mechanism is consumption — the oil is spent on a hinge and the lamp can
+never be filled. Consumption was the one real gap, so the game contained exactly the defect a
+checker exists to find, the language could not express the mechanism producing it, and a checker
+would have reported it winnable.
 
-The escape hatch was never the only thing standing between this corpus and a checker. An effect
-vocabulary too small to describe how a game breaks does the same damage, quietly, and no amount
-of grammar repairs it. See [the specimen's findings](specimen/README.md).
-
-This also sharpens what [`reachability`](../.yidam/skills/reachability.md) is waiting for. That
-calculator is blocked on an authored game's state graph, which this repository does not hold —
-but it cannot be *any* authored game. It has to be one written in a language where the question
-is decidable. A game with an escape hatch is not a missing input to that calculator; it is a
-counterexample to it.
+`consumes` closes that. The point that survives is the general one, and it is not about escape
+hatches: **a bounded language buys a checker only to the extent that the effect vocabulary can
+describe how a game breaks.** Grammar was never the binding constraint. Four of the specimen's
+nine unsayable sites were this single defect, and the other five were this document's author
+failing to read an ontology that was already in front of them.
 
 ## 5. What this does not settle
 
