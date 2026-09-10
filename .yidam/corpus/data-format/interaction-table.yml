@@ -74,9 +74,10 @@ properties:
     every cell ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] Taking every object
     the diary shows as a sample of one game's bindings, the responses that escape are:
 
-    - **a binding calling another binding on the same object.** `verbPickUp = function() {
-      verbUse() }` on a telephone; `verbPickup` falling through to `verbLookAt` on an empty stack
-      of flyers. [verified] The cheapest thing on this list and there is no way to say it here.
+    - **a binding calling another binding.** `verbPickUp = function() { verbUse() }` on a
+      telephone; `verbPickup` falling through to `verbLookAt` on an empty stack of flyers.
+      [verified] Written here as *on the same object*, from two examples that were, and that
+      reading did not survive a count — see below.
     - **a response that outlives the click.** `startthread(playRadio, this)`. That one is
       refused on purpose — see `.yidam/decisions/effect-list-semantics.yml` — and the refusal has
       a price this corpus can now quote from the other side of it.
@@ -116,8 +117,30 @@ properties:
     block or take time, **18 (8.9%) call another verb slot on the same object**, 12 start a
     thread, 7 loop.
 
-    So delegation is not an oddity of two examples. It is one binding in eleven, it is the
-    cheapest thing on the list, and there is still no way to say it here.
+    So delegation is not an oddity of two examples. It is one binding in eleven — and that is
+    the whole of what the count established, which took three phases to notice.
+
+    **The 18 were then read rather than counted, and they are seven different things.** 34
+    `verb_<x>(` call sites, 20 inside an authored binding, sitting in those 18. **Six delegate to
+    the object the binding is on**; twelve name a different object and two of those name one in
+    another room. [verified] So "on the same object" was wrong, "the cheapest thing on this list"
+    was a guess about a shape nobody had looked at, and the same-object share is 3.0% of 203 rather
+    than 8.9%.
+
+    **Six of the seven shapes go into this design as written**, transcribed from the real bindings
+    and committed as `crates/reachability/tests/delegation.rs` — 36 states, winnable, resolving
+    clean. [verified] The seventh is a response reusing a named sequence that lives in a verb slot
+    because a verb slot is the only place that engine has to keep one, and it is *a name for a
+    shape* again: the fourth appearance, after `definePseudoRoom`, `sewerValveSetup` and the 21
+    presentation composites. A way to call one binding from another would answer the fourth
+    instance and none of the first three. [inference] `.yidam/decisions/delegation.yml` is the
+    record and the verdict is no primitive.
+
+    **And eleven of the twenty sites were never a `verb` question.** They are about which object
+    the player is addressing — a part and its whole, two regions of one thing, distinct things that
+    read alike, a thing that reads as another while a flag holds. That is
+    [static-region](../hotspot/static-region.yml)'s third absence, and it was found by counting
+    something else. [inference]
 
     **The duplication finding has an answer in the vocabulary, and it is not a macro.**
     `door_verbs = YES` and `on_off_verbs = YES` are **named archetypes**: a boolean on an object
