@@ -26,7 +26,11 @@ properties:
   - name: response
     type: text
     prose: true
-    description: What the game does and says when this binding resolves.
+    description: >-
+      What the game does and says when this binding resolves. One property rather than two on
+      purpose: in every engine read here the effect list and the presentation list are the same
+      list, and a design that separates them is making a choice rather than correcting an
+      oversight. See `interaction/binary-binding`, which carries the argument and its tag.
   - name: precondition
     type: text
     prose: true

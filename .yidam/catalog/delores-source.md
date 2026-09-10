@@ -31,6 +31,8 @@ used-by:
   - ../corpus/walkbox/scaled-polygon.yml
   - ../corpus/room/scrolling.yml
   - ../corpus/interaction/entry-binding.yml
+  - ../corpus/interaction/binary-binding.yml
+  - ../corpus/subsystem/interaction-resolver.yml
 ---
 
 **A source of record, and the first one this corpus can *count*.** *Delores: A Thimbleweed Park
@@ -266,7 +268,7 @@ opened only if `state != "open"`, closed only if `state == "open"`. Every precon
 authors wrote is an `if` inside a response.
 
 **Triggers.** `Templates/TRIGGERNAME.dinky` declares `triggerEnter(actor)` and
-`triggerLeave(actor)`. The game uses 11 and 13 of them across four rooms — arrival at, and
+`triggerLeave(actor)`. The game uses 11 and 13 of them across six rooms — arrival at, and
 departure from, a region *within* a room.
 
 **Room entry code.** 20 of 21 rooms have `enter = function(from_door=null)`; 237 lines between
@@ -413,9 +415,16 @@ the end of the object list; the only line in the scripts that mentions it is a c
 declaration. Finding it means reading the two files together, and they are the two files the
 engine deliberately keeps apart.
 
-**`triggerLeave` is offered by the engine and used zero times.** `enableTrigger` takes
-`TRIGGER_ENTER|TRIGGER_LEAVE`, `_triggerActor` dispatches to `triggerEnter` or `triggerLeave`, and
-across the whole game there are **11 `triggerEnter` bodies and no `triggerLeave` body**.
+**Departure is offered at both levels and used at only one of them.** `enableTrigger` takes
+`TRIGGER_ENTER|TRIGGER_LEAVE` and `_triggerActor` dispatches to `triggerEnter` or `triggerLeave`.
+Across the game there are **11 `triggerEnter` bodies and 13 `triggerLeave` bodies**, in six rooms —
+so at the region level departure is written *more often* than arrival.
+
+**This entry recorded that figure as zero, and the same entry already held the right one.** The
+count above under "Yack" says "11 and 13 of them"; a later reading grepped for `triggerExit`, a name
+this engine does not use, and reported no departures at all. It is the third time a figure in this
+file has disagreed with itself — after the `lookat` recount and the object-declaration recount — and
+the first where the correct value was sitting in the same document.
 
 **`assignHeadline` is one binding shape written 28 times.** The function is defined twice —
 `Nickel.dinky:100` and `AStreet.dinky:62`, near-identical, driving two headline tables — and each
