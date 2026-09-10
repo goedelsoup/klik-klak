@@ -1,0 +1,173 @@
+# nightwatch — a third specimen, for one question: does `cutscene` earn its place?
+#
+# `cutscene.ont.yml` seeded the class while doubting it, and named the reduction to argue
+# against: "an interaction whose response is long and whose input is locked". This game is
+# written to force that argument, by wanting a sequence twice and in two different shapes.
+#
+# The FIRST shape is triggered by a click. It reduces — see `study.case`, which is a whole
+# scripted beat written as one binding and needs nothing the vocabulary lacks.
+#
+# The SECOND shape is triggered by ARRIVAL, which no binding can say. `interaction` sites are
+# (room, target) plus a verb, and there is no verb for "got here". The workaround is below and
+# it is written twice on purpose: `hall` has two doors, so the sequence has two homes and
+# nothing checks that they agree. README.md counts what that costs.
+#
+# Its committed defect is CONSUMPTION, which the lighthouse also carries. That repetition is
+# deliberate — this specimen is not about the cause, and inventing a third one to be different
+# would have made it about something it cannot settle.
+
+# ── declarations ──────────────────────────────────────────────────────────────
+
+room    yard    "The Yard"
+room    hall    "The Long Hall"
+room    study   "The Study"
+room    cell    "The Cell"
+
+actor   watchman "the watchman"
+
+item    wire    "a length of stiff wire"
+item    ledger  "the ledger"
+
+flag    case-open latched "the case has been picked"
+flag    alarm     latched "the bell has gone"
+
+# ── the yard ──────────────────────────────────────────────────────────────────
+
+room yard
+  start
+  holds wire
+
+  hotspot loose-wire "a length of wire in the gravel"
+    is wire
+    look-at:
+      "A length of stiff wire, bent once and straightened out again."
+
+    pick-up:
+      say   "You work it flat between your fingers."
+      do    give wire
+
+  hotspot window "a sash window, painted shut on one side only"
+    look-at:
+      "The catch has been painted over. The lower sash has not."
+
+    walk-to:
+      do    move study
+
+  # THE SECOND SHAPE, first copy. Two bindings on one site: one for the ordinary case and one
+  # for the sequence, because `when` gates a whole binding and `else` carries only a line. A
+  # trigger that is not a player action has to be written as a player action that happens to
+  # precede it.
+  hotspot hall-door "the hall door, standing ajar"
+    look-at:
+      "It stands ajar on a hall too long to see the end of."
+
+    walk-to:
+      when  not alarm
+      do    move hall
+
+    walk-to:
+      when  alarm
+      say   "Three steps in, a lamp comes up. The watchman takes the ledger out of your hands without hurrying, and the door at the far end is already open."
+      do    spend ledger
+      do    move cell
+
+  hotspot gate "the yard gate"
+    look-at:
+      "Open. It has been open all night."
+
+    walk-to:
+      when  carrying ledger
+      say   "You go out the way you came in, and the ledger goes with you."
+      ending
+      else  "Not without what you came for."
+
+# ── the hall ──────────────────────────────────────────────────────────────────
+#
+# Nothing here. The hall exists to be a room with two doors, which is what makes the cost of
+# the workaround countable rather than arguable.
+
+room hall
+
+  hotspot yard-door "the door back to the yard"
+    look-at:
+      "Grey light under it."
+
+    walk-to:
+      do    move yard
+
+  hotspot study-door "a panelled door"
+    look-at:
+      "Panelled, and standing open."
+
+    walk-to:
+      do    move study
+
+# ── the study ─────────────────────────────────────────────────────────────────
+
+room study
+
+  actor watchman
+    look-at:
+      "Not here. He is somewhere down the hall, and the hall is very long."
+
+  # THE FIRST SHAPE. A scripted beat — the wire goes in, the lock turns over, the lid comes up,
+  # the room gets brighter — written as one binding, because that is all it is. The response is
+  # long and the input is locked, and neither of those is a fact about the vocabulary.
+  hotspot case "a glass case on a stand"
+    look-at:
+      when case-open   "Open, and the ledger is out of it."
+      otherwise        "Glass, on a brass stand, with a wafer lock at the back."
+
+    use-with wire:
+      when  not case-open
+      say   "The wire goes in past the wafers, the lock turns over, and the lid comes up on its own weight."
+      do    set case-open
+      else  "It is open already."
+
+  hotspot ledger-in-case "a ledger, face down"
+    is ledger
+    look-at:
+      when case-open   "Face down, and heavier than it looks."
+      otherwise        "Under glass, and face down."
+
+    pick-up:
+      when  case-open
+      say   "You lift it clear. Somewhere below the floor a bell starts, and does not stop."
+      do    give ledger
+      do    set alarm
+      else  "The glass is in the way."
+
+  hotspot window "the sash window, from the inside"
+    look-at:
+      "The lower sash is still up. The yard is grey through it."
+
+    walk-to:
+      do    move yard
+
+  # THE SECOND SHAPE, second copy. Every line of the sequence below also appears under
+  # `yard.hall-door`, and nothing in the format, the reader or the checker relates the two.
+  hotspot hall-door "the panelled door, from the inside"
+    look-at:
+      "It stands open on the hall."
+
+    walk-to:
+      when  not alarm
+      do    move hall
+
+    walk-to:
+      when  alarm
+      say   "Three steps in, a lamp comes up. The watchman takes the ledger out of your hands without hurrying, and the door at the far end is already open."
+      do    spend ledger
+      do    move cell
+
+# ── the cell ──────────────────────────────────────────────────────────────────
+
+room cell
+
+  hotspot door "a door with a grille in it"
+    look-at:
+      "Locked until morning, and morning is not far."
+
+    walk-to:
+      say   "They let you out at six, with nothing."
+      do    move yard

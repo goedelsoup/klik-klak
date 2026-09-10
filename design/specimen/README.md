@@ -94,6 +94,73 @@ supply, and the analysis never terminates. Loops and recursion were excluded so 
 *evaluation* terminates; this is *analysis* terminating, a different property that nothing had
 been protecting. Items now declare a ceiling as counters declare a range.
 
+## nightwatch — the sequence
+
+Four rooms, two items, two latched flags, and one question: **does `cutscene` earn its place?**
+
+[`cutscene.ont.yml`](../../.yidam/corpus/cutscene.ont.yml) seeded the class while doubting it and
+named the reduction to argue against — "an interaction whose response is long and whose input is
+locked". This game wants a sequence twice, in two different shapes, so the argument has something
+to be about rather than being settled by taste.
+
+**The click-triggered shape reduces, completely.** `study.case` is a whole scripted beat: the wire
+goes in past the wafers, the lock turns over, the lid comes up on its own weight. It is *one
+binding with one effect*. Everything that makes it a scene is in the `say`, and `say` is
+presentation — [`effect-list-semantics`](../../.yidam/decisions/effect-list-semantics.yml) puts it
+outside the state model and `Binding` has no field for it. [inference] So "the response is long"
+is not a claim about the vocabulary. And "the input is locked" is vacuous: an atomic binding never
+yields control, so there is nothing to lock.
+
+**The arrival-triggered shape does not reduce, and what fails is the trigger.** The watchman
+intercepts you for *arriving* in the hall carrying the ledger. No binding can say that: an
+`interaction` site is a room and a target plus a verb, and there is no verb for "got here".
+
+The workaround is to hang the sequence on the click that precedes each arrival — and it costs
+exactly what the specimen was built to make countable:
+
+| | with an arrival trigger | as written |
+|---|---|---|
+| bindings for the sequence | 1 | **2** — one per door into `hall` |
+| bindings for the ordinary passage | 2 | 2 |
+| copies of the sequence body | 1 | **2** |
+
+`when` gates a whole binding and `else` carries only a line, so "if the alarm is on do this,
+otherwise pass through" is two bindings, not one — and that pair is repeated per entrance. A room
+with five doors would carry five copies. [inference]
+
+**The duplication is a diagnostic cost too, which is the part that was not expected.** One
+authored intent, reported once per copy:
+
+```
+  line   68  walk-to on yard.hall-door   [consumption]  spends ledger — 1 state(s)
+  line  157  walk-to on study.hall-door  [consumption]  spends ledger — 1 state(s)
+```
+
+Nothing in that output says those are one sequence.
+
+**And the copies can come apart silently.** Drift one copy's guard — `when alarm` to
+`when case-open` on the second only — and the game genuinely changes: 15 reachable states instead
+of 14, 33 transitions instead of 31. **Every finding is identical.** Same two strandings, same
+lines, same cause, same counts, same examples. Only the totals move, and nothing says that a
+total moving means two copies of one sequence disagree. That is
+[`puzzle/state-gate`](../../.yidam/corpus/puzzle/state-gate.yml)'s complaint — "a gate depending
+on three flags is stated three times, or more, and nothing checks that the statements agree" —
+arriving from a direction that node did not name. `a_copy_may_drift_and_no_check_here_reports_it`
+is the test.
+
+**The verdict is in
+[`cutscene/scripted-sequence`](../../.yidam/corpus/cutscene/scripted-sequence.yml).** In short:
+every property the class was seeded on reduces, and what does not reduce is a trigger that
+belongs to no class — the same arrival trigger
+[`walk-to`](../../.yidam/corpus/verb/walk-to.yml) needed for exits two phases ago.
+
+**What this specimen did not reach**, stated because a reduction argued from one small game is
+worth exactly what it cost. The watchman moves — he crosses the hall, takes the ledger, opens the
+far door — and *all of that is prose in a `say`*. Nothing in the game depends on where he is, so
+this specimen never tested whether an NPC's position needs to be state, which is the one thing a
+real cutscene does that nothing here does. And `cutscene.trigger`'s third case, a sequence
+beginning because a counter reached a value, is untested here and undocumented in either engine.
+
 ## Three defects in the calculator, all found by the second specimen
 
 A second game is worth more than a second reading of the first, and this is the evidence.
@@ -170,25 +237,39 @@ artifact they compose into. Noted rather than proposed — and noted more carefu
 
 ## Using them as fixtures
 
-Twenty tests, in `crates/reachability/tests` and `crates/game-format/tests`.
+Thirty-two tests, in `crates/reachability/tests` and `crates/game-format/tests`.
 
 - **lighthouse, winnable** — and **unwinnable by consumption** if the oil goes into the hinge.
 - **ferry, winnable** — and **unwinnable by ordering** if the river is crossed without the
   lantern, because the boat does not come back.
+- **nightwatch, winnable** — and **unwinnable by consumption** if the hall is entered carrying
+  the ledger, reported twice because the sequence has two homes.
+- **nightwatch + a one-word mutation**, drifting one copy of the sequence away from the other:
+  the totals move and every finding stays identical.
 - **lighthouse + a two-line mutation** for ordering, applied in memory: `do clear door-open` on
   the quay door's `walk-to` and `when door-open` on the far side's.
-- **ferry + a one-line mutation** for an unbounded supply.
-- **a cleared latch**, reported as contradicting its declaration.
+- **ferry + a one-line deletion** for an unbounded supply — an omission rather than an edit,
+  since `effect-list-semantics` made the old set-then-clear version a dead write.
+- **a cleared latch**, reported as contradicting its declaration — cleared from a *different*
+  binding, because within one list it is a dead write and no latch is broken.
 
-Each committed game carries exactly one defect, and the tests assert `strandings.len() == 1`. A
-fixture with two makes a checker's output ambiguous about which it found.
+The first two carry exactly one defect and assert `strandings.len() == 1`; a fixture with two
+makes a checker's output ambiguous about which it found.
+
+**`nightwatch` asserts two, and that is the point rather than an exception.** It carries one
+*authored* defect and the checker reports it twice, because the sequence is written once per
+entrance. Output that is ambiguous about how many defects it found is exactly what the missing
+arrival trigger produces, and pinning the number at two is what would fail if that stopped
+being true.
 
 ## What these specimens are not
 
-- **Not evidence the language is pleasant to write.** Both were written by the party that
+- **Not evidence the language is pleasant to write.** All three were written by the party that
   proposed it, which is the weakest possible authoring trial.
-- **Not a test of scale.** 103 and 20 states. The collapse against the observed space — 0.05%
-  and 4% — is the argument for the whole approach, and two small games do not establish it
-  holds for a large one.
+- **Not a test of scale.** 103, 20 and 14 states. The collapse against the observed space —
+  0.05%, 4% and 5.5% — is the argument for the whole approach, and three small games do not
+  establish it holds for a large one. Three points all under six percent is not a trend, and
+  the two *smallest* games have the worst ratios — which is what you would expect if the ratio
+  is mostly a fact about how many variables a game declares rather than about the collapse.
 - **They do not run.** No engine reads them. Every claim here is about what could be written
   down and what could be computed from it.

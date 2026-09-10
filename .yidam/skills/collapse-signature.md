@@ -51,3 +51,27 @@ worth more than a local reimplementation of a formula that is easy to get subtly
 With 30 instances spread across 15 classes, the ranking would be dominated by how thinly each
 class is seeded rather than by how alike the classes are. A class with one instance has one
 edge signature, and one signature is not a distribution.
+
+## The first class collapse was argued without it
+
+`cutscene` has been assessed and reduces into `interaction` on every ground it was seeded on
+(`.yidam/corpus/cutscene/scripted-sequence.yml`). This skill was scaffolded at genesis to make
+exactly that argument — "the falsifiable form of *is cutscene just an interaction?*" — and it
+was not what produced the answer. A **specimen** was: four rooms written to want a sequence
+twice, in two shapes, so that each of the class's properties had something concrete to fail at.
+
+That is worth recording here rather than only in the corpus, because it bears on whether this
+skill should be built at all.
+
+What the ranking would have compared is relationship vocabularies: `cutscene` declares
+`plays-in`, `sets` and `returns-control-to`, and `interaction` declares `applies`, `targets`,
+`requires`, `sets`, `opens` and `consumes`. A similarity score over those two sets would have
+reported a modest overlap and could not have told anyone *why* — that `plays-in` reduces because
+a binding is already sited in a room, that `returns-control-to` reduces because an atomic binding
+never took control, or that what survives is a **trigger neither class declares an edge for.**
+The decisive observation is about a relationship that is missing from both, and a comparison of
+what each declares cannot see it.
+
+So the stub stands, and for a sharper reason than "the classes are thinly seeded". [open] The
+question this skill was built to answer is answerable, and a similarity score over declared
+vocabularies is not the instrument that answers it.
