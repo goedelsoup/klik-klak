@@ -29,7 +29,7 @@ Sorted by: kind, then alphabetically.
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 7v / 5i / 0o | 95 |
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 7v / 9i / 3o | 178 |
 | [dialogue-script.yml](data-format/dialogue-script.yml) | data-format | Dialogue Script | 2 | 8v / 3i / 0o | 122 |
-| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 33v / 22i / 4o | 449 |
+| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 36v / 21i / 5o | 493 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 10v / 7i / 2o | 155 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 3v / 5i / 0o | 87 |
@@ -40,13 +40,13 @@ Sorted by: kind, then alphabetically.
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 0v / 1i / 1o | 33 |
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 4v / 2i / 0o | 66 |
 | [entry-binding.yml](interaction/entry-binding.yml) | interaction | Entry Binding | 3 | 7v / 8i / 1o | 129 |
-| [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 2v / 1i / 0o | 45 |
+| [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 4v / 1i / 0o | 58 |
 | [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 7v / 4i / 0o | 117 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
 | [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 16v / 4i / 1o | 150 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 1v / 7i / 0o | 72 |
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 0v / 4i / 1o | 36 |
-| [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 10 | 23v / 10i / 1o | 285 |
+| [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 10 | 24v / 10i / 1o | 295 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
 | [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 7v / 4i / 1o | 101 |
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 6v / 3i / 1o | 73 |
@@ -58,7 +58,7 @@ Sorted by: kind, then alphabetically.
 | [pick-up.yml](verb/pick-up.yml) | verb | Pick Up | 2 | 3v / 6i / 1o | 99 |
 | [talk-to.yml](verb/talk-to.yml) | verb | Talk To | 2 | 4v / 5i / 0o | 82 |
 | [use-with.yml](verb/use-with.yml) | verb | Use With | 2 | 6v / 5i / 0o | 78 |
-| [walk-to.yml](verb/walk-to.yml) | verb | Walk To | 3 | 21v / 10i / 0o | 288 |
+| [walk-to.yml](verb/walk-to.yml) | verb | Walk To | 3 | 22v / 10i / 0o | 299 |
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 5v / 3i / 0o | 72 |
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 0v / 2i / 0o | 27 |
 | [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 2v / 5i / 0o | 67 |
