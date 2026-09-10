@@ -39,7 +39,6 @@ flag    paid        latched "the ferryman has had his three coins"
 
 room bank
   start
-  holds coin
 
   hotspot loose-coin "a coin, half under a flat stone"
     is coin

@@ -35,7 +35,6 @@ flag    alarm     latched "the bell has gone"
 
 room yard
   start
-  holds wire
 
   hotspot loose-wire "a length of wire in the gravel"
     is wire

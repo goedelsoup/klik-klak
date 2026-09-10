@@ -56,7 +56,6 @@ counter lamp-prep 0..3 "how far the lamp is from lit: 0 bare, 1 wicked, 2 oiled,
 
 room quay
   start
-  holds crowbar
 
   hotspot loose-crowbar "a crowbar left in a coil of rope"
     is crowbar

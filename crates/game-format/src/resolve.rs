@@ -120,11 +120,17 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
         game.carried_form.insert(hotspot, item);
     }
 
-    // `holds` sorts into two things and neither of them is new. An actor held by a room is
-    // `actor -occupies-> room` at rest — the starting value of a thing `move <actor> to <room>`
-    // writes. An item held by a room is what this keyword has always meant and is still
-    // decoration: `is <item>` on a hotspot is what places one, so the two must not disagree
-    // and nothing here yet checks that they do not.
+    // `holds <actor>` is `actor -occupies-> room` at rest — the value `move <actor> to <room>`
+    // writes over.
+    //
+    // It took an item too, and that was `inventory-item -found-in-> room`, which is a
+    // relationship no author should be asked to write: a hotspot belongs to a room, so where
+    // an item is found is the room of the hotspot it is the carried form of. Five ways of
+    // writing it wrong were measured — omitted, moved to another room, naming an item nothing
+    // stands for, contradicting itself across two rooms — and every one of them produced the
+    // same states, the same strandings and the same silence as writing it right. So it is an
+    // error now rather than a check, because there is no second statement worth holding in
+    // step. See `.yidam/decisions/found-in.yml`.
     let holds = std::mem::take(&mut game.holds);
     for (room, name, line) in &holds {
         let mut n = name.clone();
@@ -135,21 +141,28 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
                         out.push(Problem {
                             line: *line,
                             message: format!(
-                                "`{canonical}` is held by {prev} and by {room}; an actor                                  starts in one place"
+                                "`{canonical}` is held by {prev} and by {room}; an actor \
+                                 starts in one place"
                             ),
                         });
                     }
                 }
             }
-            Some((_, Kind::Item)) => {}
+            Some((canonical, Kind::Item)) => out.push(Problem {
+                line: *line,
+                message: format!(
+                    "a room holds actors, and `{canonical}` is an item — where an item starts \
+                     is `is {canonical}` on the hotspot it stands in the room as"
+                ),
+            }),
             Some((canonical, k)) => out.push(Problem {
                 line: *line,
-                message: format!("`{canonical}` is a {k}, and a room holds actors and items"),
+                message: format!("`{canonical}` is a {k}, and a room holds actors"),
             }),
             None => fix(
                 &declared,
                 &mut n,
-                Kind::Item,
+                Kind::Actor,
                 &Scope::Global,
                 *line,
                 &mut out,
@@ -276,7 +289,36 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
             out.push(Problem {
                 line,
                 message: format!(
-                    "`{a} in <room>` is asked and no room `holds {a}`, so the question has no                      answer before anything moves them"
+                    "`{a} in <room>` is asked and no room `holds {a}`, so the question has no \
+                     answer before anything moves them"
+                ),
+            });
+        }
+    }
+
+    // **`carried-form-of` and `acquired-by` are one fact stated twice, and this is what holds
+    // them in step.** `is <item>` says which hotspot the item is when it is not carried, and
+    // that is what makes "the object leaves the room" derived rather than an effect; the
+    // derivation fires only when a binding *on that hotspot* gives *that item*. Let the two
+    // names disagree and the hotspot stays in the room forever while the player carries the
+    // thing — and nothing said so. Worse: the checker gets *quieter*. Making `nightwatch`'s
+    // wire hand over the ledger instead takes it from fourteen states and two strandings to
+    // six and none, still reporting the game winnable. A check whose output improves when the
+    // game breaks is the one kind of check worth writing before any other.
+    for (hotspot, item) in &game.carried_form {
+        let given = game.bindings.iter().any(|b| {
+            matches!(&b.site, Site::InRoom { target, .. } if target == hotspot)
+                && b.effects
+                    .iter()
+                    .any(|e| matches!(e, Effect::Give(x, _) if x == item))
+        });
+        if !given {
+            let line = game.declared.get(hotspot).map(|(_, l)| *l).unwrap_or(0);
+            out.push(Problem {
+                line,
+                message: format!(
+                    "`{hotspot}` stands for `{item}` and no binding on it gives `{item}`, so \
+                     the hotspot would stay in the room whatever the player picked up"
                 ),
             });
         }
