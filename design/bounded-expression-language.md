@@ -15,6 +15,7 @@ rests_on:
   - .yidam/catalog/ags-manual.md
   - .yidam/catalog/scumm-v5-opcode-reference.md
   - .yidam/catalog/ags-272-manual.md
+  - .yidam/catalog/ags-source.md
 derives_effects_from:
   - interaction:sets
   - interaction:opens
@@ -116,11 +117,17 @@ Through version 2.72 a hotspot carried an "Interaction..." button. It opened a l
 double-clicking an event opened an action editor whose combobox defaulted to "Do nothing"; an
 author picked a command from a closed list, filled in its typed parameters, and could "add as
 many commands as you like to be run when an event happens", shown as an ordered tree
-([ags-272-manual](../.yidam/catalog/ags-272-manual.md)). [inference] Nine commands are named
-across that manual in a `Category - Verb` shape — `Game - Display a message`,
-`Player - Go to a different room`, `Player - Add inventory`, `Object - Remove an object`,
-`Character - Move Character`, `Game - Run Dialog` — and **one of them is a predicate**:
-`Conditional - if inventory item was used`.
+([ags-272-manual](../.yidam/catalog/ags-272-manual.md)). [inference]
+
+**The list is forty-eight commands and it is not lost.** The 2.x-to-3.0 conversion still ships in
+the AGS editor, so the definition of the deleted layer is in the repository
+([ags-source](../.yidam/catalog/ags-source.md)). [verified] `NUM_ACTION_TYPES 48`; six argument
+types including `ARG_TYPE_VARONLY`; four action flags, one of which — `AFLG_COND` — marks an
+action as a predicate. **Seven carry it**: if an inventory item was used, if the player has an
+inventory item, if a character is moving, **if a variable is set to a certain value**, if the
+player character is, if the mouse cursor mode is, if the player has been in room. They nest: a
+command carries `Children`, and the converter emits the command, the child list, then a closing
+brace. Bounded at 30 events per entity, 40 commands per list, 5 arguments per command.
 
 Then: "The Interaction Editor has been removed from AGS 3.0. When you import your game, AGS will
 attempt to convert all your interactions into scripts."
@@ -128,12 +135,20 @@ attempt to convert all your interactions into scripts."
 
 Three things follow, and only the third is comfortable.
 
-**It is not the middle, and it is nearer than anything else on record.** A predicate that is a
-*command in a list* is not an expression language: nothing read shows two conditions combined,
-negated or grouped, and this proposal's Layer 1 is exactly composition. One conditional is
-documented and the combobox is never enumerated, so how far it went is unknown here. [inference]
-The artifact sits between AGS's dialog script, which has no predicate at all, and what section 2
-proposes.
+**It is not the middle, and the distance is now measured rather than asserted.** Set the
+forty-eight against Layer 1 below, term by term. AGS had predicates over world state — seven of
+them, including one over a named variable. It had **no `or`**: nesting yields conjunction only. No
+`not`. No grouping. **No comparison beyond equality** — "if a variable is set to a certain value"
+takes a variable and an integer and tests one thing. No arithmetic; `Game - Set variable value`
+assigns and nothing increments. Nothing counts an inventory. [verified]
+
+Every one of those is in the grammar in section 2, and none of them is in the table. **So the gap
+this document exists to fill is exactly one thing: composition.** Having predicates is not what
+distinguishes this proposal from what AGS shipped. Combining them is.
+
+That is a smaller claim than this document opened with and a much harder one to wave at. It also
+means the proposal cannot be defended as *adding conditionals to a declarative layer* — someone
+did that, at this scope, and it is the composition that is untried.
 
 **Why it was removed is unknown and the manual does not reason about it.** It names migration
 hazards and never the decision, and 3.0 was a complete editor rewrite — "this new editor", "a
@@ -141,14 +156,15 @@ massive improvement over the old one" — so removal is as consistent with a rew
 with a verdict on declarative authoring. [inference] Reading it as a verdict would be this
 project's characteristic error, committed twice already in this document's own sources.
 
-**What the manual does say about the difference is not expressiveness. It is time.** Two
-behaviours changed and both were named: non-scripted interactions could previously run alongside
-a blocking script and "now, that is no longer the case"; and a `Run Dialog` action "waits until
-the dialog has finished before moving onto the next action" where `dialog[x].Start()` "does not
-block". [verified] The declarative action list was **sequential and blocking by default** and the
-general-purpose language it became was not. That is the one property of the declarative form its
-own authors bothered to write down, and section 5 records that this proposal has never stated
-whether it has that property.
+**What the manual says about the difference is not expressiveness. It is time — and the table
+shows how that layer handled it.** Blocking was not a default; it was a **typed argument on the
+commands that take time**. `Object - Move object` and `Character - Move character` each end in a
+`BOOL` the editor labelled "Wait for move to finish"; `Character - Run animation loop` blocks
+always; `Game - Pause command processor for a set time` is an explicit wait; `Stop running more
+commands` is an early exit from the list. [verified] Sequential execution, with duration declared
+per command by the author.
+
+That is a worked answer to a question section 5 records this proposal has never asked.
 
 So the gap is real and narrower than this document claimed. The middle — composition, not a
 conditional command — is still untried. What is no longer available is the comfort of "nobody
@@ -402,16 +418,20 @@ or that anybody would enjoy writing in it.
   into one state transition, which is why reachability is a graph search and not a search over
   states-and-time. That is a real assumption and it has never been written down as one.
 
-  This is the axis AGS named when it removed the equivalent layer. Its declarative actions were
-  sequential and blocking by default — a `Run Dialog` action "waits until the dialog has finished
-  before moving onto the next action" — and the script that replaced them was not, which the
-  manual flags as a migration hazard for authors. [verified] So the property is not a detail: it
-  is the one difference between the two forms that the system's own authors thought worth
-  documenting.
+  This is the axis AGS named when it removed the equivalent layer, and **the layer it removed had
+  an answer.** Blocking was a typed argument on the commands that take time: Move object and Move
+  character each end in a `BOOL` labelled "Wait for move to finish", Run animation loop blocks
+  always, "Pause command processor for a set time" is an explicit wait, and "Stop running more
+  commands" exits the list early. [verified] Sequential, with duration declared per command.
 
-  Stating it is cheap and this document should have. Whether it *survives* stating is the open
-  part — a `say` that blocks and a `move` that does not are already two different kinds of thing,
-  and the specimens write them in one list.
+  That is a design available to this proposal and it is not free. A per-effect blocking flag makes
+  the effect list a small program with an execution order, which is what `crates/reachability`
+  currently gets to ignore — and an early-exit command would make the list conditional on its own
+  progress. Whichever way this goes, it should be a decision. Right now it is an omission that the
+  calculator has been silently resolving.
+
+  A `say` that blocks and a `move` that does not are already two different kinds of thing, and the
+  specimens write them in one list.
 - **What it costs an author.** Every claim above is about what is checkable, and the argument
   that a bounded language is analysable says nothing about whether it is bearable. Three rooms
   have now been written in it, by the same party that proposed it, which is the weakest possible
