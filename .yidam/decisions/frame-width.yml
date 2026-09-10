@@ -1,0 +1,103 @@
+id: frame-width
+summary: >-
+  No template, and the generation half of `duplication` closes. The criterion is not how often a
+  shape repeats but how much prose is inside the part that repeats — and this language has exactly
+  one shape whose repeated part carries none, which already has its archetype. What the measurement
+  also turns up is that a shipped scripting language's frame is nearly three times as wide, which
+  is why its authors reached for helpers at twelve copies and nobody has reached for one here.
+context: |
+  [duplication](duplication.yml) split the pressure in two, admitted a generation primitive under
+  the amended rule in `AGENTS.md`, and could not say whether it should be an archetype or a
+  template. [exit-archetype](exit-archetype.yml) chose the archetype for one shape and closed on
+  the worry that survived: *"an archetype per shape does not scale to shapes nobody anticipated —
+  which was the argument against archetypes in the first place and is untouched. Delores ships
+  exactly two archetypes and reached for Squirrel everywhere else."*
+
+  That worry has a premise: the difficulty is enumerating the shapes. Nothing had tested it.
+decision: |
+  **No template, and no second archetype. The generation open closes.**
+
+  The unit of measurement is a *response block* — a `<verb>:` line and the indented lines under it.
+  **Frame** is every non-space character outside a string literal; **prose** is what is inside one.
+
+  The criterion a candidate has to meet is: **the repeated part carries no prose.** It is
+  mechanical, it runs on any shape without the shape having been anticipated, and applied to the
+  four specimens it returns one answer.
+
+  | | sites | frame/site | prose/site | prose : frame |
+  |---|---|---|---|---|
+  | `look-at` | 42 | 15.0 | 61.7 | 4.12 |
+  | `walk-to` | 22 | 26.7 | 25.1 | **0.94** |
+  | `use-with` | 11 | 75.1 | 91.4 | 1.22 |
+  | `pick-up` | 10 | 29.1 | 48.4 | 1.66 |
+  | `talk-to` | 2 | 17.0 | 33.5 | 1.97 |
+  | all | 91 | 27.2 | 54.0 | 1.98 |
+
+  `walk-to` is the only verb in the language that costs more to type than it carries, and the
+  fifteen **bare** exits are the only blocks in 664 lines with a ratio of zero. [verified] —
+  `crates/game-format/tests/duplication.rs`.
+rationale: |
+  **Structural repetition is pervasive, and it is not the thing.** Ninety-one bindings reduce to
+  twenty-nine shapes and seventy of them share one with something else — 77%. Read as a shape
+  census that is an argument for factoring almost the whole corpus. Read one level down it is the
+  opposite: **188 string literals and 186 of them are different**, the two repeats being five words
+  long, and prose outweighs frame two to one. [verified] The commonest shape in the language is a
+  bare `look-at` at thirty-one sites which share not one sentence.
+
+  So a shape census answers the wrong question. Two bindings with the same shape are the same
+  binding only if the shape is what the author was writing.
+
+  **Sixteen prose-free blocks, fifteen of them one shape.** The sixteenth is
+  `talk-to: do enter <conversation>` and it occurs once; *a primitive with no site* is the refusal
+  this corpus has now made five times. So the criterion picks out the bare exit and nothing else —
+  the same shape [exit-archetype](exit-archetype.yml) admitted from a census of two unrelated
+  bodies of authored work, arrived at again from a direction that knew nothing about exits.
+
+  **That is what answers the worry.** The shapes do not have to be anticipated, because the
+  criterion is a measurement rather than a list. What it says about *this* language is that there
+  is one candidate and it is taken; what it says in general is that a shape wanting an archetype is
+  a shape with nothing in it, and there are not many of those in a game somebody wrote.
+
+  **The generators are the control, and they invert every figure.** `chain`, `hub` and `acts` emit
+  half-distinct strings — and the distinct half is `"Room 7"`, an index in a template — at a ratio
+  of about 0.32. [verified] — `crates/reachability/tests/scaling.rs`. `definePseudoRoom`'s 110
+  hotel rooms and `sewerValveSetup`'s dozens of valves are the shipped instances of the same thing:
+  content nobody wrote. **The generation pressure appears exactly where the prose is generated
+  too**, and where it is not, factoring the frame leaves the work untouched. [inference]
+
+  **The shipped game demonstrates both halves of that, deliberately.** `AStreet.dinky` declares
+  twelve newspapers through one `assignHeadline(obj, headline)`. Measured the same way, the
+  function is **0.01** and the twelve call sites are **0.00**, while the `_noteHeadlines` table
+  they read is **2.13**. [verified] ([delores-source](../catalog/delores-source.md).) The factoring
+  took the frame and left every word where it was — which is what a correct one looks like, and it
+  is the shape of an argument for a data table rather than for a template.
+
+  **And the reason nobody has reached for a helper here has a number on it.** Across all 287
+  authored verb slots in that game the ratio is **0.56** — 73.1 characters of frame returning 41.1
+  of writing. [verified] This design's blocks are 27.2 and 54.0. **The frame is 2.7× wider there
+  and returns less.** Written out one at a time, a readable note costs 83 characters of frame in
+  that language — a `name`, an `article`, and a `VERB(read)` wrapping a `sayLine(SAY(id, ...))` —
+  against 20 here, which is `hotspot <id>` and `look-at:`. Twelve of them is roughly a thousand
+  against roughly two hundred and forty. [inference] — the unfactored form is counterfactual;
+  the per-site figures either side of it are measured.
+
+  Duplication pressure is proportional to frame width, and a narrow frame is what a declarative
+  format *is*. [inference] The helper functions in a shipped game are not evidence that a
+  declarative vocabulary needs a template; several of them are evidence of the cost the vocabulary
+  was built to avoid, already paid.
+
+  **What this does not settle.** The identity half is untouched and stands where
+  [hotspot-identity](hotspot-identity.yml) left it — evidenced and named as `parent`, unadopted
+  because this vocabulary has no geometry. And the tractability figures are still measured on games
+  no author would produce, which `design/specimen/README.md` has said since it was written and
+  which nothing here changes. `[open]`
+
+  **One correction fell out of the measurement and is larger than the finding.** Counting frame
+  against prose across the shipped game's verb slots meant counting `VERB_OK`, and this corpus had
+  it at zero authored sites in three places. There are 62. The search was for `okverb_`, the name
+  the macro expands to, and the authors write the macro; `.yidam/decisions/stale-markers.yml` is
+  the record of the last time a zero-hit search for a name the source does not use was read as an
+  absence. The `[inference]` built on it is withdrawn, and what replaces it is a distinction this
+  corpus did not have: `VERB_OK` is **availability** and cannot carry prose, `when` is **refusal**
+  and its failure is a line. Which is right is a question about the verb menu, and belongs to the
+  third answer site [tier-split](tier-split.yml) named. `[open]`
