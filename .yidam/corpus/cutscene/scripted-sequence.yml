@@ -9,12 +9,34 @@ description: |
   The reduction to be argued against is that this is an interaction whose response is long
   and whose input is locked. [inference] The one thing it has that no binding does is a
   *trigger* that is not a player action — a sequence can begin because the player entered a
-  room or because a counter reached a value. If that is genuinely inexpressible as a binding,
-  the class survives; if triggers belong on `world-flag` instead, it does not. [open]
+  room or because a counter reached a value.
+
+  **That question was posed as a disjunction and the disjunction was false.** It offered two
+  homes for a non-player trigger — this class, or `world-flag` — and a source names a third that
+  is neither. AGS documents position as a first-class event family: room edge events, "Stands on
+  hotspot" with its `hHotspot_WalkOn` handler, and regions carrying walks-onto, walks-off and a
+  repeating stands-on ([ags-manual](../../catalog/ags-manual.md)). [verified] The manual places
+  them outside verb dispatch in its own words — the stands-on-hotspot event "does not trigger"
+  `unhandled_event`. [verified]
+
+  So "the player entered a room" is not a property of a cutscene and not a flag. It is where the
+  actor is, and `actor -occupies-> room` has been in this corpus's effect vocabulary since
+  `effect-vocabulary`. The leg is gone: the trigger is real, it is expressible, and it is not
+  evidence for this class, because it exists whether or not any cutscene uses it. Found while
+  assessing [walk-to](../verb/walk-to.yml), which is where the same family answers a different
+  question.
+
+  **The class now stands on one leg instead of two, and that one is still `[open]`**: a sequence
+  beginning because a counter reached a value. Nothing read here documents a threshold trigger in
+  either engine, and it was looked for. [inference] Whether that is a genuine gap or the same
+  position trigger wearing a number is the question a later phase inherits.
 properties:
   trigger: |
-    Entering a room, a flag reaching a value, or the resolution of a binding. Only the third
-    has a home in the vocabulary; the first two are the reason this class is still here.
+    Entering a room, a flag reaching a value, or the resolution of a binding. **Two of the three
+    now have a home and the sentence here used to say only the third did.** Binding resolution
+    always did; entering a room is a position event, documented as first-class in AGS and
+    dispatched outside the verb table entirely. [verified] What is left is the threshold — a flag
+    reaching a value — and that is the whole of what keeps this class here. [open]
   skippable: |
     Usually yes, and the skip is where the failure lives. [inference] A sequence that writes
     state part-way through and is cut short leaves the world in a configuration the author

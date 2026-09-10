@@ -48,7 +48,7 @@ properties:
     general `print`/`printEgo` [inference], and AGS handles it as an ordinary event with no
     special dispatch — unlike `Use Inventory`, which has `StandardMode` switched off. [verified]
 
-    That combination is what makes this the clean case. The two-tier test has now returned four
+    That combination is what makes this the clean case. The two-tier test has now returned five
     results and this is the only one where a verb is unanimous above and empty below:
 
     | verb | surface | operation |
@@ -57,11 +57,23 @@ properties:
     | `talk-to` | kept by all three | AGS only |
     | `use-with` | kept by all three | AGS dispatches it separately |
     | `pick-up` | SCUMM folded, AGS kept | SCUMM only |
+    | `walk-to` | exceptional in all three | three opcodes in SCUMM, hard-coded in AGS |
 
     Read down the operation column and the vocabulary question looks answered; read down the
     surface column and it looks unasked. The verb that needs the least from an engine is the one
     no one has ever removed. `[inference]` — three systems is not a population, and this is a
     pattern worth stating and not worth resting on.
+
+    **The fifth row arrived a phase later and it is this node's opposite pole, which is the
+    useful thing about it.** [walk-to](../verb/walk-to.yml) draws the heaviest operation support
+    in the table and fails the assessment anyway, because a third property separates them that
+    the first four never had to be asked about: whether an author can write the verb's response
+    at all. Look-at's is always authorable and is the whole of what the verb is. Walk-to's is not
+    authorable in either engine.
+
+    So the two ends of the operation column are held by the verb nobody has ever removed and the
+    verb that turns out not to be one. [inference] That is not a coincidence about looking — it
+    is what the operation column is worth on its own, which is less than it appears.
 links:
   - target: ../prior-art/sierra-sci.yml
     relationship: originated-in

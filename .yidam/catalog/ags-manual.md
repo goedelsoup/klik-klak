@@ -32,6 +32,7 @@ used-by:
   - ../corpus/world-flag/latched-flag.yml
   - ../corpus/inventory-item/stackable-item.yml
   - ../corpus/verb/walk-to.yml
+  - ../corpus/cutscene/scripted-sequence.yml
 ---
 
 **This is a source of record and it is the only one this corpus holds.** The AGS manual is

@@ -54,11 +54,34 @@ dozen verbs and enough interactions to have opinions about them.
 across three rooms — and it produced both lists on the first artifact this repository has held
 that could produce either.
 
-- **Undeclared and reached for: `walk-to`**, at four sites. Movement is a verb in both systems
-  this corpus has read, and no `verb` node declares it. This is the list that argues for adding
-  a primitive, and it has its first member.
+- **Undeclared and reached for: `walk-to`**, at six sites across the two games. Movement is a
+  verb in both systems this corpus has read, and no `verb` node declared it. This is the list
+  that argues for adding a primitive, and it has its first member.
+
+  **Assessed, and the member was real while the reading of it was wrong.** `verb/walk-to.yml`
+  concludes movement is not a verb: no engine lets an author write its response, and what the
+  specimen was writing at those six sites is an *exit*. So the list found something genuinely
+  missing and it was not a verb. The list's name is accurate — a binding did reach for an
+  undeclared verb — and its stated meaning is not: "the vocabulary being too small" is right,
+  "argues for adding a primitive rather than removing one" is right, and the primitive was in a
+  different class. A coverage report over verbs cannot tell you which class the gap is in, and
+  this one was read as though it could.
 - **Declared and unexercised: `give-to`.** No natural site for it arose, which is independent of
   and agrees with the documentary assessment already in that node.
+
+**And the first list has a defect that only shows once two verbs have failed.** This corpus keeps
+an assessed-and-rejected verb as a node rather than deleting it — `give-to.yml` states the reason,
+that a vocabulary growing by accident needs a record of what it declined — so `give-to` and now
+`walk-to` are permanent residents of *declared and unexercised*. Nothing will ever exercise them
+and nothing should.
+
+A calculator implementing list 1 as written would report the corpus's own bookkeeping as a
+finding, and would do it more loudly the better the corpus got at assessing verbs. **It must skip
+instances whose `earns_its_place` carries a negative verdict**, which means the property has to
+be machine-readable in a way it currently is not: it is prose, and the verdicts are stated in
+sentences. Either the property gains a companion field or the skill reads nothing at all. `[open]`
+— and it is a constraint on the ontology discovered by trying to specify a calculator over it,
+which is the second time that has happened.
 
 Two things follow for this skill and neither is that it should now run.
 
@@ -72,3 +95,6 @@ And the second list is the harder one to compute either way: a binding reaching 
 undeclared verb is only visible where bindings exist, and the corpus's `interaction` instances
 all cite verbs that exist because they were written to. The specimen found `walk-to` because it
 was written to be a game rather than to be an example.
+
+With `walk-to` assessed, the second list is empty again — and it emptied by the entry being
+declared, not by the gap being closed. The exit primitive it was pointing at is still unwritten.
