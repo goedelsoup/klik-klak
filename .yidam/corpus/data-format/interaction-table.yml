@@ -70,8 +70,53 @@ properties:
   escape_hatch: |
     This is where one is genuinely expected, and naming it honestly is more useful than
     denying it. [inference] Every prior-art system reached a general-purpose language, and
-    whether a bounded expression language avoids that is `[open]` and is the most valuable open
+    whether a bounded expression language avoids that was called here the most valuable open
     question in this corpus.
+
+    ---
+
+    **It is answered, and the marker outlived the answer by several phases.** Everything below was
+    written to settle it and none of it moved the sentence above — which is the failure
+    `.yidam/decisions/stale-markers.yml` names, arriving on the largest question this corpus has.
+    The verdict, and where each half of it was established:
+
+    | what a response has to do | bounded? | where |
+    |---|---|---|
+    | **ask** — read world state | **yes, demonstrated** | Yack's 79 real guard expressions escape zero times |
+    | **do** — write world state | **yes, and not by choice** | 120 of 125 write sites map onto eight effects; the list closes when the ontology does |
+    | **show** — text, sound, animation | **no, and it should not be** | 884 of 1,328 sites, 53 functions, most used once |
+    | **take time** | **refused on purpose** | `effect-list-semantics`, with the price quoted |
+    | **say the same thing many times** | **no — and this is what actually broke it** | `duplication`, and it is not an expression problem |
+
+    **So the question was the wrong shape and its answer inverts the premise.** A bounded
+    expression language *does* avoid the escape for everything that is a fact about the world.
+    What the escape was actually being used for in the one system that shipped one is presentation
+    and repetition — and neither is a limit on expressiveness. [inference] The general-purpose
+    language in a real authoring surface is not there because the author had a question the
+    declarative layer could not ask. It is there because the response body is one list in which a
+    state write and a neon sign flickering sit side by side.
+
+    **What that cost, stated as a number rather than a claim.** The surface is **51 constructs** —
+    6 verbs, 19 keywords, 8 effects, 9 predicate forms, 6 comparisons, 3 sites
+    (`crates/game-format/tests/surface.rs`, which reads them off the parser and the enums rather
+    than listing them). [verified] Nineteen of this corpus's twenty-six decision records weigh a
+    candidate against that surface: **five constructs were admitted, one was withdrawn, and twelve
+    candidates were weighed and refused.** A whole shipped game — 203 bindings, 1,328 call sites,
+    107 distinct functions — was read against it and the surface did not move to meet the game.
+
+    **And every refusal was for the same kind of reason, which is the part worth keeping.** Not one
+    candidate was refused because it was too hard to express. `consumes` was admitted because
+    nothing said an item leaves the inventory; the three beside it were refused because the
+    ontology already said what the specimen's author had not found. `use-with` survived a reduction
+    that works exactly. Delegation, containment, the named condition, a cutscene class, a camera
+    class, a per-room default, a fourth object-state value — refused because the vocabulary already
+    said it, or because the pressure could not arise here, or because the thing wanted was a check
+    rather than a construct. [inference] A bound that only ever refuses on those grounds is being
+    tested rather than defended.
+
+    **What is left open is `duplication`, and this property already re-aimed itself at it below.**
+    That is not a smaller question — it is the one the shipped system actually failed on — but it
+    is a different one, and calling it *the escape hatch* is what kept it hidden for six phases.
 
     **The three examples this node gave of what forces the escape were all wrong, and the
     correction is the useful part.** It said a response "that must compute something — count an
