@@ -1,0 +1,176 @@
+# patrol — a fourth specimen, for one question: does a non-player actor's position need to be
+# state?
+#
+# `cutscene/scripted-sequence.yml` said it did not know, from a specimen too small to tell:
+# "it never tested whether a non-player actor's position needs to be state — `actor -occupies->
+# room` could carry it and the format has no syntax for moving anyone but the player." A phase
+# measuring Delores found a shipped game writing exactly that, and this is the case written in
+# this vocabulary so the question stops being about somebody else's engine.
+#
+# `nightwatch.game` is where the need is already visible without the primitive. Its watchman
+# has a `look-at` reading "Not here. He is somewhere down the hall" — an actor site standing in
+# a room the actor is not in, with prose covering for the format.
+#
+# Two things are new and they arrive together, because an effect nothing can read is not state:
+#   do    move porter to canteen        `actor -occupies-> room`, written
+#   when  porter in corridor         the same relationship, read
+#
+# Its committed defect is ORDERING, and the gate that closes is a person. Boil the kettle before
+# you have the key and the porter takes his tea in the only room the key is in.
+
+# ── declarations ──────────────────────────────────────────────────────────────
+
+room    lobby       "The Lobby"
+room    corridor    "The Corridor"
+room    canteen     "The Canteen"
+room    strongroom  "The Strongroom"
+
+actor   porter      "the night porter"
+
+item    key         "a small flat key"
+item    bond        "the bearer bond"
+
+flag    cabinet-open latched "the cabinet has been opened"
+flag    kettle-on    latched "the kettle has been set to boil"
+
+# ── the lobby ─────────────────────────────────────────────────────────────────
+
+room lobby
+  start
+
+  hotspot street-doors "the street doors, bolted from the inside"
+    look-at:
+      "Bolted from the inside, which is a thing you can undo from the inside."
+
+    walk-to:
+      when  carrying bond
+      say   "You draw the bolt and step out into a morning that has not started yet."
+      ending
+      else  "Not with your hands empty."
+
+  hotspot inner-door "a door to the corridor"
+    look-at:
+      "It does not close properly. Nothing here does."
+
+    walk-to:
+      do    move corridor
+
+# ── the corridor ──────────────────────────────────────────────────────────────
+
+room corridor
+  holds porter
+
+  # The site says where the porter can be ADDRESSED. `holds` says where he IS. They are
+  # different facts and the checker keeps them apart: this binding is not offered when he has
+  # gone for his tea.
+  actor porter
+    look-at:
+      "He is reading the paper standing up, which is how he reads everything."
+
+    talk-to:
+      "He looks at you the way a man looks at a chair that has been moved."
+
+  hotspot lobby-door "the door back to the lobby"
+    look-at:
+      "Grey light under it."
+
+    walk-to:
+      do    move lobby
+
+  hotspot strongroom-door "a steel door with a wheel on it"
+    look-at:
+      "The wheel has been turned so often the paint has gone from it."
+
+    walk-to:
+      when  not porter in corridor
+      say   "The wheel turns without much noise, which is the point of the grease."
+      do    move strongroom
+      else  "The porter has not taken his eyes off you since you came in."
+
+  hotspot canteen-door "a door with a window in it"
+    look-at:
+      "There is a kettle through there, and a tin, and nothing else."
+
+    walk-to:
+      when  not porter in canteen
+      do    move canteen
+      else  "He is in there with his tea, and the door is not wide."
+
+# ── the canteen ───────────────────────────────────────────────────────────────
+
+room canteen
+
+  hotspot kettle "an electric kettle"
+    look-at:
+      when kettle-on  "Coming up to the boil, and loud about it."
+      otherwise       "Cold, and full enough."
+
+    use-with key:
+      "The key is a key. The kettle is a kettle."
+
+    pick-up:
+      "You would be carrying a kettle."
+
+  # THE MOVE. Setting the kettle going is heard down the corridor, and the porter comes for it.
+  # This is the whole primitive in one binding: a thing the player does, in one room, that
+  # changes where somebody else is.
+  hotspot switch "the kettle switch"
+    look-at:
+      "A switch with a small orange window in it."
+
+    walk-to:
+      when  not kettle-on
+      say   "You push it down. It starts to roar, and down the corridor a newspaper is folded."
+      do    set kettle-on
+      do    move porter to canteen
+      else  "It is already going."
+
+  hotspot tin "a biscuit tin on the shelf"
+    is key
+    look-at:
+      "A biscuit tin with no biscuits in it and one small flat key."
+
+    pick-up:
+      say   "You take the key and put the lid back, which is more than he does."
+      do    give key
+
+  hotspot corridor-door "the door back to the corridor"
+    look-at:
+      "It has a window in it, and the window has wire in the glass."
+
+    walk-to:
+      do    move corridor
+
+# ── the strongroom ────────────────────────────────────────────────────────────
+
+room strongroom
+
+  hotspot cabinet "a deed cabinet"
+    look-at:
+      when cabinet-open  "Open, with the bond sitting in it."
+      otherwise          "Locked, and the lock is a small flat one."
+
+    use-with key:
+      when  not cabinet-open
+      say   "The key turns twice and the drawer comes out on its runners."
+      do    set cabinet-open
+      else  "It is open already."
+
+  hotspot bond-in-cabinet "a bearer bond"
+    is bond
+    look-at:
+      when cabinet-open  "Made out to nobody at all, which is what makes it a bearer bond."
+      otherwise          "Behind the cabinet door."
+
+    pick-up:
+      when  cabinet-open
+      say   "You fold it once and put it away."
+      do    give bond
+      else  "The drawer is shut."
+
+  hotspot steel-door "the steel door, from the inside"
+    look-at:
+      "No wheel on this side. It does not need one."
+
+    walk-to:
+      do    move corridor

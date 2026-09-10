@@ -108,9 +108,20 @@ description: |
 
   The prediction being right is the useful part. This node reasoned from one small specimen to
   what a real sequence would need, said so, and marked it open; four phases later a game that
-  does it was read and it does exactly that. `[open]` stays open — the cost is real, and
-  `.yidam/decisions/presentation-layer.yml` states it: a checker tracking *n* actors' rooms
-  multiplies its state space by rooms^*n*.
+  does it was read and it does exactly that.
+
+  **And it is built.** `move <actor> to <room>` and `<actor> in <room>` exist
+  (`.yidam/decisions/actor-position.yml`), a fourth specimen exercises them, and the cost is
+  what was predicted and bounded the way it was predicted: rooms^*n* for the *n* actors a game
+  moves, and nothing for the actors it does not — which is every actor in this specimen.
+  [verified] — `design/specimen/patrol.game`, 20 reachable states, and
+  `crates/reachability/tests/patrol.rs` holds the cost claim from both sides.
+
+  **So the limit this node named is closed and the verdict is unchanged, which is the point.**
+  The primitive turned out not to be a property of a sequence at all: most of the writes in the
+  game that motivated it are room-entry code putting people where the story has left them, not
+  scenes. A gap in the effect vocabulary that a sequence would merely have exercised first is not
+  an argument for a class.
 
 properties:
   trigger: |

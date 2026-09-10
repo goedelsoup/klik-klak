@@ -274,7 +274,16 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 Some(r) => p.game.start_room = Some(r),
                 None => p.err(no, "`start` outside a room section"),
             },
-            "holds" => {}
+            // `holds <name>` is a room-level fact about what starts there. For an item it has
+            // always been decoration — `is <item>` on a hotspot is what actually places one —
+            // and for an actor it is the only way to say where they begin. Recorded raw and
+            // sorted out in `resolve`, because a room may be written before the actor is
+            // declared.
+            "holds" => match (p.room.clone(), t.get(1)) {
+                (Some(r), Some(x)) => p.game.holds.push((r, x.to_string(), no)),
+                (None, _) => p.err(no, "`holds` outside a room section"),
+                (_, None) => p.err(no, "`holds` needs a name"),
+            },
             "on-enter" => match p.room.clone() {
                 Some(r) => {
                     let site = Site::OnEnter { room: r };
@@ -362,7 +371,12 @@ fn effect(t: &[&str], game: &Game) -> Result<Effect, String> {
             .parse()
             .map(|v| Effect::Spend(x.to_string(), v))
             .map_err(|_| format!("`{n}` is not a number")),
-        ["move", x] => Ok(Effect::Move(x.to_string())),
+        ["move", x] => Ok(Effect::Move(None, x.to_string())),
+        ["move", a, "to", r] => Ok(Effect::Move(Some(a.to_string()), r.to_string())),
+        ["move", _, r] => Err(format!(
+            "moving somebody else reads `move <actor> to {r}` — the `to` is what tells the two \
+             forms apart"
+        )),
         ["enter", x] => Ok(Effect::Enter(x.to_string())),
         ["clear", x] => Ok(Effect::ClearFlag(x.to_string())),
         ["set", x] => {
@@ -466,6 +480,12 @@ fn atom<'a>(t: &'a [&'a str]) -> Result<(Pred, &'a [&'a str]), String> {
                 .map_err(|_| format!("`{}` is not a number", t[3]))?;
             Ok((Pred::Count(name.to_string(), c, v), &t[4..]))
         }
+        // `<actor> in <room>`, infix because that is how it reads and because no flag name
+        // can be followed by `in`. The same shape as the comparison below it.
+        Some(name) if t.get(1) == Some(&"in") => match t.get(2) {
+            Some(r) => Ok((Pred::At(name.to_string(), r.to_string()), &t[3..])),
+            None => Err(format!("`{name} in` needs a room")),
+        },
         Some(name) => {
             if let Some(c) = t.get(1).and_then(|s| cmp_of(s)) {
                 let v: i64 = t

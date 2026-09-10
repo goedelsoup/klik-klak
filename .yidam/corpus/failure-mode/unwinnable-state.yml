@@ -25,7 +25,16 @@ description: |
   [inference] It has two ordinary causes and they are different problems. One is consumption:
   an object needed later is spent or destroyed earlier, so the state is unwinnable from the
   moment of the spend. The other is ordering: a gate closes behind the player and something
-  still needed is on the far side. The first is a property of a single binding and is
+  still needed is on the far side.
+
+  **A gate is not always a door.** `design/specimen/patrol.game` closes one by moving a person:
+  the porter guards the strongroom, boiling a kettle brings him to the canteen, and the key is in
+  the canteen. Boil before you take the key and the room you need is shut by somebody standing in
+  it. The checker reports it as `ordering` — correctly, because the shape is a gate closing — and
+  blames **leaving** the canteen rather than boiling the kettle, which is also correct: while you
+  are still in there with him, nothing is lost. [verified] The two causes are a taxonomy of
+  *shapes*, not of mechanisms, and this is the first evidence that they survive a mechanism they
+  were not written for. The first is a property of a single binding and is
   checkable where the binding is written; the second is a property of the graph of gates and
   is not checkable anywhere in the current vocabulary.
 

@@ -1,0 +1,117 @@
+id: actor-position
+summary: >-
+  `move <actor> to <room>` and `<actor> in <room>` — the relationship `actor -occupies-> room`
+  read at its full width. Added as a pair because an effect nothing can read is not state, and
+  costing rooms^n for the n actors a game moves and nothing otherwise.
+context: |
+  Two classes had been carrying the same `[open]` and neither could close it.
+
+  [`cutscene/scripted-sequence`](../corpus/cutscene/scripted-sequence.yml) said it did not know,
+  and said why: "it never tested whether a non-player actor's position needs to be state — which
+  is the one thing a real sequence does that nothing in this vocabulary does. `actor -occupies->
+  room` could carry it and the format has no syntax for moving anyone but the player." That was
+  written from `nightwatch.game`, a specimen too small to tell.
+
+  [`actor/non-player-character`](../corpus/actor/non-player-character.yml) is *founded* on it. Its
+  argument against collapsing `hotspot` into `actor` is that only an actor "can occupy a position
+  that changes, run behaviour while unobserved, and be the far end of an exchange" — and the first
+  of those three was a fact the ontology declared and no binding could write.
+
+  **The demand was already on disk and had been for three phases.** `nightwatch.game`'s watchman
+  carries a `look-at` reading *"Not here. He is somewhere down the hall, and the hall is very
+  long."* An actor site sitting in a room the actor is not in, with prose covering for the
+  format. Nobody wrote that as a complaint; it is what an author does when the vocabulary will
+  not say the thing.
+
+  What made it answerable was reading somebody else's game. Delores moves non-player actors with
+  `actorAt(actor, room, spot)` and reads the result back with `isActorInRoom` in preconditions;
+  it also removes an actor from the world by putting them in a room called `Void`
+  ([delores-source](../catalog/delores-source.md)). `.yidam/decisions/presentation-layer.yml`
+  found that while classifying presentation and had to correct its own classification to admit
+  it: `actorAt` is state.
+decision: |
+  **Two primitives, added together.**
+
+      room corridor
+        holds porter                    -- `actor -occupies-> room`, at rest
+
+      hotspot switch "the kettle switch"
+        walk-to:
+          do    move porter to canteen  -- the relationship, written
+      hotspot strongroom-door
+        walk-to:
+          when  not porter in corridor  -- the relationship, read
+          do    move strongroom
+          else  "The porter has not taken his eyes off you."
+
+  - **`move <room>` is the player and `move <actor> to <room>` is anybody.** The `to` is what
+    tells the two forms apart, and writing `move porter canteen` is an error that says so.
+  - **`holds <actor>` is where they start.** That keyword was parsed and discarded since the
+    format existed. It now sorts in `resolve`: an actor becomes a starting position, an item
+    stays the decoration it has always been, and holding something that is neither is an error
+    where it used to be silence.
+  - **An actor a binding moves or a predicate names must be held somewhere**, or the question has
+    no answer before anything moves them. Reported at resolve.
+  - **A site follows its actor.** `actor <name>` inside a room says where they may be addressed;
+    `holds` and `move ... to` say where they are; and `offered` requires the two to agree. This
+    is the same shape as the acquisition check beside it — a site whose subject has gone is not
+    a site.
+
+  **This is not a new relationship and does not widen the ontology.** `occupies` is declared on
+  `actor`, authored by `actor/non-player-character`, and already listed in the design's
+  `derives_effects_from`. Eight effect variants over six relationships, unchanged.
+rationale: |
+  **Why the pair rather than the effect.** An effect nothing can read is not state: writing where
+  an actor is, with no way to ask, makes the write unobservable, and an unobservable write is a
+  comment rather than a change to the world. The predicate is what makes the effect mean
+  anything.
+
+  The symmetry is not general and the design says so. `set` needed no invented read, because a
+  flag *is* its own predicate. The rule applies to any effect writing a thing the predicate layer
+  had no operand for, and this was the first such effect in eight phases.
+
+  **What it cost, and where the cost came from was not where it was expected.** The plan, stated
+  in `presentation-layer`, was to track only the actors some predicate asks about — free when
+  nobody asks. That is half right. `offered` gates an actor's site on where the actor is, so **a
+  site is itself a read**: an actor who is moved has to be followed whether or not any predicate
+  names them, or their bindings would stay live in a room they have left.
+
+  So the rule is: an actor is tracked when a predicate names them *or an effect moves them*.
+  There is no such thing as moving an actor nobody reads. An actor nobody moves and nobody asks
+  about is absent from `State` altogether — every actor in the three specimens written before
+  this — and their figures are unchanged.
+
+  **It is the fourth primitive to cost something and the first to cost only size.** An item's
+  quantity threatened *termination* and was guarded by a declared ceiling; the arrival trigger
+  threatened termination again and was guarded by an exact cycle check. This threatens neither:
+  rooms^n is finite for any game, so the search still stops. What it threatens is the number, and
+  the guard is that nobody pays for an actor they do not move.
+
+  A third reading of the same principle turned up in a test and is worth keeping. An actor moved
+  by the same binding that moves the player is a *function* of state already tracked, so tracking
+  it splits nothing — **nothing derivable is state either**, which is the same rule one step
+  further along.
+
+  **What it broke, which is the useful part.**
+
+  `every_effect_realises_a_declared_relationship` stopped compiling the moment `Move` changed
+  shape. That test was written one phase ago to hold a claim derived from eight doc comments, and
+  this is the first time it has been asked anything. What it forced was the right question —
+  which relationship does the wider effect realise — and the answer was that `occupies` was
+  always this wide.
+
+  The first specimen fixture written for the cost tests asserted the wrong rule twice: that
+  moving an unwatched actor is free (it is not, because sites read), and that adding a predicate
+  widens the state (it does not, when the actor's position is derivable from the player's). Both
+  failures were the design being wrong rather than the code, and both are now tests.
+
+  **What is not done.** `nightwatch.game` still says its watchman is down the hall in prose.
+  Rewriting it would make that specimen test what it was written to say it could not, and would
+  move figures that three phases of records quote. Whether a specimen should be revised to
+  exercise a primitive it argued for is a question `design/specimen` has not had to answer
+  before. `[open]`
+
+  And `holds <item>` remains decoration. `is <item>` on a hotspot is what places an object, so a
+  `holds` naming an item is a second statement of the same fact with nothing holding the two in
+  step — the shape of defect this corpus has found three times. It is a cheap check and it is not
+  written. `[open]`

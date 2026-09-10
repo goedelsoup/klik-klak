@@ -115,6 +115,12 @@ pub enum Pred {
     /// that they need a collection and the vocabulary has none; an item bearing a quantity
     /// *is* that collection, and this is the only question worth asking about it.
     Count(String, Cmp, i64),
+    /// `<actor> in <room>` — where a non-player actor is.
+    ///
+    /// An effect nothing can read is not state, so `move <actor> to <room>` entails this and
+    /// the two are added together. It is also what bounds the cost: `crates/reachability`
+    /// tracks only the actors some predicate names.
+    At(String, String),
     Not(Box<Pred>),
     And(Box<Pred>, Box<Pred>),
     Or(Box<Pred>, Box<Pred>),
@@ -136,7 +142,12 @@ pub enum Effect {
     /// `interaction -consumes-> inventory-item` — the one effect this corpus had to add
     Spend(String, i64),
     /// `actor -occupies-> room`
-    Move(String),
+    ///
+    /// `None` is the player, and the asymmetry is the point: `occupies` is declared on `actor`
+    /// and authored by `actor/non-player-character`, so the relationship was always about any
+    /// actor. The design table read it as "move the player" for six phases, which is a
+    /// relationship read at half its width.
+    Move(Option<String>, String),
     /// `interaction -opens-> conversation`
     Enter(String),
     /// `conversation -returns-control-to-> actor`
@@ -219,6 +230,14 @@ pub struct Game {
     pub bindings: Vec<Binding>,
     /// hotspot -> the item it is the uncarried form of (`inventory-item -carried-form-of->`)
     pub carried_form: BTreeMap<String, String>,
+    /// every `holds <name>` as written, with the room it was written in and its line.
+    ///
+    /// Kept raw because a room section may be written before the thing it holds is declared,
+    /// and resolution is where kinds are known. `resolve` sorts them: an actor becomes a
+    /// starting position, an item stays the decoration it has always been.
+    pub holds: Vec<(String, String, usize)>,
+    /// actor -> the room it starts in, from `holds`. `actor -occupies-> room`, at rest.
+    pub actor_start: BTreeMap<String, String>,
     pub start_room: Option<String>,
     pub source: String,
 }
