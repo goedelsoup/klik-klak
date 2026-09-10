@@ -1,0 +1,92 @@
+id: arity-cost
+summary: >-
+  The authoring cost of arity is negative. The second key costs six and a half characters and saves
+  eleven or twelve, because what it says — *this binding is about this item* — has to be said in a
+  guard once it is gone. And the n×m explosion it opens is free: those cells are not filled with a
+  shared refusal, they are not filled at all.
+context: |
+  [binary-dimension](binary-dimension.yml) kept `use-with` on structural grounds and closed on what
+  it had not weighed: *"a binary verb makes the table two-dimensional, which is `binary-binding`'s
+  combinatorics argument, and n×m cells is a cost to an author rather than to a checker. Every
+  measurement in this record is a checker's. The authoring cost of arity is the same axis
+  `duplication` found this corpus cannot see, and it is unmeasured here too."*
+
+  It is measurable now. [frame-width](frame-width.yml) built the instrument for a different
+  question — frame against prose, per response block — and the first cut of it put `use-with` at
+  75.1 characters of frame per site against 15.0 for `look-at`, which looks like the cost the record
+  was worried about.
+decision: |
+  **`use-with` keeps its place, and the open closes with the sign reversed.**
+
+  **The key is not where the cost is.** A binary block header is `use-with wick:` against
+  `use-with:` — 14.5 characters of frame against 8.0. Everything else in the 75.1 is body, and the
+  body is large because a binary binding is where a puzzle happens: among blocks that write
+  anything at all, the unary ones average 20.0 characters of body frame and the binary ones 66.7.
+
+  **Written without the key, the same eleven bindings are longer.** `unarise` had only ever run on
+  the model; run on the source it takes the object out of the header and puts `carrying <item>` back
+  into the guard, which is **826 characters of frame before and 950 after** — a uniform surcharge of
+  eleven or twelve at every site, +15.0%. [verified] —
+  `crates/reachability/tests/arity.rs`. Every figure on every specimen is unchanged, so this is a
+  cost with nothing bought.
+
+  **And the cells the dimension opens are empty rather than refused.** The four specimens are
+  **396 cells with 87 authored — 22.0%**, not the 252 and 34.5% `default-binding` recorded, and
+  Delores is **50,676 with 203 — 0.40%**, not 9,348 and 2.17%. [verified] What is in the other
+  50,473 is nothing: `_checkVerbValid` returns `NO` for every one of the 18 binary verbs so none is
+  ever offered in a menu, and a drag that matches no verb reaches
+  `if (drag_verb && drag_noun2)` and stops ([delores-source](../catalog/delores-source.md)).
+  [verified]
+rationale: |
+  **What the second key actually buys is disjointness, and that is the finding.** In the binary
+  form `use-with wick` and `use-with oil-can` are different cells, so their guards may overlap
+  freely — the key tells them apart. Remove it and both are `(use-with, lamp)`, and it falls to the
+  author to write guards that cannot both hold. This is the sentence `binary-dimension` already
+  wrote about *the item is carried* — *"it becomes a thing an author writes, and can forget, and can
+  write differently in two places"* — holding for the whole cell rather than one precondition.
+  [inference]
+
+  **It is now checkable, and the check was built to be right rather than to win this argument.**
+  `ambiguous_cells` refuses two bindings in one cell that nothing separates, deciding disjointness
+  by looking for a contradicting atom: a flag asserted and denied, an actor in two rooms, two
+  comparisons on one counter whose intervals do not meet. Two `carrying` guards do not separate
+  anything, because the player can hold both items. [verified] —
+  `crates/game-format/tests/cells.rs`.
+
+  It deliberately does **not** refuse duplicates as such, and a shipped game is why: Delores writes
+  a `pick-up` that describes the thing the first time beside a bare one after, which is two bindings
+  in one cell and is correct. That shape is transcribed in
+  `crates/reachability/tests/delegation.rs`, and the first version of this check refused it. The
+  fixture is what made the rule the right shape. [verified]
+
+  **The one site in the corpus that would have collided is saved by a coincidence, which is the
+  honest limit of the result.** `lamp-room.lamp` carries three `use-with` bindings; reduced, all
+  three land in one cell, and they survive only because each is already guarded on a different value
+  of `lamp-prep`. Strip those guards and the cell is ambiguous. [verified] So the reduction is
+  writable on all four specimens, and it is writable because the one multi-object site happens to be
+  an ordered sequence — the shape [counter-flag](../corpus/world-flag/counter-flag.yml) was admitted
+  for. A site where the player may hold two relevant items and nothing orders them is not in these
+  specimens and is not rare in adventure games. [inference]
+
+  **The combinatorics argument survives the count and loses its conclusion.**
+  [binary-binding](../corpus/interaction/binary-binding.yml) said the n×m cells mean *"the default
+  is doing more authoring work than the authored content is"*. There is no default. Both systems
+  this corpus can read take the branch [default-binding](default-binding.yml) identified — only
+  authored cells are reachable — and under that branch an unauthored cell costs nothing to anyone,
+  because neither the author nor the player ever arrives at one. The explosion is real, it is
+  five-fold larger than recorded, and it is free. [inference]
+
+  So *n×m is a cost to an author* was the wrong shape of claim. The author never writes n×m cells;
+  the author writes 203 of them. What arity changes is not how many cells there are but **whether
+  the ones that are written can be told apart by the format or only by the author**, and that is
+  a question about keys rather than about quantity.
+
+  **What this does not settle.** Whether a design that admits a binary verb should also let an
+  author say a verb is not offered here — the availability half of what
+  [frame-width](frame-width.yml) withdrew a rule over. A drag that matches nothing is that
+  distinction implemented, and it is the reason those 50,473 cells cost nothing; this vocabulary has
+  no way to spell it. `[open]`
+
+  And the other thing the measurement did not touch: `ambiguous_cells` proves disjointness rather
+  than overlap, so `or` is reported as inseparable. Nothing in the corpus writes one in a colliding
+  cell, so the conservative branch has never been exercised on real authored work. `[open]`

@@ -13,6 +13,12 @@ description: |
   world state was called the sharpest form of this corpus's central question, on the reading that
   the answer decides whether "minimal" means fewer verbs or simpler ones.
 
+  **The dimension is real and it is what makes the writing shorter.** Writing all eleven of the
+  specimens' binary bindings without the second key costs **124 characters more**, a uniform eleven
+  or twelve per site, because each has to say `carrying <item>` in a guard — which is what the key
+  says for free. [verified] — `crates/reachability/tests/arity.rs`. The dimension is a discount, not
+  a cost. `.yidam/decisions/arity-cost.yml`.
+
   **They can, exactly, and the answer had been sitting in this repository's own code.**
   `crates/reachability`'s `offered` gates a binding's second object on `items[o] >= 1`, and
   `Pred::Carrying(o)` evaluates to `items[o] >= 1` — the same expression, ten lines apart.
@@ -41,9 +47,22 @@ properties:
     inventory item, then the target), which makes the item the mode. The two orders are not
     equivalent for the player: only the first shows the sentence before it commits.
   default_response: |
-    A refusal, in every system this corpus has looked at. [inference] The interesting design
-    variable is whether the refusal is generic ("That doesn't work") or names one of the two
-    objects, since a naming refusal leaks information about which half was right.
+    A refusal, in every system this corpus has looked at, this said. [inference] The interesting
+    design variable was supposed to be whether the refusal is generic ("That doesn't work") or names
+    one of the two objects, since a naming refusal leaks information about which half was right.
+
+    **The one system whose source this corpus holds has no default response to a binary verb at
+    all.** `_checkVerbValid` returns `NO` for every member of `verb_usewith_list`, so a binary verb
+    is never in a menu; the interaction is a drag, and `UIHelpers` walks the binary verbs looking for
+    one the target will accept. Where none does, `drag_verb` stays null and the drop is guarded
+    `if (drag_verb && drag_noun2)` — the drag ends and **nothing happens**
+    ([delores-source](../../catalog/delores-source.md)). [verified]
+
+    That is the same branch [default-binding](../../decisions/default-binding.yml) found for unary
+    verbs, taken further: for a unary verb the engine at least declines to offer it, which the player
+    can see. For a binary one there is nothing to offer and nothing to withhold. The design variable
+    above is real and this game does not exhibit it, so it is a question about systems that answer
+    every cell — and the count says how many that is: **50,676 cells, 203 authored**. [verified]
   earns_its_place: |
     **Assessed 2026-09-09. Verdict: yes, and arity is the reason — not meaning.**
 

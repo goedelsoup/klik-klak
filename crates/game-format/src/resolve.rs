@@ -326,7 +326,135 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
 
     dead_writes(game, &mut out);
     unreachable_values(game, &mut out);
+    ambiguous_cells(game, &mut out);
     out
+}
+
+/// A cell of the interaction table: where a binding sits, the verb, and the second object.
+type Cell = (String, String, String);
+
+/// Two bindings written into one cell of the interaction table, where both can hold at once.
+///
+/// [`data-format/interaction-table`] describes the format as *keyed by verb and target, with the
+/// second object as an optional third key*, and until this check the key was a description rather
+/// than a rule: a hotspot could carry `use-with key:` twice and nothing said so. When both guards
+/// can hold in the same state only one of the two can resolve, the author cannot tell which, and
+/// the answer is the order they were typed — which is not something this format promises.
+///
+/// **Two bindings in one cell are not in themselves a defect**, and refusing them outright would
+/// refuse a shape transcribed from a shipped game: `crates/reachability/tests/delegation.rs`
+/// carries a `pick-up` guarded on `not device-seen` beside one guarded on `device-seen`, which is
+/// a response continuing into a description, and exactly one of the two ever applies. So what is
+/// refused is the pair that cannot be told apart.
+///
+/// Disjointness is decided by looking for a contradicting pair of atoms — a flag asserted and
+/// denied, an actor in two rooms, two comparisons on one counter whose satisfying intervals do not
+/// meet. It proves disjointness rather than overlap, so a pair it cannot separate is reported; the
+/// author separates them by writing the guard that says which is which, and that guard is the
+/// thing a second key would have supplied for free.
+///
+/// [`data-format/interaction-table`]: ../../../.yidam/corpus/data-format/interaction-table.yml
+fn ambiguous_cells(game: &Game, out: &mut Vec<Problem>) {
+    let mut seen: BTreeMap<Cell, Vec<(usize, Option<Pred>)>> = BTreeMap::new();
+    for b in &game.bindings {
+        let site = match &b.site {
+            Site::InRoom { room, target } => format!("{room}/{target}"),
+            Site::InConversation {
+                conversation,
+                option,
+            } => format!("{conversation}/{option}"),
+            Site::OnEnter { room } => room.clone(),
+        };
+        let key = (site, b.verb.clone(), b.object.clone().unwrap_or_default());
+        let entry = seen.entry(key.clone()).or_default();
+        if let Some((first, guard)) = entry
+            .iter()
+            .find(|(_, g)| !disjoint(g.as_ref(), b.when.as_ref()))
+        {
+            out.push(Problem {
+                line: b.line,
+                message: format!(
+                    "`{}{}` is already written on `{}` at line {first} and nothing tells the two \
+                     apart — {}, so only one of them can ever resolve and which one \
+                     is the order they were typed in",
+                    b.verb,
+                    b.object
+                        .as_ref()
+                        .map(|o| format!(" {o}"))
+                        .unwrap_or_default(),
+                    key.0,
+                    match (guard, &b.when) {
+                        (None, None) => "neither is guarded".to_string(),
+                        (None, Some(_)) | (Some(_), None) => "one of them is unguarded".to_string(),
+                        _ => "both guards can hold in the same state".to_string(),
+                    },
+                ),
+            });
+        }
+        entry.push((b.line, b.when.clone()));
+    }
+}
+
+/// The atoms of a guard, with `or` refused rather than approximated.
+///
+/// A disjunction is two guards wearing one name, and separating a pair of them wants the cross
+/// product. Nothing in the four specimens writes one in a cell that collides, so this returns
+/// `None` and the caller treats the pair as inseparable — which is the safe direction: it asks the
+/// author for a guard rather than accepting one it did not understand.
+fn atoms(p: &Pred, out: &mut Vec<(bool, Pred)>, sign: bool) -> bool {
+    match p {
+        Pred::And(a, b) => atoms(a, out, sign) && atoms(b, out, sign),
+        Pred::Not(x) => atoms(x, out, !sign),
+        Pred::Or(_, _) => false,
+        atom => {
+            out.push((sign, atom.clone()));
+            true
+        }
+    }
+}
+
+/// The set of values a comparison admits, as an inclusive interval over `i64`.
+fn interval(c: Cmp, n: i64) -> (i64, i64) {
+    match c {
+        Cmp::Eq => (n, n),
+        Cmp::Ne => (i64::MIN, i64::MAX),
+        Cmp::Lt => (i64::MIN, n - 1),
+        Cmp::Le => (i64::MIN, n),
+        Cmp::Gt => (n + 1, i64::MAX),
+        Cmp::Ge => (n, i64::MAX),
+    }
+}
+
+/// Can these two guards be shown never to hold together?
+fn disjoint(a: Option<&Pred>, b: Option<&Pred>) -> bool {
+    let (Some(a), Some(b)) = (a, b) else {
+        return false;
+    };
+    let (mut xs, mut ys) = (vec![], vec![]);
+    if !atoms(a, &mut xs, true) || !atoms(b, &mut ys, true) {
+        return false;
+    }
+    for (sx, x) in &xs {
+        for (sy, y) in &ys {
+            let contradicts = match (x, y) {
+                (Pred::Flag(p), Pred::Flag(q))
+                | (Pred::Carrying(p), Pred::Carrying(q))
+                | (Pred::Chosen(p), Pred::Chosen(q)) => p == q && sx != sy,
+                (Pred::At(p, r), Pred::At(q, s)) => p == q && sx == sy && *sx && r != s,
+                (Pred::Cmp(p, c, m), Pred::Cmp(q, d, n))
+                | (Pred::Count(p, c, m), Pred::Count(q, d, n)) => {
+                    let (lo1, hi1) = interval(*c, *m);
+                    let (lo2, hi2) = interval(*d, *n);
+                    p == q && *sx && *sy && (lo1.max(lo2) > hi1.min(hi2))
+                }
+                _ => false,
+            };
+            if contradicts {
+                return true;
+            }
+        }
+    }
+    false
 }
 
 /// A comparison no value the counter can actually hold will ever satisfy.

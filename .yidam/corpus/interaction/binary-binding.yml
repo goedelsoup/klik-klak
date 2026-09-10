@@ -9,9 +9,29 @@ description: |
 
   The combinatorics are the finding. [inference] A binary verb over n hotspots and m carried
   items has n×m authorable cells, so this shape is where a vocabulary's cost stops being
-  linear. Every engine this corpus has examined responds by making the overwhelming majority
-  of those cells a single shared refusal — which means the *default* is doing more authoring
-  work than the authored content is.
+  linear. This node then said every engine examined here fills the overwhelming majority of those
+  cells with a single shared refusal, and that *the default is doing more authoring work than the
+  authored content is.*
+
+  **The count is right and the corpus had never done it.** Two of this design's six verbs take a
+  second object, so the four specimens are **396 cells and not 252** — the figure
+  `.yidam/decisions/default-binding.yml` computed as 42 sites × 6 verbs — and the authored density
+  is 22.0% rather than 34.5%. [verified] — `crates/reachability/tests/arity.rs`. The same error is
+  in that record's other side and larger: 164 objects against 57 verbs is 9,348 only if none of the
+  57 is binary, and eighteen are. Counted properly it is **50,676 cells with 203 authored — 0.40%**
+  ([delores-source](../../catalog/delores-source.md)). [verified]
+
+  **And the second sentence is refuted by the one engine whose source this corpus holds.** There is
+  no shared refusal in those cells. `_checkVerbValid` returns `NO` for every binary verb, so none is
+  ever offered in a menu; a binary interaction is a drag, and `UIHelpers` walks the binary verb list
+  looking for one the target accepts. If none accepts, `drag_verb` stays null and the drop runs
+  `if (drag_verb && drag_noun2)` — **nothing happens at all.** [verified] Not a line, not a shrug.
+  The 50,473 unauthored cells contain silence.
+
+  So the explosion is real and it is free, because a system that never visits an unauthored cell
+  does not have to have an answer for one. [inference] The combinatorics are a cost only where
+  something must stand in, and `default-binding` established that neither this design nor that
+  engine is such a system. `.yidam/decisions/arity-cost.yml`.
 properties:
   shape: binary
   response: |
@@ -72,11 +92,12 @@ properties:
     fact read by different readers. [inference]
 
     Both `[verified]` claims added to this node rest on a committed test rather than a document, and
-    this node links no catalog entry, so `yidam lint` reports it as `verified-unsourced`. That is
-    the **second** node in this position; the first is
-    [portable-object](../inventory-item/portable-object.yml), and
-    `.yidam/decisions/found-in.yml` records why neither of the fixes the conduct guideline offers
-    applies.
+    for four phases this node linked no catalog entry, so `yidam lint` reported it as
+    `verified-unsourced`. It no longer does, and for the same unearned reason
+    [portable-object](../inventory-item/portable-object.yml) stopped: the description above now
+    cites a source for a different claim, and one citation silences the rule for a whole node. The
+    two claims here are as unsourced as they were. `.yidam/decisions/found-in.yml` names the gap and
+    [counter-flag](../world-flag/counter-flag.yml) is the node still carrying the warning.
 links:
   - target: ../verb/use-with.yml
     relationship: applies
