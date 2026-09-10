@@ -33,7 +33,7 @@ Sorted by: kind, then alphabetically.
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 10v / 7i / 2o | 155 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 45 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 3v / 5i / 0o | 87 |
-| [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 15v / 7i / 1o | 160 |
+| [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 17v / 8i / 1o | 182 |
 | [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 5i / 1o | 72 |
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 2v / 6i / 1o | 69 |
 | [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 0v / 4i / 0o | 62 |
@@ -48,7 +48,7 @@ Sorted by: kind, then alphabetically.
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 0v / 4i / 1o | 36 |
 | [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 10 | 23v / 10i / 1o | 285 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
-| [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 2v / 3i / 2o | 54 |
+| [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 7v / 4i / 1o | 101 |
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 6v / 3i / 1o | 73 |
 | [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 2i / 0o | 34 |
 | [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 5 | 0v / 3i / 1o | 44 |
@@ -61,7 +61,7 @@ Sorted by: kind, then alphabetically.
 | [walk-to.yml](verb/walk-to.yml) | verb | Walk To | 3 | 21v / 10i / 1o | 287 |
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 5v / 3i / 0o | 72 |
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 0v / 2i / 0o | 27 |
-| [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 0v / 3i / 1o | 37 |
+| [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 2v / 4i / 0o | 58 |
 | [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 11v / 5i / 4o | 154 |
 | [object-state.yml](world-flag/object-state.yml) | world-flag | Object State | 2 | 4v / 4i / 1o | 72 |
 <!-- /REGEN -->
