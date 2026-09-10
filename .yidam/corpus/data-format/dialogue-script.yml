@@ -94,9 +94,27 @@ properties:
     exchange rather than being attached to a choice. And **it is unbounded**: anything Dinky can
     do, a brace block can do, including starting threads and quitting the game. [verified]
 
-    Whether the effect side could have been bounded the way the guard side was is not answerable
-    from this artifact — nobody tried. `[open]` It is the sharper form of this corpus's central
-    question, because the guard half now has a demonstrated answer and the effect half does not.
+    Whether the effect side could have been bounded the way the guard side was was called here the
+    sharper form of this corpus's central question, and not answerable from this artifact because
+    nobody tried.
+
+    **It was answered a phase later, by counting the thing nobody tried.** Every effect block in the
+    game was classified alongside the rest of its authored behaviour — 1,328 call sites, 107
+    distinct functions — and the state-writing part of it is **7.3% of the work and ten functions**,
+    of which 120 of 125 sites map onto this design's existing eight effects
+    (`.yidam/decisions/effect-half.yml`). [verified] The 23 `YACK(x) = …` assignments in those brace
+    blocks are `SetFlag` and `SetCounter` at `Scope::Conversation`, which this model already has.
+
+    So the effect side of a bounded dialogue language **could** have been bounded, and the reason it
+    was not is not that anyone hit a limit: two-thirds of what an author writes in a response body
+    is text, sound and animation, and in Dinky those sit in the same list as the state writes,
+    indistinguishable. [inference] The escape hatch is unbounded because the *body* is unbounded,
+    and the body is unbounded because presentation is in it.
+
+    That is the same finding this node reached about its own syntax one level up — "a format that
+    reads like writing is achievable when its scope is one kind of content" — arrived at from the
+    effect side rather than the prose side. The question was sharp and its answer is that the split
+    it asks about is the split `effect-list-semantics` already drew.
 links:
   - target: ../conversation/topic-list.yml
     relationship: encodes

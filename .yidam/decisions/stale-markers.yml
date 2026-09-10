@@ -1,0 +1,74 @@
+id: stale-markers
+summary: >-
+  Six of 29 `[open]` markers had stopped agreeing with the prose under them, one because the answer
+  arrived and nobody moved the marker and one because a later reading contradicted a figure this
+  corpus already held correctly. The durable finding is that an open question is a claim, and this
+  repository checks its claims everywhere except there.
+context: |
+  `puzzle/state-gate` asked for `world-flag.reversible` and received it phases later from an
+  unrelated direction, and the node records the lesson: *"a corpus that reads its own open
+  questions before adding a primitive would have got here first."* That has now happened often
+  enough to be worth acting on rather than noting. This phase read all 29 live markers against what
+  has since been built.
+decision: |
+  **Six retire. Five were stale; one was wrong.**
+
+  | marker | why it goes |
+  |---|---|
+  | `verb/walk-to` residue | its own prose ends "discharged rather than narrowed"; `exit … when … else` is built and tested |
+  | `data-format/dialogue-script` | `effect-half` counted the thing it said nobody tried |
+  | `interaction/default-binding` | all four scopes answered directly below the marker |
+  | `subsystem/interaction-resolver` | pointed at another node's open, which closed |
+  | `interaction/binary-binding` | its condition was met and its conclusion does not follow |
+  | `interaction/entry-binding` | the count it rested on was wrong |
+
+  **The wrong one is the one worth recording.** `entry-binding` said Delores has "no `triggerLeave`
+  body at all". There are 13, against 11 `triggerEnter`. The search was for `triggerExit`, a name
+  that engine does not use, and the pattern was OR'd with `triggerEnter` so every hit came back
+  looking like a hit. **`verb/walk-to` had carried the correct "11 and 13" for two phases**, and
+  after the bad reading the catalog held both figures in one file and disagreed with itself.
+
+  **`binary-binding` resolves rather than retires.** It said that if effects were ever checked
+  rather than read, a binding's `response` would be two properties and `interaction.ont.yml`
+  describes a world in which it is one. Effects are checked three ways now and the model keeps no
+  response text at all — so the condition is met, and the conclusion still does not follow. In
+  every engine read here the effect list and the presentation list are the same list, so a class
+  describing what a binding does when it resolves is describing one thing. The split is this
+  design's decision and the unusual choice, not a correction, and the ontology now says so where
+  somebody would otherwise read it as an oversight.
+rationale: |
+  **An open question is a claim and gets none of the treatment a claim gets here.** `[verified]`
+  wants a source and a linter checks it. `[inference]` is expected to be argued. A REGEN block goes
+  stale and the gate refuses the build. A test pins a specimen's figures and goes red when they
+  move. Nothing anywhere notices that a question has been answered — the marker sits there being
+  true-looking, and `yidam due` counts it as owed work.
+
+  Five of the six were **already answered in the same file, usually in the paragraph immediately
+  below**. That is the cheap and slightly embarrassing shape of it: nothing was lost or forgotten,
+  the prose was updated and the marker was not, and a reader arriving at the node is told a
+  question is open by one sentence and closed by the next.
+
+  **The sixth is the expensive shape, and it has a specific cause.** A grep for the wrong identifier
+  came back with hits — because it was OR'd with a name that does exist — and the zero was read as
+  a finding rather than as a search that had failed. `AGENTS.md` already says to re-read the source
+  at the point of inference; what this adds is that **the corpus is a source too**. The correct
+  figure was two files away, in a node about the same engine, written by an earlier phase of the
+  same work. Checking the claim against the repository would have cost one grep and would have
+  caught it.
+
+  The correction improved the finding, which is the usual outcome here. "Departure is offered and
+  nobody uses it" was a tidy verdict resting on a bad number. What is true is that departure is
+  vestigial at the room level and load-bearing at the region level, and the reason is structural:
+  you leave a room by arriving somewhere else, so the destination's arrival hook can do the work,
+  and you leave a region while standing exactly where you are, so nothing else fires. [inference]
+  The shape that needs it is the one this vocabulary does not have.
+
+  **Two smaller things the sweep turned up.** `interaction/default-binding` still carried the
+  pre-recount "164 objects" in the fill-rate arithmetic that the previous phase corrected in three
+  other nodes — a fourth copy, found by reading rather than by grep, which is `duplication.yml`
+  again. And four `verified-unsourced` warnings became two by citing the sources the claims
+  actually rest on; of the two that remain, `world-flag/counter-flag` now explains itself. Its
+  `[verified]`s rest on committed assertions in `crates/` and on no document, so the linter sees a
+  node with no source. **The strongest evidence this corpus can produce about its own language is
+  the kind its own tag vocabulary cannot express**, and that is `found-in.yml`'s open arriving with
+  a cost rather than a preference.

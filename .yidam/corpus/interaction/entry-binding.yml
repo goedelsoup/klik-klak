@@ -75,18 +75,37 @@ description: |
   remaining six are one room's: SheriffsOffice checks where two non-player actors are as the player
   leaves and either resets a puzzle or puts the sheriff back on his spot.
 
-  So the twin is real, symmetric, offered, and **almost unused** — and the same shape repeats one
-  level down, where a trigger region may carry `triggerEnter` or `triggerLeave` and
-  `enableTrigger` takes `TRIGGER_ENTER|TRIGGER_LEAVE`: the game has **11 `triggerEnter` bodies and
-  no `triggerLeave` body at all**. [verified] Two independent places where an engine offered
-  departure alongside arrival and the authors wrote arrival.
+  So the room-level twin is real, symmetric, offered, and **almost unused**.
 
-  **The reason is legible in the one exception.** Leaving a room is the last moment an author can
-  repair the world before it stops being observable, and that is what SheriffsOffice uses it for.
-  It is a *convenience about when code runs*, not a relationship an interaction can author — which
-  is the test `effect-half` established for whether something belongs in the effect vocabulary.
-  [inference] This vocabulary should not add it, and the evidence is that the people who had it
-  reached for it six times in a whole game, mostly to turn sounds off.
+  **One level down it is the other way round, and this node said the opposite.** A trigger region —
+  an area within a room — may carry `triggerEnter` or `triggerLeave`, and `enableTrigger` takes
+  `TRIGGER_ENTER|TRIGGER_LEAVE`. The game has **11 `triggerEnter` bodies and 13 `triggerLeave`
+  bodies**, across six rooms ([delores-source](../../catalog/delores-source.md)). [verified] At the
+  region level departure is written *more often* than arrival.
+
+  This node recorded that as "no `triggerLeave` body at all", from a search for `triggerExit` — a
+  name that engine does not use — and [walk-to](../verb/walk-to.yml) had already carried the
+  correct 11 and 13 for two phases. The corpus knew and was not consulted.
+
+  **The correction is what makes the finding, because the two levels differ for a reason.** You
+  leave a *room* by arriving somewhere else, so the destination's `enter` can do any work that
+  needs doing and the departure hook is mostly redundant — which is why 14 of 20 are empty and 11
+  of the 15 statements in the rest turn sounds and images off. You leave a *region* while staying
+  exactly where you are, and nothing else fires: SheriffsOffice's four pairs are `in_trigger = YES`
+  on entering and `in_trigger = NO` on leaving, which is a boolean that cannot be maintained any
+  other way. [inference]
+
+  So departure is not uniformly vestigial. It is vestigial where something else already runs, and
+  load-bearing where nothing does — and the shape that needs it is the one this vocabulary does not
+  have, which is a region inside a room rather than the room itself.
+
+  **What that means for `exit` here is unchanged.** At the granularity this class works in, leaving
+  a room is the last moment an author can repair the world before it stops being observable, and
+  that is what SheriffsOffice's room-level `exit` is used for. It is a *convenience about when code
+  runs*, not a relationship an interaction can author — the test `effect-half` established.
+  [inference] This vocabulary should not add a room-level `exit`, and the evidence is that the
+  people who had one reached for it six times in a whole game, mostly to turn sounds off. The
+  region-level case is a different question and belongs to whatever weighs the trigger.
 properties:
   shape: none
   response: |

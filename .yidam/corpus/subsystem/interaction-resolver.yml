@@ -29,8 +29,18 @@ properties:
     reads, which is what makes it testable without a running game.
   authoring_visibility: |
     Indirect. An author never configures this component; they configure the table it reads.
-    The one thing it exposes is default scoping, which is `[open]` in the vocabulary and
-    would become a real configuration surface if it were settled.
+    The one thing it exposes is default scoping, and this node recorded it as open in the
+    vocabulary — *"would become a real configuration surface if it were settled"*.
+
+    **It is settled, and the configuration surface it would have become does not exist.** Defaults
+    scope by **entity kind × verb** and by nothing else — `unhandled_event(int what, int type)`
+    ([ags-manual](../../catalog/ags-manual.md)) — and the branch of the question that mattered
+    turned out to be conditional on an interface this design has never specified: an engine that
+    builds its verb menu from the target offers no unauthored pair at all, so there is nothing for
+    a default to stand in for ([delores-source](../../catalog/delores-source.md)). [verified] See
+    [default-binding](../interaction/default-binding.yml) and
+    `.yidam/decisions/default-binding.yml`. This component's exposure is therefore
+    whatever the interface decides, which is not a knob on the resolver.
 links:
   - target: ../interaction/unary-binding.yml
     relationship: realizes

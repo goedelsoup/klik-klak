@@ -19,12 +19,33 @@ properties:
     recording that it happened. The write is what makes the binding matter beyond the
     moment: without it the same binding resolves identically forever.
 
-    **[open] Folding the two into one property may not survive.** A bounded effect vocabulary is
+    Folding the two into one property may not survive, this said. A bounded effect vocabulary is
     a closed list and authored prose is not one, so a specimen written in the proposed language
     splits every binding into a `say` and a `do`
     ([design/specimen](../../../design/specimen/README.md)). [inference] If effects are ever
     to be checked rather than read, this property is two properties, and `interaction.ont.yml`
     describes a world in which it is one.
+
+    **The condition is met and the conclusion does not follow, which is the interesting half.**
+    Effects are checked now, three ways: an exhaustive match holds every variant to a declared
+    relationship, `dead_writes` refuses two writes to one slot in a list, and `unreachable_values`
+    refuses a guard no holdable value satisfies (`crates/game-format`). [verified] And the model
+    went further than a split — `Binding` carries `effects` and **no text at all**, so this
+    corpus's instrument does not merely separate saying from doing, it discards the saying.
+
+    **But `interaction.ont.yml` is not wrong to describe one property, because the world it
+    describes has one.** `.yidam/decisions/effect-half.yml` established that in every engine read
+    here the effect list and the presentation list are *the same list*: in Dinky a response body
+    puts `sayLine`, `playAnimation`, `breaktime` and `pickupObject` side by side, indistinguishable,
+    and 1,328 call sites were classified before the state writes could be separated out at 7.3%
+    ([delores-source](../../catalog/delores-source.md)).
+    A class describing what a binding does when it resolves is describing that.
+
+    So the split is **this design's decision and not a correction to the ontology** — and it is the
+    unusual choice rather than the natural one, which is worth having written down where somebody
+    might otherwise read the ontology as an oversight. [inference] What the property should say is
+    that the two are one in practice and separable in principle, and where they were separated,
+    what it bought.
   precondition: |
     The item is carried, the target is present, and any gating flag holds. [inference] The
     first two are structural and enforceable by the format; only the third is authored, which

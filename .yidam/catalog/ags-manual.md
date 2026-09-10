@@ -24,6 +24,8 @@ used-by:
   - ../corpus/conversation/topic-list.yml
   - ../corpus/data-format/interaction-table.yml
   - ../corpus/interaction/entry-binding.yml
+  - ../corpus/data-format/dialogue-script.yml
+  - ../corpus/subsystem/interaction-resolver.yml
   - ../corpus/verb/use-with.yml
   - ../corpus/verb/give-to.yml
   - ../corpus/verb/look-at.yml

@@ -43,6 +43,15 @@ description: |
   distinguishes a counter from the booleans this node worried it collapses into: three latched
   booleans have no successor relation to derive. [inference]
   `.yidam/decisions/named-condition.yml`.
+
+  **This node now trips `verified-unsourced`, and the warning is correct and is about the tags
+  rather than about the claims.** Both `[verified]`s above rest on committed assertions in
+  `crates/` — a test that can be run and a check that refuses — and neither rests on a document,
+  so a node that cites no catalog source is what the linter sees. This is the gap
+  `.yidam/decisions/found-in.yml` names, arriving with a cost attached instead of a preference:
+  the strongest evidence this corpus can produce about its own language is the kind its own tag
+  vocabulary cannot express. [inference] Nothing is changed here; the vocabulary lives in the
+  read-only prelude.
 properties:
   domain: integer
   scope: global

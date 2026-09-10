@@ -180,7 +180,8 @@ properties:
     invention it was described as, and is the reason the residue below is worth more than a tidy
     verdict would have been.
 
-    **What `connects-to` does not have is the interesting residue, and it is `[open]`.** One of the
+    **What `connects-to` does not have was the interesting residue.** It is discharged below — the
+    marker stayed here for two phases after the prose under it stopped agreeing with it. One of the
     six sites is guarded and refuses:
 
         walk-to:
@@ -275,7 +276,7 @@ properties:
     wanting arrival wanted it at two granularities — a room, and a place within a room — and that
     only the first had been built here. Delores has the second: `Templates/TRIGGERNAME.dinky`
     declares `triggerEnter(actor)` and `triggerLeave(actor)`, and the game uses 11 and 13 of them
-    across four rooms. [verified] A region within a room, entered and left, with the actor passed
+    across six rooms. [verified] A region within a room, entered and left, with the actor passed
     in. It is a separate object kind rather than a verb, which is the same answer this corpus
     reached for `on-enter` one granularity up.
 links:

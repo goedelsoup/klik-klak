@@ -11,7 +11,9 @@ description: |
   content in a game and the one most often written once and forgotten. A vocabulary that
   gives it no first-class place is a vocabulary whose most-used response is an afterthought.
   Whether defaults should be authorable per room, per verb, per hotspot category, or only
-  globally is `[open]` and this corpus has no node arguing any of the four.
+  globally was the question here, and all four are answered below — three from a system that offers
+  them and the fourth by dissolving. The marker stayed on the question for several phases after the
+  prose under it stopped agreeing.
 
   **Three of the four now have an answer, from AGS, and it is not the one this node guessed.**
   `unhandled_event(int what, int type)` scopes a default by **entity kind × verb** and by nothing
@@ -32,9 +34,11 @@ description: |
   own verb slots and a verb whose precondition fails is removed from it, so no unauthored pair is
   reachable and nothing needs to stand in ([delores-source](../../catalog/delores-source.md)).
   [verified] The premise above — that the default handles the great majority of what a player
-  triggers — is true where every cell is reachable and is a fact about **vocabulary size**: 164
-  objects against 57 verbs is 2.17% authored, and this design's four specimens are 42 sites against
-  six verbs, 34.5%. [verified] A conclusion drawn at 57 verbs does not transfer to six.
+  triggers — is true where every cell is reachable and is a fact about **vocabulary size**: 160 live
+  object declarations against 57 verbs is 2.2% authored, and this design's four specimens are 42
+  sites against six verbs, 34.5%. [verified] A conclusion drawn at 57 verbs does not transfer to
+  six. (The figure read 164 and 2.17% until the object count was recounted; four of the 164 are
+  commented-out declarations.)
   `.yidam/decisions/default-binding.yml`.
 
   The manual also states this node's premise in the AGS authors' own words, which matters because
@@ -45,8 +49,10 @@ description: |
 properties:
   shape: unary
   response: |
-    The verb's own default text, unless something narrower is in scope. What "narrower"
-    means is the open question above.
+    The verb's own default text, unless something narrower is in scope. What "narrower" can mean is
+    settled above and is **entity kind × verb** — the taxonomy the engine has, not one an author
+    defines. Per-hotspot is authoring; per-room would make the room a third key on a table that has
+    two.
   precondition: |
     That no authored binding matched. This is the only precondition in the vocabulary that
     is about the *content* rather than about the world, which is itself a hint that this node
