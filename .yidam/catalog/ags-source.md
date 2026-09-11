@@ -16,6 +16,7 @@ used-by:
   - ../corpus/prior-art/ags.yml
   - ../corpus/data-format/interaction-table.yml
   - ../corpus/interaction/binary-binding.yml
+  - ../corpus/subsystem/response-presenter.yml
 ---
 
 **This is a source of record and it is the strongest one this corpus holds.** It is the AGS
