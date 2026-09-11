@@ -298,9 +298,16 @@ artifact they compose into. Noted rather than proposed — and noted more carefu
 
 ## Using them as fixtures
 
-**158 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
+**161 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
 thirty-eight for six phases; the figure was never derived from anything and is held by a check now
 (`crates/design-gate/tests/watermark.rs`).
+
+**And three of them are here to say what these games could not have shown.**
+`crates/game-format/tests/declared.rs` counts the eleven items across the four and finds every one
+reached by a binding — not because the games were written that way but because an item in this
+format is a name and a ceiling, so no specimen however authored could have produced the
+counterexample [`portable-object`](../../.yidam/corpus/inventory-item/portable-object.yml) asked a
+fifth specimen for. `.yidam/decisions/declared-reach.yml`.
 
 - **lighthouse, winnable** — and **unwinnable by consumption** if the oil goes into the hinge.
 - **ferry, winnable** — and **unwinnable by ordering** if the river is crossed without the

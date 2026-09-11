@@ -5,7 +5,7 @@
 //! nothing** — continuations of passages sourced earlier, which is how anyone writes.
 //!
 //! What follows from it is a fragility nobody had counted. **Fifteen of the thirty-nine evidenced
-//! nodes rest on exactly one distinct catalog entry, and twelve of those on a single line.** Delete
+//! nodes rest on exactly one distinct catalog entry, and eleven of those on a single line.** Delete
 //! that line and the node trips `verified-unsourced`; the claims are unchanged. That is the same
 //! node-granularity `evidence-kinds` found adding a line to silence `boolean-flag` and
 //! `counter-flag` — **it cuts both ways, and neither direction has anything to do with whether the
@@ -110,12 +110,12 @@ fn the_evidence_base_of_fifteen_nodes_is_a_single_source() {
     }
     assert_eq!(
         (evidenced, one_entry, one_line),
-        (39, 15, 12),
+        (39, 15, 11),
         "nodes with a verified claim; of those, resting on one catalog entry; of those, on one line"
     );
     assert_eq!(
         (held, carried),
-        (87, 40),
+        (89, 40),
         "claims those sixteen carry, and how many name nothing in their own paragraph"
     );
 }
@@ -162,14 +162,13 @@ fn one_line_is_the_difference_between_sourced_and_not() {
         }
         flipped.push(name(&root, &p));
     }
-    assert_eq!(flipped.len(), 12);
+    assert_eq!(flipped.len(), 11);
     assert_eq!(
         attributed,
         [
             "failure-mode/unwinnable-state.yml",
             "interaction/conversational-binding.yml",
             "interaction/unary-binding.yml",
-            "inventory-item/portable-object.yml",
             "inventory-item/stackable-item.yml",
             "prior-art/sierra-sci.yml",
             "walkbox/scaled-polygon.yml",
