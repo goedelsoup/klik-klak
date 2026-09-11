@@ -1,0 +1,98 @@
+id: engine-directory
+summary: >-
+  The engine gets a top-level `engine/`, which AGENTS.md has been pointing at since before there
+  was anywhere to point — *"a renderer does not belong in `crates/`"*. The rule it relaxes is that
+  it holds material making no claims at all, so the tags cannot protect it; the rule it does not is
+  that it may not invent a subsystem. Its gate is the same derivation `design/` has, one tier down:
+  every module names a `subsystem` the corpus declares, and the subsystems nothing implements are
+  pinned rather than reported.
+context: |
+  `directories.md` asks three things of a new top-level directory: what rule it does not get to
+  relax, a decision record, and a gate. [design-directory](design-directory.yml) answered all three
+  for `design/` and is the worked precedent.
+
+  **This one was anticipated.** AGENTS.md has carried the hazard since early:
+  *"the subject of study is a Rust program, and `crates/` also holds Rust. They are different
+  things… The engine under study is described by `subsystem` and `data-format` nodes, and its code,
+  when it exists, is not the corpus's to hold. A renderer does not belong in `crates/`."* What was
+  missing was a place for it to belong to.
+
+  The corpus is ready for one in a way it was not for `design/`.
+  [interaction-resolver](../corpus/subsystem/interaction-resolver.yml) declares what it realizes
+  and what it depends on; [room-manifest](../corpus/data-format/room-manifest.yml) has run three
+  candidate geometry checks against 22 shipped rooms and found none of them is the check it looks
+  like; [save-state](../corpus/data-format/save-state.yml) carries AGS's positional-keying flaw.
+  [response-presenter](../corpus/subsystem/response-presenter.yml) closed the last gap in the tier
+  one commit ago.
+decision: |
+  **`engine/` at the top level, holding the engine this corpus describes.**
+
+  **The rule it relaxes: it holds material that makes no claims.** Every other directory here is
+  prose that asserts something — a corpus node, a record, a catalog entry, a design document — and
+  every one carries `[verified]`, `[inference]` or `[open]`. Code asserts nothing and carries no
+  tag. That is not a relaxation of the tag discipline so much as an exit from it, and it is worth
+  stating plainly: **the three tags cannot protect this directory**, which is why the gate below is
+  a different kind of check from either of the other two.
+
+  This is a sharper relaxation than `design/`'s. A proposal may assert intent and is still held to
+  provenance; code is outside the scheme entirely.
+
+  **The rule it does not relax: it may not invent a subsystem.** A module that implements one
+  declares `realizes: subsystem/<name>` in its first ten lines — markdown front matter or a `//!`
+  doc comment — and the gate fails when the corpus declares no such node. The failure is
+  deliberately ambiguous in the way
+  [design-directory](design-directory.yml) made `derives_effects_from:` ambiguous: **either the
+  module is a component the corpus has not described, or the corpus is missing one the engine has
+  just discovered it needs. Both are findings. Silence is not available.**
+
+  **The gate is the derivation, and its first output is a roadmap.** Four `subsystem` nodes are
+  declared and nothing implements any of them. That list is **pinned** rather than reported — a
+  standing INFO naming four unbuilt components would be [inert-reports](inert-reports.yml)'s line
+  that everybody learns to scroll past, whereas an assertion fails the moment the list changes
+  without anybody saying why. `crates/design-gate/tests/engine.rs`, and `mise run engine-check`.
+
+  **The gate lives in `crates/design-gate`, whose name is now narrower than its job.** That crate
+  gates every directory derived from the corpus, and it is called after the first one.
+  [design-directory](design-directory.yml) deferred the same kind of question by writing the
+  condition down, so: **rename it when a third derived directory needs gating, or when the engine's
+  gate stops being able to share `design-gate`'s corpus readers.** Not before — the crate is cited
+  by path in thirty-odd committed records, and `crates/design-gate/tests/records.rs` checks every
+  one of those paths resolves.
+rationale: |
+  **The directory has to exist before the first module, and that is the whole reason to spend a
+  phase on it.** A component written into `crates/` for a week and moved afterwards is a week of
+  commits that say the wrong thing about what this repository holds, and this repository's own
+  AGENTS.md calls conflating the two *"the hazard most do not have"*. The cost of getting it right
+  first is one record; the cost of getting it wrong is a rewrite of history nobody performs.
+
+  **`game-format` stays in `crates/` and that is the loose end.** The engine will need to parse
+  `.game` files and so does the checker, so the parser is shared infrastructure rather than an
+  instrument — and it sits under `crates/` because `crates/` was the only Rust that existed when it
+  was written. [inference] The strict reading of AGENTS.md puts `game-format` and `reachability` on
+  the wrong side already: neither queries the corpus, both read specimens, and
+  [specimen-placement](specimen-placement.yml) established that a specimen is a design artifact.
+  **The condition for moving it:** when `engine/` depends on it and the cross-workspace path
+  dependency is what makes somebody look, or when the two workspaces want different toolchains.
+  Writing the condition down is what makes this a deferral rather than a drift.
+
+  **`engine/` holds no code in this phase, deliberately.** It gets its contract and its gate, and
+  the first module is the next phase's work. A directory created with a stub inside it is a
+  directory whose first commit is a lie about progress; a directory created with a live gate over
+  nothing is an honest statement that the place exists and the rules are set. The gate is not
+  vacuous either — its pinned half already names the four components the corpus has specified and
+  nothing has built.
+
+  **What the gate cannot catch, stated because a gate mistaken for complete is worse than none.**
+  It checks that a module names a subsystem the corpus declares. It cannot check that the module
+  *is* that subsystem, that it does what the node says it is answerable for, or that the node is
+  still right. That is the same limit `design/README.md` states about `rests_on:` — the check
+  verifies a name resolves, not that the thing behind it still says what the code thought — and it
+  is the same remedy: [second-document](second-document.yml)'s watermark is available here the day
+  a module's behaviour starts resting on a node's prose.
+
+  **What this does not settle.** Whether the engine is one workspace or several, and whether it
+  shares CI with `crates/`. The `mise` tasks here have a no-op-until-it-exists idiom from when
+  `crates/` was deferred and it is reused rather than redesigned, so the shape is inherited from a
+  decision about a different directory. That was cheap and it is not evidence the shape is right:
+  an engine with a renderer will want a toolchain, a target list and probably a feature matrix that
+  a corpus-querying workspace has no opinion about. `[open]`
