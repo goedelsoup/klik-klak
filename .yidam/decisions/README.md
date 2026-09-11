@@ -109,6 +109,10 @@ does not re-emit it.
 
 - **:102** — **What this does not settle.** Whether a save should hold anything a predicate cannot read. There is one candidate and it is not hypothetical: a player's position *within* a room, which [path-solver](../corpus/subsystem/path-solver.yml) owns and no predicate in this vocabulary can ask about. The sta…
 
+### [schema-deferral](schema-deferral.yml)
+
+- **:90** — **What this does not settle.** Whether the corpus should count deferrals at all. This record found four instances of one question by matching a phrase, which worked because the four happened to reach for the same words — and `marker-count`'s question, the one still refused, is exactly the machinery …
+
 ### [testimony](testimony.yml)
 
 - **:68** — **What this does not settle.** Whether testimony and artifact should carry different evidence standing. The prelude is explicit that `[verified]` is about provenance rather than confidence, and a diary entry is a committed source in exactly the way a header file is; `measured-width` quotes Gilbert's…
@@ -125,7 +129,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**31 open.**
+**32 open.**
 
 ## What nothing cites
 
@@ -140,5 +144,6 @@ nodes, at four times the rate, and it had never been looked at.
 - [effect-vocabulary](effect-vocabulary.yml)
 - [evidence-kinds](evidence-kinds.yml)
 - [name-scoping](name-scoping.yml)
+- [schema-deferral](schema-deferral.yml)
 - [specimen-placement](specimen-placement.yml)
 - [threshold-trigger](threshold-trigger.yml)

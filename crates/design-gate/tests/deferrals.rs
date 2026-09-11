@@ -125,7 +125,9 @@ fn the_same_refusal_is_written_four_times() {
     let mut deferring = Vec::new();
     for p in records(&root) {
         let src = std::fs::read_to_string(&p).expect("readable");
-        if src.contains("schema change") {
+        // the record that settles this reaches for the phrase too, and a record cannot be
+        // evidence of its own subject — the partition `reach.rs` needed for the same reason
+        if src.contains("schema change") && stem(&p) != "schema-deferral" {
             deferring.push(stem(&p));
         }
     }

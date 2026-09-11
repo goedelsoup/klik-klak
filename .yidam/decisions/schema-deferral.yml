@@ -1,0 +1,90 @@
+id: schema-deferral
+summary: >-
+  One refusal has been written four times and two of the four say it has expired. Separated, it is
+  three questions: prose has no schema and should not get one, the ontology cannot state facts about
+  itself and now can, and one is blocked in a read-only prelude and had been counted with the rest.
+  Two open questions close on a field each — `tier:` on a class, `derived:` on an edge — and what
+  they buy is a parser retired rather than a capability added.
+context: |
+  Four decision records decline a change with the same phrase — *a schema change to prose that has
+  none*, or its variant *marking X would be a schema change*. [verified] —
+  `crates/design-gate/tests/deferrals.rs`.
+
+  Two of the four quote the rule that says the refusal has expired.
+  [prose-edges](prose-edges.yml) at instance two: *"the second question of that exact shape, and
+  the corpus's own rule says the second instance is when to look again."*
+  [drawn-boundary](drawn-boundary.yml) at instance four: *"that was two instances ago."*
+  **The rule has been cited more often than it has been followed**, which is a failure with a name
+  here — [stale-markers](stale-markers.yml)'s *"nothing anywhere notices that a question has been
+  answered"*, in the variant where what nothing notices is a question coming due.
+
+  What nobody did is separate them.
+decision: |
+  **Three questions, three answers, and only the middle one changes anything.**
+
+  **1. Prose has no schema and keeps none.** [marker-count](marker-count.yml) wants a back-link
+  from a marker to the record that answered it; [prose-edges](prose-edges.yml) wants a declared
+  citation syntax. Both are still refused, and the reason is now stateable rather than reflexive:
+  **a schema is worth its cost when a reader would use it, and both of these have a reader that
+  already works without one.** Every citation in the corpus resolves under four spellings against
+  three bases — `edges.rs` reads all of them — and `markers.rs` counts every live question under a
+  convention nobody declared. The schema would buy tidiness, and the thing it would cost is the
+  freedom to write a sentence.
+
+  **2. The ontology could not state a fact about itself, and now can.** Two fields:
+
+  | field | on | says |
+  |---|---|---|
+  | `tier: authoring \| engine \| comparative` | a class definition | which of the three tiers `ontology.yml` argues this class into |
+  | `derived: true` | an edge in an `edges:` block | this relationship is real and no author writes it |
+
+  **What they buy is a parser retired, not a capability added.** `reach.rs` was reading
+  `ontology.yml`'s *prose* — tracking indentation, skipping a gloss that wraps onto a second line —
+  to recover which classes are in the authoring tier. That parser existed because the fact had
+  nowhere else to live, it was written in the phase that needed the fact, and it is the whole cost
+  of the deferral made visible. [found-in](found-in.yml)'s question closes the same way:
+  `inventory-item -found-in-> room` is real, is derived from `carried-form-of`, and
+  `game_format::resolve` already refuses an author who writes it wrong.
+
+  **3. `action-pages`'s question is not one of these and stops being counted with them.** A typed
+  `claim_tag` is the prelude's own named remedy and does not work in the pinned build — the
+  declaration unions with the byte scan, so it can only add. That is not a deferral. It is a defect
+  in a vendored binary this repository is forbidden to edit, and the difference matters because a
+  deferral can be revisited and this cannot.
+rationale: |
+  **The threshold was the wrong instrument and that is why nothing fired.**
+
+  *The second instance is when to look again* is a good rule and it was applied to a category that
+  is not a thing. Counting instances of *"I wish there were a schema"* mixes a request this
+  repository can satisfy in one line with one it cannot satisfy at all, so the count rose to four
+  while the number of **actionable** instances rose to two — and two was the threshold. The rule
+  fired and the tally it was reading could not say so. [inference]
+
+  **Adding the fields cost nothing to find out and that is itself the finding.** `tier:` on a class
+  definition was tried before it was decided: `graph-check`, `lint` and `query` all accept it
+  without complaint, because the prelude's parser keeps unknown keys deliberately — its own note
+  records that closing the node shape rejected *"117 nodes of 117"* in a derived repository, and
+  that dropping unknown keys silently costs 21.8% of a node's bytes against 50.5% across the
+  population. **The schema was open the whole time.** Four records deferred a change to a
+  vocabulary that would have accepted it, and none of the four checked.
+
+  **What the check holds is the agreement rather than the field.** `ontology.yml` is where the
+  three tiers were argued and it stays the authority; `deferrals.rs` reads both the prose and the
+  declarations and fails when they disagree, so the field is a convenience the record governs
+  rather than a second source of truth. That is the shape [record-layer](record-layer.yml) refused
+  for the decision records and the reason is the same: two tallies of one thing under different
+  rules is how [verb-count](verb-count.yml) disagreed with itself for six phases.
+
+  **`derived:` has one instance and the honest thing is to say so.** `found-in` declined at one
+  instance on the corpus's own rule — *a thing earns its place by being what the vocabulary cannot
+  say* — and that reasoning was right about a **primitive** and wrong about an **annotation**. A
+  primitive with one instance is a guess about what authors need. A field with one instance is a
+  place for the second to go, and the cost of not having it is that the second becomes a fifth
+  record about a schema. [inference]
+
+  **What this does not settle.** Whether the corpus should count deferrals at all. This record
+  found four instances of one question by matching a phrase, which worked because the four happened
+  to reach for the same words — and `marker-count`'s question, the one still refused, is exactly
+  the machinery that would have made the count reliable: a marker that named the record it was
+  deferred from would make *"how many times has this been put off"* a query rather than a grep.
+  Refusing it means the next recurrence is found the way this one was, by somebody noticing. `[open]`
