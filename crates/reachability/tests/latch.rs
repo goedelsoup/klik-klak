@@ -45,7 +45,10 @@ fn load(src: &str) -> game_format::Game {
     g
 }
 
-/// **The reverse gear exists and has never been used.** `clear` is one of the eight effects the
+/// **The reverse gear exists and has never been used**, and `crates/game-format/tests/coverage.rs`
+/// now holds that as a count rather than an observation: zero authored sites in four specimens,
+/// against three commands AGS spent on the same direction (`.yidam/decisions/forty-eight.yml`).
+/// `clear` is one of the eight effects the
 /// format admits, and across 662 authored lines it appears zero times: every flag in this corpus
 /// is one-way in fact.
 ///

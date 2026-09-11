@@ -13,6 +13,11 @@
 //!
 //! A change here is not a failure. It is a signal that `.yidam/decisions/escape-hatch.yml` needs
 //! reading again, which is the whole reason the figures are pinned rather than described.
+//!
+//! **How much of this surface anyone has written is a different number, and it is in
+//! `coverage.rs`.** Six constructs have never been authored and ten more exactly once, so two
+//! fifths of the fifty has been reached for twice or fewer. A size and a coverage are different
+//! claims; this file only ever held the first. `.yidam/decisions/unwritten.yml`.
 
 use game_format::{Cmp, Effect, Kind, Pred, Site};
 

@@ -148,11 +148,15 @@ does not re-emit it.
 
 - **:78** — **What this does not settle.** The rule is now applied by hand in five places and nothing checks that a sixth obeys it. That is the original question returning one level up: `observed-state` asked for a check that fails when an unreadable component is added, and what exists is five components each b…
 
+### [unwritten](unwritten.yml)
+
+- **:96** — **What this does not settle.** Whether the two withdrawn constructs were withdrawn for this reason or in spite of it. `escape-hatch` records two withdrawals and the coverage of the surface at the time is not recoverable — `coverage.rs` reads the specimens as they stand, and a construct's history of …
+
 ### [verb-menu](verb-menu.yml)
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**37 open.**
+**38 open.**
 
 ## What nothing cites
 
@@ -163,10 +167,9 @@ nodes, at four times the rate, and it had never been looked at.
 - [binding-axes](binding-axes.yml)
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
-- [forty-eight](forty-eight.yml)
-- [inward-turn](inward-turn.yml)
 - [name-scoping](name-scoping.yml)
 - [specimen-placement](specimen-placement.yml)
+- [unwritten](unwritten.yml)
 
 ## What each record rests on
 
