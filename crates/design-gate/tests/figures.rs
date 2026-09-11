@@ -1,7 +1,7 @@
 //! **The corpus's largest block is a property, and the record that collected its verdict has the
 //! verdict's headline figure wrong.**
 //!
-//! `data-format/interaction-table.escape_hatch` is **472 lines — 10% of every block in the corpus,
+//! `data-format/interaction-table.escape_hatch` is **484 lines — 10% of every block in the corpus,
 //! and 2.1× the next largest**. It carries two `---` horizontal rules, which is the tell: an
 //! author reaching for a section break inside a YAML scalar is an author whose field has stopped
 //! being one field.
@@ -152,7 +152,7 @@ fn the_largest_block_in_the_corpus_is_a_property() {
     assert_eq!(
         (b[0].0, b[0].1.as_str()),
         (
-            472,
+            484,
             "data-format/interaction-table.yml  properties.escape_hatch"
         )
     );

@@ -476,6 +476,18 @@ properties:
     That is the measurement this node had been asserting. **The gap is real and it is exactly one
     thing: composition.** Predicates over world state are not what AGS lacked; combining them is.
 
+    **Half of that sentence is measured and half is not, and it reads as though both were.** What
+    was counted is AGS: no `or`, no grouping, no negation, no comparison beyond equality, in a
+    forty-eight-entry table read from the source. What this design *does* with composition was
+    never counted. Counted, across every game anyone has written in it, the binary connectives
+    appear **once** — one `and`, no `or` — while `not` is used ten times and is unary. [verified]
+    — `crates/game-format/tests/coverage.rs`, `.yidam/decisions/unwritten.yml`.
+
+    So the gap is real as a fact about AGS and is an argument as a claim about the remedy. Either
+    four small specimens are too little authoring to need a second conjunct, or a puzzle guard in
+    this form is usually one condition — which is what AGS's nesting-yields-conjunction structure
+    assumed, and is the reading nobody here has looked for evidence against. [inference]
+
     **The other forty-one were a number in a sentence until they were transcribed**, and the table
     is now recorded in full in [the catalog entry](../../catalog/ags-source.md) rather than here,
     because a source's contents belong with the source. Partitioned, it is seven predicates, three
