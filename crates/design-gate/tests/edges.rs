@@ -224,19 +224,20 @@ fn class_of(root: &Path) -> BTreeMap<String, String> {
 /// **Nothing in the corpus checks that a path written in prose points at anything.**
 ///
 /// `design-gate` has resolved every link in `design/` since it was a shell script, and the corpus
-/// — the thing `design/` derives *from* — has never had the same check. 188 references across 42
+/// — the thing `design/` derives *from* — has never had the same check. 191 references across 42
 /// nodes and 12 class definitions, and the reason none of them is broken is luck plus a small
-/// number of hands.
+/// number of hands. The first thing it caught was a reference written by the commit that added it,
+/// to a decision record one commit in the future.
 ///
 /// **The three bases are why no tool was ever written for it.** A reference resolves from the
-/// node's own directory (93), from the repository root (90), or from `.yidam/corpus/` (5), and
+/// node's own directory (94), from the repository root (92), or from `.yidam/corpus/` (5), and
 /// the first two split the corpus nearly in half: `../verb/walk-to.yml` beside
 /// `.yidam/decisions/found-in.yml` in the same paragraph. A checker written against either one
 /// reports about half the corpus as rot, which is a worse report than none and is presumably why
 /// nobody shipped it.
 ///
-/// **And more than half of what the corpus points at is not in the corpus.** 96 of the 188 land
-/// in `.yidam/decisions/`, 82 on another node, 10 on a class definition. `markers.rs` found the
+/// **And more than half of what the corpus points at is not in the corpus.** 98 of the 191 land
+/// in `.yidam/decisions/`, 83 on another node, 10 on a class definition. `markers.rs` found the
 /// open questions migrating into the decision records where no tool counts them; this is the
 /// citations doing it, and it is the larger half.
 #[test]
@@ -265,17 +266,20 @@ fn every_path_written_in_corpus_prose_resolves() {
     );
     assert_eq!(
         (own, repo, corpus),
-        (93, 90, 5),
+        (94, 92, 5),
         "the three bases, all load-bearing"
     );
-    assert_eq!((own + repo + corpus, decisions), (188, 96));
+    assert_eq!((own + repo + corpus, decisions), (191, 98));
 }
 
-/// **88 declared edges, 76 prose citations, and 14 pairs in both.**
+/// **90 declared edges, 77 prose citations, and 16 pairs in both.**
 ///
-/// So **62 pairs of nodes are joined by a sentence and by nothing a tool can read**, against 74
+/// So **61 pairs of nodes are joined by a sentence and by nothing a tool can read**, against 74
 /// joined by an edge and not by a sentence. Two graphs of nearly the same size over the same 42
 /// nodes, overlapping by a sixth — and one of them is the corpus.
+///
+/// It was (88, 76, 14) when this file was written. The two the reading below found are the
+/// difference, and they are the only two it found in sixty-two.
 ///
 /// The number is held here rather than fixed, for the reason `markers.rs` holds its own: nothing
 /// can tell that a sentence *should* have been an edge, short of reading. What a pinned count
@@ -285,17 +289,37 @@ fn the_graph_the_tools_read_is_not_the_graph_the_corpus_wrote() {
     let root = repo_root();
     let (e, c) = (edges(&root), citations(&root));
     let both = e.intersection(&c).count();
-    assert_eq!((e.len(), c.len(), both), (88, 76, 14));
+    assert_eq!((e.len(), c.len(), both), (90, 77, 16));
 }
 
-/// **Five nodes have no incoming edge, and every one of them is cited in prose.**
+/// **Four nodes have no incoming edge, and every one of them is cited in prose.**
 ///
-/// `yidam lint` reports four of them under `orphan-in` — *"nothing links to this node — uncited
-/// since 2026-09-10"* — and the word *uncited* is wrong in all four cases. The fifth,
-/// `cutscene/scripted-sequence`, the lint does not report at all, and it is the most cited of
-/// them: two corpus nodes, its own class definition, and four decision records.
+/// It was five. `data-format/dialogue-script` had a `reads` edge owed to it by the node that
+/// calls it *"this phase's largest finding"*, and `yidam lint` called it *uncited* for
+/// forty-one commits while six nodes and two decision records cited it. That one was a defect
+/// and is fixed.
 ///
-/// They are named rather than counted because a sixth appearing is the event worth failing on.
+/// **The other three cannot be fixed the same way, and the reasons are different.**
+///
+/// * `cutscene/scripted-sequence` — **its class has no incoming relationship at all.** `cutscene`
+///   is the only one in this ontology that has none; every other class has somewhere it can be
+///   pointed at from. `design/bounded-expression-language.md` refuses the obvious mirror,
+///   `interaction -enters-> cutscene`, *"until a game needs one"*, so this orphan is a design
+///   decision showing through the graph rather than an oversight.
+/// * `prior-art/thimbleweed-park` — `prior-art` can be reached only by `verb -originated-in->`,
+///   and no verb in this corpus originated in a 2017 game that inherited them. The class points
+///   outward by construction and this instance can receive nothing.
+/// * `interaction/entry-binding` — the one with a relationship genuinely available.
+///   `subsystem -realizes-> interaction` is declared and nothing realizes arrival:
+///   `subsystem/interaction-resolver` does not contain the word. That is the same hole
+///   `data-format/interaction-table` documents on its own side — *"the one trigger an interaction
+///   table keyed by verb and target cannot index"* — appearing a second time, in the component
+///   layer, where nobody had looked for it.
+/// * `world-flag/object-state` — `interaction -sets-> world-flag` is available and authored, to
+///   `boolean-flag` and `counter-flag`. The corpus adopted a third state primitive on the
+///   strength of a shipped game where it is *dominant*, and connected no binding to it.
+///
+/// They are named rather than counted because a fifth appearing is the event worth failing on.
 #[test]
 fn the_nodes_nothing_points_at_are_pointed_at_in_prose() {
     let root = repo_root();
@@ -310,7 +334,6 @@ fn the_nodes_nothing_points_at_are_pointed_at_in_prose() {
         orphans,
         [
             "cutscene/scripted-sequence.yml",
-            "data-format/dialogue-script.yml",
             "interaction/entry-binding.yml",
             "prior-art/thimbleweed-park.yml",
             "world-flag/object-state.yml",
@@ -326,15 +349,17 @@ fn the_nodes_nothing_points_at_are_pointed_at_in_prose() {
 
 /// **A relationship being available is not evidence that an edge is missing. It is 13% of one.**
 ///
-/// Of the 62 citations with no edge, **15 join two classes the ontology already gives a
+/// Of the 61 citations with no edge, **13 join two classes the ontology already gives a
 /// relationship for** — `prior-art -reads-> data-format`, `verb -subsumed-by-> verb`,
 /// `interaction -sets-> world-flag`. That looks like a rule waiting to be written. Reading all
 /// fifteen, it is not:
 ///
-/// * **Two are edges that should exist** — `prior-art/ags -reads->
+/// * **Two were edges that should exist** and are edges now — `prior-art/ags -reads->
 ///   interaction-table`, whose 48-action table that node quotes from AGS's own source, and
 ///   `thimbleweed-park -reads-> dialogue-script`, which is Yack and is that node's *"largest
-///   finding"*.
+///   finding"*. Both citing nodes already author `reads` elsewhere in the same block, so neither
+///   was a missing vocabulary or a missing habit. They were two sentences written on a day when
+///   the author was thinking about the paragraph.
 /// * **Two are the inverse of an edge that already exists.** `interaction-resolver -depends-on->
 ///   verb-menu` is written; the citation runs the other way and adding it would make a cycle out
 ///   of a direction the ontology chose.
@@ -347,8 +372,9 @@ fn the_nodes_nothing_points_at_are_pointed_at_in_prose() {
 ///   relationship in this ontology means.
 ///
 /// So a check that wrote an edge wherever the vocabulary had one available would have written 13
-/// false edges, two of them into a mutual exclusion. The count is pinned; the reading is not
-/// mechanisable and is recorded in `.yidam/decisions/prose-edges.yml`.
+/// false edges, two of them into a mutual exclusion. Thirteen remain and every one has been read
+/// and refused. The count is pinned; the reading is not mechanisable and is recorded in
+/// `.yidam/decisions/prose-edges.yml`.
 #[test]
 fn the_vocabulary_had_a_relationship_available_and_was_right_twice() {
     let root = repo_root();
@@ -365,7 +391,7 @@ fn the_vocabulary_had_a_relationship_available_and_was_right_twice() {
             available += 1;
         }
     }
-    assert_eq!((c.difference(&e).count(), available), (62, 15));
+    assert_eq!((c.difference(&e).count(), available), (61, 13));
 }
 
 /// **A declared relationship no instance authors: the design document says two and there is one.**

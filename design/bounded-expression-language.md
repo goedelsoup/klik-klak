@@ -591,7 +591,20 @@ or that anybody would enjoy writing in it.
   take time except a mode, and the class for things that take time cannot be started.** No
   relationship in the corpus targets `cutscene`. `interaction -enters-> cutscene` is the obvious
   mirror of `opens → conversation` and is deliberately unwritten until a game needs one, because a
-  declared relationship no instance authors is a defect this corpus already carries two of. `[open]`
+  declared relationship no instance authors is a defect this corpus already carries one of.
+
+  **Both halves of that sentence are now measured, and one of them had drifted.** Counted as
+  class-to-class triples, the ontology declares 43 and instances author 42; the survivor is
+  `failure-mode -prevented-by-> subsystem`. It said *two* for as long as it has existed and
+  nothing anywhere noticed the other one being authored — the drift
+  [`stale-markers`](../.yidam/decisions/stale-markers.yml) named, in a document rather than a
+  node. It is a test now: `crates/design-gate/tests/edges.rs`.
+
+  And the first half is sharper than prose could make it. `cutscene` is **the only class in this
+  ontology with no incoming relationship at all** — not merely unauthored but unreachable, where
+  every other class has somewhere it can be pointed at from. The consequence is that
+  `cutscene/scripted-sequence` is one of four nodes with no incoming edge, and the only one whose
+  orphanhood this document chose. `.yidam/decisions/prose-edges.yml`. `[open]`
 
   A `say` that blocks and a `move` that does not are already two different kinds of thing, and the
   specimens write them in one list.
