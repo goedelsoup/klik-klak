@@ -134,7 +134,6 @@ fn the_corpus_carries_nine_questions_and_the_count_is_the_token_count() {
             "failure-mode/orphaned-dialogue-branch.yml",
             "hotspot/static-region.yml",
             "interaction/acquisition-binding.yml",
-            "inventory-item/portable-object.yml",
             "prior-art/ags.yml",
             "walkbox/scaled-polygon.yml",
             "world-flag/latched-flag.yml",
@@ -166,10 +165,10 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (9, 44, 40));
+    assert_eq!((corpus, decisions, records), (8, 45, 41));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        16,
+        15,
         "under a fifth is visible"
     );
 

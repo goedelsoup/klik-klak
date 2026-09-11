@@ -1,0 +1,93 @@
+id: declared-reach
+summary: >-
+  A shipped game reaches three of its fifteen inventory items by no binding at all, and the channel
+  it uses instead — an object declaring a property a separate subsystem reads — is declared at 165
+  sites against 222 bindings. Nothing is adopted. The question `portable-object` has carried since
+  genesis closes on the finding that a specimen could never have answered it, because this format
+  gives an item no surface on which a non-binding reach could be written.
+context: |
+  [portable-object](../corpus/inventory-item/portable-object.yml) has asked since it was seeded
+  whether **an item nothing reaches for is an item at all** — one never required, consumed, or
+  offered as the second object of a binding being *"scenery with an icon"* — and recorded that this
+  corpus has no such instance, so the question had nothing to be asked of. It named **a fifth
+  specimen** as what would answer it.
+
+  A specimen cannot. **Eleven items across the four games are all reached, and not because anyone
+  chose to reach them**: `Game::items` is a list of strings and `item_cap` is the only datum
+  declared per item, so there is no surface on which a counterexample could be written. [verified] —
+  `crates/game-format/tests/declared.rs`.
+
+  The shipped game has one. **Fifteen items; twelve named by a binding, three named by none, and
+  none unreached** ([delores-source](../catalog/delores-source.md)). [verified] `photo` is a
+  prototype cloned at runtime; `fortranBook` and `thimbleconPoster` carry one unary verb each and a
+  `for_story` value.
+decision: |
+  **Nothing is adopted, and the reach is recorded as a fourth axis rather than as a gap.**
+
+  `for_story`, `bad_story` and `photo_name` are declared at **165 sites across fourteen of
+  twenty-one room files, against 222 live bindings**, and read by the camera's `takephoto` and by
+  `Note.dinky`'s `active_stories`. [verified] Ten of the fifteen items carry at least one. That is
+  not presentation — [presentation-layer](presentation-layer.yml)'s line does not reach it, because
+  `isActiveStory` is a predicate over world state and taking a photo advances the game. It is a
+  puzzle mechanic wired to objects by declaration.
+
+  **It is expressible here, and the cost is linear.** A subject declaring `for_story` becomes a
+  `use-with camera` binding on that hotspot writing a flag; 52 declarations become 52 bindings, one
+  line each becoming three. Not combinatorial, not impossible — **repetitive**, which is the exact
+  shape of argument [exit-archetype](exit-archetype.yml) accepted when it admitted `exit` for
+  twenty repetitions of `walk-to` + `move` + a guard.
+
+  **And that precedent is why this is declined.** `exit` was adopted on a stronger version of this
+  argument, from the same evidence base, and **no specimen writes it** — zero times in four games,
+  established one phase ago ([second-document](second-document.yml), and counted by
+  `crates/game-format/tests/coverage.rs`). A construct admitted because a shipped game repeats
+  something is a construct this repository has now admitted once and never used. Doing it again on
+  one game's evidence would be repeating the experiment, not learning from it.
+
+  **What would change the answer is stated so it can be met**: a second shipped game reaching
+  objects by declaration, or an authored specimen where writing the bindings out is what makes the
+  game unwriteable rather than merely long. Neither exists. The first needs source this repository
+  does not hold; the second is the fifth specimen, which is now known to be the wrong instrument
+  for the neighbouring question and may be the right one for this.
+rationale: |
+  **The question was unanswerable in the terms it was asked, and that is the finding.**
+
+  `portable-object` asked for a fifth specimen and a fifth specimen would have produced the same
+  answer as the first four, for a reason that has nothing to do with authorship: *every reach an
+  item can have in this language is a field of `Binding`*. An author cannot write an unreached item
+  because they cannot write an item that is anything other than a name. The four games therefore
+  contain no information about the question at all, and neither would forty. [inference]
+
+  **What makes that worth writing down is how the absence read.** The node offered two readings —
+  either the case does not arise, or *"this corpus seeds only the cases it already has arguments
+  for"* — and both are about what the corpus chose. The actual cause is the format's arity, which
+  is a third reading neither branch contained. **A question that offers two explanations for a zero
+  can be measuring the instrument.**
+
+  **The instrument was the shipped game, and it was one file on an unread-list.**
+  `Scripts/Inventory.dinky` sat on `delores-source`'s list described as *"read for binding counts
+  and for its one delegation site, and not otherwise"* — the top live item on that list once
+  [unread-list](unread-list.yml) took the spent one off it, and read in the next phase. That is the
+  first time a retrieval in this repository has been chosen off a list rather than by somebody
+  remembering the artifact existed, which is the whole argument that record made.
+
+  **The census's own first count was wrong in the direction that flatters.** Matching `noun2 ==`
+  found four items no binding names; matching `noun2 !=` as well found three, because
+  `DefineActors.dinky` writes `if (noun2 != Inventory.ransomeCandy)`. An equality-only census would
+  have reported a larger gap in the shipped game and a larger case for this design. It was caught
+  by reading the four rather than by trusting the pattern, which is the one thing a count cannot do
+  for itself. [inference]
+
+  **Ten of fifteen is the figure that matters, not three.** Three items are unreachable by binding;
+  **ten carry the hooks**, including `glass` and `camera`, which are the two most heavily bound
+  items in the game. The subsystem is not how the game reaches its neglected corners — it is a
+  second channel running alongside the bindings on the objects that already have the most. A design
+  that read the three would conclude the mechanism is marginal. It is not.
+
+  **What this does not settle.** What the channel costs an author. This entry counted declaration
+  sites and did not read `Note.dinky`'s logic or `takephoto`'s body, which is the longest binding in
+  the game — so the claim that 52 declarations expand to 52 bindings is arithmetic over the
+  declarations rather than a reading of what the subsystem does with them. If `isActiveStory`
+  carries ordering, or a photo can be retaken, or a story can be failed, the expansion is not
+  linear and the case for a construct is stronger than this record credits.
+  [delores-source](../catalog/delores-source.md) records that half as unread. `[open]`

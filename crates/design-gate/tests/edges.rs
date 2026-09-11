@@ -268,10 +268,10 @@ fn every_path_written_in_corpus_prose_resolves() {
     );
     assert_eq!(
         (own, repo, corpus),
-        (115, 121, 5),
+        (115, 122, 5),
         "the three bases, all load-bearing"
     );
-    assert_eq!((own + repo + corpus, decisions), (241, 131));
+    assert_eq!((own + repo + corpus, decisions), (242, 132));
 }
 
 /// **96 declared edges, 86 prose citations, and 18 pairs in both.**

@@ -61,6 +61,10 @@ does not re-emit it.
 
 - **:81** — **What this does not settle.** Whether an exchange should be enterable from more than one place at all — no specimen has one, and the two-entrance case above is constructed. If exchanges are always entered from one room, the return is free and the class's last ground is a convenience rather than a n…
 
+### [declared-reach](declared-reach.yml)
+
+- **:93** — **What this does not settle.** What the channel costs an author. This entry counted declaration sites and did not read `Note.dinky`'s logic or `takephoto`'s body, which is the longest binding in the game — so the claim that 52 declarations expand to 52 bindings is arithmetic over the declarations ra…
+
 ### [delegation](delegation.yml)
 
 - **:100** — Not decided here, because one game is one game and because the four rows want three different relations — part-of, same-as, and says-the-same — and a design that collapsed them would be choosing by convenience.
@@ -180,7 +184,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**44 open.**
+**45 open.**
 
 ## What nothing cites
 
@@ -189,12 +193,11 @@ word on something nothing else has needed — but it is the shape `orphan-in` re
 nodes, at four times the rate, and it had never been looked at.
 
 - [binding-axes](binding-axes.yml)
+- [declared-reach](declared-reach.yml)
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
 - [name-scoping](name-scoping.yml)
-- [second-document](second-document.yml)
 - [specimen-placement](specimen-placement.yml)
-- [unread-list](unread-list.yml)
 
 ## What each record rests on
 

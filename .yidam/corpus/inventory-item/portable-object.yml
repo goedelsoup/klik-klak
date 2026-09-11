@@ -94,12 +94,26 @@ description: |
 
   **Whether an item nothing reaches for is an item at all is this class's page's question, moved
   here because this is the node it is about.** An item that is never required, consumed, or offered
-  as the second object of a binding is scenery with an icon — and the corpus has no such instance,
-  so the question has had nothing to be asked of since it was written. Both instances here are
-  reached: this one by `requires` and `consumes`,
-  [stackable-item](stackable-item.yml) by `consumes`. Whether that absence is evidence the case
-  does not arise, or evidence that this corpus seeds only the cases it already has arguments for,
-  is what a fifth specimen would answer. `[open]`
+  as the second object of a binding is scenery with an icon — and the corpus has no such instance.
+  Both instances here are reached: this one by `requires` and `consumes`,
+  [stackable-item](stackable-item.yml) by `consumes`.
+
+  **It is answered, and the two readings this node offered for the zero were both wrong.** It asked
+  whether the absence was evidence the case does not arise or evidence that this corpus seeds only
+  the cases it already has arguments for, and named a fifth specimen as what would settle it. A
+  specimen could not have. Eleven items across the four games are reached and none of them could
+  have been otherwise: an item in the proposed format is a name and a ceiling, so every reach it
+  can have is a field of a binding and no author can write a counterexample. [verified] —
+  `crates/game-format/tests/declared.rs`. **The zero was measuring the instrument.**
+
+  **A shipped game has the case, and reaches it by a channel this vocabulary has no name for.**
+  Delores declares fifteen inventory items; twelve are named by a binding, **three are named by
+  none, and none is unreached**. The three carry `for_story`, `photo_name` or `is_photo` —
+  declarations that a separate subsystem reads, at **165 sites against 222 bindings**, on ten of the
+  fifteen items ([delores-source](../../catalog/delores-source.md)). [verified] So an item nothing
+  *binds* is not scenery: it is a subject of something else. Nothing is proposed on one game's
+  evidence and the condition for proposing is written down —
+  `.yidam/decisions/declared-reach.yml`.
 
 properties:
   acquisition: |

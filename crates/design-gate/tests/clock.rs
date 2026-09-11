@@ -228,9 +228,10 @@ fn the_report_ties_five_questions_the_history_keeps_apart() {
     let root = repo_root();
     let computed: Vec<usize> = ages(&root).into_iter().map(|(_, a)| a).collect();
     assert_eq!(
-        computed.len(),
+        computed.len() + 1,
         REPORTED.len(),
-        "nine questions, nine readings"
+        "eight questions now against the nine `due` reported; `declared-reach` closed \
+         `portable-object`'s and the reading below is of the nine that stood when it was taken"
     );
 
     let widest = |v: &[usize]| {
@@ -319,7 +320,7 @@ fn every_figure_the_config_states_about_this_clock_is_computed_here() {
     );
     assert_eq!(
         (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
-        (16, 16),
+        (15, 15),
         "the share the config claims, against the share"
     );
 }
