@@ -1,0 +1,81 @@
+id: carried-claims
+summary: >-
+  A citation governs the passage it opens, which is how the corpus writes and is not something a
+  checker can see. So the unit stays the passage and nothing is required per claim; what is built
+  instead is the fragility count the practice implies, and the two nodes it turned up that are
+  silenced by a citation for an unrelated claim get the paragraph three of their neighbours already
+  wrote.
+context: |
+  [evidence-kinds](evidence-kinds.yml) measured where verified claims say they rest — 112 name a
+  catalog entry in their own paragraph, 49 a committed test, 5 both — and left open the largest
+  group: **150 name nothing**, because a node establishes a source once and argues from it for
+  several paragraphs.
+
+  What that implies had not been counted. **Sixteen of the thirty-nine evidenced nodes rest on
+  exactly one distinct catalog entry and twelve of those on a single line**, carrying 95 claims
+  between them of which 44 name nothing in their own paragraph. [verified] —
+  `crates/design-gate/tests/footing.rs`.
+
+  Delete that line and the node trips `verified-unsourced` with the claims unchanged. That is the
+  same node-granularity `evidence-kinds` found from the other side, where one *added* line silenced
+  two nodes for claims it had nothing to do with.
+decision: |
+  **The unit of attribution stays the passage, and no claim is required to name its own source.**
+
+  The alternative is real and is refused: a rule that every `[verified]` names its evidence in the
+  paragraph that makes it. It would be enforceable, it would close the 150, and it would wreck the
+  thing that makes this corpus readable. The nodes argue — *"counted over the whole game, 203 live
+  bindings across 21 rooms"*, then four paragraphs of what that showed — and requiring a citation
+  on each would either repeat one link eleven times or break the argument into stubs. **A
+  convention that makes prose worse to make a checker's job possible is the wrong trade**, and it
+  is the same one [schema-deferral](schema-deferral.yml) refused for prose one phase ago on the
+  same grounds.
+
+  **What is built is the fragility count, because that is the part the practice actually pays
+  for.** A node whose whole evidence base is one line is one edit from unsourced and one unrelated
+  edit from silent, and neither says anything about its claims. Twelve nodes are in that position
+  and the check names them.
+
+  **And the two that are in `boolean-flag`'s position get the paragraph `boolean-flag` wrote.**
+  [state-gate](../corpus/puzzle/state-gate.yml) cites a designer's essay on puzzle dependency
+  charts and rests two of its eight claims on committed tests;
+  [unary-binding](../corpus/interaction/unary-binding.yml) cites one entry and names `crates/` four
+  times. Both are silenced by a citation for a different claim. Neither had noticed, and the reason
+  is the finding below.
+rationale: |
+  **Writing about your own footing has required being reported once.**
+
+  Four nodes in this corpus discuss their evidence standing — `portable-object`, `binary-binding`,
+  `boolean-flag`, `counter-flag` — and all four are nodes `verified-unsourced` named at some point.
+  The nine single-line nodes that never tripped it have no account of their sourcing **and are not
+  better sourced**: they happened to carry a citation from the beginning, for whatever claim it was
+  about. [inference]
+
+  That is a selection effect operating on what the corpus knows about itself, and it is the
+  sharpest version of a pattern this repository keeps finding. [action-pages](action-pages.yml)
+  found class pages nobody reopened; [collected-verdict](collected-verdict.yml) found a figure
+  nobody carried; [inert-reports](inert-reports.yml) found a report consulted once and never wired
+  up. **In all four the corpus knows a thing exactly where something made it look**, and the
+  coverage of what it knows is the coverage of what has gone wrong loudly.
+
+  **The seven that can be attributed are the ones that put the claim on the citation's line.**
+  Deleting the citation takes the claim with it, which is the only case where a checker can say
+  which claim a line was for. That is not a convention anybody chose — it is what happens when a
+  sentence is short enough to fit — and it is worth naming because it is the entire mechanically
+  attributable population. Five of the twelve have the citation on a line of its own and are
+  opaque.
+
+  **The 150 are not a backlog and the count should not be read as one.** A continuation of a
+  sourced passage is correctly tagged and correctly unattributed; what it lacks is a machine-
+  readable pointer, and the prelude's own position is that `[verified]` is *"a claim about
+  provenance, not about confidence."* The provenance is there. What is missing is a way to say
+  where, and that is the same gap [found-in](found-in.yml) opened for committed tests and
+  [evidence-kinds](evidence-kinds.yml) measured at 49 — one level up, and pointing at the document
+  half instead.
+
+  **What this does not settle.** Whether a node should say when its evidence base is one line. The
+  three that do wrote it as a finding about themselves and it reads well; twelve nodes writing the
+  same paragraph would read as boilerplate, and boilerplate is what a check exists to replace. The
+  check names them and nothing requires the prose — which leaves the corpus in the position that a
+  reader of any one of those twelve nodes cannot tell, from the node, that everything it asserts
+  hangs on one line. `[open]`

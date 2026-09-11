@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (305, 52, 36));
+    assert_eq!((total, mentions, tests.len()), (314, 52, 37));
 }
 
 /// **Eight of forty-seven records are cited by nothing, against three of forty-three nodes.**
@@ -323,11 +323,10 @@ fn a_record_nothing_cites_is_named() {
         alone,
         [
             "binding-axes",
+            "carried-claims",
             "design-directory",
             "domain-computer",
             "effect-vocabulary",
-            "evidence-kinds",
-            "inert-reports",
             "name-scoping",
             "specimen-placement",
             "threshold-trigger",
@@ -337,7 +336,7 @@ fn a_record_nothing_cites_is_named() {
          question — and the newest record joins it, as every newest record does"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (52, 131));
+    assert_eq!((c.len(), edges), (53, 137));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -415,7 +414,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 32, "live open questions in this directory");
+    assert_eq!(total, 33, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
