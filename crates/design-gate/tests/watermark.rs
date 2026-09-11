@@ -19,9 +19,13 @@
 //! document's ground includes a document whose own ground is watermarked, and the watermark did
 //! not travel up the chain.
 //!
-//! And the drift is not hypothetical. The document says **"Thirty-eight tests"** of the fixtures
-//! it describes; there are **158**. It lists four constructs as unexercised *"across both games"*
-//! when there are four games and `coverage.rs` counts six.
+//! And the drift was not hypothetical. The document said **"Thirty-eight tests"** of the fixtures
+//! it describes; there are **158**. It listed four constructs as unexercised *"across both games"*
+//! when there are four games and `coverage.rs` counts six. It carried an open question `cutscene`
+//! had closed two phases earlier.
+//!
+//! **The watermark is required now rather than honoured where offered**, and both documents carry
+//! one. `.yidam/decisions/second-document.yml`.
 
 use design_gate::{front_matter, repo_root};
 use std::path::{Path, PathBuf};
@@ -73,13 +77,14 @@ fn premises(root: &Path, doc: &str) -> Vec<String> {
         .to_vec()
 }
 
-/// **Two design documents, one watermark.**
+/// **Every design document records the commit its premises were last read against.**
 ///
-/// Not a document the instrument could not reach — the same `check`, the same front matter, the
-/// same `rests_on` list read by the same call. What decided which one got it is which one the
-/// phase was reading.
+/// It was one of two, and not because the instrument could not reach the other — the same `check`,
+/// the same front matter, the same `rests_on` list read by the same call. What decided which one
+/// got it is which one the phase was reading, which is a population a check must never be allowed
+/// to choose.
 #[test]
-fn the_instrument_covers_one_of_the_two_documents_it_could() {
+fn every_design_document_records_what_it_was_last_read_against() {
     let root = repo_root();
     let all = designs(&root);
     assert_eq!(
@@ -94,19 +99,31 @@ fn the_instrument_covers_one_of_the_two_documents_it_could() {
         "the documents the gate reads as designs"
     );
 
-    let watermarked: Vec<&str> = all
-        .iter()
-        .filter(|p| {
-            let src = std::fs::read_to_string(p).expect("readable");
-            front_matter(&src).is_some_and(|fm| fm.scalar("reconciled").is_some())
-        })
-        .map(|p| p.strip_prefix(&root).unwrap_or(p).to_str().expect("utf-8"))
-        .collect();
-    assert_eq!(
-        watermarked,
-        [WATERMARKED],
-        "documents recording the commit their premises were last read against"
-    );
+    for doc in [WATERMARKED, BARE] {
+        let src = std::fs::read_to_string(root.join(doc)).expect("readable");
+        let fm = front_matter(&src).expect("front matter");
+        let at = fm
+            .scalar("reconciled")
+            .unwrap_or_else(|| panic!("{doc} names no commit its premises were last read against"));
+        assert_eq!(at.len(), 40, "{doc}: a full commit sha: {at}");
+        assert_eq!(
+            git(&root, &["cat-file", "-t", at]),
+            "commit",
+            "{doc}: and it is a commit in this history"
+        );
+        for premise in fm.list("rests_on") {
+            let moved: usize = git(
+                &root,
+                &["rev-list", "--count", &format!("{at}..HEAD"), "--", premise],
+            )
+            .parse()
+            .expect("a count");
+            assert_eq!(
+                moved, 0,
+                "{doc}: {premise} moved since the watermark; the gate says the same and this says why"
+            );
+        }
+    }
 }
 
 /// **The document without the watermark rests on more and has drifted further.**
@@ -179,30 +196,40 @@ fn the_second_document_rests_on_more_and_has_drifted_further() {
     );
 }
 
-/// **A document that declares no watermark is never asked, and two of its figures have decayed.**
+/// **A document that declares no watermark fails, verified against a document that does not.**
 ///
-/// The first half is the gate's shape: `check` opens the comparison with `if let Some(at)`, so
-/// silence is what a document gets for not declaring one. The second half is what that silence
-/// cost here — a test count four times under, and a coverage list written when there were two
-/// specimens and never revisited when there were four.
+/// `check` read the mark under `if let Some(at)`, so silence was what a document got for declaring
+/// none — and the population that survived was the one whose author had thought about drift. That
+/// is `carried-claims`'s selection effect arriving in the gate, and the fix is a `match` with a
+/// `None` arm rather than a stricter comparison.
+///
+/// The rest is what the silence cost: a test count four times under, and a coverage list written
+/// when there were two specimens and never revisited when there were four. Both are derived here
+/// instead of stated there.
 #[test]
-fn a_document_that_declares_no_watermark_is_never_asked() {
+fn a_document_that_declares_no_watermark_fails() {
     let root = repo_root();
-    let lib =
-        std::fs::read_to_string(root.join("crates/design-gate/src/lib.rs")).expect("readable");
+    // A design document with front matter and no `reconciled:`, in a root of its own, so the
+    // finding is produced by `check` rather than asserted about its source.
+    let tmp = std::env::temp_dir().join(format!("design-gate-watermark-{}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&tmp);
+    std::fs::create_dir_all(tmp.join("design")).expect("a temp root");
+    std::fs::write(
+        tmp.join("design/bare.md"),
+        "---\ntitle: a design that names no baseline\nstatus: proposal\nrests_on:\n  - .yidam/corpus/verb.ont.yml\n---\n\nnothing here.\n",
+    )
+    .expect("writable");
+    let report = design_gate::check(&tmp).report();
+    std::fs::remove_dir_all(&tmp).expect("removable");
     assert!(
-        lib.contains("if let Some(at) = fm.scalar(\"reconciled\")"),
-        "the watermark comparison is reached only when the document declares one"
-    );
-    assert!(
-        !lib.contains("declares no reconciled:"),
-        "and nothing requires that it does"
+        report.contains("declares no reconciled:"),
+        "a design naming no baseline is a finding:\n{report}"
     );
 
     let doc = std::fs::read_to_string(root.join(BARE)).expect("readable");
     assert!(
-        doc.contains("Thirty-eight tests"),
-        "the figure the document states about its own fixtures"
+        !doc.contains("Thirty-eight tests"),
+        "the figure the document stated about its own fixtures, derived nowhere"
     );
     let actual = ["crates/reachability/tests", "crates/game-format/tests"]
         .iter()
@@ -223,10 +250,18 @@ fn a_document_that_declares_no_watermark_is_never_asked() {
         actual, 158,
         "the fixtures the document describes carry this many tests"
     );
+    assert!(
+        doc.contains(&format!("**{actual} tests**")),
+        "and the document states the figure this check derives"
+    );
 
     assert!(
-        doc.contains("Unexercised across both games: `or`, `!=`, `<=`, `>`"),
-        "four constructs, across two games, when there are four games"
+        !doc.contains("Unexercised across both games"),
+        "a coverage list written at two specimens and never revisited at four"
+    );
+    assert!(
+        doc.contains("Unexercised across all four games"),
+        "the list is over every game now"
     );
     let coverage = std::fs::read_to_string(root.join("crates/game-format/tests/coverage.rs"))
         .expect("readable");

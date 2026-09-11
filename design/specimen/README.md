@@ -1,6 +1,7 @@
 ---
 title: what the specimens found
 status: proposal
+reconciled: b05c52e246f5bdef9f5d9309893fdccb46aa79b9
 rests_on:
   - design/bounded-expression-language.md
   - design/specimen/lighthouse.game
@@ -184,8 +185,18 @@ belongs to no class — the same arrival trigger
 worth exactly what it cost. The watchman moves — he crosses the hall, takes the ledger, opens the
 far door — and *all of that is prose in a `say`*. Nothing in the game depends on where he is, so
 this specimen never tested whether an NPC's position needs to be state, which is the one thing a
-real cutscene does that nothing here does. And `cutscene.trigger`'s third case, a sequence
-beginning because a counter reached a value, is untested here and undocumented in either engine.
+real cutscene does that nothing here does.
+
+**And `cutscene.trigger`'s third case is still untested here and is no longer undocumented.** This
+document guessed *undocumented in either engine* from not having looked, and an engine has since
+been read: AGS's `repeatedly_execute` is a declared event slot running every game loop, and the
+manual's own worked example on that page **is** a threshold — a counter incremented, then tested
+against 800 ([ags-manual](../../.yidam/catalog/ags-manual.md)). [verified] What is documented is
+the *occasion*; what goes in it is arbitrary script, and there is no declarative form of *when this
+value reaches that* in either era of that system. So the sentence was reaching for something true
+and the truth is narrower and better evidenced than a silence.
+`.yidam/decisions/threshold-trigger.yml` closed the question outright — **`cutscene` has no open
+questions left**, and this document went on carrying one of them for two phases.
 
 ## Three defects in the calculator, all found by the second specimen
 
@@ -208,12 +219,17 @@ running rather than by reasoning.
 
 ## Grammar coverage
 
-Unexercised across both games: `or`, `!=`, `<=`, `>`, and grouping parentheses. `count` is no
-longer on that list.
+Unexercised across all four games: **`!=`, `<=`, `>`, `clear-flag`, `exit`, `or`** — six of the
+fifty constructs the surface declares, counted rather than listed. [verified] —
+`crates/game-format/tests/coverage.rs`. `count` is no longer on the list; `clear-flag` and `exit`
+were not on it when it was written at two games, and `exit` is the one worth a second look,
+[below](#the-verb-vocabulary). Grouping parentheses came off by being counted: the check reads
+constructs the grammar declares, and they are not one.
 
 **One specimen is much better evidence that a primitive was needed than that one is not**, and
-two is only a little better. Forty-odd bindings across two deliberately small games is a thin
-basis for removing anything.
+four is only a little better. Ninety-one bindings across four deliberately small games is a thin
+basis for removing anything — and the six above are the measurement, not the backlog.
+`.yidam/decisions/unwritten.yml`.
 
 ## The verb vocabulary
 
@@ -258,8 +274,20 @@ shape without having been asked: **20 exits, 15 bare and 5 carrying a guard or r
 Delores's 20, 18 bare and 2 gated. Same count, same dominant shape, arrived at independently.
 `.yidam/decisions/exit-archetype.yml`.
 
-**Declared and not used: `give-to`.** No natural site arose in either game, from a direction the
-documentary assessment in that node did not use.
+**And no specimen writes it.** `exit` appears zero times in all four games; the twenty-two
+`walk-to` sites are all still the long form it was built to replace. [verified] —
+`crates/game-format/tests/coverage.rs`. That is this document's own last question — *whether a
+specimen should be revised to exercise a primitive it argued for* — with a second instance, in a
+section eleven headings above the one that asks it.
+
+**Declared and not used: `give-to`.** No natural site arose in any of the four, and the silence
+has since been counted rather than observed: **91 bindings across 662 lines and not one is a
+`give-to`**, where the other five verbs are all used. [verified] —
+`crates/reachability/tests/verbs.rs`, and
+[`verb/give-to`](../../.yidam/corpus/verb/give-to.yml) is where it bears weight. This document
+said *"either game"* for four phases after there were four; the node it fed took the observation,
+called it *"weak on its own — one small game"*, and did the counting, and the count did not come
+back here.
 
 ## What the corpus has no class for
 
@@ -270,7 +298,9 @@ artifact they compose into. Noted rather than proposed — and noted more carefu
 
 ## Using them as fixtures
 
-Thirty-eight tests, in `crates/reachability/tests` and `crates/game-format/tests`.
+**158 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
+thirty-eight for six phases; the figure was never derived from anything and is held by a check now
+(`crates/design-gate/tests/watermark.rs`).
 
 - **lighthouse, winnable** — and **unwinnable by consumption** if the oil goes into the hinge.
 - **ferry, winnable** — and **unwinnable by ordering** if the river is crossed without the

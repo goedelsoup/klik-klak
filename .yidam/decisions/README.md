@@ -144,6 +144,10 @@ does not re-emit it.
 
 - **:96** — **What this does not settle.** What authors actually do with the arithmetic. The cut is clean and the *cost* of the cut is unmeasured: `Globalfunctions_General`, the `Maths` page and the fifty-odd other API pages are still unread, and the question *how often does a shipped AGS game reach the hatch f…
 
+### [second-document](second-document.yml)
+
+- **:91** — **What this does not settle.** Whether a specimen should be revised to exercise a primitive it argued for. The document's own question, and it now has two instances rather than one — the watchman who moves in prose, and `exit`, which this document's argument built and none of the four games writes. …
+
 ### [testimony](testimony.yml)
 
 - **:68** — **What this does not settle.** Whether testimony and artifact should carry different evidence standing. The prelude is explicit that `[verified]` is about provenance rather than confidence, and a diary entry is a committed source in exactly the way a header file is; `measured-width` quotes Gilbert's…
@@ -172,7 +176,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**42 open.**
+**43 open.**
 
 ## What nothing cites
 
@@ -183,8 +187,8 @@ nodes, at four times the rate, and it had never been looked at.
 - [binding-axes](binding-axes.yml)
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
-- [moved-ground](moved-ground.yml)
 - [name-scoping](name-scoping.yml)
+- [second-document](second-document.yml)
 - [specimen-placement](specimen-placement.yml)
 
 ## What each record rests on
