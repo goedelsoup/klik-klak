@@ -13,6 +13,7 @@ location:
     value: https://grumpygamer.com/delores_dev/
     description: "\"Delores Source Code Released!\", the announcement"
 used-by:
+  - ../corpus/subsystem/verb-menu.yml
   - ../corpus/prior-art/sierra-sci.yml
   - ../corpus/verb/give-to.yml
   - ../corpus/data-format/dialogue-script.yml
@@ -798,6 +799,45 @@ And the position is not decoration. `script moveLadder` hides every `walkbox+x` 
 `trigger+x`, steps the position, then re-enables the pair for the new one — so sliding the ladder
 changes where the player can walk and which triggers fire. [verified] for every count and quotation
 above.
+
+## The refusal category does exist, and it is used three times — 2026-09-11
+
+**Correcting "The verb menu, and why there is no default binding" above.** That section concluded
+that of the three distinctions — never authored, authored and empty, authored to refuse — *"the
+third does not exist as a category, because what would have refused is simply absent from the
+menu."* It does exist. It has its own macro, its own dispatch table and its own list, and the
+section was written from `_checkVerbValid` without looking at what runs beside it.
+
+`Defines.dinky` declares `#macro VERB_PRE($a) preverb_$a <- function(noun2=null)` and
+`VerbHelpers.dinky` keeps `ROOT(preverb_list)`, filled at boot alongside the `okverb_` table. A
+`VERB_PRE` runs when the player has already chosen the verb, may say a line, and returns `NO` to
+stop the verb happening. So the engine has **both** forms and they are separate constructs:
+`VERB_OK` decides whether the entry is in the popup at all, `VERB_PRE` lets a verb that *is* in the
+popup decline out loud.
+
+**Which is the same distinction this design spells with an `else`**, and the two systems lean
+opposite ways.
+
+| | withhold | refuse |
+|---|---|---|
+| Delores | `VERB_OK` — **62 sites, 32 of them a genuine availability gate** (the other 30 test `noun2`, which is this design's second key) | `VERB_PRE` — **4 sites, 3 of them a refusal** |
+| this design's four specimens | `when` with no `else` — **0** on a hotspot verb | `when` with an `else` — **17** |
+
+[verified] for every count. Roughly **eight to one toward hiding** in the shipped game, and
+seventeen to nothing toward showing here.
+
+**The three refusals, in full, because three is few enough to quote.** `Nickel.fileDrawer`'s `open`
+says *"I should find the camera before setting out. Natalie said it is in the file cabinet"*;
+`Bathroom.sink` and `Bathroom.sinkFaucet` both say *"This has been broken for as long as I can
+remember"* under `turn_on` — **the same sentence on two objects**, which is the duplication
+pressure `frame-width` measures, appearing in the rarest construct in the game. The fourth
+`VERB_PRE` is not a refusal at all: `Inventory.camera`'s `takephoto` returns `NO` to *redirect*,
+starting `takePhoto` on a thread and suppressing the ordinary verb.
+
+So the leak that section records as the price of a contextual menu is real and the engine pays it
+almost everywhere by choice, having built the machinery not to. [verified] for the counts;
+[inference] for reading 3 against 32 as a preference rather than an accident of what the puzzles
+needed.
 
 ## What was looked for and not found — read this before citing
 

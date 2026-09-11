@@ -197,6 +197,15 @@ pub struct Binding {
     /// the second object of a binary verb
     pub object: Option<String>,
     pub when: Option<Pred>,
+    /// Whether a bare `else` sits under the guard — the one bit that separates a binding the
+    /// player is *shown and declined* from one they are never shown at all.
+    ///
+    /// Nothing in the reachability search reads it, because a refusal writes no state and is
+    /// therefore not a transition. `.yidam/decisions/availability.yml` established that the two
+    /// forms are the format's way of saying *withheld* against *refused*, and the model went on
+    /// discarding the distinction for four phases, because the only reader it had was a search
+    /// that cannot see either. The reader that needs it is the interface.
+    pub refuses: bool,
     /// predicates appearing in a guarded response list — checked, never evaluated here
     pub guards: Vec<Pred>,
     pub effects: Vec<Effect>,

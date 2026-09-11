@@ -108,4 +108,13 @@ rationale: |
 
   And the deeper one: withholding is only legible to a player through an interface, and this design
   has none. `tier-split` recorded that questions of this kind have a third answer site which is not
-  a class in this ontology, and this is the second question to land there. `[open]`
+  a class in this ontology, and this is the second question to land there.
+
+  **It has one, and this record is a third of it.** The sentence above is exactly right and its
+  conclusion exactly wrong: withholding is legible through an interface, and the interface was
+  already specified — by this record together with `default-binding` and `arity-cost`, none of
+  which was about a player. Written as code, the derivation recovers the two figures counted here
+  by reading text: the same 17 gated hotspot bindings all carrying a line, and the same 3
+  withholdings, all outside a hotspot verb. [verified]
+  `.yidam/decisions/verb-menu.yml`; the component is
+  [subsystem/verb-menu](../corpus/subsystem/verb-menu.yml).

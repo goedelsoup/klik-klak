@@ -1,0 +1,78 @@
+class: subsystem
+label: Verb Menu
+description: |
+  The component that, given a target and the world state, produces the set of verbs a player may
+  choose from. It runs *before* there is a binding to resolve, which is why it is not
+  [interaction-resolver](interaction-resolver.yml): that component takes a composed verb, target
+  and second object; this one is what lets the player compose it.
+
+  **It is named here because this design turned out to have one and had never said so.**
+  `.yidam/decisions/tier-split.yml` recorded that four questions resolved at a third answer site the
+  ontology has no tier for — *"a design decision about what the player is shown"* — and declined to
+  invent interface classes for it. That refusal stands. This is not an interface class; it is an
+  engine component in the tier that already exists, and the design decision it implements was
+  already made, three times, by records that were not about a player:
+
+  - the menu holds authored bindings and nothing stands in for an unauthored pair —
+    `.yidam/decisions/default-binding.yml`
+  - a binary verb's entry is keyed by its second object, so it appears while that object is carried
+    — `.yidam/decisions/arity-cost.yml`
+  - a `when` with no `else` withholds; a `when` with an `else` shows the entry and declines —
+    `.yidam/decisions/availability.yml`
+
+  Read together those are a complete specification, and writing them as code recovers figures that
+  were counted independently by reading text: the same 17 gated hotspot bindings all carrying a
+  line, and the same 3 withholdings, all outside a hotspot verb. [verified] —
+  `crates/reachability/tests/menu.rs`. `.yidam/decisions/verb-menu.yml`.
+
+  **What it is for, in one number.** Across the four specimens this component holds 88 distinct
+  target-and-verb entries and 698 slots over 145 reachable states, of which 24 entries are showing
+  before the player has done anything. The reachability search reasons about 45 of the 91 bindings,
+  and the 43 it does not are almost exactly the 42 effect-free `look-at`s. [verified] So roughly
+  half of what a player is shown contributes nothing to any figure the instrument reports, which is
+  the boundary of what a reachability search is for rather than a defect in one.
+properties:
+  responsibility: |
+    Given a target and a state, produce the verbs to display and no others. The negative half is
+    the load-bearing half: a verb this component withholds is one the resolver is never asked
+    about, which is why [interaction-resolver](interaction-resolver.yml) can promise *never
+    nothing* without a default to fall through to. [inference]
+
+    A shipped engine names the same responsibility and puts it in one function. `openVerbsFor`
+    walks the master verb list keeping `verb_id in object._known_verbs && _checkVerbValid(object,
+    verb_id)`, where `_known_verbs` is reflection over the object's own `verb_` fields and
+    `_checkVerbValid` consults a per-verb `okverb_` ([delores-source](../../catalog/delores-source.md)).
+    [verified]
+  state: |
+    None. The menu is a pure function of the target and the state, recomputed whenever either
+    moves — which is what makes it checkable by the same search that checks everything else, and
+    what lets a binding be shown in one state and withheld in the next without anything recording
+    that it changed.
+
+    That engine agrees and says so in the one place it could not avoid saying it: `yackChoices()`
+    returns *"the number of choices at the moment it is called… not the total choices to be
+    shown"*, because the list is being built as the question is asked. [verified]
+  authoring_visibility: |
+    None directly, and one bit indirectly, which is an unusual shape worth stating. An author never
+    configures this component; what they write is bindings, and the menu falls out. The single
+    exception is the `else`, which decides whether a gated binding is withheld or shown-and-declined
+    — the only place in this vocabulary where an author addresses the interface at all.
+
+    **It costs nothing in the graph, which is why nobody noticed it was a choice.** The same game
+    written with and without that line has the same states, transitions, strandings and
+    winnability, and differs only in how many menu slots the entry occupies. [verified] —
+    `crates/reachability/tests/menu.rs`.
+
+    **And the two systems lean opposite ways.** The corpus writes the refusing form seventeen times
+    and the withholding form never on a hotspot verb; Delores writes 32 genuine `VERB_OK`
+    withholdings against 3 `VERB_PRE` refusals ([delores-source](../../catalog/delores-source.md)).
+    [verified] Eight to one toward hiding there, seventeen to nothing toward showing here, in
+    systems that both offer the choice. [inference] Nothing here explains the difference, and the
+    obvious guess — that four small specimens are not a house style — is the honest one.
+links:
+  - target: ../interaction/unary-binding.yml
+    relationship: realizes
+  - target: ../interaction/binary-binding.yml
+    relationship: realizes
+  - target: ../subsystem.ont.yml
+    relationship: instance-of
