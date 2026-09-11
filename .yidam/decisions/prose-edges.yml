@@ -100,16 +100,27 @@ rationale: |
     the format's side, *"the one trigger an interaction table keyed by verb and target cannot
     index"*, appearing a second time in the component layer where nobody had looked for it. The
     orphan is the symptom and the missing realizer is the finding. [inference]
-  - **A primitive nobody wired up.** `world-flag/object-state` can be reached by `interaction
-    -sets->`, which is authored — to `boolean-flag` and to `counter-flag`. The corpus adopted a
-    third state primitive on the strength of a shipped game in which it is the **dominant** form
-    of state, and connected no binding to it. [verified]
+  - **A refusal showing through.** `world-flag/object-state` can be reached by `interaction
+    -sets->`, which is authored — to `boolean-flag` and to `counter-flag`. It is the dominant form
+    of state in the one game whose source this corpus can read and no binding here sets one
+    [verified], because the node itself declines to propose it: *"this node stays what it is: a
+    record of what a real system keeps and why, and **not a primitive proposed here**."* Its
+    orphanhood is `scripted-sequence`'s, reached from the instance rather than from the class.
 
-  Neither of the last two is closed here. Writing `interaction-resolver -realizes-> entry-binding`
-  or `unary-binding -sets-> object-state` would be exactly the move this record has just spent
-  thirteen counterexamples refusing — an edge written because a relationship was available — and
-  the difference between them and the two that were written is that no sentence in either node
-  asserts the relationship. The condition for writing them is a node that says so.
+  This record first filed that one as *a primitive nobody wired up*, which reads the graph's shape
+  and not the node's last paragraph — the mistake catalogued three paragraphs above, made in the
+  act of cataloguing it. What the correction adds is a fourth way to be an orphan and the one that
+  is hardest to see: the corpus keeps three nodes for the argument rather than the entry —
+  [give-to](../corpus/verb/give-to.yml), [walk-to](../corpus/verb/walk-to.yml), and this one — and
+  only the third has no incoming edge, because the other two are `implements`ed by systems that
+  shipped them. **A kept refusal is invisible in the graph unless somebody else built the thing.**
+  [inference]
+
+  So one of the four is genuinely open, and it is `interaction/entry-binding`. Writing
+  `interaction-resolver -realizes-> entry-binding` would be exactly the move this record has just
+  spent thirteen counterexamples refusing — an edge written because a relationship was available —
+  and the difference from the two that were written is that no sentence in any node asserts it.
+  The condition for writing it is a node that says so.
 
   **What this does not settle.** Whether the second graph should have a form. Every citation in it
   resolves, so the four spellings and three bases cost nothing today; what they cost is every tool

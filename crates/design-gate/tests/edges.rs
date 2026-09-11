@@ -316,8 +316,11 @@ fn the_graph_the_tools_read_is_not_the_graph_the_corpus_wrote() {
 ///   table keyed by verb and target cannot index"* — appearing a second time, in the component
 ///   layer, where nobody had looked for it.
 /// * `world-flag/object-state` — `interaction -sets-> world-flag` is available and authored, to
-///   `boolean-flag` and `counter-flag`. The corpus adopted a third state primitive on the
-///   strength of a shipped game where it is *dominant*, and connected no binding to it.
+///   `boolean-flag` and `counter-flag`, and this is the dominant form of state in the one game
+///   whose source this corpus can read. No binding here sets one because the node declines to
+///   propose it: it is *"a record of what a real system keeps and why, and not a primitive
+///   proposed here."* A kept refusal is invisible in the graph unless somebody else shipped the
+///   thing, which is why `give-to` and `walk-to`, kept on the same grounds, are not orphans.
 ///
 /// They are named rather than counted because a fifth appearing is the event worth failing on.
 #[test]
