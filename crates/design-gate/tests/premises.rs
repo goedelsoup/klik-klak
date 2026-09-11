@@ -44,14 +44,23 @@ fn premises(root: &Path) -> Vec<String> {
     fm.list("rests_on").to_vec()
 }
 
-/// **Fourteen premises, nine of them moved, and the gate reports none of it.**
+/// **Fourteen premises, nine of them moved, and the gate reported none of it.**
 ///
-/// Pinned as a census against the commit that last touched the document, so the figures are the
-/// drift as it stood when this phase opened.
+/// A **closed window**, anchored by commit subject to the edit that stood before `moved-ground`
+/// opened. The first version of this measured from *the document's last commit* and the phase's
+/// own revise moved that anchor out from under it — a baseline that the thing it measures can
+/// change is not a baseline, which is the finding of this phase arriving inside its own check.
+const BEFORE: &str = "^revise: two sentences that were edges";
+
 #[test]
 fn nine_of_fourteen_premises_moved_under_the_proposal() {
     let root = repo_root();
-    let last = git(&root, &["log", "-1", "--format=%H", "--", DESIGN]);
+    let found = git(&root, &["log", "--format=%H", "--grep", BEFORE]);
+    let last = found
+        .lines()
+        .next()
+        .expect("the anchor commit is gone, so this window cannot be measured")
+        .to_string();
     let all = premises(&root);
     assert_eq!(all.len(), 14, "premises the proposal declares");
 
