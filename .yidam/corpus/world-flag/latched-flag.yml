@@ -171,6 +171,14 @@ properties:
     that restores a latched flag as clearable has corrupted no value — every flag reads exactly
     as it should — and has quietly made reachable a state the author had proved unreachable. That
     is a worse failure than a wrong value, because nothing about it looks wrong.
+
+    **That failure cannot occur in this design, and finding out why closed a question in a decision
+    record.** It describes a save carrying the flag's *schema* as well as its value. Here `latched`
+    is a declaration in the `.game` file and not a component of the state vector, so a save holds
+    values, the game file holds kinds, and the latch comes back from the source on load. [inference]
+    The paragraph above is about engines whose saves carry the schema, which is the shape
+    [data-format/save-state](../data-format/save-state.yml) found in the one engine it could read.
+    `.yidam/decisions/save-boundary.yml`.
 links:
   - target: ../puzzle/state-gate.yml
     relationship: gates

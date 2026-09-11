@@ -13,6 +13,7 @@ location:
     value: https://blog.thimbleweedpark.com/
     description: "The blog itself; every post cited below is `<slug>.html` under this host"
 used-by:
+  - ../corpus/data-format/save-state.yml
   - ../corpus/prior-art/thimbleweed-park.yml
   - ../corpus/data-format/room-manifest.yml
   - ../corpus/verb/walk-to.yml

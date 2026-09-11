@@ -16,6 +16,10 @@ location:
     value: https://adventuregamestudio.github.io/ags-manual/
     description: the rendered manual; JavaScript-driven, so a plain fetch returns an empty page
 used-by:
+  - ../corpus/world-flag/boolean-flag.yml
+  - ../corpus/world-flag/counter-flag.yml
+  - ../corpus/world-flag/object-state.yml
+  - ../corpus/data-format/save-state.yml
   - ../corpus/prior-art/ags.yml
   - ../corpus/verb/pick-up.yml
   - ../corpus/interaction/acquisition-binding.yml
@@ -314,6 +318,59 @@ two" while listing eight, for six of which it was the only record.
   directly affect the player" — a division that exists only because responses have duration.
 - Also read and not cited: `EditorRoom.md`, which mentions interactions nowhere, and
   `Globalfunctions_Message.md`.
+
+## What a save file is, and what it costs an author — 2026-09-11
+
+Three pages read on 2026-09-11: `GameSavesCompatibility.md`, `HandlingIncompatibleSaves.md`
+and `ValidateRestoredSave.md`. They are on this corpus's subject and nobody here had opened
+them; `world-flag.ont.yml` has declared a `save_semantics` property since genesis and all four
+flag nodes answer it at `[inference]`.
+
+**What the save contains.** *"AGS games have a built-in save system… these saves are essentially
+'save states', meaning that they contain a 'dump' of all the game objects, regardless of whether
+they are related to the game progress or not."* That is the sentence, and the engine's own manual
+is the one making the distinction between state that is about progress and state that is not.
+
+**How it is keyed, and what that costs.** *"When game data is written to a save file the game
+objects and variables are written as lists, where separate items are not identified in any way
+rather than an order in that list… Because of that, adding, removing or changing an order of
+objects in game may make older saves incompatible, or completely unusable and impossible to
+load."* The manual calls this *"one serious technical flaw"* and states the consequence for a
+shipped game: *"it becomes a problem after you released your game to the public, as any update or
+patch that involves adding new objects or variables will render the player's saves unstable or
+unusable."*
+
+**What breaks a save and what does not**, which is the part that reads as a statement about
+authoring rather than about serialization:
+
+| breaks older saves | safe |
+|---|---|
+| adding, removing or reordering Characters, Dialogs, Global Variables, GUIs and their controls, Inventory items, cursor modes, Views/loops/frames, script modules | adding rooms; adding room objects; editing backgrounds and area masks; adding or removing dialog options |
+| changing the total size of variables declared at global scope in any script | **functions and attributes, and generally — function code itself**; macros; existing dialog scripts |
+
+So a save is coupled to the **declaration list** and not to the code. An author may rewrite every
+response in the game and keep every save; adding one inventory item invalidates all of them.
+
+**The remedy is a script hook, which is the fourth time this manual has answered a declarative
+problem that way.** Since 3.6.2 an author who has added anything *must* write
+`validate_restored_save(RestoredSaveInfo* info)* — *"or the game will refuse to load older
+saves"* — and the feature works only if new objects went on the **end** of their lists. The rules
+are stated as prohibitions: *"Can't remove existing objects or variables. If you no longer need
+any, then hide or disable them."*
+
+That last sentence is word-for-word the conclusion this corpus reached about a different AGS-era
+format from the other direction: `data-format/room-manifest` found that a file survives
+round-tripping through a tool *"by never removing anything."* Two formats, two phases, one rule.
+
+**Also settled in passing, and it is the third system to say it.** *"Local variables (inside
+functions) may be added and removed freely because they are not saved, because AGS does not allow
+the game to save while it is inside a script function."* Thimbleweed Park could not serialize a
+running Squirrel thread and paid in three workarounds; AGS forbids the save instead; this design
+refused duration and has no inside-a-function to be in.
+
+**What was looked for here and not found.** Any statement of what a save *ought* to contain, or
+any acknowledgement that a smaller save keyed by name would not have this problem. The manual
+describes the format it has and the ways around it, and does not compare it to an alternative.
 
 ## What this document holds that nobody here has looked at
 

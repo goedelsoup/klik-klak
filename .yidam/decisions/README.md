@@ -73,10 +73,6 @@ does not re-emit it.
 
 - **:75** — **What this does not decide.** Whether a design that did include geometry should have one relation or three. Nothing here bears on it, and the three are genuinely different — a part is contained by its whole, two regions of one thing are interchangeable, and two things that read alike are not interc…
 
-### [latch-default](latch-default.yml)
-
-- **:80** — **What this does not settle.** Whether the declaration should be authored at all. Every figure above says a checker can derive latching from the game, and the one thing derivation cannot supply is the reason [latched-flag](../corpus/world-flag/latched-flag.yml) gives for the property existing: a sav…
-
 ### [marker-count](marker-count.yml)
 
 - **:79** — **What this does not settle.** Whether a marker should carry the phase that opened it. Every one of the five stale markers could have been caught by re-reading a record from the phase that followed, and nothing connects the two — a marker names no date, no phase and no record, so "has this been answ…
@@ -92,6 +88,10 @@ does not re-emit it.
 ### [record-layer](record-layer.yml)
 
 - **:114** — **What this does not settle.** Whether the migration should be reversed rather than gated. Every phase for six phases has answered a corpus question in a record, and the corpus node it answers now often carries a pointer where it used to carry the argument — which is legible to a reader following li…
+
+### [save-boundary](save-boundary.yml)
+
+- **:102** — **What this does not settle.** Whether a save should hold anything a predicate cannot read. There is one candidate and it is not hypothetical: a player's position *within* a room, which [path-solver](../corpus/subsystem/path-solver.yml) owns and no predicate in this vocabulary can ask about. The sta…
 
 ### [testimony](testimony.yml)
 
@@ -124,8 +124,6 @@ nodes, at four times the rate, and it had never been looked at.
 - [domain-computer](domain-computer.yml)
 - [effect-half](effect-half.yml)
 - [effect-vocabulary](effect-vocabulary.yml)
-- [escape-hatch](escape-hatch.yml)
-- [latch-default](latch-default.yml)
 - [name-scoping](name-scoping.yml)
 - [record-layer](record-layer.yml)
 - [specimen-placement](specimen-placement.yml)

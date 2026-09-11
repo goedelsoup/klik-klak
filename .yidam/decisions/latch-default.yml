@@ -76,5 +76,14 @@ rationale: |
   above says a checker can derive latching from the game, and the one thing derivation cannot supply
   is the reason [latched-flag](../corpus/world-flag/latched-flag.yml) gives for the property
   existing: a save file that restores a latched flag as clearable corrupts no value and makes
-  reachable a state the author had proved unreachable. That argument has never been tested against a
-  save format, because this design has none. `[open]`
+  reachable a state the author had proved unreachable. That argument had never been tested against a
+  save format, because this design had none.
+
+  **It has one now and the argument does not survive the test.** The save is the state vector, which
+  holds values; `latched` is a declaration in the `.game` file, which holds kinds. A load re-reads
+  the source, so there is no path by which a latched flag comes back clearable. The failure the
+  property was defended with belongs to engines whose saves carry the schema, which is the shape the
+  one readable engine has — AGS writes a positional dump of every object, and its manual documents
+  what a changed declaration list does to an old save. [inference] The declaration keeps its place
+  on the other ground, that it is checkable in both directions, and loses the one argument
+  derivation could not have supplied. [save-boundary](save-boundary.yml).

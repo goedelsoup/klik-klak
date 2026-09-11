@@ -4,9 +4,15 @@ foundational_type:
   ontology: ufo
   type: kind
 description: |
-  An on-disk representation an author writes and the engine reads. Irreducible because it
+  An on-disk representation of something the vocabulary declares. Irreducible because it
   is where the vocabulary becomes concrete: a primitive that cannot be written down is
   not part of an authoring vocabulary, whatever the runtime does with it.
+
+  This said *"an author writes and the engine reads"* until a save file was assessed against it.
+  Nobody authors a save and nothing in the vocabulary is expressed by one, and it is a data format
+  all the same — it is the on-disk form of the world state, its shape is a design decision with
+  consequences for an author, and `authored_by` already had three answers rather than one.
+  `data-format/save-state` is the instance and carries the argument.
 properties:
   - name: syntax
     type: string
@@ -35,3 +41,11 @@ edges:
     target: interaction
     direction: out
     description: The authoring primitive this format is a written form of.
+  - relationship: encodes
+    target: world-flag
+    direction: out
+    description: >-
+      The world state this format is a written form of. Added when a save file was assessed
+      against this class and turned out to encode the one primitive no format here had claimed —
+      `data-format/save-state` is the instance, and the value is added and authored in the same
+      commit, on the precedent `world-flag/object-state` set for `scope`.

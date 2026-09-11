@@ -60,6 +60,14 @@ properties:
     As for a boolean, with one addition worth naming: a counter is the state most likely to
     be incremented by a cutscene that the player skipped. [inference] Skip handling and
     counter state interact, and neither class currently says so.
+
+    **Both engines that shipped one hit this and neither solved it.** Thimbleweed Park cannot
+    serialize a running thread, so a save during a cutscene *"silently restores the state from
+    just before it"*; AGS does not allow a save while a script function is running at all
+    ([ags-manual](../../catalog/ags-manual.md)). [verified] This design refused duration, so there
+    is no partly-run sequence for a counter to be caught inside —
+    [data-format/save-state](../data-format/save-state.yml) is where that stops being a modelling
+    opinion.
 links:
   - target: ../puzzle/state-gate.yml
     relationship: gates
