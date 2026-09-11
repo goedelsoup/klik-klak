@@ -203,8 +203,11 @@ jobs:
     name: corpus (graph gate)
     runs-on: ubuntu-latest
     steps:
-      # Full history: the commit-vocabulary check needs origin/main to resolve a range
-      # against, and a depth-1 checkout does not have it.
+      # Full history, for two reasons. The commit-vocabulary check needs origin/main to
+      # resolve a range against, and a depth-1 checkout does not have it. And `yidam regen`
+      # refuses a shallow clone outright as of cli/v0.12.0: the status block names the
+      # corpus genesis, git calls a truncated history's boundary commit a root, and the
+      # block was therefore written from a date the clone invented.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -451,10 +454,13 @@ jobs:
       # produce a diff the gate had never asked for. The set now lives in one place in the
       # CLI and both callers ask for it by name.
       #
-      # `yidam status` counts phase branches, which is why the checkout above fetches
-      # everything: with only the checked-out branch present, the count is whatever CI can
-      # see rather than what the repository holds. That was a live bug — the count read
-      # local branches only, so this job failed on every push in any repo with a sangha.
+      # This paragraph used to justify the fetch above by the phase count. As of
+      # cli/v0.12.0 the count is gone from the block: it read refs, which is a property of
+      # how a checkout was fetched rather than of the commit, so for one commit there was
+      # no value green both in a default CI checkout and in a clone that had fetched. The
+      # gate was unwinnable rather than wrong, and it moved with no commit at all — pushing
+      # a phase branch reddened this step on every open pull request. `fetch-depth: 0` is
+      # still required, for the two reasons named at the checkout.
       # `--check` rather than run-and-diff. The old form regenerated into the working
       # tree and asked git whether anything moved, which works in CI and cannot be run
       # locally with work in flight — the diff it reads is every diff, not just its own.

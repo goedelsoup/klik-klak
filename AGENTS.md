@@ -203,10 +203,11 @@ surface and the worked examples.
 that breaks an edge, orphans a node, or leaves a REGEN block stale fails there. Run it
 before committing rather than after.
 
-**Settling a phase makes the gate fail until you regenerate.** The `status` REGEN block in
-`README.md` counts active phase branches, so `git branch -d phase/<name>` changes generated
-content without changing the corpus. `mise run ci` passes on the phase branch and fails on
-`main` one command later, on a block nobody edited. The merge is not finished until:
+**Settling a phase usually makes the gate fail until you regenerate**, and the reason is the
+corpus rather than the branch. A phase that adds a node moves the node count and the claim
+tallies in `README.md`'s `status` block and the table in `.yidam/corpus/README.md`, so
+`mise run ci` passes on the phase branch and fails on `main` one command later, on blocks
+nobody edited. The merge is not finished until:
 
 ```
 git merge --no-ff -m "phase: <name> — <what it produced>" phase/<name>
@@ -215,6 +216,14 @@ mise run regen && git commit -am "regen: status block after settling phase/<name
 ```
 
 Found by doing it — `cbd2c9b` merged green and left `main` red.
+
+`git branch -d` itself no longer changes generated content, and it used to. The `status`
+block counted phase refs, so creating or deleting a branch moved committed content with no
+commit behind it: the gate could be red for the life of a phase on a file the phase never
+touched, and go green when a ref was deleted rather than when anything was repaired. Watched
+here across `phase/save-boundary`. `cli/v0.12.0` took the tally out of the block — a count of
+refs is a property of how a checkout was fetched rather than of the commit, so no committed
+value was green everywhere. `yidam phases` is where the live count belongs.
 
 Run the composite rather than its parts. Each catches something the others do not —
 `graph-check` reads the graph and is blind to a stale REGEN block; `regen --check` reads
