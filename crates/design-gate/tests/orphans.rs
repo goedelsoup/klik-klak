@@ -121,21 +121,21 @@ fn every_orphan_accounts_for_itself() {
     let mut silent = Vec::new();
     for n in orphans(&root) {
         let src = std::fs::read_to_string(root.join(".yidam/corpus").join(&n)).expect("readable");
+        // lowercased: the accounts open a sentence, so the phrase is capitalised where it is used
+        // and not where it is quoted — the same used-versus-discussed distinction three other
+        // checks in this crate have had to learn, arriving here as a capital letter
+        let lower = src.to_lowercase();
         let accounts = ["nothing points at", "nothing links to", "no incoming"]
             .iter()
-            .any(|s| src.contains(s));
+            .any(|s| lower.contains(s));
         if !accounts {
             silent.push(n);
         }
     }
-    // The census this commit found: all three, and all three have accounts elsewhere.
-    assert_eq!(
-        silent,
-        [
-            "cutscene/scripted-sequence.yml",
-            "prior-art/thimbleweed-park.yml",
-            "world-flag/object-state.yml",
-        ]
+    assert!(
+        silent.is_empty(),
+        "a node nothing points at, saying nothing about it:\n  {}",
+        silent.join("\n  ")
     );
 }
 

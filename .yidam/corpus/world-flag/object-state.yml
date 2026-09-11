@@ -56,6 +56,13 @@ description: |
   ever wants archetypes — and `interaction-table` records that repetition, not expressiveness,
   is what broke the declarative form in practice — this is the primitive that has to come first.
   [inference]
+  **Nothing points at this node, and that is this node's own doing.** `interaction -sets->
+  world-flag` is authored to `boolean-flag` and to `counter-flag` and to nothing here, because the
+  last paragraph above declines to propose the primitive — so no binding in this corpus sets one.
+  A kept refusal is invisible in the graph unless somebody else builds the thing, which is the
+  fourth kind of orphan [prose-edges](../../decisions/prose-edges.yml) catalogued and the hardest
+  to see. [inference]
+
 properties:
   domain: enumeration
   scope: object
