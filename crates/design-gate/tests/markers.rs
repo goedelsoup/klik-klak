@@ -138,7 +138,7 @@ fn the_corpus_carries_seven_questions_and_the_count_is_the_token_count() {
 /// **Three quarters of what this corpus still owes is invisible to every tool it has.**
 ///
 /// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds 7 live
-/// markers; the decision records hold **23 across 18 files**, and they are counted as zero — by
+/// markers; the decision records hold **24 across 19 files**, and they are counted as zero — by
 /// `status`, by `due`, by the index, by everything. The migration happened quietly: as questions
 /// got answered they were replaced by *"what this does not settle"* paragraphs in the record that
 /// answered them, which is the right place to put them and a place nothing looks.
@@ -157,10 +157,15 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (7, 23, 18));
+    assert_eq!((corpus, decisions, records), (7, 24, 19));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        23,
+        22,
         "under a quarter is visible"
     );
+
+    // It was (7, 23, 18) for two phases, and both movements since have come from the same place:
+    // a phase closes nothing in the corpus and opens one in the record that settles it. The
+    // visible share falls by a point each time, which is the migration this test names doing it
+    // in front of the test that names it.
 }

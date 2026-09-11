@@ -1,0 +1,120 @@
+id: prose-edges
+summary: >-
+  The corpus writes two graphs over the same forty-two nodes — 90 `links:` edges and 77 prose
+  citations, overlapping by sixteen — and every tool here reads one of them. Reading all sixty-one
+  unedged citations found two that should have been edges and fifty-nine that should not, so the
+  finding is recorded as a census rather than a rule. `yidam lint`'s word for the condition is
+  *uncited*; the condition is *un-edged*, and only one of the four nodes it names had a remedy.
+context: |
+  [markers.rs](../../crates/design-gate/tests/markers.rs) established that **three quarters of
+  what this corpus owes is invisible to every tool it has** — 7 open questions in the corpus
+  against 23 in the decision records, counted as zero by `status`, by `due`, by the index. That was
+  the question axis. Nobody had looked at the citation axis, where the same migration happened and
+  took more.
+
+  The occasion was `yidam lint`, which has reported four nodes under `orphan-in` for dozens of
+  commits with the sentence *"nothing links to this node — uncited since 2026-09-10"*. One of them
+  is [interaction/entry-binding](../corpus/interaction/entry-binding.yml), which is quoted at
+  length in four decision records and six corpus nodes, including its own class definition. The
+  report is false about the node and true about the graph, and nobody had established which.
+decision: |
+  **No rule. The two graphs are measured, held at a pinned size, and the sixty-one unedged
+  citations are read by hand once and recorded.** Two became edges. Nothing becomes automatic.
+
+  The measurement, in `crates/design-gate/tests/edges.rs`:
+
+  | | |
+  |---|---|
+  | declared `links:` edges between nodes | **90** |
+  | prose citations between nodes | **77** |
+  | pairs in both | **16** |
+  | references in corpus prose, all resolving | **191** |
+  | …of which land in `.yidam/decisions/` | **98** |
+
+  **The corpus points outside itself more often than at itself.** 98 of 191 references go to a
+  decision record, 83 to another node, 10 to a class definition. A decision record is not a node,
+  so more than half of what the corpus's prose reaches for is outside the graph by construction —
+  `markers.rs`'s finding arriving on the second axis and, this time, taking the larger share.
+
+  **And there was never a form to write a citation in.** Four spellings are in use — a markdown
+  link, a backticked path, a backticked bare filename, a root-relative path sitting bare in a
+  sentence — read against three bases: 94 references resolve from the node's own directory, 92
+  from the repository root, 5 from `.yidam/corpus/`. The two main bases split the corpus nearly in
+  half and appear in the same paragraph. A checker written against either reports about half the
+  corpus as rot, which is a worse report than none, and is a sufficient explanation for why the
+  corpus has gone this long with no link check while `design/` has had one since the gate was a
+  shell script. There is one now, it reads all four spellings, and its first finding was a
+  reference to this record from a commit written before this record existed.
+rationale: |
+  **The rule that looked available is wrong thirteen times in fifteen, and that is the whole
+  result.**
+
+  Fifteen of the sixty-two unedged citations joined two classes for which the ontology already
+  declares a relationship. That is the shape of a lint waiting to be written: the vocabulary has
+  the form, the author used prose, close the gap. All fifteen were read.
+
+  - **Two should have been edges.** [prior-art/ags](../corpus/prior-art/ags.yml) holds the only
+    interaction table this corpus has ever read in full — 48 actions from AGS's own source — and
+    pointed at [interaction-table](../corpus/data-format/interaction-table.yml) in a sentence, so
+    the graph said AGS reads no format at all. [thimbleweed-park](../corpus/prior-art/thimbleweed-park.yml)
+    authored `reads` twice in one list and wrote the third in prose, and the third is the one its
+    own sentence calls *"this phase's largest finding"*. [verified] Neither node was missing the
+    vocabulary or the habit; each has the relationship elsewhere in the same block. They are two
+    sentences written on a day when the author was thinking about the paragraph.
+  - **Two are the inverse of an edge that already exists.** `interaction-resolver -depends-on->
+    verb-menu` is written; the citation runs the other way, and writing it would make a cycle out
+    of a direction the ontology chose. `portable-object -acquired-by-> acquisition-binding` the
+    same.
+  - **Two the ontology forbids.** `interaction -applies-> verb` is declared *"mutually exclusive
+    with `triggered-by`"*, and `triggered-by` is the one edge `entry-binding` has; and an
+    interaction table keyed by verb and target is **defined** by not indexing arrival, which is
+    the sentence the citation is pointing at.
+  - **One is denied by the sentence making it.** [verb/walk-to](../corpus/verb/walk-to.yml) cites
+    [give-to](../corpus/verb/give-to.yml) to say *"nothing here collapses into anything"*. The
+    citation exists to refuse the relationship the class declares.
+  - **Eight are pointers to an argument** — *"the node still carrying the warning"*, *"same shape
+    as the finding in"*, *"is where a spend happens"*. This is what most citation in this corpus
+    is, and no relationship in this ontology means it.
+
+  So a check that wrote the available edge would have written thirteen false ones, two of them
+  into a mutual exclusion the ontology declares in the same file. **Availability is 13% of
+  evidence.** The census is kept and the rule is refused, which is the conclusion `markers.rs`
+  reached about its own axis in almost the same words: *"It cannot tell that a question has been
+  answered; nothing can, short of reading."*
+
+  **The orphan report was wrong about one thing and useful about a different one.** Five nodes
+  have no incoming edge, not four; the lint misses `cutscene/scripted-sequence`, which is the most
+  cited of them. Of the five, exactly one — [dialogue-script](../corpus/data-format/dialogue-script.yml)
+  — was a defect with a remedy, and it is fixed. The other three decompose into things worth
+  having separate names for:
+
+  - **Structural.** `cutscene` is the only class in this ontology with **no incoming relationship
+    at all**; `prior-art` has exactly one, `verb -originated-in->`, which no 2017 game inheriting
+    its verbs can receive. Those two orphans are what the graph looks like when a class is
+    designed to point outward. `scripted-sequence`'s is additionally *chosen*:
+    `design/bounded-expression-language.md` refuses `interaction -enters-> cutscene` until a game
+    needs one, so the orphan is a design decision showing through.
+  - **A gap somewhere else.** `interaction/entry-binding` has `subsystem -realizes-> interaction`
+    available and **nothing in this corpus realizes arrival** — `subsystem/interaction-resolver`
+    does not contain the word. [verified] That is the same hole `interaction-table` documents from
+    the format's side, *"the one trigger an interaction table keyed by verb and target cannot
+    index"*, appearing a second time in the component layer where nobody had looked for it. The
+    orphan is the symptom and the missing realizer is the finding. [inference]
+  - **A primitive nobody wired up.** `world-flag/object-state` can be reached by `interaction
+    -sets->`, which is authored — to `boolean-flag` and to `counter-flag`. The corpus adopted a
+    third state primitive on the strength of a shipped game in which it is the **dominant** form
+    of state, and connected no binding to it. [verified]
+
+  Neither of the last two is closed here. Writing `interaction-resolver -realizes-> entry-binding`
+  or `unary-binding -sets-> object-state` would be exactly the move this record has just spent
+  thirteen counterexamples refusing — an edge written because a relationship was available — and
+  the difference between them and the two that were written is that no sentence in either node
+  asserts the relationship. The condition for writing them is a node that says so.
+
+  **What this does not settle.** Whether the second graph should have a form. Every citation in it
+  resolves, so the four spellings and three bases cost nothing today; what they cost is every tool
+  that was never written, and this phase wrote one of them and found the count had drifted in a
+  document nobody re-reads. A declared citation syntax would be a schema change to prose that has
+  none, which is the same threshold [marker-count](marker-count.yml) declined to cross for
+  back-links on open questions — the second question of that exact shape, and the corpus's own
+  rule says the second instance is when to look again. `[open]`

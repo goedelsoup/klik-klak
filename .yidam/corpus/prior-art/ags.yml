@@ -92,7 +92,11 @@ properties:
     30 events per entity and 40 commands per list ([ags-source](../../catalog/ags-source.md)).
     [verified] What it has no form of is composition: no disjunction, no negation, no grouping,
     no comparison beyond equality. The full table and what follows from it are in
-    [data-format/interaction-table](../data-format/interaction-table.yml).
+    [data-format/interaction-table](../data-format/interaction-table.yml), **which this node now
+    reads as an edge rather than as a sentence.** `prior-art -reads-> data-format` has been
+    declared since genesis and authored twice by other systems; the node holding the only
+    interaction table this corpus has ever read in full did not author it, and the graph therefore
+    said AGS reads no format at all. `.yidam/decisions/prose-edges.yml`.
 
     So the standing of the claim has changed twice in two phases. That the editor was removed was
     always `[verified]`; what it *was* was `[inference]` from an archived manual for one phase;
@@ -150,6 +154,8 @@ properties:
     and its index rather than page by page, which is what the claim above needs and is less than
     reading it.
 links:
+  - target: ../data-format/interaction-table.yml
+    relationship: reads
   - target: ../verb/look-at.yml
     relationship: implements
   - target: ../failure-mode/orphaned-dialogue-branch.yml

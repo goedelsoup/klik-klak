@@ -159,7 +159,10 @@ description: |
     `door_verbs = YES` and no code, from which the engine synthesises a precondition and a
     response. See [walk-to](../verb/walk-to.yml). [verified]
   - Conversations left the general-purpose language entirely, into **Yack** — see
-    [dialogue-script](../data-format/dialogue-script.yml), which is this phase's largest finding.
+    [dialogue-script](../data-format/dialogue-script.yml), which is this phase's largest finding
+    and is a `reads` edge now as well as a sentence. This node authored `reads` twice in the same
+    list and wrote the third as prose, so the graph recorded the two formats this system reads and
+    not the one the sentence calls largest.
   - Repetition — the pressure this node identified as what broke the declarative form first — is
     answered by **named archetypes selected with a boolean**. `door_verbs = YES` and
     `on_off_verbs = YES` expand into a full set of preconditions and responses: a switch declares
@@ -302,6 +305,8 @@ links:
   - target: ../data-format/room-manifest.yml
     relationship: reads
   - target: ../data-format/interaction-table.yml
+    relationship: reads
+  - target: ../data-format/dialogue-script.yml
     relationship: reads
   - target: ../failure-mode/unwinnable-state.yml
     relationship: exhibits

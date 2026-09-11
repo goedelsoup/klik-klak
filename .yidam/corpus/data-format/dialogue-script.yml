@@ -9,6 +9,13 @@ description: |
   question [interaction-table](../data-format/interaction-table.yml) calls the most valuable
   open one in this corpus.
 
+  **For forty-one commits `yidam lint` called it uncited, and it was the largest finding of the
+  node that reads it.** [prior-art/thimbleweed-park](../prior-art/thimbleweed-park.yml) said so in
+  a sentence and recorded the two formats beside it as edges; the lint reads edges. The word in
+  the report is *uncited* and the condition was *un-edged*, which is a different thing with a
+  different remedy — the edge is written now, and three of the four nodes still reported cannot be
+  fixed the same way. `.yidam/decisions/prose-edges.yml`.
+
   **A bounded expression language was tried at exactly this scope, by the people who invented
   the form, and it shipped.** *Delores* carries eleven `.yack` files, 692 non-blank lines, in a
   language that is not the engine's general-purpose one
