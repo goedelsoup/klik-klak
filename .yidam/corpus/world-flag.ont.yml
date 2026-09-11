@@ -8,6 +8,15 @@ description: |
   mode because it has no existence apart from the game world it inheres in, and it is
   irreducible because it is the only thing that carries meaning across rooms: without it
   nothing an author writes in one room can be visible from another.
+
+  **"Write and read" is a conjunction and the format admits half of it.** A flag every binding
+  writes and no predicate reads is declarable, and until this was checked it occupied a bit in the
+  checker's state vector — splitting reachable states that nothing in the game could tell apart,
+  in the direction that makes the report look better. The mode has no existence apart from the
+  world it inheres in, and a value nothing can observe does not inhere in anything. The claim and
+  its tag are carried by [world-flag/boolean-flag](world-flag/boolean-flag.yml), because a tag
+  asserted in class prose is counted nowhere; this paragraph is the pointer.
+  `.yidam/decisions/unread-state.yml`.
 properties:
   - name: domain
     type: string

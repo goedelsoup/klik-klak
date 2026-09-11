@@ -11,6 +11,27 @@ description: |
   other write. An engine with many flags and no structure over them is an engine in which
   every author must hold the whole set in their head, which is where `unwinnable-state`
   comes from more often than from any single mistake.
+
+  **And *written and read* is a conjunction, which the format did not require and the checker did
+  not notice.** A flag nothing reads is declarable, and it used to occupy a bit of state: the
+  reachable set split on a value no predicate could consult, and the write was counted as a
+  transition. Narrowed and reported now — a lever whose flag nothing reads gives the same 1 state
+  and 1 transition as a game with neither line in it, and 2 and 3 when a door waits on it.
+  [verified] — `crates/reachability/tests/unread.rs`.
+
+  What makes it worth a check rather than a convention is the direction of the error. An unread bit
+  can only add states and can only enlarge the declared space, so the collapse looks deeper than it
+  is, and a defect that flatters the headline is one nobody goes looking for. [inference] This is
+  the fourth place that pattern has been named here and the first where the vector was one an
+  *author* declared rather than one the instrument invented. `.yidam/decisions/unread-state.yml`.
+
+  This node now trips `verified-unsourced` and the warning is correct: its one `[verified]` rests on
+  a committed assertion in `crates/` and on no document, and citing a catalog entry for some other
+  claim would silence the rule for the whole node without earning it — the unearned silencing
+  [binary-binding](../interaction/binary-binding.yml) records happening to itself. It is left
+  standing. `.yidam/decisions/found-in.yml` carries the gap, and this is its **third** visible
+  instance against a threshold of two; twenty-one nodes rest a `[verified]` claim on a test and the
+  linter can see three, which `crates/design-gate/tests/markers.rs` is now the neighbour of.
 properties:
   domain: boolean
   scope: global

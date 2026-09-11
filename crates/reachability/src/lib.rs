@@ -104,6 +104,15 @@ pub struct Report {
     pub menu_slots: usize,
     /// Bindings in no menu in any reachable state: authored, and never shown to anybody.
     pub unshown: Vec<String>,
+    /// Flags, counters and items the game declares and no predicate reads.
+    ///
+    /// `.yidam/decisions/observed-state.yml` asked whether its rule *"wants enforcing rather than
+    /// observing"*. It wants both, and which one depends on who wrote the state. Where the
+    /// **instrument** invented a component — takeable hotspots, actors, conversation options — the
+    /// fix is to stop inventing it, and that has been done three times. Where the **author**
+    /// declared one nothing reads, narrowing it silently would hide an authoring mistake in the
+    /// same breath as correcting a figure, so it is narrowed *and* named.
+    pub unread: Vec<String>,
     /// per counter, whether it only ever rises across a reachable transition
     pub monotone_counters: Vec<(String, bool)>,
     /// Where a game handed out more of an item than it declared room for.
@@ -251,6 +260,51 @@ impl<'a> Index<'a> {
             }
         }
 
+        // Which flags, counters and items are **read**, and therefore which of them are state.
+        //
+        // `.yidam/decisions/observed-state.yml` states the rule — *"a component of `State` exists
+        // only if some predicate in the game can read it"* — and narrowed three vectors to obey it,
+        // one at a time, each after a figure came out wrong in the flattering direction. These
+        // three were still built by enumerating declarations, which is the same defect in the one
+        // place nobody had looked.
+        //
+        // An item is read where a predicate names it and also where a binary verb takes it as a
+        // second object, because `offered` requires it carried. `Spend` is not a read: reducing a
+        // count nothing consults changes nothing anybody can observe.
+        let (mut rflags, mut rcounters, mut ritems) = (
+            Vec::<String>::new(),
+            Vec::<String>::new(),
+            Vec::<String>::new(),
+        );
+        fn reads(q: &Pred, f: &mut Vec<String>, c: &mut Vec<String>, i: &mut Vec<String>) {
+            let note = |v: &mut Vec<String>, x: &String| {
+                if !v.contains(x) {
+                    v.push(x.clone());
+                }
+            };
+            match q {
+                Pred::Flag(x) => note(f, x),
+                Pred::Cmp(x, _, _) => note(c, x),
+                Pred::Carrying(x) | Pred::Count(x, _, _) => note(i, x),
+                Pred::Not(a) => reads(a, f, c, i),
+                Pred::And(a, b) | Pred::Or(a, b) => {
+                    reads(a, f, c, i);
+                    reads(b, f, c, i);
+                }
+                _ => {}
+            }
+        }
+        for b in &game.bindings {
+            for q in b.when.iter().chain(b.guards.iter()) {
+                reads(q, &mut rflags, &mut rcounters, &mut ritems);
+            }
+            if let Some(o) = &b.object {
+                if !ritems.contains(o) {
+                    ritems.push(o.clone());
+                }
+            }
+        }
+
         let mut entries: Vec<Vec<&Binding>> = vec![Vec::new(); game.rooms.len()];
         for b in &game.bindings {
             if let Site::OnEnter { room } = &b.site {
@@ -264,13 +318,29 @@ impl<'a> Index<'a> {
             caps: game
                 .items
                 .iter()
+                .filter(|i| ritems.contains(i))
                 .map(|i| game.item_cap.get(i).copied().unwrap_or(1))
                 .collect(),
             takeable: game.carried_form.keys().cloned().collect(),
             rooms: game.rooms.clone(),
-            items: game.items.clone(),
-            flags: game.flags.iter().map(|f| f.name.clone()).collect(),
-            counters: game.counters.iter().map(|c| c.name.clone()).collect(),
+            items: game
+                .items
+                .iter()
+                .filter(|i| ritems.contains(i))
+                .cloned()
+                .collect(),
+            flags: game
+                .flags
+                .iter()
+                .map(|f| f.name.clone())
+                .filter(|n| rflags.contains(n))
+                .collect(),
+            counters: game
+                .counters
+                .iter()
+                .map(|c| c.name.clone())
+                .filter(|n| rcounters.contains(n))
+                .collect(),
             options,
             convs,
             at,
@@ -428,6 +498,29 @@ impl<'a> Index<'a> {
             && (b.refuses || b.when.as_ref().map(|q| self.holds(q, s)).unwrap_or(true))
     }
 
+    /// **Does firing this binding change anything the game can tell apart?**
+    ///
+    /// The same rule as [`Ix::in_menu`]'s neighbours one layer down. A binding whose every effect
+    /// writes a slot no predicate reads moves the search nowhere, and counting it as a transition
+    /// is the defect `.yidam/decisions/observed-state.yml` names arriving in a fourth place — this
+    /// time in `transitions`, which is a published figure.
+    ///
+    /// A `give` at an acquisition site is observable however unread the item is, because taking the
+    /// object is the room losing it and `live` reads that.
+    fn observable(&self, b: &Binding) -> bool {
+        b.effects.iter().any(|e| match e {
+            Effect::Move(..) | Effect::Enter(_) | Effect::Leave => true,
+            Effect::SetFlag(x) | Effect::ClearFlag(x) => self.flags.contains(x),
+            Effect::SetCounter(x, _) => self.counters.contains(x),
+            Effect::Spend(x, _) => self.items.contains(x),
+            Effect::Give(x, _) => {
+                self.items.contains(x)
+                    || matches!(&b.site, Site::InRoom { target, .. }
+                        if self.game.carried_form.get(target) == Some(x))
+            }
+        })
+    }
+
     /// Everything `offered` asks except the authored guard: is the target there to be pointed
     /// at, and does the player hold what a binary verb needs?
     fn live(&self, b: &Binding, s: &State) -> bool {
@@ -522,7 +615,9 @@ impl<'a> Index<'a> {
             .chain(fired.iter().flat_map(|f| &f.effects))
         {
             if let Effect::Spend(x, _) = e {
-                n.items[slot(&self.items, x)] = s.items[slot(&self.items, x)];
+                if let Some(i) = self.items.iter().position(|y| y == x) {
+                    n.items[i] = s.items[i];
+                }
             }
         }
         n
@@ -567,15 +662,33 @@ impl<'a> Index<'a> {
         }
         for e in &b.effects {
             match e {
-                Effect::SetFlag(x) => n.flags[slot(&self.flags, x)] = true,
-                Effect::ClearFlag(x) => n.flags[slot(&self.flags, x)] = false,
-                Effect::SetCounter(x, v) => n.counters[slot(&self.counters, x)] = *v,
+                // A write to something no predicate reads is not a transition: it changes
+                // nothing anybody in the game can tell apart. Same shape as the `chosen` fix.
+                Effect::SetFlag(x) => {
+                    if let Some(i) = self.flags.iter().position(|f| f == x) {
+                        n.flags[i] = true;
+                    }
+                }
+                Effect::ClearFlag(x) => {
+                    if let Some(i) = self.flags.iter().position(|f| f == x) {
+                        n.flags[i] = false;
+                    }
+                }
+                Effect::SetCounter(x, v) => {
+                    if let Some(i) = self.counters.iter().position(|c| c == x) {
+                        n.counters[i] = *v;
+                    }
+                }
                 Effect::Give(x, q) => {
-                    let i = slot(&self.items, x);
+                    let Some(i) = self.items.iter().position(|y| y == x) else {
+                        continue;
+                    };
                     n.items[i] = (n.items[i] + q).min(self.caps[i]);
                 }
                 Effect::Spend(x, q) => {
-                    let i = slot(&self.items, x);
+                    let Some(i) = self.items.iter().position(|y| y == x) else {
+                        continue;
+                    };
                     n.items[i] = (n.items[i] - q).max(0);
                 }
                 Effect::Move(None, x) => n.room = self.at[x],
@@ -625,9 +738,7 @@ pub fn analyse(game: &Game) -> Report {
             // appear as something the player chose to do — including in a stranding report,
             // where naming it as the cause would be true and useless: nobody picked it.
             !matches!(b.site, Site::OnEnter { .. })
-                && (!b.effects.is_empty()
-                    || b.ending
-                    || matches!(b.site, Site::InConversation { .. }))
+                && (ix.observable(b) || b.ending || matches!(b.site, Site::InConversation { .. }))
         })
         .collect();
 
@@ -779,6 +890,34 @@ pub fn analyse(game: &Game) -> Report {
     // menu shows that the search cannot: 42 of the four specimens' 91 bindings are `look-at`
     // with no effects, so they are filtered out of the transition graph before it is built and
     // are the largest single thing a player is shown.
+    // What the author declared and nothing can read. The vectors are already narrowed to the
+    // read ones in `Index::new`, so this is the difference between the declaration and the state.
+    let mut unread: Vec<String> = Vec::new();
+    for (kind, declared, kept) in [
+        (
+            "flag",
+            game.flags
+                .iter()
+                .map(|f| f.name.clone())
+                .collect::<Vec<_>>(),
+            &ix.flags,
+        ),
+        (
+            "counter",
+            game.counters.iter().map(|c| c.name.clone()).collect(),
+            &ix.counters,
+        ),
+        ("item", game.items.clone(), &ix.items),
+    ] {
+        for d in declared.iter().filter(|d| !kept.contains(d)) {
+            unread.push(format!(
+                "`{kind} {d}` is declared and no predicate reads it, so writing it changes \
+                 nothing the game can tell apart"
+            ));
+        }
+    }
+    unread.sort();
+
     let mut shown_ever: BTreeSet<(String, String)> = BTreeSet::new();
     let mut shown_at_start: BTreeSet<(String, String)> = BTreeSet::new();
     let mut unshown: Vec<String> = Vec::new();
@@ -846,11 +985,16 @@ pub fn analyse(game: &Game) -> Report {
             )),
             // A flag nothing sets is a constant rather than a latch, and is somebody else's
             // finding; a flag the game only ever sets has the guarantee and is not claiming it.
-            (false, None, Some(line)) => unclaimed_latches.push(format!(
-                "`{}` is set at line {} and nothing anywhere clears it, so it is latched \
+            // A flag no predicate reads is neither: `unread` has already said to delete it, and
+            // telling an author to declare a property of something that should not exist is the
+            // checker preferring its own tidiness to theirs.
+            (false, None, Some(line)) if ix.flags.contains(&f.name) => {
+                unclaimed_latches.push(format!(
+                    "`{}` is set at line {} and nothing anywhere clears it, so it is latched \
                  in fact and does not say so",
-                f.name, line
-            )),
+                    f.name, line
+                ))
+            }
             _ => {}
         }
     }
@@ -915,7 +1059,10 @@ pub fn analyse(game: &Game) -> Report {
         let b = acting[*bi];
         for e in &b.effects {
             if let Effect::Give(x, q) = e {
-                let i = slot(&ix.items, x);
+                // an item nothing reads has no count to overflow; `unread` is its finding
+                let Some(i) = ix.items.iter().position(|y| y == x) else {
+                    continue;
+                };
                 if states[*from].items[i] + q > ix.caps[i] {
                     overflows.push(format!(
                         "line {}: gives {q} {x} where {} is already carried and {} is the declared ceiling",
@@ -946,6 +1093,7 @@ pub fn analyse(game: &Game) -> Report {
         strandings,
         latch_violations,
         unclaimed_latches,
+        unread,
         menu_entries: (shown_ever.len(), shown_at_start.len()),
         menu_slots,
         unshown,
@@ -1017,6 +1165,12 @@ impl Report {
         if !self.latch_violations.is_empty() {
             s.push_str("\nLatch declarations contradicted by the game:\n");
             for v in &self.latch_violations {
+                s.push_str(&format!("  {v}\n"));
+            }
+        }
+        if !self.unread.is_empty() {
+            s.push_str("\nDeclared, written, and readable by nothing:\n");
+            for v in &self.unread {
                 s.push_str(&format!("  {v}\n"));
             }
         }
