@@ -40,7 +40,7 @@ Sorted by: kind, then alphabetically.
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 4v / 1i / 0o | 62 |
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 4v / 2i / 0o | 66 |
 | [entry-binding.yml](interaction/entry-binding.yml) | interaction | Entry Binding | 3 | 9v / 8i / 1o | 143 |
-| [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 5v / 1i / 0o | 65 |
+| [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 8v / 1i / 0o | 81 |
 | [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 7v / 4i / 0o | 117 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
 | [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 3 | 16v / 4i / 1o | 150 |
@@ -51,8 +51,9 @@ Sorted by: kind, then alphabetically.
 | [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 8v / 4i / 1o | 103 |
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 6v / 3i / 1o | 73 |
 | [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 2i / 0o | 34 |
-| [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 5 | 1v / 3i / 0o | 54 |
+| [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 6 | 2v / 4i / 0o | 69 |
 | [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 0v / 1i / 0o | 30 |
+| [verb-menu.yml](subsystem/verb-menu.yml) | subsystem | Verb Menu | 3 | 6v / 2i / 0o | 78 |
 | [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 10v / 6i / 0o | 140 |
 | [look-at.yml](verb/look-at.yml) | verb | Look At | 2 | 5v / 5i / 0o | 81 |
 | [pick-up.yml](verb/pick-up.yml) | verb | Pick Up | 2 | 3v / 6i / 1o | 99 |
