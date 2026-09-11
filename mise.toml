@@ -33,7 +33,7 @@ _.path = [".yidam/bin"]
 
 [tools]
 # <!-- YIDAM:TOOLS --> written by yidam-vendor-update from .yidam.toml — do not edit
-# no cli/v* release at this pin — `mise run yidam-build` compiles instead
+"github:goedelsoup/yidam" = { version = "0.12.0", version_prefix = "cli/v" }
 # <!-- /YIDAM:TOOLS -->
 #
 # The block above is the one part of this file yidam owns. `mise run
