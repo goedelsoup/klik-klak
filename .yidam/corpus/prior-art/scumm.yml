@@ -56,6 +56,30 @@ properties:
     virtual machine. [inference] There is no declarative layer beneath it, so the question
     this corpus asks — where authoring escapes to a general-purpose language — has a
     degenerate answer here: it starts there.
+
+    **The v5 instruction set is eighty-four opcodes, and it has now been counted rather than
+    described.** [scumm-v5-opcode-reference](../../catalog/scumm-v5-opcode-reference.md) records
+    all of them with the partition this corpus applies to an authoring surface: 11 predicates,
+    18 acting on script execution, **24 presentation**, 9 writing world state, and 22 in a
+    category the other systems here have no use for — the `get*` family, which reads a value
+    into a variable so a later opcode can test it. [inference]
+
+    **Three things follow, none of them about SCUMM alone.**
+
+    Presentation is 24 of the 33 opcodes that act, which is the third population agreeing that a
+    shipped authoring surface spends most of itself on showing rather than on world state —
+    AGS's action table says 23 of 38 and Delores 884 of 1,328.
+    `.yidam/decisions/third-population.yml`.
+
+    The comparisons are `isEqual`, `isNotEqual`, `isGreater`, `isGreaterEqual`, `isLess` and
+    `lessOrEqual`: the same six as AGS Script and the same six this design admits, in a bytecode
+    predating both. [inference]
+
+    And the twenty-two reads are a fact about the **execution model** rather than the vocabulary.
+    A bytecode with a variable file has to move state into a variable before testing it; a
+    predicate that reads the world directly has nothing to store. That is why this system asks
+    questions with 33 of its 84 operations where AGS's declarative table uses 7 of 48 — the ratio
+    measures the machine, not the expressiveness. [inference]
   source_standing: |
     [Wikipedia's SCUMM article](../../catalog/wikipedia-scumm.md), read 2026-09-09, for the
     verb coin, the 1987-1998 range and the bytecode claim. That is an aggregator and cannot

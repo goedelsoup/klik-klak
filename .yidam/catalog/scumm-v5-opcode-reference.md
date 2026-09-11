@@ -15,6 +15,7 @@ used-by:
   - ../corpus/conversation/branching-tree.yml
   - ../corpus/verb/use-with.yml
   - ../corpus/verb/walk-to.yml
+  - ../corpus/prior-art/scumm.yml
 ---
 
 **Reverse-engineered, and it says so.** The footer reads "All material © 2000-2002 David Given,
@@ -86,5 +87,118 @@ lose and is the reason this paragraph exists.
 
 ## What this document holds that nobody here has looked at
 
-The other roughly two hundred opcodes, the script format itself, and the v5 resource layout. The
-corpus read the table for inventory and ownership and stopped.
+The script format itself and the v5 resource layout. The corpus read the table for inventory and
+ownership and stopped; **the rest of the table has now been read and is recorded below.**
+
+This section previously said *"the other roughly two hundred opcodes"*. The page lists **eighty-
+four distinct opcodes in eighty-seven encodings**, so that figure was wrong by more than double
+and nothing had counted it. `.yidam/decisions/third-population.yml`.
+
+
+## The opcode table
+
+All eighty-four distinct opcodes the page lists, with their encodings — several names carry more
+than one byte value, because SCUMM sets parameter bits in the opcode itself.
+
+**The last column is this corpus's reading, not the document's**, and it applies the partition
+`.yidam/decisions/forty-eight.yml` used on AGS's action table, with one category added that AGS
+had no need for:
+
+* *predicate* — a test that branches.
+* *read* — **writes a value into a variable for a later test.** SCUMM's `get*` and `find*` family.
+  AGS's declarative table has no equivalent and neither does this design: a predicate here reads
+  world state directly and there is nowhere to store a result, so this category is an artifact of
+  a bytecode with a variable file rather than of the vocabulary.
+* *control* — acts on script execution, including the arithmetic and assignment opcodes.
+* *presentation* — writes nothing a predicate in this design could read.
+* an effect name — writes world state, and names the effect of this design it maps onto.
+
+Every claim drawn from this table is `[inference]`, per the standing above: the document is
+reverse-engineered and the proximity does not promote it.
+
+| opcode | encoding | this design |
+|---|---|---|
+| `actorFollowCamera` | $52,$52 | *presentation* |
+| `actorFromPos` | $15,$15 | *read* |
+| `actorSet` | $13 | *presentation* |
+| `actorSetClass` | $5D | *presentation* |
+| `animateActor` | $11,$11 | *presentation* |
+| `cursorCommand` | $2C | *presentation* |
+| `cutScene` | $40 | *control* |
+| `doSentence` | $19 | *control* |
+| `drawObject` | $05 | *presentation* |
+| `dummy` | $67 | *control* |
+| `endCutScene` | $C0 | *control* |
+| `equalZero` | $28 | *predicate* |
+| `expression` | $AC | *control* |
+| `faceActor` | $09 | *presentation* |
+| `findInventory` | $3D | *read* |
+| `findObject` | $35 | *read* |
+| `freezeScripts` | $60 | *control* |
+| `getActorCostume` | $71 | *read* |
+| `getActorElevation` | $06 | *read* |
+| `getActorFacing` | $63 | *read* |
+| `getActorMoving` | $56 | *read* |
+| `getActorRoom` | $03 | *read* |
+| `getActorScale` | $3B | *read* |
+| `getActorWalkBox` | $7B | *read* |
+| `getActorWidth` | $6C | *read* |
+| `getActorX` | $43 | *read* |
+| `getActorY` | $23 | *read* |
+| `getAnimCounter` | $22 | *read* |
+| `getClosestObjActor` | $66 | *read* |
+| `getDist` | $34 | *read* |
+| `getInventoryCount` | $31 | *read* |
+| `getObjectOwner` | $10 | *read* |
+| `getObjectState` | $0F | *read* |
+| `getRandomNumber` | $16 | *read* |
+| `getScriptRunning` | $68 | *read* |
+| `getVerbEntryPoint` | $0B | *read* |
+| `ifClassOfIs` | $1D | *predicate* |
+| `isActorInBox` | $1F | *predicate* |
+| `isEqual` | $48 | *predicate* |
+| `isGreater` | $78 | *predicate* |
+| `isGreaterEqual` | $04 | *predicate* |
+| `isLess` | $44 | *predicate* |
+| `isNotEqual` | $08 | *predicate* |
+| `isSoundRunning` | $7C | *predicate* |
+| `lessOrEqual` | $38 | *predicate* |
+| `lights` | $70 | *presentation* |
+| `loadRoom` | $72 | `move` |
+| `loadRoomWithEgo` | $24 | `move` |
+| `matrixOp` | $30 | *control* |
+| `move` | $1A | *control* |
+| `multiply` | $1B | *control* |
+| `notEqualZero` | $A8 | *predicate* |
+| `overRide` | $58 | *control* |
+| `panCameraTo` | $12 | *presentation* |
+| `pickupObject` | $25 | `give` |
+| `print` | $14 | *presentation* |
+| `printEgo` | $D8 | *presentation* |
+| `pseudoRoom` | $CC | *structural* |
+| `putActor` | $01 | `move` |
+| `putActorAtObject` | $0E | `move` |
+| `putActorInRoom` | $2D | `move` |
+| `quitPauseRestart` | $98 | *control* |
+| `resourceRoutines` | $0C | *presentation* |
+| `roomOp` | $33 | *presentation* |
+| `saveRestoreVerbs` | $AB | *presentation* |
+| `setCameraAt` | $32 | *presentation* |
+| `setObjectName` | $54 | *presentation* |
+| `setOwnerOf` | $29 | `give / spend` |
+| `setState` | $07 | `set-flag, clear-flag` |
+| `setVarRange` | $26 | *control* |
+| `soundKludge` | $4C | *presentation* |
+| `startMusic` | $02 | *presentation* |
+| `startObject` | $37 | *control* |
+| `startSound` | $1C | *presentation* |
+| `stopMusic` | $20 | *presentation* |
+| `stopObjectCode` | $00 | *control* |
+| `stopObjectScript` | $6E | *control* |
+| `stopScript` | $62 | *control* |
+| `stopSound` | $3C | *presentation* |
+| `subtract` | $3A | *control* |
+| `wait` | $AE | *control* |
+| `walkActorTo` | $1E | *presentation* |
+| `walkActorToActor` | $0D | *presentation* |
+| `walkActorToObject` | $36 | *presentation* |
