@@ -26,10 +26,31 @@ description: |
   assessing [walk-to](../verb/walk-to.yml), which is where the same family answers a different
   question.
 
-  **The class now stands on one leg instead of two, and that one is still `[open]`**: a sequence
-  beginning because a counter reached a value. Nothing read here documents a threshold trigger in
-  either engine, and it was looked for. [inference] Whether that is a genuine gap or the same
-  position trigger wearing a number is the question a later phase inherits.
+  **The class then stood on one leg instead of two**: a sequence beginning because a counter reached
+  a value. Nothing read here documented a threshold trigger in either engine, and it was looked for.
+  Whether that was a genuine gap or the same position trigger wearing a number was the question a
+  later phase inherited.
+
+  **It was found, and it is neither.** AGS documents it and names the problem in this corpus's own
+  words — *"One of the most common things you'll need to do when scripting is to check if something
+  has happened in the game — and if so, then make the game do something in response"*
+  ([ags-manual](../../catalog/ags-manual.md)). [verified] The answer is `repeatedly_execute`, run on
+  every game loop at forty a second, and the page's worked example is a threshold on a counter. The
+  *occasion* is a declared event in the room's event table; the *condition* is a scripted `if`.
+  There is no declarative form of **when this value reaches that**, in either era of that system.
+
+  **And this design cannot have the occasion, because it refused duration.** Nothing runs between
+  bindings, so the only moments at which a threshold can be crossed are the bindings that write the
+  value — and those are enumerable, which makes the trigger expressible by appending the sequence to
+  each of them. [inference] Counted, **every one of the twelve distinct state writes across the four
+  specimens has exactly one writer**, so the appending costs one copy and the trigger buys nothing.
+  [verified] — `crates/reachability/tests/threshold.rs`.
+
+  With several writers it would cost a copy each, which is
+  [arrival-trigger](../../decisions/arrival-trigger.yml)'s shape reaching the other kind of trigger.
+  No game here pays it, and in the shipped game the six multiply-written values that can be
+  identified include none that starts a scene ([delores-source](../../catalog/delores-source.md)).
+  [verified] `.yidam/decisions/threshold-trigger.yml`.
 
   **And a phase later the class turns out to have no way in at all.** Nothing in this ontology
   points at `cutscene` — which the description above noted at genesis as "a structural hint that
@@ -88,7 +109,11 @@ description: |
   nothing in this vocabulary does. `actor -occupies-> room` could carry it and the format has no
   syntax for moving anyone but the player. And `trigger`'s threshold case is untested here and
   undocumented in either engine. Neither of those is a property unique to a sequence, which is
-  what makes them limits on the specimen rather than defences of the class. [open]
+  what makes them limits on the specimen rather than defences of the class.
+
+  **Both are now closed and neither rescued the class**, which is the paragraph below for the first
+  and the paragraph above for the second. This marker outlived its first half by four phases and its
+  second by one; `.yidam/decisions/stale-markers.yml` is the record of why that keeps happening.
 
   **The first of the two is confirmed, from a direction nothing here was looking in.** A phase
   measuring *presentation* found it: Delores writes `actorAt(lenore, Bank, bankTellerSpot)` in
@@ -123,6 +148,21 @@ description: |
   scenes. A gap in the effect vocabulary that a sequence would merely have exercised first is not
   an argument for a class.
 
+  **Nothing here is open any more.** Three triggers, all accounted for; both limits the specimen
+  could not reach, closed; every property reduced. This node is a finished negative result, and it
+  is kept for the reason it was kept before — the argument is worth more than the entry — rather
+  than because anything about it is unresolved. `.yidam/decisions/threshold-trigger.yml`.
+
+  **One contrast is worth carrying, because it arrived from the class next door.**
+  [conversation](../conversation.ont.yml) declares `returns-control-to` and so does this one, and
+  the note under that edge says both are *"modes that seize control and give it back"*. Run the same
+  reduction on each and they come apart: a conversation survives because its mode sits **beside** the
+  room and carries the return, and this class has no mode at all, because
+  [effect-list-semantics](../../decisions/effect-list-semantics.yml) made a response instantaneous.
+  [inference] A sequence that never takes control has none to give back, so the edge this class
+  declares is inert in this vocabulary while the identical edge one class over is load-bearing.
+  `.yidam/decisions/conversation-reduction.yml`.
+
 properties:
   trigger: |
     Entering a room, a flag reaching a value, or the resolution of a binding.
@@ -137,12 +177,24 @@ properties:
     Entering a room does have a home, and that is the part that survives: it is a position event,
     documented as first-class in AGS and dispatched outside the verb table entirely. [verified]
 
-    So the count is one of three, not two. What is left unhoused is the threshold — a flag
-    reaching a value — and binding resolution, which needs `interaction -enters-> cutscene`, the
-    mirror of `interaction -opens-> conversation`. That edge is deliberately unwritten: no
-    instance would author it, and this corpus already carries two declared-and-unauthored
-    relationships that [room-manifest](../data-format/room-manifest.yml) names as
-    indistinguishable from overreach. It earns its place when a game needs a cutscene. [open]
+    So the count was one of three, not two. What was left unhoused was the threshold — a flag
+    reaching a value — and binding resolution, which would need `interaction -enters-> cutscene`,
+    the mirror of `interaction -opens-> conversation`.
+
+    **Both are settled and neither wants an edge.** The threshold has no occasion in a design
+    without duration, and reduces to appending the sequence to the bindings that write the value;
+    see the description above. Binding resolution needs no edge either, and the reason is the
+    collapse this node already made: a conversation is a separate authored structure with its own
+    site, so `opens` has something to point at, and a sequence **is** the effects and the prose of
+    the binding that runs it. [inference] There is nothing on the far end of `enters`.
+
+    **And a shipped game agrees about the trigger, unanimously.** Thirteen `cutscene(` call sites,
+    ten directly inside a verb body and three in scripts a player action starts; not one begins
+    because a value was reached ([delores-source](../../catalog/delores-source.md)). [verified]
+    Where a scene and a state write occur together the write is *inside* the scene.
+
+    So all three triggers are accounted for: one is `on-enter`, one is the binding itself, and one
+    is a question that a design with no cycles cannot ask.
   skippable: |
     Usually yes, and the skip is where the failure lives. [inference] A sequence that writes
     state part-way through and is cut short leaves the world in a configuration the author

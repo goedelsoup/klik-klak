@@ -594,6 +594,32 @@ blocks, 46 of them, holding assignments (`{ YACK(heard_about_job) = YES }`) and,
 arbitrary calls — `inputOff`, `startthread`, `actorWalkTo`, `verb_open()`, `saveGame`,
 `startEnding`.
 
+## What starts a cutscene, and who writes a value — 2026-09-10
+
+**Thirteen `cutscene(` call sites in the whole game, and every one is reached by a player doing
+something.** Ten sit directly inside a `VERB(...)` body — `activate` three times, `giveto` and
+`lookat` twice each, `drink`, `jab_with`, `repair` once. Three sit in a `script`, and all three
+scripts are started by a player action too: `deloresDance` by `VERB(dance)`, `startEnding` from a
+`.yack` brace block, and `doOpening` from the start screen's `main()` and its click and key
+handlers.
+
+**Not one begins because a value reached a threshold.** Where a scene and a state write do occur
+together, the write is *inside* the scene: `Inventory.dinky`'s `activate` runs
+`cutscene(@{ actorWalkTo(delores, Vista.mansion); Vista.mansion.sploded = YES; … })`. The sequence
+causes the write, not the reverse.
+
+**Who writes a value, counted — and only where the slot's owner is unambiguous.** Restricting to
+qualified names (`Bathroom.has_power`, `Vista.mansion.sploded`) inside executable bodies rather
+than object literals: **24 writes over 14 (slot, value) pairs, of which 6 are written at more than
+one site.** The largest is `Bathroom.has_power = YES` at four, and three of those four are boot and
+debug-menu code rather than play.
+
+The larger figure that suggests itself — 101 writes over 63 pairs with 37% multiply written — is
+**not usable**, and the reason is worth recording. Most of those names are bare fields on an object
+literal, so `looked_at = YES` counts as one slot written seven times when it is seven objects each
+recording their own. A census of state writes in this language needs the owner, and the owner needs
+the indentation reader.
+
 ## The conversation mode, read from the API — 2026-09-10
 
 `yacks.html` calls its own description of the *format* "TBD" but documents the *engine surface* in

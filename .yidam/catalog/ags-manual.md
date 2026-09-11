@@ -49,7 +49,7 @@ markdown under `ags-manual-source` is the same text and is retrievable.
 
 ## What was actually read
 
-Seventeen pages. The count is kept current because this entry is read to decide what is
+Nineteen pages. The count is kept current because this entry is read to decide what is
 citable, and a stale one understates what is available — it said "two pages, and only
 two" while listing eight, for six of which it was the only record.
 
@@ -291,6 +291,27 @@ two" while listing eight, for six of which it was the only record.
   escaped to rather than to cite it. Roughly sixty API pages and twenty language pages. For room
   and hotspot interactions this is not a hatch at the end of a declarative surface; it is the
   surface.
+- **`RepExec.md` and `EventTypes.md`** — read for the **threshold trigger**, which this corpus had
+  looked for and not found. It is here, and the page opens by naming the problem in exactly the
+  corpus's words: *"One of the most common things you'll need to do when scripting is to check if
+  something has happened in the game — and if so, then make the game do something in response."*
+
+  The answer is `repeatedly_execute`, "run on every game loop (by default this is 40 times per
+  second), but only when the game is not blocked", with `repeatedly_execute_always` and
+  `late_repeatedly_execute_always` running regardless of blocking and forbidden from blocking in
+  turn. The worked example on the page *is* a threshold: `hungerTimer++;` then
+  `if (hungerTimer == 800) { Display(...); player.Animate(...); }`.
+
+  **The occasion is declarative and the condition is not.** `EventTypes.md` lists "Repeatedly
+  execute" in the room's event table beside "Enters Room After Fade In" — "Occurs repeatedly on
+  every game cycle, at a frequency defined by the game speed… a equivalent of a global
+  `repeatedly_execute` callback, as `repeatedly_execute` is not run in room scripts." So the slot
+  is a declared event and what goes in it is arbitrary script. There is no declarative form of
+  *when this value reaches that*, in either era of this system.
+
+  `RepExec.md` also states the rule for which to use: `repeatedly_execute` "for doing things that
+  affect the player character", `repeatedly_execute_always` "for background tasks that don't
+  directly affect the player" — a division that exists only because responses have duration.
 - Also read and not cited: `EditorRoom.md`, which mentions interactions nowhere, and
   `Globalfunctions_Message.md`.
 

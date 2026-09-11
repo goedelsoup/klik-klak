@@ -5,9 +5,26 @@ foundational_type:
   type: kind
 description: |
   A sequence that runs without player input, moving actors and changing state on its own
-  schedule. Whether it is irreducible is a live question in this corpus — it may prove to
-  be an interaction whose response is long and whose input is locked — and it is seeded
-  as a class so that the collapse can be argued rather than assumed.
+  schedule. Whether it is irreducible was seeded as a live question — it may prove to be an
+  interaction whose response is long and whose input is locked — and the class exists so that the
+  collapse could be argued rather than assumed.
+
+  **It was argued and it collapsed, completely.** Every property reduces, every trigger it claimed
+  is housed somewhere else or has no occasion at all, and no relationship in this ontology points
+  at this class. [scripted-sequence](cutscene/scripted-sequence.yml) carries the argument and its
+  evidence; `.yidam/decisions/threshold-trigger.yml` closes the last of it.
+
+  The class is kept rather than withdrawn, for the reason [give-to](verb/give-to.yml) was kept: a
+  deleted node leaves the next author free to propose this from scratch, and what is valuable here
+  is the refusal and not the entry. **What it is not any more is an open question.**
+
+  `returns-control-to` below is the sharpest thing this class taught, and it taught it by failing.
+  [conversation](conversation.ont.yml) declares the same relationship and survives its own reduction
+  on exactly that ground — a mode sits beside the room and carries the return — while this class
+  cannot, because a response here is instantaneous. The identical edge is load-bearing one class
+  over and inert here. The claim is carried and tagged by
+  [scripted-sequence](cutscene/scripted-sequence.yml); this paragraph is the pointer and not the
+  assertion.
 
   Retyped from `event` to `kind` on 2026-09-09, for the reason `conversation` was: every instance
   of this class is an authored sequence — something that persists and is edited — rather than an
