@@ -140,6 +140,10 @@ does not re-emit it.
 
 - **:68** — **What this does not settle.** Whether testimony and artifact should carry different evidence standing. The prelude is explicit that `[verified]` is about provenance rather than confidence, and a diary entry is a committed source in exactly the way a header file is; `measured-width` quotes Gilbert's…
 
+### [third-population](third-population.yml)
+
+- **:85** — **What this does not settle.** Whether `presentation-layer`'s three-verb width holds against this table. It cannot be read off directly: that record measured what a *binding* writes and found camera and walkbox appear in bindings zero times, belonging to room entry instead — and SCUMM's opcode list …
+
 ### [threshold-trigger](threshold-trigger.yml)
 
 - **:89** — **What this does not settle.** Whether duration should have been refused. Everything above is downstream of `effect-list-semantics`, and a design that admitted duration would need this trigger, a `skippable` property, and the save-boundary problem the same decision record quotes Thimbleweed Park pay…
@@ -160,7 +164,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**39 open.**
+**40 open.**
 
 ## What nothing cites
 
@@ -172,8 +176,8 @@ nodes, at four times the rate, and it had never been looked at.
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
 - [name-scoping](name-scoping.yml)
-- [script-boundary](script-boundary.yml)
 - [specimen-placement](specimen-placement.yml)
+- [third-population](third-population.yml)
 
 ## What each record rests on
 

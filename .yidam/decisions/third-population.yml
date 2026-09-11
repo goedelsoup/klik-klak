@@ -1,0 +1,85 @@
+id: third-population
+summary: >-
+  The oldest engine in this corpus had been read for one question and its table counted by nobody.
+  Read, it is eighty-four opcodes rather than the two hundred the entry claimed, and it makes a
+  third population for two claims that had one and two: presentation is the larger half of what an
+  authoring surface offers, and the comparison vocabulary is six. Nothing is adopted; what changes
+  is how much weight two standing claims can carry.
+context: |
+  [scumm-v5-opcode-reference](../catalog/scumm-v5-opcode-reference.md) was read for one question —
+  *does SCUMM treat acquiring an object as its own operation* — and its unread section said *"the
+  other roughly two hundred opcodes"*. The page lists **eighty-four distinct opcodes in eighty-
+  seven encodings**. The figure was wrong by more than double, in a sentence describing the thing
+  nobody had opened. [inference] — `crates/game-format/tests/populations.rs`.
+
+  Classified by [forty-eight](forty-eight.yml)'s partition: 11 predicates, 18 script control
+  including arithmetic, **24 presentation**, 9 writing world state — and **22 in a category
+  neither other system has**, the `get*` and `find*` family that reads world state into a variable
+  for a later opcode to test.
+
+  All nine world-writes map onto the eight effects: `pickupObject` and `setOwnerOf` are `give` and
+  `spend`, `setState` is the flag pair, four `put*`/`loadRoom` forms are `move`, and `pseudoRoom`
+  is structural. [inference]
+decision: |
+  **Nothing is adopted. Two standing claims get a third population and that is the whole change.**
+
+  **Presentation is the larger half, in every system this corpus has read.** Of the opcodes that
+  act — leaving out predicates, reads and script control — SCUMM spends 24 on presentation and 9
+  on world state. AGS's action table: 23 and 15. Delores, counted by
+  [effect-half](effect-half.yml): 884 sites and 125.
+
+  | | population | presentation | writes world state | share |
+  |---|---|---|---|---|
+  | SCUMM v5, 1990 | 33 acting opcodes | 24 | 9 | 73% |
+  | AGS 2.72 table | 38 real actions | 23 | 15 | 60% |
+  | Delores, 2020 | 1,328 call sites | 884 | 125 | 67% |
+
+  `effect-half` wrote *"in every engine the effect list and the presentation list are the same
+  list"* on the evidence of one game. Three systems, thirty years apart, two of them with no
+  common authors, and the share never falls below three fifths. **That is now the most-supported
+  claim in this corpus**, and where it is written is a separate problem that this record does not
+  touch — it sits in class prose, which cannot carry a tag or a citation.
+
+  **And the comparison vocabulary is six, for the third time.** `isEqual`, `isNotEqual`,
+  `isGreater`, `isGreaterEqual`, `isLess`, `lessOrEqual` — the same six
+  [script-boundary](script-boundary.yml) found in AGS Script and the same six this design admits.
+  No design stopped at four; none reached for a seventh.
+
+  **The `get*` family is not a gap and is worth naming.** Twenty-two opcodes exist so that a value
+  can be read into a variable and tested later. That is an artifact of a bytecode with a variable
+  file rather than of an authoring vocabulary: a predicate here reads world state directly and
+  there is nowhere to store a result. It is why SCUMM's question-asking share — 33 of 84 — is more
+  than twice AGS's table (7 of 48) and this design's (9 of 50), and the difference measures the
+  execution model rather than the expressiveness.
+rationale: |
+  **Six is not a deep result and the convergence still matters.**
+
+  Six comparisons are what a total order affords, so three independent designs arriving at six is
+  weak evidence taken alone. What makes it worth holding is that it is the one part of this
+  surface that never needed an argument — no record weighs it, no candidate was refused, and it
+  is the only region of the fifty where that is true. [unwritten](unwritten.yml) found that the
+  vocabulary's tail is made of reasoning; this is the opposite end, and it is the part three
+  shipped systems agree on without being asked. [inference]
+
+  **The presentation result is the one that carries weight, and it changes a claim's kind.** A
+  claim quantified over *every engine* on one observation is a generalisation. On three, spanning
+  1990 to 2020 and two independent lineages, it is a finding. The corpus has been acting on it for
+  several phases — [presentation-layer](presentation-layer.yml) measured the width a bounded table
+  needs at three verbs and declined to adopt two of them, [escape-hatch](escape-hatch.yml) put
+  *show* outside the bounded language entirely — and both were resting on one game.
+
+  **The figure that was wrong is the more useful half of this phase.** *"Roughly two hundred
+  opcodes"* stood for nine phases in the one place a reader would go to find out whether the source
+  was worth opening, and it made the table look four times more expensive to read than it is.
+  A wrong figure in an unread-list is a figure that discourages the reading that would correct it,
+  which is the sharpest version of the shape this session keeps finding: **the corpus knows a thing
+  exactly where something made it look, and an overestimate is a reason not to look.** [inference]
+
+  **What this does not settle.** Whether `presentation-layer`'s three-verb width holds against this
+  table. It cannot be read off directly: that record measured what a *binding* writes and found
+  camera and walkbox appear in bindings zero times, belonging to room entry instead — and SCUMM's
+  opcode list does not distinguish a binding from an entry script, so the twenty-four are not
+  sorted by site. What can be said is that the clusters are the same shape — say, sound and
+  animation are the bulk, and camera is its own family of three, separable exactly where that
+  record separated it. Sorting SCUMM's presentation opcodes by site needs game scripts rather than
+  an opcode list, and this repository holds none. `[open]`
