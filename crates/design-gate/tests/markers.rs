@@ -63,7 +63,8 @@ fn markers(p: &Path) -> Vec<(usize, String, bool)> {
 /// The remedy the prelude names is a typed `claim_tag` property on the class. It was tried and
 /// does not work in the pinned build: declaring `claim_tag: open` added an open *claim* and left
 /// the node list unchanged, and declaring `claim_tag: verified` on a closed node did not remove it.
-/// The declaration unions with the byte scan, so it can only add. `.yidam/decisions/testimony.yml`.
+/// The declaration unions with the byte scan, so it can only add.
+/// `.yidam/decisions/marker-count.yml`.
 ///
 /// So the serialization is made truthful instead, which costs one convention: a retraction says the
 /// question is closed without re-emitting the token.
@@ -137,7 +138,7 @@ fn the_corpus_carries_seven_questions_and_the_count_is_the_token_count() {
 /// **Three quarters of what this corpus still owes is invisible to every tool it has.**
 ///
 /// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds 7 live
-/// markers; the decision records hold **21 across 16 files**, and they are counted as zero — by
+/// markers; the decision records hold **23 across 18 files**, and they are counted as zero — by
 /// `status`, by `due`, by the index, by everything. The migration happened quietly: as questions
 /// got answered they were replaced by *"what this does not settle"* paragraphs in the record that
 /// answered them, which is the right place to put them and a place nothing looks.
@@ -156,10 +157,10 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (7, 21, 16));
+    assert_eq!((corpus, decisions, records), (7, 23, 18));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        25,
-        "a quarter is visible"
+        23,
+        "under a quarter is visible"
     );
 }

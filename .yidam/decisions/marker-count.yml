@@ -1,0 +1,79 @@
+id: marker-count
+summary: >-
+  `yidam open-questions` reported sixteen open nodes against seven real ones, because it counts the
+  bracketed token in a file's bytes and a retraction re-emitted it. Fixed by making the
+  serialization truthful rather than by declaring a typed tag, which was tried and cannot subtract
+  in the pinned build. The larger half is unfixable from here: twenty-one of the twenty-eight live
+  questions are in decision records, which nothing walks.
+context: |
+  [stale-markers](stale-markers.yml) swept twenty-nine markers, retired six, and named the cause in
+  a sentence: *"An open question is a claim and gets none of the treatment a claim gets here…
+  Nothing anywhere notices that a question has been answered — the marker sits there being
+  true-looking, and `yidam due` counts it as owed work."* It built no check. A second sweep found
+  five more of the same shape, which is what a diagnosis without a check predicts. [inference]
+
+  The prelude had already named the mechanism, in
+  `.yidam/.vendor/prelude/guidelines/agent-conduct.md`: without a typed declaration *"the only thing
+  readable is the bracketed token in a file's bytes — which makes 'is this node open?' a property of
+  the node's serialization rather than of the node,"* with a consumer that reported **2 open
+  questions against its own count of 26**. [verified] This corpus declares no `claim_tag` on any
+  class and had never checked what its own number meant.
+decision: |
+  **Sixteen nodes were reported and seven had a question.** Nine were counted open by the sentence
+  announcing they were closed — *"That `[open]` is closed"* contains the token. The claim census was
+  wrong the same way: **23 open claims of which 14 were retracted markers quoting themselves.**
+  [verified]
+
+  **The convention: the token names a live question and nothing else.** A retraction says the
+  question is closed without re-emitting it. Fourteen sentences rewritten, and `status` went from
+  16 open to 7 with no question answered or abandoned.
+
+  **The prelude's own remedy was tried and does not work here.** Declaring `claim_tag` on the class
+  and setting it per instance is what it prescribes so that *"`open-questions`, `status`,
+  `corpus-index` and the MCP server all see it."* In the pinned build the declaration **unions with
+  the byte scan and can only add**: `claim_tag: open` raised the open-claim count and left the node
+  list unchanged, and `claim_tag: verified` on a node whose prose is entirely retraction did not
+  remove it — it inflated the *verified* count instead, with something that is not a claim about the
+  world. [verified] Refused on that ground. `.yidam/.vendor/` is read-only by rule, so the remedy is
+  a re-vendoring question and not a corpus one.
+
+  **The check is `crates/design-gate/tests/markers.rs`** and it holds three things: no retraction
+  re-emits the token; the corpus carries one marker to a node and the list is pinned; and the count
+  in the decision records is pinned beside it. It cannot notice that a question has been answered —
+  nothing can, short of reading — and saying so is part of what it is for.
+rationale: |
+  **The number was wrong in both directions and netted to something plausible, which is why it
+  survived forty-odd phases.** Sixteen was an over-count of the corpus by more than double and an
+  under-count of the repository by three quarters, and sixteen is a reasonable-looking number for a
+  corpus this size. [inference] A figure that is wrong in one direction gets noticed when somebody
+  checks it against a hand count; one that is wrong in two directions agrees with intuition.
+
+  **Twenty-one of twenty-eight live questions are where nothing looks.** `open-questions` walks
+  `.yidam/corpus/` and no other directory, and the corpus has been migrating its questions out of
+  the nodes for phases — as each one is answered, what survives is a *"what this does not settle"*
+  paragraph in the decision record that answered it. That is the right place to put it and a place
+  no tool here reads. [verified] So `yidam due`'s report of owed work has been counting a quarter of
+  it, and the fraction falls with every phase.
+
+  **The five stale markers found this round are all the cheap shape `stale-markers` described** —
+  *"the prose was updated and the marker was not"* — and four of the five were answered by the very
+  next phase:
+
+  | marker | answered by |
+  |---|---|
+  | `presentation-layer` — an argument place for `Move` "is missing" | [actor-position](actor-position.yml), one phase later, in the shape it named |
+  | `effect-half` — "nothing here has one or has argued for one" | [presentation-layer](presentation-layer.yml), which argued for one and refused it |
+  | `arity-cost` — "this vocabulary has no way to spell it" | [availability](availability.yml), which found the form already in the language |
+  | `verb-count` — the layer "is one this design has never specified" | [verb-menu](verb-menu.yml), the following day |
+  | `hotspot-identity` — the `.wimpy` files are "the longest-standing unread artifact" | the catalog, which records reading them in full |
+
+  **And the duplicates are `duplication.yml` in the prose rather than in a game.** Two of the five
+  markers in the cluster were second copies of another node's question, kept in sync by nobody,
+  which is the same failure the corpus measures in specimens and had not looked for in itself.
+  [inference] `.yidam/decisions/testimony.yml` is what the three survivors turned out to be.
+
+  **What this does not settle.** Whether a marker should carry the phase that opened it. Every one
+  of the five stale markers could have been caught by re-reading a record from the phase that
+  followed, and nothing connects the two — a marker names no date, no phase and no record, so
+  "has this been answered since?" has no cheap form. A back-link would give it one and would be a
+  schema change to prose that has none. `[open]`
