@@ -14,8 +14,8 @@
 //!
 //! **The records say the same thing about themselves, permanently and one at a time.** A decision
 //! rests on a catalog entry, on the engine crates, or on this gate, and which it cites is a fact
-//! about what kind of question it answered. Seven of the newest cite no document. Five rest on
-//! the gate alone.
+//! about what kind of question it answered. The run reached seven citing no document and five
+//! resting on the gate alone, and `forty-eight` broke it.
 //!
 //! None of those phases was wrong and their findings were real. What they were not is about
 //! point-and-click adventure games.
@@ -167,7 +167,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 56, "every record, in the order it was created");
+    assert_eq!(all.len(), 57, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -180,7 +180,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (24, 24, 15),
+        (25, 25, 16),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -190,18 +190,19 @@ fn the_evidence_each_record_rests_on() {
     );
 }
 
-/// **Five of the newest records rest on the gate alone, and seven cite no document.**
+/// **The run is zero, and it reached five.**
 ///
 /// A run, not a total, and that is the point: it rises with every phase that asks a question about
-/// the repository and resets the moment one asks about adventure games. It has never been this
-/// long.
+/// the repository and resets the moment one asks about adventure games. It reached seven records
+/// citing no document and five resting on the gate alone — the longest it has been — and
+/// `forty-eight` reset both by drawing on `.yidam/catalog/ags-source.md`.
 ///
-/// **This is a tripwire rather than a gauge**, in the sense `unread-clock` settled one phase ago:
-/// it does not say the run is wrong, it says nobody may extend it without noticing. If this
-/// assertion has been re-pinned upward, another phase went to the repository instead of its
-/// subject — which may well be right, and the record that did it should say why.
+/// **This is a tripwire rather than a gauge**, in the sense `unread-clock` settled: it does not
+/// say the run is wrong, it says nobody may extend it without noticing. If this assertion has been
+/// re-pinned upward, phases went to the repository instead of its subject — which may well be
+/// right, and the record that did it should say why.
 #[test]
-fn the_newest_records_have_not_needed_a_document() {
+fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
     let all = records(&root);
 
@@ -215,7 +216,7 @@ fn the_newest_records_have_not_needed_a_document() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (7, 5),
+        (0, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }

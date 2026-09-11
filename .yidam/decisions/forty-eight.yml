@@ -1,0 +1,106 @@
+id: forty-eight
+summary: >-
+  The action table of the only shipped declarative interaction layer this corpus has read is
+  recorded in full, in the catalog entry for the source rather than in a node, and its effect half
+  is compared to this design's for the first time. Every world-writing action in it maps onto the
+  existing eight effects, most of a shipped authoring vocabulary turns out not to write world state
+  at all, and three symmetric pairs of commands collapse onto one flag.
+context: |
+  [ags-source](../catalog/ags-source.md) recorded what was read from AGS's own editor source and
+  said of the action table: *"all forty-eight entries. Recorded in full in
+  `data-format/interaction-table.yml`."* **The node carried seven** — the ones flagged
+  `AFLG_COND` — and about nine more named in passing. The reading was right and the destination
+  did not exist. [verified] — `crates/design-gate/tests/forty_eight.rs`.
+
+  What that cost is specific.
+  [interaction-table](../corpus/data-format/interaction-table.yml) had already compared the
+  **predicate** half item for item and landed it exactly: *"The gap is real and it is exactly one
+  thing: composition."* The **effect** half — the other forty-one — was a number in a sentence,
+  because the effects were not written anywhere to compare.
+
+  And what stood in its place rests on one game. [effect-half](effect-half.yml) settled the
+  eight-effect vocabulary on Delores — ten operations, 120 of 125 write sites — and makes a claim
+  about **every** engine: *"in every engine the effect list and the presentation list are the same
+  list."* It does not mention this table, which was two documents away.
+decision: |
+  **The table is recorded in full, in [ags-source](../catalog/ags-source.md).**
+
+  A catalog entry is the record of what a source contains; a node is the argument drawn from it.
+  The entry delegated its own contents to a node and the node is already the largest in this
+  corpus — [collected-verdict](collected-verdict.yml) found it carrying a 446-line property — so
+  the delegation is reversed rather than honoured. Each row carries the action's name, its
+  argument count, and which of this design's effects it maps onto.
+
+  **The eight stay at eight. Every world-writing action in the table maps onto one of them.**
+
+  | | |
+  |---|---|
+  | 7 | predicates — `AFLG_COND`, compared already |
+  | 3 | control — `Do nothing`, `Run script`, `Stop running more commands` |
+  | **23** | **presentation or timing — write no world state at all** |
+  | 15 | write world state, and all fifteen map |
+
+  **Twenty-three of the thirty-eight real actions — 60% — never touch world state.** That is
+  [effect-half](effect-half.yml)'s central claim arriving as a **second population**, from a
+  different engine, a different decade and a different authoring model, and it is the first time
+  that claim has had more than one under it. Its scope was *"every engine"* on the evidence of one
+  game.
+
+  **Three symmetric pairs land on this design's one symmetric pair.** `Room - Disable hotspot` /
+  `Enable hotspot`, `Object - Remove an object from the room` / `Switch an object back on`, `Game -
+  Enable dialog option` / `Disable dialog option`: six of the fifteen actions, and all six are
+  `set-flag` and `clear-flag` over a `world-flag` gating presence or availability.
+  [effect-vocabulary](effect-vocabulary.yml) decided all three cases — *"a hotspot disappearing for
+  some reason other than being picked up is a `world-flag` gating its presence"* — without knowing
+  a shipped system had spent a command on each half of each pair.
+
+  **And `clear-flag` is the reverse gear no specimen here has used.**
+  [latch.rs](../../crates/reachability/tests/latch.rs) records that: *"The reverse gear exists and
+  has never been used."* AGS spent three commands on it. Two populations, and the one that
+  enumerated its vocabulary needed the reverse direction badly enough to name it three times.
+
+  **One of the eight has no counterpart in the table, and the asymmetry is structural.** `Game -
+  Run dialog` enters a conversation; **nothing in forty-eight actions leaves one.** AGS's dialogs
+  are a separate sub-language that ends itself, so entry was an interaction and exit was not. This
+  vocabulary models both in one place, and that is a difference in where the boundary falls rather
+  than in what can be said.
+rationale: |
+  **A system with no reason to be minimal spent six commands where this one spends a flag.**
+
+  That is the strongest thing in the table and it is evidence rather than argument. AGS was not
+  economising: forty-eight entries, five-argument commands, one per entity-verb pair. It reached
+  enable/disable twice and remove/restore once because its vocabulary was *enumerated* — a
+  command per thing an author might do to a kind of entity — and an enumerated vocabulary has to
+  spell both directions of every reversible change. A vocabulary with a flag gets the second
+  direction free. **Minimality is not this design being clever; it is what happens when state is
+  named separately from the operations on it.** [inference]
+
+  **The arity difference says the same thing about the other refusal.** The largest command in the
+  table is `Object - Move object`, five arguments: object, destination x, destination y, move
+  speed, and a boolean the editor labelled *"Wait for move to finish"*. No effect in this design
+  takes more than two. Three of those five are the things [drawn-boundary](drawn-boundary.yml)
+  refused — a position is drawn, a speed is drawn — and the fourth is duration, which
+  [threshold-trigger](threshold-trigger.yml) refused. **The commands this design cannot write are
+  the ones whose arguments it decided are not typed**, which is a refusal holding up under prior
+  art rather than a hole in the vocabulary. [inference]
+
+  **The two populations disagree about nothing, and were never compared.** That is the finding
+  underneath the finding. A claim scoped to *every engine* was settled from one game, and the
+  second engine was in a source this corpus had already read, at a commit it had already pinned,
+  described in a catalog entry that said the data was in a node. Nothing was missing. **The
+  transcription was.**
+
+  **What the table does not settle, and neither does this record: whether the removal was a
+  verdict.** [prior-art/ags](../corpus/prior-art/ags.yml) holds that question and three retrievals
+  failed to answer it. Reading the effect half does not change its standing — a vocabulary being
+  large and well-typed is consistent with both a considered withdrawal and a rewrite that dropped
+  it. What this record adds is that the thing withdrawn was *enumerated rather than composed*,
+  which is a property a successor might reasonably have wanted to escape without the layer itself
+  being the problem. [inference]
+
+  **What this does not settle.** Whether presentation belongs in this vocabulary at all. Twenty-
+  three actions of a shipped authoring surface do nothing but play, show, animate and wait, and
+  this design has no way to write any of them — which [effect-half](effect-half.yml) treated as
+  the boundary being correctly drawn. Two populations now agree that the presentation half is the
+  larger half, and neither says what an author who needs it is supposed to do, beyond the escape
+  that is action number 1. `[open]`
