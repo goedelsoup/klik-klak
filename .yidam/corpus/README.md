@@ -48,7 +48,7 @@ Sorted by: kind, then alphabetically.
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 0v / 4i / 1o | 36 |
 | [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 10 | 25v / 10i / 1o | 301 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
-| [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 7v / 4i / 1o | 101 |
+| [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 8v / 4i / 1o | 103 |
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 6v / 3i / 1o | 73 |
 | [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 2i / 0o | 34 |
 | [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 5 | 1v / 3i / 0o | 54 |
@@ -62,7 +62,7 @@ Sorted by: kind, then alphabetically.
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 5v / 3i / 0o | 72 |
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 0v / 2i / 0o | 27 |
 | [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 2v / 5i / 0o | 67 |
-| [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 11v / 5i / 4o | 154 |
+| [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 15v / 6i / 4o | 178 |
 | [object-state.yml](world-flag/object-state.yml) | world-flag | Object State | 2 | 4v / 4i / 1o | 72 |
 <!-- /REGEN -->
 
