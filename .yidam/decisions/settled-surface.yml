@@ -12,10 +12,14 @@ context: |
   `interaction-table.yml` and its unresolved tension between being keyed by verb and target and
   reading like writing."*
 
-  **Everything above is not abstract.** `crates/game-format` implements a concrete syntax of **50
-  constructs**, and four specimens totalling **662 lines and 91 bindings** are written in it.
-  [verified] — `crates/design-gate/tests/settled.rs`. The same document cites `crates/` **ten
-  times** elsewhere, so this is not a document unaware of the crates.
+  **Everything above is not abstract.** `crates/game-format` implements a concrete syntax whose
+  size `crates/game-format/tests/surface.rs` pins, and four specimens totalling **662 lines and 91
+  bindings** are written in it. [verified] — `crates/design-gate/tests/settled.rs`. The same
+  document cites `crates/` **ten times** elsewhere, so this is not a document unaware of them.
+
+  The size itself is deliberately not restated in this record. `figures.rs` holds every statement
+  of it against the test and had already removed two restatements from one record; the remedy it
+  recorded then was to name the test, and this is the second time that has been the right move.
 
   **And the tension is resolved in the file the bullet points at.**
   [interaction-table](../corpus/data-format/interaction-table.yml)'s `authored_by` says a specimen
@@ -31,7 +35,7 @@ decision: |
 
   | what it said | what settled it |
   |---|---|
-  | *"Everything above is abstract"* | 50 constructs in `crates/game-format`, four specimens, 662 lines, 91 bindings |
+  | *"Everything above is abstract"* | the surface `crates/game-format/tests/surface.rs` pins, four specimens, 662 lines, 91 bindings |
   | *"its unresolved tension between being keyed by verb and target and reading like writing"* | the guarded response list — `when <predicate> "<line>"` — which does both on one line |
 
   **The last item gains an address.** *"Nothing here is implemented as an engine. No engine reads

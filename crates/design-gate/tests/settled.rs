@@ -1,8 +1,10 @@
 //! **The proposal's first unsettled item was settled by being built, and nobody told the document.**
 //!
-//! Section 5 of `design/bounded-expression-language.md` opens: *"**Concrete syntax.** Everything
+//! Section 5 of `design/bounded-expression-language.md` opened: *"**Concrete syntax.** Everything
 //! above is abstract. The surface belongs with `interaction-table.yml` and its unresolved tension
-//! between being keyed by verb and target and reading like writing."*
+//! between being keyed by verb and target and reading like writing."* Three of that section's
+//! eight items carry `~~…~~ **Settled.**` with their evidence; this was the one that did not, and
+//! it is the item a reader meets first.
 //!
 //! Everything above is not abstract. `crates/game-format` implements a concrete syntax of **50
 //! constructs** — 5 verbs, 19 keywords the parser dispatches on, 8 effects, 9 predicates, 6
@@ -23,6 +25,13 @@
 //! combinatorial explosion this node was seeded to worry about does not appear."* It is also 91
 //! bindings across four specimens now rather than twenty-three.
 //!
+//! Both are corrected. What the checks below hold is the rule rather than the census: **every item
+//! in that section is either live or struck through and evidenced**, and the node no longer
+//! asserts that a thing it tests four lines later is untested.
+//!
+//! The last check had to learn used-versus-discussed for the tenth time here, in a spelling none
+//! of the other nine had: **a corrected sentence quotes the sentence it corrects**, so the claim
+//! is still in the file and must be. What is checked is that no occurrence is asserted.
 //! `.yidam/decisions/settled-surface.yml`.
 
 use design_gate::{front_matter, repo_root};
@@ -73,12 +82,15 @@ fn surface(root: &Path) -> (usize, usize, usize, usize) {
     (total, games.len(), lines, bindings)
 }
 
-/// **Fifty constructs, four games, 662 lines — and the proposal calls the surface abstract.**
+/// **Every item in the unsettled section is live or struck through, and a struck one says what
+/// settled it.**
 ///
-/// Pinned as a census. The figures are not the finding; the finding is that a document citing this
-/// crate ten times opens its unsettled list by saying the thing the crate is.
+/// The convention was already there — three items carried it and a fourth did not, which is what a
+/// convention with no check produces. The figures are pinned alongside because the thing that
+/// settled the first item is a size, and a size that drifts would leave the strikethrough
+/// asserting something no longer true.
 #[test]
-fn the_surface_the_proposal_calls_abstract_is_fifty_constructs() {
+fn every_settled_item_says_what_settled_it() {
     let root = repo_root();
     assert_eq!(
         surface(&root),
@@ -88,9 +100,24 @@ fn the_surface_the_proposal_calls_abstract_is_fifty_constructs() {
 
     let doc = read(&root, DESIGN);
     assert!(
-        doc.contains("**Concrete syntax.** Everything above is abstract."),
-        "the proposal's first unsettled item"
+        !doc.contains("**Concrete syntax.** Everything above is abstract."),
+        "the item that stood while the thing it called abstract was built"
     );
+
+    let section = doc
+        .split("## 5. What this does not settle")
+        .nth(1)
+        .expect("the section");
+    let items: Vec<&str> = section.lines().filter(|l| l.starts_with("- ")).collect();
+    assert_eq!(items.len(), 8, "items in the section");
+    let struck: Vec<&&str> = items.iter().filter(|l| l.starts_with("- ~~")).collect();
+    assert_eq!(struck.len(), 4, "struck through: {struck:?}");
+    for l in &struck {
+        assert!(
+            l.contains("**Settled") || l.contains("**Answered"),
+            "a struck item that does not say what settled it: {l}"
+        );
+    }
     assert!(
         doc.matches("crates/").count() >= 10,
         "in a document that cites the crates throughout"
@@ -118,8 +145,8 @@ fn the_node_the_bullet_forwards_to_carries_the_resolution() {
 
     let doc = read(&root, DESIGN);
     assert!(
-        !flat(&doc).contains("keys and reads like writing"),
-        "and the proposal does not carry it"
+        flat(&doc).contains("keys and reads like writing on the same line"),
+        "and the proposal carries it now, quoted from the address it was forwarding to"
     );
 
     // The node is a premise of the proposal, so the gate has been watching the path all along
@@ -131,13 +158,13 @@ fn the_node_the_bullet_forwards_to_carries_the_resolution() {
     );
 }
 
-/// **A figure and its answer, four lines apart in one property.**
+/// **The node no longer calls untested a thing it tests four lines later.**
 ///
-/// `authored_by` says scale is untested and the next paragraph tests it at 203 bindings. The
-/// smaller half is that twenty-three was the specimen count when the sentence was written and
-/// there are four specimens and 91 bindings now.
+/// `authored_by` said scale was untested and the next paragraph tested it at 203 bindings. The
+/// sentence is corrected rather than deleted — what it was right about is that a specimen count is
+/// not a scale test, which is why the shipped game was read.
 #[test]
-fn the_node_calls_scale_untested_beside_the_paragraph_that_tests_it() {
+fn the_node_no_longer_calls_scale_untested_above_the_paragraph_that_tests_it() {
     let root = repo_root();
     let node = read(&root, NODE);
     let prop = node
@@ -149,22 +176,39 @@ fn the_node_calls_scale_untested_beside_the_paragraph_that_tests_it() {
         .expect("its end");
     let text = flat(prop);
 
-    let untested = text
-        .find("twenty-three bindings is not a test of scale")
-        .expect("the sentence");
-    let answered = text
-        .find("The combinatorial explosion this node was seeded to worry about does not appear")
-        .expect("the paragraph that answers it");
-    assert!(
-        answered > untested,
-        "the answer is below the claim it answers, in the same property"
+    // Used versus discussed, for the tenth time in this crate and in a spelling none of the
+    // other nine had: **a corrected sentence that quotes the sentence it corrects.** The phrase
+    // is still in the file and must be, because deleting it would leave the correction correcting
+    // nothing. What must not survive is an *asserted* occurrence.
+    const CLAIM: &str = "is untested; twenty-three bindings is not a test of scale";
+    for (i, _) in text.match_indices(CLAIM) {
+        let before = &text[i.saturating_sub(120)..i];
+        assert!(
+            before.contains("This paragraph read *\""),
+            "an asserted occurrence of the claim, not a quoted one: …{before}"
+        );
+    }
+    assert_eq!(
+        text.matches(CLAIM).count(),
+        1,
+        "quoted exactly once, by the correction"
     );
     assert!(
-        text[untested..answered].split_whitespace().count() <= 80,
-        "and close enough that one reading covers both"
+        text.contains(
+            "It is four specimens and 91 bindings now, and the answer is the shipped \
+                       game rather than the specimens"
+        ),
+        "the claim, corrected in place rather than deleted"
+    );
+    assert!(
+        text.find("This paragraph read").expect("the correction")
+            < text
+                .find("The combinatorial explosion this node was seeded to worry about does not appear")
+                .expect("the paragraph that answers it"),
+        "and it still sits above the paragraph that answers it, which is the point"
     );
     assert!(
         text.contains("That is 203 bindings rather than 23"),
-        "the node states the comparison and leaves the first sentence standing"
+        "the shipped game's count stands where it was"
     );
 }

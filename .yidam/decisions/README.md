@@ -156,6 +156,10 @@ does not re-emit it.
 
 - **:91** — **What this does not settle.** Whether a specimen should be revised to exercise a primitive it argued for. The document's own question, and it now has two instances rather than one — the watchman who moves in prose, and `exit`, which this document's argument built and none of the four games writes. …
 
+### [settled-surface](settled-surface.yml)
+
+- **:95** — **What this does not settle.** Whether an unsettled list should be a list at all. Three items here are struck through and kept, which makes the section a record of what was asked as well as what is open — good for a reader who wants the history and bad for one who wants the current state, since eigh…
+
 ### [testimony](testimony.yml)
 
 - **:68** — **What this does not settle.** Whether testimony and artifact should carry different evidence standing. The prelude is explicit that `[verified]` is about provenance rather than confidence, and a diary entry is a committed source in exactly the way a header file is; `measured-width` quotes Gilbert's…
@@ -188,7 +192,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**46 open.**
+**47 open.**
 
 ## What nothing cites
 
@@ -199,8 +203,8 @@ nodes, at four times the rate, and it had never been looked at.
 - [binding-axes](binding-axes.yml)
 - [declared-reach](declared-reach.yml)
 - [domain-computer](domain-computer.yml)
-- [engine-directory](engine-directory.yml)
 - [name-scoping](name-scoping.yml)
+- [settled-surface](settled-surface.yml)
 
 ## What each record rests on
 
