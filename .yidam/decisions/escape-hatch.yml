@@ -2,9 +2,10 @@ id: escape-hatch
 summary: >-
   A bounded expression language does avoid the general-purpose escape, for everything that is a
   fact about the world. What the escape is actually used for in the one system that shipped one is
-  presentation and repetition, and neither is a limit on expressiveness. The surface is 51
-  constructs; five were admitted, one withdrawn, twelve candidates refused; a whole shipped game
-  was read against it without it moving.
+  presentation and repetition, and neither is a limit on expressiveness. The surface is the one
+  `crates/game-format/tests/surface.rs` enumerates; a handful of constructs were admitted, two
+  withdrawn, twelve candidates weighed and refused; a whole shipped game was read against it
+  without it moving.
 context: |
   `data-format/interaction-table.escape_hatch` has carried since genesis: *"Every prior-art system
   reached a general-purpose language, and whether a bounded expression language avoids that is
@@ -36,18 +37,23 @@ decision: |
   hidden.
 rationale: |
   **The bound is stated where it goes red.** `crates/game-format/tests/surface.rs` enumerates the
-  whole authoring surface — 6 verbs, 19 keywords, 8 effects, 9 predicate forms, 6 comparisons, 3
-  sites, **51 constructs** — reading the verbs and keywords off the parser and holding the enums
-  with exhaustive matches, so a tenth predicate does not compile until somebody names it there.
-  [verified] A change is not a failure; it is a signal that this record needs reading again, which
-  is the reason the figures are pinned rather than described.
+  whole authoring surface — verbs, keywords, effects, predicate forms, comparisons, sites — reading
+  the verbs and keywords off the parser and holding the enums with exhaustive matches, so a tenth
+  predicate does not compile until somebody names it there. [verified] The figures are deliberately
+  **not** restated here. This record carried them for several phases and they went stale in the one
+  field that is supposed to be permanent: it said `51 constructs` and `one withdrawn` after
+  [give-to](../corpus/verb/give-to.yml) folded into `use-with` and six verbs became five, while the
+  property that fed this record was corrected in the same phase and this one was not.
+  [collected-verdict](collected-verdict.yml) is where that is decided, and
+  `crates/design-gate/tests/figures.rs` is the wire this file's header asked for and never got.
 
   **What that surface cost is the real evidence, and it is a ratio.** Nineteen of this corpus's
   twenty-six decision records weigh a candidate against the authoring language.
 
   - **Admitted, five:** `interaction -consumes-> inventory-item`; `move <actor> to <room>` and
     `<actor> in <room>`, added as a pair; `on-enter`; `exit <name> to <room>`.
-  - **Withdrawn, one:** `holds <item>`, which turned out never to be information.
+  - **Withdrawn, two:** `holds <item>`, which turned out never to be information, and the verb
+    `give-to`, assessed as `use-with` applied to an actor.
   - **Refused, twelve:** three of the four effects a specimen said it needed; a delegation
     primitive; a containment relation; a named condition; a cutscene class; a camera class; a
     per-room default; splitting `conversation`; splitting a binding's response; three presentation

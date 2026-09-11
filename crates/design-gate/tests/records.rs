@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (297, 52, 35));
+    assert_eq!((total, mentions, tests.len()), (300, 52, 35));
 }
 
 /// **Eight of forty-seven records are cited by nothing, against three of forty-three nodes.**
@@ -323,7 +323,6 @@ fn a_record_nothing_cites_is_named() {
         alone,
         [
             "binding-axes",
-            "collected-verdict",
             "design-directory",
             "domain-computer",
             "effect-vocabulary",
@@ -337,7 +336,7 @@ fn a_record_nothing_cites_is_named() {
          question — and the newest record joins it, as every newest record does"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (51, 127));
+    assert_eq!((c.len(), edges), (51, 128));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -479,14 +478,16 @@ fn no_record_has_changed_what_it_decided() {
     }
     assert_eq!(
         edited,
-        19,
+        20,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()
     );
     assert_eq!(
         moved,
-        ["action-pages", "latch-default"],
-        "a record may keep its account current; it may not restate what it decided"
+        ["action-pages", "escape-hatch", "latch-default"],
+        "a record may keep its account current; it may not restate what it decided. All three \
+         moved a figure and none moved a decision — and the third is the first whose summary went \
+         stale without the record being touched, because what changed was the thing it described"
     );
 }

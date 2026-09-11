@@ -137,7 +137,6 @@ word on something nothing else has needed — but it is the shape `orphan-in` re
 nodes, at four times the rate, and it had never been looked at.
 
 - [binding-axes](binding-axes.yml)
-- [collected-verdict](collected-verdict.yml)
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
 - [effect-vocabulary](effect-vocabulary.yml)

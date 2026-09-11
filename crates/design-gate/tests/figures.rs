@@ -242,14 +242,14 @@ fn every_statement_of_the_surface_size_agrees_with_the_test() {
             }
         }
     }
-    // The census this commit found, pinned rather than asserted empty: both are `escape-hatch`,
-    // both are the same stale figure, and one of them is in the `summary:`.
-    assert_eq!(
-        wrong,
-        [
-            ".yidam/decisions/escape-hatch.yml: says 51 constructs; the test pins 50",
-            ".yidam/decisions/escape-hatch.yml: says 51 constructs; the test pins 50",
-        ]
+    assert!(
+        wrong.is_empty(),
+        "a figure about the authoring surface that the test does not support:\n  {}",
+        wrong.join("\n  ")
     );
-    assert_eq!(seen, 3, "places that state the surface size in full");
+    assert_eq!(
+        seen, 1,
+        "places that state the surface size in full. It was three — the property, and the record \
+         twice — and the record now names the test rather than restating it"
+    );
 }
