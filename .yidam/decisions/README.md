@@ -62,6 +62,10 @@ does not re-emit it.
 - **:113** — It settles one shape and not the pressure. `definePseudoRoom` built 110 hotel rooms, which is a *room* template; an archetype per shape does not reach shapes nobody anticipated, and that was the argument against archetypes to begin with.
 - **:119** — **What this does not touch.** Whether the tractability figures should be re-earned on a game that can be written in this language. They are correct measurements of the games measured, and the games are honest instances of the shapes they claim to be; what they cannot be is evidence that an *author* …
 
+### [evidence-kinds](evidence-kinds.yml)
+
+- **:105** — **What this does not settle.** The 150 that name nothing. They are continuations — a node establishes a source once and argues from it for several paragraphs, which is how anyone writes and is the reason the census is a lower bound rather than a measurement. But it means a claim's footing is a fact …
+
 ### [exit-archetype](exit-archetype.yml)
 
 - **:79** — **What this does not settle.** It is one archetype, for one shape, chosen because two bodies of work exhibit it. `definePseudoRoom` built 110 hotel rooms and that is a **room** template; nothing here generalises to it, and an archetype per shape does not scale to shapes nobody anticipated — which wa…
@@ -121,7 +125,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**30 open.**
+**31 open.**
 
 ## What nothing cites
 
@@ -134,6 +138,7 @@ nodes, at four times the rate, and it had never been looked at.
 - [domain-computer](domain-computer.yml)
 - [effect-half](effect-half.yml)
 - [effect-vocabulary](effect-vocabulary.yml)
+- [evidence-kinds](evidence-kinds.yml)
 - [name-scoping](name-scoping.yml)
 - [specimen-placement](specimen-placement.yml)
 - [threshold-trigger](threshold-trigger.yml)
