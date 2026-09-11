@@ -13,6 +13,7 @@ location:
     value: https://grumpygamer.com/delores_dev/
     description: "\"Delores Source Code Released!\", the announcement"
 used-by:
+  - ../corpus/subsystem/verb-menu.yml
   - ../corpus/prior-art/sierra-sci.yml
   - ../corpus/verb/give-to.yml
   - ../corpus/data-format/dialogue-script.yml

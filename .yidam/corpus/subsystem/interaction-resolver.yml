@@ -12,6 +12,19 @@ description: |
   *miss* path, not the hit path. An engine that treats the default as an error case has
   optimized the rare branch.
 
+  **That is exactly backwards for this design, and the reason is a component this corpus had not
+  named.** There is no miss path here: what a player can trigger is what
+  [verb-menu](verb-menu.yml) showed them, and it shows authored bindings only. So this component is
+  asked about an unauthored pair never, the *hit* path is the only path, and the rare branch it
+  might have optimized does not exist. [inference] The same is true of the engine whose source this
+  corpus holds, which reaches the same place by the same route: `openVerbsFor` filters and
+  `_checkVerbValid` hides ([delores-source](../../catalog/delores-source.md)). [verified]
+
+  The paragraph above is kept rather than corrected in place because it is true of the other branch
+  — a fixed verb bar makes every cell reachable and the miss path *is* most of the work — and
+  `.yidam/decisions/default-binding.yml` is the record that the two branches give different answers
+  to one question. What was missing was a name for the thing that makes the difference.
+
   It is also what makes a topic-list conversation work, which is not obvious and is worth
   stating rather than leaving to the edge. [inference] A topic list has no interior state
   and no path through it — `conversation/topic-list.yml` argues that each of its topics
@@ -47,6 +60,8 @@ links:
   - target: ../interaction/default-binding.yml
     relationship: realizes
   - target: ../subsystem/path-solver.yml
+    relationship: depends-on
+  - target: ../subsystem/verb-menu.yml
     relationship: depends-on
   - target: ../conversation/topic-list.yml
     relationship: realizes

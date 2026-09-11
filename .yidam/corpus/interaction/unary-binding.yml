@@ -50,12 +50,28 @@ properties:
     verb is an absent one ([delores-source](../../catalog/delores-source.md)). [verified]
     `.yidam/decisions/default-binding.yml`.
 
+    **This design has specified one and had not noticed**, and the sentence above is where the
+    noticing should have happened. The three records it points at are a complete specification of a
+    contextual menu between them, and written as code they recover figures the corpus had counted
+    independently by reading text. [verified] — `crates/reachability/tests/menu.rs`. The component
+    now has a name: [verb-menu](../subsystem/verb-menu.yml).
+
+    **And *an unrefused verb is an absent one* is wrong about that game.** `VERB_PRE` is a verb that
+    is in the popup and declines out loud, with its own macro, its own dispatch table and its own
+    boot-time list, and the catalog section that claim came from was written from `_checkVerbValid`
+    without looking at what runs beside it. [verified] Both engines have both forms; what differs is
+    which they reach for.
+
     **Half of it turns out to be authorable after all, and the format already spells it.** *Never
     authored* against *authored and empty* belongs to the interface and stays there. *Withheld*
     against *refused out loud* does not: a `when` with no `else` under it withholds, a `when` with
     an `else` offers and declines, and the corpus writes the first three times and the second
-    seventeen. [verified] — `crates/reachability/tests/defaults.rs`. That engine writes them 62 and
-    3, on one verb slot where both apply. `.yidam/decisions/availability.yml`.
+    seventeen — and not one of the three is on a hotspot verb. [verified] —
+    `crates/reachability/tests/defaults.rs`, `crates/reachability/tests/menu.rs`. That engine writes
+    them **32 and 3** — the 62 `VERB_OK` sites counted here before include 30 that test the second
+    object, which is this design's key rather than an availability gate — on one verb slot where
+    both apply. Eight to one toward hiding there against seventeen to nothing toward showing here.
+    [verified] `.yidam/decisions/availability.yml`, `.yidam/decisions/verb-menu.yml`.
 links:
   - target: ../verb/look-at.yml
     relationship: applies
