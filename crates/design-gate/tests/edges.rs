@@ -224,19 +224,19 @@ fn class_of(root: &Path) -> BTreeMap<String, String> {
 /// **Nothing in the corpus checks that a path written in prose points at anything.**
 ///
 /// `design-gate` has resolved every link in `design/` since it was a shell script, and the corpus
-/// — the thing `design/` derives *from* — has never had the same check. 200 references across 42
+/// — the thing `design/` derives *from* — has never had the same check. 203 references across 42
 /// nodes and 12 class definitions, and the reason none of them is broken is luck plus a small
 /// number of hands. The first thing it caught was a reference written by the commit that added it,
 /// to a decision record one commit in the future.
 ///
 /// **The three bases are why no tool was ever written for it.** A reference resolves from the
-/// node's own directory (97), from the repository root (98), or from `.yidam/corpus/` (5), and
+/// node's own directory (98), from the repository root (100), or from `.yidam/corpus/` (5), and
 /// the first two split the corpus nearly in half: `../verb/walk-to.yml` beside
 /// `.yidam/decisions/found-in.yml` in the same paragraph. A checker written against either one
 /// reports about half the corpus as rot, which is a worse report than none and is presumably why
 /// nobody shipped it.
 ///
-/// **And more than half of what the corpus points at is not in the corpus.** 104 of the 200 land
+/// **And more than half of what the corpus points at is not in the corpus.** 107 of the 203 land
 /// in `.yidam/decisions/`, 86 on another node, 10 on a class definition. The share has grown in
 /// every phase since this was first counted, which is the migration continuing under the test
 /// that measures it. `markers.rs` found the
@@ -268,10 +268,10 @@ fn every_path_written_in_corpus_prose_resolves() {
     );
     assert_eq!(
         (own, repo, corpus),
-        (97, 98, 5),
+        (98, 100, 5),
         "the three bases, all load-bearing"
     );
-    assert_eq!((own + repo + corpus, decisions), (200, 104));
+    assert_eq!((own + repo + corpus, decisions), (203, 107));
 }
 
 /// **91 declared edges, 80 prose citations, and 17 pairs in both.**
