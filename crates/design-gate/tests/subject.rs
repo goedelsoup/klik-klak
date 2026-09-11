@@ -167,7 +167,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 58, "every record, in the order it was created");
+    assert_eq!(all.len(), 59, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -180,7 +180,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (25, 26, 16),
+        (26, 27, 16),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -197,9 +197,10 @@ fn the_evidence_each_record_rests_on() {
 /// citing no document and five resting on the gate alone — the longest it has been — and
 /// `forty-eight` reset both by drawing on `.yidam/catalog/ags-source.md`.
 ///
-/// The document run then went to one, because `unwritten` rests on the **engine crates** — it
-/// counts what four authored games did with the language. That is the third evidence path and it
-/// is subject work, so `gate_alone` is the run that carries the weight and the other is context.
+/// It went to one when `unwritten` rested on the **engine crates** — counting what four authored
+/// games did with the language, which is the third evidence path and is subject work — and back to
+/// zero when `script-boundary` read a document again. `gate_alone` is the run that carries the
+/// weight; the other is context.
 ///
 /// **This is a tripwire rather than a gauge**, in the sense `unread-clock` settled: it does not
 /// say the run is wrong, it says nobody may extend it without noticing. If this assertion has been
@@ -220,7 +221,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (1, 0),
+        (0, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }

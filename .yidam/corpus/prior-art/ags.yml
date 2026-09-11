@@ -68,9 +68,27 @@ properties:
     taken to the script editor", and the first interaction the manual teaches is a function body —
     `function hSignHome_Look() { Display("The sign says 'EWOH'…"); }`
     ([ags-manual](../../catalog/ags-manual.md)). [verified] The `Hotspot` API is sixteen members
-    and every one is script. The scripting reference this property called unread is roughly sixty
-    API pages beside twenty language pages; for this part of the surface it is not a hatch at the
-    end of a declarative vocabulary, it is the floor.
+    and every one is script. For this part of the surface the script is not a hatch at the end of a
+    declarative vocabulary, it is the floor.
+
+    **And the language itself is read now, not just its extent.** It declares **twenty-one
+    operators**: six comparisons, three logical connectives, seven arithmetic and five bitwise.
+    Nine control constructs, including three loop forms. Six value types. Functions, structs,
+    managed pointers, `new`, `enum` and arrays.
+    [ags-manual](../../catalog/ags-manual.md) records the tables. [verified]
+
+    What the comparison buys is not the size. **Nine of those twenty-one are exactly the nine this
+    corpus's design proposes, and the complement is exactly arithmetic and bitwise** — so the
+    proposed predicate language is this one's boolean fragment rather than a separate vocabulary
+    aimed at the same job. Two declarative layers built twenty-five years apart put arithmetic on
+    the far side of the hatch, and this system is where both of them put it.
+    `.yidam/decisions/script-boundary.yml`. [inference]
+
+    **This language has to answer termination and answers it by guessing.** A `while` loop past
+    150,000 iterations is *"assumed hung"* and the game aborts; `noloopcheck` disables the
+    assumption for one function, offered for the case of *"initializing a very large array"*.
+    [verified] That is the same question a language without loops does not have to ask, and the
+    answer a shipped engine reached for is a threshold plus a way to turn the threshold off.
 
     That puts AGS where this corpus had already put the other two. SCUMM: "there is no declarative
     layer beneath it… it starts there." Sierra: "authoring starts inside a general-purpose language
