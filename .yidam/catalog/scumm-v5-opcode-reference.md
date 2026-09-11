@@ -17,6 +17,7 @@ used-by:
   - ../corpus/verb/walk-to.yml
   - ../corpus/prior-art/scumm.yml
   - ../corpus/interaction/binary-binding.yml
+  - ../corpus/subsystem/response-presenter.yml
 ---
 
 **Reverse-engineered, and it says so.** The footer reads "All material © 2000-2002 David Given,

@@ -167,6 +167,35 @@ no calculator over the corpus should read it. See
 [`design/README.md`](design/README.md) has the front-matter shape and, more usefully, what the
 gate cannot catch.
 
+## `engine/` — where this repository builds rather than proposes
+
+The corpus records, `design/` proposes, and [`engine/`](engine/) holds the artifact both are
+about. This section exists because the conflation it guards against is this repository's
+characteristic hazard, named under *Conduct norms* above: `crates/` is the instrument, and a
+renderer does not belong in it.
+
+**The one rule it relaxes: it holds material that makes no claims.** Every other directory here is
+prose that asserts something and carries `[verified]`, `[inference]` or `[open]`. Code carries no
+tag, which is not a softening of the discipline but an exit from it — and it is a sharper
+relaxation than `design/`'s, because a proposal is still held to provenance and code is outside
+the scheme entirely. **The three tags cannot protect that directory.**
+
+**The rule it does not relax: a module may not invent a subsystem.** A file that implements one
+declares `realizes: subsystem/<name>` in its first ten lines — markdown front matter or a `//!`
+doc comment — and the gate fails when the corpus declares no such node. The ambiguity is
+deliberate and is `derives_effects_from:`'s: either the module is a component nothing has
+described, or the corpus is missing one the engine has just discovered it needs. Both are
+findings.
+
+```
+mise run engine-check     # cargo test -p design-gate --test engine
+```
+
+[`engine/README.md`](engine/README.md) has the contract, the four subsystems the corpus specifies,
+and what the gate cannot catch.
+[`.yidam/decisions/engine-directory.yml`](.yidam/decisions/engine-directory.yml) is the record,
+including why `game-format` is still under `crates/` and the condition for moving it.
+
 ## Reading the corpus
 
 **Do not navigate this corpus with `grep`.** It is a typed graph, and there are commands that

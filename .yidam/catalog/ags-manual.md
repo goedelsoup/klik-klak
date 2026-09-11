@@ -39,6 +39,7 @@ used-by:
   - ../corpus/inventory-item/stackable-item.yml
   - ../corpus/verb/walk-to.yml
   - ../corpus/cutscene/scripted-sequence.yml
+  - ../corpus/subsystem/response-presenter.yml
 ---
 
 **This is a source of record and it is the only one this corpus holds.** The AGS manual is

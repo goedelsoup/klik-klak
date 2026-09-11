@@ -1,0 +1,87 @@
+class: subsystem
+label: Response Presenter
+description: |
+  The component that takes a resolved response and makes it perceptible — a line delivered, a
+  sound played, an animation run — and holds the game until it has finished. It is the last
+  component in the chain a player's click starts, and the only one whose output is not state.
+
+  **It is named here because the resolver's output had no consumer.**
+  [interaction-resolver](interaction-resolver.yml) is described as producing *"either the response
+  or the refusal"*, and nothing in this corpus said what becomes of one. Three subsystems were
+  seeded and all three stop at the moment the answer is known. That absence appears twice in the
+  same shape: `.yidam/decisions/effect-list-semantics.yml` states that the proposed format's
+  reader *"has matched `say | otherwise => {}` since it was written, and `Binding` has no field for
+  response text"*, and calls that a position rather than an omission. It is the right position for
+  a checker and it leaves the player-facing half of every binding unmodelled on both sides.
+
+  **The surface is unbounded and what a binding reaches for is three kinds wide.** Delores's engine
+  manual documents roughly 140 presentation functions — 39 actor, 37 image, 23 object, 19 sound, 19
+  room, 4 camera — of which the shipped game used 26
+  ([delores-source](../../catalog/delores-source.md)). [verified] Counted by where the call is
+  written rather than by what it does, **say, sound and animation are 640 of 695 sites inside
+  bindings: 92.1%**, and camera and walkbox appear in a binding exactly zero times.
+  `.yidam/decisions/presentation-layer.yml` carries the measurement and declines to adopt the two
+  this design lacks.
+
+  **Two more populations agree that presentation is the larger half of an engine's acting
+  vocabulary.** SCUMM v5: 24 of 33 acting opcodes
+  ([scumm-v5-opcode-reference](../../catalog/scumm-v5-opcode-reference.md)). AGS's Interaction
+  Editor: 23 of 38 real actions are presentation or timing
+  ([ags-source](../../catalog/ags-source.md)). [verified] So this component is answerable for more
+  of what an engine does than any other in this tier, and it is the one the authoring vocabulary
+  says least about.
+
+  **The thing it is answerable for that nothing else is: duration.** Every other component here
+  completes within the frame it is asked. A line takes as long as it takes to read, and while it
+  is being delivered the game is held — which is why
+  `.yidam/decisions/effect-list-semantics.yml` had to declare effects *instantaneous* to keep a
+  binding an edge, and why a `say` and a `move` written in one list are two different kinds of
+  thing.
+
+  **AGS ran that experiment on its own authors and documented the result.** Its declarative
+  interaction editor blocked: *"in 2.72, a 'Run Dialog' interaction, for example, waits until the
+  dialog has finished before moving onto the next action."* Its replacement does not — *"with
+  scripting, you need to be careful because the `dialog[x].Start()` command does not block"* — and
+  the manual gained a page, `BlockingScripts.md`, that exists for the consequences: three script
+  threads, a queue of five, and events lost when a thread blocks too long
+  ([ags-manual](../../catalog/ags-manual.md)). [verified] **A declarative layer could make
+  blocking the default because it had nowhere else to put the question; a general-purpose one had
+  to hand it to the author, and handing it over cost a page of errata.** [inference] That is a
+  point in this design's favour which neither the corpus nor the proposal had collected, and it is
+  about this component rather than about the vocabulary.
+properties:
+  responsibility: |
+    Turn a response into something perceived, and do not return until it is over. Both halves
+    matter and only the first is obvious: a component that delivers a line and returns immediately
+    has presented nothing a player can read.
+
+    Stated without reference to any other component, that is the whole of it — which is why this
+    is a subsystem rather than part of the thing that produced the response. What it is given is a
+    response; where the response came from is not its question.
+  state: |
+    Transient and per-frame: a line's position in time, an animation's frame, a sound's handle.
+    **It is the one component in this tier whose state deliberately does not survive a save**, and
+    the corpus already has the evidence for why that is a choice rather than an oversight — an AGS
+    save is *"a dump of all the game objects, regardless of whether they are related to the game
+    progress or not"*, which [save-state](../data-format/save-state.yml) records as the flaw that
+    makes saves break across a patch ([ags-manual](../../catalog/ags-manual.md)). [verified]
+
+    [inference] A presenter's state is the clearest case of state a save should not hold: nothing
+    a player does depends on where a line had got to, and a format that dumps everything cannot
+    tell that from progress.
+  authoring_visibility: |
+    Indirectly, through one construct and one accident. The construct is the response text itself —
+    an author writes a line and never configures the component that shows it. The accident is
+    **duration**, which no author states and every author controls: a line's length is how long the
+    game is held, and that is the only lever over pacing this vocabulary offers.
+
+    [inference] An author who wants a beat writes a longer sentence. That is a real authoring
+    facility arrived at by nobody deciding anything, and it is worth naming before an engine
+    exists to make it accidental in a different way.
+links:
+  - target: ../interaction/unary-binding.yml
+    relationship: realizes
+  - target: ../interaction/entry-binding.yml
+    relationship: realizes
+  - target: ../subsystem.ont.yml
+    relationship: instance-of

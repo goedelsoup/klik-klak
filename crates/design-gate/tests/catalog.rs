@@ -216,7 +216,7 @@ fn the_artifact_that_was_called_unretrieved_is_the_most_cited_source_here() {
             }
         }
     }
-    assert_eq!(nodes.len(), 43, "corpus nodes");
+    assert_eq!(nodes.len(), 44, "corpus nodes");
 
     let mut counts: Vec<(usize, String)> = entries(&root)
         .iter()
@@ -236,7 +236,7 @@ fn the_artifact_that_was_called_unretrieved_is_the_most_cited_source_here() {
     counts.sort_by(|a, b| b.0.cmp(&a.0));
     assert_eq!(
         counts[0],
-        (27, "delores-source.md".to_string()),
+        (28, "delores-source.md".to_string()),
         "the most-cited entry in this catalog, against {counts:?}"
     );
     assert!(

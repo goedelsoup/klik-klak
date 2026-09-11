@@ -26,6 +26,18 @@
 //!
 //! **The watermark is required now rather than honoured where offered**, and both documents carry
 //! one. `.yidam/decisions/second-document.yml`.
+//!
+//! **What it cannot tell, found by using it.** The mark is a commit count, so *any* commit touching
+//! a premise trips it. `engine-home` added one `used-by:` line to four catalog entries — a reverse
+//! index, generated content in all but name, changing nothing a design rests on — and both
+//! documents came up for reconciliation. The reading took a minute and found nothing, which is the
+//! right outcome and not a free one.
+//!
+//! It is left as it is. Teaching the check to skip front matter would make it skip `retrieved:`
+//! and `ttl_days:` too, and a source's expiry is exactly the kind of premise movement a design
+//! should be read against. `marker-count`'s rule applies — **make the record truthful rather than
+//! ask the tool to be cleverer** — so the price is a reconciliation that sometimes finds nothing,
+//! and the alternative is a check that sometimes misses something.
 
 use design_gate::{front_matter, repo_root};
 use std::path::{Path, PathBuf};
