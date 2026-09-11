@@ -93,6 +93,10 @@ does not re-emit it.
 
 - **:114** — **What this does not settle.** Whether the migration should be reversed rather than gated. Every phase for six phases has answered a corpus question in a record, and the corpus node it answers now often carries a pointer where it used to carry the argument — which is legible to a reader following li…
 
+### [save-boundary](save-boundary.yml)
+
+- **:102** — **What this does not settle.** Whether a save should hold anything a predicate cannot read. There is one candidate and it is not hypothetical: a player's position *within* a room, which [path-solver](../corpus/subsystem/path-solver.yml) owns and no predicate in this vocabulary can ask about. The sta…
+
 ### [testimony](testimony.yml)
 
 - **:68** — **What this does not settle.** Whether testimony and artifact should carry different evidence standing. The prelude is explicit that `[verified]` is about provenance rather than confidence, and a diary entry is a committed source in exactly the way a header file is; `measured-width` quotes Gilbert's…
@@ -109,7 +113,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**27 open.**
+**28 open.**
 
 ## What nothing cites
 
@@ -124,9 +128,8 @@ nodes, at four times the rate, and it had never been looked at.
 - [domain-computer](domain-computer.yml)
 - [effect-half](effect-half.yml)
 - [effect-vocabulary](effect-vocabulary.yml)
-- [escape-hatch](escape-hatch.yml)
-- [latch-default](latch-default.yml)
 - [name-scoping](name-scoping.yml)
 - [record-layer](record-layer.yml)
+- [save-boundary](save-boundary.yml)
 - [specimen-placement](specimen-placement.yml)
 - [threshold-trigger](threshold-trigger.yml)

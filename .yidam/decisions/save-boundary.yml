@@ -1,0 +1,102 @@
+id: save-boundary
+summary: >-
+  A save file is the state vector, and this design specified one four times without noticing.
+  `observed-state`'s rule — a component of the searched state exists only if some predicate can
+  read it — is the save format read from the other side. The evidence is the cost of the other
+  choice: AGS saves a dump of every object keyed by position, and its manual documents what that
+  does to an author who ships a patch. `latched-flag`'s save argument closes, against itself.
+context: |
+  [world-flag.ont.yml](../corpus/world-flag.ont.yml) has declared a `save_semantics` property
+  since genesis — *"whether the flag is written to a save file, and what a save that omits it would
+  lose"* — and all four flag instances answer it. Every answer was an `[inference]`, and they
+  converge: [boolean-flag](../corpus/world-flag/boolean-flag.yml) calls a silent reopened puzzle
+  *"the strongest argument for the save format being derived from the flag declaration rather than
+  written alongside it"*, and [object-state](../corpus/world-flag/object-state.yml) says a derived
+  format *"gets the namespace for free."*
+
+  Five decision records reason about saving. [latch-default](latch-default.yml) carries a live
+  `[open]` explicitly blocked on it: the argument for a declared `latched` property is that *"a
+  save file that restores a latched flag as clearable corrupts no value and makes reachable a
+  state the author had proved unreachable"*, and *"that argument has never been tested against a
+  save format, because this design has none."*
+
+  Three AGS manual pages had been sitting unread since genesis.
+decision: |
+  **No new decision about the format, because the format was decided four times already. The save
+  is the state vector.**
+
+  [observed-state](observed-state.yml) requires that a component of `reachability::State` exist
+  only if some predicate in the game can read it, and [unread-state](unread-state.yml) extended it
+  to state an author declared and nothing reads. Neither was about saving. Read from the other
+  side they are a serialization format: **room, mode, carried counts, acquisition sites taken,
+  flags, counters, and nothing else** — because nothing else can be observed, and a value nothing
+  can observe is not part of the world.
+
+  So every narrowing that made the reachable set smaller made the save file smaller, and the two
+  facts are the same fact. [inference] [data-format/save-state](../corpus/data-format/save-state.yml)
+  is the node; this record is why there was nothing left to decide.
+
+  **And `latch-default`'s open question closes against the argument that raised it.** A save that
+  *restores a latched flag as clearable* is a save carrying the flag's **schema** as well as its
+  value. In this design `latched` is a declaration in the `.game` file, not a component of `State`;
+  a save holds values and the game file holds kinds, so on load the latch comes back from the
+  source. The failure the property was defended with cannot occur here. [inference] That is not an
+  argument for removing the declaration — it is checkable, and
+  `crates/reachability` reports both directions of it — but the save argument was the one thing
+  derivation could not supply, and it turns out to have been about engines whose saves carry the
+  schema.
+rationale: |
+  **The evidence is entirely the price of the other choice, which is the strongest form it could
+  have taken.** Nobody argues for a derived save; one manual documents at length what happens
+  without one.
+
+  An AGS save is a *save state*: *"they contain a 'dump' of all the game objects, regardless of
+  whether they are related to the game progress or not"* ([ags-manual](../catalog/ags-manual.md)).
+  [verified] The distinction between state that is about progress and state that is not is drawn
+  by the engine's own manual, in the sentence explaining that the format ignores it.
+
+  It is keyed by position — *"written as lists, where separate items are not identified in any way
+  rather than an order in that list"* — which the manual calls *"one serious technical flaw"*, and
+  it states the consequence for a shipped game: any patch adding an object *"will render the
+  player's saves unstable or unusable."* [verified] `object-state`'s guess that a derived format
+  *"gets the namespace for free"* is exactly right and the cost of not having it is a documented
+  article.
+
+  **The part that belongs to this corpus rather than to serialization is the table of what breaks
+  a save.** Adding, removing or reordering a Character, a Dialog, a Global Variable, a GUI control,
+  an Inventory item, a cursor mode or a View invalidates every old save. Rewriting every function
+  body, every dialog script and every macro invalidates none. [verified] **A save couples to the
+  declaration list and not to the code**, so it is a constraint on what an author may revise after
+  shipping, and it falls entirely on the declarative half of a game.
+
+  That is a cost of being declarative that this corpus had not counted, and it points the opposite
+  way from everything else here. [escape-hatch](escape-hatch.yml) and
+  [interaction-table](../corpus/data-format/interaction-table.yml) weigh a bounded vocabulary
+  against a general-purpose one on expressiveness and on checkability. This is the first axis found
+  where the general-purpose half is the *safe* half: code can be rewritten freely and declarations
+  cannot. A vocabulary with no code has no cheap half. [inference]
+
+  **The remedy AGS ships is a script callback, which is the fourth time.** Since 3.6.2 an author
+  who has added anything *must* write `validate_restored_save` *"or the game will refuse to load
+  older saves"*, and it works only for additions at the end of a list. [verified] The prohibitions
+  are stated plainly — *"Can't remove existing objects or variables. If you no longer need any,
+  then hide or disable them"* — and that sentence is word for word what
+  [room-manifest](../corpus/data-format/room-manifest.yml) concluded about surviving a tool
+  round-trip: it survives *"by never removing anything."* Two formats, two phases, neither written
+  with the other in view. [inference]
+
+  **Three systems hit one constraint and pay three different prices**, and this is the fourth place
+  the same fact has surfaced. Thimbleweed Park could not serialize a running Squirrel thread and
+  answered with three workarounds; AGS forbids saving inside a script function, which is why its
+  local variables need not be saved at all; this design refused duration in
+  [effect-list-semantics](effect-list-semantics.yml) and has no inside-a-function to be in.
+  [verified] A save file is where *a response with duration is not a state* stops being an opinion
+  about modelling.
+
+  **What this does not settle.** Whether a save should hold anything a predicate cannot read. There
+  is one candidate and it is not hypothetical: a player's position *within* a room, which
+  [path-solver](../corpus/subsystem/path-solver.yml) owns and no predicate in this vocabulary can
+  ask about. The state vector holds the room and not the spot, so a restored save puts the player
+  somewhere the engine chooses — which is what Thimbleweed Park's re-entering `enter` does on
+  purpose, and what an author would notice. Nothing here has wanted it, and the rule that would
+  admit it is the rule this record has just finished praising. `[open]`
