@@ -1,0 +1,107 @@
+id: inward-turn
+summary: >-
+  Seven phases in a row spent most of their lines on the instrument that reads the corpus and
+  almost none on the corpus, and none at all on the specimens, the checker or the format. Every
+  finding was real, which is why nothing stopped it. The instrument reaches a stopping point, the
+  run is held as a tripwire, and what a record rests on becomes visible where records are listed.
+context: |
+  A closed window, from the commit before `phase: spatial-reach` — the last phase whose work
+  reached the corpus in quantity, settled as [drawn-boundary](drawn-boundary.yml) — to
+  [priority-edge](priority-edge.yml): 31 commits, **+2,634 lines**. `.yidam/corpus/` took 146 of
+  them — **five percent**. `crates/design-gate/` took 1,721. `design/`, `crates/reachability/` and
+  `crates/game-format/` took **none**: the four specimens, the reachability checker and the `.game`
+  format were not edited once in seven phases. [verified] —
+  `crates/design-gate/tests/subject.rs`.
+
+  The 146 that did reach the corpus are almost all nodes writing about their own bookkeeping —
+  *"Nothing points at this node"*, *"It was silenced two phases later"*, *"this node carries no
+  `[verified]` claim"*. That is the corpus describing the repository rather than the subject, one
+  level further in.
+
+  **And every record has been saying which it was, in its own prose, since the directory
+  existed.** A decision cites a catalog entry, the engine crates, or this gate, and the three are
+  not interchangeable: a document is evidence about adventure games, `reachability` and
+  `game-format` are evidence about this design, and `design-gate` reads the corpus itself. Of 56
+  records, 24, 24 and 15; eleven rest on no evidence path at all. **Twelve rest on the gate and
+  nothing else**, and they are at the end — seven of the newest cite no document, and five rest on
+  the gate alone. [verified]
+decision: |
+  **The instrument is at a stopping point, and the condition for adding to it is named: a new
+  `design-gate` check answers a defect found in the corpus, not one found in the gate.**
+
+  Not a freeze. The checks built in this window are good and several caught things nothing else
+  could. What changed is that there is now a way to tell the two cases apart, and the recent ones
+  are the second: [unread-clock](unread-clock.yml) corrected five figures and **three of them were
+  inside `crates/design-gate`** — a doc comment, a failure message, and a test header. The
+  instrument had become its own subject, and a phase whose evidence is the gate's own prose is a
+  phase measuring the thing it is standing on.
+
+  **The run is held as a tripwire**, in the sense [unread-clock](unread-clock.yml) settled one
+  phase ago. It does not say a record resting on the gate is wrong — eleven of them are the reason
+  this repository can count anything about itself. It says the run cannot be extended without
+  somebody noticing, and **this record extends it to five**, which is stated rather than excused:
+  the two phases directed next are the subject work, and if the run reaches six the check fails and
+  the record that did it has to answer for it.
+
+  **What a record rests on becomes visible where records are listed.** `.yidam/decisions/README.md`
+  is generated and already carries the open questions and what nothing cites; it gains the evidence
+  path, because the classification was derivable from day one and the reason nobody used it is that
+  nothing showed it. That is the same remedy [inert-reports](inert-reports.yml) chose for the
+  declined clocks and [priority-edge](priority-edge.yml) for the orphans: **put the answer where
+  the question gets asked.**
+rationale: |
+  **Nothing stopped it because every phase was right.**
+
+  Seven phases, seven real defects, seven checks that hold. There was no wrong step to catch. What
+  there was instead is a gradient: **a question about the repository can be settled in one sitting
+  and a question about adventure games cannot.** The gate's evidence is in the working tree, the
+  answer is exact, and the check that proves it runs in half a second. A question about the
+  authoring vocabulary means reading a source, admitting an inference, and tagging a claim that a
+  later phase may have to correct. Both are work; only one of them finishes cleanly, and a loop
+  that rewards finishing will find the near answer every time. [inference]
+
+  **The instrument is now larger than what it gates, by a measure that matters.** `design-gate` is
+  3,854 lines of Rust against a 5,775-line corpus, and the last three phases added to it in order
+  to check prose that earlier phases had added to it. That is not a defect in any one check. It is
+  what happens when the only thing a phase is required to produce is a green assertion, and the
+  cheapest green assertion is about the file you just wrote.
+
+  **The evidence path was legible the whole time.** No new field, no schema change, no convention:
+  a record that cites `catalog/` did document work and a record that cites `design-gate` did not.
+  Fifty-five records carried that fact in their own prose for the entire life of the directory, and
+  counting it took eleven lines. **This is the shape the last six phases kept finding, arriving
+  about the phases themselves** — [carried-claims](carried-claims.yml) found nodes that only
+  described their footing after being reported, [priority-edge](priority-edge.yml) an answer
+  written where the reader has no cause to look, [unread-clock](unread-clock.yml) a figure quoted
+  three times and derived nowhere. Here it is the loop's own direction: knowable from what was
+  already written, and unknown because nothing counted it.
+
+  **The corpus's five percent is the more damning half.** A repository can spend a season on tools
+  and be fine. What this window shows is that when the corpus *was* edited, it was edited to record
+  what a linter said about it — so even the subject directory spent its lines on the repository. The
+  question that names this artifact, *what is the smallest set of authoring primitives*, received
+  no new evidence in seven phases, and the four specimens that are the entire evidence for the
+  fifty-construct surface were not opened.
+
+  **The same undeclared convention broke twice while this was being written, and the second time
+  was in the check written here.** [schema-deferral](schema-deferral.yml)'s matcher read this
+  record's *"no new field, no schema change, no convention"* — a sentence reporting that nothing
+  had to be written down — as a fifth deferral, because the phrase asserted and the phrase negated
+  are opposite claims and the matcher saw bytes. Then the new classifier read **this record**, whose
+  entire subject is that it rests on none of the three paths, as resting on all three: it names the
+  directories in prose, and naming a directory is not citing a file in it.
+
+  That second one is the more useful, because correcting it **moved two of the census figures**.
+  A classifier requiring a filename after the path finds 24 records citing a document and 24
+  citing an engine crate, against 26 and 27 by mention — so two records discuss the catalog
+  without drawing on it and three discuss the checker without resting on it. Five other checks in
+  this crate have had to learn this distinction, arriving as brackets, backticks, asterisks and a
+  capital letter. **These are the sixth and seventh, and the seventh was written by the phase that
+  documented the sixth.** [verified]
+
+  **What this does not settle.** Whether a record resting on the gate alone is the same *kind* as
+  one resting on a document. The directory holds one kind and `records.rs` gates them identically,
+  but `record-layer` drew a line between a claim about adventure games and a claim about this
+  project on exactly this reasoning, and eleven records are a third thing — claims about the
+  repository's own instruments, which is neither. Splitting them would mean a second directory and
+  a second gate, which is a cost this window is poorly placed to recommend. `[open]`

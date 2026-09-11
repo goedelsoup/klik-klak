@@ -92,6 +92,10 @@ does not re-emit it.
 
 - **:107** — **What this does not settle.** Whether the corpus should have an index at all. Three reports nagging about its absence is not evidence that it is wanted — `yidam query` answers structural questions and `pack` answers retrieval ones, both without embeddings, and no phase in this repository's life has…
 
+### [inward-turn](inward-turn.yml)
+
+- **:107** — **What this does not settle.** Whether a record resting on the gate alone is the same *kind* as one resting on a document. The directory holds one kind and `records.rs` gates them identically, but `record-layer` drew a line between a claim about adventure games and a claim about this project on exac…
+
 ### [marker-count](marker-count.yml)
 
 - **:79** — **What this does not settle.** Whether a marker should carry the phase that opened it. Every one of the five stale markers could have been caught by re-reading a record from the phase that followed, and nothing connects the two — a marker names no date, no phase and no record, so "has this been answ…
@@ -144,7 +148,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**35 open.**
+**36 open.**
 
 ## What nothing cites
 
@@ -156,6 +160,44 @@ nodes, at four times the rate, and it had never been looked at.
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
 - [effect-vocabulary](effect-vocabulary.yml)
+- [inward-turn](inward-turn.yml)
 - [name-scoping](name-scoping.yml)
 - [specimen-placement](specimen-placement.yml)
 - [threshold-trigger](threshold-trigger.yml)
+
+## What each record rests on
+
+A record cites a catalog entry, the engine crates, or the gate that reads this corpus,
+and which it cites says what kind of question it answered. All three are legitimate.
+The classification was derivable from the day this directory existed and nothing showed
+it, which is [inward-turn](inward-turn.yml)'s finding; the run at the end of the first
+list is the one that record holds as a tripwire.
+
+**On the gate and nothing else** — a question about this repository.
+
+- [action-pages](action-pages.yml)
+- [carried-claims](carried-claims.yml)
+- [drawn-boundary](drawn-boundary.yml)
+- [inert-reports](inert-reports.yml)
+- [inward-turn](inward-turn.yml)
+- [marker-count](marker-count.yml)
+- [priority-edge](priority-edge.yml)
+- [prose-edges](prose-edges.yml)
+- [record-layer](record-layer.yml)
+- [record-lifecycle](record-lifecycle.yml)
+- [schema-deferral](schema-deferral.yml)
+- [unread-clock](unread-clock.yml)
+
+**On no evidence path named here** — structural, or resting on the prelude.
+
+- [arrival-trigger](arrival-trigger.yml)
+- [conversation-boundary](conversation-boundary.yml)
+- [design-directory](design-directory.yml)
+- [domain-computer](domain-computer.yml)
+- [effect-vocabulary](effect-vocabulary.yml)
+- [name-scoping](name-scoping.yml)
+- [ontology](ontology.yml)
+- [proposals](proposals.yml)
+- [seed-scope](seed-scope.yml)
+- [specimen-placement](specimen-placement.yml)
+- [stale-markers](stale-markers.yml)
