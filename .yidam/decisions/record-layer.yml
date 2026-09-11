@@ -51,6 +51,15 @@ decision: |
   **Built:** every citation resolves; records nothing cites are named; the directory gets the
   index it never had, listing all 25 open questions with the record and line each sits on.
 
+  **One release later, one of the three arrived from upstream and the decision survives it.**
+  `cli/v0.12.0` added `yidam decisions-log`, which lists every record newest-first with its
+  `summary:`. That is a reader, and *"no tool reads them"* was this record's opening sentence — but
+  it was supporting evidence, not the argument. The argument was that promotion makes the graph
+  assert something false, and `status` still counts 43 nodes, `open-questions` still returns 7, and
+  `due`'s questions clock still sees a seventh of what this repository owes. The generated index
+  survives too, because the command reads the one field nothing here edits and the index reads the
+  half that changes: [record-lifecycle](record-lifecycle.yml) is the measurement and the check.
+
   **Named and not built:** the 273 claims `yidam status` does not count. Counting them here would
   put a second figure beside the first under a different rule, in a repository where two of its own
   files disagreed on a headline number for six phases ([verb-count](verb-count.yml)) and where a

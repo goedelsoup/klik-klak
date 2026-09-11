@@ -138,7 +138,7 @@ fn the_corpus_carries_seven_questions_and_the_count_is_the_token_count() {
 /// **Three quarters of what this corpus still owes is invisible to every tool it has.**
 ///
 /// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds 7 live
-/// markers; the decision records hold **27 across 22 files**, and they are counted as zero — by
+/// markers; the decision records hold **28 across 23 files**, and they are counted as zero — by
 /// `status`, by `due`, by the index, by everything. The migration happened quietly: as questions
 /// got answered they were replaced by *"what this does not settle"* paragraphs in the record that
 /// answered them, which is the right place to put them and a place nothing looks.
@@ -157,7 +157,7 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (7, 27, 22));
+    assert_eq!((corpus, decisions, records), (7, 28, 23));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
         20,
