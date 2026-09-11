@@ -42,7 +42,7 @@ Sorted by: kind, then alphabetically.
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 4v / 2i / 0o | 66 |
 | [entry-binding.yml](interaction/entry-binding.yml) | interaction | Entry Binding | 3 | 10v / 9i / 0o | 163 |
 | [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 8v / 1i / 0o | 81 |
-| [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 7v / 4i / 0o | 117 |
+| [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 7v / 4i / 1o | 127 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
 | [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 5 | 16v / 4i / 1o | 166 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 1v / 7i / 0o | 72 |
@@ -61,7 +61,7 @@ Sorted by: kind, then alphabetically.
 | [talk-to.yml](verb/talk-to.yml) | verb | Talk To | 2 | 4v / 5i / 0o | 82 |
 | [use-with.yml](verb/use-with.yml) | verb | Use With | 2 | 11v / 5i / 0o | 106 |
 | [walk-to.yml](verb/walk-to.yml) | verb | Walk To | 3 | 24v / 10i / 0o | 314 |
-| [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 5v / 3i / 0o | 72 |
+| [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 5v / 3i / 1o | 81 |
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 3v / 3i / 0o | 56 |
 | [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 3v / 5i / 0o | 75 |
 | [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 15v / 7i / 1o | 186 |
