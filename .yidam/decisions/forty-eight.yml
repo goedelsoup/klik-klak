@@ -40,17 +40,24 @@ decision: |
   | **23** | **presentation or timing — write no world state at all** |
   | 15 | write world state, and all fifteen map |
 
-  **Twenty-three of the thirty-eight real actions — 61% — never touch world state.** That is
-  [effect-half](effect-half.yml)'s central claim arriving from a second engine, a different
-  decade and a different authoring model, and it is the first time that claim has had more than
-  one population under it. Its scope was *"every engine"* on the evidence of one.
+  **Twenty-three of the thirty-eight real actions — 60% — never touch world state.** That is
+  [effect-half](effect-half.yml)'s central claim arriving as a **second population**, from a
+  different engine, a different decade and a different authoring model, and it is the first time
+  that claim has had more than one under it. Its scope was *"every engine"* on the evidence of one
+  game.
 
-  **Three symmetric pairs collapse onto one flag.** `Room - Disable hotspot` / `Enable hotspot`,
-  `Object - Remove an object from the room` / `Switch an object back on`, `Game - Enable dialog
-  option` / `Disable dialog option`: six of the fifteen. Each is a `world-flag` gating presence or
-  availability, and [effect-vocabulary](effect-vocabulary.yml) decided all three cases —
-  *"a hotspot disappearing for some reason other than being picked up is a `world-flag` gating its
-  presence"* — without knowing a shipped system had spent a command on each half of each pair.
+  **Three symmetric pairs land on this design's one symmetric pair.** `Room - Disable hotspot` /
+  `Enable hotspot`, `Object - Remove an object from the room` / `Switch an object back on`, `Game -
+  Enable dialog option` / `Disable dialog option`: six of the fifteen actions, and all six are
+  `set-flag` and `clear-flag` over a `world-flag` gating presence or availability.
+  [effect-vocabulary](effect-vocabulary.yml) decided all three cases — *"a hotspot disappearing for
+  some reason other than being picked up is a `world-flag` gating its presence"* — without knowing
+  a shipped system had spent a command on each half of each pair.
+
+  **And `clear-flag` is the reverse gear no specimen here has used.**
+  [latch.rs](../../crates/reachability/tests/latch.rs) records that: *"The reverse gear exists and
+  has never been used."* AGS spent three commands on it. Two populations, and the one that
+  enumerated its vocabulary needed the reverse direction badly enough to name it three times.
 
   **One of the eight has no counterpart in the table, and the asymmetry is structural.** `Game -
   Run dialog` enters a conversation; **nothing in forty-eight actions leaves one.** AGS's dialogs

@@ -476,6 +476,32 @@ properties:
     That is the measurement this node had been asserting. **The gap is real and it is exactly one
     thing: composition.** Predicates over world state are not what AGS lacked; combining them is.
 
+    **The other forty-one were a number in a sentence until they were transcribed**, and the table
+    is now recorded in full in [the catalog entry](../../catalog/ags-source.md) rather than here,
+    because a source's contents belong with the source. Partitioned, it is seven predicates, three
+    that act on the command list itself, **twenty-three that write no world state at all**, and
+    fifteen that do. [verified]
+
+    Twenty-three of the thirty-eight real actions play music, show a GUI, animate, face, follow or
+    wait. That is `.yidam/decisions/effect-half.yml`'s claim — *"in every engine the effect list
+    and the presentation list are the same list"* — arriving from a second engine and a different
+    decade, where it had been settled on one game's 125 write sites.
+
+    **All fifteen that write world state map onto the eight effects this design has**, and six of
+    them land on one pair. `Room - Disable hotspot` and `Room - Enable hotspot`, `Object - Remove
+    an object from the room` and `Object - Switch an object back on`, `Game - Enable dialog option`
+    and `Game - Disable dialog option` are three symmetric pairs, and all six halves are
+    `set-flag` and `clear-flag` over a `world-flag` gating presence or availability. [verified] An
+    enumerated vocabulary has to spell both directions of a reversible change, once per entity
+    kind; a vocabulary that names the state separately from the operations spells them once.
+    [inference]
+
+    **One of the eight has no counterpart in the table.** `Game - Run dialog` enters a
+    conversation and nothing in forty-eight actions leaves one — AGS's dialogs are a separate
+    sub-language that ends itself, so entry was an interaction and exit was not. [verified] That
+    is a difference in where the boundary between the two languages falls, rather than in what
+    either can say.
+
     Two further things the table says, neither of which was being looked for. **The escape is
     action number 1** — `Run script`, second in a forty-eight-entry table after `Do nothing`,
     present from the beginning and near the top of an alphabetical list. It was never a last

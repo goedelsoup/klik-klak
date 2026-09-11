@@ -76,7 +76,7 @@ does not re-emit it.
 
 ### [forty-eight](forty-eight.yml)
 
-- **:99** — **What this does not settle.** Whether presentation belongs in this vocabulary at all. Twenty- three actions of a shipped authoring surface do nothing but play, show, animate and wait, and this design has no way to write any of them — which [effect-half](effect-half.yml) treated as the boundary bein…
+- **:106** — **What this does not settle.** Whether presentation belongs in this vocabulary at all. Twenty- three actions of a shipped authoring surface do nothing but play, show, animate and wait, and this design has no way to write any of them — which [effect-half](effect-half.yml) treated as the boundary bein…
 
 ### [found-in](found-in.yml)
 
