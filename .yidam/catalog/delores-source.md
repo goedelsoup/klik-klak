@@ -481,6 +481,49 @@ The same page gives the coupling between drawing and targetability a magic value
 `objectState(object, state)` — "If the state is set to `"gone"` then the object becomes
 untouchable."
 
+## Availability against refusal — 2026-09-10
+
+This engine spells two things where this corpus's design spells one, and it spells them **on the
+same verb slot of the same object**.
+
+`Bathroom.dinky`'s `sink` carries all three of:
+
+    VERB_PRE(turn_on) { if (sinkFaucet.broken) { sayLine(SAY(11501,"This has been broken for
+                        as long as I can remember.")); return NO } return YES }
+    VERB_OK(turn_on)  { return (sinkFaucet.state == "off" && lights_on) }
+    VERB(turn_on)     { sinkFaucet.verb_turn_on() }
+
+Three conditions on one verb, given three treatments the author chose between. **Already on — not
+offered, silently. Room dark — not offered, silently. Broken — offered, and refused with a line.**
+`sinkFaucet` repeats the whole arrangement for itself, which is a fifth instance of the
+sink-and-its-tap delegation this entry already records.
+
+**`VERB_OK` cannot carry a line and does not.** It returns a boolean the engine consults before
+offering the verb. Across all **62** live sites, not one contains a `sayLine` or a `SAY`. What the
+62 test, by inspection of each body:
+
+| what the predicate reads | sites |
+|---|---|
+| which second object (`noun2 == …`) | 30 |
+| the target's own state (`state == "open"`, `broken`, `position`, `eaten`) | 36 |
+| the environment — `lights_on`, `selectedActor.on_ladder` | 19 |
+| neither, or something else | 4 |
+
+(The categories overlap; 11 read state and object, 5 read all three.) **Thirty of the sixty-two say
+which item the verb applies to** — `noun2 == Inventory.glass`, `noun2 == leonard`,
+`noun2?.accepts_mail` — which is what a second key says in a format that has one. Only **32 of the
+62** test something no key could express.
+
+**`VERB_PRE` is the other half and there are four.** Three are the refuse-with-a-line shape:
+`Nickel.door`'s *"I should find the camera before setting out"* and the two broken-faucet lines. The
+fourth, `Inventory`'s `takephoto`, is not a refusal at all — it starts a thread and returns `NO`,
+replacing the verb rather than declining it.
+
+So the engine's division is: `VERB_OK` withholds the verb and says nothing, 62 times; `VERB_PRE`
+offers it and declines out loud, 3 times. **Twenty to one in favour of silence** — which is the
+reverse of the ratio in this corpus's own specimens, where every one of seventeen gated bindings on
+a hotspot verb carries a line.
+
 ## Frame width — 2026-09-10
 
 A different cut through the same 287 authored verb slots, taken to answer a question about *this*
