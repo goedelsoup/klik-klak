@@ -1,0 +1,121 @@
+id: authored-text
+summary: >-
+  The parse tree keeps every character an author writes. `Binding` gains two response lists and
+  `Game` gains a labels map; the state model goes on ignoring all of it. `effect-list-semantics`
+  said *"`say` is presentation and not an effect"* and *"`Binding` has no field for response
+  text"* in one breath — the first is a position and the second was the consequence of there
+  being one reader. There are two readers now.
+context: |
+  **52% of a specimen is discarded at the parse.** Across the four, 13,346 characters the reader
+  looks at, of which 5,141 in 105 sites are response text and 1,855 in 80 sites are declaration
+  labels. [verified] — `crates/game-format/tests/authored.rs`, which is where the proposal's
+  sentence *"half the characters an author writes are discarded at the parse"* is derived rather
+  than asserted.
+
+  The mechanism is three separate silences. `parse.rs` matches `"say" | "otherwise" => {}`. A
+  `when <pred> "<line>"` keeps the predicate and drops the line beside it, which is why
+  `Binding::guards` is a list of predicates and not the **guarded response list**
+  [interaction-table](../corpus/data-format/interaction-table.yml) calls it. And a declaration's
+  trailing quoted string is never looked at, so `quay.crate` is declared and *"a nailed-shut
+  crate"* is not in the tree.
+
+  **A shipped game says this is not a detail of a binding.** In Delores, **121 of 203 bindings are
+  exactly one statement and for 91 of them that statement is a `sayLine` — 44.8%**, and `SAY` at
+  219 calls and `sayLine` at 180 are the two most-called functions in the entire binding census
+  ([delores-source](../catalog/delores-source.md)). [verified] For nearly half of that game's
+  bindings the response text is not part of the binding; it *is* the binding, and this format
+  parses that half into an edge with no effects.
+decision: |
+  **The parse tree keeps what the author wrote. The state model keeps ignoring it.**
+
+  | | before | after |
+  |---|---|---|
+  | what is said when a binding fires | dropped | `Binding::says: Vec<Response>` |
+  | what is said when it refuses | dropped | `Binding::refusals: Vec<Response>` |
+  | the predicate that selects a line | `Binding::guards: Vec<Pred>` | `Response::when`, reached by `Binding::guards()` |
+  | a declaration's trailing string | dropped | `Game::labels: BTreeMap<String, String>` |
+
+  A `Response` is `{ when: Option<Pred>, text: String, line: usize }` and each list is **first
+  match wins**, which is how the author reads it: `say` and `otherwise` are both a line with no
+  predicate, and what makes `otherwise` a fallback is that it is written last.
+
+  **`guards` is not kept beside the responses, it is replaced by them.** A predicate that selects
+  a line and the line it selects are one construct — the corpus named it the guarded response list
+  before this crate could hold one — and storing the predicate twice would be two copies of the
+  same fact, which is the defect this repository keeps finding in its own prose. Every reader that
+  wanted the predicates gets `Binding::guards()`, an iterator over both lists in written order.
+
+  **Labels go in their own map rather than into the declaration.** `Game::declared` is
+  `name -> (Kind, line)`, and kind and line are what the **admission rule** needs: every operand
+  must name something declared, of the right kind. A label is what a presenter needs. Putting them
+  in one struct would say they are the same kind of fact.
+
+  Two maps put the seam where the decision is, and make it **measurable**: the reachability search
+  reads `declared` and never `labels`, and the evidence is that **not one number this project
+  publishes moves.** 91 bindings, 103 of 12,288 reachable, four reaches, eleven items — all
+  unchanged by a phase that added 6,996 characters to the tree.
+
+  **The trailing quoted string is three different things and `Kind` is what says which.** On a
+  `room`, `actor`, `item` or `hotspot` it is a name a player reads. On an `option` it is a line the
+  *player says*, which is player-facing text of the same sort as a response. On a `flag` or a
+  `counter` it is a gloss for whoever reads the file — *"how far the lamp is from lit: 0 bare, 1
+  wicked, 2 oiled, 3 burning"* is not addressed to a player and cannot be shown to one. One
+  construct, three jobs; the map holds the string as written and the declaration's kind is the
+  discriminator, because a reader that starts keeping a string has to know which of the three it
+  kept.
+rationale: |
+  **The sentence being revised is two sentences, and only one of them was a decision.**
+  [effect-list-semantics](effect-list-semantics.yml) reads: *"`say` is presentation and not an
+  effect. It was already: the reader has matched `"say" | "otherwise" => {}` since it was written,
+  and `Binding` has no field for response text. That is now the stated position rather than an
+  omission in a parser."*
+
+  The first clause is a claim about the **state model** — a `say` writes no state, so it is not an
+  edge in the graph, so the search need not see it. That is right, it is load-bearing, and nothing
+  here touches it. The second is a claim about the **reader**, and it was never argued for: the
+  reader dropped the text because the only thing downstream was the search. *"That is now the
+  stated position rather than an omission in a parser"* took a fact about who happened to be
+  reading and promoted it to a design position. [inference]
+
+  The two come apart the moment there is a second reader, and [engine-directory](engine-directory.yml)
+  created one. `engine/README.md` already names this as the first obstacle: *"no engine built on
+  the current parse tree can emit a word."*
+
+  **The alternative was a message table, it shipped, and it was abandoned.** AGS's declarative
+  interaction editor held a *reference*: `Game - Display a message` takes **one argument**, a
+  number into `Game.GlobalMessages` ([ags-source](../catalog/ags-source.md)). The current manual
+  records the end of it — *"Global Messages were a feature of AGS 2.x and are now obsolete"*
+  ([ags-manual](../catalog/ags-manual.md)). [verified] Delores does the opposite and keeps both:
+  `sayLine(SAY(11501,"This has been broken for years."))` carries an id **and** the text, at the
+  site ([delores-source](../catalog/delores-source.md)). [verified]
+
+  So the two shipped answers are a number at the site with the text elsewhere, and the text at the
+  site with a number beside it. **This format writes the text at the site and has no id**, which is
+  the third position and the only one of the three that cannot be translated. [inference] That is a
+  real cost and it is not paid here: an id is a construct, the vocabulary question is whether it
+  earns one, and no specimen has been written in a second language.
+
+  **Why the checker's numbers not moving is the substantive test.** The claim is that presentation
+  and state are separable, and the cheap way to fail it would be for something in the search to
+  start reading the text — a refusal line changing a count, a label reaching a predicate. The
+  search's published figures are the widest instrument this repository has for noticing that, and
+  they are all held by tests that were written before this phase. If any of them had moved, the
+  position in `effect-list-semantics` would have been wrong rather than merely conflated.
+
+  **What this makes visible for the first time and does not check.** A refusal list with no
+  fallback — states in which a binding is offered, declines, and says nothing. It was not a
+  defect that could exist before, because there were no refusal lines to be missing. The specimens
+  have exactly one candidate, `use-with oil-can` on the lighthouse's lamp, whose two guarded
+  refusals cover `lamp-prep = 0` and `>= 2` against a firing `= 1` over a `0..3` counter — total,
+  and total only because the counter declares its range. `resolve.rs` already does exactly this
+  kind of reasoning for `unreachable_values` and *"both guards can hold in the same state"*, so
+  the check is cheap and it is deliberately not written in the phase that invents the defect.
+  `[open]`
+
+  **And a label the format still has nowhere to put.** Delores's `master_verb_names` gives every
+  one of its 63 verbs a display string with noun slots — `"Unlock $NOUN1$ with $NOUN2$"`
+  ([delores-source](../catalog/delores-source.md)). [verified] This format's verbs are a
+  `const VERBS: [&str; 5]` in the parser, so a verb is not a declaration and has no label to keep.
+  A menu built on this tree can print `use-with` and nothing better, and the template form means
+  the missing thing is not a string but a pattern over the binding's two keys. That lands on
+  [verb-menu](../corpus/subsystem/verb-menu.yml) rather than here. `[open]`
