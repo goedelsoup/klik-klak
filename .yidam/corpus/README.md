@@ -32,11 +32,11 @@ Sorted by: kind, then alphabetically.
 | [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 42v / 21i / 1o | 536 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 10v / 7i / 0o | 155 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 46 |
-| [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 3v / 5i / 0o | 87 |
+| [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 4v / 5i / 0o | 96 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 20v / 8i / 1o | 203 |
 | [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 5i / 1o | 75 |
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 8v / 8i / 0o | 124 |
-| [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 0v / 4i / 0o | 62 |
+| [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 4v / 3i / 0o | 91 |
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 4v / 1i / 0o | 62 |
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 4v / 2i / 0o | 66 |
 | [entry-binding.yml](interaction/entry-binding.yml) | interaction | Entry Binding | 3 | 10v / 9i / 0o | 163 |
