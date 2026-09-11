@@ -839,6 +839,47 @@ almost everywhere by choice, having built the machinery not to. [verified] for t
 [inference] for reading 3 against 32 as a preference rather than an accident of what the puzzles
 needed.
 
+## What arrival does — 2026-09-11
+
+Every one of the 20 rooms declares `enter` and `exit`; the counts of the two are in
+`corpus/interaction/entry-binding.yml` and were taken as **non-blank lines with comment-only
+lines dropped**, which is 237 and 15. This section counts the same bodies by statement instead —
+dropping the 30 lines that are a bare brace and the 38 that are control flow — leaving **169
+statements across 17 non-empty bodies**, and classifies them.
+
+| what the statement does | count |
+|---|---|
+| move an object, actor, camera, walkbox or light | 51 |
+| `objectState` / `objectTouchable` | 25 |
+| ambient loops — twinkle, flicker, drip, rat, typing | 81 |
+| `enableTrigger` on a region | 4 |
+| **a game event** | **8** |
+
+The eight, in full: `GLOBAL(hired_lenore_state) = 2`, `looked_at_trons = NO`,
+`first_time = NO`, `seen_story = 2`, `startYack(delores, sandy, "Sandy:start_first_time")`,
+`SheriffsOffice.resetSheriffCoronerPuzzle()`, `heardAbout("franklin")`, and one `sayLine`.
+
+So a room's arrival hook is a **reconciler**: it puts stored presentation and stored affordance
+back into agreement with world state, at the one moment when doing so is cheap and invisible.
+`MainStreet.bankDoor` is the pattern in a line — `function enter() { objectTouchable(this,
+Bank.open ? YES : NO) }` — and `bankDoorSign` beside it does the same with `objectState`.
+
+**`enter` is not a room callback.** It is a field the room-entry sweep calls on whatever declares
+one, and 21 object literals do: 16 newspapers in `Nickel` assigning headlines, three objects in
+`MainStreet`, one in `AStreet`, and `SheriffsOffice.jailDoor`, which on arrival sets
+`walkboxHidden`, `objectTouchable`, `objectOffset` and its own `default_verb` from one boolean.
+Counted the same way, all 40 bodies at both levels hold 230 statements.
+
+**The engine passes the door you came in by and nobody uses it.** 17 of the 20 rooms declare
+`enter = function(from_door=null)`; the other three take no parameter. **No body reads
+`from_door`.** Whatever it was for, this game did not need it, and a design that omitted the
+argument would be indistinguishable on this evidence.
+
+**`exit` is the same shape and almost unused**: 15 lines across 6 non-empty bodies, of which
+eleven are presentation teardown. That was already counted in `entry-binding`; what is added here
+is that it fits the reconciler reading — there is nothing to reconcile on the way out, because
+the destination's own `enter` is about to run.
+
 ## What was looked for and not found — read this before citing
 
 **Yack's grammar is not documented.** `HelpDocsHtml/yacks.html` documents the *API* — the Dinky
