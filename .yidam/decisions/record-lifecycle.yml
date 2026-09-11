@@ -1,0 +1,77 @@
+id: record-lifecycle
+summary: >-
+  A record's `summary:` is permanent and its account is live, which is the prelude's append-only
+  rule read at the width this repository actually works at. Measured rather than asserted: sixteen
+  of forty-five records have been edited after they were written and fifteen kept their summary
+  byte for byte. The one exception changed a figure, which is the argument for keeping figures out
+  of summaries.
+context: |
+  [record-layer](record-layer.yml) decided two phases ago that a decision record is not a corpus
+  node, keeps its directory, and gets its own gate — on the premise that no tool read the records
+  at all. `cli/v0.12.0` gave them one. `yidam decisions-log` lists all forty-five, newest first,
+  with each `summary:`.
+
+  That is half of what `record-layer` was written because they did not have, and it arrived one
+  release after the decision. The other half — claims uncounted, open questions unlistable,
+  citations unresolved — is unchanged.
+
+  Re-reading the directory's own guideline for the occasion turned up something `record-layer`
+  never asked. The lifecycle is one sentence: *"Decision files are permanent records — they are
+  not updated when a decision is superseded, but a new decision may reference a prior one by
+  `id`."* **This repository edits them.** Sixteen of forty-five have a commit after the one that
+  wrote them; twenty-three such commits, nineteen `revise:` and four `decide:`. [verified] —
+  `crates/design-gate/tests/records.rs`.
+decision: |
+  **A record has a permanent half and a live half, and the boundary is the `summary:` field.**
+
+  What was decided is written once. What the record *accounts for* — the figures it measured, the
+  questions it left open, the later phase that closed one — is maintained in place. That is not a
+  divergence from the prelude's rule; it is the rule read narrowly, and the narrow reading is what
+  the practice has followed without anybody stating it.
+
+  The evidence is not close. **Fifteen of the sixteen edited records kept their summary byte for
+  byte.** [verified] No record's `decision:` block has ever been rewritten. The sixteenth is
+  [latch-default](latch-default.yml), whose summary went from *"31 of 40 boolean slots"* to
+  *"32 of 41"* when a defect was found in the extractor that produced the census — a corrected
+  measurement, not a changed mind.
+
+  **So a summary should not hold a figure.** A figure is the one thing in a record that can turn
+  out to be wrong later, and the summary is now the half a reader gets by default. That is a
+  convention rather than a check: the test names the one exception, and a second would mean
+  reading it rather than tightening a rule.
+rationale: |
+  **The two indexes read opposite halves, and that is why they do not collide.**
+
+  `yidam decisions-log` reads `summary:` — permanent. `.yidam/decisions/README.md` lists open
+  markers, which live in `rationale:` and `context:` — live. One says what was decided, the other
+  says what is still owed, and neither could be derived from the other. [inference] Had the
+  command read the `decision:` block instead, the generated index would have been redundant and
+  `record-layer`'s third deliverable should have been deleted rather than kept.
+
+  That is luck rather than design, and it is worth writing down as luck. Nothing in the prelude
+  says `summary:` is the stable field; this repository's practice made it one, the new command
+  assumed it, and the two agreed by accident. The check is what turns the accident into a
+  guarantee.
+
+  **`record-layer`'s conclusion survives its premise moving, which is not the usual outcome.**
+  It refused promotion on the grounds that `graph-check` reporting *"84 instances across 16
+  classes"* would assert something false about a corpus of claims about adventure games. That
+  argument is untouched by anything in `v0.12.0`: `status` still counts 43, `open-questions` still
+  returns 7, `lint` still reads the corpus only, and `due`'s questions clock still sees a seventh
+  of what the repository owes. What moved is the sentence *"no tool reads them"*, and it was
+  supporting evidence rather than the argument.
+
+  **What the release did settle is the part nobody had asked about.** The tooling now has three
+  ways of touching this directory and all three assume a record is a live document: `decisions-log`
+  lists current summaries, `bundle`/`export` package the current text, and `backfill` writes new
+  records from git history. A strictly append-only directory would make all three read a version
+  nobody is maintaining. The practice this record describes is what makes them correct. [inference]
+
+  **What this does not settle.** Whether the four post-creation `decide:` commits should have been
+  new records. Each is a later phase's decision editing a record it did not write —
+  `actor-position`, `availability`, `default-binding`, `observed-state` — and the prelude's remedy
+  for exactly that case is the half of its sentence this repository has never used: *"a new
+  decision may reference a prior one by `id`."* Four instances is twice this corpus's own threshold
+  for looking again, and the reason to leave it is that reading them is a phase rather than a
+  paragraph: the question is whether each amended an account or announced a decision, and only the
+  second kind wants its own file. `[open]`

@@ -2,11 +2,11 @@
 //!
 //! | | `.yidam/corpus/` | `.yidam/decisions/` |
 //! |---|---|---|
-//! | files | 43 | **45** |
+//! | files | 43 | **46** |
 //! | bytes | 361 K | **307 K** |
 //! | tagged claims | 559 | **305** |
-//! | live open questions | 7 | **27** |
-//! | citations out | 96 edges + 86 prose | **234** |
+//! | live open questions | 7 | **28** |
+//! | citations out | 96 edges + 86 prose | **238** |
 //!
 //! They were 42 apiece when this file was written. The forty-third record is the one deciding
 //! what a record is.
@@ -18,7 +18,7 @@
 //! count only the first.
 //!
 //! **`cli/v0.12.0` gave the records a reader**, which is half of what this file was written
-//! because they did not have. `yidam decisions-log` lists all 45, newest first, with each
+//! because they did not have. `yidam decisions-log` lists all 46, newest first, with each
 //! `summary:`. It is read-only, owns no REGEN block, and reads exactly the one field this
 //! repository has never edited — see `no_record_has_changed_what_it_decided`. So the two indexes
 //! of this directory are complementary rather than redundant: the command says what was decided,
@@ -274,7 +274,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (234, 41, 30));
+    assert_eq!((total, mentions, tests.len()), (238, 41, 30));
 }
 
 /// **Sixteen of forty-two records are cited by nothing, against three of forty-two nodes.**
@@ -304,13 +304,13 @@ fn a_record_nothing_cites_is_named() {
             "effect-half",
             "effect-vocabulary",
             "name-scoping",
-            "record-layer",
+            "record-lifecycle",
             "specimen-placement",
             "threshold-trigger",
         ]
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (45, 90));
+    assert_eq!((c.len(), edges), (46, 92));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -388,7 +388,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 27, "live open questions in this directory");
+    assert_eq!(total, 28, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
