@@ -71,7 +71,20 @@ rationale: |
   explicitly out of scope: `design/bounded-expression-language.md` is about what is checkable, and a
   verb bar is a thing a player sees. What is decided is that the question is an *interface* question
   and that the corpus has been asking it as a format question, and that its own instrument has
-  quietly answered it one way for as long as there has been an instrument. `[open]`
+  quietly answered it one way for as long as there has been an instrument.
+
+  **That `[open]` closes, and the answer was already written in three places.** The branch this
+  design takes is the contextual menu, and it did not need choosing because
+  [availability](availability.yml), [arity-cost](arity-cost.yml) and this record between them are a
+  complete specification of one. `.yidam/decisions/verb-menu.yml`; the component is
+  [subsystem/verb-menu](../corpus/subsystem/verb-menu.yml).
+
+  **The leak this record predicted is real and is the author's to set, which it did not expect.**
+  The table above reads *"failed precondition → the verb is absent"*, and here it is absent only
+  where no `else` was written. `availability` handed the decision back to the author two phases
+  after this record said the branch takes it away, and neither noticed the other. [verified] What
+  the table describes is the *practice* of the one engine that has the choice, which hides 32 times
+  against 3. [verified]
 
   **The per-room quarter of `default-binding`'s question closes by dissolving.** AGS scopes
   `unhandled_event` by entity kind and verb; Delores has no defaults to scope. Neither offers per

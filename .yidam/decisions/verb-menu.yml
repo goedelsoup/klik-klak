@@ -1,0 +1,97 @@
+id: verb-menu
+summary: >-
+  This design specified an interface and never noticed. A contextual menu is fully derivable from
+  three records that were not about a player, and writing the derivation recovers figures the corpus
+  had counted independently by reading text. No tier is added and no interface class invented: the
+  component is engine tier and is named `subsystem/verb-menu`. `default-binding`'s prediction that
+  a contextual menu takes the wording away from the author is refuted here and confirmed as practice
+  in the shipped game, which hides eight times for every once it declines out loud.
+context: |
+  [tier-split](tier-split.yml) recorded a structural gap: four questions resolved only at a **third
+  answer site** the ontology has no tier for — *"not the authoring vocabulary and not the engine's
+  realization of it… a design decision about what the player is shown, and this design has never
+  specified one"* — and declined to add a tier, on the ground that a corpus with no interface
+  classes should not invent them speculatively.
+
+  Three records have landed there since. [default-binding](default-binding.yml) found its whole
+  question conditional on the interface and closed with the observation that matters most here: the
+  checker *"has quietly answered it one way for as long as there has been an instrument."*
+  [availability](availability.yml) closed on *"withholding is only legible to a player through an
+  interface, and this design has none."* [verb-count](verb-count.yml) closed on the layer where a
+  split object might or might not be the same game.
+decision: |
+  **The interface is derived, not declared, and the derivation is three sentences already written.**
+
+  | | |
+  |---|---|
+  | which cells are in the menu | [default-binding](default-binding.yml) — only the authored; nothing stands in for an unauthored pair |
+  | when a binary verb's entry appears | [arity-cost](arity-cost.yml) — keyed by the second object, so while it is carried |
+  | whether a gated binding is in it | [availability](availability.yml) — `when` alone withholds, `when` with an `else` shows and declines |
+
+  `Ix::in_menu` is those three and nothing else. **The evidence that it is a derivation rather than
+  a new decision is that it reproduces, from the other end, what `availability` counted by reading
+  text**: the same 17 gated hotspot bindings all carrying a line, and the same 3 withholdings, all
+  outside a hotspot verb. [verified] — `crates/reachability/tests/menu.rs`.
+
+  **One bit had to be added to the model.** The parser tracked whether an `else` was written, used
+  it for one check and discarded it, because its only reader was a search that cannot see a refusal
+  at all. `Binding::refuses` keeps it, widened to count `else when`, which is how `lighthouse.game`
+  refuses under its oil-can. `offered` is now two functions with the two meanings of the word
+  visible in the code: `live` plus the guard is what can *fire*, `live` plus the guard *or* a
+  refusal is what a player is *shown*.
+
+  **No tier is added and `tier-split`'s refusal stands.** [verb-menu](../corpus/subsystem/verb-menu.yml)
+  is not an interface class; it is a component in the engine tier that already exists, with a
+  responsibility nameable without naming another — *given a target and a state, produce the verbs to
+  display* — which is `subsystem.ont.yml`'s own admission test. It is not
+  [interaction-resolver](../corpus/subsystem/interaction-resolver.yml), because it runs before
+  there is a binding to resolve. A shipped engine puts the same responsibility in one function,
+  `openVerbsFor` ([delores-source](../catalog/delores-source.md)). [verified]
+
+  **And a new check.** A binding in no menu in any reachable state is authored text with no reader —
+  the fourth of that kind after `dead_writes`, `unreachable_values` and the unreachable refusal. The
+  committed corpus has none; the shape that produces one is ordinary, a response gated on the flag
+  its own acquisition sets, where the hotspot stops being a site before the guard holds. [verified]
+rationale: |
+  **`default-binding` predicted the leak would be unconditional and it is the author's to set.**
+  That record's table reads *"failed precondition → the verb is absent"* and *"what the player
+  learns → what the object affords, before trying"*, concluding that a contextual menu *"makes that
+  leak unconditional and takes the wording away from the author… it moves a decision out of the
+  author's hands."* Two phases later `availability` put the decision back in them, and neither
+  record cites the other. One `else` line is the whole of it, and the same game written with and
+  without it has identical states, transitions, strandings and winnability — differing only in how
+  many menu slots the entry occupies. [verified] That is why the search could not see it and why
+  nothing made the corpus look.
+
+  **The practice, though, is what that record said it would be, in the game that has the choice.**
+  Delores writes 32 genuine `VERB_OK` withholdings against 3 `VERB_PRE` refusals — eight to one
+  toward hiding — having built the machinery not to. The four specimens here write 17 refusals and
+  not one withholding on a hotspot verb. [verified] Two systems that both offer the choice lean
+  opposite ways, and nothing here explains it; four small specimens are not a house style.
+  [inference]
+
+  **Half of what a player is shown is invisible to the thing that checks the game.** The search is
+  built from bindings that can move it, so across the four specimens it reasons about **45 of 91**;
+  the menu holds **88 distinct target-and-verb entries and 698 slots over 145 reachable states**,
+  24 of them showing before the player has done anything. The 43-binding gap is almost exactly the
+  42 effect-free `look-at`s. [verified] That is not a defect but the boundary of what a reachability
+  search is for, stated as a number for the first time — and it is why `default-binding` was right
+  that the question belongs to a different layer.
+
+  **It also priced `verb-count`'s open in the interface's own units.** The bookstore ladder split
+  into three hotspots offers **the same three choices** the shipped object offers; what moved is how
+  many things the player must point at to find them, from one to three. [verified] A bounded verb
+  set does not cost the player choices. It costs them being gathered in one place.
+
+  **And it corrected a catalog claim in passing.** *"The verb menu, and why there is no default
+  binding"* concluded that of the three distinctions the third — authored to refuse — *"does not
+  exist as a category"* in that engine. It has its own macro, its own dispatch table and its own
+  boot-time list; the section was written from `_checkVerbValid` without looking at what runs beside
+  it. [verified] Two of its three refusals say the same sentence on two objects, which is
+  [duplication](duplication.yml)'s pressure showing up in the rarest construct in the game.
+
+  **What this does not settle.** Whether the derivation is the *right* interface, which is a
+  question about players and has no instrument here. Every figure above says what this design's
+  menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s
+  observation that the branch *"moves a decision out of the author's hands"* still has no
+  counterweight from anyone who has played anything. `[open]`

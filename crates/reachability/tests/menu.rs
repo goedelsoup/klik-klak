@@ -230,3 +230,63 @@ fn a_response_behind_its_own_acquisition_is_never_shown() {
     );
     assert_eq!(bad.menu_entries, good.menu_entries);
 }
+
+/// **The exchange `verb-count` measured, priced at the interface it left open.**
+///
+/// That record found a bounded verb set loses no puzzle and pays for it in targets: Delores's
+/// `lowerLadder` binds `climb`, `push_right` and `push_left` on one object, and here the same game
+/// needs the ladder and the two ends of the rail. It closed by noting that *"every figure this
+/// instrument computes is identical and the interface is not, and the layer where such differences
+/// matter is one this design has never specified."*
+///
+/// It is specified now, and it gives the same answer with one number changed. **The menu holds
+/// three entries either way** — the player is offered exactly as many choices as the shipped game
+/// offers — and what the split moves is how many things they must point at to see them, from one
+/// to three. That is the exchange stated in the interface's own units, and it is not a loss of
+/// choices; it is a loss of their being gathered in one place.
+#[test]
+fn the_split_offers_the_same_three_choices_from_three_targets_instead_of_one() {
+    const DECL: &str = "room shop \"The Bookstore\"\nroom loft \"The Upper Shelf\"\n\
+                        item ledger \"the shop ledger\"\n\
+                        counter rung 0..2 \"how far along the rail the ladder stands\"\n\n";
+    let step = |from: i64, to: i64, far: &str| {
+        format!("    walk-to:\n      when  rung = {from}\n      do    set rung {to}\n      else  \"It is as far {far} as it goes.\"\n")
+    };
+    let src = format!(
+        "{DECL}room shop\n  start\n\
+         \x20 hotspot ladder \"a ladder on a rail\"\n\
+         \x20   look-at:\n      \"It reaches the upper shelf, wherever it happens to stand.\"\n\
+         \x20   walk-to:\n      when  rung = 2\n      do    move loft\n      else  \"Not under the shelf you want.\"\n\
+         \x20 hotspot rail-right \"the rail, to the right\"\n{}{}\
+         \x20 hotspot rail-left \"the rail, to the left\"\n{}{}\n\
+         room loft\n\
+         \x20 hotspot shelf \"the top shelf\"\n    is ledger\n    pick-up:\n      do    give ledger\n\
+         \x20 hotspot down \"back down\"\n    walk-to:\n      when  carrying ledger\n      ending\n      else  \"Not without the ledger.\"\n",
+        step(0, 1, "right"), step(1, 2, "right"), step(2, 1, "left"), step(1, 0, "left")
+    );
+    let g = load(&src);
+    let r = analyse(&g);
+    assert!(r.winnable && r.unshown.is_empty());
+
+    // the three things the shipped object offers, and the three targets they are spread over
+    let shop: Vec<&Binding> = g
+        .bindings
+        .iter()
+        .filter(|b| matches!(&b.site, Site::InRoom { room, .. } if room == "shop"))
+        .filter(|b| b.verb == "walk-to")
+        .collect();
+    let targets: std::collections::BTreeSet<&str> = shop
+        .iter()
+        .filter_map(|b| match &b.site {
+            Site::InRoom { target, .. } => Some(target.as_str()),
+            _ => None,
+        })
+        .collect();
+    assert_eq!(
+        targets.len(),
+        3,
+        "one ladder became three things to point at"
+    );
+    // one `walk-to` entry per target, however many bindings sit behind it
+    assert_eq!(shop.len(), 5, "and five bindings, because the rail steps");
+}
