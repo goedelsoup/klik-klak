@@ -49,6 +49,13 @@ properties:
     from the object's own verb slots and removes any verb whose precondition fails, so an unrefused
     verb is an absent one ([delores-source](../../catalog/delores-source.md)). [verified]
     `.yidam/decisions/default-binding.yml`.
+
+    **Half of it turns out to be authorable after all, and the format already spells it.** *Never
+    authored* against *authored and empty* belongs to the interface and stays there. *Withheld*
+    against *refused out loud* does not: a `when` with no `else` under it withholds, a `when` with
+    an `else` offers and declines, and the corpus writes the first three times and the second
+    seventeen. [verified] — `crates/reachability/tests/defaults.rs`. That engine writes them 62 and
+    3, on one verb slot where both apply. `.yidam/decisions/availability.yml`.
 links:
   - target: ../verb/look-at.yml
     relationship: applies

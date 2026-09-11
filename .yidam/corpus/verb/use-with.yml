@@ -19,6 +19,15 @@ description: |
   says for free. [verified] — `crates/reachability/tests/arity.rs`. The dimension is a discount, not
   a cost. `.yidam/decisions/arity-cost.yml`.
 
+  **The key also refuses, which is the third thing it does and the one that caught an error.** Two
+  binary bindings in this corpus carried a refusal under no guard — *"You can feel the bar but not
+  the catch"*, *"It squeals"* — and neither can ever run, because without the item the binding is
+  not offered and with it nothing fails. [verified] — `crates/game-format/tests/refusals.rs`. Both
+  are deleted. The same shape shows in prior art from the other side: **30 of Delores's 62
+  availability predicates test which second object the verb applies to**
+  ([delores-source](../../catalog/delores-source.md)), which is a key doing a predicate's work in a
+  format that has no key. [verified] `.yidam/decisions/availability.yml`.
+
   **They can, exactly, and the answer had been sitting in this repository's own code.**
   `crates/reachability`'s `offered` gates a binding's second object on `items[o] >= 1`, and
   `Pred::Carrying(o)` evaluates to `items[o] >= 1` — the same expression, ten lines apart.

@@ -279,12 +279,28 @@ properties:
     [verified] It is availability, not refusal.
 
     This design's `when` is the other thing. It guards a response and its failure is an `else` with
-    a line in it, so the two are not the same primitive read at different scales, and **this
-    vocabulary has no way to say a verb should not be offered at all**. Nothing here has argued
-    about it: the four specimens refuse in prose everywhere and never withdraw an option, and
-    whether that is a choice or an omission is a question for whatever weighs the interface —
-    `.yidam/decisions/tier-split.yml` is where this corpus put questions that have three answer
-    sites. `[open]`
+    a line in it, so the two are not the same primitive read at different scales, and this
+    vocabulary was said here to have no way to say a verb should not be offered at all.
+
+    **It has one, it is `when` with nothing under it, and it is used three times in 662 lines.**
+    Twice on a conversation option, where an unavailable choice is simply not shown, and once on an
+    `on-enter`, where [entry-binding](../interaction/entry-binding.yml) argued a refusal *cannot*
+    exist because nobody tried anything. Every one of the **seventeen** gated bindings on a hotspot
+    verb carries a refusal, without exception, in four games by one hand. [verified] —
+    `crates/reachability/tests/defaults.rs`. So the form exists, it means *not offered* at both
+    sites where it appears, and the author has never once reached for it where a refusal was
+    possible.
+
+    **And the choice cannot be settled here, which is the finding rather than an excuse.** Strip
+    every refusal from all four specimens — every bare `else` and every `otherwise` — and no state,
+    transition, stranding or winnability moves. [verified] `offered` gates on `when` at all three
+    sites and `Binding` carries no text, so *refused out loud* and *never offered* are the same
+    program. The instrument was built to be blind to exactly this.
+
+    So it is read rather than measured, and a shipped game does it on one verb slot: `sink`'s
+    `turn_on` is withheld silently when the tap is already running or the room is dark, and offered
+    and refused with a line when the tap is broken ([delores-source](../../catalog/delores-source.md)).
+    [verified] `.yidam/decisions/availability.yml`.
 
     **The most valuable open question splits in two, and one half is answered.** Yack — the same
     authors' conversation language, in the same repository — has a guard layer of 79 real

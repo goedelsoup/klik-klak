@@ -191,8 +191,8 @@ fn seventy_of_ninety_one_bindings_share_their_shape_with_another() {
         .starts_with("room walk-to | when - | guards [] | do [move-player]"));
 }
 
-/// **And it is almost all frame around writing nobody else did.** One hundred and eighty-eight
-/// string literals in the four specimens and one hundred and eighty-six of them are different;
+/// **And it is almost all frame around writing nobody else did.** One hundred and eighty-six
+/// string literals in the four specimens and one hundred and eighty-four of them are different;
 /// the two that repeat are four and five words long.
 ///
 /// That is what a shape census cannot see, and it is why the count above does not settle
@@ -215,7 +215,7 @@ fn the_writing_in_an_authored_game_is_all_different() {
         }
     }
     let distinct: BTreeSet<&String> = all.iter().collect();
-    assert_eq!((all.len(), distinct.len()), (188, 186));
+    assert_eq!((all.len(), distinct.len()), (186, 184));
 }
 
 /// **The finding.** Sixteen response blocks in six hundred and sixty-four lines contain no prose

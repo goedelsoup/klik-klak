@@ -69,6 +69,8 @@ struct P {
     conv: Option<String>,
     site: Option<Site>,
     binding: Option<Binding>,
+    /// the line of a bare `else "<text>"` on the binding being read, if one has been seen
+    refusal: Option<usize>,
 }
 
 impl P {
@@ -111,7 +113,34 @@ impl P {
     }
 
     fn flush(&mut self) {
+        let refusal = self.refusal.take();
         if let Some(b) = self.binding.take() {
+            // **A refusal is what the game says when the player tries something the
+            // precondition forbids** — `interaction/entry-binding` put it that way while
+            // arguing that an arrival trigger cannot have one, because nobody tried anything.
+            //
+            // The same sentence convicts a binding that has a refusal and nothing to refuse.
+            // With no `when` and no guarded clause there is no state in which this binding is
+            // offered and declines, so the line is text no player can reach — the third of
+            // this format's checks for authored text nothing can produce, after `dead_writes`
+            // and `unreachable_values`.
+            //
+            // Both instances in the committed corpus were on binary bindings, where the
+            // second key had already done the refusing: you cannot use the lantern on the
+            // gate without the lantern. `.yidam/decisions/availability.yml`.
+            if let Some(line) = refusal {
+                if b.when.is_none() && b.guards.is_empty() {
+                    self.problems.push(Problem {
+                        line,
+                        message: format!(
+                            "`{}` has a refusal and nothing to refuse — no `when` and no \
+                             guarded clause, so there is no state in which it is offered and \
+                             declines, and this line is text no player can reach",
+                            b.verb
+                        ),
+                    });
+                }
+            }
             self.game.bindings.push(b);
         }
     }
@@ -144,6 +173,7 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
         conv: None,
         site: None,
         binding: None,
+        refusal: None,
     };
 
     for (i, raw) in source.lines().enumerate() {
@@ -359,7 +389,11 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                     },
                     "when" | "else" => {
                         if t.len() <= head {
-                            continue; // a bare `else "text"` is a refusal and carries no predicate
+                            // a bare `else "text"` is a refusal and carries no predicate
+                            if t[0] == "else" {
+                                p.refusal = Some(no);
+                            }
+                            continue;
                         }
                         match pred(&t[head..]) {
                             Ok(q) => {
