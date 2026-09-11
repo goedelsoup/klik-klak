@@ -8,5 +8,7 @@ corpus does.
   `conversation` and `cutscene`
 - **Save surface** — read `save_semantics`; a flag omitted from a save is a flag whose
   puzzle reopens on load
-- *Open:* whether `scope` is a real axis or an optimization. A room-local flag is a global
-  flag nobody reads elsewhere.
+- **What `scope` ranges over** — four values, and the fourth is the one a real game uses most.
+  The axis is real and the reduction this page proposed does not reach the dominant value: object
+  states are read from other rooms by qualified name. [object-state](object-state.yml) carries the
+  evidence.

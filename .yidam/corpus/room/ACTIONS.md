@@ -8,4 +8,8 @@ corpus does.
   reaches from the starting room is a room no player sees
 - **What a room costs to encode** — `yidam neighbors room/<instance>.yml` and read the
   `data-format` nodes that `encodes` it
-- *Open:* whether `extent` belongs on the room or on the camera. No node argues it yet.
+- **What `extent` is** — two fields rather than one property, and not a camera:
+  [room-geometry](../../decisions/room-geometry.yml) read 22 rooms of a shipped game and found
+  `room_size` and `room_bounds` differing in four of them, one with camera bounds taller than its
+  background. A camera class is refused because the bounds are the only thing about that engine's
+  camera with no setter.

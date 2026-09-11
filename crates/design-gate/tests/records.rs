@@ -2,14 +2,16 @@
 //!
 //! | | `.yidam/corpus/` | `.yidam/decisions/` |
 //! |---|---|---|
-//! | files | 43 | **46** |
-//! | bytes | 361 K | **307 K** |
-//! | tagged claims | 559 | **305** |
-//! | live open questions | 7 | **28** |
-//! | citations out | 96 edges + 86 prose | **239** |
+//! | files | 43 | **47** |
+//! | bytes of `.yml` | 359 K | **316 K** |
+//! | tagged claims | 559 | **321** |
+//! | live open questions | 9 | **29** |
+//! | citations out | 96 edges + 87 prose | **254** |
 //!
-//! They were 42 apiece when this file was written. The forty-third record is the one deciding
-//! what a record is.
+//! They were 42 apiece when this file was written. The counting rule is stated in the row because
+//! this repository has been bitten twice by a headline figure measured two ways — the corpus row
+//! counts `.yml` only, and there are 31 Markdown files under `.yidam/corpus/` that it excludes and
+//! `crates/design-gate/tests/pages.rs` is the gate for.
 //!
 //! `yidam status` says *43 nodes*. `graph-check` checks *43 instances*. `lint` lints them. The
 //! index would index them. None of them is a decision record, and none of them is wrong to ignore
@@ -26,11 +28,11 @@
 //!
 //! What is not right is that the second kind has had no gate at all while growing to the same
 //! size as the first. [`markers.rs`] found the questions had migrated here; [`edges.rs`] found the
-//! citations had — **104 of the corpus's 200 prose references now point into this directory
-//! against 86 at another node**, a share that has risen in every phase since anything measured it.
+//! citations had — **113 of the corpus's 217 prose references now point into this directory
+//! against 87 at another node**, a share that has risen in every phase since anything measured it.
 //! This file is the gate for where they went.
 //!
-//! **One symptom is named here and deliberately not built.** The 273 claims in this directory are
+//! **One symptom is named here and deliberately not built.** The 321 claims in this directory are
 //! absent from `yidam status`, which reports the corpus's tally as though it were the artifact's.
 //! Counting them here would put a second figure beside the first under a different rule — the two
 //! directories are tallied by different code, and this repository has twice been bitten by exactly
@@ -297,7 +299,11 @@ fn every_path_written_in_a_record_resolves() {
     assert_eq!((total, mentions, tests.len()), (254, 44, 31));
 }
 
-/// **Sixteen of forty-two records are cited by nothing, against three of forty-two nodes.**
+/// **Eight of forty-seven records are cited by nothing, against three of forty-three nodes.**
+///
+/// It was sixteen when this check was written and ten when `action-pages` was written; that record
+/// cited three of the ten, and every one of the three had been uncited for the same reason — the
+/// file asking the question it answers had not been opened since the root commit.
 ///
 /// The corpus's own orphan rule is `yidam lint`'s `orphan-in`, and `prose-edges` showed it finds
 /// real defects — two edges owed and written. This layer has four times the orphan rate and no

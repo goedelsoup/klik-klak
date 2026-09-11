@@ -94,14 +94,19 @@ fn no_retraction_re_emits_the_token() {
     );
 }
 
-/// **Seven live questions, one to a node**, which is what the tool now reports because the bytes
-/// and the prose finally agree.
+/// **Nine live questions, one to a node**, which is what the tool reports because the bytes and
+/// the prose agree.
 ///
-/// Three of the seven are the same kind and say so: `prior-art/ags`, `acquisition-binding` and
+/// Three of them are the same kind and say so: `prior-art/ags`, `acquisition-binding` and
 /// `orphaned-dialogue-branch` all ask what an author experienced or intended, which no artifact
 /// records. Two more were duplicates of those and are now pointers.
+///
+/// It was seven for six phases. The two that arrived came from **outside the corpus**: they had
+/// been sitting on class pages since the root commit in a spelling no tool reads, and
+/// `.yidam/decisions/action-pages.yml` moved them somewhere countable. So this is the one figure
+/// here that went up because something was found rather than because something was asked.
 #[test]
-fn the_corpus_carries_seven_questions_and_the_count_is_the_token_count() {
+fn the_corpus_carries_nine_questions_and_the_count_is_the_token_count() {
     let root = repo_root();
     let mut open: Vec<String> = Vec::new();
     for p in yml(&root.join(".yidam/corpus")) {
@@ -129,7 +134,9 @@ fn the_corpus_carries_seven_questions_and_the_count_is_the_token_count() {
             "failure-mode/orphaned-dialogue-branch.yml",
             "hotspot/static-region.yml",
             "interaction/acquisition-binding.yml",
+            "inventory-item/portable-object.yml",
             "prior-art/ags.yml",
+            "walkbox/scaled-polygon.yml",
             "world-flag/latched-flag.yml",
         ]
     );
@@ -137,9 +144,11 @@ fn the_corpus_carries_seven_questions_and_the_count_is_the_token_count() {
 
 /// **Three quarters of what this corpus still owes is invisible to every tool it has.**
 ///
-/// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds 7 live
-/// markers; the decision records hold **28 across 23 files**, and they are counted as zero — by
-/// `status`, by `due`, by the index, by everything. The migration happened quietly: as questions
+/// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds 9 live
+/// markers; the decision records hold **29 across 24 files**, and they are counted as zero — by
+/// `status`, by `due`, by the index, by everything. There was a third place and this file could
+/// not see it either: twelve more sat on the class pages in a spelling nothing reads, which
+/// `crates/design-gate/tests/pages.rs` now holds at zero. The migration happened quietly: as questions
 /// got answered they were replaced by *"what this does not settle"* paragraphs in the record that
 /// answered them, which is the right place to put them and a place nothing looks.
 ///
@@ -157,17 +166,18 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (7, 29, 24));
+    assert_eq!((corpus, decisions, records), (9, 29, 24));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        19,
+        23,
         "under a quarter is visible"
     );
 
-    // It was (7, 23, 18) for two phases and has moved four times since, always the same way: a
-    // phase closes nothing in the corpus and opens one in the record that settles it. The visible
-    // share has fallen 23, 22, 21, 20 — one point per phase, every time for the same reason: a
-    // phase closes nothing in the corpus and opens one in the record that settles it. What has
-    // changed is that the larger four fifths can now be read: `.yidam/decisions/README.md` lists
-    // every one by record and line. The ratio is still a finding; it is no longer a black box.
+    // It was (7, 23, 18) for two phases and the visible share then fell one point a phase — 23,
+    // 22, 21, 20, 19 — every time for the same reason: a phase closes nothing in the corpus and
+    // opens one in the record that settles it. This is the first phase to move it the other way,
+    // and not by closing anything: `.yidam/decisions/action-pages.yml` found two questions that had
+    // been outside the count since the root commit and put them where it can see them. Both halves
+    // of the denominator are readable now — `.yidam/decisions/README.md` lists the record side by
+    // record and line, and `crates/design-gate/tests/pages.rs` holds the class pages to zero.
 }

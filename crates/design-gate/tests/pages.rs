@@ -1,19 +1,21 @@
-//! **The fifteen class pages are the only files in this corpus the root commit still owns.**
+//! **The fifteen class pages were the only files in this corpus the root commit still owned.**
 //!
-//! Every class directory holds an `ACTIONS.md`. All fifteen were written in commit one and not
-//! one of them has been opened since — 342 commits, thirty-odd phases, an ontology that gained a
-//! property value and a class instance, and a checker that grew from nothing to four crates.
+//! Every class directory holds an `ACTIONS.md`. All fifteen were written in commit one and not one
+//! had been opened since — 342 commits, thirty-odd phases, an ontology that gained a property
+//! value and a class instance, and a checker that grew from nothing to four crates.
 //!
 //! That would be unremarkable for an operations list, which is what the prelude says the file is:
 //! *"a list of operations meaningful for this class — queries that retrieve instances,
 //! transitions an instance can undergo, skills that act on it, or calculators that derive from
-//! it."* The queries held up. All twenty-nine still resolve, and the only one returning nothing is
-//! the triple [`edges.rs`] already pins as declared-but-unauthored.
+//! it."* The queries held up. Every one still resolves, and the only one returning nothing is the
+//! triple [`edges.rs`] already pins as declared-but-unauthored.
 //!
-//! What did not hold up is that the pages also carry **twelve open questions, in two spellings no
-//! tool here reads** — `*Open:*` and `*Stub:*`, in Markdown, which [`markers.rs`] does not scan
-//! because it scans `.yml`. Its headline ratio is computed on a denominator missing this third
-//! place entirely.
+//! What did not hold up is that the pages also carried **twelve open questions, in two spellings
+//! no tool here reads** — `*Open:*` and `*Stub:*`, in Markdown, which [`markers.rs`] does not scan
+//! because it scans `.yml`. Ten of the twelve were wrong. `.yidam/decisions/action-pages.yml` is
+//! the disposition: a page holds operations, the six that were answered became pointers at what
+//! answered them, and the two that were live became `[open]` on an instance where a tool can see
+//! them.
 //!
 //! [`edges.rs`]: edges.rs
 //! [`markers.rs`]: markers.rs
@@ -168,63 +170,126 @@ fn every_query_a_class_page_documents_is_a_declared_triple() {
     );
     assert_eq!(
         (total, distinct.len()),
-        (37, 29),
-        "37 documented queries, 29 of them distinct — the pages repeat each other's edges more \
+        (38, 30),
+        "38 documented queries, 30 of them distinct — the pages repeat each other's edges more \
          often than they repeat their own"
     );
 }
 
-/// **Twelve questions in two spellings, on pages nothing has reopened since the root commit.**
+/// **Every path a class page writes resolves.**
 ///
-/// [`markers.rs`] reports *"7 open in the corpus, 28 in the records, and three quarters of what
-/// this corpus owes is invisible to every tool it has."* The denominator is short by these
-/// twelve. The visible share is not 20% but **7 of 47, fifteen percent** — and the twelve are the
-/// least visible of the three populations, because the other two are at least `.yml` and at least
-/// spelled the way the one existing check spells it.
+/// New, and it is what the pages now need that they did not before. They used to assert; they now
+/// cite — six of the retired questions became pointers at the record or node that answered them —
+/// and a pointer is the kind of claim that rots silently. `edges.rs` checks this for corpus nodes
+/// and `records.rs` for decision records; between them they covered every file in `.yidam/` except
+/// these fifteen.
+///
+/// Three bases, because the pages already use two of them: a path relative to the page's own
+/// directory, and one relative to the repository root.
+#[test]
+fn every_path_a_class_page_writes_resolves() {
+    let root = repo_root();
+    let (mut cites, mut bad) = (0, Vec::new());
+    for (class, path) in pages(&root) {
+        let src = std::fs::read_to_string(&path).expect("readable");
+        let dir = path.parent().expect("a directory").to_path_buf();
+        let mut refs: Vec<String> = Vec::new();
+        for chunk in src.split("](").skip(1) {
+            if let Some(t) = chunk.split(')').next() {
+                refs.push(t.to_string());
+            }
+        }
+        for chunk in src.split('`').skip(1).step_by(2) {
+            let t = chunk.trim();
+            if t.starts_with(".yidam/") || t.starts_with("design/") || t.starts_with("crates/") {
+                refs.push(t.to_string());
+            }
+        }
+        for r in refs {
+            let r = r.split('#').next().unwrap_or("");
+            if r.is_empty() || r.starts_with("http") {
+                continue;
+            }
+            cites += 1;
+            if !dir.join(r).exists() && !root.join(r).exists() {
+                bad.push(format!("{class}: {r}"));
+            }
+        }
+    }
+    assert!(
+        bad.is_empty(),
+        "a class page points at something that is not there:\n  {}",
+        bad.join("\n  ")
+    );
+    assert_eq!(cites, 30, "paths written across the fifteen pages");
+}
+
+/// **No question lives on a class page, and the two stubs left are promises rather than questions.**
+///
+/// It was eight and four. Six of the eight had been answered by a later phase, two were live and
+/// are now `[open]` on an instance, and two of the four stubs promised `reachability` in the
+/// conditional — *"given a game to read"*, *"it has nothing to read"* — after it shipped and read
+/// four. A repository gets no warning when a promise it made comes true.
+///
+/// The two that remain are honest: `collapse-signature` and `vocabulary-coverage` are still
+/// unimplemented, and `.yidam/skills/README.md` is the place that tracks them.
+///
+/// The ratio moves **up** for the first time. [`markers.rs`] has watched the visible share fall a
+/// point a phase — 23, 22, 21, 20 — because a phase closes nothing in the corpus and opens one in
+/// the record that settles it. Counted honestly against this third place it was 14%. Two questions
+/// that no tool could see are now two questions `yidam open-questions` returns.
 ///
 /// [`markers.rs`]: markers.rs
 #[test]
-fn the_class_pages_ask_in_a_spelling_no_tool_reads() {
+fn no_question_lives_on_a_class_page() {
     let root = repo_root();
-    let (mut open, mut stub, mut carrying) = (0, 0, Vec::new());
+    let (mut open, mut stub, mut asking) = (0, 0, Vec::new());
     for (class, path) in pages(&root) {
         let src = std::fs::read_to_string(&path).expect("readable");
         let m = marks(&src);
         let o = m.iter().filter(|(_, k, _)| *k == "Open").count();
-        let s = m.iter().filter(|(_, k, _)| *k == "Stub").count();
+        stub += m.iter().filter(|(_, k, _)| *k == "Stub").count();
         open += o;
-        stub += s;
-        if o + s > 0 {
-            carrying.push(class);
+        if o > 0 {
+            asking.push(class);
         }
     }
-    assert_eq!((open, stub), (8, 4));
+    assert!(
+        asking.is_empty(),
+        "a class page holds operations. A question about a class goes in a decision record, or \
+         `[open]` on an instance where `yidam open-questions` can see it:\n  {}",
+        asking.join("\n  ")
+    );
     assert_eq!(
-        carrying.len(),
-        12,
-        "twelve of fifteen pages carry one; the three that do not are the three with nothing left \
-         to promise — data-format, prior-art, subsystem"
+        (open, stub),
+        (0, 2),
+        "was (8, 4) — `.yidam/decisions/action-pages.yml` is the disposition of the other ten"
     );
 
     // markers.rs's ratio, restated on the denominator that includes this place.
-    let (corpus, decisions) = (7, 28);
-    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 14);
+    let (corpus, decisions) = (9, 29);
+    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 22);
 }
 
-/// **Every class page's first commit is this repository's first commit, and its last is too.**
+/// **Every class page was written by this repository's first commit, and for 342 commits its last
+/// was too.**
 ///
-/// Which is the finding. These are not stale because somebody stopped maintaining them; they were
+/// Which is the finding. These were not stale because somebody stopped maintaining them; they were
 /// never maintained. The genesis author wrote an operations list, put questions in it because
 /// there was nowhere else to put a question about a *class* — `.ont.yml` cannot carry a claim tag
-/// and an instance node is the wrong scope — and every phase since has answered questions
-/// somewhere else.
+/// and an instance node is the wrong scope — and every phase since answered questions somewhere
+/// else.
 ///
-/// Five of the twelve have answers sitting in records written after the question. Two of those
-/// records — `conversation-reduction` and `conversation-boundary` — are on `records.rs`'s orphan
-/// list, cited by nothing. **That is one finding from both ends**: the file that asks the question
-/// was never reopened, so the record that answered it was never cited.
+/// Six of the twelve had answers sitting in records written after the question. Two of those
+/// records — `conversation-reduction` and `conversation-boundary` — were on `records.rs`'s orphan
+/// list, cited by nothing. **That is one finding from both ends**: the file asking the question was
+/// never reopened, so the record that answered it was never cited. Citing them from
+/// `.yidam/decisions/action-pages.yml` took the orphan list from ten to eight.
+///
+/// The origin assertion is permanent; the untouched count is a census that this phase moved from
+/// fifteen to four, and the four are the pages that had nothing wrong with them.
 #[test]
-fn no_class_page_has_been_opened_since_the_root_commit() {
+fn every_class_page_was_written_by_the_root_commit() {
     let root = repo_root();
     let out = std::process::Command::new("git")
         .arg("-C")
@@ -262,7 +327,22 @@ fn no_class_page_has_been_opened_since_the_root_commit() {
             Some(first) if *first == genesis => {}
             other => wrong_origin.push(format!("{class}: written by {other:?}, not the root")),
         }
-        untouched += usize::from(commits.len() == 1);
+
+        // Compared by content rather than by commit count, which is the second time in one phase
+        // that a git-backed check had to stop asking git a question the working tree answers:
+        // `records.rs` could not see an uncommitted record, and counting commits here could not
+        // see the edit that changes the answer until after it was committed. A page is untouched
+        // when what is on disk is what the root commit wrote.
+        let show = std::process::Command::new("git")
+            .arg("-C")
+            .arg(&root)
+            .arg("show")
+            .arg(format!("{genesis}:{rel}"))
+            .output()
+            .expect("git is on PATH");
+        let then = String::from_utf8_lossy(&show.stdout).into_owned();
+        let now = std::fs::read_to_string(&path).expect("readable");
+        untouched += usize::from(show.status.success() && then == now);
     }
     assert!(
         wrong_origin.is_empty(),
@@ -270,7 +350,8 @@ fn no_class_page_has_been_opened_since_the_root_commit() {
         wrong_origin.join("\n  ")
     );
     assert_eq!(
-        untouched, 15,
-        "all fifteen, and the number is pinned so that reopening one is visible as a change here"
+        untouched, 4,
+        "was fifteen. The four still untouched are the pages that carried nothing wrong — \
+         data-format, hotspot, prior-art, subsystem"
     );
 }

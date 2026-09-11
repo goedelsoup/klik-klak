@@ -46,6 +46,15 @@ description: |
   the same geometry file — so walking into `scalingBank` swaps the whole depth curve. [verified]
   Whether that trigger is a primitive this vocabulary lacks is asked in three other places and
   settled in none; `interaction/entry-binding` holds the nearest form of it.
+
+  **Whether adjacency between regions needs a relationship of its own is this class's page's
+  question, moved here because it can finally be counted.** The page refused it for want of
+  instances — *"with one instance seeded there is nothing yet for such an edge to join"* — and
+  there are 84 polygons across 15 rooms to look at now. What the 84 do not settle is the part that
+  matters: nothing in that geometry declares adjacency, a path-solver derives it from shared
+  edges, and a relationship no author ever writes is the shape
+  [found-in](../../decisions/found-in.yml) turned out to have. `[open]`
+
 properties:
   geometry: polygon
   scaling: |
