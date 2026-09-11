@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (321, 53, 38));
+    assert_eq!((total, mentions, tests.len()), (334, 56, 41));
 }
 
-/// **Eight of forty-seven records are cited by nothing, against three of forty-three nodes.**
+/// **Seven of fifty-five records are cited by nothing, against three of forty-three nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -327,16 +327,15 @@ fn a_record_nothing_cites_is_named() {
             "domain-computer",
             "effect-vocabulary",
             "name-scoping",
-            "priority-edge",
             "specimen-placement",
             "threshold-trigger",
         ],
-        "nine. `effect-half` is back on it — `action-pages` was the only record citing it and \
-         the citation went when the paragraph that made it turned out to answer the wrong \
-         question — and the newest record joins it, as every newest record does"
+        "seven, and the newest record is not on it — the first time. Every phase until now left \
+         its own record uncited until the next one arrived; this one corrected a record two \
+         phases old, and that record cites it back"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (54, 142));
+    assert_eq!((c.len(), edges), (55, 150));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -414,7 +413,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 34, "live open questions in this directory");
+    assert_eq!(total, 35, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
@@ -422,11 +421,12 @@ fn the_index_this_directory_never_had_is_current() {
 ///
 /// The prelude's lifecycle for this directory is one sentence: *"Decision files are permanent
 /// records — they are not updated when a decision is superseded, but a new decision may reference
-/// a prior one by `id`."* This repository edits them. **Sixteen of forty-five have a commit after
-/// the one that wrote them** — nineteen `revise:` and four `decide:`.
+/// a prior one by `id`."* This repository edits them. **Twenty-three of fifty-five have a commit
+/// after the one that wrote them** — and correcting that sentence was two of the twenty-three,
+/// which is the shape of this whole directory.
 ///
-/// Read against the rule that looks like a violation. Measured, it is not: **sixteen of the
-/// seventeen kept their `summary:` byte-for-byte**, and the other changed a *figure* —
+/// Read against the rule that looks like a violation. Measured, it is not: **nineteen of the
+/// twenty-three kept their `summary:` byte-for-byte**, and the rest changed a *figure* —
 /// `latch-default` went from `31 of 40` to `32 of 41` when a census defect was found in the
 /// extractor that produced it. No record's decision has ever been revised. What the edits do is
 /// keep the *account*: what the figures turned out to be, what the record left open, what closed
@@ -478,16 +478,22 @@ fn no_record_has_changed_what_it_decided() {
     }
     assert_eq!(
         edited,
-        20,
+        23,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()
     );
     assert_eq!(
         moved,
-        ["action-pages", "escape-hatch", "latch-default"],
-        "a record may keep its account current; it may not restate what it decided. All three \
-         moved a figure and none moved a decision — and the third is the first whose summary went \
-         stale without the record being touched, because what changed was the thing it described"
+        [
+            "action-pages",
+            "escape-hatch",
+            "inert-reports",
+            "latch-default"
+        ],
+        "a record may keep its account current; it may not restate what it decided. All four \
+         moved a figure and none moved a decision — the third went stale without the record being \
+         touched, because what changed was the thing it described, and the fourth held a \
+         prediction, which is a figure that has not happened yet"
     );
 }

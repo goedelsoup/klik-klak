@@ -18,7 +18,7 @@ context: |
   Re-reading the directory's own guideline for the occasion turned up something `record-layer`
   never asked. The lifecycle is one sentence: *"Decision files are permanent records — they are
   not updated when a decision is superseded, but a new decision may reference a prior one by
-  `id`."* **This repository edits them.** Sixteen of forty-five have a commit after the one that
+  `id`."* **This repository edits them.** Twenty-three of fifty-five have a commit after the one that
   wrote them; twenty-three such commits, nineteen `revise:` and four `decide:`. [verified] —
   `crates/design-gate/tests/records.rs`.
 decision: |
