@@ -19,6 +19,20 @@ description: |
   about what a manual says but about what a game wanted, and it wanted `use-with`. Weak on its
   own — one small game — and it points the same way.
 
+  **A fourth line, and it is the strongest because it is a silence this corpus can count.** The
+  four specimens carry 91 bindings across 662 lines and **not one of them is a `give-to`**; the
+  other five verbs are all used. [verified] — `crates/reachability/tests/verbs.rs`. The shipped
+  game does use its `giveto`, twice ([delores-source](../../catalog/delores-source.md)), so the
+  verb is not dead in general — it is dead here, and it has been dead for every phase since the
+  assessment above concluded.
+
+  **What nobody did was tell the parser.** `VERBS` still holds six entries and
+  `crates/game-format/tests/surface.rs` still pins the surface at 51 constructs counting all six,
+  so the figure every decision record weighs a candidate against includes a verb this node decided
+  against keeping. [inference] The node was kept deliberately and the construct was kept by
+  omission, which are different things that look the same from the outside.
+  `.yidam/decisions/verb-count.yml`.
+
   It is superseded by [use-with](../verb/use-with.yml).
 properties:
   arity: binary
