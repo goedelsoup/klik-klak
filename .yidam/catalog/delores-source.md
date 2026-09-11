@@ -593,6 +593,38 @@ blocks, 46 of them, holding assignments (`{ YACK(heard_about_job) = YES }`) and,
 arbitrary calls — `inputOff`, `startthread`, `actorWalkTo`, `verb_open()`, `saveGame`,
 `startEnding`.
 
+## The conversation mode, read from the API — 2026-09-10
+
+`yacks.html` calls its own description of the *format* "TBD" but documents the *engine surface* in
+full, and what it documents is a mode rather than a place.
+
+**Entering takes no room and moves nobody.** `startYack(actor1, actor2, filename)` — "Starts a
+.yack file conversation between 2 actors"; the filename may carry a label, and without one the
+engine jumps to `start`, which is required. Either actor may be null. **Leaving takes nothing at
+all**: `endYack()` — "Conversations naturally end, but there might be a need to end it outside the
+conversation .yack file." Neither call names a location, because the player never left one.
+
+**The mode is one global boolean.** `isYacking()` — "Returns true if a yack conversation is
+happening." Beside it `yackActor1()` and `yackActor2()` name the two parties, and
+`areChoicesShowing()` says whether the list is up and waiting. So the exchange is a bit and two
+actor references laid over the room the player is standing in, not somewhere the player has gone.
+
+**Availability is counted while the list is being drawn.** `yackChoices()` — "Returns the number of
+yack choices showing… the number of choices *at the moment it is called*… It is not the total
+choices to be shown, just the number up to that point. It is most commonly called from .yack
+scripts to find out if there are **no active choices**." A `.yack` script asks, mid-render, how many
+of its own options survived their guards. That is availability derived at display time, in an
+engine whose guard layer is the 141 bracket expressions above.
+
+The rendering callbacks say the same from the host's side: `_beginYackChoices`, `_addYackChoice`,
+`_showYackChoices`, `_endYackChoices`, rebuilt per display. `_addYackChoice(index, text, label)`
+notes that `label` is "no longer used" — the engine once routed a choice by its jump target and now
+passes the index back instead.
+
+**And a mode cannot nest inside another mode.** `cutscenes.html`: "If a `cutscene()` is started from
+within a `startYack()`, the yack will immediately end (with no error)", and "If an override is
+triggered during a Yack conversation in a `cutscene` the Yack will be killed."
+
 ## What was looked for and not found — read this before citing
 
 **Yack's grammar is not documented.** `HelpDocsHtml/yacks.html` documents the *API* — the Dinky
