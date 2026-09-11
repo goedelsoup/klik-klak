@@ -1,0 +1,78 @@
+id: unread-state
+summary: >-
+  `observed-state` asked whether its rule wants enforcing rather than observing and said there was
+  no fourth vector to try it on. There were three, and they were the ones it had not looked at:
+  `items`, `flags` and `counters` were still built by enumerating declarations. The rule wants both
+  treatments, and which one depends on who wrote the state — the instrument's own bookkeeping gets
+  narrowed silently, an author's unread declaration gets narrowed and named.
+context: |
+  [observed-state](observed-state.yml) states the rule — *"a component of `State` exists only if
+  some predicate in the game can read it"* — after three vectors were narrowed to obey it one at a
+  time, each following a published figure that came out wrong in the flattering direction. Takeable
+  hotspots inflated the declared space; actors were fixed by construction when `move <actor> to
+  <room>` arrived; conversation options inflated the **reachable set**, and `lighthouse.game`'s
+  quoted 103 states and 193 transitions turned out to be 91 and 173.
+
+  It closed on a question and a claim: *"whether the same rule wants enforcing rather than
+  observing — a check that fails when a component is added that no predicate reads. It would have
+  caught all three, and there is no fourth vector to try it on."*
+
+  **The claim was wrong, and wrong in the way this repository keeps being wrong.** The record was
+  reading the vectors it had narrowed rather than the ones it had not. `Index::new` built `items`,
+  `flags` and `counters` from `game.items.clone()` and `game.flags.iter().map(|f| f.name.clone())`
+  — three enumerations of declarations, sitting beside two lists built by asking what the game
+  reads. [verified] A search that looks where the answers were last found, which is
+  [stale-markers](stale-markers.yml)'s shape and `found-in`'s.
+decision: |
+  **The rule wants both, and the deciding question is who wrote the component.**
+
+  | | |
+  |---|---|
+  | the **instrument** invented it — `taken`, `actors`, `chosen` | stop inventing it; nothing to report, because nobody asked for it |
+  | the **author** declared it and nothing reads it | narrow it *and* name it, because narrowing alone corrects a figure and hides an authoring mistake in the same breath |
+
+  **`items`, `flags` and `counters` are narrowed to what predicates read**, and
+  `Report::unread` names the difference. An item counts as read where a predicate names it **and**
+  where a binary verb takes it as a second object, because `offered` requires it carried; `spend` is
+  not a read, since reducing a count nothing consults changes nothing observable. [verified] —
+  `crates/reachability/tests/unread.rs`.
+
+  **A fourth application fell out and it reaches a published figure.** `acting` admitted any binding
+  with an effect, so a write to a narrowed-out slot was a self-loop in `transitions`. `Ix::observable`
+  is the rule applied there, with one exception that matters: a `give` at an acquisition site is
+  observable however unread the item, because taking the object is the room losing it and `live`
+  reads that. A lever whose flag nothing reads now gives **1 state and 1 transition, identical to a
+  game with neither line in it**, and 2 and 3 when a door waits on it. [verified]
+
+  **And one piece of advice is withheld rather than given twice.** A flag no predicate reads is no
+  longer reported as an unclaimed latch. `unread` has already said to delete it, and telling an
+  author to declare a property of something that should not exist is the checker preferring its own
+  tidiness to theirs. [inference]
+rationale: |
+  **Nothing in the corpus moved, which is the state the previous three were found in.** Nine flags,
+  one counter and eleven items across the four specimens, every one of them read by a predicate or
+  taken as a second object. [verified] So this arrives preventive, and every pinned figure in the
+  repository survived it — which is the evidence that the narrowing is a narrowing and not a change
+  of meaning.
+
+  **The direction of the error is the argument, and this is the fourth time it has been named.**
+  Unobserved bookkeeping can only add states and only enlarge the declared space, so the collapse
+  looks deeper than it is. A defect that flatters the headline claim is one nobody is prompted to go
+  looking for, and this corpus has now recorded that pattern about a checker whose report improves
+  when the game gets worse, an open question that closes itself, a metric that flatters, and a
+  marker count wrong in two directions at once. [inference]
+
+  **What is different here is whose mistake it is.** The first three vectors were the instrument
+  carrying state the author never asked for — a defect in `crates/`, invisible to anyone writing a
+  game. A declared flag nothing reads is the author's, and it is the same family as `dead_writes`,
+  the unreachable refusal and `unshown`: authored content with no reader. [inference] It is the
+  fifth check of that kind and the first about state rather than about text, which is why it is
+  reported rather than silently optimised away. `world-flag.ont.yml` has the ontological form —
+  a mode has no existence apart from the world it inheres in, and a value nothing can observe does
+  not inhere in anything.
+
+  **What this does not settle.** The rule is now applied by hand in five places and nothing checks
+  that a sixth obeys it. That is the original question returning one level up: `observed-state`
+  asked for a check that fails when an unreadable component is added, and what exists is five
+  components each built correctly. A general form needs the state vector to be data rather than a
+  struct, and nothing here wants that yet. `[open]`

@@ -54,6 +54,13 @@ rationale: |
   exact came back twelve states apart. **Nothing found any of the three by inspecting the state
   vector**, which is the cheapest place to have looked. [inference]
 
-  **What this does not settle.** Whether the same rule wants enforcing rather than observing — a
-  check that fails when a component is added that no predicate reads. It would have caught all
-  three, and there is no fourth vector to try it on. `[open]`
+  **What this did not settle, and the answer came with a correction.** Whether the same rule wants
+  enforcing rather than observing — a check that fails when a component is added that no predicate
+  reads. It would have caught all three.
+
+  *"There is no fourth vector to try it on"* was wrong. There were three, and they were the ones
+  this record had not looked at: `items`, `flags` and `counters` were still built by enumerating
+  declarations while the two beside them were built by asking. [verified] The answer is that the
+  rule wants both treatments and the deciding question is who wrote the component — the
+  instrument's own bookkeeping is narrowed silently, an author's unread declaration is narrowed and
+  named. [unread-state](unread-state.yml).
