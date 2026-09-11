@@ -1,7 +1,7 @@
 //! Does the collapse hold at scale? Two generated families, and the answer is no.
 //!
 //! Every number this project has published about the collapse came from a game small enough to
-//! enumerate by hand — 103, 20 and 14 states — and `design/specimen/README.md` has said for six
+//! enumerate by hand — 91, 20 and 14 states — and `design/specimen/README.md` has said for six
 //! phases that three small games do not establish it holds for a large one. These are the large
 //! ones. They are generated rather than authored, which costs realism and buys a *curve*: a
 //! single game gives one point, and tractability is a question about growth.

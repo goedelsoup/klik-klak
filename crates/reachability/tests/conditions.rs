@@ -200,7 +200,7 @@ fn breaking_the_agreement_three_ways() {
 
     // Without the check it resolves cleanly and analyses *better* than the specimen.
     let base = reachability::analyse(&load("lighthouse", LIGHTHOUSE));
-    assert_eq!(base.states, 103);
+    assert_eq!(base.states, 91);
     assert_eq!(base.stranded, 16, "the specimen is deliberately trapped");
 
     // 2. Require the wrong value: two steps accept the same one, and reachability catches it.

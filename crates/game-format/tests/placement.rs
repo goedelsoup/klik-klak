@@ -7,7 +7,7 @@
 //! `.yidam/decisions/found-in.yml` has the measurement. The short version is that `holds
 //! <item>` could be omitted, moved to another room, aimed at an item nothing stood for, or
 //! made to contradict itself across two rooms, and the analysis of `lighthouse.game` came back
-//! 103 states and one stranding every single time. The other two carry the fact between them,
+//! 91 states and one stranding every single time. The other two carry the fact between them,
 //! and this file is where they are held to it.
 
 use game_format::{parse, resolve};
