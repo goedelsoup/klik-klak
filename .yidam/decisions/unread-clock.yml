@@ -1,0 +1,113 @@
+id: unread-clock
+summary: >-
+  The one declared clock counts something that is not the age of a question — it reports as the same
+  age five questions the history keeps apart — so it is kept as a tripwire and the gauge moves to a
+  check. Its interval was set against a reading nobody could compute, in a comment whose other two
+  figures are also loose, and what replaces all three is the wire: an event that does not decay, and
+  a definition of a question's age the corpus did not have.
+context: |
+  [inert-reports](inert-reports.yml) declared `questions_after = 100` two phases ago and justified
+  the value with one reading — *"the oldest open question here is `actor/player-character` at 86
+  commits, so this fires within a phase or two"*. That figure is now in three files: the config
+  comment that sets the interval, the record that argued for it, and
+  [reports.rs](../../crates/design-gate/tests/reports.rs)'s header. **No check derives it.**
+
+  The marker on [player-character](../corpus/actor/player-character.yml) blames to the **root
+  commit** and has never been edited, so by the only measure this repository can compute, the
+  oldest question is as old as the corpus. Three more are past the interval —
+  `data-format/interaction-table`, `world-flag/latched-flag`, `hotspot/static-region` — while
+  `yidam due` prints *"9 open question(s), none past 100 commit(s)"* and `passed: true`.
+  [verified] — `crates/design-gate/tests/clock.rs`.
+
+  **And the report ties five questions the history keeps apart.** Read by hand, `due` puts five of
+  the nine at the same age. The nine marker lines were written at eight distinct moments and the
+  largest group sharing one is three, so a five-way tie cannot be a count of commits since a
+  question was asked — under any reading of *asked* available here. It is not commits touching the
+  file, the corpus, or the first-parent line either. [verified]
+
+  **The age is one of three figures that comment gives, and it holds none of them.** The count of
+  what the clock cannot see — *"9 markers while 31 sit in `.yidam/decisions/`"* — was wrong in the
+  commit that wrote it, which shipped an assertion holding 32 three files away. The share —
+  *"a statement about 22% of what is owed"* — was right then and is 20 now, because two records
+  have been added since and the share falls whenever one is. [verified]
+decision: |
+  **The clock stays, at 100, and it is a tripwire rather than a gauge. The gauge is
+  [clock.rs](../../crates/design-gate/tests/clock.rs).**
+
+  It is not declined alongside the other two. `index_after` measures a thing no released binary can
+  build and `phases_after` counts in days a thing that lives minutes; this one measures a real
+  condition on a real schedule and the corpus simply cannot read the number it produces. Declining
+  it would leave `due` with nothing declared at all, which is the state
+  [inert-reports](inert-reports.yml) was right to end.
+
+  Nor is the interval lowered to make it fire. A tripwire that trips on a number nobody can
+  interpret is worse than one that never trips, because the first reads as information.
+
+  **A question's age in this corpus is the commit that last wrote its marker line.** That
+  definition did not exist before this record, which is why a figure with no derivation could stand
+  in three files for two phases. It is a **lower bound** — a reword that leaves the question
+  standing resets it — and the bound is stated rather than hidden, because a measure whose error
+  runs one direction is usable and a measure whose error is unknown is not.
+
+  **All three figures come out of the comment and the wire goes in.** The age is replaced by the
+  event, because *since genesis* does not decay and *86 commits* decayed the moment it was written;
+  the other two are replaced by what `clock.rs` computes.
+  [collected-verdict](collected-verdict.yml) established the remedy for a figure repeated across
+  files — a check that reads the statements and compares them to what it derives — and this is that
+  wire on a configuration comment rather than a record. [inert-reports](inert-reports.yml) is
+  corrected in place, for the second time.
+rationale: |
+  **The figure was quoted three times, computed zero times, and one of the three copies was in a
+  test file.**
+
+  `reports.rs` stated the age in its header and asserted nothing about it. That is the sharpest
+  form of the shape this repository keeps finding, and a worse one than the phases before it:
+  [collected-verdict](collected-verdict.yml) found a figure nobody carried, and this is a figure
+  that reached the instrument — the one place whose entire job is to compute rather than restate —
+  and stayed prose after arriving.
+
+  **One of the three was wrong on arrival, three files from the assertion that held the right
+  value.** The commit settling [inert-reports](inert-reports.yml) wrote *"31 sit in
+  `.yidam/decisions/`"* into the config and `assert_eq!((corpus, decisions), (9, 32))` into
+  `reports.rs`. Nothing compared them, because nothing could: one is a sentence. **Proximity is not
+  a wire** — the correct value was in the same phase, in the same change, by the same hand, and it
+  did not help.
+
+  **The three are wrong in three different ways and that is the argument for the remedy.** One
+  cannot be computed, one was mistaken, one has decayed. A correction fixes the second; re-reading
+  fixes the third; neither touches the first, and all three come back the next time somebody writes
+  a number in a comment. Only the check covers all three, and only the check covers them again next
+  phase.
+
+  **The prediction is the part that should have been caught.** *"Fires within a phase or two."* Two
+  phases and ten commits later the tool reads 88, so it moved two. That is a claim about the future
+  with no check under it, standing beside a `[verified]` tag, and nothing in the repository would
+  ever have reported it wrong — a clock that has not fired because the date is distant and a clock
+  that has not fired because it counts something else print the same line.
+
+  **The report cannot be read without being reconfigured.** `due --format json` carries `overdue`
+  and a prose `detail`; `open-questions --format json` carries a path and a label; the text report
+  names the longest only while the clock is due. So the only way to take a reading is to set an
+  interval and see which line changes, which is an experiment — and an experiment run once becomes
+  prose, because there is nothing to run it again. The comment
+  [inert-reports](inert-reports.yml) wrote says exactly this about the *unit*: *"the unit is
+  learnable in exactly one way: set a value and read what `due` prints back."* Having learned the
+  unit that way, nobody ran the same experiment on the magnitude. [inference]
+
+  **This is the sixth phase in a row on one shape and the first where the corpus was looking
+  straight at it.** [action-pages](action-pages.yml) found class pages nobody reopened,
+  [collected-verdict](collected-verdict.yml) a figure nobody carried,
+  [inert-reports](inert-reports.yml) a report consulted once, [carried-claims](carried-claims.yml)
+  nodes that wrote about their footing only after being reported, [priority-edge](priority-edge.yml)
+  an answer written where the reader has no cause to look. Here the phase whose whole subject was
+  the clocks ran the experiment, took one number out of it, and wrote three numbers down.
+  **Attention is not the remedy; a wire is.**
+
+  **What this does not settle.** Whether a question's age should be a fact the node carries. Blame
+  is a lower bound and resets on a reword, and the only reason it reads correctly today is that
+  nine phases revised `player-character` around line 14 without touching it — luck rather than
+  design. A `since:` field would be exact, and [schema-deferral](schema-deferral.yml) established
+  that the prelude accepts new fields, so the change is available in a way four earlier records
+  believed it was not. The argument against is this record's own subject: a date written into a
+  node is a figure that goes stale silently, and this phase exists because three figures went stale
+  or arrived wrong in four sentences of one comment. `[open]`

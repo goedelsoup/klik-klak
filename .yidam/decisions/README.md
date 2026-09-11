@@ -132,6 +132,10 @@ does not re-emit it.
 
 - **:89** — **What this does not settle.** Whether duration should have been refused. Everything above is downstream of `effect-list-semantics`, and a design that admitted duration would need this trigger, a `skippable` property, and the save-boundary problem the same decision record quotes Thimbleweed Park pay…
 
+### [unread-clock](unread-clock.yml)
+
+- **:113** — **What this does not settle.** Whether a question's age should be a fact the node carries. Blame is a lower bound and resets on a reword, and the only reason it reads correctly today is that nine phases revised `player-character` around line 14 without touching it — luck rather than design. A `since…
+
 ### [unread-state](unread-state.yml)
 
 - **:78** — **What this does not settle.** The rule is now applied by hand in five places and nothing checks that a sixth obeys it. That is the original question returning one level up: `observed-state` asked for a check that fails when an unreadable component is added, and what exists is five components each b…
@@ -140,7 +144,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**34 open.**
+**35 open.**
 
 ## What nothing cites
 
@@ -153,6 +157,6 @@ nodes, at four times the rate, and it had never been looked at.
 - [domain-computer](domain-computer.yml)
 - [effect-vocabulary](effect-vocabulary.yml)
 - [name-scoping](name-scoping.yml)
-- [priority-edge](priority-edge.yml)
 - [specimen-placement](specimen-placement.yml)
 - [threshold-trigger](threshold-trigger.yml)
+- [unread-clock](unread-clock.yml)

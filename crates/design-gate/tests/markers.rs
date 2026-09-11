@@ -166,7 +166,7 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (9, 34, 30));
+    assert_eq!((corpus, decisions, records), (9, 35, 31));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
         20,

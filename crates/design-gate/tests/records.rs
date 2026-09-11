@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (321, 53, 38));
+    assert_eq!((total, mentions, tests.len()), (331, 55, 41));
 }
 
-/// **Eight of forty-seven records are cited by nothing, against three of forty-three nodes.**
+/// **Eight of fifty-five records are cited by nothing, against three of forty-three nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -327,16 +327,16 @@ fn a_record_nothing_cites_is_named() {
             "domain-computer",
             "effect-vocabulary",
             "name-scoping",
-            "priority-edge",
             "specimen-placement",
             "threshold-trigger",
+            "unread-clock",
         ],
-        "nine. `effect-half` is back on it — `action-pages` was the only record citing it and \
-         the citation went when the paragraph that made it turned out to answer the wrong \
-         question — and the newest record joins it, as every newest record does"
+        "eight. `priority-edge` came off it the moment the next record cited it, and the newest \
+         record joins it, as every newest record does — which is the one entry on this list that \
+         means nothing"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (54, 142));
+    assert_eq!((c.len(), edges), (55, 148));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -414,7 +414,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 34, "live open questions in this directory");
+    assert_eq!(total, 35, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
