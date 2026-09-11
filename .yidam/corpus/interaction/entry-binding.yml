@@ -120,6 +120,20 @@ properties:
     something the precondition forbids, and nobody tried anything — they walked into a room.
     [inference] That is the sharpest way to see this is not a verb: the refusal has no
     occasion, where every other binding in this vocabulary has one.
+
+    **That definition turned out to be a check, and it found two defects in the committed corpus.**
+    If a refusal needs an occasion, a binding with a refusal and no `when` and no guarded clause has
+    none — there is no state in which it is offered and declines — so the line is text no player can
+    reach. Two were, both binary. [verified] — `crates/game-format/tests/refusals.rs`. This is the
+    format's third check for authored text nothing can produce, and the first found rather than
+    constructed.
+
+    **And this class holds the canonical instance of the other half.** A `when` with no refusal
+    under it is the only form an entry binding can take, and `nightwatch.game` writes one; the only
+    other two in 662 authored lines are conversation options, where an unavailable choice is not
+    shown. So the spelling that means *not offered* appears exactly where a refusal is impossible,
+    and the seventeen bindings that could have chosen it all chose a line instead. [verified]
+    `.yidam/decisions/availability.yml`.
 links:
   - target: ../room/single-screen.yml
     relationship: triggered-by
