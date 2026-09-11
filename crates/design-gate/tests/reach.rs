@@ -163,7 +163,7 @@ fn walkbox_is_the_only_authoring_class_the_format_cannot_name() {
 /// **The three classes the instrument has never measured are the three with the most drawn in
 /// them.**
 ///
-/// 60 references to 22 committed test files are spread over 23 of the 43 nodes, and every class
+/// 60 references to 22 committed test files are spread over 24 of the 43 nodes, and every class
 /// has at least one — except these. It is not that the checker is weak there; it is that there is
 /// nothing for it to read. A `.game` file says an actor is in a room and cannot say where in the
 /// room, so no test can measure a claim about a walk cycle or a coordinate space.
@@ -196,7 +196,7 @@ fn the_classes_the_instrument_never_measured_are_the_drawn_ones() {
         ["actor", "room", "walkbox"],
         "classes no node of which cites the instrument"
     );
-    assert_eq!(citing, 23, "nodes resting some claim on a committed test");
+    assert_eq!(citing, 24, "nodes resting some claim on a committed test");
 }
 
 /// **Four nodes carry no `[verified]` claim at all, and three of them are on the drawn side.**
@@ -211,6 +211,14 @@ fn the_classes_the_instrument_never_measured_are_the_drawn_ones() {
 ///
 /// The fourth is not spatial and is here for contrast. `puzzle/lock-and-key` has no verified claim
 /// because it is definitional, and its one `[inference]` argues against its own class.
+///
+/// **A tag inside backticks is the token being discussed and not a claim**, which this check
+/// learned by reporting three of these four as newly-verified the moment they were revised to say
+/// they carry no verified claim. The convention holds across all 26 backticked `[verified]` and
+/// `[inference]` tokens in the corpus with no exception — *"the tag stays `[inference]` and will
+/// not move"*, *"it is `[verified]` now, from this project's own code"* — and nothing anywhere
+/// states it or checks it. It is `marker-count`'s finding on the two tallies it was never applied
+/// to.
 #[test]
 fn the_nodes_with_no_verified_claim_are_drawn_or_definitional() {
     let root = repo_root();
@@ -221,7 +229,7 @@ fn the_nodes_with_no_verified_claim_are_drawn_or_definitional() {
                 continue;
             }
             let src = std::fs::read_to_string(&p).expect("readable");
-            if !src.contains("[verified]") {
+            if !src.replace("`[verified]`", "").contains("[verified]") {
                 let stem = p
                     .file_stem()
                     .expect("a name")

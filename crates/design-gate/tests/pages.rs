@@ -13,9 +13,10 @@
 //! What did not hold up is that the pages also carried **twelve open questions, in two spellings
 //! no tool here reads** — `*Open:*` and `*Stub:*`, in Markdown, which [`markers.rs`] does not scan
 //! because it scans `.yml`. Ten of the twelve were wrong. `.yidam/decisions/action-pages.yml` is
-//! the disposition: a page holds operations, the six that were answered became pointers at what
+//! the disposition: a page holds operations, the five that were answered became pointers at what
 //! answered them, and the two that were live became `[open]` on an instance where a tool can see
-//! them.
+//! them. A sixth was live already — a duplicate of the marker on `actor/player-character`, one
+//! file away in the same directory, which that record first read as answered.
 //!
 //! [`edges.rs`]: edges.rs
 //! [`markers.rs`]: markers.rs
@@ -170,8 +171,8 @@ fn every_query_a_class_page_documents_is_a_declared_triple() {
     );
     assert_eq!(
         (total, distinct.len()),
-        (38, 30),
-        "38 documented queries, 30 of them distinct — the pages repeat each other's edges more \
+        (37, 29),
+        "37 documented queries, 29 of them distinct — the pages repeat each other's edges more \
          often than they repeat their own"
     );
 }
@@ -226,9 +227,9 @@ fn every_path_a_class_page_writes_resolves() {
 
 /// **No question lives on a class page, and the two stubs left are promises rather than questions.**
 ///
-/// It was eight and four. Six of the eight had been answered by a later phase, two were live and
-/// are now `[open]` on an instance, and two of the four stubs promised `reachability` in the
-/// conditional — *"given a game to read"*, *"it has nothing to read"* — after it shipped and read
+/// It was eight and four. Five of the eight had been answered by a later phase, two were live and
+/// are now `[open]` on an instance, one was a duplicate of a marker already on an instance, and
+/// two of the four stubs promised `reachability` in the conditional — *"given a game to read"*, *"it has nothing to read"* — after it shipped and read
 /// four. A repository gets no warning when a promise it made comes true.
 ///
 /// The two that remain are honest: `collapse-signature` and `vocabulary-coverage` are still
@@ -311,7 +312,7 @@ fn no_question_lives_on_a_class_page() {
 /// and an instance node is the wrong scope — and every phase since answered questions somewhere
 /// else.
 ///
-/// Six of the twelve had answers sitting in records written after the question. Two of those
+/// Five of the twelve had answers sitting in records written after the question. Two of those
 /// records — `conversation-reduction` and `conversation-boundary` — were on `records.rs`'s orphan
 /// list, cited by nothing. **That is one finding from both ends**: the file asking the question was
 /// never reopened, so the record that answered it was never cited. Citing them from

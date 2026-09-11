@@ -18,7 +18,7 @@ does not re-emit it.
 
 ### [action-pages](action-pages.yml)
 
-- **:131** — **What this does not settle.** Whether a class-level question should have a tagged home of its own. The two live ones are parked on instances because that is where a marker can go, and both are really about the class: walkbox adjacency is a question about the relationship vocabulary, and *"is that a…
+- **:135** — **What this does not settle.** Whether a class-level question should have a tagged home of its own. The two live ones are parked on instances because that is where a marker can go, and both are really about the class: walkbox adjacency is a question about the relationship vocabulary, and *"is that a…
 
 ### [actor-position](actor-position.yml)
 
@@ -132,7 +132,7 @@ nodes, at four times the rate, and it had never been looked at.
 - [binding-axes](binding-axes.yml)
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
-- [drawn-boundary](drawn-boundary.yml)
+- [effect-half](effect-half.yml)
 - [effect-vocabulary](effect-vocabulary.yml)
 - [name-scoping](name-scoping.yml)
 - [specimen-placement](specimen-placement.yml)
