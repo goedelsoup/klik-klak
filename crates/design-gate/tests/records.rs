@@ -203,6 +203,26 @@ fn cites(root: &Path) -> BTreeMap<String, BTreeSet<String>> {
 /// Needs real history. CI checks out with `fetch-depth: 0` for the commit-vocabulary gate, and
 /// this is the second thing that depends on it; a shallow clone reports the truncation rather
 /// than quietly passing.
+/// Whether git is tracking this file at all.
+///
+/// A record being written right now has no commits, which is not the same condition as a clone
+/// with no history — and the first version of this check could not tell them apart, so the first
+/// new record after it was written made it panic with a message about shallow clones. Untracked is
+/// checked separately and skipped: *"has this changed since the commit that wrote it"* is not yet
+/// a question about a file no commit has written.
+fn tracked(root: &Path, p: &Path) -> bool {
+    let Ok(rel) = p.strip_prefix(root) else {
+        return false;
+    };
+    std::process::Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["ls-files", "--error-unmatch", "--"])
+        .arg(rel)
+        .output()
+        .is_ok_and(|o| o.status.success())
+}
+
 fn at_creation(root: &Path, p: &Path) -> Option<String> {
     let rel = p.strip_prefix(root).ok()?.to_string_lossy().into_owned();
     let log = std::process::Command::new("git")
@@ -274,7 +294,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (239, 41, 30));
+    assert_eq!((total, mentions, tests.len()), (254, 44, 31));
 }
 
 /// **Sixteen of forty-two records are cited by nothing, against three of forty-two nodes.**
@@ -296,20 +316,21 @@ fn a_record_nothing_cites_is_named() {
     assert_eq!(
         alone,
         [
+            "action-pages",
             "binding-axes",
-            "conversation-boundary",
-            "conversation-reduction",
             "design-directory",
             "domain-computer",
-            "effect-half",
             "effect-vocabulary",
             "name-scoping",
             "specimen-placement",
             "threshold-trigger",
-        ]
+        ],
+        "ten until `action-pages` cited three of them — `conversation-boundary`, \
+         `conversation-reduction` and `effect-half` were uncited because the file asking the \
+         question each answers had not been opened since the root commit"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (46, 93));
+    assert_eq!((c.len(), edges), (47, 103));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -387,7 +408,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 28, "live open questions in this directory");
+    assert_eq!(total, 29, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
@@ -416,9 +437,13 @@ fn the_index_this_directory_never_had_is_current() {
 #[test]
 fn no_record_has_changed_what_it_decided() {
     let root = repo_root();
-    let (mut moved, mut edited) = (Vec::new(), 0);
+    let (mut moved, mut edited, mut uncommitted) = (Vec::new(), 0, Vec::new());
     for p in records(&root) {
         let now = std::fs::read_to_string(&p).expect("readable");
+        if !tracked(&root, &p) {
+            uncommitted.push(stem(&p));
+            continue;
+        }
         let then = at_creation(&root, &p).unwrap_or_else(|| {
             panic!("{}: no history — a shallow clone cannot run this", stem(&p))
         });
@@ -438,8 +463,11 @@ fn no_record_has_changed_what_it_decided() {
         }
     }
     assert_eq!(
-        edited, 17,
-        "records with a commit after the one that wrote them"
+        edited,
+        17,
+        "records with a commit after the one that wrote them \
+         ({} not yet committed, and not judged: {uncommitted:?})",
+        uncommitted.len()
     );
     assert_eq!(
         moved,

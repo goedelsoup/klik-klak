@@ -157,10 +157,10 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (7, 28, 23));
+    assert_eq!((corpus, decisions, records), (7, 29, 24));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        20,
+        19,
         "under a quarter is visible"
     );
 

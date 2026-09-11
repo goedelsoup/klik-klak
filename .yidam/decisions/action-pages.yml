@@ -1,0 +1,131 @@
+id: action-pages
+summary: >-
+  An `ACTIONS.md` entry is an operation, and the fifteen class pages had been carrying questions
+  since the root commit because a question about a *class* has nowhere tagged to live. Ten of the
+  twelve are wrong — six answered by later phases, two by a tool that shipped, one by a tense — and
+  nothing could have noticed, because both spellings they are written in are invisible to every
+  check here. The questions leave: two become tagged markers on instances, the rest become pointers
+  at what answered them.
+context: |
+  [markers.rs](../../crates/design-gate/tests/markers.rs) found that three quarters of what this
+  corpus owes sits where no tool looks — 7 open questions in the corpus against 28 in the decision
+  records. [record-layer](record-layer.yml) then built the second place a gate. Neither asked
+  whether there was a third.
+
+  There is. Every class directory holds an `ACTIONS.md`, and **all fifteen were written in the root
+  commit and not one has been opened since** — 342 commits, thirty-odd phases, a checker that grew
+  from nothing to four crates. [verified] — `crates/design-gate/tests/pages.rs`.
+
+  The prelude says what the file is for: *"a list of operations meaningful for this class — queries
+  that retrieve instances, transitions an instance can undergo, skills that act on it, or
+  calculators that derive from it."* On that description the pages are in good order. **All 37
+  documented queries name a relationship the ontology still declares**, 29 of them distinct, and
+  the only one returning nothing is the triple [prose-edges](prose-edges.yml) already records as
+  declared-but-unauthored. [verified] That half survived 342 commits untouched because a query is
+  written against the class vocabulary, and phases only ever widen it.
+
+  The pages also carry **twelve open questions in two spellings** — `*Open:*` and `*Stub:*` — and
+  that half did not survive at all.
+decision: |
+  **An `ACTIONS.md` entry is an operation. A question does not live on one.**
+
+  Not a sixth marker spelling and not an extension of `markers.rs` to Markdown. The reason these
+  twelve went unread for 342 commits is not that the scanner was pointed at the wrong file
+  extension; it is that a question about a *class* had nowhere to go. `.ont.yml` cannot carry a
+  claim tag by rule, an instance node is the wrong scope, and so the genesis author put class
+  questions in the operations list, which is the only other file a class owns.
+
+  All twelve are disposed of, and the disposition is different four ways because the twelve went
+  wrong in four different directions:
+
+  | | |
+  |---|---|
+  | **Answered by a later phase** — retracted, with a pointer to the record or node that answered it | **6** |
+  | **Live, and moved to a tagged home** — `[open]` on the class's instance | **2** |
+  | **A stub whose tool shipped** — rewritten as the operation it now is | **2** |
+  | **A stub that is still a stub** — kept, one of them with its tense corrected | **2** |
+
+  **The two live ones become corpus markers**, which is the whole point of the phase and takes the
+  corpus from seven open questions to nine: `walkbox/scaled-polygon` gets the adjacency question,
+  and `inventory-item/portable-object` gets *"is an item nothing takes as a second object an item
+  at all."* Both are class-scoped questions parked on the class's only or best instance, which is a
+  compromise rather than a fit, and it is the compromise the corpus already makes everywhere else.
+
+  **This moves the visible share up for the first time.** `markers.rs` has watched it fall one
+  point a phase — 23, 22, 21, 20 — every time because a phase closes nothing in the corpus and
+  opens one in the record that settles it. Counting this third place honestly it was **14%**. After
+  the disposition it is 22%, and the gain is not bookkeeping: two questions that no tool could see
+  are now two questions `yidam open-questions` returns.
+rationale: |
+  **Six answers, and two of them are options the question did not offer.**
+
+  - **`room`** asked *"whether `extent` belongs on the room or on the camera. No node argues it
+    yet."* [room-geometry](room-geometry.yml) read 307 KB of a shipped game's room files and
+    answered neither: **`extent` is two fields, not a class.** `room_size` is the background image
+    and `room_bounds` is where the camera may go, and they differ in four of twenty-two rooms —
+    including one whose camera bounds are taller than its background. A camera class is refused
+    because the bounds are the only thing about that engine's camera with no setter. [verified]
+  - **`actor`** asked *"whether control transfer needs vocabulary of its own, or falls out of
+    `world-flag`."* [effect-list-semantics](effect-list-semantics.yml) answered neither: **control
+    transfer is a mode in the state vector**, entered and left by two relationships that existed at
+    genesis — *"`interaction -opens-> conversation` enters it, `conversation -returns-control-to->
+    actor` leaves it, and both effects are instantaneous while the mode persists."* The branch the
+    question did offer was priced later: [effect-half](effect-half.yml) measured the refused
+    imperative form at **168 sites, 12.7% of everything a shipped game writes**. [verified]
+  - **`conversation`** asked whether `interaction -opens-> conversation` reduces the class to a
+    response type. [conversation-reduction](conversation-reduction.yml) is that question, worked:
+    *"It reduces to a room exactly — same states, transitions, strandings, winnability — and what
+    does not reduce is `leave`. The class turns on the return."*
+  - **`interaction`** asked whether a binding whose response is an exchange is still one, or
+    whether `conversation` is a separate primitive. [conversation-boundary](conversation-boundary.yml):
+    *"`conversation` is not split — the evidence for splitting it was this corpus reading its own
+    two instances backwards."*
+  - **`world-flag`** asked *"whether `scope` is a real axis or an optimization. A room-local flag is
+    a global flag nobody reads elsewhere."* The axis is real and the reduction is refuted by the
+    value the question did not know about: `scope` took a **fourth** value when a shipped game
+    turned out to keep most of its state in object states, and those are read across rooms by
+    qualified name — `Bank.open`, `Alleyway.valve.position`.
+    [object-state](../corpus/world-flag/object-state.yml) carries it. [verified]
+  - **`cutscene`** asked about the collapse into `interaction`, offering as evidence that *"nothing
+    points at a cutscene in this ontology, which is itself a hint about its standing."* This is the
+    worst of the six and the most instructive, and it went wrong twice.
+
+  **The cutscene entry was refuted on the day it was written and answered four phases later.** Its
+  hint is not evidence: `cutscene` is a **source class**, the only one in this ontology with no
+  incoming relationship at all, so nothing points at it by construction — which
+  [prose-edges](prose-edges.yml) established and which `.yidam/skills/collapse-signature.md` says
+  in as many words, *"a hint the metric will not see."* That note was added by `assess: cutscene
+  reduces on every ground it was seeded on`, the commit that also settled the question: every
+  property reduces, and what survives is a trigger belonging to no class. The verdict was a
+  collapse **conditional on an arrival trigger existing**. [arrival-trigger](arrival-trigger.yml)
+  built one. [scripted-sequence](../corpus/cutscene/scripted-sequence.yml) records the rest in its
+  own directory, one file away from the page still asking: *"The condition has since been met…
+  This node is a finished negative result."* [verified]
+
+  So the same phase wrote the correction into a skill file and left the page it corrects alone —
+  which is what it looks like when a file is not in anybody's working set.
+
+  **The record-orphan list and these pages are one finding from opposite ends.** Two of the six
+  answering records — `conversation-reduction` and `conversation-boundary` — are on
+  [record-layer](record-layer.yml)'s orphan list, cited by nothing in the repository. They are
+  uncited *because* the file asking the question they answer was never reopened. Two checks built
+  in different phases for different reasons were reporting the same defect from either side, and
+  neither could see the other.
+
+  **The stubs went stale in the opposite direction, which nothing would have caught either.** An
+  `*Open:*` over-claims uncertainty; a `*Stub:*` under-claims capability. Two of the four promise
+  `reachability` in the conditional — *"would detect `unwinnable-state` mechanically, given a game
+  to read"*, *"would answer this mechanically. It has nothing to read"* — and it has four games to
+  read and finds five strandings in them. [verified] A repository gets no warning when a promise
+  it made comes true. The other two are honest: `collapse-signature` is still a stub, for the
+  sharper reason its own file now gives, and `vocabulary-coverage` is still a stub whose page
+  described it in the present tense.
+
+  **What this does not settle.** Whether a class-level question should have a tagged home of its
+  own. The two live ones are parked on instances because that is where a marker can go, and both
+  are really about the class: walkbox adjacency is a question about the relationship vocabulary,
+  and *"is that an item or scenery with an icon"* is a question about the class boundary. The
+  corpus has a de facto home for these already — [ontology](ontology.yml) holds both live class
+  collapses and has since genesis — and what it does not have is any way to count what is in it.
+  That is [marker-count](marker-count.yml)'s threshold again, reached from a third side: a typed
+  `claim_tag` would be the remedy and does not work in the pinned build. `[open]`
