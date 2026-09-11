@@ -1,0 +1,86 @@
+id: class-evidence
+summary: >-
+  A class cannot carry a claim tag, so this corpus routes every class-level argument to a node that
+  can — nine times, correctly, in eight different sentences, with nothing anywhere saying it is a
+  rule. The convention is written down, the four routes that name a file without linking it become
+  links, and the carrier of the widest claim in the corpus is brought up to the three populations
+  that now support it.
+context: |
+  The prelude is categorical. *"A claim tag cannot reach a class definition… a class whose
+  definition states a proposition puts that proposition beyond the reach of the entire apparatus…
+  A class that has an argument worth counting should be putting it in one."* Its prescribed
+  remedy is a reading on a schedule, because *"no instance-level check will do it for you."*
+
+  **This corpus obeys the rule everywhere.** Six class files state a proposition and every one of
+  them names the node carrying the tag; `yidam lint` has never had cause to report
+  `class-asserts-purpose`. What it has never done is say that this is what it is doing:
+  **nine routes, eight spellings.** [verified] — `crates/design-gate/tests/routing.rs`.
+
+  Four of the nine name their target in backticks rather than as a link, so `edges.rs` cannot
+  resolve them, `graph-check` cannot see them and a reader cannot follow them. [verified]
+
+  And one carrier is behind. [interaction.ont.yml](../corpus/interaction.ont.yml) quantifies over
+  *"every engine read here"* and routes to
+  [binary-binding](../corpus/interaction/binary-binding.yml), which argues it from one engine and
+  1,328 call sites. [forty-eight](forty-eight.yml) made it two and
+  [third-population](third-population.yml) made it three. [verified]
+decision: |
+  **The convention is named and written into [ontology](ontology.yml), which is where this
+  repository's class-level decisions live.**
+
+  *A class definition describes a kind. Where it states a proposition instead, it names the
+  instance node that carries that proposition as a tagged claim, and it names it with a link.*
+  That is what six class files already do; the sentence is new, not the practice.
+
+  **The four backticked routes become links**, on [prose-edges](prose-edges.yml)'s precedent: that
+  record read fifteen unedged citations by hand and refused to mechanise the ones that were prose
+  pointing at an argument. These are not that. A route is the corpus saying *the evidence for this
+  is over there*, which is the one case where a reader always wants to go, and four of them cannot
+  be followed.
+
+  **The carrier is brought current.** `binary-binding` gains the second and third populations, so
+  the class's *every engine read here* and the node's argument quantify over the same three.
+
+  **What is not built is a check that a carrier stays current.** It would need to know which claim
+  in a node answers which sentence in a class, and both are prose. What exists instead is one
+  assertion naming this specific pair, which will fail when a fourth engine is read — and that is
+  the moment somebody should look, which is what the prelude asked for and the nearest thing to a
+  schedule this repository can hold.
+rationale: |
+  **The interesting thing here is that nothing went wrong.**
+
+  Eight undeclared conventions have now been found by measuring this repository, and the seven
+  before this one were found because something broke: a matcher read a discussed token as a used
+  one, five separate times, and a classifier read a record's subject as its evidence. This is the
+  first that surfaced with a clean record — nine applications, zero violations, no lint finding,
+  no defect to repair. **The corpus had internalised a rule well enough to follow it perfectly and
+  not well enough to say it**, and the only visible trace was eight people-shaped sentences saying
+  the same thing eight ways. [inference]
+
+  That is worth naming because the usual argument for writing a convention down is that it is
+  being broken. Here it is being kept, and the cost of leaving it tacit is paid by the next
+  author, who has to derive it from examples — and by the four routes where the derivation
+  produced a name instead of a link, which is exactly where a tacit rule frays first.
+
+  **The carrier lag is the fifth instance of one shape in nine phases.** A class asserts something,
+  routes the evidence to a node, and the evidence grows somewhere else: `unread-clock` found a
+  figure copied into three files and derived in none, `forty-eight` a table recorded where it
+  wasn't, `third-population` a count nobody had taken, `inward-turn` a classification derivable
+  from day one. **Every one of them is a pointer that was correct when it was written**, and the
+  repository has no way for the far end of a pointer to hear that the near end moved.
+
+  **The prelude asked for a reading on a schedule and this corpus does not have schedules.**
+  `unread-clock` established why: the one clock it can declare counts something that is not the
+  age of a question, and nothing else in the tooling counts anything on a cadence. So a scheduled
+  reading here means a check that fails when the state it describes changes, which is the whole
+  design of this crate — and the honest limit is that such a check can only be written for a pair
+  somebody has already noticed. The general case stays with a person.
+
+  **What this does not settle.** Whether class prose should state propositions at all. The prelude
+  stops short of forbidding it and this record follows, because the six statements in question are
+  load-bearing: `interaction.ont.yml`'s one-property-not-two decision is unintelligible without the
+  sentence that justifies it, and moving the justification to a node leaves the class asserting a
+  shape with no visible reason. The alternative is a class that describes a kind and nothing else,
+  with every *why* one link away — legible to the graph and worse to read, which is the trade
+  [record-layer](record-layer.yml) made in the other direction for corpus prose and has not
+  revisited. `[open]`

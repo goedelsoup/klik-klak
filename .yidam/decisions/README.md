@@ -49,6 +49,10 @@ does not re-emit it.
 
 - **:81** — **What this does not settle.** Whether a node should say when its evidence base is one line. The three that do wrote it as a finding about themselves and it reads well; twelve nodes writing the same paragraph would read as boilerplate, and boilerplate is what a check exists to replace. The check nam…
 
+### [class-evidence](class-evidence.yml)
+
+- **:86** — **What this does not settle.** Whether class prose should state propositions at all. The prelude stops short of forbidding it and this record follows, because the six statements in question are load-bearing: `interaction.ont.yml`'s one-property-not-two decision is unintelligible without the sentence…
+
 ### [collected-verdict](collected-verdict.yml)
 
 - **:89** — **What this does not settle.** Whether a record should carry figures at all. The convention says keep them out of the summary and this record moves two out of one; what neither says is where they should go instead, and the answer here was available only because `surface.rs` existed to point at. Reco…
@@ -164,7 +168,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**40 open.**
+**41 open.**
 
 ## What nothing cites
 
@@ -177,7 +181,6 @@ nodes, at four times the rate, and it had never been looked at.
 - [domain-computer](domain-computer.yml)
 - [name-scoping](name-scoping.yml)
 - [specimen-placement](specimen-placement.yml)
-- [third-population](third-population.yml)
 
 ## What each record rests on
 
@@ -191,6 +194,7 @@ list is the one that record holds as a tripwire.
 
 - [action-pages](action-pages.yml)
 - [carried-claims](carried-claims.yml)
+- [class-evidence](class-evidence.yml)
 - [drawn-boundary](drawn-boundary.yml)
 - [inert-reports](inert-reports.yml)
 - [inward-turn](inward-turn.yml)

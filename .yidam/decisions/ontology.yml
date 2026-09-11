@@ -110,6 +110,17 @@ decision: |
 
   Corpus depth: **30**, the computed default, accepted as offered.
 rationale: |
+  **A class definition describes a kind. Where it states a proposition instead, it names the
+  instance node that carries that proposition as a tagged claim, and it names it with a link.**
+
+  That rule is written here because it is a rule about classes and this is where class-level
+  decisions live, and it is written at all because the corpus had been following it for the whole
+  life of the directory without saying so: nine routes across six class files, in eight different
+  sentences. The prelude supplies the reason — *"a claim tag cannot reach a class definition… a
+  class that has an argument worth counting should be putting it in one"* — and supplies no name
+  for the thing a class does instead. [class-evidence](class-evidence.yml) names it, counts it,
+  and records why four of the nine had come out as a backticked name rather than a link.
+
   **Why two tiers rather than one.** A single tier would have forced a choice between an
   ontology that cannot say what implements the vocabulary and one that cannot say what the
   vocabulary is. The join edge makes the level boundary a first-class relationship, so the

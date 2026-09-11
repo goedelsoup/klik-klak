@@ -167,7 +167,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 60, "every record, in the order it was created");
+    assert_eq!(all.len(), 61, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -180,12 +180,12 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (27, 28, 16),
+        (27, 28, 17),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
         (alone, neither),
-        (12, 11),
+        (13, 11),
         "resting on the gate and nothing else, and resting on no evidence path at all"
     );
 }
@@ -199,8 +199,9 @@ fn the_evidence_each_record_rests_on() {
 ///
 /// It went to one when `unwritten` rested on the **engine crates** — counting what four authored
 /// games did with the language, which is the third evidence path and is subject work — and back to
-/// zero when `script-boundary` read a document again. `gate_alone` is the run that carries the
-/// weight; the other is context.
+/// zero when `script-boundary` read a document again. `class-evidence` puts it at one apiece: a
+/// record about how this corpus routes a class's argument is a claim about the repository, which
+/// is what the gate-alone run is for.
 ///
 /// **This is a tripwire rather than a gauge**, in the sense `unread-clock` settled: it does not
 /// say the run is wrong, it says nobody may extend it without noticing. If this assertion has been
@@ -221,7 +222,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (0, 0),
+        (1, 1),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
