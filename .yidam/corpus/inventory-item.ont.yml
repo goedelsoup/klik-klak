@@ -1,5 +1,6 @@
 class: inventory-item
 label: Inventory Item
+tier: authoring
 foundational_type:
   ontology: ufo
   type: role
@@ -30,6 +31,7 @@ edges:
   - relationship: found-in
     target: room
     direction: out
+    derived: true
     description: >-
       The room this object is picked up from — real, and never authored. A hotspot belongs to a
       room, so an item with a carried form is found in that hotspot's room; an item without one

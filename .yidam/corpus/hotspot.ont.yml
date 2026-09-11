@@ -1,5 +1,6 @@
 class: hotspot
 label: Hotspot
+tier: authoring
 foundational_type:
   ontology: ufo
   type: kind

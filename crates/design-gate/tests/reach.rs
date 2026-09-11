@@ -55,37 +55,36 @@ fn by_class(root: &Path) -> BTreeMap<String, Vec<PathBuf>> {
     out
 }
 
-/// The authoring tier, read from the list `ontology.yml` declares rather than restated here.
+/// The authoring tier, read from the `tier:` each class declares.
 ///
-/// The three tiers are that record's and are prose, not schema — no `.ont.yml` says which tier its
-/// class is in. Parsing the record is the closest thing to asking, and it means adding a class to
-/// the tier without telling this check is not possible.
+/// This used to parse `ontology.yml`'s **prose** — tracking indentation, skipping `verb`'s gloss
+/// where it wraps onto a second line — because the three tiers were an argument in a record and no
+/// class said which one it was in. `.yidam/decisions/schema-deferral.yml` gave the class a field,
+/// and retiring this parser is most of what the field bought. `deferrals.rs` holds the
+/// declarations against the record that argues them.
 fn authoring_tier(root: &Path) -> Vec<String> {
-    let src =
-        std::fs::read_to_string(root.join(".yidam/decisions/ontology.yml")).expect("readable");
     let mut out = Vec::new();
-    let (mut inside, mut indent) = (false, None);
-    for line in src.lines() {
-        if line.contains("Authoring tier") {
-            inside = true;
+    for e in std::fs::read_dir(root.join(".yidam/corpus"))
+        .expect("the corpus exists")
+        .flatten()
+    {
+        let p = e.path();
+        let s = p.to_string_lossy().into_owned();
+        let Some(class) = s
+            .strip_suffix(".ont.yml")
+            .map(|c| c.rsplit('/').next().expect("a name").to_string())
+        else {
             continue;
-        }
-        if !inside {
-            continue;
-        }
-        if line.trim().is_empty() {
-            break;
-        }
-        // `verb`'s gloss wraps onto a second line; an entry is a line at the indent the first
-        // entry set, and a continuation is any line deeper than that.
-        let here = line.len() - line.trim_start().len();
-        if *indent.get_or_insert(here) != here {
-            continue;
-        }
-        if let Some(name) = line.split_whitespace().next() {
-            out.push(name.to_string());
+        };
+        let src = std::fs::read_to_string(&p).expect("readable");
+        if src.lines().any(|l| {
+            l.strip_prefix("tier:")
+                .is_some_and(|v| v.trim() == "authoring")
+        }) {
+            out.push(class);
         }
     }
+    out.sort();
     out
 }
 

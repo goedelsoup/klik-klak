@@ -1,5 +1,6 @@
 class: conversation
 label: Conversation
+tier: authoring
 foundational_type:
   ontology: ufo
   type: kind

@@ -95,11 +95,12 @@ rationale: |
   because a third instance of a question already open is evidence for that question and not a new
   one.
 
-  **What this does not settle.** Whether the ontology should declare, per class, anything about
-  where a class stands — its tier, or which side of this boundary it is on. Neither is schema
-  today: the tiers are prose in [ontology](ontology.yml), and this phase's check had to parse that
-  prose to ask which classes are in the authoring tier. **That is the fourth question of this exact
-  shape** — after [marker-count](marker-count.yml) on back-links, [prose-edges](prose-edges.yml) on
-  a citation syntax, and [found-in](found-in.yml) on marking derived edges — and each was declined
-  as *a schema change to prose that has none*. `prose-edges` wrote that the corpus's own rule makes
-  the second instance the time to look again. That was two instances ago. `[open]`
+  **Half of that is settled and the other half is refused on purpose.** The question was whether
+  the ontology should declare, per class, where a class stands — its tier, or which side of this
+  boundary it is on. **The tier is a field now** and the prose parser this phase's check needed is
+  retired; the boundary side is not, because eleven of the fifteen classes straddle it and only
+  `walkbox` sits wholly on one side, so a per-class flag would assert something false about all but
+  one. [schema-deferral](schema-deferral.yml) is where that is separated — and it found that the
+  four instances of *a schema change to prose that has none* were three different questions, and
+  that the threshold never fired because the tally mixed a request satisfiable in one line with one
+  not satisfiable at all.

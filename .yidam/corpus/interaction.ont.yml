@@ -1,5 +1,6 @@
 class: interaction
 label: Interaction
+tier: authoring
 foundational_type:
   ontology: ufo
   type: relator

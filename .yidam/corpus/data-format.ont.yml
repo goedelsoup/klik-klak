@@ -1,5 +1,6 @@
 class: data-format
 label: Data Format
+tier: engine
 foundational_type:
   ontology: ufo
   type: kind

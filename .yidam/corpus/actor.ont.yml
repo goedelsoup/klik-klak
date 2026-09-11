@@ -1,5 +1,6 @@
 class: actor
 label: Actor
+tier: authoring
 foundational_type:
   ontology: ufo
   type: kind

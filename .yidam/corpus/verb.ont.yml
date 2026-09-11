@@ -1,5 +1,6 @@
 class: verb
 label: Verb
+tier: authoring
 foundational_type:
   ontology: ufo
   type: kind

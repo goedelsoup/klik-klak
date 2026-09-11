@@ -1,5 +1,6 @@
 class: subsystem
 label: Subsystem
+tier: engine
 foundational_type:
   ontology: ufo
   type: kind
