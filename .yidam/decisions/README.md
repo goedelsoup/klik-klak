@@ -90,7 +90,7 @@ does not re-emit it.
 
 ### [inert-reports](inert-reports.yml)
 
-- **:97** — **What this does not settle.** Whether the corpus should have an index at all. Three reports nagging about its absence is not evidence that it is wanted — `yidam query` answers structural questions and `pack` answers retrieval ones, both without embeddings, and no phase in this repository's life has…
+- **:107** — **What this does not settle.** Whether the corpus should have an index at all. Three reports nagging about its absence is not evidence that it is wanted — `yidam query` answers structural questions and `pack` answers retrieval ones, both without embeddings, and no phase in this repository's life has…
 
 ### [marker-count](marker-count.yml)
 
@@ -134,7 +134,7 @@ does not re-emit it.
 
 ### [unread-clock](unread-clock.yml)
 
-- **:113** — **What this does not settle.** Whether a question's age should be a fact the node carries. Blame is a lower bound and resets on a reword, and the only reason it reads correctly today is that nine phases revised `player-character` around line 14 without touching it — luck rather than design. A `since…
+- **:128** — **What this does not settle.** Whether a question's age should be a fact the node carries. Blame is a lower bound and resets on a reword, and the only reason it reads correctly today is that nine phases revised `player-character` around line 14 without touching it — luck rather than design. A `since…
 
 ### [unread-state](unread-state.yml)
 
@@ -159,4 +159,3 @@ nodes, at four times the rate, and it had never been looked at.
 - [name-scoping](name-scoping.yml)
 - [specimen-placement](specimen-placement.yml)
 - [threshold-trigger](threshold-trigger.yml)
-- [unread-clock](unread-clock.yml)

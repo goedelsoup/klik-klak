@@ -15,10 +15,11 @@
 //! asked — and it is not commits touching the file (29), commits touching the corpus (143), or
 //! first-parent commits (137) either.
 //!
-//! **And the age is one of three figures the config comment gives and does not hold.** The count
-//! of what the clock cannot see was wrong in the commit that wrote it — that commit pinned 32 and
-//! the sentence says 31 — and the share it quotes was right then and is not now. Unreadable,
-//! mistaken, decayed: three ways for a figure to be loose, in four sentences of one comment.
+//! **And the age was one of three figures that comment gave and held none of.** The count of what
+//! the clock cannot see was wrong in the commit that wrote it — that commit pinned 32 and the
+//! sentence said 31 — and the share was right then and not now. Unreadable, mistaken, decayed:
+//! three ways for a figure to be loose, in four sentences of one comment, and the same remedy for
+//! all three. Every figure that comment still gives is checked below.
 //!
 //! So the clock stays as a tripwire and the gauge is here. A question's age in this corpus is the
 //! commit that last wrote its marker line, which is a **lower bound** — a reword that leaves the
@@ -267,88 +268,100 @@ fn owed_in_records(root: &Path) -> usize {
     n
 }
 
-/// **The config comment states three figures about this clock and holds none of them.**
+/// **Every figure the config states about this clock is computed here.**
 ///
-/// The census this phase found, and the reason the remedy is a wire rather than a correction.
 /// `.yidam/config.toml` is where a reader goes when `due` prints a line they do not understand —
-/// `inert-reports` put the declines there for exactly that reason — and every quantity it gives
-/// them is loose.
+/// `inert-reports` put the declines there for exactly that reason — and before this check every
+/// quantity it gave them was loose, in three different ways:
 ///
-/// * **"at 86 commits"** — a reading no check derives, repeated into the record and into
+/// * **"at 86 commits"** — a reading no check derived, repeated into the record and into
 ///   `reports.rs`'s header, and not the age of the question under any measure computable here.
-/// * **"9 markers while 31 sit in `.yidam/decisions/`"** — wrong when it was written. The commit
-///   that shipped this sentence also shipped `assert_eq!((corpus, decisions), (9, 32))`, three
-///   files away in the same phase.
+///   Replaced by the event, which does not decay.
+/// * **"9 markers while 31 sit in `.yidam/decisions/`"** — **wrong when it was written.** The
+///   commit that shipped this sentence also shipped `assert_eq!((corpus, decisions), (9, 32))`,
+///   three files away in the same phase. Proximity is not a wire.
 /// * **"a statement about 22% of what is owed"** — right when it was written and stale since. Two
 ///   records have been added; the share is lower every time one is.
 ///
-/// Three figures, three different ways to be wrong: unreadable, mistaken, decayed. A correction
-/// fixes one of them once. [`collected-verdict`]'s remedy fixes all three whenever they move.
+/// Unreadable, mistaken, decayed. A correction fixes the second once and re-reading fixes the
+/// third once; neither touches the first, and all three come back the next time somebody writes a
+/// number into a comment. [`collected-verdict`]'s remedy is the only one that covers all three,
+/// and covers them again next phase.
 ///
 /// [`collected-verdict`]: ../../../.yidam/decisions/collected-verdict.yml
 #[test]
-fn the_config_states_three_figures_about_this_clock_and_holds_none_of_them() {
+fn every_figure_the_config_states_about_this_clock_is_computed_here() {
     let root = repo_root();
     let cfg = std::fs::read_to_string(root.join(".yidam/config.toml")).expect("readable");
 
-    let oldest = ages(&root).into_iter().next().expect("nine questions").1;
     assert!(
-        cfg.contains("86 commits") && oldest != 86,
-        "the age the config gives as the reason for the interval, against the age of the question"
+        cfg.contains("since genesis"),
+        "the config gives the age of the oldest question as an event, because a count decays \
+         between the writing and the reading"
     );
 
+    let figure = |after: &str| -> usize {
+        let at = cfg
+            .find(after)
+            .unwrap_or_else(|| panic!("the config no longer says {after:?}"));
+        cfg[..at]
+            .rsplit(|c: char| !c.is_ascii_digit())
+            .find(|s| !s.is_empty())
+            .and_then(|s| s.parse().ok())
+            .unwrap_or_else(|| panic!("no figure before {after:?}"))
+    };
     let owed = owed_in_records(&root);
-    assert!(
-        cfg.contains("31 sit in") && owed != 31,
-        "the count of what the clock cannot see, which was never 31"
-    );
-
     let corpus = asking(&root).len();
-    let share = corpus * 100 / (corpus + owed);
-    assert!(
-        cfg.contains("22% of what is owed") && share != 22,
+    assert_eq!(
+        (figure(" sit in `.yidam/decisions/`"), owed),
+        (owed, owed),
+        "what the config says the clock cannot see, against what it cannot see"
+    );
+    assert_eq!(
+        (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
+        (20, 20),
         "the share the config claims, against the share"
     );
 }
 
-/// **Three files state the age of the oldest question and none of them derived it.**
+/// **Every file that speaks about the oldest question points at what computes it.**
 ///
-/// The census this phase found. `.yidam/config.toml` gives *"at 86 commits"* as the reason the
-/// interval is 100, `.yidam/decisions/inert-reports.yml` gives the same figure and predicts the
-/// clock *"fires within a phase or two"*, and `reports.rs`'s header repeats it. Two phases and ten
-/// commits later the tool reads 88, so the prediction was wrong about the rate as well as the
-/// quantity — and nothing anywhere would have said so.
+/// Three did not. `.yidam/config.toml` gave *"at 86 commits"* as the reason the interval is 100,
+/// `.yidam/decisions/inert-reports.yml` gave the same figure and predicted the clock *"fires
+/// within a phase or two"*, and this crate's `reports.rs` header repeated it. Two phases and ten
+/// commits later the tool read 88, so the prediction was wrong about the rate as well as the
+/// quantity, and nothing anywhere would have said so.
 ///
 /// This is [`collected-verdict`]'s shape exactly, one phase on: a measured figure copied into
 /// prose with nothing holding the copies together. That record's remedy was a check that reads the
-/// statements and compares them to what it computes, and this is the same wire on a different
-/// figure.
+/// statements and compares them to what it computes, and this is the same wire on a figure that
+/// had reached three files including a test.
+///
+/// What is required is not silence about the age — it is that a file giving one names the event
+/// this check derives, or names this check. A number with a provenance can be re-read; a number
+/// without one gets copied.
 ///
 /// [`collected-verdict`]: ../../../.yidam/decisions/collected-verdict.yml
 #[test]
-fn every_statement_of_the_oldest_question_agrees_with_this_check() {
+fn every_statement_of_the_oldest_question_points_at_what_computes_it() {
     let root = repo_root();
-    let speaking = [
+    let mut loose = Vec::new();
+    for f in [
         ".yidam/config.toml",
         ".yidam/decisions/inert-reports.yml",
         "crates/design-gate/tests/reports.rs",
-    ];
-    let quoting: Vec<&str> = speaking
-        .into_iter()
-        .filter(|f| {
-            std::fs::read_to_string(root.join(f))
-                .expect("readable")
-                .contains("86 commits")
-        })
-        .collect();
-    assert_eq!(
-        quoting, speaking,
-        "the three files that set, argue for and document the interval, all carrying one figure"
-    );
-
-    let oldest = ages(&root).into_iter().next().expect("nine questions").1;
-    assert_ne!(
-        oldest, 86,
-        "if these ever agreed the census would be wrong, and the figure would still be a copy"
+    ] {
+        let src = std::fs::read_to_string(root.join(f)).expect("readable");
+        if !src.contains("oldest") && !src.contains("86 commits") {
+            continue;
+        }
+        if !(src.contains("genesis") || src.contains("clock.rs") || src.contains("unread-clock")) {
+            loose.push(f);
+        }
+    }
+    assert!(
+        loose.is_empty(),
+        "a file giving the age of the oldest question without naming the event or the check:\n  {}",
+        loose.join("\n  ")
     );
 }

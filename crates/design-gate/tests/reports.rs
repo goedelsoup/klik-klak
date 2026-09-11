@@ -19,9 +19,13 @@
 //! `questions_after` counts commits, `phases_after` counts days, and `catalog.ttl_days` is the only
 //! one whose name carries its unit. An undeclared clock reports only that it is undeclared, so
 //! there is exactly one way to learn the unit: set a value and read what `due` prints back. The
-//! first draft of that record guessed days for both and was wrong about the one that matters — the
-//! oldest open question here is `actor/player-character` at **86 commits**, so a clock expected to
-//! be decorative is about to ring.
+//! first draft of that record guessed days for both and was wrong about the one that matters.
+//!
+//! **What it then got wrong is the magnitude.** This header carried a reading — the oldest question
+//! at 86 commits, a clock about to ring — that nothing derived and that is not the age of a
+//! question: `clock.rs` ages the oldest at **genesis** and the report has never called it due. The
+//! figure is gone from here because a test header is the last place a number should sit
+//! unchecked. `.yidam/decisions/unread-clock.yml`.
 
 use design_gate::repo_root;
 use std::path::Path;
@@ -103,7 +107,7 @@ fn every_due_clock_is_declared_or_declined_in_writing() {
 /// **The questions clock sees a quarter of what the repository owes.**
 ///
 /// `yidam open-questions` walks `.yidam/corpus/` and nothing else, so the clock a declared
-/// `questions_after` starts is a clock over 9 markers while 31 more sit in the decision records.
+/// `questions_after` starts is a clock over 9 markers while 35 more sit in the decision records.
 /// [`markers.rs`] measured that ratio and `.yidam/decisions/README.md` lists the larger share; what
 /// this pins is that **declaring the clock does not widen it**, so a green `due` is a statement
 /// about a quarter of the questions and the record says so.

@@ -103,6 +103,21 @@ rationale: |
   the clocks ran the experiment, took one number out of it, and wrote three numbers down.
   **Attention is not the remedy; a wire is.**
 
+  **Re-pinning the counts this record moved turned up two more, which is the argument restated
+  as a measurement.** Settling a phase moves the marker and record totals, so the pins have to be
+  re-read — and beside four of them sat prose giving the same figure in words. Two of the four were
+  stale: `records.rs` said *"Eight of forty-seven records are cited by nothing"* over an assertion
+  listing seven of fifty-five, and its own failure message described a list that had not looked
+  like that for a phase. A third, *"Sixteen of forty-five have a commit after the one that wrote
+  them"*, was stale in the test **and** in [record-lifecycle](record-lifecycle.yml), which is the
+  record that established the rule the sentence states.
+
+  Five figures in thirteen statements across six files, corrected here. Four of the five had a live
+  assertion holding the right value a few lines away, which is not a wire — **a doc comment is
+  updated by the hand that re-pins, and that hand is reading a failure message rather than the
+  paragraph above it.** The one with no assertion anywhere is the one this phase is named for.
+  [verified]
+
   **What this does not settle.** Whether a question's age should be a fact the node carries. Blame
   is a lower bound and resets on a reword, and the only reason it reads correctly today is that
   nine phases revised `player-character` around line 14 without touching it — luck rather than
