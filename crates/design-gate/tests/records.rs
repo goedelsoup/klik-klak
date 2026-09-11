@@ -6,7 +6,7 @@
 //! | bytes | 361 K | **307 K** |
 //! | tagged claims | 559 | **305** |
 //! | live open questions | 7 | **28** |
-//! | citations out | 96 edges + 86 prose | **238** |
+//! | citations out | 96 edges + 86 prose | **239** |
 //!
 //! They were 42 apiece when this file was written. The forty-third record is the one deciding
 //! what a record is.
@@ -274,7 +274,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (238, 41, 30));
+    assert_eq!((total, mentions, tests.len()), (239, 41, 30));
 }
 
 /// **Sixteen of forty-two records are cited by nothing, against three of forty-two nodes.**
@@ -304,13 +304,12 @@ fn a_record_nothing_cites_is_named() {
             "effect-half",
             "effect-vocabulary",
             "name-scoping",
-            "record-lifecycle",
             "specimen-placement",
             "threshold-trigger",
         ]
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (46, 92));
+    assert_eq!((c.len(), edges), (46, 93));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -399,8 +398,8 @@ fn the_index_this_directory_never_had_is_current() {
 /// a prior one by `id`."* This repository edits them. **Sixteen of forty-five have a commit after
 /// the one that wrote them** — nineteen `revise:` and four `decide:`.
 ///
-/// Read against the rule that looks like a violation. Measured, it is not: **fifteen of the
-/// sixteen kept their `summary:` byte-for-byte**, and the sixteenth changed a *figure* —
+/// Read against the rule that looks like a violation. Measured, it is not: **sixteen of the
+/// seventeen kept their `summary:` byte-for-byte**, and the other changed a *figure* —
 /// `latch-default` went from `31 of 40` to `32 of 41` when a census defect was found in the
 /// extractor that produced it. No record's decision has ever been revised. What the edits do is
 /// keep the *account*: what the figures turned out to be, what the record left open, what closed
@@ -439,7 +438,7 @@ fn no_record_has_changed_what_it_decided() {
         }
     }
     assert_eq!(
-        edited, 16,
+        edited, 17,
         "records with a commit after the one that wrote them"
     );
     assert_eq!(

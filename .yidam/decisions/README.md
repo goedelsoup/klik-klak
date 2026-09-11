@@ -87,7 +87,7 @@ does not re-emit it.
 
 ### [record-layer](record-layer.yml)
 
-- **:114** — **What this does not settle.** Whether the migration should be reversed rather than gated. Every phase for six phases has answered a corpus question in a record, and the corpus node it answers now often carries a pointer where it used to carry the argument — which is legible to a reader following li…
+- **:123** — **What this does not settle.** Whether the migration should be reversed rather than gated. Every phase for six phases has answered a corpus question in a record, and the corpus node it answers now often carries a pointer where it used to carry the argument — which is legible to a reader following li…
 
 ### [record-lifecycle](record-lifecycle.yml)
 
@@ -129,6 +129,5 @@ nodes, at four times the rate, and it had never been looked at.
 - [effect-half](effect-half.yml)
 - [effect-vocabulary](effect-vocabulary.yml)
 - [name-scoping](name-scoping.yml)
-- [record-lifecycle](record-lifecycle.yml)
 - [specimen-placement](specimen-placement.yml)
 - [threshold-trigger](threshold-trigger.yml)
