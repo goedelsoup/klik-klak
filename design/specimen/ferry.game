@@ -67,7 +67,7 @@ room bank
       do    spend coin 3
       do    set paid
       do    move far
-      else  "\"Three,\" he says, without looking up."
+      else  ""Three," he says, without looking up."
 
 # ── the hut ───────────────────────────────────────────────────────────────────
 

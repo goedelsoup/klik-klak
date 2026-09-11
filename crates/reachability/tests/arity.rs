@@ -259,8 +259,10 @@ fn binary_frame(src: &str) -> usize {
 /// the key was saying for free.
 ///
 /// The two totals fell by eight when `availability` deleted two unreachable refusals, both of them
-/// on binary bindings and both there because the key had already refused. The difference between
-/// them did not move.
+/// on binary bindings and both there because the key had already refused. They fell by one more
+/// when `authored-text` took a needless escape out of the ferryman's refusal — a specimen edit
+/// nothing could have justified until the response text was kept. **The difference between them
+/// has not moved once**, which is the figure this check is for.
 ///
 /// `binary-dimension` reached the same conclusion structurally — the reduction *"moves the item is
 /// carried out of the first group and into the third"* — and filed the authoring cost as
@@ -273,7 +275,7 @@ fn writing_the_reduction_costs_more_than_the_key_it_removes() {
         before += binary_frame(src);
         after += binary_frame(&unarise_source(src));
     }
-    assert_eq!((before, after), (818, 942));
+    assert_eq!((before, after), (817, 941));
     assert!(after * 100 > before * 114 && after * 100 < before * 116);
 }
 

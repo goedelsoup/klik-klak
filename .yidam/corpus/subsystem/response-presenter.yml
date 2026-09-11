@@ -8,11 +8,17 @@ description: |
   **It is named here because the resolver's output had no consumer.**
   [interaction-resolver](interaction-resolver.yml) is described as producing *"either the response
   or the refusal"*, and nothing in this corpus said what becomes of one. Three subsystems were
-  seeded and all three stop at the moment the answer is known. That absence appears twice in the
-  same shape: `.yidam/decisions/effect-list-semantics.yml` states that the proposed format's
+  seeded and all three stop at the moment the answer is known. That absence appeared twice in the
+  same shape: `.yidam/decisions/effect-list-semantics.yml` stated that the proposed format's
   reader *"has matched `say | otherwise => {}` since it was written, and `Binding` has no field for
-  response text"*, and calls that a position rather than an omission. It is the right position for
-  a checker and it leaves the player-facing half of every binding unmodelled on both sides.
+  response text"*, and called that a position rather than an omission — so the player-facing half
+  of every binding was unmodelled on both sides.
+
+  **Half of that is fixed and it is the half this node was seeded by.**
+  `.yidam/decisions/authored-text.yml` found the sentence to be two claims and kept only the first:
+  the state model ignores presentation, and the parse tree no longer discards it. A `Binding`
+  carries what it says and what it refuses, a `Game` carries its labels, and there is now something
+  for this component to be given. [verified] What is still unmodelled is this component itself.
 
   **The surface is unbounded and what a binding reaches for is three kinds wide.** Delores's engine
   manual documents roughly 140 presentation functions — 39 actor, 37 image, 23 object, 19 sound, 19

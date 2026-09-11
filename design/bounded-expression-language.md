@@ -756,10 +756,11 @@ or that anybody would enjoy writing in it.
   which is a checker rather than a runtime — the analysis says a game *can* be finished, and
   nothing here has ever played one.
 
-  [`engine/`](../engine/) exists with a contract and a gate and no code
+  [`engine/`](../engine/) exists with a contract and a gate
   ([`engine-directory`](../.yidam/decisions/engine-directory.yml)), and the corpus specifies four
-  components for it to hold. The nearest obstacle is not in this document: `crates/game-format`
-  matches `"say" | "otherwise" => {}` and keeps no declaration label, so **half the characters an
-  author writes are discarded at the parse** — correct for a checker
-  ([`effect-list-semantics`](../.yidam/decisions/effect-list-semantics.yml)) and fatal for a
-  runtime.
+  components for it to hold. The obstacle this bullet named — `crates/game-format` matching
+  `"say" | "otherwise" => {}` and keeping no declaration label, so **half the characters an author
+  writes were discarded at the parse** — is gone
+  ([`authored-text`](../.yidam/decisions/authored-text.yml)). The tree keeps every character and
+  the state model still reads none of it, which is the half of
+  [`effect-list-semantics`](../.yidam/decisions/effect-list-semantics.yml) that was a position.

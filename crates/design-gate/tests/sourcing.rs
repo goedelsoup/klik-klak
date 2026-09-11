@@ -132,7 +132,7 @@ fn the_instrument_is_a_kind_of_evidence_the_register_has_no_slot_for() {
             catalog: 119,
             instrument: 54,
             both: 5,
-            carried: 152,
+            carried: 153,
         }
     );
     assert_eq!(

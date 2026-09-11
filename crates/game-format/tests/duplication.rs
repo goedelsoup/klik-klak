@@ -83,7 +83,7 @@ fn shape(b: &game_format::Binding) -> String {
         b.verb,
         if b.object.is_some() { "<obj> " } else { "" },
         b.when.as_ref().map(pred).unwrap_or_else(|| "-".into()),
-        b.guards.iter().map(pred).collect::<Vec<_>>().join(", "),
+        b.guards().map(pred).collect::<Vec<_>>().join(", "),
         b.effects.iter().map(effect).collect::<Vec<_>>().join(", "),
         if b.ending { " ENDING" } else { "" },
     )

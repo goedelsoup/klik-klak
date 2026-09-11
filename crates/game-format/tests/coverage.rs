@@ -137,7 +137,7 @@ fn written() -> BTreeMap<String, usize> {
                 Site::InConversation { .. } => bump("in-conversation"),
                 Site::OnEnter { .. } => bump("on-enter?"),
             }
-            for p in b.when.iter().chain(&b.guards) {
+            for p in b.when.iter().chain(b.guards()) {
                 walk(p, &mut bump);
             }
             for e in &b.effects {

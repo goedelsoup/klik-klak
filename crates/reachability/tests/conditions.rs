@@ -67,7 +67,7 @@ fn every_pred(g: &Game) -> Vec<&Pred> {
         if let Some(w) = &b.when {
             v.push(w);
         }
-        v.extend(b.guards.iter());
+        v.extend(b.guards());
     }
     v
 }
@@ -139,7 +139,7 @@ fn the_pressure_is_a_sequence_and_it_is_all_on_one_target() {
             if let Some(w) = &b.when {
                 subjects(w, &mut s);
             }
-            for gd in &b.guards {
+            for gd in b.guards() {
                 subjects(gd, &mut s);
             }
             s.iter().any(|x| x == "lamp-prep")
@@ -267,7 +267,7 @@ fn containment_is_spelled_in_the_hotspot_name() {
             if let Some(w) = &b.when {
                 subjects(w, &mut s);
             }
-            for gd in &b.guards {
+            for gd in b.guards() {
                 subjects(gd, &mut s);
             }
             if s.iter().any(|x| x == flag) {

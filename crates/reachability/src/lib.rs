@@ -213,7 +213,7 @@ impl<'a> Index<'a> {
             }
         }
         for b in &game.bindings {
-            for q in b.when.iter().chain(b.guards.iter()) {
+            for q in b.when.iter().chain(b.guards()) {
                 asked_chosen(q, &mut options);
             }
         }
@@ -248,7 +248,7 @@ impl<'a> Index<'a> {
             }
         }
         for b in &game.bindings {
-            for q in b.when.iter().chain(b.guards.iter()) {
+            for q in b.when.iter().chain(b.guards()) {
                 asked(q, &mut actors);
             }
             for e in &b.effects {
@@ -295,7 +295,7 @@ impl<'a> Index<'a> {
             }
         }
         for b in &game.bindings {
-            for q in b.when.iter().chain(b.guards.iter()) {
+            for q in b.when.iter().chain(b.guards()) {
                 reads(q, &mut rflags, &mut rcounters, &mut ritems);
             }
             if let Some(o) = &b.object {

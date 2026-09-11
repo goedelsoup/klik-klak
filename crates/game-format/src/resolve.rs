@@ -214,9 +214,12 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
         if let Some(o) = &mut b.object {
             fix(&declared, o, Kind::Item, &scope, line, &mut out);
         }
-        let mut preds: Vec<&mut Pred> = b.when.iter_mut().collect();
-        preds.extend(b.guards.iter_mut());
-        for q in preds {
+        // Two loops rather than one list: `guards_mut` borrows the whole binding, so it cannot
+        // be collected alongside a borrow of `when`.
+        for q in b.when.iter_mut() {
+            walk_pred(q, &declared, &scope, line, &mut out, &bounds);
+        }
+        for q in b.guards_mut() {
             walk_pred(q, &declared, &scope, line, &mut out, &bounds);
         }
         for e in &mut b.effects {
@@ -270,7 +273,7 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
     // to compare against and the answer would be whatever the search happened to default to.
     let mut asked: Vec<String> = Vec::new();
     for b in &game.bindings {
-        for q in b.when.iter().chain(b.guards.iter()) {
+        for q in b.when.iter().chain(b.guards()) {
             collect_asked(q, &mut asked);
         }
         // Being moved counts too: `crates/reachability` gates an actor's site on where the
@@ -520,7 +523,7 @@ fn unreachable_values(game: &Game, out: &mut Vec<Problem>) {
             if let Some(w) = &b.when {
                 walk(w);
             }
-            for g in &b.guards {
+            for g in b.guards() {
                 walk(g);
             }
         }

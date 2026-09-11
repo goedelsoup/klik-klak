@@ -92,7 +92,17 @@ impl P {
 
     /// Declare `name` in `scope`, under its canonical name. A declaration always knows its
     /// own scope, so only *references* need a second pass.
-    fn declare_in(&mut self, name: &str, kind: Kind, no: usize, scope: &Scope) -> String {
+    ///
+    /// The label is taken here rather than at the call sites, so a declaration cannot quietly
+    /// fail to record one. `.yidam/decisions/authored-text.yml`.
+    fn declare_in(
+        &mut self,
+        name: &str,
+        kind: Kind,
+        no: usize,
+        scope: &Scope,
+        label: Option<&str>,
+    ) -> String {
         let canonical = scope.qualify(name);
         if let Some((prior, at)) = self.game.declared.get(&canonical) {
             let (prior, at) = (*prior, *at);
@@ -103,11 +113,30 @@ impl P {
             return canonical;
         }
         self.game.declared.insert(canonical.clone(), (kind, no));
+        if let Some(l) = label {
+            self.game.labels.insert(canonical.clone(), l.to_string());
+        }
         canonical
     }
 
-    fn declare(&mut self, name: &str, kind: Kind, no: usize) {
-        self.declare_in(name, kind, no, &Scope::Global);
+    fn declare(&mut self, name: &str, kind: Kind, no: usize, label: Option<&str>) -> String {
+        self.declare_in(name, kind, no, &Scope::Global, label)
+    }
+
+    /// Add a line to the binding being read.
+    fn respond(&mut self, refusing: bool, when: Option<Pred>, text: String, no: usize) {
+        let r = Response {
+            when,
+            text,
+            line: no,
+        };
+        if let Some(b) = self.binding.as_mut() {
+            if refusing {
+                b.refusals.push(r);
+            } else {
+                b.says.push(r);
+            }
+        }
     }
 
     fn flush(&mut self) {
@@ -127,7 +156,7 @@ impl P {
             // second key had already done the refusing: you cannot use the lantern on the
             // gate without the lantern. `.yidam/decisions/availability.yml`.
             if let Some(line) = refusal {
-                if b.when.is_none() && b.guards.is_empty() {
+                if b.when.is_none() && b.guards().next().is_none() {
                     self.problems.push(Problem {
                         line,
                         message: format!(
@@ -153,7 +182,8 @@ impl P {
             object,
             when: None,
             refuses: false,
-            guards: Vec::new(),
+            says: Vec::new(),
+            refusals: Vec::new(),
             effects: Vec::new(),
             ending: false,
             line: no,
@@ -184,8 +214,10 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
 
         // a bare quoted line is an unguarded response
         if t.is_empty() {
-            if line.text.is_some() && p.binding.is_none() {
-                p.err(no, "response text outside a binding");
+            match (line.text.clone(), p.binding.is_some()) {
+                (Some(text), true) => p.respond(false, None, text, no),
+                (Some(_), false) => p.err(no, "response text outside a binding"),
+                (None, _) => {}
             }
             continue;
         }
@@ -196,7 +228,7 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 if t.len() != 2 {
                     p.err(no, "a room declaration is `room <name> \"<label>\"`");
                 } else {
-                    p.declare(t[1], Kind::Room, no);
+                    p.declare(t[1], Kind::Room, no, line.text.as_deref());
                     p.game.rooms.push(t[1].to_string());
                 }
             }
@@ -206,7 +238,9 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 p.conv = None;
                 p.site = None;
             }
-            "actor" if line.text.is_some() => p.declare(t[1], Kind::Actor, no),
+            "actor" if line.text.is_some() => {
+                p.declare(t[1], Kind::Actor, no, line.text.as_deref());
+            }
             "actor" => {
                 p.flush();
                 match &p.room {
@@ -220,7 +254,7 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 }
             }
             "item" => {
-                p.declare(t[1], Kind::Item, no);
+                p.declare(t[1], Kind::Item, no, line.text.as_deref());
                 p.game.items.push(t[1].to_string());
                 // `item coin 0..9` is `quantity: many`; a bare `item crowbar` is one.
                 let cap = match t.get(2).and_then(|r| r.split_once("..")) {
@@ -243,7 +277,7 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                     Some(c) => Scope::Conversation(c.clone()),
                     None => Scope::Global,
                 };
-                let name = p.declare_in(t[1], Kind::Flag, no, &scope);
+                let name = p.declare_in(t[1], Kind::Flag, no, &scope, line.text.as_deref());
                 p.game.flags.push(Flag {
                     name,
                     latched,
@@ -252,7 +286,7 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 });
             }
             "counter" => {
-                p.declare(t[1], Kind::Counter, no);
+                p.declare(t[1], Kind::Counter, no, line.text.as_deref());
                 let (lo, hi) = match t.get(2).and_then(|r| r.split_once("..")) {
                     Some((a, b)) => (a.parse().unwrap_or(0), b.parse().unwrap_or(0)),
                     None => {
@@ -269,7 +303,7 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
             }
             "conversation" => {
                 p.flush();
-                p.declare(t[1], Kind::Conversation, no);
+                p.declare(t[1], Kind::Conversation, no, line.text.as_deref());
                 p.conv = Some(t[1].to_string());
                 p.room = None;
                 p.site = None;
@@ -279,7 +313,8 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 match p.room.clone() {
                     Some(r) => {
                         let scope = Scope::Room(r.clone());
-                        let target = p.declare_in(t[1], Kind::Hotspot, no, &scope);
+                        let target =
+                            p.declare_in(t[1], Kind::Hotspot, no, &scope, line.text.as_deref());
                         p.site = Some(Site::InRoom { room: r, target });
                     }
                     None => p.err(no, "a hotspot outside a room section"),
@@ -288,7 +323,8 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
             "option" => match p.conv.clone() {
                 Some(c) => {
                     let scope = Scope::Conversation(c.clone());
-                    let option = p.declare_in(t[1], Kind::Option_, no, &scope);
+                    let option =
+                        p.declare_in(t[1], Kind::Option_, no, &scope, line.text.as_deref());
                     let site = Site::InConversation {
                         conversation: c,
                         option,
@@ -326,7 +362,7 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 (Some(r), Some(name), Some(&"to"), Some(dest)) => {
                     p.flush();
                     let scope = Scope::Room(r.clone());
-                    let target = p.declare_in(name, Kind::Hotspot, no, &scope);
+                    let target = p.declare_in(name, Kind::Hotspot, no, &scope, None);
                     let site = Site::InRoom {
                         room: r,
                         target: target.clone(),
@@ -381,7 +417,19 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 };
                 match t[0] {
                     "ending" => p.binding.as_mut().unwrap().ending = true,
-                    "say" | "otherwise" => {}
+                    // **A `say` and an `otherwise` are one construct**: a line with no predicate.
+                    // What makes the second a fallback is that it is written after the guarded
+                    // ones, not that it is spelled differently — so both land in the same list
+                    // and the list is read first-match-wins.
+                    //
+                    // This arm was `{}` for six phases and dropped every word a game says.
+                    // `.yidam/decisions/authored-text.yml` separates the two claims that made
+                    // that look like a position: the state model ignoring presentation, which it
+                    // still does, and the reader throwing it away, which it no longer does.
+                    "say" | "otherwise" => match line.text.clone() {
+                        Some(text) => p.respond(false, None, text, no),
+                        None => p.err(no, format!("`{}` with no line", t[0])),
+                    },
                     "do" => match effect(&t[1..], &p.game) {
                         Ok(e) => p.binding.as_mut().unwrap().effects.push(e),
                         Err(m) => p.err(no, m),
@@ -393,29 +441,52 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                         // menu the distinction that matters is whether an else exists at all,
                         // and `lighthouse.game`'s oil-can refuses in two worded branches and
                         // never bare.
-                        if t[0] == "else" {
+                        let refusing = t[0] == "else";
+                        if refusing {
                             p.binding.as_mut().unwrap().refuses = true;
                         }
                         if t.len() <= head {
                             // a bare `else "text"` is a refusal and carries no predicate
-                            if t[0] == "else" {
+                            if refusing {
                                 p.refusal = Some(no);
+                                if let Some(text) = line.text.clone() {
+                                    p.respond(true, None, text, no);
+                                }
+                            } else if line.text.is_some() {
+                                // `when "<line>"` is a line that always applies, which is what
+                                // `otherwise` spells. It was dropped in silence until the lines
+                                // were kept, and silence is what this reader exists not to do.
+                                p.err(
+                                    no,
+                                    "a `when` carrying a line needs a predicate — `otherwise` is \
+                                     the spelling for one that always applies",
+                                );
                             }
                             continue;
                         }
                         match pred(&t[head..]) {
-                            Ok(q) => {
-                                let b = p.binding.as_mut().unwrap();
-                                // a predicate with text beside it selects a line; one without
-                                // it gates the binding
-                                if line.text.is_some() || t[0] == "else" {
-                                    b.guards.push(q);
-                                } else if b.when.is_some() {
-                                    p.err(no, "this binding already has a `when`");
-                                } else {
-                                    b.when = Some(q);
+                            // a predicate with text beside it selects a line; one without it
+                            // gates the binding
+                            Ok(q) => match (line.text.clone(), refusing) {
+                                (Some(text), _) => p.respond(refusing, Some(q), text, no),
+                                (None, false) => {
+                                    let b = p.binding.as_mut().unwrap();
+                                    if b.when.is_some() {
+                                        p.err(no, "this binding already has a `when`");
+                                    } else {
+                                        b.when = Some(q);
+                                    }
                                 }
-                            }
+                                // A refusal writes no state, so a guarded one with no line is a
+                                // predicate that does nothing whatever: the binding already
+                                // declines by having an `else` at all. Reachable only since the
+                                // lines were kept, because there was nothing to be missing.
+                                (None, true) => p.err(
+                                    no,
+                                    "an `else when` needs a line — a guarded refusal with \
+                                     nothing to say is a predicate with no effect",
+                                ),
+                            },
                             Err(m) => p.err(no, m),
                         }
                     }

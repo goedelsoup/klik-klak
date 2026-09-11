@@ -41,9 +41,18 @@ decision: |
   - **Atomic.** A binding is one edge in the state graph. Nothing observes a value between two
     effects — not the player, not another binding, not the checker.
 
-  **`say` is presentation and not an effect.** It was already: the reader has matched
-  `"say" | "otherwise" => {}` since it was written, and `Binding` has no field for response
-  text. That is now the stated position rather than an omission in a parser.
+  **`say` is presentation and not an effect.** A line writes no state, so it is not an edge in the
+  state graph, and the search need not see it.
+
+  *(Corrected in `phase/authored-text`. The paragraph continued: "It was already: the reader has
+  matched `"say" | "otherwise" => {}` since it was written, and `Binding` has no field for
+  response text. That is now the stated position rather than an omission in a parser." Two claims,
+  and only the first was a decision. The reader dropped the text because the only thing downstream
+  was the search; the sentence took that and promoted it to a position, and the two come apart the
+  moment there is a second reader. `Binding` has `says` and `refusals` and `Game` has `labels` as
+  of [authored-text](authored-text.yml) — and the state model goes on ignoring every one of them,
+  which is what the first claim always meant. The evidence that it held is that **not one number
+  this project publishes moved** when the fields were filled.)*
 
   **Duration is a mode in the state, not a pause in a transition.** This vocabulary already has
   one — `interaction -opens-> conversation` enters it, `conversation -returns-control-to->
