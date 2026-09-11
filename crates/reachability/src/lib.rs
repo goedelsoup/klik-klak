@@ -19,7 +19,7 @@
 //! against what the game actually does.
 
 use game_format::{Binding, Effect, Game, Pred, Site};
-use std::collections::{BTreeMap, HashMap, HashSet, VecDeque};
+use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet, VecDeque};
 
 #[derive(Clone, PartialEq, Eq, Hash, Debug)]
 pub struct State {
@@ -88,6 +88,22 @@ pub struct Report {
     /// not, and this is the one direction the checker could not previously see: a declaration
     /// that is true and absent costs nothing to make and buys the guarantee.
     pub unclaimed_latches: Vec<String>,
+    /// Distinct `(target, verb)` entries a contextual menu would ever show, and how many of
+    /// them are already showing before the player has done anything.
+    ///
+    /// The gap between them is what the interface tells the player over the course of the game
+    /// without being asked — `default-binding` names that cost and had no number for it: *"what
+    /// the player learns: what the object affords, before trying"*.
+    pub menu_entries: (usize, usize),
+    /// Every `(reachable state, target, verb)` the menu holds — the size of the interface summed
+    /// over the whole game, where [`Report::menu_entries`] counts each entry once however long it
+    /// is up.
+    ///
+    /// This is the one an author's choice between withholding and refusing moves: both forms show
+    /// the entry *somewhere*, and what an `else` buys is the states where the guard fails.
+    pub menu_slots: usize,
+    /// Bindings in no menu in any reachable state: authored, and never shown to anybody.
+    pub unshown: Vec<String>,
     /// per counter, whether it only ever rises across a reachable transition
     pub monotone_counters: Vec<(String, bool)>,
     /// Where a game handed out more of an item than it declared room for.
@@ -381,7 +397,40 @@ impl<'a> Index<'a> {
     /// Is this binding offered in this state? Site and mode first, then the two structural
     /// preconditions `interaction/binary-binding` says the format enforces, then the
     /// authored one.
+    ///
+    /// **"Offered" here means *can fire*, and that is not what an interface means by it.** The
+    /// difference is the last line: a binding whose `when` fails is not a transition, and a
+    /// binding whose `when` fails *with a refusal under it* is still shown to the player and
+    /// declines. [`Ix::in_menu`] is the other sense, and the two were the same function for
+    /// seven phases because the search was the only reader.
     fn offered(&self, b: &Binding, s: &State) -> bool {
+        self.live(b, s) && b.when.as_ref().map(|q| self.holds(q, s)).unwrap_or(true)
+    }
+
+    /// **What a contextual menu would show at this binding's target in this state.**
+    ///
+    /// This design has an interface and never declared one. It does not need to: the derivation
+    /// is three decisions taken separately, for reasons that were not about a player at all.
+    ///
+    /// - `.yidam/decisions/default-binding.yml` — the menu holds authored bindings and nothing
+    ///   stands in for an unauthored cell, which is why [`Ix::live`] enumerates rather than
+    ///   crosses.
+    /// - `.yidam/decisions/arity-cost.yml` — a binary verb is keyed by its second object, so its
+    ///   entry appears only while that object is carried. That is the `b.object` clause below.
+    /// - `.yidam/decisions/availability.yml` — a `when` with no `else` **withholds** and a `when`
+    ///   with one **offers and declines**. That is the whole of the last line.
+    ///
+    /// An `on-enter` binding is never in a menu, because it is forced rather than chosen and
+    /// there is no target to point at.
+    fn in_menu(&self, b: &Binding, s: &State) -> bool {
+        !matches!(b.site, Site::OnEnter { .. })
+            && self.live(b, s)
+            && (b.refuses || b.when.as_ref().map(|q| self.holds(q, s)).unwrap_or(true))
+    }
+
+    /// Everything `offered` asks except the authored guard: is the target there to be pointed
+    /// at, and does the player hold what a binary verb needs?
+    fn live(&self, b: &Binding, s: &State) -> bool {
         match (&b.site, s.mode) {
             (Site::InConversation { conversation, .. }, Some(m)) => {
                 if slot(&self.convs, conversation) != m {
@@ -424,7 +473,7 @@ impl<'a> Index<'a> {
                 return false;
             }
         }
-        b.when.as_ref().map(|q| self.holds(q, s)).unwrap_or(true)
+        true
     }
 
     /// The same transition with its spends left out. Used to ask whether the spending is
@@ -719,6 +768,60 @@ pub fn analyse(game: &Game) -> Report {
         .collect();
     strandings.sort_by_key(|s| s.line);
 
+    // **The interface this design never declared, held against the game.**
+    //
+    // `.yidam/decisions/tier-split.yml` recorded that four questions have resolved at a third
+    // answer site the ontology has no tier for, and that this design has never specified one.
+    // It turns out to have specified one all along, in pieces, none of which was about a
+    // player: see `Ix::in_menu`. This is what falls out of reading them together.
+    //
+    // The sweep is over **every** binding and not over `acting`, which is the first thing the
+    // menu shows that the search cannot: 42 of the four specimens' 91 bindings are `look-at`
+    // with no effects, so they are filtered out of the transition graph before it is built and
+    // are the largest single thing a player is shown.
+    let mut shown_ever: BTreeSet<(String, String)> = BTreeSet::new();
+    let mut shown_at_start: BTreeSet<(String, String)> = BTreeSet::new();
+    let mut unshown: Vec<String> = Vec::new();
+    let mut menu_slots = 0usize;
+    for b in &game.bindings {
+        if matches!(b.site, Site::OnEnter { .. }) {
+            continue;
+        }
+        let key = match &b.site {
+            Site::InRoom { room, target } => (format!("{room}/{target}"), b.verb.clone()),
+            Site::InConversation {
+                conversation,
+                option,
+            } => (format!("{conversation}/{option}"), b.verb.clone()),
+            Site::OnEnter { .. } => unreachable!(),
+        };
+        let mut ever = false;
+        for (i, st) in states.iter().enumerate() {
+            if ix.in_menu(b, st) {
+                ever = true;
+                menu_slots += 1;
+                shown_ever.insert(key.clone());
+                if i == 0 {
+                    shown_at_start.insert(key.clone());
+                }
+            }
+        }
+        if !ever {
+            unshown.push(format!(
+                "`{}{}` at line {} is in no menu in any reachable state, so it is written and \
+                 never shown",
+                b.verb,
+                b.object
+                    .as_ref()
+                    .map(|o| format!(" {o}"))
+                    .unwrap_or_default(),
+                b.line
+            ));
+        }
+    }
+    unshown.sort();
+    unshown.dedup();
+
     // the corpus claims a latching flag never goes back; hold it against the game, both ways
     let mut latch_violations = Vec::new();
     let mut unclaimed_latches = Vec::new();
@@ -843,6 +946,9 @@ pub fn analyse(game: &Game) -> Report {
         strandings,
         latch_violations,
         unclaimed_latches,
+        menu_entries: (shown_ever.len(), shown_at_start.len()),
+        menu_slots,
+        unshown,
         monotone_counters,
         overflows,
         observed_space: observed,
@@ -911,6 +1017,12 @@ impl Report {
         if !self.latch_violations.is_empty() {
             s.push_str("\nLatch declarations contradicted by the game:\n");
             for v in &self.latch_violations {
+                s.push_str(&format!("  {v}\n"));
+            }
+        }
+        if !self.unshown.is_empty() {
+            s.push_str("\nAuthored and shown to nobody:\n");
+            for v in &self.unshown {
                 s.push_str(&format!("  {v}\n"));
             }
         }

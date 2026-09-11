@@ -152,6 +152,7 @@ impl P {
             verb: verb.to_string(),
             object,
             when: None,
+            refuses: false,
             guards: Vec::new(),
             effects: Vec::new(),
             ending: false,
@@ -386,6 +387,15 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                         Err(m) => p.err(no, m),
                     },
                     "when" | "else" => {
+                        // Any `else`, bare or guarded, is the binding saying *shown and
+                        // declines* rather than *withheld*. The bare form is tracked separately
+                        // below because only it can be a refusal with nothing to refuse; for the
+                        // menu the distinction that matters is whether an else exists at all,
+                        // and `lighthouse.game`'s oil-can refuses in two worded branches and
+                        // never bare.
+                        if t[0] == "else" {
+                            p.binding.as_mut().unwrap().refuses = true;
+                        }
                         if t.len() <= head {
                             // a bare `else "text"` is a refusal and carries no predicate
                             if t[0] == "else" {
