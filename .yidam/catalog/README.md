@@ -21,7 +21,7 @@ Sorted by: type, then slug.
 | [ags-source.md](ags-source.md) | other | AGS's own editor and engine source, which still contains the complete action table of the Interaction Editor that version 3.0 removed. | yes | — | 2 | 0 |
 | [delores-source.md](delores-source.md) | dataset | The complete authored source of a shipped point-and-click adventure by Ron Gilbert and David Fox, with the engine's reference manual — the first artifact this corpus can count rather than quote. | yes | — | 27 | 1 |
 | [grumpy-gamer-pdc.md](grumpy-gamer-pdc.md) | other | The designer of Maniac Mansion and Monkey Island describing the tool he invented for arranging an adventure game's puzzles, and what shape a good one has. | yes | — | 2 | 0 |
-| [scumm-v5-opcode-reference.md](scumm-v5-opcode-reference.md) | other | Reverse-engineered listing of SCUMM v5 script opcodes by number and name, hosted by ScummVM. | yes | — | 6 | 0 |
+| [scumm-v5-opcode-reference.md](scumm-v5-opcode-reference.md) | other | Reverse-engineered listing of SCUMM v5 script opcodes by number and name, hosted by ScummVM. | yes | — | 7 | 0 |
 | [twp-dev-diary.md](twp-dev-diary.md) | other | A near-daily record, 2015-2019, of a classic point-and-click adventure being designed and its engine being built, written by the people who invented the form. | yes | — | 10 | 0 |
 | [wikipedia-scumm.md](wikipedia-scumm.md) | other | Tertiary account of the SCUMM engine, its verb interface, and the years it was in use. | yes | — | 5 | 0 |
 

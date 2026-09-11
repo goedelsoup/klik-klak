@@ -45,7 +45,7 @@ Sorted by: kind, then alphabetically.
 | [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 7v / 4i / 1o | 130 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
 | [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 5 | 18v / 5i / 1o | 184 |
-| [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 1v / 7i / 0o | 72 |
+| [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 1v / 10i / 0o | 96 |
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 3v / 5i / 0o | 64 |
 | [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 12 | 27v / 11i / 0o | 325 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
