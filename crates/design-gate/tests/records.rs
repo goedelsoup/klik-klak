@@ -11,11 +11,18 @@
 //! They were 42 apiece when this file was written. The forty-third record is the one deciding
 //! what a record is.
 //!
-//! `yidam status` says *42 nodes*. `graph-check` checks *42 instances*. `lint` lints 42 files.
-//! The index would index 42. None of them is a decision record, and none of them is wrong to
-//! ignore one: a node asserts something about point-and-click adventure games, a record asserts
-//! something about what this project chose. They are different kinds and the vendored tooling is
-//! right to count only the first.
+//! `yidam status` says *43 nodes*. `graph-check` checks *43 instances*. `lint` lints them. The
+//! index would index them. None of them is a decision record, and none of them is wrong to ignore
+//! one: a node asserts something about point-and-click adventure games, a record asserts something
+//! about what this project chose. They are different kinds and the vendored tooling is right to
+//! count only the first.
+//!
+//! **`cli/v0.12.0` gave the records a reader**, which is half of what this file was written
+//! because they did not have. `yidam decisions-log` lists all 45, newest first, with each
+//! `summary:`. It is read-only, owns no REGEN block, and reads exactly the one field this
+//! repository has never edited — see `no_record_has_changed_what_it_decided`. So the two indexes
+//! of this directory are complementary rather than redundant: the command says what was decided,
+//! and the file below says what is still owed.
 //!
 //! What is not right is that the second kind has had no gate at all while growing to the same
 //! size as the first. [`markers.rs`] found the questions had migrated here; [`edges.rs`] found the
@@ -191,6 +198,53 @@ fn cites(root: &Path) -> BTreeMap<String, BTreeSet<String>> {
     out
 }
 
+/// The commit that first wrote a file, and the file as it stood there.
+///
+/// Needs real history. CI checks out with `fetch-depth: 0` for the commit-vocabulary gate, and
+/// this is the second thing that depends on it; a shallow clone reports the truncation rather
+/// than quietly passing.
+fn at_creation(root: &Path, p: &Path) -> Option<String> {
+    let rel = p.strip_prefix(root).ok()?.to_string_lossy().into_owned();
+    let log = std::process::Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["log", "--format=%H", "--"])
+        .arg(&rel)
+        .output()
+        .ok()?;
+    let first = String::from_utf8_lossy(&log.stdout)
+        .lines()
+        .last()?
+        .to_string();
+    let show = std::process::Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .arg("show")
+        .arg(format!("{first}:{rel}"))
+        .output()
+        .ok()?;
+    show.status
+        .success()
+        .then(|| String::from_utf8_lossy(&show.stdout).into_owned())
+}
+
+/// A record's `summary:` block, whitespace-flattened.
+fn summary(src: &str) -> String {
+    let Some(i) = src.find("\nsummary:") else {
+        return String::new();
+    };
+    let rest = &src[i + 1..];
+    let end = rest
+        .match_indices('\n')
+        .find(|(j, _)| {
+            let line = rest[j + 1..].lines().next().unwrap_or("");
+            !line.is_empty() && !line.starts_with(char::is_whitespace) && line.contains(':')
+        })
+        .map(|(j, _)| j)
+        .unwrap_or(rest.len());
+    rest[..end].split_whitespace().collect::<Vec<_>>().join(" ")
+}
+
 /// **The check that has teeth, pointed at the half of the artifact that never had one.**
 ///
 /// `edges.rs` built this for corpus prose and its first finding was a reference written by the
@@ -335,4 +389,62 @@ fn the_index_this_directory_never_had_is_current() {
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
     assert_eq!(total, 27, "live open questions in this directory");
+}
+
+/// **What a record decided has never changed. What it owes changes constantly, and the two are
+/// different fields.**
+///
+/// The prelude's lifecycle for this directory is one sentence: *"Decision files are permanent
+/// records — they are not updated when a decision is superseded, but a new decision may reference
+/// a prior one by `id`."* This repository edits them. **Sixteen of forty-five have a commit after
+/// the one that wrote them** — nineteen `revise:` and four `decide:`.
+///
+/// Read against the rule that looks like a violation. Measured, it is not: **fifteen of the
+/// sixteen kept their `summary:` byte-for-byte**, and the sixteenth changed a *figure* —
+/// `latch-default` went from `31 of 40` to `32 of 41` when a census defect was found in the
+/// extractor that produced it. No record's decision has ever been revised. What the edits do is
+/// keep the *account*: what the figures turned out to be, what the record left open, what closed
+/// it later.
+///
+/// So the rule holds in the form that matters and this is the check for it. It also says why the
+/// two indexes of this directory do not collide: `yidam decisions-log` reads `summary:`, which is
+/// the field nothing here edits, and `.yidam/decisions/README.md` lists open questions, which live
+/// entirely in the field that changes.
+///
+/// The one exception is named rather than excused, and it carries the lesson: **a summary should
+/// not hold a figure**, because a figure is the one thing in a record that can turn out to be
+/// wrong, and the summary is the half the log reads.
+#[test]
+fn no_record_has_changed_what_it_decided() {
+    let root = repo_root();
+    let (mut moved, mut edited) = (Vec::new(), 0);
+    for p in records(&root) {
+        let now = std::fs::read_to_string(&p).expect("readable");
+        let then = at_creation(&root, &p).unwrap_or_else(|| {
+            panic!("{}: no history — a shallow clone cannot run this", stem(&p))
+        });
+        if then == now {
+            continue;
+        }
+        edited += 1;
+        let (a, b) = (summary(&then), summary(&now));
+        assert!(
+            a.len() > 40 && b.len() > 40,
+            "{}: the summary parse returned nothing, which would make this test agree with \
+             itself about everything",
+            stem(&p)
+        );
+        if a != b {
+            moved.push(stem(&p));
+        }
+    }
+    assert_eq!(
+        edited, 16,
+        "records with a commit after the one that wrote them"
+    );
+    assert_eq!(
+        moved,
+        ["latch-default"],
+        "a record may keep its account current; it may not restate what it decided"
+    );
 }
