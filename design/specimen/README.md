@@ -1,7 +1,7 @@
 ---
 title: what the specimens found
 status: proposal
-reconciled: da5d722898745e5684fafeffdb26d2b17e67cc09
+reconciled: 478cc09551b93dac262173b3be979f451a02c374
 rests_on:
   - design/bounded-expression-language.md
   - design/specimen/lighthouse.game
@@ -226,6 +226,13 @@ were not on it when it was written at two games, and `exit` is the one worth a s
 [below](#the-verb-vocabulary). Grouping parentheses came off by being counted: the check reads
 constructs the grammar declares, and they are not one.
 
+**The proposal's own first open item is settled and this is half of what settled it.** Section 5
+called the surface abstract and forwarded a reader to
+[`interaction-table.yml`](../../.yidam/corpus/data-format/interaction-table.yml) for an unresolved
+tension between keying and reading like writing; the guarded response list — `when <predicate>
+"<line>"` — does both on one line, and four games are written against fifty constructs.
+`.yidam/decisions/settled-surface.yml`.
+
 **One specimen is much better evidence that a primitive was needed than that one is not**, and
 four is only a little better. Ninety-one bindings across four deliberately small games is a thin
 basis for removing anything — and the six above are the measurement, not the backlog.
@@ -332,10 +339,11 @@ used to mean "one authored defect, reported once per copy of a duplicated sequen
 same and the reason is not, which is worth noticing: an assertion that survives a change to what
 it is about was not testing what it looked like it was testing.
 
-## Scale — the claim these three could not test, tested
+## Scale — the claim these four could not test, tested
 
-Three games small enough to enumerate by hand cannot say whether enumeration scales, and this
-document said so for six phases. `crates/reachability/tests/scaling.rs` **generates** the large
+Four games small enough to enumerate by hand cannot say whether enumeration scales, and this
+document said so for six phases. It read *"three"* for several more, having been written when
+there were three and not revisited when `patrol` arrived. `crates/reachability/tests/scaling.rs` **generates** the large
 games instead. That costs realism and buys a curve: one game is one point, and tractability is a
 question about growth.
 
