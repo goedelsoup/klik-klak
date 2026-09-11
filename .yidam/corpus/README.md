@@ -24,7 +24,7 @@ Sorted by: kind, then alphabetically.
 | Instance | Class | Label | Links out | Claims | Lines |
 |---|---|---|---|---|---|
 | [non-player-character.yml](actor/non-player-character.yml) | actor | Non-Player Character | 2 | 3v / 4i / 0o | 52 |
-| [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 0v / 1i / 1o | 28 |
+| [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 0v / 2i / 1o | 40 |
 | [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 4 | 3v / 4i / 0o | 76 |
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 8v / 5i / 0o | 103 |
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 11v / 11i / 0o | 230 |
@@ -51,9 +51,9 @@ Sorted by: kind, then alphabetically.
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
 | [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 8v / 4i / 0o | 103 |
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 6v / 3i / 0o | 73 |
-| [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 2i / 0o | 34 |
+| [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 3i / 0o | 41 |
 | [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 7 | 4v / 5i / 0o | 96 |
-| [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 0v / 2i / 0o | 38 |
+| [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 0v / 3i / 0o | 45 |
 | [verb-menu.yml](subsystem/verb-menu.yml) | subsystem | Verb Menu | 3 | 7v / 3i / 0o | 89 |
 | [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 10v / 6i / 0o | 140 |
 | [look-at.yml](verb/look-at.yml) | verb | Look At | 2 | 5v / 5i / 0o | 81 |
