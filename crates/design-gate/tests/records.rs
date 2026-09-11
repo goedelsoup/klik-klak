@@ -395,6 +395,46 @@ fn the_index_this_directory_never_had_is_current() {
         body.push_str(&format!("- [{k}]({k}.yml)\n"));
     }
 
+    // What a record rests on, which it has always declared in its own prose and which nothing
+    // showed until `inward-turn` counted it. A path is cited when a filename follows it:
+    // `catalog/delores-source.md` is evidence, `` `catalog/` `` is a sentence about the catalog.
+    let cites_path = |src: &str, prefix: &str| {
+        src.match_indices(prefix).any(|(i, _)| {
+            src[i + prefix.len()..].starts_with(|ch: char| ch.is_ascii_alphanumeric())
+        })
+    };
+    let (mut gate_alone, mut unfooted) = (Vec::new(), Vec::new());
+    for p in records(&root) {
+        let src = std::fs::read_to_string(&p).expect("readable");
+        let document = cites_path(&src, "catalog/");
+        let engine =
+            cites_path(&src, "crates/reachability/") || cites_path(&src, "crates/game-format/");
+        let gate = cites_path(&src, "crates/design-gate/");
+        if gate && !document && !engine {
+            gate_alone.push(stem(&p));
+        } else if !gate && !document && !engine {
+            unfooted.push(stem(&p));
+        }
+    }
+    body.push_str("\n## What each record rests on\n\n");
+    body.push_str(
+        "A record cites a catalog entry, the engine crates, or the gate that reads this corpus,\n\
+         and which it cites says what kind of question it answered. All three are legitimate.\n\
+         The classification was derivable from the day this directory existed and nothing showed\n\
+         it, which is [inward-turn](inward-turn.yml)'s finding; the run at the end of the first\n\
+         list is the one that record holds as a tripwire.\n\n",
+    );
+    body.push_str("**On the gate and nothing else** — a question about this repository.\n\n");
+    for k in &gate_alone {
+        body.push_str(&format!("- [{k}]({k}.yml)\n"));
+    }
+    body.push_str(
+        "\n**On no evidence path named here** — structural, or resting on the prelude.\n\n",
+    );
+    for k in &unfooted {
+        body.push_str(&format!("- [{k}]({k}.yml)\n"));
+    }
+
     let full = format!(
         "# decisions\n\n\
          A record is a claim about what this project chose and why. A [corpus\n\
@@ -421,12 +461,12 @@ fn the_index_this_directory_never_had_is_current() {
 ///
 /// The prelude's lifecycle for this directory is one sentence: *"Decision files are permanent
 /// records — they are not updated when a decision is superseded, but a new decision may reference
-/// a prior one by `id`."* This repository edits them. **Twenty-three of fifty-five have a commit
-/// after the one that wrote them** — and correcting that sentence was two of the twenty-three,
-/// which is the shape of this whole directory.
+/// a prior one by `id`."* This repository edits them. **Twenty-four of fifty-six have a commit
+/// after the one that wrote them** — and correcting that sentence has been three of the
+/// twenty-four, which is the shape of this whole directory.
 ///
-/// Read against the rule that looks like a violation. Measured, it is not: **nineteen of the
-/// twenty-three kept their `summary:` byte-for-byte**, and the rest changed a *figure* —
+/// Read against the rule that looks like a violation. Measured, it is not: **twenty of the
+/// twenty-four kept their `summary:` byte-for-byte**, and the rest changed a *figure* —
 /// `latch-default` went from `31 of 40` to `32 of 41` when a census defect was found in the
 /// extractor that produced it. No record's decision has ever been revised. What the edits do is
 /// keep the *account*: what the figures turned out to be, what the record left open, what closed
@@ -478,7 +518,7 @@ fn no_record_has_changed_what_it_decided() {
     }
     assert_eq!(
         edited,
-        23,
+        24,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

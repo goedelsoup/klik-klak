@@ -14,8 +14,8 @@
 //!
 //! **The records say the same thing about themselves, permanently and one at a time.** A decision
 //! rests on a catalog entry, on the engine crates, or on this gate, and which it cites is a fact
-//! about what kind of question it answered. Six of the newest cite no document. Four rest on the
-//! gate alone.
+//! about what kind of question it answered. Seven of the newest cite no document. Five rest on
+//! the gate alone.
 //!
 //! None of those phases was wrong and their findings were real. What they were not is about
 //! point-and-click adventure games.
@@ -96,12 +96,24 @@ struct Rests {
     gate: bool,
 }
 
+/// A path is cited when something follows it. `catalog/delores-source.md` is a citation;
+/// `` `catalog/` `` is a record talking about the catalog, and the two are opposite claims here.
+///
+/// This distinction was written into this file after the first version of it read `inward-turn` —
+/// a record whose whole subject is that it rests on none of these — as resting on all three,
+/// because the record names the directories in prose. Six other checks in this crate have had to
+/// learn the same thing.
+fn cites(src: &str, prefix: &str) -> bool {
+    src.match_indices(prefix)
+        .any(|(i, _)| src[i + prefix.len()..].starts_with(|c: char| c.is_ascii_alphanumeric()))
+}
+
 fn rests(root: &Path, rel: &str) -> Rests {
     let src = std::fs::read_to_string(root.join(rel)).expect("readable");
     Rests {
-        document: src.contains("catalog/"),
-        engine: src.contains("crates/reachability") || src.contains("crates/game-format"),
-        gate: src.contains("design-gate"),
+        document: cites(&src, "catalog/"),
+        engine: cites(&src, "crates/reachability/") || cites(&src, "crates/game-format/"),
+        gate: cites(&src, "crates/design-gate/"),
     }
 }
 
@@ -155,7 +167,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 55, "every record, in the order it was created");
+    assert_eq!(all.len(), 56, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -168,17 +180,17 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (26, 27, 15),
+        (24, 24, 15),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
         (alone, neither),
-        (11, 9),
+        (12, 11),
         "resting on the gate and nothing else, and resting on no evidence path at all"
     );
 }
 
-/// **Four of the newest records rest on the gate alone, and six cite no document.**
+/// **Five of the newest records rest on the gate alone, and seven cite no document.**
 ///
 /// A run, not a total, and that is the point: it rises with every phase that asks a question about
 /// the repository and resets the moment one asks about adventure games. It has never been this
@@ -203,7 +215,7 @@ fn the_newest_records_have_not_needed_a_document() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (6, 4),
+        (7, 5),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }

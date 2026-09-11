@@ -94,7 +94,7 @@ does not re-emit it.
 
 ### [inward-turn](inward-turn.yml)
 
-- **:98** — **What this does not settle.** Whether a record resting on the gate alone is the same *kind* as one resting on a document. The directory holds one kind and `records.rs` gates them identically, but `record-layer` drew a line between a claim about adventure games and a claim about this project on exac…
+- **:107** — **What this does not settle.** Whether a record resting on the gate alone is the same *kind* as one resting on a document. The directory holds one kind and `records.rs` gates them identically, but `record-layer` drew a line between a claim about adventure games and a claim about this project on exac…
 
 ### [marker-count](marker-count.yml)
 
@@ -164,3 +164,40 @@ nodes, at four times the rate, and it had never been looked at.
 - [name-scoping](name-scoping.yml)
 - [specimen-placement](specimen-placement.yml)
 - [threshold-trigger](threshold-trigger.yml)
+
+## What each record rests on
+
+A record cites a catalog entry, the engine crates, or the gate that reads this corpus,
+and which it cites says what kind of question it answered. All three are legitimate.
+The classification was derivable from the day this directory existed and nothing showed
+it, which is [inward-turn](inward-turn.yml)'s finding; the run at the end of the first
+list is the one that record holds as a tripwire.
+
+**On the gate and nothing else** — a question about this repository.
+
+- [action-pages](action-pages.yml)
+- [carried-claims](carried-claims.yml)
+- [drawn-boundary](drawn-boundary.yml)
+- [inert-reports](inert-reports.yml)
+- [inward-turn](inward-turn.yml)
+- [marker-count](marker-count.yml)
+- [priority-edge](priority-edge.yml)
+- [prose-edges](prose-edges.yml)
+- [record-layer](record-layer.yml)
+- [record-lifecycle](record-lifecycle.yml)
+- [schema-deferral](schema-deferral.yml)
+- [unread-clock](unread-clock.yml)
+
+**On no evidence path named here** — structural, or resting on the prelude.
+
+- [arrival-trigger](arrival-trigger.yml)
+- [conversation-boundary](conversation-boundary.yml)
+- [design-directory](design-directory.yml)
+- [domain-computer](domain-computer.yml)
+- [effect-vocabulary](effect-vocabulary.yml)
+- [name-scoping](name-scoping.yml)
+- [ontology](ontology.yml)
+- [proposals](proposals.yml)
+- [seed-scope](seed-scope.yml)
+- [specimen-placement](specimen-placement.yml)
+- [stale-markers](stale-markers.yml)

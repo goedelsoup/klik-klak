@@ -21,9 +21,10 @@ context: |
   **And every record has been saying which it was, in its own prose, since the directory
   existed.** A decision cites a catalog entry, the engine crates, or this gate, and the three are
   not interchangeable: a document is evidence about adventure games, `reachability` and
-  `game-format` are evidence about this design, and `design-gate` reads the corpus itself. Of 55
-  records, 26, 27 and 15. **Eleven rest on the gate and nothing else**, and they are at the end —
-  six of the newest cite no document at all. [verified]
+  `game-format` are evidence about this design, and `design-gate` reads the corpus itself. Of 56
+  records, 24, 24 and 15; eleven rest on no evidence path at all. **Twelve rest on the gate and
+  nothing else**, and they are at the end — seven of the newest cite no document, and five rest on
+  the gate alone. [verified]
 decision: |
   **The instrument is at a stopping point, and the condition for adding to it is named: a new
   `design-gate` check answers a defect found in the corpus, not one found in the gate.**
@@ -82,13 +83,21 @@ rationale: |
   no new evidence in seven phases, and the four specimens that are the entire evidence for the
   fifty-construct surface were not opened.
 
-  **And writing it tripped a sixth check on the same undeclared convention.** This record says
-  *"no new field, no schema change, no convention"* — reporting that nothing had to be written
-  down — and [schema-deferral](schema-deferral.yml)'s check read it as a fifth record declining a
-  change for want of one. The phrase asserted and the phrase negated are opposite claims, and the
-  matcher saw bytes. Five other checks in this crate have had to learn that distinction, arriving
-  as brackets, backticks, asterisks and a capital letter; **this is the sixth, and the first to
-  arrive as a negation.** [verified]
+  **The same undeclared convention broke twice while this was being written, and the second time
+  was in the check written here.** [schema-deferral](schema-deferral.yml)'s matcher read this
+  record's *"no new field, no schema change, no convention"* — a sentence reporting that nothing
+  had to be written down — as a fifth deferral, because the phrase asserted and the phrase negated
+  are opposite claims and the matcher saw bytes. Then the new classifier read **this record**, whose
+  entire subject is that it rests on none of the three paths, as resting on all three: it names the
+  directories in prose, and naming a directory is not citing a file in it.
+
+  That second one is the more useful, because correcting it **moved two of the census figures**.
+  A classifier requiring a filename after the path finds 24 records citing a document and 24
+  citing an engine crate, against 26 and 27 by mention — so two records discuss the catalog
+  without drawing on it and three discuss the checker without resting on it. Five other checks in
+  this crate have had to learn this distinction, arriving as brackets, backticks, asterisks and a
+  capital letter. **These are the sixth and seventh, and the seventh was written by the phase that
+  documented the sixth.** [verified]
 
   **What this does not settle.** Whether a record resting on the gate alone is the same *kind* as
   one resting on a document. The directory holds one kind and `records.rs` gates them identically,
