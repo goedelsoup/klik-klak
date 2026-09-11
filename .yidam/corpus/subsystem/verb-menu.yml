@@ -25,6 +25,17 @@ description: |
   line, and the same 3 withholdings, all outside a hotspot verb. [verified] —
   `crates/reachability/tests/menu.rs`. `.yidam/decisions/verb-menu.yml`.
 
+  **What this component replaces in an engine that does not have one.** Affordance stored per
+  object has to be put back in agreement with the world whenever the world moves, and the cheap
+  moment to do it is arrival: 25 of the 169 statements in Delores's room `enter` bodies are
+  `objectState` and `objectTouchable`, and `MainStreet.bankDoor` is the whole pattern in a line —
+  `function enter() { objectTouchable(this, Bank.open ? YES : NO) }`
+  ([delores-source](../../catalog/delores-source.md)). [verified] That is this component's
+  responsibility, hand-written sixteen times at the one moment somebody remembered to write it.
+  The cost of computing instead is paid every state change rather than every arrival, and the
+  benefit is that nothing can be forgotten. [inference] It is also why this design has no arrival
+  realizer to write: `.yidam/decisions/arrival-realizer.yml`.
+
   **What it is for, in one number.** Across the four specimens this component holds 88 distinct
   target-and-verb entries and 698 slots over 145 reachable states, of which 24 entries are showing
   before the player has done anything. The reachability search reasons about 45 of the 91 bindings,

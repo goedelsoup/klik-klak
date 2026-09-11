@@ -7,6 +7,14 @@ description: |
   between the two halves of this engine, and it comes from the vocabulary rather than from
   any implementation choice.
 
+  **Two different things are called arrival here and only one of them is this component's.**
+  Reaching a point inside a room is what a binding waits on, and that is the coupling above.
+  Reaching a *room* is a trigger in its own right, and it fires whether or not anybody was walking
+  — a `move` effect arrives somewhere without a path being solved at all. The first is reported by
+  this component; the second is realized by
+  [interaction-resolver](interaction-resolver.yml), which was for six phases realized by nothing.
+  `.yidam/decisions/arrival-realizer.yml`. [inference]
+
   [inference] The failure this component owns is the unreachable destination: a click inside
   a walkbox that no path from the current one connects to. Doing nothing reads as a broken
   click; walking as far as possible reads as intent the player did not have. Neither is
