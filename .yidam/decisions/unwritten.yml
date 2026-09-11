@@ -1,0 +1,96 @@
+id: unwritten
+summary: >-
+  Two fifths of the bounded surface has been written twice or fewer across every game anyone has
+  authored in it, six constructs never at all, and the composition this design claims as its one
+  advantage over the interaction table appears once. Nothing is removed and no specimen is written
+  to raise the number: the coverage becomes a standing measurement, and the claim that composition
+  is the gap is relabelled from a measurement to an argument, in the node that makes it.
+context: |
+  [surface.rs](../../crates/game-format/tests/surface.rs) has held the size of this language since
+  it was written — fifty constructs, and what each cost to reach. It says nothing about how much of
+  that surface has been used, and **the entire evidence that any of the fifty is needed is four
+  specimens totalling 662 lines.**
+
+  Counted off the parse tree rather than the text, so a construct is used when the parser built it:
+  **six have never been written** — `!=`, `<=`, `>`, `clear-flag`, `exit`, `or` — and **ten more
+  exactly once**. Two fifths of the surface has been reached for twice or fewer, against `in-room`
+  at 87 sites and `do` at 54. [verified] — `crates/game-format/tests/coverage.rs`.
+
+  Three of the six comparisons are never authored, and every comparison site in every specimen
+  totals ten. `clear-flag` is the effect
+  [latch.rs](../../crates/reachability/tests/latch.rs) has called *"the reverse gear exists and has
+  never been used"* since it was written; [forty-eight](forty-eight.yml) found that AGS spent three
+  commands on that direction.
+
+  **And the binary connectives are written once between them.** One `and`, no `or`. `not` is used
+  ten times and is unary, so it combines nothing. [verified]
+decision: |
+  **Nothing is removed, and no specimen is written to raise the number.**
+
+  The second half is the load-bearing one. A game authored to exercise a construct is not evidence
+  that the construct is needed, and this corpus already ran that experiment:
+  [ferry.game](../../design/specimen/ferry.game) opens *"a second specimen, for one question: does
+  `count item` earn its place?"* and calls itself *"a tally on purpose"*. **`count` is written once
+  in it.** A specimen aimed at a primitive yields one site of that primitive and a great deal of
+  incidental `look-at`, which is what authoring actually looks like and is why coverage cannot be a
+  target. Writing three more games to retire the six zeros would produce six ones and no new
+  knowledge.
+
+  **The coverage is kept as a standing measurement instead**, next to the size it qualifies. A
+  surface of fifty where twenty constructs have one or no authors is a different claim from a
+  surface of fifty, and both numbers are now pinned in the same crate.
+
+  **The one substantive change is a relabelling, and it is in the node that makes the claim.**
+  [data-format/interaction-table](../corpus/data-format/interaction-table.yml) compares this design
+  to AGS's forty-eight item for item and concludes *"the gap is real and it is exactly one thing:
+  composition."* That sentence reads as a measurement of this design and is a measurement of
+  **AGS**: what was counted is that AGS has no `or`, no grouping and no negation. What this design
+  does with composition was never counted, and counted, it is one `and`. The node now says which
+  half is measured.
+
+  **`or` and `exit` are kept on their arguments, which are stated rather than assumed.** `or` is
+  the difference between a guard an author can write and a binding they must duplicate, and
+  [arity-cost](arity-cost.yml) already records that this checker reports `or` as inseparable — so
+  the one place it would show up is a cost analysis nothing has run on authored work. `exit` names
+  a connection between rooms that `room -connects-to-> room` declares and every specimen writes as
+  a `walk-to` binding with a `move`; it is the keyword for a thing four games chose to say another
+  way.
+rationale: |
+  **A language argued into existence has a different failure mode from one grown out of use, and
+  this is what it looks like.**
+
+  Nineteen decision records weighed a candidate against this surface. Five constructs were
+  admitted, two withdrawn, twelve refused — an unusually disciplined process, and every one of
+  those judgements was made by argument, against a corpus of documents, with four games as the
+  only authored evidence. The result is a vocabulary whose head is heavily exercised and whose
+  tail is reasoning. **That is not a defect; it is the shape of the method**, and the value of
+  naming it is that the method's characteristic error is now locatable: it is in the tail, and the
+  tail is where the arguments were most confident.
+
+  **The composition finding is the sharpest instance and it cuts toward the design's own
+  advantage.** [forty-eight](forty-eight.yml) showed AGS's vocabulary is *enumerated* — one command
+  per entity-verb pair, both directions of every reversible change spelled out — and this one is
+  composed: name the state, write predicates over it, combine them. The composing is what
+  justifies the smaller surface. Across every game written in it, the composing happens once.
+  [inference]
+
+  Two readings, and this record does not choose between them. Either four small specimens are too
+  little authoring to need a second conjunct — which is likely, and is an argument for more games
+  rather than for a smaller language — or puzzle guards in this form are usually one condition,
+  which is what AGS's design assumed and what its nesting-yields-conjunction structure encodes.
+  **The second reading is the one nobody has looked for evidence against**, and the evidence would
+  be a large authored game rather than another specimen.
+
+  **The measurement was available from the day the fourth specimen landed.** The parser was
+  written, the specimens parsed, and the count is forty lines of walking a tree that every other
+  test in this crate already walks. What was missing is the question — which is
+  [inward-turn](inward-turn.yml)'s finding arriving on the engine side: seven phases asked what the
+  repository knew about itself and none asked what four games had said about the language they were
+  written in.
+
+  **What this does not settle.** Whether the two withdrawn constructs were withdrawn for this
+  reason or in spite of it. `escape-hatch` records two withdrawals and the coverage of the surface
+  at the time is not recoverable — `coverage.rs` reads the specimens as they stand, and a
+  construct's history of use is a thing this repository can compute and has never kept. A
+  withdrawal justified by *"nothing needed it"* and a withdrawal justified by argument are
+  different events, and from here they look the same. `[open]`
