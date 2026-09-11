@@ -1,0 +1,114 @@
+id: record-layer
+summary: >-
+  A decision record is not a corpus node and does not become one: a node asserts something about
+  point-and-click adventure games, a record asserts something about what this project chose.
+  What the two do share is size — 42 files each — and until now only one of them had a gate. The
+  records keep their directory and get their own, in the crate that already hosts corpus hygiene.
+context: |
+  Three phases arrived here from different directions, which [tier-split](tier-split.yml) names as
+  the tell that a question is being asked at the wrong level.
+
+  [marker-count](marker-count.yml) found the open questions had migrated: 7 in the corpus against
+  23 in the records, *"counted as zero — by `status`, by `due`, by the index, by everything"*, and
+  pinned the ratio rather than fixing it because fixing it is a change to a vendored binary.
+
+  [prose-edges](prose-edges.yml) found the citations had gone the same way: **104 of the corpus's
+  200 prose references now point into `.yidam/decisions/` against 86 at another node**, and the
+  share has risen in every phase since it was first counted.
+
+  Put side by side the directories are the same artifact twice.
+
+  | | `.yidam/corpus/` | `.yidam/decisions/` |
+  |---|---|---|
+  | files | 42 | 42 |
+  | bytes | 353 K | 286 K |
+  | tagged claims | 545 | 273 |
+  | live open questions | 7 | 25 |
+  | citations written | 91 edges + 80 prose | 200 |
+
+  [verified] — `crates/design-gate/tests/records.rs`.
+decision: |
+  **A record is not a node. It keeps its directory, and it gets its own gate.**
+
+  Three options were weighed and the middle one taken.
+
+  - **Promote.** Give records a `decision` class and `links:`, and every existing tool sees them
+    at once — `status`, `graph-check`, `lint`, `open-questions`, the index. Refused: it makes the
+    graph assert something false. A corpus node is a claim about the domain, and
+    `yidam graph-check` reading *"84 instances across 16 classes"* would be reporting that this
+    project has 84 claims about adventure games when it has 42 and 42 claims about itself. It
+    would also put every record under corpus rules — one concept per file, an outgoing edge each,
+    claim tags meaning what they mean in a node — which is a discipline written for a different
+    kind of thing.
+  - **Refuse.** Write down that records are outside and stop. Refused for the opposite reason: the
+    kind distinction is right and it is not an argument for having no check. The corpus earned a
+    link checker, an orphan rule and a marker convention over six phases; the layer that grew to
+    the same size in the same six phases had none of the three.
+  - **Gate.** Taken. The directory does not move, the vendored tooling does not change, and
+    `crates/design-gate` — which has hosted corpus hygiene since
+    [stale-markers](stale-markers.yml) — grows a third file for the second layer.
+
+  **Built:** every citation resolves; records nothing cites are named; the directory gets the
+  index it never had, listing all 25 open questions with the record and line each sits on.
+
+  **Named and not built:** the 273 claims `yidam status` does not count. Counting them here would
+  put a second figure beside the first under a different rule, in a repository where two of its own
+  files disagreed on a headline number for six phases ([verb-count](verb-count.yml)) and where a
+  counting rule had to be written down mid-phase to stop it happening again
+  ([arrival-realizer](arrival-realizer.yml)). The honest fix is upstream.
+rationale: |
+  **The check that had to be built twice, and the second version is the finding.**
+
+  A record writes `` `crates/design-gate/tests/markers.rs` `` and `` `markers.rs` `` in the same
+  paragraph, and writes `` `DialogScript.md` `` for a page of a manual that is not in this
+  repository at all. The first is a **citation** — written to be followed, and a failure to
+  resolve it is rot. The other two are **mentions**, which a reader resolves from context and a
+  checker cannot. The corpus spells all three identically, and the first version of this check
+  reported twenty-four findings of which every one was wrong. [verified]
+
+  The rule that separates them is that a citation commits to being a path: a markdown link, or a
+  token beginning with a top-level directory. Under it, **200 citations resolve and 38 mentions
+  are left alone.** That is the same distinction [prose-edges](prose-edges.yml) hit from the other
+  side when a backticked `conversation.ont.yml` had to be read as a name, and it is now stated
+  rather than worked around.
+
+  **Twenty-eight test files are cited as evidence by these records and nothing anywhere resolves
+  the paths.** That is the class of citation with no other check in the repository: a renamed test
+  silently unsources whatever `[verified]` claims rest on it, and
+  [found-in](found-in.yml) has an `[open]` asking whether `[verified]` needs a way to say *by a
+  committed assertion* at all. This does not answer that question; it makes the paths hold still
+  while it is open.
+
+  **The marker convention earns its place on first contact with a body it was never tested on.**
+  There are 42 `[open]` tokens in this directory and **25 live questions**. The other seventeen
+  are the word being discussed rather than used — *"Four `[open]`s, all the same question"*,
+  *"That `[open]` closes, and the answer was already written in three places"* — which is exactly
+  the failure [marker-count](marker-count.yml) found in the corpus, where a node was reported open
+  by the sentence announcing it was not. The rule it chose, that a live marker ends its paragraph,
+  separates all 42 with no false positive. [verified] A convention built for one body of prose and
+  correct on the first run against another is the strongest evidence available that it is about
+  the writing rather than about the files.
+
+  **Sixteen records are cited by nothing, and it is not the corpus's defect wearing the same
+  name.** Fourteen remain once mentions are counted, against three of forty-two nodes — four
+  times the rate. A node with no incoming edge is cut out of the graph, because the graph is what
+  a node is for. A record may honestly be the last word on something nothing else has needed;
+  [containment](containment.yml) and [room-geometry](room-geometry.yml) are exactly that. So the
+  list is named and not failed on, which is the same treatment `prose-edges` gave the corpus's
+  three survivors after establishing that only one of five had a remedy.
+
+  **The index is generated by the test that checks it**, which is a shape this repository has not
+  used before and is worth stating. Every other generated block here is a REGEN block keyed to a
+  `yidam` subcommand; a new listing would need a new subcommand, which is a change to a binary
+  this repository installs rather than owns. `REGEN=1 cargo test -p design-gate --test records`
+  writes it and `cargo test` fails when it is stale, which is `regen --check` in the crate rather
+  than in the CLI. [inference]
+
+  **What this does not settle.** Whether the migration should be reversed rather than gated. Every
+  phase for six phases has answered a corpus question in a record, and the corpus node it answers
+  now often carries a pointer where it used to carry the argument — which is legible to a reader
+  following links and invisible to anything that reads the graph, and this gate does not change
+  that. The alternative nobody has costed is that a settled record should be **folded back**: its
+  conclusion written into the node it settles, leaving the record as the provenance rather than
+  the content. That is what `found-in` and `verb-menu` already did by hand, in two nodes, without
+  anybody naming it as a policy. `[open]`

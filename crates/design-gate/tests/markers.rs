@@ -138,7 +138,7 @@ fn the_corpus_carries_seven_questions_and_the_count_is_the_token_count() {
 /// **Three quarters of what this corpus still owes is invisible to every tool it has.**
 ///
 /// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds 7 live
-/// markers; the decision records hold **25 across 20 files**, and they are counted as zero — by
+/// markers; the decision records hold **26 across 21 files**, and they are counted as zero — by
 /// `status`, by `due`, by the index, by everything. The migration happened quietly: as questions
 /// got answered they were replaced by *"what this does not settle"* paragraphs in the record that
 /// answered them, which is the right place to put them and a place nothing looks.
@@ -157,15 +157,18 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (7, 25, 20));
+    assert_eq!((corpus, decisions, records), (7, 26, 21));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
         21,
         "under a quarter is visible"
     );
 
-    // It was (7, 23, 18) for two phases and has moved three times since, always the same way: a
+    // It was (7, 23, 18) for two phases and has moved four times since, always the same way: a
     // phase closes nothing in the corpus and opens one in the record that settles it. The visible
-    // share falls by a point each time — 23, 22, 21 — which is the migration this test names,
-    // happening in front of the test that names it and at a rate the test can now report.
+    // share fell 23, 22, 21 and has now held at 21 for the first time, because the phase that
+    // moved it was the one that gave this directory a gate and an index —
+    // `.yidam/decisions/README.md` lists all 26 by record and line, which is the first time the
+    // larger three quarters could be read at all. The number stays here; what changed is that it
+    // is no longer the only place the questions exist.
 }
