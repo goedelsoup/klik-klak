@@ -23,6 +23,13 @@ description: |
   specimens 186 of 188 string literals are different. [verified] So the commonest repetition in
   this language is not a candidate for factoring; it is what an author came to write, wearing a
   two-word frame. `.yidam/decisions/frame-width.yml`.
+  **The same, and starker.** One catalog entry between them and four references to `crates/`: the
+  measurements this node rests on are re-runnable and the one thing keeping `verified-unsourced`
+  quiet is a citation about an absent verb. Nothing here is mis-tagged — the prelude's rule is that
+  `[verified]` is about provenance, and a committed test is provenance — and nothing here is a
+  defect in the lint either. The two are just answering different questions.
+  `.yidam/decisions/carried-claims.yml`. [inference]
+
 properties:
   shape: unary
   response: |
