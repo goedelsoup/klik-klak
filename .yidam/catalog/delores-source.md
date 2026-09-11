@@ -897,6 +897,52 @@ the shape of a mini-adventure built to show off an engine is not guaranteed to b
 full one. Where a figure is offered as evidence about adventure games generally rather than
 about this one, it is `[inference]`.
 
+## How an inventory item is reached — 2026-09-11
+
+`Scripts/Inventory.dinky` read in full, and every `Inventory.<name>` reference across `Scripts/`
+counted. The question is
+[portable-object](../corpus/inventory-item/portable-object.yml)'s: an item never required,
+consumed, or offered as the second object of a binding is *"scenery with an icon"*, and this
+corpus has no such instance.
+
+**Fifteen items. Twelve are named by a binding; three are named by none; none is unreached.**
+
+| item | as `noun2` | `inInventory` | `removeInventory` | `pickupObject` | its own verbs | story hooks |
+|---|---|---|---|---|---|---|
+| `glass` | 18 | — | — | 2 | drink, lookat | `for_story`, `bad_story`, `photo_name` |
+| `screwdriver` | 9 | — | — | 2 | jab_with, lookat | — |
+| `letter` | 3 | — | 1 | 1 | dropin, lookat | — |
+| `stamps` | 2 | — | 1 | — | lick, lookat, puton | — |
+| `nickel` | 2 | — | — | 1 | giveto, lookat | `for_story` |
+| `assignment` | 1 | — | — | 4 | burnin, read | — |
+| `jailKey` | 1 | 1 | — | 1 | lookat | — |
+| `ransomeCandy` | 1 | — | — | 1 | eat, lookat | `bad_story` |
+| `camera` | — | 8 | — | 4 | check, takephoto | `for_story`, `bad_story`, `photo_name` |
+| `strangeDevice` | — | 1 | — | 2 | activate, examine | `bad_story` |
+| `specksOfDust` | — | 1 | — | 1 | lookat | `photo_name` |
+| `bottle` | — | — | 1 | 1 | giveto, lookat | `for_story` |
+| **`photo`** | — | — | — | — | lookat, toss | `is_photo` |
+| **`fortranBook`** | — | — | — | 1 | read | `for_story`, `photo_name` |
+| **`thimbleconPoster`** | — | — | — | 2 | lookat | `for_story` |
+
+`noun2` counts both `==` and `!=` tests: `ransomeCandy`'s single appearance is
+`DefineActors.dinky`'s `if (noun2 != Inventory.ransomeCandy)`.
+
+**The three no binding names are reached by a different subsystem, and it is a large one.**
+`photo` is not an ordinary item at all — it is a prototype, cloned at runtime
+(`local photo_taken = clone(Inventory.photo)`), which is why nothing references it by name.
+`fortranBook` and `thimbleconPoster` carry one unary verb each and a `for_story` value.
+
+`for_story`, `bad_story` and `photo_name` are **declared at 165 sites** — 52, 47 and 65
+respectively, plus one `is_photo` — **across fourteen of the twenty-one room files**, against
+**222 live `VERB(` bindings** in the same tree. They are read by the camera's `takephoto` in
+`Inventory.dinky` and by `Note.dinky`, which keeps `active_stories` and an `isActiveStory`
+predicate. **Ten of the fifteen items carry at least one.**
+
+So an object in this game participates by *declaring a property another subsystem reads*, and
+that channel is comparable in size to the whole binding surface. It is not a verb, not a binding
+and not a cell of any interaction table.
+
 ## What this artifact holds that nobody here has looked at
 
 The `.wimpy` files have since been read in full — see "The room geometry" above — and what they
@@ -906,5 +952,14 @@ still unread there is the **lighting**: 61 light declarations carrying `color1`,
 that reason, and the 39 `layers` with their parallax rates.
 `Scripts/Helpers/SystemHelpers.dinky` (1,258 lines) and
 `Options.dinky` (659), which are where the authors' own abstractions live. The 34-page manual,
-of which four pages were read. And `Scripts/Inventory.dinky`, read for binding
-counts and for its one delegation site, and not otherwise.
+of which four pages were read.
+
+**`Scripts/Inventory.dinky` has since been read in full** — see *How an inventory item is
+reached*, above. It was on this list as read *"for binding counts and for its one delegation
+site, and not otherwise"*.
+
+What that reading opened and did not close is the **photojournalism subsystem itself**: `Note.dinky`
+keeps `active_stories`, `isActiveStory` and `takePhoto`, and the camera's `takephoto` in
+`Inventory.dinky` is the longest binding body in the game. This entry counts its declaration sites
+and has not read its logic, which is the half that would say what a subsystem reading declarations
+actually costs an author.
