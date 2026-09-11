@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (460, 77, 57));
+    assert_eq!((total, mentions, tests.len()), (461, 77, 57));
 }
 
-/// **Six of sixty-eight records are cited by nothing, against three of forty-four nodes.**
+/// **Five of sixty-eight records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -322,20 +322,18 @@ fn a_record_nothing_cites_is_named() {
     assert_eq!(
         alone,
         [
-            "authored-text",
             "binding-axes",
             "declared-reach",
             "domain-computer",
             "name-scoping",
             "settled-surface",
         ],
-        "six, and the newest is on it as every newest record but two has been. It comes off \
-         in this phase's own `revise:`, when `effect-list-semantics` cites the record that \
-         corrects it — which is the shape the list is for: a record joins when it is written \
-         and leaves when something needed it"
+        "five for a third phase running, and the ends moved again. `authored-text` joined \
+         when it was written and came off inside its own phase, because the record it corrects \
+         now cites it — which is the shape this list is for"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (68, 211));
+    assert_eq!((c.len(), edges), (68, 212));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**

@@ -1,25 +1,26 @@
-//! **Half of what an author writes never reaches the parse tree.**
+//! **Everything an author writes reaches the parse tree, and the state model still ignores half
+//! of it.**
 //!
-//! `crates/game-format` reads the `.game` surface into a model a checker can search, and the
-//! model has no place to put a word of player-facing text. `parse.rs` matches
-//! `"say" | "otherwise" => {}`; a `when <pred> "<line>"` keeps the predicate and drops the line
-//! beside it; a declaration's trailing quoted string is never looked at. `Binding` has no text
-//! field and `Game` has no labels.
+//! For six phases `parse.rs` matched `"say" | "otherwise" => {}`, a `when <pred> "<line>"` kept
+//! the predicate and dropped the line beside it, and a declaration's trailing quoted string was
+//! never looked at. **52% of a specimen was discarded at the parse** — 6,994 of 13,344 characters
+//! the reader looks at, across the four. (The census that opened this phase counted two more of
+//! each: `ferry.game` escaped a quotation the format needs no escape for, and nothing could tell
+//! until the text was kept. See below.)
 //!
-//! **That is the correct position for a checker and it is stated as one.**
-//! `.yidam/decisions/effect-list-semantics.yml` says so in as many words — *"`say` is
+//! `.yidam/decisions/effect-list-semantics.yml` stated that as a position: *"`say` is
 //! presentation and not an effect… `Binding` has no field for response text. That is now the
-//! stated position rather than an omission in a parser."* Nothing below disputes it. What the
-//! census holds is that the sentence describes **two different things that were never
-//! separated**: the state model ignoring presentation, and the reader throwing it away. Only the
-//! first is a position.
+//! stated position rather than an omission in a parser."* That is two claims. The first is about
+//! the **state model** — a line writes no state, so it is not an edge, so the search need not see
+//! it — and it is right, load-bearing, and untouched. The second is about the **reader**, and it
+//! was the consequence of there being one thing downstream rather than an argument for anything.
 //!
-//! The consequence is the whole of why `engine/` holds no code. No runtime built on this tree
-//! can emit a word, because the words are not in it.
-//!
-//! These checks pin the defect. They are rewritten into the rule in the same phase.
+//! `.yidam/decisions/authored-text.yml` separates them. The tree keeps the text; the search goes
+//! on not reading it. **The evidence that the position held is that not one number this project
+//! publishes moved** — 91 bindings, 103 of 12,288 reachable, eleven items, four reaches, fifty
+//! constructs, all pinned by tests written before this phase and all still green.
 
-use game_format::{parse, resolve, Game};
+use game_format::{parse, resolve, Game, Kind};
 use std::path::{Path, PathBuf};
 
 fn root() -> PathBuf {
@@ -57,7 +58,10 @@ fn specimens() -> Vec<(String, String, Game)> {
 
 /// What an author wrote, split the way the reader splits it.
 ///
-/// The annotation rule is the lexer's: `??` runs to end of line unless it falls inside quotes.
+/// The annotation rule is the lexer's — `??` runs to end of line unless it falls inside quotes —
+/// and the quoting rule is too: **a line's text runs from its first quote to its last**, which is
+/// why an embedded quotation needs no escape and why a line cannot end with one.
+///
 /// Reproduced here rather than shared, because a census that borrows the reader's own splitting
 /// cannot report that the reader splits it wrongly.
 struct Authored {
@@ -114,17 +118,34 @@ fn is_response(keyword: &str) -> bool {
     SAYING.contains(&keyword)
 }
 
-/// **Every quoted string an author wrote is dropped at the parse, and it is half the file.**
+/// Every string the parse tree holds, in no particular order.
+fn kept(game: &Game) -> Vec<String> {
+    let mut out: Vec<String> = game.labels.values().cloned().collect();
+    for b in &game.bindings {
+        out.extend(b.says.iter().chain(&b.refusals).map(|r| r.text.clone()));
+    }
+    out.sort();
+    out
+}
+
+/// **Every quoted string an author wrote is in the tree, and it is half the file.**
 ///
-/// Measured rather than quoted, because this repository keeps finding figures that were true
-/// when somebody typed them. The proposal says *"half the characters an author writes are
-/// discarded at the parse"* and this is where that sentence is derived.
+/// Compared as multisets rather than by membership, so a line kept once and written twice is a
+/// failure. Measured rather than quoted: the proposal's sentence *"half the characters an author
+/// writes"* is derived here.
+///
+/// **It found one on its first run.** `ferry.game` wrote `else "\"Three,\" he says…"`, and the
+/// reader has no escape processing — it takes a line from its first quote to its last — so the
+/// backslashes were two characters of the response. Nothing could have noticed while the response
+/// was thrown away. The specimen is corrected rather than the lexer, because the first-to-last
+/// rule already admits an embedded quotation and an escape would be a fifty-first construct.
 #[test]
-fn every_quoted_string_in_a_specimen_is_dropped_at_the_parse() {
+fn every_quoted_string_in_a_specimen_reaches_the_parse_tree() {
     let (mut chars, mut resp, mut resp_n, mut labels, mut labels_n) = (0, 0, 0, 0, 0);
-    for (_, src, _) in specimens() {
+    for (name, src, game) in specimens() {
         let a = authored(&src);
         chars += a.chars;
+        let mut written: Vec<String> = Vec::new();
         for (_, keyword, text) in &a.quoted {
             let n = text.chars().count() + 2; // the quotes are authored too
             if is_response(keyword) {
@@ -134,47 +155,52 @@ fn every_quoted_string_in_a_specimen_is_dropped_at_the_parse() {
                 labels += n;
                 labels_n += 1;
             }
+            written.push(text.clone());
         }
+        written.sort();
+        assert_eq!(written, kept(&game), "{name} — written against kept");
     }
     assert_eq!(
         (chars, resp_n, resp, labels_n, labels),
-        (13_346, 105, 5_141, 80, 1_855),
+        (13_344, 105, 5_139, 80, 1_855),
         "authored chars, response sites and chars, label sites and chars"
     );
-    assert_eq!((resp + labels) * 100 / chars, 52, "percent discarded");
-
-    // There is nowhere for any of it to go. Asserted against the model's own source, which is
-    // how `declared.rs` states the same kind of absence — a missing field has no value to read.
-    let model =
-        std::fs::read_to_string(root().join("crates/game-format/src/lib.rs")).expect("readable");
-    assert!(
-        !model.contains("pub says:") && !model.contains("pub refusals:"),
-        "a binding with nothing to say"
-    );
-    assert!(
-        !model.contains("pub labels:"),
-        "a game whose declarations have no labels"
-    );
-    let reader =
-        std::fs::read_to_string(root().join("crates/game-format/src/parse.rs")).expect("readable");
-    assert!(
-        reader.contains(r#""say" | "otherwise" => {}"#),
-        "and the two spellings that carry most of it, matched and dropped"
-    );
+    assert_eq!((resp + labels) * 100 / chars, 52, "percent of the file");
 }
 
-/// **A binding a player can fire, and a model that cannot say a word about it.**
+/// **The search reads none of it, and that is checked rather than asserted.**
+///
+/// The position in `effect-list-semantics` is that presentation is separable from state. The
+/// cheap way to lose it is for something in the checker to start reading a line — a refusal
+/// changing a count, a label reaching a predicate — so the seam is held against the checker's own
+/// source.
+///
+/// It is a name check and says nothing about behaviour, which is the same limit `engine/README.md`
+/// states about its own gate. The behavioural evidence is the rest of the suite: 158 fixtures in
+/// `crates/reachability/tests` passed unchanged through the phase that filled these fields.
+#[test]
+fn the_search_reads_none_of_it() {
+    let search =
+        std::fs::read_to_string(root().join("crates/reachability/src/lib.rs")).expect("readable");
+    for field in [".says", ".refusals", ".labels", ".text", "Response"] {
+        assert!(
+            !search.contains(field),
+            "the reachability search reached for {field}, which is the seam this phase drew"
+        );
+    }
+    // and it still reads the half that is state
+    assert!(search.contains("b.guards()") && search.contains("b.effects"));
+}
+
+/// **A binding the player can fire now carries what it says and what it refuses.**
 ///
 /// `use-with crowbar` on the lighthouse's crate is the shape the whole format is for: a
-/// precondition, two effects, and a refusal. The author wrote a line for the firing and a line
-/// for the refusal, and the parse tree holds the predicate that selects each of them and neither
-/// line.
-///
-/// Checked against the binding's own `Debug`, because the claim is that the text is nowhere in
-/// the model rather than absent from one field somebody thought to look at.
+/// precondition, two effects, and a refusal. Checked against the binding's own `Debug`, because
+/// the claim is that the text is *in the model* rather than in one field somebody thought to
+/// look at.
 #[test]
-fn a_binding_the_player_can_fire_is_a_transition_with_nothing_to_say() {
-    let (_, src, game) = specimens()
+fn a_binding_the_player_can_fire_carries_what_it_says_and_what_it_refuses() {
+    let (_, _, game) = specimens()
         .into_iter()
         .find(|(n, ..)| n == "lighthouse")
         .expect("the lighthouse specimen");
@@ -191,41 +217,36 @@ fn a_binding_the_player_can_fire_is_a_transition_with_nothing_to_say() {
         "and the bit that says it declines rather than hides"
     );
 
-    let written: Vec<String> = authored(&src)
-        .quoted
-        .into_iter()
-        .filter(|(no, k, _)| is_response(k) && *no > b.line && *no < b.line + 7)
-        .map(|(_, _, t)| t)
-        .collect();
-    assert_eq!(
-        written.len(),
-        2,
-        "the author wrote two lines for it: {written:?}"
-    );
-    assert!(written[0].starts_with("The lid comes away"), "{written:?}");
-    assert!(written[1].starts_with("It is open already"), "{written:?}");
+    assert_eq!(b.says.len(), 1, "one line when it fires");
+    assert!(b.says[0].when.is_none(), "a `say` selects on nothing");
+    assert!(b.says[0].text.starts_with("The lid comes away"));
+    assert_eq!(b.refusals.len(), 1, "one when it declines");
+    assert!(b.refusals[0].text.starts_with("It is open already"));
 
     let model = format!("{b:?}");
-    for line in &written {
-        assert!(
-            !model.contains(line.as_str()),
-            "the model holds none of it, and this one is in it: {line}"
-        );
+    for line in [&b.says[0].text, &b.refusals[0].text] {
+        assert!(model.contains(line.as_str()), "and both are in the model");
     }
 
-    // And the crate's own name is gone the same way.
+    // The hotspot is called something now, and the crate's `look-at` is the guarded response
+    // list — a predicate and the line it selects, which were two constructs in one place until
+    // the line was kept.
+    assert_eq!(game.label("quay.crate"), Some("a nailed-shut crate"));
+    let look = game
+        .bindings
+        .iter()
+        .find(|b| b.verb == "look-at" && matches!(&b.site, game_format::Site::InRoom { target, .. } if target == "quay.crate"))
+        .expect("look-at on the crate");
+    assert_eq!(look.says.len(), 2, "a guarded line and a fallback");
+    assert!(look.says[0].when.is_some(), "`when crate-open \"…\"`");
     assert!(
-        game.declared.contains_key("quay.crate"),
-        "the hotspot is declared"
+        look.says[1].when.is_none(),
+        "`otherwise \"…\"`, written last"
     );
-    assert!(
-        !format!("{:?}", game.declared).contains("a nailed-shut crate"),
-        "and what it is called is not"
-    );
+    assert_eq!(look.guards().count(), 1, "one predicate selects a line");
 }
 
-/// **The trailing quoted string is three different things and only the declaration's kind says
-/// which.**
+/// **The trailing quoted string is three different things and `Kind` is what says which.**
 ///
 /// On a `room`, `actor`, `item` or `hotspot` it is a name a player reads. On an `option` it is a
 /// line the *player says*, which is player-facing text of the same sort as a response. On a
@@ -233,16 +254,25 @@ fn a_binding_the_player_can_fire_is_a_transition_with_nothing_to_say() {
 /// lit: 0 bare, 1 wicked, 2 oiled, 3 burning"` is not addressed to a player and cannot be shown
 /// to one.
 ///
-/// One construct, three jobs, and nothing in the surface distinguishes them. Held here because a
-/// reader that starts keeping the string has to know which of the three it kept.
+/// One construct, three jobs. The map holds the string as written and the declaration's kind is
+/// the discriminator, because a reader that starts keeping a string has to know which of the
+/// three it kept.
 #[test]
 fn the_trailing_quoted_string_is_three_different_things() {
     let mut by_keyword: std::collections::BTreeMap<String, usize> = Default::default();
-    for (_, src, _) in specimens() {
+    let mut by_kind: std::collections::BTreeMap<Kind, usize> = Default::default();
+    for (_, src, game) in specimens() {
         for (_, keyword, _) in authored(&src).quoted {
             if !is_response(&keyword) {
                 *by_keyword.entry(keyword).or_default() += 1;
             }
+        }
+        for name in game.labels.keys() {
+            let (kind, _) = game
+                .declared
+                .get(name)
+                .expect("a label names a declaration");
+            *by_kind.entry(*kind).or_default() += 1;
         }
     }
     let seen: Vec<(&str, usize)> = by_keyword.iter().map(|(k, n)| (k.as_str(), *n)).collect();
@@ -258,5 +288,24 @@ fn the_trailing_quoted_string_is_three_different_things() {
             ("room", 14),
         ],
         "declarations carrying a trailing string"
+    );
+    assert_eq!(
+        by_kind.values().sum::<usize>(),
+        seen.iter().map(|(_, n)| n).sum::<usize>(),
+        "and the tree holds one for each, keyed by what the admission rule keys on"
+    );
+
+    let author_facing: usize = by_kind
+        .iter()
+        .filter(|(k, _)| matches!(k, Kind::Flag | Kind::Counter))
+        .map(|(_, n)| n)
+        .sum();
+    assert_eq!(
+        (
+            author_facing,
+            by_kind.values().sum::<usize>() - author_facing
+        ),
+        (10, 70),
+        "glosses no player can be shown, against text a player reads"
     );
 }

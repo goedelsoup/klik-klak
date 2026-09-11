@@ -165,6 +165,25 @@ pub enum Effect {
     Leave,
 }
 
+/// One line the game says, and the predicate that selects it.
+///
+/// `when <predicate> "<line>"` is the construct
+/// [`interaction-table`](../../../.yidam/corpus/data-format/interaction-table.yml) calls the
+/// **guarded response list** — *"which keys and reads like writing on the same line"*. This is
+/// that line, and for six phases the reader kept the predicate and dropped the text beside it.
+/// `.yidam/decisions/authored-text.yml`.
+#[derive(Debug, Clone)]
+pub struct Response {
+    /// The predicate that selects this line, or `None` for one that always applies — a `say`, a
+    /// bare quoted line, an `otherwise`, or a bare `else`.
+    ///
+    /// A list is **first match wins**, which is how the author reads it: `otherwise` is a
+    /// fallback because it is written last, not because it is spelled differently.
+    pub when: Option<Pred>,
+    pub text: String,
+    pub line: usize,
+}
+
 #[derive(Debug, Clone)]
 pub enum Site {
     /// a hotspot or an actor standing in a room
@@ -205,9 +224,19 @@ pub struct Binding {
     /// forms are the format's way of saying *withheld* against *refused*, and the model went on
     /// discarding the distinction for four phases, because the only reader it had was a search
     /// that cannot see either. The reader that needs it is the interface.
+    ///
+    /// Nearly derivable from `refusals` now and kept because of the gap: an `else` with no line
+    /// at all still declines, and has no `Response` to be found in.
     pub refuses: bool,
-    /// predicates appearing in a guarded response list — checked, never evaluated here
-    pub guards: Vec<Pred>,
+    /// What this binding says when it fires, first match wins.
+    ///
+    /// A `say`, a bare quoted line and an `otherwise` are all a `Response` with no predicate;
+    /// `when <pred> "<line>"` is one with. Nothing in `crates/reachability` reads this and
+    /// nothing should: a line writes no state, so it is not an edge, and that is the half of
+    /// `.yidam/decisions/effect-list-semantics.yml` that was always a position.
+    pub says: Vec<Response>,
+    /// What it says when its `when` does not hold — the `else` forms, bare or guarded.
+    pub refusals: Vec<Response>,
     pub effects: Vec<Effect>,
     pub ending: bool,
     pub line: usize,
@@ -234,6 +263,20 @@ pub struct Counter {
 #[derive(Debug, Default)]
 pub struct Game {
     pub declared: BTreeMap<String, (Kind, usize)>,
+    /// What a declaration is called, by the same canonical name `declared` is keyed by.
+    ///
+    /// A separate map rather than a third field on `declared`, because kind and line are what the
+    /// **admission rule** needs — every operand must name something declared, of the right kind —
+    /// and a label is what a presenter needs. One struct would say they are the same kind of fact.
+    /// Two put the seam where the decision is, and make it measurable: `crates/reachability` reads
+    /// `declared` and never this, and the evidence is that no number it publishes moved when this
+    /// map was filled.
+    ///
+    /// **The string is three different things and [`Kind`] is what says which.** On a room, actor,
+    /// item or hotspot it is a name a player reads; on an option it is a line the *player says*;
+    /// on a flag or a counter it is a gloss for whoever reads the file, which no player can be
+    /// shown. `.yidam/decisions/authored-text.yml`.
+    pub labels: BTreeMap<String, String>,
     pub flags: Vec<Flag>,
     pub counters: Vec<Counter>,
     pub items: Vec<String>,
@@ -295,10 +338,38 @@ impl Game {
             .map(|(k, l)| (name.to_string(), *k, *l))
     }
 
+    /// What something is called, if it was given a label.
+    pub fn label(&self, name: &str) -> Option<&str> {
+        self.labels.get(name).map(String::as_str)
+    }
+
     pub fn flag(&self, name: &str) -> Option<&Flag> {
         self.flags.iter().find(|f| f.name == name)
     }
     pub fn counter(&self, name: &str) -> Option<&Counter> {
         self.counters.iter().find(|c| c.name == name)
+    }
+}
+
+impl Binding {
+    /// Every predicate that selects a line, in written order: the firing list, then the refusals.
+    ///
+    /// These were a `guards: Vec<Pred>` of their own until the lines they select were kept. A
+    /// predicate and the line it selects are one construct, and holding the predicate in two
+    /// places would be two copies of one fact — which is the defect this repository keeps finding
+    /// in its own prose. Readers that only want the predicates ask here.
+    pub fn guards(&self) -> impl Iterator<Item = &Pred> {
+        self.says
+            .iter()
+            .chain(&self.refusals)
+            .filter_map(|r| r.when.as_ref())
+    }
+
+    /// The same, for the pass that rewrites names into their canonical form.
+    pub fn guards_mut(&mut self) -> impl Iterator<Item = &mut Pred> {
+        self.says
+            .iter_mut()
+            .chain(&mut self.refusals)
+            .filter_map(|r| r.when.as_mut())
     }
 }

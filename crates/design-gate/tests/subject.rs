@@ -167,7 +167,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 67, "every record, in the order it was created");
+    assert_eq!(all.len(), 68, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -180,7 +180,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (31, 31, 22),
+        (32, 32, 22),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -208,17 +208,19 @@ fn the_evidence_each_record_rests_on() {
 /// re-pinned upward, phases went to the repository instead of its subject — which may well be
 /// right, and the record that did it should say why.
 ///
-/// **It is at two, and both records say why.** `engine-directory` creates a top-level directory —
-/// what rule it relaxes, where its gate lives, which crate owns a shared parser.
-/// `settled-surface` corrects a proposal that called its own implemented surface abstract. Neither
-/// is a question about adventure games and neither could be answered by reading a source.
+/// **It reached two and the sentence written here said what would break it.** That paragraph read:
+/// *"The next phase has an outward target already named: `game-format` discards half of what an
+/// author writes, and giving it back is the engine crates rather than this directory. If the run
+/// reaches three, that sentence was wrong."* The two records were `engine-directory`, creating a
+/// top-level directory, and `settled-surface`, correcting a proposal that called its own
+/// implemented surface abstract — both preparation, and preparation for building is repository
+/// work by its nature.
 ///
-/// **Two consecutive is the number worth watching rather than one.** Both phases were asked for as
-/// preparation before engine work, and preparation for building is repository work by its nature —
-/// so the run is expected here and is still exactly what `inward-turn` measured when it found
-/// seven phases putting nothing into the engine crates. The next phase has an outward target
-/// already named: `game-format` discards half of what an author writes, and giving it back is the
-/// engine crates rather than this directory. If the run reaches three, that sentence was wrong.
+/// **It is at zero.** `authored-text` gave the parse tree back the response text and the
+/// declaration labels, and it rests on all three evidence paths at once: a shipped game where 91
+/// of 203 bindings are a single `sayLine`, the two crates it changed, and a gate it re-pinned.
+/// The prediction is the part worth keeping — a tripwire that says in advance what would clear it
+/// is testable in a way that one saying only *"do not extend me"* is not.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -234,7 +236,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (2, 0),
+        (0, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }

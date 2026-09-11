@@ -305,7 +305,7 @@ artifact they compose into. Noted rather than proposed — and noted more carefu
 
 ## Using them as fixtures
 
-**164 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
+**165 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
 thirty-eight for six phases; the figure was never derived from anything and is held by a check now
 (`crates/design-gate/tests/watermark.rs`).
 

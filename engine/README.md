@@ -86,8 +86,15 @@ No code. The directory holds its contract and its gate, and the first module is 
 work. A directory created with a stub inside it is a directory whose first commit is a lie about
 progress.
 
-The first thing that must happen before a module can do anything useful: `game-format` parses
-`say` and declaration labels and discards both — `"say" | "otherwise" => {}` — so a game's entire
-player-facing text is dropped at the parse. That is the correct position for a checker
-([`effect-list-semantics`](../.yidam/decisions/effect-list-semantics.yml)) and it means no engine
-built on the current parse tree can emit a word.
+The first thing that had to happen before a module could do anything useful has happened.
+`game-format` used to parse `say` and declaration labels and discard both — `"say" | "otherwise"
+=> {}` — so a game's entire player-facing text was dropped at the parse, which meant no engine
+built on that tree could emit a word. **52% of a specimen**, measured across the four in
+`crates/game-format/tests/authored.rs`.
+
+The tree keeps all of it now, and the state model goes on ignoring it:
+[`authored-text`](../.yidam/decisions/authored-text.yml) separated the two claims that had been
+written as one. A `Binding` carries `says` and `refusals`, a `Game` carries `labels`, and not one
+number `crates/reachability` publishes moved when those fields were filled — which is the
+evidence that `effect-list-semantics`'s position was about the state model rather than about the
+reader.
