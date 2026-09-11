@@ -738,6 +738,65 @@ writes `YES` into it. That last write is debug-menu code, the same caveat that m
 the language rather than about the game: a counter and a flag are the same thing in Dinky, and
 nothing catches the confusion.
 
+## Six verbs against forty-nine — 2026-09-11
+
+[prior-art/sierra-sci](../corpus/prior-art/sierra-sci.yml) has carried one `[open]` since genesis
+and calls the evidence behind it *"the single most useful piece of evidence available to this
+corpus"*: Sierra moved from a typed parser to an icon bar inside one product line, and *"what was
+lost is `[open]`… whether any puzzle expressible to a parser became inexpressible under an icon
+bar."* No Sierra source is in reach. This game is, and it is itself the large vocabulary.
+
+**What is declared, counted off the file rather than described.** `master_verb_list` and
+`master_verb_names` hold **57 entries each**, are the same set, and are checked against each other
+at boot; `verb_usewith_list` holds **18** of them. **This entry has said 57 since it was written and
+the corpus has said sixty-three, in two nodes, at `[verified]`.** There are no commented-out entries
+in the list and no sixty-fourth anywhere; 57 is the number.
+
+**What is used.** 286 `VERB*` declarations over 143 owners — **220 bodies** (203 on objects, 17 on
+actors), 62 `VERB_OK` and 4 `VERB_PRE`. **49 distinct verbs carry a body, 23 of them exactly once,
+and 8 of the 57 are declared and never used.**
+
+**Mapping all 49 onto this design's six.** The 18 binary verbs are `use-with` bar `giveto`;
+`lookat`, `lookin`, `lookatfar`, `examine`, `check`, `read` and `smell` are `look-at`; `pickup` and
+`take` are `pick-up`; `walkto`, `enter`, `leave` and `climb` are `walk-to`; `talkto` is `talk-to`.
+
+**That leaves 19 verbs with no home among the six, carrying 31 of the 220 bindings — 14%.**
+
+    open 5   kick 2   dial 2   flip 2   flush 2   push_right 2   push_left 2   dance 2   close 2
+    pull_down, turn, turn_on, turn_off, spin, unlock, drink, lick, activate, eat — 1 each
+
+They are manipulation, and in this design they are `walk-to`: `patrol.game` writes *"You push it
+down. It starts to roar"* under `walk-to` on a kettle switch, which is the same verb the specimens
+use for an exit. That is what makes the collapse measurable rather than a matter of taste —
+everything unhoused lands in one place.
+
+**Collapsed, 220 bindings occupy 198 cells, and 18 cells hold more than one.** Seven of those are
+`use-with`, where a cell is keyed by the second object as well and most of them separate on it —
+`sinkFaucet` takes a screwdriver for `repair` and a glass for `fill`. The pairs that do share a
+second object share a guard that tells them apart: `valve.loosen` and `valve.tighten` both want the
+screwdriver and are gated `position == "normal"` against `"cranked"`.
+
+**Eleven cells are unary, over 24 bindings, and those are the ones with nothing but a guard to tell
+their occupants apart.** Six have every occupant guarded. **Five have an unguarded binding sitting
+beside a guarded one**, which is the shape this design's own checker refuses outright:
+
+| object | cell | occupants (unguarded in caps) |
+|---|---|---|
+| `BookStore.lowerLadder` | `walk-to` | **CLIMB** `push_right` `push_left` |
+| `BookStore.upperLadder` | `walk-to` | **CLIMB** `push_right` `push_left` |
+| `MainStreet.fireHydrant` | `look-at` | **LOOKATFAR** `smell` |
+| `PostOffice.brokenMailbox` | `look-at` | `lookin` **LOOKAT** |
+| `PostOffice.mailBoxes` | `walk-to` | **OPEN** `unlock` |
+
+**The ladders are the case that answers the question.** `lowerLadder` binds `climb` with no guard —
+it is the object's `default_verb` — `push_right` under `position != 2` and `push_left` under
+`position != 0`. At `position == 1` **all three are offered simultaneously and the world is
+identical under each**: what selects between them is the verb the player picked and nothing else.
+And the position is not decoration. `script moveLadder` hides every `walkbox+x` and disables every
+`trigger+x`, steps the position, then re-enables the pair for the new one — so sliding the ladder
+changes where the player can walk and which triggers fire. [verified] for every count and quotation
+above.
+
 ## What was looked for and not found — read this before citing
 
 **Yack's grammar is not documented.** `HelpDocsHtml/yacks.html` documents the *API* — the Dinky
