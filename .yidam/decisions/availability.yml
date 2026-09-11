@@ -1,0 +1,111 @@
+id: availability
+summary: >-
+  No primitive. The vocabulary already spells *withheld* and *refused out loud* — a `when` with
+  nothing under it against a `when` with an `else` — and what the corpus lacked was not the form but
+  a statement of what it means. Recorded with it: the distinction is invisible to every instrument
+  here by construction, so it was read rather than measured, and reading it found two refusals no
+  player could reach.
+context: |
+  Two consecutive phases arrived here from unrelated directions, which
+  [tier-split](tier-split.yml) names as the tell that a question has been asked at the wrong level.
+
+  [frame-width](frame-width.yml) **withdrew a rule** over it. This corpus had said in three places
+  that a shipped game never authors a `VERB_OK`; it authors 62, and what they are *for* is the part
+  that mattered — a boolean the engine consults before offering a verb, which cannot carry a line.
+  That is availability, and this design's `when` is refusal.
+
+  [arity-cost](arity-cost.yml) arrived from the other end. The 50,473 unauthored binary cells cost
+  nothing *because* a drag matching no verb does nothing at all — availability is the mechanism that
+  makes the combinatorics free.
+
+  And [binary-binding](../corpus/interaction/binary-binding.yml) had the question at genesis without
+  knowing it: *"a refusal that names which of the two objects was wrong leaks information about
+  which half was right… Nothing in the vocabulary lets an author say which."*
+decision: |
+  **No primitive is added. The form is `when` with nothing under it, and it means the binding is
+  not offered.**
+
+      use-with crowbar:          # offered, and declines out loud
+        when  not crate-open
+        do    set crate-open
+        else  "It is open already, and empty."
+
+      use-with crowbar:          # not offered at all
+        when  not crate-open
+        do    set crate-open
+
+  That is not a new reading imposed on old text. It is already what the form means at the only two
+  kinds of site where it appears: a conversation option whose `when` fails is not shown, and an
+  `on-enter` whose `when` fails does not fire. [entry-binding](../corpus/interaction/entry-binding.yml)
+  argued at genesis that an arrival trigger *cannot* carry a refusal — *"nobody tried anything, they
+  walked into a room"* — so the bare gate is the only form it can take.
+
+  **What the corpus does with it: nothing, everywhere it had a choice.** Three bare gates in 662
+  authored lines, all three at sites where a refusal is impossible. **All seventeen** gated bindings
+  on a hotspot verb carry a line. [verified] — `crates/reachability/tests/defaults.rs`.
+rationale: |
+  **The question cannot be settled by anything in this repository, and that is a finding rather than
+  an excuse.** Strip every refusal from all four specimens — every bare `else`, every `otherwise` —
+  and not one state, transition, stranding or winnability moves. [verified] `offered` gates on
+  `when` at all three sites and `Binding` carries no text at all, so *refused out loud* and *never
+  offered* are the same program. The instrument is blind to this by construction, and it is the same
+  blindness [default-binding](default-binding.yml) found and was right to keep: a response that
+  writes nothing is not a transition.
+
+  So it was read. Thirty refusals in the corpus, and they are three things:
+
+  - **Ten are not refusals.** A `look-at` with `when … "<line>"` clauses and an `otherwise` is a
+    guarded *response* list — every branch is content, and withholding it would leave the player
+    with nothing. These have no gate at all.
+  - **Nine say the thing is already done** — *"It is open already"*, *"It stands open"*, *"It is
+    wicked already"*, *"The reservoir is full"*, *"It is already lit"*. Withholding these is
+    defensible and is exactly what `okverb_open { return state == "closed" }` does.
+  - **Eleven are the game's only statement of why not** — *"It would run straight through. It wants
+    a wick first"*, *"The porter has not taken his eyes off you since you came in"*, *"Locked, and
+    the salt has taken the hinges"*. Withholding these loses content the player needs.
+
+  **A shipped game makes the same split and makes it on one verb slot**, which is the strongest form
+  the evidence could have taken. `Bathroom.dinky`'s `sink` carries `VERB_OK(turn_on)` returning
+  `state == "off" && lights_on` and `VERB_PRE(turn_on)` that says *"This has been broken for as long
+  as I can remember"* and returns `NO`. Three conditions on one verb: **already on — withheld
+  silently; room dark — withheld silently; broken — offered and refused out loud.** [verified]
+  ([delores-source](../catalog/delores-source.md).) `sinkFaucet` repeats the arrangement.
+
+  That is an author choosing per condition, on one binding, which is what this design's syntax
+  cannot do: `when` is one predicate and takes one treatment. **The gap is not the missing form —
+  it is that a binding has one gate.** [inference] Nothing here adds a second, because no specimen
+  has wanted one and a primitive with no site is what this corpus has refused six times.
+
+  **The ratio runs the opposite way in the two bodies of work, and neither is obviously right.**
+  That engine withholds 62 times and refuses out loud 3 — twenty to one for silence. These specimens
+  refuse out loud 17 times and withhold never. [verified] A verb menu built from the target makes
+  withholding *visible*: the verb is simply not in the list, and the player reads the absence. This
+  design has never specified an interface, so withholding here would be invisible, and an author
+  writing into that silence sensibly writes a line. [inference]
+
+  **Reading it found two defects, which measurement could not have.** `ferry`'s gate said *"You can
+  feel the bar but not the catch"* under `use-with lantern` with no guard, and `lighthouse`'s hinge
+  said *"It squeals"* the same way. Neither can ever run: without the lantern the binding is not
+  offered, and with it nothing fails. **The second key had already refused.** [verified] —
+  `crates/game-format/tests/refusals.rs`. Both are deleted, and the check that found them is the
+  format's third for authored text nothing can produce — the first of the three found in committed
+  work rather than constructed to demonstrate a rule.
+
+  It came directly out of `entry-binding`'s definition rather than out of a new idea: *a refusal is
+  what the game says when the player tries something the precondition forbids.* A binding with no
+  precondition affords no such occasion. A class defending its own shape wrote the rule that
+  convicted two others. [inference]
+
+  **And a third of that engine's availability predicates are this design's second key.** Of the 62,
+  **30 test which second object the verb applies to** — `noun2 == Inventory.glass`,
+  `noun2 == leonard` — leaving 32 that test something no key could express. [verified] So the
+  apparent 62-to-3 imbalance overstates the case for an availability primitive by about half, and
+  the overstatement is [arity-cost](arity-cost.yml)'s finding arriving again from the far side.
+
+  **What this does not settle.** Whether a binding should be able to carry two gates — one
+  withholding, one refusing — as that game's verb slots do. Nothing here has wanted it, and the
+  evidence for it is a single object in a bathroom. `[open]`
+
+  And the deeper one: withholding is only legible to a player through an interface, and this design
+  has none. `tier-split` recorded that questions of this kind have a third answer site which is not
+  a class in this ontology, and this is the second question to land there. `[open]`

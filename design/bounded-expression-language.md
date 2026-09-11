@@ -217,7 +217,15 @@ rest, including the three defects it found in the checker.
 
 **What it does not do.** It does not discharge `walk-to`'s exit residue, and this document said it
 would. An exit refuses when the player *clicks a door* — "Locked, and the salt has taken the
-hinges" — and a binding that fires on entering the far room is too late to say so. The two
+hinges" — and a binding that fires on entering the far room is too late to say so.
+
+That sentence assumes the door is clickable while locked, and **the format lets an author say
+otherwise without any new syntax**: a `when` with an `else` under it offers the binding and
+declines out loud, and a `when` with nothing under it withholds it. The specimens use the second
+form three times, all at sites where a refusal cannot exist — two conversation options and one
+`on-enter` — and every one of the seventeen gated bindings on a hotspot verb writes a line. Nothing
+in `crates/` can tell the two readings apart, by construction: strip every refusal from all four
+specimens and no figure moves. See [`availability`](../.yidam/decisions/availability.yml). The two
 assessments wanted arrival at two granularities: a room, and a place within a room. Only the first
 was demonstrated by a specimen and only the first was built.
 
