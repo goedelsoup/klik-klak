@@ -36,3 +36,22 @@ Sorted by: type, then slug.
    what it contains, any access constraints.
 3. Optionally add a `used-by` list of corpus node links for reverse traversal.
 4. Link from any corpus node that draws on it: `[Author Year](../catalog/<slug>.md)`.
+
+## What an entry has not read
+
+An entry closes with what it holds that nobody here has looked at — seven of the eight head that
+section *"What this … holds that nobody here has looked at"*, and it is the one place a reader
+goes to decide what to retrieve next.
+
+**When an item on that list gets read, the list says so and names where the reading went.** Four
+entries had done it, in four spellings, before anything here said to; the rule is written down now
+because the fifth case broke and no author could reasonably have caught it. `twp-dev-diary` spent
+272 commits recommending an artifact `delores-source` had already retrieved, and keeping that list
+current would have required knowing what a different file had done.
+
+A list must not name an artifact this catalog holds. That much is a check —
+`crates/design-gate/tests/catalog.rs` — and the rest is a convention, because whether a *page* has
+been read is not a thing any tool here can see. See
+[`.yidam/decisions/unread-list.yml`](../decisions/unread-list.yml), which also records the wider
+check that was measured and declined: *an entry edited since its unread-list last changed* reports
+seven of eight and means nothing.

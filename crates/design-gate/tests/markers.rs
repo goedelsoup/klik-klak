@@ -166,11 +166,11 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (9, 43, 39));
+    assert_eq!((corpus, decisions, records), (9, 44, 40));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        17,
-        "under a quarter is visible"
+        16,
+        "under a fifth is visible"
     );
 
     // It was (7, 23, 18) for two phases and the visible share then fell one point a phase — 23,
@@ -180,4 +180,9 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
     // been outside the count since the root commit and put them where it can see them. Both halves
     // of the denominator are readable now — `.yidam/decisions/README.md` lists the record side by
     // record and line, and `crates/design-gate/tests/pages.rs` holds the class pages to zero.
+    //
+    // It has fallen back since, to 17 and now to 16, and the mechanism is the first one again:
+    // nothing was closed and two records were added. `action-pages` bought a point by making a
+    // hidden question visible, which is a one-off; the drift is not. A share that only rises when
+    // somebody widens the numerator by hand is a share that goes one way.
 }

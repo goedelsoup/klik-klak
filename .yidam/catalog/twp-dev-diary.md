@@ -154,16 +154,23 @@ is `[inference]` from silence, and weak.
 
 ## What these posts hold that nobody here has looked at
 
-236 of 258 posts, including sixty-eight podcast episodes with transcripts nobody has read, the
-whole of David Fox's and Gary Winnick's contributions beyond one post, and the entire art,
-audio, translation and testing story. Also unread and directly on-topic: `debugger.html`,
-`text_tron_3000.html`, `hints_and_dialogs.html`, `text_lock.html` and `translations.html`, which
-between them cover how the dialogue and text were authored, and that is the half of the
-authoring surface this retrieval did not ask about.
+**The artifact this source points at has since been read, in full**, and has its own entry —
+[delores-source](delores-source.md). Gilbert released the complete game scripts of *Delores: A
+Thimbleweed Park Mini-Adventure* in 2020, along with Wimpy, for the same engine described here.
+This list called it *"the highest-value retrieval this corpus has ever identified"* and said
+nobody here had read it; it was retrieved the next day, and it did what this paragraph predicted
+— it turned the claims in this entry from *illustrated* into *counted*, and it is now the most
+cited source in this catalog. The sentence stood for 272 commits after it stopped being true,
+which is what `.yidam/decisions/unread-list.yml` is about.
 
-**And the artifact this source points at.** The complete game scripts of *Delores: A Thimbleweed
-Park Mini-Adventure* were released by Gilbert in 2020 at `github.com/grumpygamer/DeloresDev`,
-along with Wimpy, for the same engine described here. It is the thing the diary is evidence
-about, in full, and it would turn every claim in this entry from *illustrated* into *counted* —
-how many bindings, how many are one line, how many need a conditional, how many need a thread.
-Nobody here has read it. It is the highest-value retrieval this corpus has ever identified.
+**What is genuinely unread here.** 236 of 258 posts, including sixty-eight podcast episodes with
+transcripts nobody has read, the whole of David Fox's and Gary Winnick's contributions beyond one
+post, and the entire art, audio, translation and testing story.
+
+**The top of the list, now that the spent item is off it**: `hints_and_dialogs.html`,
+`text_lock.html` and `translations.html`, with `debugger.html` and `text_tron_3000.html` beside
+them — between them how the dialogue and text were authored, which is the half of the authoring
+surface this retrieval did not ask about. [conversation](../corpus/conversation.ont.yml)'s two
+instances are argued from the shipped source alone, and a diary about an engine is weaker evidence
+than the engine; that is the case against reading them, and it is in
+`.yidam/decisions/unread-list.yml` with the case for.
