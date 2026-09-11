@@ -36,13 +36,13 @@ Sorted by: kind, then alphabetically.
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 4v / 5i / 0o | 96 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 20v / 8i / 1o | 203 |
 | [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 5i / 1o | 75 |
-| [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 8v / 8i / 0o | 124 |
-| [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 4v / 3i / 0o | 91 |
+| [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 8v / 8i / 0o | 127 |
+| [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 4v / 3i / 0o | 101 |
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 4v / 1i / 0o | 62 |
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 4v / 2i / 0o | 66 |
 | [entry-binding.yml](interaction/entry-binding.yml) | interaction | Entry Binding | 3 | 10v / 9i / 0o | 163 |
 | [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 8v / 1i / 0o | 81 |
-| [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 7v / 4i / 1o | 127 |
+| [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 7v / 4i / 1o | 130 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
 | [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 5 | 16v / 4i / 1o | 166 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 1v / 7i / 0o | 72 |
@@ -62,8 +62,8 @@ Sorted by: kind, then alphabetically.
 | [use-with.yml](verb/use-with.yml) | verb | Use With | 2 | 11v / 5i / 0o | 106 |
 | [walk-to.yml](verb/walk-to.yml) | verb | Walk To | 3 | 24v / 10i / 0o | 314 |
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 5v / 3i / 1o | 81 |
-| [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 3v / 3i / 0o | 56 |
-| [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 3v / 5i / 0o | 75 |
+| [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 4v / 3i / 0o | 63 |
+| [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 4v / 5i / 0o | 83 |
 | [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 15v / 7i / 1o | 186 |
 | [object-state.yml](world-flag/object-state.yml) | world-flag | Object State | 2 | 5v / 4i / 0o | 78 |
 <!-- /REGEN -->
