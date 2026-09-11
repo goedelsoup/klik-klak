@@ -72,6 +72,14 @@ description: |
   where a designer sees that three things converge. The vocabulary still has no name for the
   condition; the *practice* has a picture of it.
 
+  **Every verified claim here rests on one line, and it is not the line most of them are about.**
+  This node cites one catalog entry — a designer's essay on puzzle dependency charts, supporting
+  the width claim — and two of its eight claims rest on committed tests in `crates/`. That single
+  citation is why `yidam lint` says nothing about this node, and deleting it would make the lint
+  loud without a claim moving. [inference] It is `world-flag/boolean-flag`'s position exactly, and
+  the difference is that `boolean-flag` had been reported once and this node never was.
+  `.yidam/decisions/carried-claims.yml`.
+
 properties:
   pattern: state-gate
   gate: |

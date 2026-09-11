@@ -130,9 +130,9 @@ fn the_instrument_is_a_kind_of_evidence_the_register_has_no_slot_for() {
         total,
         Rests {
             catalog: 112,
-            instrument: 51,
+            instrument: 52,
             both: 5,
-            carried: 150,
+            carried: 149,
         }
     );
     assert_eq!(
@@ -195,9 +195,10 @@ fn no_node_claims_a_lint_report_it_does_not_have() {
     );
     assert_eq!(
         claiming.len(),
-        5,
-        "nodes that say something about this lint. It was four, and the node the lint actually \
-         reported was not among them"
+        6,
+        "nodes that say something about this lint. It was four, all of them nodes the lint had \
+         named; `consuming-binding` joined while it is true, and `state-gate` joined without ever \
+         having been reported — see `.yidam/decisions/carried-claims.yml`"
     );
 }
 
