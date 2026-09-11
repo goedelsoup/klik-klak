@@ -61,7 +61,7 @@ Sorted by: kind, then alphabetically.
 | [use-with.yml](verb/use-with.yml) | verb | Use With | 2 | 11v / 5i / 0o | 106 |
 | [walk-to.yml](verb/walk-to.yml) | verb | Walk To | 3 | 24v / 10i / 0o | 314 |
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 5v / 3i / 0o | 72 |
-| [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 0v / 2i / 0o | 27 |
+| [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 2v / 3i / 0o | 48 |
 | [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 2v / 5i / 0o | 67 |
 | [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 15v / 6i / 1o | 178 |
 | [object-state.yml](world-flag/object-state.yml) | world-flag | Object State | 2 | 4v / 4i / 0o | 72 |
