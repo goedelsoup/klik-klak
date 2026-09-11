@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (254, 44, 31));
+    assert_eq!((total, mentions, tests.len()), (268, 44, 32));
 }
 
 /// **Eight of forty-seven records are cited by nothing, against three of forty-three nodes.**
@@ -322,21 +322,21 @@ fn a_record_nothing_cites_is_named() {
     assert_eq!(
         alone,
         [
-            "action-pages",
             "binding-axes",
             "design-directory",
             "domain-computer",
+            "effect-half",
             "effect-vocabulary",
             "name-scoping",
             "specimen-placement",
             "threshold-trigger",
         ],
-        "ten until `action-pages` cited three of them — `conversation-boundary`, \
-         `conversation-reduction` and `effect-half` were uncited because the file asking the \
-         question each answers had not been opened since the root commit"
+        "held at eight across two phases while the membership turned over three times. \
+         `effect-half` is back on it: `action-pages` was the only record citing it, and the \
+         citation went when the paragraph that made it turned out to answer the wrong question"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (47, 103));
+    assert_eq!((c.len(), edges), (48, 108));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -414,7 +414,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 29, "live open questions in this directory");
+    assert_eq!(total, 30, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
@@ -437,9 +437,17 @@ fn the_index_this_directory_never_had_is_current() {
 /// the field nothing here edits, and `.yidam/decisions/README.md` lists open questions, which live
 /// entirely in the field that changes.
 ///
-/// The one exception is named rather than excused, and it carries the lesson: **a summary should
-/// not hold a figure**, because a figure is the one thing in a record that can turn out to be
-/// wrong, and the summary is the half the log reads.
+/// The one exception was named rather than excused, and carried the lesson: **a summary should not
+/// hold a figure**, because a figure is the one thing in a record that can turn out to be wrong,
+/// and the summary is the half the log reads.
+///
+/// **There are two now, and the second is the convention earning itself one phase later.**
+/// `action-pages` put three figures in its summary — *"six answered by later phases, two by a tool
+/// that shipped, one by a tense"* — and the first was wrong before the next phase ended: one of
+/// the six was a live duplicate of a corpus marker, read as answered. The figures came out of the
+/// summary and the summary moved. Both exceptions are corrected measurements and neither is a
+/// changed mind, which is the rule holding rather than bending; what the second adds is that the
+/// convention was written against exactly this and was not followed by the record written next.
 #[test]
 fn no_record_has_changed_what_it_decided() {
     let root = repo_root();
@@ -470,14 +478,14 @@ fn no_record_has_changed_what_it_decided() {
     }
     assert_eq!(
         edited,
-        17,
+        18,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()
     );
     assert_eq!(
         moved,
-        ["latch-default"],
+        ["action-pages", "latch-default"],
         "a record may keep its account current; it may not restate what it decided"
     );
 }

@@ -12,6 +12,18 @@ description: |
   distinct kind means the transfer is a change of kind — which is exactly the thing UFO
   says a kind cannot undergo. Whether that transfer needs vocabulary beyond a world flag
   naming the controlled actor is `[open]`.
+
+  **This node has no `[verified]` claim and no source, and that is a standing rather than a
+  backlog.** Almost everything it states is on the far side of a boundary this design has always
+  had and only now records: pathfinding to a clicked point, a walk cycle scaled by the region the
+  actor stands in, arrival at a target. A `.game` file can say `<actor> in <room>` and nothing
+  finer, so no check here can reach a claim about any of it, and none ever will without giving the
+  format coordinates. [inference] `.yidam/decisions/drawn-boundary.yml`.
+
+  The class page one directory away carried this node's open question a second time, in a spelling
+  no tool reads, from the root commit until [action-pages](../../decisions/action-pages.yml)
+  emptied it. One question to a node is a rule with a check; the same question on the class's other
+  file was outside both.
 properties:
   control: player-input
   locomotion: |

@@ -7,6 +7,13 @@ description: |
   A region of a room's floor an actor may stand on, carrying the scale the actor draws at
   within it. Irreducible because it separates where an actor may *be* from what the room
   looks like: the pathable surface is authored independently of the background it sits under.
+
+  **This is the only class in the authoring tier the `.game` surface cannot name at all**, and the
+  reason is that it has no typed half: every word above is a thing an author draws. Two other
+  classes are absent from the format and both have accounts — `cutscene` is collapsed into
+  `interaction`, `puzzle` is derived from a flag and a binding. This one is excluded, which is a
+  third thing and is recorded in `.yidam/decisions/drawn-boundary.yml`. The class is kept because
+  it is this corpus's record of what the excluded half contains.
 properties:
   - name: geometry
     type: string

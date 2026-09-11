@@ -13,9 +13,10 @@
 //! What did not hold up is that the pages also carried **twelve open questions, in two spellings
 //! no tool here reads** — `*Open:*` and `*Stub:*`, in Markdown, which [`markers.rs`] does not scan
 //! because it scans `.yml`. Ten of the twelve were wrong. `.yidam/decisions/action-pages.yml` is
-//! the disposition: a page holds operations, the six that were answered became pointers at what
+//! the disposition: a page holds operations, the five that were answered became pointers at what
 //! answered them, and the two that were live became `[open]` on an instance where a tool can see
-//! them.
+//! them. A sixth was live already — a duplicate of the marker on `actor/player-character`, one
+//! file away in the same directory, which that record first read as answered.
 //!
 //! [`edges.rs`]: edges.rs
 //! [`markers.rs`]: markers.rs
@@ -170,8 +171,8 @@ fn every_query_a_class_page_documents_is_a_declared_triple() {
     );
     assert_eq!(
         (total, distinct.len()),
-        (38, 30),
-        "38 documented queries, 30 of them distinct — the pages repeat each other's edges more \
+        (37, 29),
+        "37 documented queries, 29 of them distinct — the pages repeat each other's edges more \
          often than they repeat their own"
     );
 }
@@ -226,9 +227,9 @@ fn every_path_a_class_page_writes_resolves() {
 
 /// **No question lives on a class page, and the two stubs left are promises rather than questions.**
 ///
-/// It was eight and four. Six of the eight had been answered by a later phase, two were live and
-/// are now `[open]` on an instance, and two of the four stubs promised `reachability` in the
-/// conditional — *"given a game to read"*, *"it has nothing to read"* — after it shipped and read
+/// It was eight and four. Five of the eight had been answered by a later phase, two were live and
+/// are now `[open]` on an instance, one was a duplicate of a marker already on an instance, and
+/// two of the four stubs promised `reachability` in the conditional — *"given a game to read"*, *"it has nothing to read"* — after it shipped and read
 /// four. A repository gets no warning when a promise it made comes true.
 ///
 /// The two that remain are honest: `collapse-signature` and `vocabulary-coverage` are still
@@ -266,9 +267,40 @@ fn no_question_lives_on_a_class_page() {
         "was (8, 4) — `.yidam/decisions/action-pages.yml` is the disposition of the other ten"
     );
 
-    // markers.rs's ratio, restated on the denominator that includes this place.
-    let (corpus, decisions) = (9, 29);
-    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 22);
+    // markers.rs's ratio, restated on the denominator that includes this place — and counted
+    // rather than repeated, because a literal here would go stale the next time a phase opens a
+    // question and nothing would say so.
+    let live = |dir: &str, ends: bool| -> usize {
+        let mut n = 0;
+        let mut stack = vec![root.join(dir)];
+        while let Some(d) = stack.pop() {
+            for e in std::fs::read_dir(&d).expect("readable").flatten() {
+                let p = e.path();
+                if p.is_dir() {
+                    stack.push(p);
+                } else if p.extension().is_some_and(|x| x == "yml") {
+                    let src = std::fs::read_to_string(&p).expect("readable");
+                    n += src
+                        .lines()
+                        .enumerate()
+                        .filter(|(i, l)| {
+                            l.contains("[open]")
+                                && (!ends
+                                    || (l.trim_end().ends_with("`[open]`")
+                                        && src
+                                            .lines()
+                                            .nth(i + 1)
+                                            .is_none_or(|x| x.trim().is_empty())))
+                        })
+                        .count();
+                }
+            }
+        }
+        n
+    };
+    let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
+    assert_eq!((corpus, decisions), (9, 30));
+    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 21);
 }
 
 /// **Every class page was written by this repository's first commit, and for 342 commits its last
@@ -280,7 +312,7 @@ fn no_question_lives_on_a_class_page() {
 /// and an instance node is the wrong scope — and every phase since answered questions somewhere
 /// else.
 ///
-/// Six of the twelve had answers sitting in records written after the question. Two of those
+/// Five of the twelve had answers sitting in records written after the question. Two of those
 /// records — `conversation-reduction` and `conversation-boundary` — were on `records.rs`'s orphan
 /// list, cited by nothing. **That is one finding from both ends**: the file asking the question was
 /// never reopened, so the record that answered it was never cited. Citing them from

@@ -2,10 +2,9 @@ id: action-pages
 summary: >-
   An `ACTIONS.md` entry is an operation, and the fifteen class pages had been carrying questions
   since the root commit because a question about a *class* has nowhere tagged to live. Ten of the
-  twelve are wrong — six answered by later phases, two by a tool that shipped, one by a tense — and
-  nothing could have noticed, because both spellings they are written in are invisible to every
-  check here. The questions leave: two become tagged markers on instances, the rest become pointers
-  at what answered them.
+  twelve are wrong, and nothing could have noticed, because both spellings they are written in are
+  invisible to every check here. The questions leave: the live ones to a tagged home on an
+  instance, the rest to pointers at what answered them.
 context: |
   [markers.rs](../../crates/design-gate/tests/markers.rs) found that three quarters of what this
   corpus owes sits where no tool looks — 7 open questions in the corpus against 28 in the decision
@@ -40,8 +39,9 @@ decision: |
 
   | | |
   |---|---|
-  | **Answered by a later phase** — retracted, with a pointer to the record or node that answered it | **6** |
+  | **Answered by a later phase** — retracted, with a pointer to the record or node that answered it | **5** |
   | **Live, and moved to a tagged home** — `[open]` on the class's instance | **2** |
+  | **Live already, one file away** — a duplicate of the instance's own marker | **1** |
   | **A stub whose tool shipped** — rewritten as the operation it now is | **2** |
   | **A stub that is still a stub** — kept, one of them with its tense corrected | **2** |
 
@@ -57,7 +57,18 @@ decision: |
   the disposition it is 22%, and the gain is not bookkeeping: two questions that no tool could see
   are now two questions `yidam open-questions` returns.
 rationale: |
-  **Six answers, and two of them are options the question did not offer.**
+  **Five answers, and two of them are options the question did not offer.**
+
+  This record first said six, and the sixth was `actor` — read as a question about control
+  *returning* from a mode and answered with `conversation -returns-control-to-> actor`. The page
+  asked *"whether control transfer needs vocabulary of its own, or falls out of `world-flag`"*, and
+  [player-character](../corpus/actor/player-character.yml) carries the same question in the same
+  directory, one file away, tagged: *"whether that transfer needs vocabulary beyond a world flag
+  naming the controlled actor."* It is about which actor the player controls, not about a mode
+  ending, and it is live. So the page was carrying a **duplicate of a corpus marker** — which is
+  the one disposition this record did not anticipate, and the one `markers.rs`'s *one question to a
+  node* rule would have caught had it ever looked at a page. Found while establishing
+  [drawn-boundary](drawn-boundary.yml), by reading the node the page was restating.
 
   - **`room`** asked *"whether `extent` belongs on the room or on the camera. No node argues it
     yet."* [room-geometry](room-geometry.yml) read 307 KB of a shipped game's room files and
@@ -65,13 +76,6 @@ rationale: |
     and `room_bounds` is where the camera may go, and they differ in four of twenty-two rooms —
     including one whose camera bounds are taller than its background. A camera class is refused
     because the bounds are the only thing about that engine's camera with no setter. [verified]
-  - **`actor`** asked *"whether control transfer needs vocabulary of its own, or falls out of
-    `world-flag`."* [effect-list-semantics](effect-list-semantics.yml) answered neither: **control
-    transfer is a mode in the state vector**, entered and left by two relationships that existed at
-    genesis — *"`interaction -opens-> conversation` enters it, `conversation -returns-control-to->
-    actor` leaves it, and both effects are instantaneous while the mode persists."* The branch the
-    question did offer was priced later: [effect-half](effect-half.yml) measured the refused
-    imperative form at **168 sites, 12.7% of everything a shipped game writes**. [verified]
   - **`conversation`** asked whether `interaction -opens-> conversation` reduces the class to a
     response type. [conversation-reduction](conversation-reduction.yml) is that question, worked:
     *"It reduces to a room exactly — same states, transitions, strandings, winnability — and what

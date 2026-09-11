@@ -12,6 +12,13 @@ description: |
   author wants reachable must fit, so a place too large for one screen becomes several
   rooms joined by `connects-to` — which is why exits, rather than camera work, carry the
   burden of expressing space in this form.
+
+  **Everything above about coordinates is outside what this vocabulary expresses, which is why
+  this node carries no `[verified]` claim.** A room in the `.game` surface is a name; the shared
+  coordinate space, the scroll transform it does without, and the screen position that is a world
+  position are all facts about the picture. What survives inside the boundary is the second
+  paragraph — composition and navigation are the same decision — because `connects-to` is typed and
+  an extent is drawn. [inference] `.yidam/decisions/drawn-boundary.yml`.
 properties:
   extent: single-screen
   background: |
