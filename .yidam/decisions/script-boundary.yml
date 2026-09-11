@@ -1,0 +1,96 @@
+id: script-boundary
+summary: >-
+  The language the declarative layer escapes to was read for the first time, and the boundary turns
+  out to be a cut rather than a choice: every operator it has that is not arithmetic or bitwise is
+  in this design, and every operator in this design is in it. The predicate vocabulary stays at
+  nine, now as a measured fragment rather than a designed one, and the termination guarantee
+  becomes an evidenced advantage instead of an assumed one.
+context: |
+  [ags-manual](../catalog/ags-manual.md) listed the scripting language reference as unread for
+  eight phases, in its own words *"where the boundary between declarative authoring and
+  general-purpose code actually sits, which is this corpus's central question."*
+  [forty-eight](forty-eight.yml) measured the declarative side down to the argument counts and left
+  the other side of the hatch a blank.
+
+  Read — `ScriptingLanguage.md`, `ScriptKeywords.md`, `Scripting.md`, `ScriptAPIOverview.md`:
+
+  **AGS Script declares twenty-one operators and nine of them are this design's nine.** Six
+  comparisons, spelled identically; three logical connectives. What is left over is seven
+  arithmetic operators and five bitwise, and **that is the entire difference** — the complement of
+  this design's predicate vocabulary inside AGS Script's is exactly arithmetic and bitwise, with
+  nothing else in it. [verified] — `crates/game-format/tests/boundary.rs`.
+
+  Beyond operators: nine control constructs there against three here, none of the abstraction
+  (`function`, `return`, `struct`, `managed`, `new`, `enum`, arrays), and six value types against a
+  flag and a bounded counter. The API index is fifty-seven pages whose largest groups are
+  presentation and interface.
+decision: |
+  **The predicate vocabulary stays at nine, and what changes is what kind of claim that is.**
+
+  It had been a design: nine constructs argued into place one record at a time, weighed against a
+  corpus of documents. It is now also a measurement. Every operator the escape language has that is
+  not arithmetic and not bitwise is here; every operator here is there. **The bounded language is
+  the escape language's boolean fragment**, and that is a fact about two artifacts rather than a
+  property anybody chose.
+
+  **The termination guarantee is recorded as an advantage with evidence, which it did not have.**
+  Loops and recursion were excluded here so that evaluation terminates by construction. AGS has the
+  same problem and answers it at runtime by guessing: *"if a `while` loop runs for more than
+  150,000 loops, AGS will assume that the script has hung and abort the game"* — and ships
+  `noloopcheck` to disable the guess per function, *"for example, when initializing a very large
+  array"*. [verified]
+
+  So the prior art demonstrates both halves: that the problem is real in a shipped engine, and that
+  the available answer without a bounded language is a threshold with a documented escape from the
+  threshold. The one remaining source of infinity here is an unbounded item quantity, which
+  [ferry.game](../../design/specimen/ferry.game) closes by declaration — *"the ceiling restores it
+  by declaration, the way a counter's range already did"* — and that is a third instance of the
+  same move: bound it where it is declared rather than detect it where it runs.
+
+  **The catalog entry's unread list loses its own top item**, and the reading goes in the entry
+  rather than a node, on [forty-eight](forty-eight.yml)'s precedent: a source's contents belong
+  with the source.
+rationale: |
+  **A cut is a much stronger claim than a choice, and the corpus had only been able to make the
+  weaker one.**
+
+  Nineteen records weighed candidates against this surface and every judgement was an argument.
+  [unwritten](unwritten.yml) found what that produces — a head that is heavily exercised and a tail
+  made of reasoning — and named the method's characteristic risk without being able to test any
+  individual decision. This tests one, and it holds: the nine operators are not nine plausible
+  choices out of a large space, they are a complete fragment with a nameable boundary. Somebody
+  designing by argument arrived at exactly the set that a real language's non-arithmetic half
+  contains. [inference]
+
+  **What makes that non-trivial is that the boundary could have fallen anywhere.** A vocabulary
+  missing `<=` and carrying `%` would be equally defensible one record at a time and would not be a
+  fragment of anything. The cut being clean is evidence the arguments were tracking something.
+
+  **And the thing on the far side of the cut is arithmetic, which neither declarative layer has.**
+  [interaction-table](../corpus/data-format/interaction-table.yml) found it of AGS's forty-eight —
+  *"No arithmetic — `Game - Set variable value` assigns and nothing increments"* — and it is true
+  here. **Two declarative layers, built twenty-five years apart by people who did not consult each
+  other, drew the line in the same place**, and in both cases arithmetic is available only through
+  the hatch. That is the strongest convergent evidence in this corpus for any boundary it has
+  drawn. [inference]
+
+  **The termination comparison is the one place this design is ahead rather than level.** Every
+  other finding of the last three phases has been convergence — the effect list, the presentation
+  split, the operator fragment. Here the two systems differ and the difference is a guarantee
+  against a heuristic. It is worth being precise about the size of the win: AGS's threshold works,
+  games ship, and 150,000 iterations is a reasonable guess. What a bounded language buys is not
+  that games stop hanging; it is that **a checker can answer questions about a game without running
+  it**, which is what `crates/reachability` exists to do and what no amount of runtime guessing
+  provides.
+
+  **One figure was wrong for four minutes rather than four phases.** This reading first said
+  twenty-three operators. The check counts them off the recorded table instead of trusting the
+  sentence, which is [collected-verdict](collected-verdict.yml)'s wire doing exactly the job
+  [unread-clock](unread-clock.yml) built it for, on the first new figure to arrive since.
+
+  **What this does not settle.** What authors actually do with the arithmetic. The cut is clean and
+  the *cost* of the cut is unmeasured: `Globalfunctions_General`, the `Maths` page and the fifty-odd
+  other API pages are still unread, and the question *how often does a shipped AGS game reach the
+  hatch for a sum* has an answer in a corpus of published games that this repository does not hold.
+  [escape-hatch](escape-hatch.yml) answered the same question for Delores by counting call sites,
+  and the equivalent count here needs game source rather than a manual. `[open]`
