@@ -37,6 +37,7 @@ used-by:
   - ../corpus/prior-art/scumm.yml
   - ../corpus/verb/use-with.yml
   - ../corpus/interaction/binary-binding.yml
+  - ../corpus/interaction/conversational-binding.yml
 ---
 
 **A source of record, and the first one this corpus can *count*.** *Delores: A Thimbleweed Park

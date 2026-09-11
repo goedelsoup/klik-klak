@@ -1,0 +1,81 @@
+id: conversation-reduction
+summary: >-
+  `conversation` keeps its place and the binding shape was always legitimate, but the class had been
+  founded twice on the wrong thing. It reduces to a room exactly — same states, transitions,
+  strandings, winnability — and what does not reduce is `leave`, which names no room because a mode
+  sits beside the room rather than replacing it. The class turns on the return.
+context: |
+  [conversational-binding](../corpus/interaction/conversational-binding.yml) was seeded at genesis
+  to hold one side of what it called *"this corpus's most consequential open question"*, and held it
+  unargued through nine phases:
+
+  > If a binding's response may be "enter this conversation", then `conversation` is a response
+  > *type* rather than a primitive, and the vocabulary is one class smaller than currently drawn. If
+  > it is not, the reason has to be stated, and the only candidate reason this corpus has found is
+  > that a conversation's available choices depend on the path taken through it, which no binding
+  > records. `[open]` Neither side has been argued in a node yet.
+decision: |
+  **The binding shape is legitimate. The class stays. Neither follows from the other, and that is
+  why the question resisted for nine phases.**
+
+  `Effect::Enter` has been in the closed effect vocabulary since `effect-vocabulary`, declared
+  against `interaction -opens-> conversation`, and `lighthouse.game` writes
+  `talk-to: do enter keeper-talk`. There was never anything to legitimate. What the question was
+  really asking is whether the *class* survives, and the answer is yes on a ground the class had not
+  claimed: **leaving an exchange returns the player where they were, and a room cannot do that.**
+rationale: |
+  **The candidate reason against reduction is false, and the specimen it was written beside said
+  so.** A conversation's available choices *are* recorded — by the same machinery world state uses.
+  `flag asked-key in keeper-talk` is a world flag with a scope, `option wick-ask: when chosen lamp
+  and not asked-key` reads it, and `world-flag.scope` has read *"local to a conversation"* since
+  genesis. [verified] [topic-list](../corpus/conversation/topic-list.yml) established this four
+  phases ago and the class prose never caught up.
+
+  So the reduction was run rather than argued, which is the move
+  [binary-dimension](binary-dimension.yml) made for the same kind of question.
+
+  **It is exact.** The exchange rewritten as an ordinary room — options as hotspots, `enter` as
+  `move`, `leave` as `move <the room you came from>`, `chosen` as a latched flag — gives 91 states,
+  173 transitions, winnable, one stranding, against the original's identical figures. [verified] —
+  `crates/reachability/tests/conversation.rs`. The rewrite is done to the text, so what analyses
+  identically is a game an author could have written.
+
+  **What it cannot do is `leave`, and that is the whole of what survives.** `leave` names no room.
+  The rewrite could write `move quay` only because this exchange has one entrance. Give it two and
+  the room form needs an exit per entrance — and the copies are not duplication, they are a hole:
+  nothing keys an exit to the door the player came in by, so the exchange becomes a passage between
+  the two rooms. **The room form has fewer states than the conversation form, because it has lost
+  the entrance.** [verified]
+
+  A mode sits *beside* the room rather than replacing it, and that pair is the return address. To
+  write it as rooms an author has to record the entrance in world state by hand, once per door,
+  which is the shape [arrival-trigger](arrival-trigger.yml) admitted `on-enter` for.
+
+  **Prior art keeps the mode the same way and says so in its API.** `startYack(actor1, actor2,
+  filename)` names no room and moves nobody; `endYack()` takes nothing; `isYacking()` is one global
+  boolean ([delores-source](../catalog/delores-source.md)). [verified] The exchange is a bit and two
+  actor references laid over the room the player is standing in. And availability there is derived
+  at display time too: `yackChoices()` returns *"the number of choices at the moment it is called…
+  most commonly called from .yack scripts to find out if there are no active choices"*.
+
+  **The class had been founded twice on the wrong thing, which is the part worth keeping.** First on
+  branching, corrected by [topic-list](../corpus/conversation/topic-list.yml) when a hub turned out
+  to be the base case in both engines. Then on *carried availability* — and the description said in
+  the same breath that nothing in its edges writes it, *"the class is founded on state the ontology
+  gives it no way to change."* That was the right worry with the wrong remedy: the answer was not to
+  add a relationship but to see that availability is read. [inference] A class that survives two
+  wrong foundings is a class worth having; what it is not is a class anybody had examined.
+
+  **And running the reduction found a defect in the instrument**, because it did not come out exact
+  at first — 103 states against 91. The cause is [observed-state](observed-state.yml), the third
+  time this checker has carried something no predicate can read. Fixing it moved a figure quoted in
+  five corpus nodes, four decision records and both design documents.
+
+  That is the second thing this phase settles and the more portable one: **a rewrite that should
+  agree and does not is a defect detector**, and it was pointed at the checker rather than at the
+  game. Nothing else here has that shape. [inference]
+
+  **What this does not settle.** Whether an exchange should be enterable from more than one place at
+  all — no specimen has one, and the two-entrance case above is constructed. If exchanges are always
+  entered from one room, the return is free and the class's last ground is a convenience rather than
+  a necessity. `[open]`
