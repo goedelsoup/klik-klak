@@ -42,7 +42,7 @@ Sorted by: kind, then alphabetically.
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 4v / 2i / 0o | 66 |
 | [entry-binding.yml](interaction/entry-binding.yml) | interaction | Entry Binding | 3 | 10v / 9i / 0o | 163 |
 | [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 9v / 2i / 0o | 88 |
-| [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 7v / 4i / 1o | 130 |
+| [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 9v / 4i / 0o | 144 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
 | [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 5 | 18v / 5i / 1o | 184 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 1v / 10i / 0o | 96 |
