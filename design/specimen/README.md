@@ -1,7 +1,7 @@
 ---
 title: what the specimens found
 status: proposal
-reconciled: 5330b3d574f75170708228b4d5f68a8f0cef062a
+reconciled: da5d722898745e5684fafeffdb26d2b17e67cc09
 rests_on:
   - design/bounded-expression-language.md
   - design/specimen/lighthouse.game

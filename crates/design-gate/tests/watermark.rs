@@ -38,6 +38,14 @@
 //! should be read against. `marker-count`'s rule applies — **make the record truthful rather than
 //! ask the tool to be cleverer** — so the price is a reconciliation that sometimes finds nothing,
 //! and the alternative is a check that sometimes misses something.
+//!
+//! **And a document resting on a document takes its watermark one commit later.**
+//! `design/specimen/README.md` rests on `bounded-expression-language.md`, so moving the upstream
+//! mark *is* a commit touching the downstream premise, and reconciling both in one commit leaves
+//! the second red. `second-document` predicted the missing direction of this — a premise of a
+//! premise moving is invisible to both marks — and the visible direction is the same structure
+//! from the other side. The rule that follows is small and worth stating rather than rediscovering:
+//! **the downstream document's mark names a commit after the upstream document's mark moved.**
 
 use design_gate::{front_matter, repo_root};
 use std::path::{Path, PathBuf};
