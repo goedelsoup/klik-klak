@@ -45,6 +45,10 @@ does not re-emit it.
 
 - **:87** — **What this does not settle.** Whether the three remaining role-named instances declare a shape they have or a shape they had in mind. `acquisition-binding` says `unary` and the corpus's own `is` sites hand an item over from a hotspot, which is how a *binary* use-with can acquire; `default-binding` …
 
+### [collected-verdict](collected-verdict.yml)
+
+- **:89** — **What this does not settle.** Whether a record should carry figures at all. The convention says keep them out of the summary and this record moves two out of one; what neither says is where they should go instead, and the answer here was available only because `surface.rs` existed to point at. Reco…
+
 ### [conversation-reduction](conversation-reduction.yml)
 
 - **:81** — **What this does not settle.** Whether an exchange should be enterable from more than one place at all — no specimen has one, and the two-entrance case above is constructed. If exchanges are always entered from one room, the return is free and the class's last ground is a convenience rather than a n…
@@ -124,7 +128,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**30 open.**
+**31 open.**
 
 ## What nothing cites
 
@@ -135,7 +139,6 @@ nodes, at four times the rate, and it had never been looked at.
 - [binding-axes](binding-axes.yml)
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
-- [effect-half](effect-half.yml)
 - [effect-vocabulary](effect-vocabulary.yml)
 - [evidence-kinds](evidence-kinds.yml)
 - [name-scoping](name-scoping.yml)

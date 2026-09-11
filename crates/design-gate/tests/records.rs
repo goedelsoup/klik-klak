@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (287, 49, 34));
+    assert_eq!((total, mentions, tests.len()), (300, 52, 35));
 }
 
 /// **Eight of forty-seven records are cited by nothing, against three of forty-three nodes.**
@@ -325,7 +325,6 @@ fn a_record_nothing_cites_is_named() {
             "binding-axes",
             "design-directory",
             "domain-computer",
-            "effect-half",
             "effect-vocabulary",
             "evidence-kinds",
             "name-scoping",
@@ -337,7 +336,7 @@ fn a_record_nothing_cites_is_named() {
          question — and the newest record joins it, as every newest record does"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (50, 120));
+    assert_eq!((c.len(), edges), (51, 128));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -415,7 +414,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 30, "live open questions in this directory");
+    assert_eq!(total, 31, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
@@ -479,14 +478,16 @@ fn no_record_has_changed_what_it_decided() {
     }
     assert_eq!(
         edited,
-        19,
+        20,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()
     );
     assert_eq!(
         moved,
-        ["action-pages", "latch-default"],
-        "a record may keep its account current; it may not restate what it decided"
+        ["action-pages", "escape-hatch", "latch-default"],
+        "a record may keep its account current; it may not restate what it decided. All three \
+         moved a figure and none moved a decision — and the third is the first whose summary went \
+         stale without the record being touched, because what changed was the thing it described"
     );
 }
