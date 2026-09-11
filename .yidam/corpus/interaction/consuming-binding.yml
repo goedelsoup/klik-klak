@@ -9,7 +9,10 @@ description: |
 
   **[inference] It is the only binding in this vocabulary whose success can be the mistake.**
   Every other shape either resolves correctly or refuses, and a refusal is a message the player
-  can act on. This one resolves correctly on the wrong target: the oil goes into the hinge rather
+  can act on. The half of that a checker can confirm is confirmed: **every one of the five
+  strandings in the four specimens was a binding the player had been shown**, in the state it
+  stranded them from — `Report::unshown` is empty everywhere — so none of them was reached by
+  accident or by a route the interface hid. [verified] — `crates/reachability/tests/spend.rs`. This one resolves correctly on the wrong target: the oil goes into the hinge rather
   than the lamp, and the text that follows is written as a success because at that moment it is
   one. Nothing distinguishes the right use from the wrong use except what will be needed later,
   which is written somewhere else entirely.
@@ -19,21 +22,47 @@ description: |
   this binding, which is locally correct and will stay correct, but on what remains reachable
   after it resolves.
 
-  **That is now where the check is.** `crates/reachability` finds a stranding as an edge
-  stepping out of the set of states from which an ending is still reachable, and classifies it
-  by whether the binding carries a spend. Against a specimen it named exactly one — a can of oil
-  poured into a hinge — and reported the state it lost rather than only that one was lost.
-  [inference] The classification is cheap in a way worth noting: consumption and ordering are
-  the same computation and differ only in which effect the stranding edge carried, which is
-  further evidence that `unwinnable-state`'s account of them as two different kinds of problem
-  was about authoring rather than about detection.
+  **That is now where the check is, and the four specimens strand five times.** `crates/reachability`
+  finds a stranding as an edge stepping out of the set of states from which an ending is still
+  reachable. Six bindings spend; three of the five strandings are consumption and two are ordering.
+  `lighthouse.game`'s is the can of oil poured into a hinge — four reachable states lost, from
+  *"in base; carrying crowbar, brass-key, wick; lamp-prep=0"*, and the report says which rather
+  than only how many. [verified] — `crates/reachability/tests/spend.rs`.
+
+  **This node said the classification was cheap and said so wrongly.** It read: *"consumption and
+  ordering are the same computation and differ only in which effect the stranding edge carried."*
+  They differ by a second reachability run. The checker takes the spending away and asks whether
+  that rescues the stranded state; if it does, the spending was the cause. The source comment
+  predates this sentence and gives the reason in the specimen this corpus already had:
+  *"a binding that both spends and moves carries both kinds of effect, and reading the cause off
+  the list picks one by fiat."*
+
+  `ferry.game` is that case and it is decisive. **Its toll spends three coins and is classified
+  `Ordering`** — handing the coins back rescues nothing, because what closed is the river. It is
+  the only spending binding in that game and the only stranding it has, so the reading this node
+  proposed would have been wrong about one of the corpus's five. [verified] —
+  `crates/reachability/tests/spend.rs`. What follows for
+  [unwinnable-state](../failure-mode/unwinnable-state.yml) is the opposite of what was written
+  here: detecting the two is one computation, and telling them apart takes a second, so they are
+  distinguishable at detection after all and the distinction has a price.
+
+  **And the shape declared below is not the shape the corpus spends at.** Two of the three
+  consumption strandings are `nightwatch.game`'s, where the ledger is spent on an **`on-enter`** —
+  the watchman taking it out of the player's hands — which has no verb, no target and no second
+  object. The checker attributes the stranding to the two `walk-to` bindings that walk into the
+  hall, because an entry binding is forced and the arrival is what the player chose. [verified]
+  `spend` is an effect and [effect-vocabulary](../../decisions/effect-vocabulary.yml) put it in a
+  list that belongs to any binding; this class was named after the shape that spends most often
+  and then written as though that were the only shape that could. `shape` takes a fourth value for
+  it, added and authored together, and `.yidam/decisions/binding-axes.yml` carries what the
+  correction turned out to be about.
 
   [inference] The consequence for the format is that consumption has to be *declarable* rather
   than written into response prose. A checker asking which bindings spend a given item gets an
   answer from the graph; a reader asking the same question of prose gets one only if every author
   happened to phrase it the same way.
 properties:
-  shape: binary
+  shape: any
   response: |
     The item is used on the target and leaves the inventory. Two facts, and the second is the one
     an author is least likely to state twice: response text reading "you pour out the last of the

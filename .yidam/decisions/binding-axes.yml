@@ -1,0 +1,87 @@
+id: binding-axes
+summary: >-
+  `interaction` has seven instances named on two axes — three by what a binding *takes*, four by
+  what it *does* — and its required `shape` property can only be answered on the first. The cost
+  surfaced when `consuming-binding` declared itself binary and a specimen spent an item at an
+  arrival trigger. `shape` takes a fourth value, the class is not split, and the finding is that a
+  node earning its own place does not make a class coherent.
+context: |
+  [consuming-binding](../corpus/interaction/consuming-binding.yml) was the only node in this corpus
+  with `[inference]` on every claim and `[verified]` on none. Two of its claims were measurements
+  written as opinions; one was an account of how `crates/reachability` classifies a stranding and
+  described an implementation that had been replaced.
+
+  Measuring it to fix the tags found something else. Across the four specimens there are six
+  bindings that spend and five strandings, three of them consumption — and **two of those three are
+  not a binary verb applied to a target.** `nightwatch.game` spends its ledger on an `on-enter`,
+  the watchman taking it out of the player's hands, which has no verb, no target and no second
+  object. [verified] — `crates/reachability/tests/spend.rs`.
+
+  The node declared `shape: binary`.
+decision: |
+  **`shape` takes a fourth value, `any`. The class is not split and no node is re-seeded.**
+
+  The value is added to [interaction.ont.yml](../corpus/interaction.ont.yml) and authored on
+  `consuming-binding` in the same commit, which is the rule
+  [world-flag/object-state](../corpus/world-flag/object-state.yml) followed when `scope` needed a
+  fourth value for a shipped game's dominant form of state. Same shape of problem, same remedy,
+  and the precedent is named rather than re-derived.
+
+  Splitting `interaction` was not weighed for long. [arrival-trigger](arrival-trigger.yml) already
+  refused a class of its own for the entry trigger because it *"would have undone the collapse it
+  was built to complete"*, and the same argument applies with more force to a distinction that is
+  not about the world at all.
+rationale: |
+  **The class names instances on two axes and only one of them can answer `shape`.**
+
+  | named by what it takes | named by what it does |
+  |---|---|
+  | `unary-binding` | `acquisition-binding` |
+  | `binary-binding` | `consuming-binding` |
+  | `entry-binding` | `conversational-binding` |
+  | | `default-binding` |
+
+  The left column **partitions the shape space exactly** — one object, two, none — and is
+  therefore closed. The right column is open: any effect can name a role, and `spend` named this
+  one. `shape` is the left column's property, required of everything, and the four on the right
+  have been answering it about the shape they had in mind rather than about themselves. Three of
+  the four got away with it. [inference]
+
+  **What made this invisible is the corpus's own admission rule.** A node earns its place by being
+  something the vocabulary cannot say, and every one of these seven does — `consuming-binding` was
+  seeded because [unwinnable-state](../corpus/failure-mode/unwinnable-state.yml) *"names spending
+  as the first of its two causes and this corpus had nowhere that a spend happens."* That is a good
+  reason and it is a reason about one node. Nothing in the rule asks whether the new node is the
+  same *kind* of thing as its siblings, so a class can fill up with instances that each earned
+  their place and jointly answer to no single property. [inference] That is the third time a
+  method finding has come out of a question asked about one node — after
+  [tier-split](tier-split.yml) and [found-in](found-in.yml) — and it is the first about the
+  ontology's shape rather than about retrieval or about tiers.
+
+  **The measurement that started it also corrected the node's account of the checker, and the
+  correction runs the other way from what the node claimed.** It said consumption and ordering
+  *"are the same computation and differ only in which effect the stranding edge carried"*, and
+  concluded that `unwinnable-state` had been wrong to treat them as two kinds of problem. Detection
+  is one computation; **diagnosis takes a second**, because the checker removes the binding's
+  spending and re-runs to see whether that rescues the state. `ferry.game`'s toll spends three
+  coins, strands two states, and is classified **ordering** — the coins are not why, the river is.
+  [verified] So the syntactic reading the node proposed would have been wrong about one of the
+  corpus's five strandings, and the sibling it corrected was right about the world.
+
+  **A lint warning is left standing and it is the third of its kind.** Giving this node four
+  `[verified]` claims makes it trip `verified-unsourced`, because all four rest on a committed test
+  and this corpus has no way to cite one. [found-in](found-in.yml) asks at `[open]` whether
+  `[verified]` needs a way to say *by a committed assertion*, and set the threshold for a schema
+  change at a second instance; with `boolean-flag` and `counter-flag` this is the third, and the
+  denominator is now **twenty nodes** resting a `[verified]` claim on a test. Silencing it with a
+  citation for some other claim is the unearned silencing
+  [binary-binding](../corpus/interaction/binary-binding.yml) records happening to itself, so it is
+  left visible.
+
+  **What this does not settle.** Whether the three remaining role-named instances declare a shape
+  they have or a shape they had in mind. `acquisition-binding` says `unary` and the corpus's own
+  `is` sites hand an item over from a hotspot, which is how a *binary* use-with can acquire;
+  `default-binding` says `unary` and a default is whatever the menu did not cover. Neither was
+  measured here, because this phase went looking for one node's tags and the class was what it
+  found, and re-opening three nodes on the strength of a fourth's correction is how a phase stops
+  being about anything. `[open]`

@@ -2,14 +2,14 @@
 //!
 //! | | `.yidam/corpus/` | `.yidam/decisions/` |
 //! |---|---|---|
-//! | files | 42 | **43** |
-//! | bytes | 353 K | **293 K** |
-//! | tagged claims | 545 | **287** |
-//! | live open questions | 7 | **26** |
-//! | citations out | 91 edges + 80 prose | **211**, of which 81 to a sibling |
+//! | files | 42 | **44** |
+//! | bytes | 353 K | **299 K** |
+//! | tagged claims | 545 | **296** |
+//! | live open questions | 7 | **27** |
+//! | citations out | 91 edges + 80 prose | **220** |
 //!
-//! They were 42 apiece when this file was written. The forty-third record is the one deciding
-//! what a record is.
+//! They were 42 apiece when this file was written, and the corpus has not gained a node since.
+//! The forty-third record is the one deciding what a record is.
 //!
 //! `yidam status` says *42 nodes*. `graph-check` checks *42 instances*. `lint` lints 42 files.
 //! The index would index 42. None of them is a decision record, and none of them is wrong to
@@ -220,7 +220,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (211, 41, 29));
+    assert_eq!((total, mentions, tests.len()), (220, 41, 30));
 }
 
 /// **Sixteen of forty-two records are cited by nothing, against three of forty-two nodes.**
@@ -242,6 +242,7 @@ fn a_record_nothing_cites_is_named() {
     assert_eq!(
         alone,
         [
+            "binding-axes",
             "conversation-boundary",
             "conversation-reduction",
             "design-directory",
@@ -257,7 +258,7 @@ fn a_record_nothing_cites_is_named() {
         ]
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (43, 81));
+    assert_eq!((c.len(), edges), (44, 84));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -335,5 +336,5 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 26, "live open questions in this directory");
+    assert_eq!(total, 27, "live open questions in this directory");
 }

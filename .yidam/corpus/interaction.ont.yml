@@ -21,8 +21,16 @@ properties:
     type: string
     required: true
     description: >-
-      Whether the binding takes one object, two, or none. A binding triggered by arrival has no
-      verb and so takes no object, which is what the third value is for.
+      Whether the binding takes one object, two, none, or any of the three. A binding triggered by
+      arrival has no verb and so takes no object, which is what the third value is for. The fourth
+      was added when a specimen spent an item at an arrival trigger and the instance seeded for
+      spending declared itself binary; `interaction/consuming-binding` is that instance and carries
+      the evidence. The value is added and authored in the same commit, on the precedent
+      `world-flag/object-state` set for `scope`.
+
+      Four of the seven instances of this class are named by what a binding *does* rather than by
+      what it takes, and this property is written for the other three.
+      `.yidam/decisions/binding-axes.yml`.
   - name: response
     type: text
     prose: true

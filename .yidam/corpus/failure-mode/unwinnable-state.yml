@@ -65,6 +65,15 @@ description: |
   `consuming-binding` argues that its success is the mistake — so there is nothing at the site to
   check. The question is what remains reachable afterwards, which is the same computation the
   ordering cause needs. Both causes want reachability; neither is checkable where it is written.
+
+  **That is right about detection and it does not extend to the diagnosis, which is where the
+  sibling node overreached.** Finding a stranding is one reachability computation for both causes.
+  Saying *which* cause takes a second: the checker removes the binding's spending and re-runs, and
+  the cause is consumption only if that rescues the state. `ferry.game`'s toll spends three coins,
+  strands two states, and is **ordering** — the coins are not why, the river is. [verified] —
+  `crates/reachability/tests/spend.rs`. So the two are distinguishable, at the price of running the
+  search again, and this node's original instinct that they are different kinds of problem was
+  right about the world even where it was wrong about where to look.
 properties:
   mechanism: |
     An author spends a required object, or closes a gate, without a check that the resulting
