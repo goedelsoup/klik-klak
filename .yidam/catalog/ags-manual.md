@@ -375,11 +375,65 @@ describes the format it has and the ways around it, and does not compare it to a
 ## What this document holds that nobody here has looked at
 
 The rest of the manual, which is most of it. Specifically unread and relevant to this corpus:
-the scripting language reference (where the boundary between declarative authoring and
-general-purpose code actually sits, which is this corpus's central question), room and hotspot
-editing, the character and object models, inventory handling, and the GUI system that would
-say how a cursor mode is *presented* to a player as distinct from how it is declared.
+room and hotspot editing, the character and object models, inventory handling, and the GUI
+system that would say how a cursor mode is *presented* to a player as distinct from how it is
+declared.
+
+**The scripting language reference was the item at the top of this list and it has been read**
+— see *The other side of the escape*, below. It sat here for eight phases described as "where
+the boundary between declarative authoring and general-purpose code actually sits, which is
+this corpus's central question."
 
 The names of modes 1, 2, 3, 5, 8 and 9 are on some other page. This corpus does not know them
 and should not guess them: `EditorCursor.md` names four of ten and the reader who needs the
 rest has somewhere to go.
+
+
+## The other side of the escape
+
+Read 2026-09-11: `ScriptingLanguage.md`, `ScriptKeywords.md`, `Scripting.md`,
+`ScriptAPIOverview.md`. This is the language AGS's declarative layer escaped *to* — the target of
+action number 1, `Run script` — and it had never been read here, which meant the corpus knew the
+size of what the hatch was in and nothing about what was on the other side of it.
+
+### The language
+
+**Twenty-five keyword sections**, and the boundary falls in a place the corpus can state exactly.
+
+| | AGS Script | this design |
+|---|---|---|
+| comparison | `==` `!=` `>` `<` `>=` `<=` | the same six |
+| logical | `!` `&&` `&#124;&#124;` | `not` `and` `or` |
+| arithmetic | `*` `/` `%` `+` `-` `++` `--` | none |
+| bitwise | `<<` `>>` `&` `&#124;` `^` | none |
+| control | `if`/`else`, `switch`/`case`, `while`, `do..while`, `for`, `break`, `continue` | `when`/`else`/`otherwise` |
+| abstraction | `function`, `return`, `struct`, `managed`, `new`, `enum`, `this`, arrays | none |
+| value types | `char` `short` `int` `String` `float` `bool` | a flag and a bounded counter |
+
+**Twenty-one operators, of which nine are exactly this design's nine.** The bounded predicate
+language is the comparison-and-logical fragment of the escape language with the arithmetic and
+the bitwise removed — not a different vocabulary chosen for a different purpose, the same one
+truncated.
+
+### Termination, which both systems had to answer
+
+**AGS answers it at runtime, by guessing.** *"Normally, if a `while` loop runs for more than
+150,000 loops, AGS will assume that the script has hung and abort the game."* And it ships a
+keyword to turn the guess off: `noloopcheck`, *"for example, when initializing a very large
+array"*, placed between `function` and the function name.
+
+This design answers it structurally — no loops and no recursion, so evaluation terminates by
+construction, and `design/specimen/ferry.game` records the one remaining source of infinity
+(an unbounded item quantity) closed by a declared ceiling rather than by a heuristic.
+
+### What lives on the far side
+
+The API index lists **fifty-seven pages**. The largest groups are presentation and interface:
+`AudioChannel`, `AudioClip`, `Multimedia`, `Screen`, `Palette`, `DrawingSurface`, `DynamicSprite`,
+`Overlay`, `Speech`, `ViewFrame`, `Viewport`, `Camera`, and ten `GUI*` pages. Alongside them are
+general-purpose facilities no adventure-game vocabulary contains: `File`, `Dictionary`, `Set`,
+`Maths`, `DateTime`, `String`, `GlobalArrays`.
+
+That is the same partition the action table shows from the other side. `Globalfunctions_Message`
+and the `Character` struct's `Say` are where text lives; everything else in the presentation
+group has no counterpart in the forty-eight and none in this design.
