@@ -177,7 +177,6 @@ word on something nothing else has needed — but it is the shape `orphan-in` re
 nodes, at four times the rate, and it had never been looked at.
 
 - [binding-axes](binding-axes.yml)
-- [class-evidence](class-evidence.yml)
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
 - [name-scoping](name-scoping.yml)

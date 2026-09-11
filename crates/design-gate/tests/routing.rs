@@ -108,14 +108,18 @@ fn a_class_that_argues_routes_to_a_node_in_eight_spellings() {
     );
 }
 
-/// **Four of the ten routes name their target in backticks, where nothing can follow them.**
+/// **Every route is a link, so the graph and the reader can both follow it.**
 ///
-/// `prose-edges` established that a citation written as prose is a citation the graph cannot see,
-/// and `edges.rs` holds every path in corpus prose to resolving. A backticked name is not a path,
-/// so these four are outside both: the reader is told where the argument lives and given no way to
-/// go there.
+/// Four of the nine were a backticked name. `prose-edges` established that a citation written as
+/// prose is a citation the graph cannot see, and `edges.rs` holds every path in corpus prose to
+/// resolving; a backticked name is neither, so those four were outside both — the reader told
+/// where the argument lives and given no way to go there.
+///
+/// This is the one case where a route being unfollowable costs something every time: a class
+/// stating a proposition it does not tag has, by the convention, sent the reader somewhere, and a
+/// reader who cannot arrive is left with an untagged assertion and no recourse.
 #[test]
-fn four_routes_point_at_a_name_rather_than_a_file() {
+fn every_route_is_a_link() {
     let root = repo_root();
     let mut unlinked = Vec::new();
     for p in classes(&root) {
@@ -139,23 +143,24 @@ fn four_routes_point_at_a_name_rather_than_a_file() {
         }
     }
     unlinked.sort();
-    assert_eq!(
-        unlinked,
-        ["data-format", "interaction", "world-flag", "world-flag"],
-        "routes whose target is a backticked name rather than a link"
+    assert!(
+        unlinked.is_empty(),
+        "a class routes its argument to a name nothing can resolve: {unlinked:?}"
     );
 }
 
-/// **The carrier of the corpus's widest claim argues it from one engine.**
+/// **The carrier names every engine the class quantifies over.**
 ///
 /// `interaction.ont.yml` quantifies over *every engine read here*. When it was written that was
-/// one — Delores, 1,328 call sites, 7.3% state writes — and `interaction/binary-binding` carries
-/// that argument with that citation. Two phases have since added AGS's action table and SCUMM's
-/// opcode list, so the quantifier now ranges over three and the node holding its evidence names
-/// one.
+/// one — Delores, 1,328 call sites, 7.3% state writes — and the carrier cited exactly that. Two
+/// phases added AGS's action table and SCUMM's opcode list, the quantifier came to range over
+/// three, and the node holding its evidence went on naming one.
 ///
-/// Nothing was wrong when it was written. What is missing is any way for a node carrying a class's
-/// argument to hear that the class's evidence grew.
+/// Nothing was wrong when it was written, and no check could have said so: which claim in a node
+/// answers which sentence in a class is a fact about two pieces of prose. **This assertion is the
+/// pair, named.** It fails when a fourth engine is read, which is the moment somebody should look
+/// — the nearest thing to the scheduled reading the prelude asks for that this repository can
+/// hold.
 #[test]
 fn the_carrier_names_every_engine_the_class_quantifies_over() {
     let root = repo_root();
@@ -174,7 +179,8 @@ fn the_carrier_names_every_engine_the_class_quantifies_over() {
         .filter(|s| carrier.contains(*s))
         .count();
     assert_eq!(
-        named, 1,
-        "sources the carrier cites, against the three the corpus has read"
+        named, 3,
+        "the carrier cites every engine the corpus has read; a fourth makes this fail, which is \
+         the point"
     );
 }

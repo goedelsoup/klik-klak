@@ -27,7 +27,8 @@ properties:
     description: >-
       Whether the flag is global, room-local, local to a conversation, or local to an object.
       The last was added when a shipped game turned out to keep most of its state there;
-      `world-flag/object-state` is the instance and carries the evidence.
+      [world-flag/object-state](world-flag/object-state.yml) is the instance and carries the
+      evidence.
   - name: reversible
     type: string
     description: >-
@@ -40,7 +41,7 @@ properties:
       machinery — a change callback, a span, an actor's own thread — that this design refused for
       unrelated reasons. So the default is right here for a stronger reason than it is right
       anywhere: the only thing that writes state in this vocabulary is something the player did.
-      `world-flag/latched-flag` carries the figures and
+      [world-flag/latched-flag](world-flag/latched-flag.yml) carries the figures and
       `.yidam/decisions/latch-default.yml` carries what follows, including why the format's
       keyword is the opposite polarity to this property's default and should stay that way.
   - name: save_semantics

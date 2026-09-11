@@ -13,7 +13,7 @@ description: |
   Nobody authors a save and nothing in the vocabulary is expressed by one, and it is a data format
   all the same — it is the on-disk form of the world state, its shape is a design decision with
   consequences for an author, and `authored_by` already had three answers rather than one.
-  `data-format/save-state` is the instance and carries the argument.
+  [data-format/save-state](data-format/save-state.yml) is the instance and carries the argument.
 properties:
   - name: syntax
     type: string

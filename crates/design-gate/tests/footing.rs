@@ -4,7 +4,7 @@
 //! catalog entry in their own paragraph, 49 name a committed test, 5 name both, and **150 name
 //! nothing** — continuations of passages sourced earlier, which is how anyone writes.
 //!
-//! What follows from it is a fragility nobody had counted. **Sixteen of the thirty-nine evidenced
+//! What follows from it is a fragility nobody had counted. **Fifteen of the thirty-nine evidenced
 //! nodes rest on exactly one distinct catalog entry, and twelve of those on a single line.** Delete
 //! that line and the node trips `verified-unsourced`; the claims are unchanged. That is the same
 //! node-granularity `evidence-kinds` found adding a line to silence `boolean-flag` and
@@ -74,14 +74,18 @@ fn sources(src: &str) -> (Vec<String>, usize) {
     (entries, lines)
 }
 
-/// **Sixteen of thirty-nine evidenced nodes rest on one source, twelve of them on one line.**
+/// **Fifteen of thirty-nine evidenced nodes rest on one source, twelve of them on one line.**
+///
+/// It was sixteen. `class-evidence` brought `interaction/binary-binding` up to the three engines
+/// the class claim it carries now rests on, and a node came off this list by gaining evidence
+/// rather than by anybody looking at the list — which is the only way a node has ever left it.
 ///
 /// Not a defect on its own — a node about one shipped game legitimately cites one entry, and
 /// `walkbox/scaled-polygon` is exactly that: five claims, all Delores, one link that earns them.
 /// What the count is for is the other kind, and the two are indistinguishable from outside the
 /// node.
 #[test]
-fn the_evidence_base_of_sixteen_nodes_is_a_single_source() {
+fn the_evidence_base_of_fifteen_nodes_is_a_single_source() {
     let root = repo_root();
     let (mut evidenced, mut one_entry, mut one_line, mut held, mut carried) = (0, 0, 0, 0, 0);
     for p in nodes(&root) {
@@ -106,12 +110,12 @@ fn the_evidence_base_of_sixteen_nodes_is_a_single_source() {
     }
     assert_eq!(
         (evidenced, one_entry, one_line),
-        (39, 16, 12),
+        (39, 15, 12),
         "nodes with a verified claim; of those, resting on one catalog entry; of those, on one line"
     );
     assert_eq!(
         (held, carried),
-        (95, 43),
+        (87, 40),
         "claims those sixteen carry, and how many name nothing in their own paragraph"
     );
 }
@@ -213,7 +217,6 @@ fn a_single_source_node_that_also_rests_on_the_instrument_is_named() {
         [
             "failure-mode/unwinnable-state.yml",
             "hotspot/static-region.yml",
-            "interaction/binary-binding.yml",
             "interaction/conversational-binding.yml",
             "interaction/unary-binding.yml",
             "inventory-item/portable-object.yml",

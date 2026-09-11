@@ -61,6 +61,16 @@ properties:
     ([delores-source](../../catalog/delores-source.md)).
     A class describing what a binding does when it resolves is describing that.
 
+    **That was one engine when it was written and it is three now.** AGS's Interaction Editor puts
+    `Game - Play music`, `Object - Move object` and `Player - Give the player an inventory item` in
+    one ordered list with no category separating them, and 23 of its 38 real actions write nothing
+    a predicate could read ([ags-source](../../catalog/ags-source.md)). SCUMM v5's instruction set
+    is the same shape a decade earlier: of the 33 opcodes that act, 24 are presentation
+    ([scumm-v5-opcode-reference](../../catalog/scumm-v5-opcode-reference.md)). [inference]
+    Three systems, thirty years, two independent lineages, and none of them separated the two
+    lists. `.yidam/decisions/third-population.yml` carries the comparison;
+    `.yidam/decisions/class-evidence.yml` says why this paragraph is here rather than in the class.
+
     So the split is **this design's decision and not a correction to the ontology** — and it is the
     unusual choice rather than the natural one, which is worth having written down where somebody
     might otherwise read the ontology as an oversight. [inference] What the property should say is

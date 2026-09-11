@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (383, 65, 49));
+    assert_eq!((total, mentions, tests.len()), (384, 65, 49));
 }
 
-/// **Six of sixty-one records are cited by nothing, against three of forty-three nodes.**
+/// **Five of sixty-one records are cited by nothing, against three of forty-three nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -323,7 +323,6 @@ fn a_record_nothing_cites_is_named() {
         alone,
         [
             "binding-axes",
-            "class-evidence",
             "design-directory",
             "domain-computer",
             "name-scoping",
@@ -334,7 +333,7 @@ fn a_record_nothing_cites_is_named() {
          repository had nothing to do"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (61, 180));
+    assert_eq!((c.len(), edges), (61, 181));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -460,12 +459,12 @@ fn the_index_this_directory_never_had_is_current() {
 ///
 /// The prelude's lifecycle for this directory is one sentence: *"Decision files are permanent
 /// records — they are not updated when a decision is superseded, but a new decision may reference
-/// a prior one by `id`."* This repository edits them. **Twenty-five of fifty-seven have a commit
-/// after the one that wrote them** — and correcting that sentence has been four of the
-/// twenty-five, which is the shape of this whole directory.
+/// a prior one by `id`."* This repository edits them. **Twenty-six of sixty-one have a commit
+/// after the one that wrote them** — and correcting that sentence has been five of the twenty-six,
+/// which is the shape of this whole directory.
 ///
-/// Read against the rule that looks like a violation. Measured, it is not: **twenty-one of the
-/// twenty-five kept their `summary:` byte-for-byte**, and the rest changed a *figure* —
+/// Read against the rule that looks like a violation. Measured, it is not: **twenty-two of the
+/// twenty-six kept their `summary:` byte-for-byte**, and the rest changed a *figure* —
 /// `latch-default` went from `31 of 40` to `32 of 41` when a census defect was found in the
 /// extractor that produced it. No record's decision has ever been revised. What the edits do is
 /// keep the *account*: what the figures turned out to be, what the record left open, what closed
@@ -517,7 +516,7 @@ fn no_record_has_changed_what_it_decided() {
     }
     assert_eq!(
         edited,
-        25,
+        26,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()
