@@ -43,7 +43,7 @@ description: |
   what makes this the strongest available argument for the engine tier doing work the
   authoring tier cannot. That is no longer a
   claim about what could be done. `crates/reachability` does it: over a specimen authored in
-  the proposed vocabulary it enumerates 103 reachable states, finds the ending reachable, finds
+  the proposed vocabulary it enumerates 91 reachable states, finds the ending reachable, finds
   16 states from which it is not, and names the single binding that strands them. [inference]
   This node described the mechanism in prose for four phases and could not express it; the
   interval between describing a failure and detecting one is what the two-tier ontology was

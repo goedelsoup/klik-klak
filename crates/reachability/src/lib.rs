@@ -142,20 +142,45 @@ fn slot(v: &[String], name: &str) -> usize {
 
 impl<'a> Index<'a> {
     fn new(game: &'a Game) -> Self {
-        let mut options = Vec::new();
         let mut convs = Vec::new();
         for b in &game.bindings {
-            if let Site::InConversation {
-                conversation,
-                option,
-            } = &b.site
-            {
+            if let Site::InConversation { conversation, .. } = &b.site {
                 if !convs.contains(conversation) {
                     convs.push(conversation.clone());
                 }
-                if !options.contains(option) {
-                    options.push(option.clone());
+            }
+        }
+
+        // Which options are **tracked**: those some `chosen` predicate asks about, and no
+        // others. The same rule the actor vector below is built on, applied a third time.
+        //
+        // This vector used to hold every option in the game, so taking one split the state
+        // space whether or not anything could tell the difference. That is bookkeeping counted
+        // as world state — the defect `scaling.rs` names for takeable hotspots and the rule
+        // above names for actors — and it is worse here than either, because an unread
+        // `chosen` bit is written by an option the player can take repeatedly, so it inflated
+        // the **reachable set** and not only the declared space. `lighthouse.game` reported
+        // 103 states and 193 transitions with three option bits of which one was ever read;
+        // it is 91 and 173. `.yidam/decisions/conversation-reduction.yml`.
+        let mut options: Vec<String> = Vec::new();
+        fn asked_chosen(q: &Pred, into: &mut Vec<String>) {
+            match q {
+                Pred::Chosen(o) => {
+                    if !into.contains(o) {
+                        into.push(o.clone());
+                    }
                 }
+                Pred::Not(x) => asked_chosen(x, into),
+                Pred::And(x, y) | Pred::Or(x, y) => {
+                    asked_chosen(x, into);
+                    asked_chosen(y, into);
+                }
+                _ => {}
+            }
+        }
+        for b in &game.bindings {
+            for q in b.when.iter().chain(b.guards.iter()) {
+                asked_chosen(q, &mut options);
             }
         }
         let mut at = BTreeMap::new();
@@ -476,7 +501,11 @@ impl<'a> Index<'a> {
     fn apply(&self, b: &Binding, s: &State) -> State {
         let mut n = s.clone();
         if let Site::InConversation { option, .. } = &b.site {
-            n.chosen[slot(&self.options, option)] = true;
+            // Unobserved: nothing asks whether this option was taken, so recording it would
+            // split states no predicate can tell apart.
+            if let Some(i) = self.options.iter().position(|o| o == option) {
+                n.chosen[i] = true;
+            }
         }
         for e in &b.effects {
             match e {

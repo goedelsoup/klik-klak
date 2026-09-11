@@ -35,11 +35,11 @@ context: |
 
   | what was written                          | states | strandings | problems |
   |-------------------------------------------|--------|------------|----------|
-  | the specimen as committed                 | 103    | 1          | none     |
-  | `holds` removed entirely                  | 103    | 1          | none     |
-  | `holds` moved to a different room          | 103    | 1          | none     |
-  | `holds` naming an item nothing stands for | 103    | 1          | none     |
-  | `holds` contradicting itself, two rooms   | 103    | 1          | none     |
+  | the specimen as committed                 | 91     | 1          | none     |
+  | `holds` removed entirely                  | 91     | 1          | none     |
+  | `holds` moved to a different room          | 91     | 1          | none     |
+  | `holds` naming an item nothing stands for | 91     | 1          | none     |
+  | `holds` contradicting itself, two rooms   | 91     | 1          | none     |
 
   Not "cheap to check". **Indistinguishable.** Writing it wrong in every way available produced
   the same analysis as writing it right, because nothing downstream reads it.

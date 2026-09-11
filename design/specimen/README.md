@@ -40,7 +40,7 @@ break it.
 |---|---|---|---|---|
 | written for | *can this say a game at all?* | *does `count item` earn its place?* | *does `cutscene` earn its place?* | *does an actor's position need to be state?* |
 | committed defect | consumption | ordering | consumption | ordering |
-| reachable states | 103 of 49,152 (0.21%) | 20 of 120 (16.7%) | 14 of 64 (21.9%) | 20 of 128 (15.6%) |
+| reachable states | 91 of 12,288 (0.74%) | 20 of 120 (16.7%) | 14 of 64 (21.9%) | 20 of 128 (15.6%) |
 
 **Each was written to answer one question and none of the four answered only that.** The list
 below is in the order they were written; `patrol` is the first written *after* a real game's

@@ -1,0 +1,59 @@
+id: observed-state
+summary: >-
+  A rule the instrument has followed three times by accident and never once by statement: the state
+  vector holds only what some predicate can read. Each time it was broken the figures were wrong in
+  the flattering direction, and the third time was worse than the first two because it moved the
+  reachable set and not only the space it is measured against.
+context: |
+  `crates/reachability` describes a state as a room, a mode, item counts, taken-flags, flags,
+  counters, chosen-bits and observed actor positions. Three of those have now been narrowed after
+  the fact, each time because something was being carried that nothing could read.
+
+  - **Takeable hotspots.** The declared space was doubling once per acquisition site, so every
+    published figure was too small by 2^(takeable objects) as a fraction.
+    `crates/reachability/tests/scaling.rs` holds the test —
+    *"bookkeeping is not counted as world state"* — and `design/bounded-expression-language.md`
+    carries the correction: 103 of 196,608 became 103 of 49,152.
+  - **Actors.** Fixed by construction when `move <actor> to <room>` arrived, and the comment in
+    `Index::new` states the rule for that vector alone: *"Observed means some predicate asks."*
+    `.yidam/decisions/actor-position.yml` is the record.
+  - **Conversation options.** `chosen` held one bit per option in the game. Found by a rewrite that
+    should have agreed with the original and did not.
+decision: |
+  **The rule, stated: a component of `State` exists only if some predicate in the game can read it.**
+
+  Reading may be indirect — an actor's position is read by `offered`, which gates a site on the
+  actor being in the room, so *being moved* is enough on its own. What is never enough is that the
+  language has a way to write the thing. A write nothing can observe is not state; it is the
+  checker taking notes.
+
+  Nothing is added to enforce this beyond the three vectors now narrowed, because the enforcement
+  is a property of how each is built and there are no others.
+rationale: |
+  **Why it matters more than a wrong denominator.** The first two instances inflated the *declared*
+  space — the product of the ranges each variable was observed to take — and left the reachable set
+  alone. The third did not. An unread `chosen` bit is written by an option the player can choose, so
+  it split reachable states that no predicate could tell apart: `lighthouse.game` reported **103
+  states and 193 transitions** and is **91 and 173**. [verified] —
+  `crates/reachability/tests/conversation.rs`.
+
+  A reachable-set count is the number this project publishes. Three of its five specimens' figures
+  were unaffected, and the one that was is the one quoted in five corpus nodes, four decision
+  records and both design documents.
+
+  **Every instance failed in the same direction, and the direction is the argument for the rule.**
+  Unobserved bookkeeping can only add states and can only enlarge the declared space, so it makes
+  the collapse look deeper than it is — 0.21% where the truth is 0.74%. A defect that makes the
+  headline claim look better is one nobody is prompted to go looking for. [inference] This corpus
+  has now named that pattern in three different places: a checker whose report improves when the
+  game gets worse, an open question that closes itself, and a metric that flatters.
+
+  **And the tell was available each time.** Two descriptions of one thing should agree. The actor
+  vector was fixed because a primitive arrived and forced the question; the takeable vector because
+  a second measurement of the same game disagreed; this one because a rewrite that should have been
+  exact came back twelve states apart. **Nothing found any of the three by inspecting the state
+  vector**, which is the cheapest place to have looked. [inference]
+
+  **What this does not settle.** Whether the same rule wants enforcing rather than observing — a
+  check that fails when a component is added that no predicate reads. It would have caught all
+  three, and there is no fourth vector to try it on. `[open]`

@@ -41,7 +41,7 @@ properties:
     with two lines are three different things to write. What cannot tell them apart is the
     *checker*, and it is right not to: a response that writes nothing is not a state transition, so
     a hotspot nobody can act on, one with a description and one with a guarded pair give the
-    specimen the same 103 states and the same 193 transitions. [verified] —
+    specimen the same 91 states and the same 173 transitions. [verified] —
     `crates/reachability/tests/defaults.rs`.
 
     Where the distinction matters is the **interface**, which this design has never specified, and

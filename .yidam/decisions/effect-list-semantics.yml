@@ -79,6 +79,14 @@ rationale: |
   dependency structure rather than of this language, so "every number this project has
   published" is a thinner endorsement than it read as when it was written.)*
 
+  *(Amended again after `phase/conversation-reduction`, and for the same cause a third time. The
+  `chosen` vector held a bit per conversation option whether or not any predicate read it, so the
+  lighthouse pair is **91 of 12,288**. This one moved the numerator as well: an unread option bit
+  is written by something the player can choose, so it split the reachable set and not only the
+  declared space. The paragraph above is the second of the three corrections; this is the third,
+  and what it says about how much "every number this project has published" is worth applies to
+  itself.)*
+
   AGS's own migration note is the empirical form of the same point, from the other side:
   in 2.72 "it was still possible for interactions to run at the same time if they didn't
   include any scripting", and that concurrency is precisely what a checker cannot enumerate.
