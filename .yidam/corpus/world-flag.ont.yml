@@ -24,6 +24,15 @@ properties:
       Whether anything can put this flag back. `puzzle/state-gate` asked for this by name — a
       gate over a counter that only increments is irreversible and a gate over clearable
       booleans is not, and until now nothing made the difference declarable.
+
+      Its default of `no` was a guess and has been measured: 31 of the 40 boolean state slots a
+      shipped game writes in play move one way, and of the nine that come back, seven need
+      machinery — a change callback, a span, an actor's own thread — that this design refused for
+      unrelated reasons. So the default is right here for a stronger reason than it is right
+      anywhere: the only thing that writes state in this vocabulary is something the player did.
+      `world-flag/latched-flag` carries the figures and
+      `.yidam/decisions/latch-default.yml` carries what follows, including why the format's
+      keyword is the opposite polarity to this property's default and should stay that way.
   - name: save_semantics
     type: text
     prose: true

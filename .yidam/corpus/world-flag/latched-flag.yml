@@ -134,10 +134,34 @@ description: |
   will break the first time someone writes `door_open`, but it suggests the property will
   usually be predictable from the name and therefore that getting it wrong will be quiet.
 
-  [open] So *most* is now a supported guess rather than a bare one, and the consequence stated
-  when it was bare still follows: if it is most, `reversible: no` is the wrong default and the
-  property should ask which flags can be *un*set. Nothing here changes the default, because eight
-  names is not enough to invert a schema on.
+  **That `[open]` is closed by counting, and it is most.** Eight names off a screenshot were never
+  going to invert a schema; 40 are. A shipped game's source holds **40 boolean state slots written
+  in play, of which 31 move one way — 77.5%** ([delores-source](../../catalog/delores-source.md)).
+  [verified] The most common of them is `looked_at`, on ten different objects, always `YES`.
+
+  **The convention this node proposed survives as a one-way test.** Sorting all forty by name:
+  a past-tense name predicts a latch at **25 of 26**, and a condition name predicts nothing at all
+  — 8 of its 14 come back. [verified] So the guess made from eight names was right about the
+  latches and wrong to read the single reversible one as the other half of a rule. Its lone
+  event-named exception is not one either: `valve.delores_tightened` is written by a `loosen` and a
+  `tighten` and records *which of two routes* left the valve normal, so a `lookat` can say *"Guess
+  Sandy or Dave figured it out"* only when the player was not the one who did.
+
+  **And the reason is machinery, not authoring taste, which is what makes this a fact about
+  vocabularies rather than about one game.** Of the nine slots that come back, two are a player
+  toggle — a `VERB(loosen)` against a `VERB(tighten)` — and the other seven need somewhere to come
+  back *from*: a value recomputed in `adjustLights()`, a `stateChange` callback, a span raised and
+  dropped inside one `takePhoto`, an actor's own `startthread`. [verified] This design refused
+  every one of those, separately and for other reasons. [inference] So in a vocabulary whose only
+  writer is a player-triggered binding, latching is not the common case but very nearly the only
+  one — and the four specimens bear it out, with `clear` among the eight admitted effects and used
+  **zero times in 662 authored lines**. [verified] —
+  `crates/reachability/tests/latch.rs`.
+
+  What follows for the schema is `.yidam/decisions/latch-default.yml`. The short version is that
+  the default is backwards in two places at once — here, where `reversible: no` is written out as
+  though it were the exception, and in the format, where `latched` is the word an author types to
+  get the behaviour that is already true seven times in nine.
 properties:
   domain: boolean
   scope: global
