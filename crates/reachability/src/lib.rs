@@ -79,6 +79,15 @@ pub struct Report {
     pub stranded: usize,
     pub strandings: Vec<Stranding>,
     pub latch_violations: Vec<String>,
+    /// Flags the game only ever sets, which are not declared `latched`.
+    ///
+    /// The mirror of [`Report::latch_violations`], and it exists because the default is the
+    /// wrong way round. `world-flag/latched-flag` weighed eight flag names from a blog post and
+    /// declined to invert the schema on them; a shipped game's source says **31 of 40** boolean
+    /// state slots move one way. An author writing the common case out by hand will sometimes
+    /// not, and this is the one direction the checker could not previously see: a declaration
+    /// that is true and absent costs nothing to make and buys the guarantee.
+    pub unclaimed_latches: Vec<String>,
     /// per counter, whether it only ever rises across a reachable transition
     pub monotone_counters: Vec<(String, bool)>,
     /// Where a game handed out more of an item than it declared room for.
@@ -710,28 +719,42 @@ pub fn analyse(game: &Game) -> Report {
         .collect();
     strandings.sort_by_key(|s| s.line);
 
-    // the corpus claims a latching flag never goes back; hold it against the game
+    // the corpus claims a latching flag never goes back; hold it against the game, both ways
     let mut latch_violations = Vec::new();
+    let mut unclaimed_latches = Vec::new();
     for f in &game.flags {
-        if !f.latched {
-            continue;
-        }
-        for (_, _, bi) in &edges {
-            let b = acting[*bi];
-            if b.effects
-                .iter()
-                .any(|e| matches!(e, Effect::ClearFlag(x) if *x == f.name))
-            {
-                latch_violations.push(format!(
-                    "`{}` is declared latched and line {} clears it",
-                    f.name, b.line
-                ));
-                break;
-            }
+        let written = |want_clear: bool| {
+            edges.iter().find_map(|(_, _, bi)| {
+                let b = acting[*bi];
+                b.effects
+                    .iter()
+                    .any(|e| match e {
+                        Effect::ClearFlag(x) => want_clear && *x == f.name,
+                        Effect::SetFlag(x) => !want_clear && *x == f.name,
+                        _ => false,
+                    })
+                    .then_some(b.line)
+            })
+        };
+        match (f.latched, written(true), written(false)) {
+            (true, Some(line), _) => latch_violations.push(format!(
+                "`{}` is declared latched and line {} clears it",
+                f.name, line
+            )),
+            // A flag nothing sets is a constant rather than a latch, and is somebody else's
+            // finding; a flag the game only ever sets has the guarantee and is not claiming it.
+            (false, None, Some(line)) => unclaimed_latches.push(format!(
+                "`{}` is set at line {} and nothing anywhere clears it, so it is latched \
+                 in fact and does not say so",
+                f.name, line
+            )),
+            _ => {}
         }
     }
     latch_violations.sort();
     latch_violations.dedup();
+    unclaimed_latches.sort();
+    unclaimed_latches.dedup();
 
     // The product of the ranges each variable was observed to take — over the variables an
     // author *declared*, which is not the same as the fields of `State`.
@@ -819,6 +842,7 @@ pub fn analyse(game: &Game) -> Report {
         stranded: states.len() - winning.len(),
         strandings,
         latch_violations,
+        unclaimed_latches,
         monotone_counters,
         overflows,
         observed_space: observed,
@@ -887,6 +911,12 @@ impl Report {
         if !self.latch_violations.is_empty() {
             s.push_str("\nLatch declarations contradicted by the game:\n");
             for v in &self.latch_violations {
+                s.push_str(&format!("  {v}\n"));
+            }
+        }
+        if !self.unclaimed_latches.is_empty() {
+            s.push_str("\nFlags that latch and do not say so:\n");
+            for v in &self.unclaimed_latches {
                 s.push_str(&format!("  {v}\n"));
             }
         }
