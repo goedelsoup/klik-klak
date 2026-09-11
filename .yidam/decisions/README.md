@@ -53,10 +53,6 @@ does not re-emit it.
 
 - **:100** — Not decided here, because one game is one game and because the four rows want three different relations — part-of, same-as, and says-the-same — and a design that collapsed them would be choosing by convenience.
 
-### [drawn-boundary](drawn-boundary.yml)
-
-- **:105** — **What this does not settle.** Whether the ontology should declare, per class, anything about where a class stands — its tier, or which side of this boundary it is on. Neither is schema today: the tiers are prose in [ontology](ontology.yml), and this phase's check had to parse that prose to ask whic…
-
 ### [duplication](duplication.yml)
 
 - **:113** — It settles one shape and not the pressure. `definePseudoRoom` built 110 hotel rooms, which is a *room* template; an archetype per shape does not reach shapes nobody anticipated, and that was the argument against archetypes to begin with.
@@ -72,9 +68,8 @@ does not re-emit it.
 
 ### [found-in](found-in.yml)
 
-- **:107** — **What is not decided.** `found-in` is now known to be a real relationship that no author should be asked to write, and the ontology has no way to say that about an edge. Marking derived edges would be a schema change, and this is one instance. The corpus's own rule — that a thing earns its place by…
-- **:130** — **There are two of them now.** `interaction/binary-binding` arrived in the same position from [binary-dimension](binary-dimension.yml) — claims measured on committed tests, no catalog entry to cite. One instance was a curiosity about a lint; two is a gap in the evidence vocabulary, and this corpus's…
-- **:136** — Whether the check should also refuse a give of some *other* item on a hotspot that stands for one is untested. All eight `is` sites in the four specimens give exactly what they stand for and nothing else [verified], so the corpus has no case where a hotspot legitimately hands over something besides …
+- **:131** — **There are two of them now.** `interaction/binary-binding` arrived in the same position from [binary-dimension](binary-dimension.yml) — claims measured on committed tests, no catalog entry to cite. One instance was a curiosity about a lint; two is a gap in the evidence vocabulary, and this corpus's…
+- **:137** — Whether the check should also refuse a give of some *other* item on a hotspot that stands for one is untested. All eight `is` sites in the four specimens give exactly what they stand for and nothing else [verified], so the corpus has no case where a hotspot legitimately hands over something besides …
 
 ### [frame-width](frame-width.yml)
 
@@ -129,7 +124,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**32 open.**
+**30 open.**
 
 ## What nothing cites
 
@@ -144,6 +139,5 @@ nodes, at four times the rate, and it had never been looked at.
 - [effect-vocabulary](effect-vocabulary.yml)
 - [evidence-kinds](evidence-kinds.yml)
 - [name-scoping](name-scoping.yml)
-- [schema-deferral](schema-deferral.yml)
 - [specimen-placement](specimen-placement.yml)
 - [threshold-trigger](threshold-trigger.yml)

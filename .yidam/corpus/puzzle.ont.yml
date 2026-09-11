@@ -1,5 +1,6 @@
 class: puzzle
 label: Puzzle
+tier: authoring
 foundational_type:
   ontology: ufo
   type: situation

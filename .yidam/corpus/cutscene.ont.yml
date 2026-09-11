@@ -1,5 +1,6 @@
 class: cutscene
 label: Cutscene
+tier: authoring
 foundational_type:
   ontology: ufo
   type: kind

@@ -1,5 +1,6 @@
 class: prior-art
 label: Prior Art
+tier: comparative
 foundational_type:
   ontology: ufo
   type: kind

@@ -1,5 +1,6 @@
 class: world-flag
 label: World Flag
+tier: authoring
 foundational_type:
   ontology: ufo
   type: mode

@@ -1,5 +1,6 @@
 class: walkbox
 label: Walkbox
+tier: authoring
 foundational_type:
   ontology: ufo
   type: kind

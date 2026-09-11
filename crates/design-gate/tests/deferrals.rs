@@ -161,16 +161,21 @@ fn every_class_declares_the_tier_the_record_argues() {
             (None, _) => bad.push(format!("{class}: declares no tier")),
         }
     }
-    // The census this commit found: fifteen classes, none of which says which tier it is in, and
-    // a record whose prose places all fifteen. The rule replaces this in the same phase.
-    assert_eq!(bad.len(), 15, "classes declaring no tier");
+    assert!(
+        bad.is_empty(),
+        "a class and its tier:\n  {}",
+        bad.join("\n  ")
+    );
     assert_eq!(prose.len(), 15, "classes the record places");
 
     let mut counts: BTreeMap<&str, usize> = BTreeMap::new();
     for t in declared.values().flatten() {
         *counts.entry(t.as_str()).or_default() += 1;
     }
-    assert!(counts.is_empty());
+    assert_eq!(
+        counts.into_iter().collect::<Vec<_>>(),
+        [("authoring", 11), ("comparative", 2), ("engine", 2)]
+    );
 }
 
 /// **An edge no author writes says so, and there is exactly one.**
@@ -219,8 +224,5 @@ fn a_derived_edge_says_it_is_derived() {
         }
     }
     derived.sort();
-    assert!(
-        derived.is_empty(),
-        "the census: no edge says it is derived, and one is"
-    );
+    assert_eq!(derived, ["inventory-item -found-in->"]);
 }

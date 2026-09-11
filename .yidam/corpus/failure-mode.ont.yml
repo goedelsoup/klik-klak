@@ -1,5 +1,6 @@
 class: failure-mode
 label: Failure Mode
+tier: comparative
 foundational_type:
   ontology: ufo
   type: situation

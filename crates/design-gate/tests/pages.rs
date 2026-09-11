@@ -299,8 +299,8 @@ fn no_question_lives_on_a_class_page() {
         n
     };
     let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
-    assert_eq!((corpus, decisions), (9, 32));
-    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 20);
+    assert_eq!((corpus, decisions), (9, 30));
+    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 21);
 }
 
 /// **Every class page was written by this repository's first commit, and for 342 commits its last

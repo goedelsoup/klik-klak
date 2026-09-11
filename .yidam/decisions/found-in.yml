@@ -100,11 +100,12 @@ rationale: |
   pair earned a check and the other did not: one of them cannot be got wrong, and the other gets
   wrong quietly and in the flattering direction.
 
-  **What is not decided.** `found-in` is now known to be a real relationship that no author should
-  be asked to write, and the ontology has no way to say that about an edge. Marking derived edges
-  would be a schema change, and this is one instance. The corpus's own rule — that a thing earns
-  its place by being what the vocabulary cannot say — cuts against adding the marker until a
-  second edge wants it, and no search has been made for one. `[open]`
+  **That is decided and the ontology says it now.** `found-in` is a real relationship no author
+  should be asked to write, and its declaration carries `derived: true`. What deferred it was the
+  corpus's own rule — *a thing earns its place by being what the vocabulary cannot say* — applied
+  to an annotation as though it were a primitive. A primitive with one instance is a guess about
+  what authors need; a field with one instance is a place for the second to go.
+  [schema-deferral](schema-deferral.yml) separates the two and settles this.
 
   **A finding about the evidence vocabulary, found by tripping it.** The claims above are
   measurements of committed, runnable tests, and `inventory-item/portable-object` now carries four
