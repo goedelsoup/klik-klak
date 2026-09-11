@@ -18,6 +18,21 @@ description: |
 
   What the specimen actually needed is a different thing, in a class this assessment was not
   looking at, and this corpus declared it at genesis and then forgot: an **exit**.
+
+  **"Always the same thing" is true here by one binding, and it is true because these specimens
+  barely manipulate anything.** Of 22 `walk-to` bindings across the four, **19 are an exit and one
+  is not**: `patrol.game`'s kettle switch, which says *"You push it down. It starts to roar"* and
+  writes a flag and an actor's position. [verified] — `crates/reachability/tests/verbs.rs`. It was
+  written for a different phase and nobody read it as a counterexample to this paragraph.
+
+  **And it is the seam, because this is where a large verb vocabulary lands when it is collapsed.**
+  Mapping a shipped game's 49 used verbs onto these six leaves 19 with no home — `open`, `close`,
+  `push_left`, `push_right`, `turn_on`, `turn_off`, `flush`, `unlock`, `kick`, `spin` and the rest
+  of the manipulation vocabulary, **31 bindings** ([delores-source](../../catalog/delores-source.md)).
+  [verified] Every one of them is a `walk-to` here, which is fifteen times the manipulation these
+  specimens contain. So the verdict stands on the corpus this design has and not on the design:
+  `walk-to` is an exit because nothing else has yet asked it to be anything.
+  `.yidam/decisions/verb-count.yml`.
 properties:
   arity: unary
   surface: |

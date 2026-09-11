@@ -19,6 +19,28 @@ description: |
   about what a manual says but about what a game wanted, and it wanted `use-with`. Weak on its
   own — one small game — and it points the same way.
 
+  **A fourth line, and it is the strongest because it is a silence this corpus can count.** The
+  four specimens carry 91 bindings across 662 lines and **not one of them is a `give-to`**; the
+  other five verbs are all used. [verified] — `crates/reachability/tests/verbs.rs`. The shipped
+  game does use its `giveto`, twice ([delores-source](../../catalog/delores-source.md)), so the
+  verb is not dead in general — it is dead here, and it has been dead for every phase since the
+  assessment above concluded.
+
+  **What nobody did was tell the parser, and that has now been done.** `VERBS` held six entries and
+  `crates/game-format/tests/surface.rs` pinned the surface at 51 counting all six, so for six phases
+  the figure every decision record weighed a candidate against included a verb this node had decided
+  against. The node was kept deliberately and the construct was kept by omission, which are
+  different things that look the same from the outside. [inference]
+
+  **Withdrawn. The surface is five verbs and fifty constructs.** What closed it was not the silence
+  but a third measurement: folding the shipped game's `giveto` into `use-with` creates **no new
+  collision** — 198 cells and 18 of them shared, identical either way — and both its bindings sit on
+  inventory items whose only other verb is `lookat`, so there is nothing on any object for it to be
+  told apart from. [verified] While both verbs existed they were two cells for one intent: the same
+  exchange written either way gave the same states, the same transitions and the same report, and no
+  check had anything to say about an author who wrote one where a player would choose the other.
+  [verified] — `crates/reachability/tests/verbs.rs`, `.yidam/decisions/verb-count.yml`.
+
   It is superseded by [use-with](../verb/use-with.yml).
 properties:
   arity: binary

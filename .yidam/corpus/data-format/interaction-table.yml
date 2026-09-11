@@ -110,13 +110,23 @@ properties:
     declarative layer could not ask. It is there because the response body is one list in which a
     state write and a neon sign flickering sit side by side.
 
-    **What that cost, stated as a number rather than a claim.** The surface is **51 constructs** —
-    6 verbs, 19 keywords, 8 effects, 9 predicate forms, 6 comparisons, 3 sites
+    **What that cost, stated as a number rather than a claim.** The surface is **50 constructs** —
+    5 verbs, 19 keywords, 8 effects, 9 predicate forms, 6 comparisons, 3 sites
     (`crates/game-format/tests/surface.rs`, which reads them off the parser and the enums rather
     than listing them). [verified] Nineteen of this corpus's twenty-six decision records weigh a
-    candidate against that surface: **five constructs were admitted, one was withdrawn, and twelve
+    candidate against that surface: **five constructs were admitted, two were withdrawn, and twelve
     candidates were weighed and refused.** A whole shipped game — 203 bindings, 1,328 call sites,
     107 distinct functions — was read against it and the surface did not move to meet the game.
+
+    **It was 51 and six verbs for six phases, and the sixth was one the corpus had already decided
+    against.** [give-to](../verb/give-to.yml) was assessed as `use-with` applied to an actor two
+    phases after it was seeded, the node was kept as a record of the refusal, and nobody told the
+    parser — so every figure above counted a construct that carried no binding in 662 authored
+    lines and earned nothing in the shipped game either: folding Delores's `giveto` into `use-with`
+    leaves 198 cells and 18 collisions, identical. [verified] —
+    `crates/reachability/tests/verbs.rs`, `.yidam/decisions/verb-count.yml`. The lesson is about
+    this repository rather than about the verb: a decision recorded in a node is not a decision
+    applied to the format, and only the pinned count could have caught the gap.
 
     **And every refusal was for the same kind of reason, which is the part worth keeping.** Not one
     candidate was refused because it was too hard to express. `consumes` was admitted because

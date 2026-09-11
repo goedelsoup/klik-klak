@@ -10,9 +10,9 @@ description: |
   collapses into another.
 
   **That framing is this corpus's and it is not universal, and the one system whose authored
-  source can be read does not share it.** Delores declares sixty-three verbs in a list whose
-  header explains how to add a sixty-fourth, uses forty-six of them, and uses twenty-six of those
-  exactly once. Nothing there earns its place; verbs are added per puzzle, and a load-time check
+  source can be read does not share it.** Delores declares fifty-seven verbs in a list whose
+  header explains how to add a fifty-eighth, uses forty-nine of them, and uses twenty-three of
+  those exactly once. Nothing there earns its place; verbs are added per puzzle, and a load-time check
   that a binding names a declared verb stands in for the argument. The claim, its counts and its
   tag are carried by [prior-art/thimbleweed-park](prior-art/thimbleweed-park.yml), because a tag
   asserted in class prose is counted nowhere; this paragraph is the pointer and not the

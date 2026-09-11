@@ -9,10 +9,38 @@ description: |
 
   That transition is the single most useful piece of evidence available to this corpus,
   because it is the same house making both choices within one product line. [inference]
-  What was gained is that a player can no longer fail by phrasing. What was lost is
+  What was gained is that a player can no longer fail by phrasing. What was lost was
   `[open]` and is exactly what the central question needs to know: whether any puzzle
   expressible to a parser became inexpressible under an icon bar, or whether the parser's
   apparent range was always mostly unused.
+
+  **Answered, and by a substitution this node's framing made hard to see.** The question cannot be
+  asked of Sierra — `source_standing` below still says nothing has been retrieved — and it does not
+  need to be. It is a question about a **large verb vocabulary against a small one**, and this
+  corpus holds the source of a game with 57 declared verbs, 49 of them used and 23 used exactly
+  once, against a design with six ([delores-source](../../catalog/delores-source.md)). [verified]
+  Four phases weighed candidate constructs against that six without anyone noticing the comparison
+  was already available.
+
+  **Neither of the two answers offered here is right. The range was used, and nothing became
+  inexpressible.** Mapping all 49 onto the six leaves 19 verbs with no home — `open`, `close`,
+  `push_left`, `turn_on`, `flush` and the rest of the manipulation vocabulary, 31 bindings — and
+  collapsing them leaves **eleven unary cells holding more than one binding, five of them with an
+  unguarded binding beside a guarded one.** [verified] So the reduction is not free. But every one
+  of those splits, and the split is the finding.
+
+  **What a small verb set costs is targets, and a room has no bound on targets.** The hardest case
+  is `BookStore.lowerLadder`, which binds `climb` unguarded, `push_right` under `position != 2` and
+  `push_left` under `position != 0`: at position 1 all three are offered and *the world is identical
+  under each*, so the only thing selecting between them is the verb the player picked. Written as
+  one hotspot here, the cell is unreadable and the checker refuses it. Written as three — the ladder
+  and the two ends of the rail — every cell is singly occupied and the game plays. [verified] —
+  `crates/reachability/tests/verbs.rs`.
+
+  So the distinction is conserved and only moves: a parser carries it in the verb, an icon bar
+  carries it in the thing pointed at. [inference] That is why the icon bar was affordable, and it
+  is the same exchange `.yidam/decisions/binary-dimension.yml` measured running the other way.
+  `.yidam/decisions/verb-count.yml`.
 properties:
   era: "1984-1996"
   vocabulary_shape: |
