@@ -268,10 +268,10 @@ fn every_path_written_in_corpus_prose_resolves() {
     );
     assert_eq!(
         (own, repo, corpus),
-        (108, 109, 5),
+        (110, 113, 5),
         "the three bases, all load-bearing"
     );
-    assert_eq!((own + repo + corpus, decisions), (222, 118));
+    assert_eq!((own + repo + corpus, decisions), (228, 122));
 }
 
 /// **96 declared edges, 86 prose citations, and 18 pairs in both.**
@@ -291,7 +291,7 @@ fn the_graph_the_tools_read_is_not_the_graph_the_corpus_wrote() {
     let root = repo_root();
     let (e, c) = (edges(&root), citations(&root));
     let both = e.intersection(&c).count();
-    assert_eq!((e.len(), c.len(), both), (96, 87, 18));
+    assert_eq!((e.len(), c.len(), both), (96, 89, 18));
 }
 
 /// **Three nodes have no incoming edge, and every one of them is cited in prose.**
@@ -376,9 +376,15 @@ fn the_nodes_nothing_points_at_are_pointed_at_in_prose() {
 ///   relationship in this ontology means.
 ///
 /// So a check that wrote an edge wherever the vocabulary had one available would have written 13
-/// false edges, two of them into a mutual exclusion. Thirteen remain and every one has been read
-/// and refused; the fourteenth is the new citation the phase that wrote the edge added. The count is pinned; the reading is not mechanisable and is recorded in
-/// `.yidam/decisions/prose-edges.yml`.
+/// false edges, two of them into a mutual exclusion. The count is pinned; the reading is not
+/// mechanisable and is recorded in `.yidam/decisions/prose-edges.yml`.
+///
+/// **And reading one for whether it should be an edge is not reading it for whether it is true.**
+/// `prose-edges` quotes its own first example of the eight verbatim — *"the node still carrying
+/// the warning"* — classified it correctly as a pointer rather than an owed edge, and had no
+/// occasion to notice that the pointer named a node that had stopped qualifying four phases
+/// earlier. `.yidam/decisions/evidence-kinds.yml` found that and retargeted it, which is why the
+/// availability count moved: two such citations left and one arrived.
 #[test]
 fn the_vocabulary_had_a_relationship_available_and_was_right_twice() {
     let root = repo_root();
@@ -395,7 +401,7 @@ fn the_vocabulary_had_a_relationship_available_and_was_right_twice() {
             available += 1;
         }
     }
-    assert_eq!((c.difference(&e).count(), available), (69, 14));
+    assert_eq!((c.difference(&e).count(), available), (71, 13));
 }
 
 /// **A declared relationship no instance authors: the design document says two and there is one.**

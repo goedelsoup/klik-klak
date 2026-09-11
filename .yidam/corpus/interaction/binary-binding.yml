@@ -110,7 +110,10 @@ properties:
     [portable-object](../inventory-item/portable-object.yml) stopped: the description above now
     cites a source for a different claim, and one citation silences the rule for a whole node. The
     two claims here are as unsourced as they were. `.yidam/decisions/found-in.yml` names the gap and
-    [counter-flag](../world-flag/counter-flag.yml) is the node still carrying the warning.
+    [consuming-binding](../interaction/consuming-binding.yml) is the node still carrying the
+    warning — which this sentence got wrong for four phases by naming `counter-flag`, a node
+    silenced the same way this one was. Both pointers are checked now rather than maintained
+    (`.yidam/decisions/evidence-kinds.yml`).
 links:
   - target: ../verb/use-with.yml
     relationship: applies

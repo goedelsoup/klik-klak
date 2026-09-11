@@ -1,0 +1,105 @@
+id: evidence-kinds
+summary: >-
+  Forty-nine claims rest on a committed test, which the prelude's own definition of `[verified]`
+  admits and the catalog has no way to register, and `verified-unsourced` is a node-level rule over
+  a claim-level property so one unrelated citation silences a whole node. No catalog entry for
+  `crates/` — that is the same unearned silence bought deliberately and applied everywhere. What
+  the repository gets instead is the thing the prelude says to build in place of a careful
+  paragraph, because four nodes wrote the careful paragraph and two of them went stale.
+context: |
+  `verified-unsourced` reports a node asserting `[verified]` that links no catalog entry. Four
+  nodes have been reported over this corpus's life, and each, on being silenced, wrote down that
+  the silence was unearned and named a successor still carrying the warning:
+
+  - [portable-object](../corpus/inventory-item/portable-object.yml) — *"the warning went away
+    without any of the claims it was about becoming better sourced"*
+  - [binary-binding](../corpus/interaction/binary-binding.yml) — *"It no longer does, and for the
+    same unearned reason"*
+  - [boolean-flag](../corpus/world-flag/boolean-flag.yml) — *"This node now trips
+    `verified-unsourced` and the warning is correct… It is left standing"*
+  - [counter-flag](../corpus/world-flag/counter-flag.yml) — *"This node now trips
+    `verified-unsourced`, and the warning is correct"*
+
+  **The last two stopped being true two phases later.** One commit — `revise: four converging
+  guesses about saving` — added an `ags-manual` citation to each node's `save_semantics` for a
+  claim about save slots, and silenced both. Neither instrument-backed claim moved. `boolean-flag`
+  had named that exact mechanism in the sentence declaring itself standing: *"citing a catalog
+  entry for some other claim would silence the rule for the whole node without earning it."*
+  [verified] — `crates/design-gate/tests/sourcing.rs`.
+
+  So the baton was passed three times by hand and dropped on the fourth, both surviving pointers
+  name a node that no longer qualifies, and [consuming-binding](../corpus/interaction/consuming-binding.yml)
+  — the only node the lint now reports — has never said a word about the lint.
+decision: |
+  **No catalog entry for `crates/`, and the tags stay as they are. The repository checks its own
+  claims about its own reports instead.**
+
+  Three things are true at once and only the third is a defect.
+
+  **The claims are correctly tagged.** The prelude defines the tag exactly: *"`[verified]` is a
+  claim about provenance, not about confidence… the tag says a committed source supports this."*
+  A committed test is a committed source, it is re-runnable, and for a claim about *this design's
+  own language* it is the source of record — there is no document to prefer to it. The prelude's
+  worked counter-example is an aggregator standing in for an unreachable original, which is the
+  opposite case.
+
+  **The lint is correctly implemented.** It asks whether a node asserting `[verified]` links any
+  catalog entry, which is a fair question about a node.
+
+  **The defect is that those two are different scopes.** A claim rests on something; a node links
+  things. One citation for one claim discharges the check for every claim in the file, which is why
+  four nodes in a row were silenced without a single one of the claims in question gaining a
+  source.
+
+  **A catalog entry for the instrument would be that failure bought on purpose and applied
+  everywhere.** It would silence `verified-unsourced` across all twenty-two nodes at once, take
+  the corpus's one honest finding with it, and put this repository in
+  [catalog-audit](../catalog/README.md)'s source registry as a source of itself — which
+  `catalog-uncited` and the **Nodes** column would then report on. That is
+  [record-layer](record-layer.yml)'s refusal, reached a second time from a different direction: a
+  count that would assert something false is not worth the silence it buys.
+
+  **What is built instead is what the prelude says to build.** Its rule for exactly this shape:
+  *"make the distinction unrepresentable rather than advisory… a test asserting it is worth more
+  than a paragraph telling agents to be careful."* Four nodes wrote the careful paragraph. Two of
+  them are now wrong. `crates/design-gate/tests/sourcing.rs` holds three checks — the census, a
+  node's claim about a lint report must match the report, and a pointer at *the node still carrying
+  the warning* must point at one.
+rationale: |
+  **The census says how large the unnamed kind is, and it is not a corner.**
+
+  Of 316 `[verified]` claims in the corpus: **112 name a catalog entry in their own paragraph, 49
+  name a committed test, 5 name both, and 150 name neither.** [verified] Twenty-two nodes rest at
+  least one claim on the instrument alone, and twenty-one of them cite a catalog entry for
+  something else — so the lint's silence covers twenty-one nodes and its one report is the only
+  node that happens never to have needed a document for anything.
+
+  [found-in](found-in.yml) opened this at two instances, on the corpus's own threshold for looking
+  again, and asked the right question: *whether `[verified]` needs a way to say by a committed
+  assertion.* `boolean-flag` called itself the third. **There are forty-nine**, and the answer to
+  `found-in`'s question is still upstream — the tag vocabulary lives in the read-only prelude, and
+  `counter-flag` was right that nothing here can change it. What this record adds is the size of
+  what is unsayable and a check for the one consequence that is local.
+
+  **And there is a third kind, found last phase.** [drawn-boundary](drawn-boundary.yml) established
+  that `actor`, `room` and `walkbox` are evidenced entirely by prior art, because the instrument
+  structurally cannot reach them: *"this corpus can read geometry it cannot express."* So the
+  corpus makes claims from a document obtained, from a measurement made here, and from an artifact
+  it can read but not produce — and [testimony](testimony.yml) already split the first of those in
+  two and left the split open. Four kinds of provenance, one tag, and one register that only
+  accepts the kind that was downloaded. [inference]
+
+  **The unit of attribution is the paragraph, in practice and by nobody's decision.** 166 of 316
+  claims name their evidence in the paragraph that makes them, which is a convention as consistent
+  as the backtick rule [drawn-boundary](drawn-boundary.yml) found and as unstated. It is what makes
+  the census above possible at all: a checker can attribute a claim that says what it rests on and
+  can do nothing with one that does not.
+
+  **What this does not settle.** The 150 that name nothing. They are continuations — a node
+  establishes a source once and argues from it for several paragraphs, which is how anyone writes
+  and is the reason the census is a lower bound rather than a measurement. But it means a claim's
+  footing is a fact about its *node* while every check that could ever exist sees its *paragraph*,
+  and if an early citation were removed, 150 claims would silently lose the thing supporting them
+  and nothing would report it. Whether a claim inherits its source from the node or carries its own
+  is the same scope confusion this record just found in the lint, one level up and pointing the
+  other way. `[open]`

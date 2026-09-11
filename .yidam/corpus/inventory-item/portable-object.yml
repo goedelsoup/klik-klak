@@ -87,7 +87,10 @@ description: |
   rather than being pleased about: **the warning went away without any of the claims it was about
   becoming better sourced.** The tags were right and the report was right, and what is missing is
   still a way to cite the second kind of evidence; `.yidam/decisions/found-in.yml` names it, and
-  [counter-flag](../world-flag/counter-flag.yml) is now the node carrying the warning instead.
+  [consuming-binding](../interaction/consuming-binding.yml) is now the node carrying the warning
+  instead. This sentence named `counter-flag` for four phases after `counter-flag` stopped
+  qualifying; it is held by a check now rather than by hand
+  (`.yidam/decisions/evidence-kinds.yml`).
 
   **Whether an item nothing reaches for is an item at all is this class's page's question, moved
   here because this is the node it is about.** An item that is never required, consumed, or offered
