@@ -73,11 +73,13 @@ rationale: |
   says; the inference drawn from it does not. [verified] —
   `crates/design-gate/tests/clock.rs`, [unread-clock](unread-clock.yml).
 
-  **What it covers is a fifth — corrected from a quarter.** `yidam open-questions` walks
-  `.yidam/corpus/` and nothing else, so the declared clock is a clock over **9 markers while 35
-  sit in the decision records** — [markers.rs](../../crates/design-gate/tests/markers.rs)'s ratio,
-  arriving on a third tool. Declaring the interval does not widen it and this record does not
-  pretend otherwise: a green `due` here is a statement about 20% of the questions. The figure this
+  **What it covers is a fifth, and shrinking.** `yidam open-questions` walks `.yidam/corpus/` and
+  nothing else, so the declared clock watches the nine markers in the corpus and none of the ones
+  in the decision records — [markers.rs](../../crates/design-gate/tests/markers.rs)'s ratio,
+  arriving on a third tool, and the share falls every time a phase settles because a phase closes
+  nothing in the corpus and opens one here. Declaring the interval does not widen it and this
+  record does not pretend otherwise. **The count is deliberately not repeated in this paragraph**:
+  it moved four times in six phases and the check that holds it is one link away. The figure this
   paragraph first gave was 31, which was wrong when it was written: the commit that shipped this
   record also shipped an assertion holding 32, three files away. Nothing compared them, because
   one of them is a sentence — the finding [unread-clock](unread-clock.yml) built the wire for.

@@ -74,6 +74,10 @@ does not re-emit it.
 
 - **:79** — **What this does not settle.** It is one archetype, for one shape, chosen because two bodies of work exhibit it. `definePseudoRoom` built 110 hotel rooms and that is a **room** template; nothing here generalises to it, and an archetype per shape does not scale to shapes nobody anticipated — which wa…
 
+### [forty-eight](forty-eight.yml)
+
+- **:99** — **What this does not settle.** Whether presentation belongs in this vocabulary at all. Twenty- three actions of a shipped authoring surface do nothing but play, show, animate and wait, and this design has no way to write any of them — which [effect-half](effect-half.yml) treated as the boundary bein…
+
 ### [found-in](found-in.yml)
 
 - **:131** — **There are two of them now.** `interaction/binary-binding` arrived in the same position from [binary-dimension](binary-dimension.yml) — claims measured on committed tests, no catalog entry to cite. One instance was a curiosity about a lint; two is a gap in the evidence vocabulary, and this corpus's…
@@ -90,7 +94,7 @@ does not re-emit it.
 
 ### [inert-reports](inert-reports.yml)
 
-- **:107** — **What this does not settle.** Whether the corpus should have an index at all. Three reports nagging about its absence is not evidence that it is wanted — `yidam query` answers structural questions and `pack` answers retrieval ones, both without embeddings, and no phase in this repository's life has…
+- **:109** — **What this does not settle.** Whether the corpus should have an index at all. Three reports nagging about its absence is not evidence that it is wanted — `yidam query` answers structural questions and `pack` answers retrieval ones, both without embeddings, and no phase in this repository's life has…
 
 ### [inward-turn](inward-turn.yml)
 
@@ -148,7 +152,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**36 open.**
+**37 open.**
 
 ## What nothing cites
 
@@ -159,11 +163,10 @@ nodes, at four times the rate, and it had never been looked at.
 - [binding-axes](binding-axes.yml)
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
-- [effect-vocabulary](effect-vocabulary.yml)
+- [forty-eight](forty-eight.yml)
 - [inward-turn](inward-turn.yml)
 - [name-scoping](name-scoping.yml)
 - [specimen-placement](specimen-placement.yml)
-- [threshold-trigger](threshold-trigger.yml)
 
 ## What each record rests on
 
