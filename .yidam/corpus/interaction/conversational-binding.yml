@@ -9,8 +9,37 @@ description: |
   then `conversation` is a response *type* rather than a primitive, and the vocabulary is
   one class smaller than currently drawn. If it is not, the reason has to be stated, and the
   only candidate reason this corpus has found is that a conversation's available choices
-  depend on the path taken through it, which no binding records. [open] Neither side has been
-  argued in a node yet. The `opens` edge exists so the argument can be made from the graph.
+  depend on the path taken through it, which no binding records. Neither side had been argued
+  in a node; the `opens` edge existed so the argument could be made from the graph.
+
+  **The shape is legitimate and the candidate reason is false, and the specimen it was written
+  beside already said so.** `lighthouse.game` records the path with ordinary machinery:
+  `flag asked-key in keeper-talk` is a world flag with a scope, and `option wick-ask: when chosen
+  lamp and not asked-key` reads it. [verified] Nothing about a conversation's availability needs
+  a kind of state the vocabulary lacks — availability is a `when` re-read at display time, and the
+  effect list holds no `disable`. The answer had been in the file for six phases, which is where
+  `.yidam/decisions/binary-dimension.yml` found its answer too.
+
+  **So the reduction was run rather than argued, and it is exact.** Rewrite the exchange as an
+  ordinary room — options as hotspots, `enter` as `move`, `leave` as `move <the room you came
+  from>`, `chosen` as a latched flag — and every figure holds: 91 states, 173 transitions, winnable,
+  one stranding. [verified] — `crates/reachability/tests/conversation.rs`.
+
+  **What the rewrite cannot do is the last clause, and that is the whole of what survives.** `leave`
+  names no room. The rewrite could write `move quay` only because this exchange has one entrance;
+  give it two and the room form needs an exit per entrance, and the copies are *wrong* rather than
+  merely repeated — nothing keys an exit to the door you came in by, so the exchange becomes a
+  passage between the two rooms. The room form has **fewer** states than the conversation form,
+  because it has lost the entrance. [verified]
+
+  A conversation's mode sits **beside** the room rather than replacing it, and that is what carries
+  the return. Prior art keeps it the same way: `startYack(actor1, actor2, filename)` names no room
+  and moves nobody, `endYack()` takes nothing, and `isYacking()` is one global boolean
+  ([delores-source](../../catalog/delores-source.md)). [verified]
+
+  So this binding is exactly what it was seeded as — a legitimate response whose effect is `enter`
+  — and `conversation` stays a class, on a ground the class had not claimed.
+  `.yidam/decisions/conversation-reduction.yml`.
 properties:
   shape: unary
   response: |

@@ -555,7 +555,7 @@ nine unsayable sites were this single defect, and the other five were this docum
 failing to read an ontology that was already in front of them.
 
 **The argument is no longer an argument.** `crates/reachability` enumerates the specimen's
-state space — 103 reachable states, 193 transitions — finds the ending reachable, finds 16
+state space — 91 reachable states, 173 transitions — finds the ending reachable, finds 16
 states from which it is not, and names the single binding that strands them: `use-with oil-can
 on hinge`, classified as consumption, with an example of what was lost. That is the trap, found
 mechanically, and it is the first claim in this document that was executed rather than
@@ -651,6 +651,14 @@ or that anybody would enjoy writing in it.
   the metric counted the checker's own bookkeeping as world state. Corrected: 103 of 49,152,
   20 of 120, 14 of 64. That old metric reported ~0% for *both* generated families, so it could
   not have found any of this.
+
+  **The same defect was found a third time and the lighthouse figure is now 91 of 12,288.** The
+  `chosen` vector carried a bit per conversation option whether or not any predicate read one, and
+  unlike the previous two instances this moved the *reachable set*: an unread option bit is written
+  by something the player can choose, so it split states nothing could tell apart. Three times, in
+  three different vectors, is a pattern rather than an accident —
+  [`conversation-reduction`](../.yidam/decisions/conversation-reduction.yml) says what the rule
+  should have been.
 
   **What survives.** Decidability is not in question — the space is finite and the search
   terminates, which is what Layer 1 buys and no general-purpose escape hatch can offer.

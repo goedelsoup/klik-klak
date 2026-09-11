@@ -62,7 +62,7 @@ description: |
 
   **`found-in` is real and it is never information.** In the proposed format it was `holds <item>`
   in a room section, and four ways of writing it wrong — omitted, moved to another room, aimed at
-  an item nothing stood for, contradicting itself across two rooms — gave the same 103 states, the
+  an item nothing stood for, contradicting itself across two rooms — gave the same 91 states, the
   same one stranding and the same silence as the specimen as committed
   ([design/specimen](../../../design/specimen/README.md)). [verified] It is a resolve error now.
   Of `lighthouse.game`'s five items, two are found in the room of their carried form, one in the

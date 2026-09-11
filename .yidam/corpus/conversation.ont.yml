@@ -5,14 +5,26 @@ foundational_type:
   type: kind
 description: |
   An authored structure of choices offered against an actor, entered as a mode and left
-  deliberately, carrying which of its choices are currently available. Irreducible because
-  of that carried availability and that modality — not because of branching, which is an
-  optional elaboration this class was originally and wrongly founded on.
+  deliberately. Irreducible because leaving returns the player where they were — not because of
+  branching, which this class was originally and wrongly founded on, and not because of carried
+  availability, which it was secondly and wrongly founded on.
 
-  Nothing in the edges below writes the availability this description rests on — the class is
-  founded on state the ontology gives it no way to change. The claim is carried, tagged and
-  counted by [conversation/topic-list.yml](conversation/topic-list.yml), because a tag asserted
-  in class prose is counted nowhere; this paragraph is the pointer and not the assertion.
+  This description used to say the class carried which of its choices are available, and noted that
+  nothing in the edges below writes it — *"the class is founded on state the ontology gives it no
+  way to change."* That was the right worry and it had the wrong remedy. **Availability is not
+  carried; it is read.** An option's `when` is evaluated when the list is drawn, the closed effect
+  vocabulary holds no `disable`, and the one instance in the corpus gates two of its three options
+  on ordinary flags. The engine that shipped this form does the same, counting surviving choices
+  mid-render with `yackChoices()` ([delores-source](../catalog/delores-source.md)). The claim is
+  carried, tagged and counted by [conversation/topic-list.yml](conversation/topic-list.yml).
+
+  **What is left after that is the return, and it is enough.** A conversation rewritten as an
+  ordinary room analyses identically — same states, transitions, strandings, winnability — with
+  options as hotspots, `enter` as `move` and `chosen` as a latched flag. What the rewrite cannot do
+  is `leave`, which names no room because it does not need to: the mode sits *beside* the room
+  rather than replacing it. Give an exchange two entrances and the room form needs an exit per
+  entrance, and they are not copies of one intent but a hole — nothing keys an exit to the door you
+  came in by. `.yidam/decisions/conversation-reduction.yml`.
 properties:
   - name: structure
     type: string

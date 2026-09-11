@@ -21,8 +21,8 @@ decision: |
   - **The format distinguishes all three.** They are three different things to write: nothing, a
     line, or a guard with two lines. Nothing is lost there.
   - **The checker cannot distinguish them, and that is correct.** A hotspot nobody can act on, one
-    with a line of description, and one with a guarded pair give `lighthouse.game` the same 103
-    states, the same 193 transitions and the same stranding. [verified] —
+    with a line of description, and one with a guarded pair give `lighthouse.game` the same 91
+    states, the same 173 transitions and the same stranding. [verified] —
     `crates/reachability/tests/defaults.rs`. A response that writes nothing is not a state
     transition, so a reachability search has no business telling them apart.
   - **The layer where the distinction matters is the interface, and this design has never specified

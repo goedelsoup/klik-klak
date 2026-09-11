@@ -64,7 +64,7 @@ rationale: |
 
   **A side finding, from the calculator rather than from the reader.** Rewriting the specimen
   under the new rule replaced a conversation-scoped `asked-lamp` flag with `chosen lamp`, and
-  the reachable state count did not move — 103 before and after. The flag was set exactly when
+  the reachable state count did not move — 91 before and after (103 as it was reported then). The flag was set exactly when
   the option was chosen, so no reachable state ever distinguished them. A declared flag that
   duplicates state the engine already keeps is free at runtime and costs an author a name,
   and the reachable-state count is what makes that visible rather than arguable.
