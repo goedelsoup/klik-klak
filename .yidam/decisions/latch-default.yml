@@ -1,0 +1,80 @@
+id: latch-default
+summary: >-
+  Most flags latch — 31 of 40 boolean slots in a shipped game, and 9 of 9 here — so the ontology's
+  `reversible: no` default is confirmed rather than inverted. The format's opposite polarity stays:
+  `latched` is typed seven times in this corpus and `clearable` would be typed never, and this
+  repository does not swap an evidenced construct for an unevidenced one. What the question was
+  actually pointing at was a silent omission, and that is now a check.
+context: |
+  [latched-flag](../corpus/world-flag/latched-flag.yml) has carried the same conditional since
+  genesis: *"if it is most, `reversible: no` is the wrong default and the property should ask which
+  flags can be* un*set."* Its evidence was eight variable names legible in a screenshot of a save
+  file in Thimbleweed Park's development diary — six latches, one constant, one telephone receiver
+  on or off the hook — and it declined to act on them, correctly: *"eight names is not enough to
+  invert a schema on."*
+
+  The retrieval it was waiting for was never a retrieval. This corpus has had a shipped adventure
+  game's source since [delores-source](../catalog/delores-source.md) was catalogued, and had counted
+  its bindings four times without once asking which direction its state moves. [inference] The same
+  shape as `.yidam/decisions/measured-width.yml`, one node over.
+decision: |
+  **Counted, and it is most.** 40 boolean state slots written in play, **31 one way and 9 both —
+  77.5%** ([delores-source](../catalog/delores-source.md)). [verified] The commonest is `looked_at`,
+  on ten different objects, always `YES`.
+
+  **The antecedent holds and the consequent is refused, in three parts.**
+
+  - **The ontology's default is confirmed.** `reversible: no` describes the common case, and
+    `world-flag.ont.yml` now says what it rests on.
+  - **The format's keyword stays as it is**, which is the opposite polarity: `latched` is opt-in, so
+    an author types the common case. Inverting it would save seven words across four specimens and
+    introduce `clearable`, a keyword **no specimen would exercise** — the `clear` effect has never
+    been written here. [verified] Twelve candidate constructs have been refused in this repository
+    for exactly that, and an ergonomic argument is not a reason to make an exception. A future
+    specimen full of toggles can reopen it; that is what a specimen is for.
+  - **The gap the question was actually pointing at is the quiet one, and it is closed.**
+    `reachability` has always reported a flag declared latched that something clears. It could not
+    see a flag nothing clears that declines to say so — a guarantee the author holds and is not
+    claiming. `Report::unclaimed_latches` is that, computed in the same pass so the two directions
+    cannot drift. The specimens hold two: `door-open` and `asked-key`. [verified] —
+    `crates/reachability/tests/latch.rs`.
+rationale: |
+  **The reason latching is common is machinery, and that is what makes this a fact about
+  vocabularies rather than about one game's house style.** Reading where each of the nine reversible
+  writes sits: two are a player toggle — `VERB(loosen)` against `VERB(tighten)`, on a valve and a
+  fire hydrant. The other seven need somewhere to come back *from*: `Bathroom.lights_on` recomputed
+  inside `adjustLights()`, two `isWaterSource` writes in a `stateChange` callback,
+  `GLOBAL(taking_photo)` raised at the top of `takePhoto` and dropped at the bottom, and
+  `sheriff.busy` and `sheriff.locked_in_jail` written inside `script`s run by `startthread`.
+  [verified]
+
+  This design refused every one of those separately and for unrelated reasons — no derived values
+  and no occasion but a binding (`arrival-trigger`, `threshold-trigger`), no duration
+  (`effect-list-semantics`), no autonomous actor. [inference] So the base rate here is not 77.5% but
+  9 of 9, and the two mechanisms a shipped game does use that this vocabulary keeps are the two that
+  are a pair of ordinary bindings.
+
+  **What the reverse gear costs is not what this corpus expected.** A binding that clears a flag
+  adds **one transition and no states** — both values were reachable already. [verified] That is the
+  same fact `latched-flag` closed its performance question on and it arrives here from the other
+  end: monotonicity takes edges out of the graph and nothing out of the set of states, so a latch is
+  not a cheaper search, it is a promise.
+
+  **The naming convention holds in one direction only.** The rule guessed from eight names — latches
+  are named for a past event, reversible flags for a state — predicts a latch from a past-tense name
+  at **25 of 26**, and predicts nothing from a condition name, where 8 of 14 come back. [verified] A
+  one-way test is worth more than a rule of thumb and less than a declaration, and a checker can
+  read neither.
+
+  Its single event-named exception is not an exception. `valve.delores_tightened` is written `NO` by
+  `VERB(loosen)` and `YES` by `VERB(tighten)`, and what it records is not that something happened
+  but *which of two routes* left the valve normal — so `VERB(lookat)` can say *"It's back to its
+  original setting"* and add *"Guess Sandy or Dave figured it out"* only when the player was not the
+  one who put it back. [verified] Provenance wearing a past-tense name, and expressible here.
+
+  **What this does not settle.** Whether the declaration should be authored at all. Every figure
+  above says a checker can derive latching from the game, and the one thing derivation cannot supply
+  is the reason [latched-flag](../corpus/world-flag/latched-flag.yml) gives for the property
+  existing: a save file that restores a latched flag as clearable corrupts no value and makes
+  reachable a state the author had proved unreachable. That argument has never been tested against a
+  save format, because this design has none. `[open]`
