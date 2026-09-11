@@ -41,7 +41,7 @@ Sorted by: kind, then alphabetically.
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 4v / 1i / 0o | 62 |
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 4v / 2i / 0o | 66 |
 | [entry-binding.yml](interaction/entry-binding.yml) | interaction | Entry Binding | 3 | 10v / 9i / 0o | 163 |
-| [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 8v / 1i / 0o | 81 |
+| [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 9v / 2i / 0o | 88 |
 | [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 7v / 4i / 1o | 130 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
 | [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 5 | 16v / 4i / 1o | 166 |
@@ -49,7 +49,7 @@ Sorted by: kind, then alphabetically.
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 3v / 5i / 0o | 64 |
 | [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 12 | 27v / 10i / 0o | 316 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
-| [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 8v / 4i / 0o | 103 |
+| [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 8v / 5i / 0o | 111 |
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 6v / 3i / 0o | 73 |
 | [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 3i / 0o | 41 |
 | [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 7 | 4v / 5i / 0o | 96 |
