@@ -1,0 +1,89 @@
+id: collected-verdict
+summary: >-
+  A record that collects a verdict does not retire the place it collected it from, so the corpus
+  states its central answer twice at two sizes and the smaller one drifted. The figures move to
+  where a test can hold them and the prose stops repeating them. Nothing is trimmed: the property
+  is the working, the record is the finding, and the reason they disagreed is that only one of them
+  was ever re-read.
+context: |
+  `data-format/interaction-table.escape_hatch` is **446 lines — 9% of every block in the corpus and
+  2.1× the next largest.** It carries two `---` horizontal rules, which is what an author reaches
+  for when a field has stopped being one field. [verified] —
+  `crates/design-gate/tests/figures.rs`.
+
+  [escape-hatch](escape-hatch.yml)'s own `context:` says how that happened and does not notice it
+  is describing a condition rather than a history: *"Six phases were spent on it and the marker
+  never moved… the property grew to eleven screens of argument beneath a sentence saying the
+  question was open. This record collects the verdict and states what it cost."*
+
+  **The collection happened and the source was never trimmed.** The corpus now states one verdict
+  in two places at two sizes, and they have drifted:
+
+  | | `surface.rs` | the property | the record |
+  |---|---|---|---|
+  | constructs | **50** | 50 | **51** |
+  | withdrawn | **2** | 2 | **1** |
+
+  Two of three agree, and the odd one is the record — in its `summary:`, the permanent half, the
+  field `yidam decisions-log` reads. [verified]
+decision: |
+  **The record's figures are corrected, and no prose is moved.**
+
+  The tempting remedy is to trim the property into the record and the tempting reason is that 446
+  lines is too many. Both are wrong. **The property is the working and the record is the finding**,
+  and this corpus has a rule for that distinction already:
+  [record-layer](record-layer.yml)'s — a node asserts something about point-and-click adventure
+  games, a record asserts what this project chose. The census of Delores's 203 bindings is the
+  first kind. The verdict on whether a bounded language avoids the escape is the second. They are
+  correctly in different files and the sizes follow from that, not from neglect.
+
+  **What is wrong is the repetition of figures, and that is what moves.** `escape-hatch.yml` said
+  `51 constructs` and `one withdrawn` in two fields; the authority is
+  `crates/game-format/tests/surface.rs`, which enumerates the verbs and keywords off the parser and
+  holds the enums with exhaustive matches so a tenth predicate does not compile until somebody
+  names it. The record now names the test instead of restating its output, in the summary and in
+  the rationale both.
+
+  **And `surface.rs` gets the wire it asked for.** Its header has always said *"A change here is
+  not a failure. It is a signal that `.yidam/decisions/escape-hatch.yml` needs reading again, which
+  is the whole reason the figures are pinned rather than described."* The change came, the property
+  was corrected, and the signal went nowhere, because a sentence in a header is not a wire.
+  `figures.rs` reads the six figures off `surface.rs`'s own assertions and fails when any prose in
+  the corpus or the records disagrees.
+rationale: |
+  **This is `verb-count`'s failure, in the one field a convention was written to protect.**
+
+  Two of this repository's own files disagreeing on a headline number for six phases is the defect
+  it has been bitten by most, and [record-lifecycle](record-lifecycle.yml) drew the convention from
+  it three phases ago: **a summary should not hold a figure**, because a figure is the one thing in
+  a record that can turn out to be wrong and the summary is the half a reader gets by default.
+  `escape-hatch` predates that convention and is its proof case — it held three figures and two
+  were wrong.
+
+  It is also the third summary to move, after `latch-default` and `action-pages`. All three are
+  corrected measurements rather than changed minds, which is the rule holding; what the third adds
+  is that a summary can go stale **without the record being edited at all**, because what moved was
+  the thing it was describing. The other two were wrong when written.
+
+  **The property was corrected and the record was not, and the asymmetry has a cause.** The verb
+  fold — `give-to` assessed as `use-with` applied to an actor — happened in a phase working on
+  verbs, and the file it was working in was the property. Nothing pointed from the figure to the
+  other place the figure lived. That is [prose-edges](prose-edges.yml)'s second graph again: the
+  citation runs property → record in prose and nothing traverses it, so a phase editing one end has
+  no way to find the other.
+
+  **Why the size is pinned but not made a rule.** 446 lines is the largest block by a factor of two
+  and there is no unit between a node and a property to split it into — `data-format` declares three
+  properties for every format, and adding a fourth for one instance would put this corpus's central
+  argument in a slot named after where it happened to be found. The pin makes the size visible
+  because the size is what produced the defect: **a field nobody reads from the top is a field
+  whose first sentence can disagree with its last screen**, which is the condition `escape-hatch`
+  was written to fix and the condition `escape-hatch` then fell into. [inference]
+
+  **What this does not settle.** Whether a record should carry figures at all. The convention says
+  keep them out of the summary and this record moves two out of one; what neither says is where
+  they should go instead, and the answer here was available only because `surface.rs` existed to
+  point at. Records state measured figures that no committed assertion holds —
+  [duplication](duplication.yml)'s tractability numbers, [measured-width](measured-width.yml)'s
+  antichain, [effect-half](effect-half.yml)'s 12.7% — and for those the convention has no remedy to
+  offer, because there is nothing to name instead. `[open]`

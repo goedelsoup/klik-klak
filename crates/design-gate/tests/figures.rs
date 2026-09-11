@@ -212,6 +212,17 @@ fn every_statement_of_the_surface_size_agrees_with_the_test() {
         let src = std::fs::read_to_string(&p).expect("readable");
         let shown = p.strip_prefix(&root).unwrap_or(&p).display().to_string();
         for w in src.split_whitespace().collect::<Vec<_>>().windows(2) {
+            // A figure inside single asterisks, quotes or backticks is one being *reported* — a
+            // record saying what another file got wrong. Double asterisks are emphasis and the
+            // figure is being asserted, which is the distinction this missed on its first run and
+            // which the corpus makes consistently. Three separate checks have now had to learn the
+            // same rule for three different tokens: `marker-count` for `[open]`, `reach.rs` for
+            // `[verified]`, this one for a number. It is written down nowhere.
+            let quoted = w[0].starts_with(['"', '`', '\''])
+                || (w[0].starts_with('*') && !w[0].starts_with("**"));
+            if quoted {
+                continue;
+            }
             let Ok(n) = w[0]
                 .trim_matches(|c: char| !c.is_ascii_digit())
                 .parse::<usize>()
