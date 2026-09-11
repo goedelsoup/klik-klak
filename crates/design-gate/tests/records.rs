@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (410, 67, 52));
+    assert_eq!((total, mentions, tests.len()), (421, 70, 53));
 }
 
-/// **Six of sixty-three records are cited by nothing, against three of forty-three nodes.**
+/// **Seven of sixty-four records are cited by nothing, against three of forty-three nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -328,13 +328,13 @@ fn a_record_nothing_cites_is_named() {
             "name-scoping",
             "second-document",
             "specimen-placement",
+            "unread-list",
         ],
-        "six. Five phases of subject work each cited what came before it, which is what a phase \
-         drawing on evidence does, and the newest record joins the list as every newest record \
-         does but two"
+        "seven. The two newest join as every newest record does but two, and `second-document` \
+         stays because the phase after it went to the catalog rather than back to `design/`"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (63, 194));
+    assert_eq!((c.len(), edges), (64, 197));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -452,7 +452,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 43, "live open questions in this directory");
+    assert_eq!(total, 44, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are

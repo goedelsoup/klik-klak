@@ -1,15 +1,15 @@
-//! **A catalog entry announces an artifact as unretrieved, and the catalog holds it.**
+//! **A catalog entry announced an artifact as unretrieved, and the catalog held it.**
 //!
-//! `twp-dev-diary.md` closes its unread-list on the Delores source: *"Nobody here has read it. It
-//! is the highest-value retrieval this corpus has ever identified."* The artifact it names by URL
+//! `twp-dev-diary.md` closed its unread-list on the Delores source: *"Nobody here has read it. It
+//! is the highest-value retrieval this corpus has ever identified."* The artifact it named by URL
 //! is `delores-source.md` — `obtained: true`, retrieved the next day, 910 lines, and the evidence
-//! base of **27 of this corpus's 43 nodes**, plus a class page. The sentence has been false for
-//! 272 commits.
+//! base of **27 of this corpus's 43 nodes**, plus a class page. The sentence stood for 272
+//! commits after it stopped being true.
 //!
 //! It is findable without reading prose. An unread-list naming a URL another entry declares in its
 //! `location:` block is a mechanical condition, and across eight entries it fires exactly once.
 //!
-//! **The convention it breaks is followed by four of the eight and written down nowhere.** When an
+//! **The convention it broke was followed by four of the eight and written down nowhere.** When an
 //! item on an unread-list gets read, the list says so — in four entries, in four different
 //! spellings, none of which any rule required:
 //!
@@ -18,8 +18,12 @@
 //! * *"have since been read in full"* — `delores-source`
 //! * *"was the item at the top of this list and it has been read"* — `ags-manual`
 //!
-//! This is the ninth undeclared convention this repository has found by measuring, and the second
-//! found with an instance already broken. `.yidam/decisions/unread-list.yml`.
+//! This is the ninth undeclared convention this repository has found by measuring, and the first
+//! that fails for a reason other than deriving the spelling wrong: keeping this list current
+//! required knowing what a *different* entry had retrieved. It is written into
+//! `.yidam/catalog/README.md` now, the narrow condition is the first check below, and the wider
+//! one — *an entry edited since its unread-list last changed* — was measured at seven of eight
+//! and declined. `.yidam/decisions/unread-list.yml`.
 
 use design_gate::repo_root;
 use std::path::{Path, PathBuf};
@@ -74,13 +78,13 @@ fn unread(src: &str) -> &str {
     }
 }
 
-/// **One unread-list names an artifact the catalog holds, and it is the largest one here.**
+/// **No unread-list names an artifact the catalog holds.**
 ///
-/// Not a stale figure and not a decayed inference — a sentence asserting that a retrieval has not
-/// happened, in a repository where that retrieval is the single most-cited source it has. The
-/// mechanism is the one `third-population` found on the other side: *a wrong figure in an
-/// unread-list discourages the reading that would correct it*, and this is the same discouragement
-/// pointed at a reading that already happened.
+/// One did, and it was the largest one here: not a stale figure and not a decayed inference, but a
+/// sentence asserting that a retrieval had not happened, in a repository where that retrieval is
+/// the single most-cited source it has. The mechanism is the one `third-population` found on the
+/// other side — *a wrong figure in an unread-list discourages the reading that would correct it* —
+/// and this was the same discouragement pointed at a reading that already happened.
 #[test]
 fn no_unread_list_names_an_artifact_the_catalog_holds() {
     let root = repo_root();
@@ -112,25 +116,25 @@ fn no_unread_list_names_an_artifact_the_catalog_holds() {
             }
         }
     }
-    assert_eq!(
-        named,
-        ["twp-dev-diary.md names github.com/grumpygamer/DeloresDev — held by delores-source.md"],
-        "an entry's unread-list naming an artifact this catalog has retrieved"
+    assert!(
+        named.is_empty(),
+        "an entry's unread-list naming an artifact this catalog has retrieved:\n  {}",
+        named.join("\n  ")
     );
 }
 
-/// **Four of eight record what has since been read, in four spellings, and nothing asked them to.**
+/// **Five of eight record what has since been read, and the rule is written down now.**
 ///
-/// The discriminator is exact: the four that record a retrieval all write some form of *been
-/// read* in the list itself, and the four that do not, do not. That is a convention with a
-/// following and no statement — the ninth this repository has found by measurement, after class
-/// routing, used-versus-discussed in eight spellings, and the rest.
+/// It was four, in four spellings, with nothing asking them to. The discriminator is exact: the
+/// entries that record a retrieval write some form of *been read* in the list itself and the ones
+/// that do not, do not — which is what a convention with a following and no statement produces.
 ///
-/// Three of the four also name where the reading went: a record, a sibling entry, a section of
-/// their own. The fourth names the item's former position in the list. None of them was asked for
-/// any of it.
+/// The three that stay silent are silent correctly: `ags-272-manual` and `wikipedia-scumm` have
+/// had nothing further read, and `ags-source`'s list excludes what was read by naming it (*"the
+/// editor beyond the four files above"*), which is a fifth spelling of the same intent and is left
+/// alone rather than regularised.
 #[test]
-fn half_the_unread_lists_record_what_has_since_been_read() {
+fn most_unread_lists_record_what_has_since_been_read() {
     let root = repo_root();
     let mut records: Vec<String> = Vec::new();
     let mut silent: Vec<String> = Vec::new();
@@ -149,18 +153,20 @@ fn half_the_unread_lists_record_what_has_since_been_read() {
             "delores-source.md",
             "grumpy-gamer-pdc.md",
             "scumm-v5-opcode-reference.md",
+            "twp-dev-diary.md",
         ],
         "unread-lists that say an item on them has since been read"
     );
     assert_eq!(
         silent,
-        [
-            "ags-272-manual.md",
-            "ags-source.md",
-            "twp-dev-diary.md",
-            "wikipedia-scumm.md",
-        ],
-        "and the four that say nothing — one of which had the most to say"
+        ["ags-272-manual.md", "ags-source.md", "wikipedia-scumm.md"],
+        "and the three with nothing to record"
+    );
+
+    let readme = std::fs::read_to_string(root.join(".yidam/catalog/README.md")).expect("readable");
+    assert!(
+        readme.contains("When an item on that list gets read, the list says so"),
+        "the convention, written down after four entries followed it and a fifth could not"
     );
 
     // four instances, four spellings, and a rule would have produced one
@@ -175,6 +181,7 @@ fn half_the_unread_lists_record_what_has_since_been_read() {
             "scumm-v5-opcode-reference.md",
             "has now been read and is recorded below",
         ),
+        ("twp-dev-diary.md", "has since been read, in full"),
     ];
     for (file, phrase) in spellings {
         let src =
@@ -186,14 +193,14 @@ fn half_the_unread_lists_record_what_has_since_been_read() {
     }
 }
 
-/// **The artifact called unretrieved is the evidence base of two thirds of the corpus.**
+/// **The artifact that was called unretrieved is the evidence base of two thirds of the corpus.**
 ///
 /// 27 of 43 nodes cite `delores-source`, and `conversation.ont.yml` besides — more than any other
 /// entry, and more than the four AGS entries together. That is what the sentence in the other file
 /// denies, and the denial sits in the entry a reader opens *to decide what to retrieve next*,
 /// which is the one place where being wrong about this costs something.
 #[test]
-fn the_artifact_called_unretrieved_is_the_most_cited_source_here() {
+fn the_artifact_that_was_called_unretrieved_is_the_most_cited_source_here() {
     let root = repo_root();
     let mut nodes = Vec::new();
     let mut stack = vec![root.join(".yidam/corpus")];
@@ -252,8 +259,12 @@ fn the_artifact_called_unretrieved_is_the_most_cited_source_here() {
         "the entry for the artifact the other calls unretrieved"
     );
     assert!(
-        unread(&diary).contains("Nobody here has read it"),
-        "and the sentence, still standing"
+        !unread(&diary).contains("Nobody here has read it"),
+        "the sentence is gone"
+    );
+    assert!(
+        unread(&diary).contains("[delores-source](delores-source.md)"),
+        "and the list points at the entry instead of at the URL it recommended"
     );
 
     // And the figure was already computed, in this directory, by a generator this repository

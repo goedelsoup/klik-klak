@@ -164,6 +164,10 @@ does not re-emit it.
 
 - **:128** — **What this does not settle.** Whether a question's age should be a fact the node carries. Blame is a lower bound and resets on a reword, and the only reason it reads correctly today is that nine phases revised `player-character` around line 14 without touching it — luck rather than design. A `since…
 
+### [unread-list](unread-list.yml)
+
+- **:96** — **What this does not settle.** Whether the two live items under the spent one are worth taking. `hints_and_dialogs.html`, `text_lock.html` and `translations.html` cover how the dialogue and text were authored, which the diary retrieval explicitly did not ask about and which [conversation](../corpus/…
+
 ### [unread-state](unread-state.yml)
 
 - **:78** — **What this does not settle.** The rule is now applied by hand in five places and nothing checks that a sixth obeys it. That is the original question returning one level up: `observed-state` asked for a check that fails when an unreadable component is added, and what exists is five components each b…
@@ -176,7 +180,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**43 open.**
+**44 open.**
 
 ## What nothing cites
 
@@ -190,6 +194,7 @@ nodes, at four times the rate, and it had never been looked at.
 - [name-scoping](name-scoping.yml)
 - [second-document](second-document.yml)
 - [specimen-placement](specimen-placement.yml)
+- [unread-list](unread-list.yml)
 
 ## What each record rests on
 
