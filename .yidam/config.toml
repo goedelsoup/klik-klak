@@ -1,0 +1,44 @@
+# Repository configuration for `yidam`.
+#
+# `yidam due` reports one line per clock and closes with how many "have no interval
+# declared and can never come due". That sentence cannot tell a decision from an
+# omission, so every clock is answered here — declared, or declined with its reason on
+# the commented key. `.yidam/decisions/inert-reports.yml` carries the argument.
+#
+# **The clocks are not in the same unit and nothing says so until you declare one.**
+# `questions_after` counts commits; `phases_after` counts days; `catalog.ttl_days` says
+# its unit in its name. An undeclared clock reports only that it is undeclared, so the
+# unit is learnable in exactly one way: set a value and read what `due` prints back.
+
+[due]
+
+# How long an open question may stand, **in commits**.
+#
+# The `inquiry` kuten's proposed value, and it is close rather than remote: the oldest
+# open question here is `actor/player-character` at 86 commits, so this fires within a
+# phase or two of whatever touches nothing. Seven of the nine are past 10.
+#
+# What it covers is a quarter. `yidam open-questions` walks `.yidam/corpus/` and nothing
+# else, so this clock watches 9 markers while 31 sit in `.yidam/decisions/`; the larger
+# share is listed in `.yidam/decisions/README.md` and is invisible to every yidam
+# command. A green `due` here is a statement about 22% of what is owed.
+questions_after = 100
+
+# index_after — DECLINED.
+#
+# No released binary can build the index this clock measures. `yidam index-build` in the
+# pinned build answers "needs the `index` feature", and the build's features are
+# reports, export-graph, tonpa, serve-http, vault-s3, catalog-fetch. The prelude's
+# `inquiry` kuten records the same across the population: "Nobody holds one; one corpus
+# declined it in writing, because no released binary can build the index the clock
+# measures." This is the second decline, and that file pre-registers what a second
+# means, so declining in writing is a datum rather than an absence.
+
+# phases_after — DECLINED, on the unit.
+#
+# It counts inquiry refs in flight **in days**, and a phase here lives minutes: a branch
+# opens, settles onto main and is deleted inside one working session. Declared at the
+# kuten's 60 it reports "none past 60 day(s)" forever, which is a green light for a
+# condition that cannot arise. A design whose phases spanned days would want this clock
+# and would find the unit right; this one would have to count commits to learn anything,
+# and the clock does not.
