@@ -211,6 +211,15 @@ description: |
   text with `$NOUN1$`/`$NOUN2$` slots, whether it is binary, whether the actor walks to the
   target, whether the actor reaches, and whether proximity is required. [verified] The primitive
   is not the verb. The primitive is the verb schema, and the verbs are its instances.
+  **Nothing points at this node and only an inventor could.** `prior-art` declares three
+  relationships and all three point out; the one thing that reaches the class is
+  `verb -originated-in->`, which says a verb's *name* came from a system. This is a 2017 game that
+  implements four verbs and originated none of them, so the single edge that could name it is one
+  it cannot receive — and a comparative tier exists to compare, which means the systems most worth
+  having are the ones the class can least reach. [inference] The orphanhood is the relationship's
+  semantics rather than anything missing here; `.yidam/decisions/priority-edge.yml` refuses the
+  inverse edge that would paper over it.
+
 properties:
   era: "2015-2020"
   vocabulary_shape: |

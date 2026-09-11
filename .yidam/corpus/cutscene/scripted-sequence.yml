@@ -163,6 +163,14 @@ description: |
   declares is inert in this vocabulary while the identical edge one class over is load-bearing.
   `.yidam/decisions/conversation-reduction.yml`.
 
+  **Nothing points at this node and nothing can.** `cutscene` is the only class in this ontology
+  with no incoming relationship at all — it was seeded to point outward — and the reduction argued
+  above is why that never mattered: the class collapses into `interaction`, is kept for the
+  argument rather than the entry, and an edge into it would be an edge into a finished negative
+  result. `yidam lint` does not report this node, which is a gap in the lint rather than a
+  difference in the node; `crates/design-gate/tests/orphans.rs` computes the condition itself.
+  [inference]
+
 properties:
   trigger: |
     Entering a room, a flag reaching a value, or the resolution of a binding.

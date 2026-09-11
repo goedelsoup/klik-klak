@@ -100,6 +100,10 @@ does not re-emit it.
 
 - **:88** — **The `[open]` that remains is narrower and no longer about retrieval.** Not *is there a measured width* — there is one now — but whether a whole-game antichain can stand in for the width of an act when the game has no acts, and what a second, larger game would say. Thimbleweed Park's source is not …
 
+### [priority-edge](priority-edge.yml)
+
+- **:76** — **What this does not settle.** Whether the comparative tier wants a relationship of its own. The argument for one is in this record: `originated-in` cannot reach a 2017 engine, and the tier's whole purpose is comparison across time. The argument against is that nothing in the corpus has needed the e…
+
 ### [prose-edges](prose-edges.yml)
 
 - **:131** — **What this does not settle.** Whether the second graph should have a form. Every citation in it resolves, so the four spellings and three bases cost nothing today; what they cost is every tool that was never written, and this phase wrote one of them and found the count had drifted in a document nob…
@@ -136,7 +140,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**33 open.**
+**34 open.**
 
 ## What nothing cites
 
@@ -145,10 +149,10 @@ word on something nothing else has needed — but it is the shape `orphan-in` re
 nodes, at four times the rate, and it had never been looked at.
 
 - [binding-axes](binding-axes.yml)
-- [carried-claims](carried-claims.yml)
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
 - [effect-vocabulary](effect-vocabulary.yml)
 - [name-scoping](name-scoping.yml)
+- [priority-edge](priority-edge.yml)
 - [specimen-placement](specimen-placement.yml)
 - [threshold-trigger](threshold-trigger.yml)

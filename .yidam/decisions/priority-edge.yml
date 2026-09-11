@@ -1,0 +1,76 @@
+id: priority-edge
+summary: >-
+  `prior-art`'s only incoming relationship is `originated-in`, which rewards priority, so the
+  comparative class cannot be pointed at for the systems most worth comparing to. The inverse edge
+  is refused on precedent and the class keeps its shape. What changes is that all three orphaned
+  nodes now say why in the node, which none of them did while three separate records explained them.
+context: |
+  `prior-art.ont.yml` declares three relationships and **all three point out** — `implements`,
+  `exhibits`, `reads`. The only thing that can reach the class is declared on the other side,
+  `verb -originated-in-> prior-art`, and it names three of the four instances: `ags`, `scumm`,
+  `sierra-sci`. [verified] — `crates/design-gate/tests/orphans.rs`.
+
+  [thimbleweed-park](../corpus/prior-art/thimbleweed-park.yml) is the fourth. It is a 2017 game
+  that `implements` four verbs it did not originate, and it is this corpus's second-largest node —
+  316 lines, 27 verified claims, read in full from a public diary — uncited for 56 commits.
+
+  [prose-edges](prose-edges.yml) called `prior-art`'s orphanhood structural and was right without
+  saying what the structure is.
+decision: |
+  **The class keeps its shape and the relationship keeps its direction. What is added is the
+  account, in the nodes.**
+
+  `verb -implemented-by-> prior-art` would fix the graph and is refused.
+  [prose-edges](prose-edges.yml) read fifteen unedged citations by hand and refused two of them for
+  being *"the inverse of an edge that already exists"*, on the grounds that writing one makes a
+  cycle out of a direction the ontology chose. This would be the third, and it would be the first
+  written to make a lint quieter rather than because a sentence in a node asserted it — which is
+  the exact move that record spent thirteen counterexamples refusing.
+
+  **What the structure actually is, which nobody had stated: `originated-in` is a historical
+  claim.** It says a verb's *name* came from a system, so only the first system to use a name can
+  receive it. The later a system is, the more it inherits and the less it can be pointed at — and a
+  comparative tier exists to compare, which means the systems most worth having are the ones the
+  class can least reach. That is a property of the relationship's semantics rather than of any
+  node, and it does not get better with more instances.
+
+  **All three orphans account for themselves now.** Three nodes have no incoming edge, `yidam lint`
+  reports two of them, and until this phase **none of the three said anything about it**. The
+  accounts existed — `prose-edges` for two, `scripted-sequence`'s own collapse argument for the
+  third — and every one of them was one directory away in a file the node does not cite.
+rationale: |
+  **The orphan is not the finding; where the explanation lives is.**
+
+  A reader who opens `thimbleweed-park` because `lint` named it finds 316 lines about a shipped
+  game and not one word about why nothing points at it. The same for `object-state`, whose
+  orphanhood is a **kept refusal** — the node declines to propose the primitive, so nothing sets
+  one — and for `scripted-sequence`, whose class collapsed into `interaction` and which is
+  therefore unreachable by design.
+
+  Three different reasons, three accounts written by three phases, and the node is the one place
+  none of them went. **This is the fifth phase in a row to find that shape**, and the narrowest:
+  [action-pages](action-pages.yml) found class pages nobody reopened,
+  [collected-verdict](collected-verdict.yml) a figure nobody carried,
+  [inert-reports](inert-reports.yml) a report consulted once,
+  [carried-claims](carried-claims.yml) nodes that only wrote about their footing after being
+  reported. Here the answer was not merely unwritten — it was written, correctly, in a file the
+  reader has no reason to open. [inference]
+
+  **The lint's own report is what makes this cost something.** `orphan-in` names a node and a
+  commit count and says *"uncited since 2026-09-10"*, which is a true sentence that reads as a
+  defect. Two of these three are not defects and the third is a design decision showing through. A
+  standing INFO nobody can dismiss is a standing INFO everybody learns to scroll past, and the
+  remedy is not to silence it — it is to make the node answer the question the line raises.
+
+  **And the lint misses one, which is why the check computes the condition itself.**
+  `cutscene/scripted-sequence` has no incoming edge and is not reported; `prose-edges` found that
+  and pinned it. A check that shelled out to the vendored binary to ask would inherit the gap.
+
+  **What this does not settle.** Whether the comparative tier wants a relationship of its own. The
+  argument for one is in this record: `originated-in` cannot reach a 2017 engine, and the tier's
+  whole purpose is comparison across time. The argument against is that nothing in the corpus has
+  needed the edge — four nodes cite `thimbleweed-park` in prose and every one of them is pointing
+  at an argument rather than asking the graph a question, which is the condition
+  [prose-edges](prose-edges.yml) established as the ordinary case and the reason it refused to
+  mechanise citation. A relationship added because a class looks lonely is a relationship no
+  author asked for. `[open]`
