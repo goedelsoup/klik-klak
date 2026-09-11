@@ -1,0 +1,125 @@
+# decisions
+
+A record is a claim about what this project chose and why. A [corpus
+node](../corpus/README.md) is a claim about point-and-click adventure games. They are
+different kinds, which is why `yidam status` counts 42 nodes and not 84, and why this
+directory has its own gate instead of moving: `crates/design-gate/tests/records.rs`.
+
+Everything below the line is generated. `REGEN=1 cargo test -p design-gate --test records` rewrites it, and `cargo test` fails when it is stale.
+
+---
+
+## Open questions
+
+Every live `[open]` in this directory, which no yidam command can enumerate: they are
+counted by `status` only when they sit in a corpus node. The convention is
+[marker-count](marker-count.yml)'s — the token names a live question and a retraction
+does not re-emit it.
+
+### [actor-position](actor-position.yml)
+
+- **:112** — **What is not done.** `nightwatch.game` still says its watchman is down the hall in prose. Rewriting it would make that specimen test what it was written to say it could not, and would move figures that three phases of records quote. Whether a specimen should be revised to exercise a primitive it ar…
+
+### [arity-cost](arity-cost.yml)
+
+- **:96** — And the other thing the measurement did not touch: `ambiguous_cells` proves disjointness rather than overlap, so `or` is reported as inseparable. Nothing in the corpus writes one in a colliding cell, so the conservative branch has never been exercised on real authored work.
+
+### [arrival-realizer](arrival-realizer.yml)
+
+- **:110** — **What this does not settle.** The answer is conditional on two refusals holding, and this is the first place they combine. A design that stored presentation, or that stored affordance instead of computing it, gets the fourth component back — and nothing in this corpus records that choosing to store…
+
+### [availability](availability.yml)
+
+- **:107** — **What this does not settle.** Whether a binding should be able to carry two gates — one withholding, one refusing — as that game's verb slots do. Nothing here has wanted it, and the evidence for it is a single object in a bathroom.
+
+### [binary-dimension](binary-dimension.yml)
+
+- **:79** — **What stays open.** The reduction being free to the analysis is a fact about *this* checker, and this checker treats inventory as a count per item with a declared ceiling. A checker that modelled the item's identity — which of two crowbars — might not be indifferent, and nothing here has one.
+- **:84** — And the thing the measurement did not touch: **a binary verb makes the table two-dimensional**, which is `binary-binding`'s combinatorics argument, and n×m cells is a cost to an *author* rather than to a checker. Every measurement in this record is a checker's. The authoring cost of arity is the sam…
+
+### [conversation-reduction](conversation-reduction.yml)
+
+- **:81** — **What this does not settle.** Whether an exchange should be enterable from more than one place at all — no specimen has one, and the two-entrance case above is constructed. If exchanges are always entered from one room, the return is free and the class's last ground is a convenience rather than a n…
+
+### [delegation](delegation.yml)
+
+- **:100** — Not decided here, because one game is one game and because the four rows want three different relations — part-of, same-as, and says-the-same — and a design that collapsed them would be choosing by convenience.
+
+### [duplication](duplication.yml)
+
+- **:113** — It settles one shape and not the pressure. `definePseudoRoom` built 110 hotel rooms, which is a *room* template; an archetype per shape does not reach shapes nobody anticipated, and that was the argument against archetypes to begin with.
+- **:119** — **What this does not touch.** Whether the tractability figures should be re-earned on a game that can be written in this language. They are correct measurements of the games measured, and the games are honest instances of the shapes they claim to be; what they cannot be is evidence that an *author* …
+
+### [exit-archetype](exit-archetype.yml)
+
+- **:79** — **What this does not settle.** It is one archetype, for one shape, chosen because two bodies of work exhibit it. `definePseudoRoom` built 110 hotel rooms and that is a **room** template; nothing here generalises to it, and an archetype per shape does not scale to shapes nobody anticipated — which wa…
+
+### [found-in](found-in.yml)
+
+- **:107** — **What is not decided.** `found-in` is now known to be a real relationship that no author should be asked to write, and the ontology has no way to say that about an edge. Marking derived edges would be a schema change, and this is one instance. The corpus's own rule — that a thing earns its place by…
+- **:130** — **There are two of them now.** `interaction/binary-binding` arrived in the same position from [binary-dimension](binary-dimension.yml) — claims measured on committed tests, no catalog entry to cite. One instance was a curiosity about a lint; two is a gap in the evidence vocabulary, and this corpus's…
+- **:136** — Whether the check should also refuse a give of some *other* item on a hotspot that stands for one is untested. All eight `is` sites in the four specimens give exactly what they stand for and nothing else [verified], so the corpus has no case where a hotspot legitimately hands over something besides …
+
+### [frame-width](frame-width.yml)
+
+- **:93** — **What this does not settle.** The identity half is untouched and stands where [hotspot-identity](hotspot-identity.yml) left it — evidenced and named as `parent`, unadopted because this vocabulary has no geometry. And the tractability figures are still measured on games no author would produce, whic…
+- **:103** — **One correction fell out of the measurement and is larger than the finding.** Counting frame against prose across the shipped game's verb slots meant counting `VERB_OK`, and this corpus had it at zero authored sites in three places. There are 62. The search was for `okverb_`, the name the macro exp…
+
+### [hotspot-identity](hotspot-identity.yml)
+
+- **:75** — **What this does not decide.** Whether a design that did include geometry should have one relation or three. Nothing here bears on it, and the three are genuinely different — a part is contained by its whole, two regions of one thing are interchangeable, and two things that read alike are not interc…
+
+### [latch-default](latch-default.yml)
+
+- **:80** — **What this does not settle.** Whether the declaration should be authored at all. Every figure above says a checker can derive latching from the game, and the one thing derivation cannot supply is the reason [latched-flag](../corpus/world-flag/latched-flag.yml) gives for the property existing: a sav…
+
+### [marker-count](marker-count.yml)
+
+- **:79** — **What this does not settle.** Whether a marker should carry the phase that opened it. Every one of the five stale markers could have been caught by re-reading a record from the phase that followed, and nothing connects the two — a marker names no date, no phase and no record, so "has this been answ…
+
+### [measured-width](measured-width.yml)
+
+- **:88** — **The `[open]` that remains is narrower and no longer about retrieval.** Not *is there a measured width* — there is one now — but whether a whole-game antichain can stand in for the width of an act when the game has no acts, and what a second, larger game would say. Thimbleweed Park's source is not …
+
+### [prose-edges](prose-edges.yml)
+
+- **:131** — **What this does not settle.** Whether the second graph should have a form. Every citation in it resolves, so the four spellings and three bases cost nothing today; what they cost is every tool that was never written, and this phase wrote one of them and found the count had drifted in a document nob…
+
+### [testimony](testimony.yml)
+
+- **:68** — **What this does not settle.** Whether testimony and artifact should carry different evidence standing. The prelude is explicit that `[verified]` is about provenance rather than confidence, and a diary entry is a committed source in exactly the way a header file is; `measured-width` quotes Gilbert's…
+
+### [threshold-trigger](threshold-trigger.yml)
+
+- **:89** — **What this does not settle.** Whether duration should have been refused. Everything above is downstream of `effect-list-semantics`, and a design that admitted duration would need this trigger, a `skippable` property, and the save-boundary problem the same decision record quotes Thimbleweed Park pay…
+
+### [unread-state](unread-state.yml)
+
+- **:78** — **What this does not settle.** The rule is now applied by hand in five places and nothing checks that a sixth obeys it. That is the original question returning one level up: `observed-state` asked for a check that fails when an unreadable component is added, and what exists is five components each b…
+
+### [verb-menu](verb-menu.yml)
+
+- **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
+
+**25 open.**
+
+## What nothing cites
+
+Records no other record points at. Not a defect on its own — a record may be the last
+word on something nothing else has needed — but it is the shape `orphan-in` reports for
+nodes, at four times the rate, and it had never been looked at.
+
+- [arrival-realizer](arrival-realizer.yml)
+- [containment](containment.yml)
+- [conversation-boundary](conversation-boundary.yml)
+- [conversation-reduction](conversation-reduction.yml)
+- [design-directory](design-directory.yml)
+- [domain-computer](domain-computer.yml)
+- [effect-half](effect-half.yml)
+- [effect-vocabulary](effect-vocabulary.yml)
+- [escape-hatch](escape-hatch.yml)
+- [latch-default](latch-default.yml)
+- [name-scoping](name-scoping.yml)
+- [room-geometry](room-geometry.yml)
+- [specimen-placement](specimen-placement.yml)
+- [threshold-trigger](threshold-trigger.yml)
