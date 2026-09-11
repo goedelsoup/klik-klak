@@ -86,7 +86,7 @@ does not re-emit it.
 
 ### [inert-reports](inert-reports.yml)
 
-- **:84** — **What this does not settle.** Whether the corpus should have an index at all. Three reports nagging about its absence is not evidence that it is wanted — `yidam query` answers structural questions and `pack` answers retrieval ones, both without embeddings, and no phase in this repository's life has…
+- **:97** — **What this does not settle.** Whether the corpus should have an index at all. Three reports nagging about its absence is not evidence that it is wanted — `yidam query` answers structural questions and `pack` answers retrieval ones, both without embeddings, and no phase in this repository's life has…
 
 ### [marker-count](marker-count.yml)
 

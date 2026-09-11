@@ -12,12 +12,16 @@
 //! measures."* This repository is the second to decline it, which under that file's
 //! pre-registration is data rather than an omission.
 //!
-//! The other two clocks are declined for reasons of their own and the fourth is declared.
+//! The other two clocks are answered for reasons of their own and the fourth is declared.
 //! `.yidam/decisions/inert-reports.yml` carries all four.
 //!
-//! **And `due` measures age while this repository measures commits.** Three days, 350-odd commits,
-//! thirty-odd phases. A clock in days is the wrong instrument for a corpus that moves this fast,
-//! and saying so is most of what declaring one is worth.
+//! **The clocks are not in the same unit and nothing says so until you declare one.**
+//! `questions_after` counts commits, `phases_after` counts days, and `catalog.ttl_days` is the only
+//! one whose name carries its unit. An undeclared clock reports only that it is undeclared, so
+//! there is exactly one way to learn the unit: set a value and read what `due` prints back. The
+//! first draft of that record guessed days for both and was wrong about the one that matters — the
+//! oldest open question here is `actor/player-character` at **86 commits**, so a clock expected to
+//! be decorative is about to ring.
 
 use design_gate::repo_root;
 use std::path::Path;
@@ -67,9 +71,9 @@ fn owed(root: &Path) -> (usize, usize) {
 /// three cannot mean anything here, and the third is worth having.
 ///
 /// * `index_after` — **declined.** No released binary can build the index it measures.
-/// * `phases_after` — **declined.** It counts inquiry refs in flight, and phases here settle
-///   inside the session that opens them, so the count is structurally zero.
-/// * `questions_after` — **declared**, at the `inquiry` kuten's proposed 100 days.
+/// * `phases_after` — **declined on the unit.** It counts in days and a phase here lives minutes,
+///   so declared at the kuten's 60 it reports a green light for a condition that cannot arise.
+/// * `questions_after` — **declared**, at the `inquiry` kuten's proposed 100, in commits.
 /// * `catalog.ttl_days` — already carried per entry, which the kuten records as the primary form.
 ///
 /// The declines are in the file rather than only in the record because `due`'s own line — *"3
@@ -78,10 +82,22 @@ fn owed(root: &Path) -> (usize, usize) {
 #[test]
 fn every_due_clock_is_declared_or_declined_in_writing() {
     let root = repo_root();
-    // The census: no config file at all, so `due` reports three clocks that can never come due
-    // and nothing anywhere says whether that is a decision. The rule replaces this in the phase.
     let cfg = config(&root);
-    assert!(cfg.is_empty(), "there is no .yidam/config.toml");
+    assert!(
+        !cfg.is_empty(),
+        ".yidam/config.toml does not exist, so `due` reports clocks that can never come due and \
+         nothing says whether that is a decision"
+    );
+    for clock in ["index_after", "phases_after", "questions_after"] {
+        assert!(
+            cfg.contains(clock),
+            "{clock} is neither declared nor declined in .yidam/config.toml"
+        );
+    }
+    assert!(
+        cfg.contains("questions_after = 100"),
+        "the one clock that is declared, at the inquiry kuten's proposed value"
+    );
 }
 
 /// **The questions clock sees a quarter of what the repository owes.**
@@ -124,6 +140,9 @@ fn the_gate_runs_doctor() {
         .nth(1)
         .and_then(|s| s.split("\n[tasks.").next())
         .expect("a ci task");
-    // The census, for the same reason.
-    assert!(!ci.contains("doctor"), "the gate does not run doctor");
+    assert!(
+        ci.contains("doctor"),
+        "the full local gate does not run the report that answers whether anything is wrong — \
+         `due`'s own closing line names it"
+    );
 }

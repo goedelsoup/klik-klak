@@ -167,10 +167,21 @@ run = "cargo test -p design-gate --manifest-path crates/Cargo.toml"
 # These come from mise.yidam.toml and work from the genesis commit onward,
 # before any crate exists.
 
+# `yidam doctor` is not in the inherited task layer — `mise.yidam.toml` carries
+# graph-check, neighbors, rename and sixty more, and not this one. It exits 0 on a
+# warning, so in the gate it fails on breakage and reports the rest: the provenance
+# pin, the binary the PATH resolves, how old the vendored prelude is, whether every
+# REGEN block holds what its generator produces, whether a catalog entry has expired.
+# `.yidam/decisions/inert-reports.yml` is why it took until now.
+[tasks.doctor]
+description = "Environment and provenance report — the one `yidam due` points at."
+run = "yidam doctor"
+
 [tasks.ci]
 description = "Full local gate: corpus graph check, then the domain computer."
 run = """
 set -eu
+mise run doctor
 mise run graph-check
 mise run graph-lint
 mise run regen-check
