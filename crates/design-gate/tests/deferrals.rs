@@ -119,6 +119,11 @@ fn tiers_in_prose(root: &Path) -> BTreeMap<String, String> {
 ///
 /// Pinned as a census. The phrase is the tell — a record reaching for *schema change* is a record
 /// noticing that something the corpus knows cannot be written down anywhere a tool would read it.
+///
+/// **Negated occurrences do not count**, which `inward-turn` forced: a record saying *"no new
+/// field, no schema change"* is reporting that nothing had to be written down, which is the
+/// opposite claim. That is the used-versus-discussed distinction five other checks in this crate
+/// have had to learn, arriving here for the sixth time as a negation rather than a backtick.
 #[test]
 fn the_same_refusal_is_written_four_times() {
     let root = repo_root();
@@ -127,7 +132,13 @@ fn the_same_refusal_is_written_four_times() {
         let src = std::fs::read_to_string(&p).expect("readable");
         // the record that settles this reaches for the phrase too, and a record cannot be
         // evidence of its own subject — the partition `reach.rs` needed for the same reason
-        if src.contains("schema change") && stem(&p) != "schema-deferral" {
+        let asserted = src.match_indices("schema change").any(|(i, _)| {
+            let before = src[..i].trim_end().to_lowercase();
+            !(before.ends_with(" no")
+                || before.ends_with(" not a")
+                || before.ends_with("without a"))
+        });
+        if asserted && stem(&p) != "schema-deferral" {
             deferring.push(stem(&p));
         }
     }
