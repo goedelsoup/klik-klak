@@ -1,0 +1,91 @@
+id: second-document
+summary: >-
+  The watermark built one phase ago went on the document that phase was reading, and `design/` has
+  two. The other declares four more premises, has drifted further under them, and was never asked —
+  because the check was opt-in, which makes it a check on authors who were already thinking about
+  drift. It is required now, and the second document is reconciled: five changes, one of them an
+  open question the corpus closed two phases ago and this document still carries.
+context: |
+  [moved-ground](moved-ground.yml) added `reconciled:` to
+  [`bounded-expression-language.md`](../../design/bounded-expression-language.md) and taught
+  `design_gate::check` to fail when a premise moves past it. Nine of fourteen had moved, +410/−22,
+  across 102 commits.
+
+  `design/specimen/README.md` is the other design document. **Eighteen premises, thirteen moved,
+  +425/−41, across 148 commits** — worse on every measure the previous phase used to argue the
+  instrument was needed, and it carries no watermark. [verified] —
+  `crates/design-gate/tests/watermark.rs`.
+
+  **One of the thirteen is `bounded-expression-language.md` itself.** The specimen document's
+  ground includes ground that is watched, and the watermark did not travel up the chain.
+decision: |
+  **`reconciled:` is required, not honoured where offered.**
+
+  `check` read it under `if let Some(at)`, so a document that declared none got silence. That is a
+  check whose population is *documents whose authors had already thought about drift* — the same
+  selection effect [carried-claims](carried-claims.yml) named in the corpus, where **writing about
+  your own footing required having been reported once**, arriving in the gate one directory over.
+  `status:` and `title:` are required and `rests_on:` must be non-empty; the watermark now sits
+  with them, and a design document that declares no baseline fails for the same reason one that
+  declares no premises does.
+
+  **And the second document is read against its thirteen.**
+
+  | what moved | what the document said | what it says now |
+  |---|---|---|
+  | [threshold-trigger](threshold-trigger.yml) | `cutscene.trigger`'s third case is *"undocumented in either engine"* | AGS documents the **occasion** and not the condition — `repeatedly_execute`, a declared event slot holding arbitrary script ([ags-manual](../catalog/ags-manual.md)) |
+  | [verb-count](verb-count.yml) | *"Declared and not used: `give-to`. No natural site arose in either game"* | four specimens, **91 bindings across 662 lines, not one a `give-to`** — counted, not observed |
+  | [unwritten](unwritten.yml) | *"Unexercised across both games: `or`, `!=`, `<=`, `>`, and grouping parentheses"* | four games, and the list is **six**: `!=`, `<=`, `>`, `clear-flag`, `exit`, `or` |
+  | [exit-archetype](exit-archetype.yml) | *"Built, and it did not need a third site"* | built, and **written by no specimen** — the document's own last open question, sitting in its own coverage list |
+  | — | *"Thirty-eight tests"* | **158** |
+
+  Four are corrections and none overturns an argument. The first is the interesting one in the
+  other direction: the document guessed *undocumented* from not having looked, an engine has since
+  been read, and what it documents is the occasion while the condition stays arbitrary script —
+  so the claim the sentence was reaching for survives with evidence under it instead of a silence.
+rationale: |
+  **A document can carry an open question the corpus has closed, and nothing connects the two.**
+
+  `cutscene` has no open questions at all — [threshold-trigger](threshold-trigger.yml) closed the
+  last one — and `design/specimen/README.md` has been saying since before that phase that the
+  third trigger is untested and undocumented. Both files are in this repository, the record cites
+  the node, the node is a premise of the document, and the document is where somebody goes to find
+  out what the specimens could not say. **The closure went one hop and stopped.** [inference]
+
+  **The sharpest of the five is the one the document asks itself.** Its last paragraph asks
+  *"whether a specimen should be revised to exercise a primitive it argued for"*, calls it a
+  question this directory has not had to answer before, and names `nightwatch`'s watchman as the
+  case. Eleven sections earlier, the grammar-coverage list is the answer's evidence: `exit` was
+  built out of this document's own argument and **no specimen writes it**, zero times in four
+  games. [verified] — `crates/game-format/tests/coverage.rs`. The question is not hypothetical and
+  has at least two instances, and the document holds both halves without either paragraph knowing
+  about the other.
+
+  **The `give-to` correction is evidence flowing one way.** This document observed that no natural
+  site arose in either game; [give-to](../corpus/verb/give-to.yml) took that, called it *"weak on
+  its own — one small game"*, and later counted the silence properly across four specimens at 91
+  bindings. **The count did not come back.** A specimen document is upstream of the nodes it
+  informs and downstream of what they make of it, and only the first direction has a link.
+
+  **Requiring the watermark costs a new document one line and buys the population.** The objection
+  is that a design written today has no premises that have moved and the field is noise; the answer
+  is that it is noise for exactly as long as that is true, and the two documents here are both past
+  a hundred commits. An opt-in check on a population of two covered one, and it covered the one
+  that was being looked at — which is the finding rather than the fix.
+
+  **What a watermark still cannot do is travel.** `design/specimen/README.md` rests on
+  `bounded-expression-language.md`, which rests on fourteen corpus nodes; a premise of a premise
+  moving is invisible to both marks. Making it transitive is available and is declined here —
+  every corpus node is reachable from those fourteen within two hops, so a transitive watermark
+  would fire on every commit and mean nothing. A mark that always fires is [inert-reports](inert-reports.yml)'s
+  standing INFO nobody can dismiss, and this repository has already learned what those cost.
+  [inference]
+
+  **What this does not settle.** Whether a specimen should be revised to exercise a primitive it
+  argued for. The document's own question, and it now has two instances rather than one — the
+  watchman who moves in prose, and `exit`, which this document's argument built and none of the
+  four games writes. Rewriting them would make the specimens test what they were written to say
+  they could not, and would move figures three phases of records quote; leaving them makes the
+  coverage list a permanent record of primitives that were argued into existence and never used,
+  which is either an honest measurement or a growing pile of dead grammar, and from here those
+  look the same. `[open]`

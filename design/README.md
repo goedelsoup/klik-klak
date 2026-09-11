@@ -46,6 +46,7 @@ design has just discovered it needs. Both are findings. Silence is not available
 ---
 title: A bounded expression language for authored interaction
 status: proposal          # proposal | adopted | withdrawn
+reconciled: 02cf125a52…   # the commit the premises below were last read against
 rests_on:
   - .yidam/corpus/data-format/interaction-table.yml
   - .yidam/catalog/ags-manual.md
@@ -57,6 +58,14 @@ derives_effects_from:
 
 `status` is required because a reader cannot otherwise tell a live proposal from one the
 corpus has already refuted, and a directory of undated ambition is worth less than nothing.
+
+`reconciled` is required for the same reason one step further out. A premise moving is not a
+defect and will never look like one, so what is checked is that somebody read the document
+since it moved — and the gate fails naming the premise and the count. Not a date and not an
+interval: **an event**, and the event is the one that should send a reader back.
+[`.yidam/decisions/moved-ground.yml`](../.yidam/decisions/moved-ground.yml) built it and
+[`second-document`](../.yidam/decisions/second-document.yml) made it required, after it went on
+the one document of two that somebody happened to be reading.
 
 ## Specimens
 
@@ -92,9 +101,12 @@ Stated because a gate mistaken for complete is worse than no gate.
 - **It checks a document, not a sentence.** The provenance check fires when a document uses
   `[verified]` and cites no catalog entry at all. A document that cites one source correctly
   and sources a second claim to nothing passes. Only a reader catches that.
-- **It cannot tell a live premise from a stale one.** `rests_on:` verifies that the file
-  exists, not that it still says what the design thought it said. A node revised out from
-  under a design passes every check here. This repository has overturned two conclusions by
-  re-reading material it already held; neither would have been caught by a path check.
+- **It cannot tell a live premise from a stale one, and it now says when one moved.**
+  `rests_on:` verifies that the file exists, not that it still says what the design thought it
+  said — that half is unchanged and unfixable by a path check. What the watermark adds is a
+  baseline: the gate fails when a premise has a commit after `reconciled:`, so a node revised
+  out from under a design is loud rather than silent. It still takes a reader to say whether
+  the revision mattered, and both times this repository overturned a conclusion by re-reading
+  material it already held, a reader is what did it.
 - **It does not read the design.** Whether the thing proposed is coherent, minimal, or
   possible is not a property any script here inspects.

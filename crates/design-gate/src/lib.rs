@@ -213,8 +213,13 @@ pub fn check(root: &Path) -> Findings {
         // `reconciled:` names the commit this document's premises were last read against. A
         // premise moving is not a defect, which is why nothing could ever catch it — so what is
         // checked is that somebody looked since it moved. `.yidam/decisions/moved-ground.yml`.
-        if let Some(at) = fm.scalar("reconciled") {
-            for path in fm.list("rests_on") {
+        //
+        // Required rather than honoured where offered. Read under `if let Some`, this covered the
+        // one document of two whose author had been thinking about drift, which is the population
+        // a check should never be allowed to choose. `.yidam/decisions/second-document.yml`.
+        match fm.scalar("reconciled") {
+            None => f.say(doc, root, "declares no reconciled:. A design names the commit its premises were last read against, or nothing can say when the ground moved under it"),
+            Some(at) => for path in fm.list("rests_on") {
                 let since = std::process::Command::new("git")
                     .arg("-C")
                     .arg(root)
@@ -235,7 +240,7 @@ pub fn check(root: &Path) -> Findings {
                         "rests_on: {path} has {moved} commit(s) since `reconciled: {at}`. The premise moved; read the document against it and move the watermark"
                     ));
                 }
-            }
+            },
         }
 
         let rests = fm.list("rests_on");
