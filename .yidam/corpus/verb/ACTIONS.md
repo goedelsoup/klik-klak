@@ -8,4 +8,6 @@ corpus does.
 - **Which engine a verb's name is drawn from** — `yidam query 'verb -originated-in-> prior-art'`
 - **Arity census** — group by the `arity` property; the binary verbs are what force the
   second-object machinery on everything downstream
-- *Stub:* `vocabulary-coverage` computes both lists. See `.yidam/skills/vocabulary-coverage.md`.
+- *Stub:* `vocabulary-coverage` would compute both lists and does not exist. Both have been
+  computed once by hand, over a *specimen* rather than the corpus — see
+  `.yidam/skills/vocabulary-coverage.md`.

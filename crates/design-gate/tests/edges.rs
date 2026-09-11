@@ -268,10 +268,10 @@ fn every_path_written_in_corpus_prose_resolves() {
     );
     assert_eq!(
         (own, repo, corpus),
-        (105, 105, 5),
+        (107, 105, 5),
         "the three bases, all load-bearing"
     );
-    assert_eq!((own + repo + corpus, decisions), (215, 112));
+    assert_eq!((own + repo + corpus, decisions), (217, 113));
 }
 
 /// **96 declared edges, 86 prose citations, and 18 pairs in both.**
@@ -291,7 +291,7 @@ fn the_graph_the_tools_read_is_not_the_graph_the_corpus_wrote() {
     let root = repo_root();
     let (e, c) = (edges(&root), citations(&root));
     let both = e.intersection(&c).count();
-    assert_eq!((e.len(), c.len(), both), (96, 86, 18));
+    assert_eq!((e.len(), c.len(), both), (96, 87, 18));
 }
 
 /// **Three nodes have no incoming edge, and every one of them is cited in prose.**
@@ -395,7 +395,7 @@ fn the_vocabulary_had_a_relationship_available_and_was_right_twice() {
             available += 1;
         }
     }
-    assert_eq!((c.difference(&e).count(), available), (68, 14));
+    assert_eq!((c.difference(&e).count(), available), (69, 14));
 }
 
 /// **A declared relationship no instance authors: the design document says two and there is one.**

@@ -2,14 +2,16 @@
 //!
 //! | | `.yidam/corpus/` | `.yidam/decisions/` |
 //! |---|---|---|
-//! | files | 43 | **46** |
-//! | bytes | 361 K | **307 K** |
-//! | tagged claims | 559 | **305** |
-//! | live open questions | 7 | **28** |
-//! | citations out | 96 edges + 86 prose | **239** |
+//! | files | 43 | **47** |
+//! | bytes of `.yml` | 359 K | **316 K** |
+//! | tagged claims | 559 | **321** |
+//! | live open questions | 9 | **29** |
+//! | citations out | 96 edges + 87 prose | **254** |
 //!
-//! They were 42 apiece when this file was written. The forty-third record is the one deciding
-//! what a record is.
+//! They were 42 apiece when this file was written. The counting rule is stated in the row because
+//! this repository has been bitten twice by a headline figure measured two ways — the corpus row
+//! counts `.yml` only, and there are 31 Markdown files under `.yidam/corpus/` that it excludes and
+//! `crates/design-gate/tests/pages.rs` is the gate for.
 //!
 //! `yidam status` says *43 nodes*. `graph-check` checks *43 instances*. `lint` lints them. The
 //! index would index them. None of them is a decision record, and none of them is wrong to ignore
@@ -26,11 +28,11 @@
 //!
 //! What is not right is that the second kind has had no gate at all while growing to the same
 //! size as the first. [`markers.rs`] found the questions had migrated here; [`edges.rs`] found the
-//! citations had — **104 of the corpus's 200 prose references now point into this directory
-//! against 86 at another node**, a share that has risen in every phase since anything measured it.
+//! citations had — **113 of the corpus's 217 prose references now point into this directory
+//! against 87 at another node**, a share that has risen in every phase since anything measured it.
 //! This file is the gate for where they went.
 //!
-//! **One symptom is named here and deliberately not built.** The 273 claims in this directory are
+//! **One symptom is named here and deliberately not built.** The 321 claims in this directory are
 //! absent from `yidam status`, which reports the corpus's tally as though it were the artifact's.
 //! Counting them here would put a second figure beside the first under a different rule — the two
 //! directories are tallied by different code, and this repository has twice been bitten by exactly
@@ -203,6 +205,26 @@ fn cites(root: &Path) -> BTreeMap<String, BTreeSet<String>> {
 /// Needs real history. CI checks out with `fetch-depth: 0` for the commit-vocabulary gate, and
 /// this is the second thing that depends on it; a shallow clone reports the truncation rather
 /// than quietly passing.
+/// Whether git is tracking this file at all.
+///
+/// A record being written right now has no commits, which is not the same condition as a clone
+/// with no history — and the first version of this check could not tell them apart, so the first
+/// new record after it was written made it panic with a message about shallow clones. Untracked is
+/// checked separately and skipped: *"has this changed since the commit that wrote it"* is not yet
+/// a question about a file no commit has written.
+fn tracked(root: &Path, p: &Path) -> bool {
+    let Ok(rel) = p.strip_prefix(root) else {
+        return false;
+    };
+    std::process::Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["ls-files", "--error-unmatch", "--"])
+        .arg(rel)
+        .output()
+        .is_ok_and(|o| o.status.success())
+}
+
 fn at_creation(root: &Path, p: &Path) -> Option<String> {
     let rel = p.strip_prefix(root).ok()?.to_string_lossy().into_owned();
     let log = std::process::Command::new("git")
@@ -274,10 +296,14 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (239, 41, 30));
+    assert_eq!((total, mentions, tests.len()), (254, 44, 31));
 }
 
-/// **Sixteen of forty-two records are cited by nothing, against three of forty-two nodes.**
+/// **Eight of forty-seven records are cited by nothing, against three of forty-three nodes.**
+///
+/// It was sixteen when this check was written and ten when `action-pages` was written; that record
+/// cited three of the ten, and every one of the three had been uncited for the same reason — the
+/// file asking the question it answers had not been opened since the root commit.
 ///
 /// The corpus's own orphan rule is `yidam lint`'s `orphan-in`, and `prose-edges` showed it finds
 /// real defects — two edges owed and written. This layer has four times the orphan rate and no
@@ -296,20 +322,21 @@ fn a_record_nothing_cites_is_named() {
     assert_eq!(
         alone,
         [
+            "action-pages",
             "binding-axes",
-            "conversation-boundary",
-            "conversation-reduction",
             "design-directory",
             "domain-computer",
-            "effect-half",
             "effect-vocabulary",
             "name-scoping",
             "specimen-placement",
             "threshold-trigger",
-        ]
+        ],
+        "ten until `action-pages` cited three of them — `conversation-boundary`, \
+         `conversation-reduction` and `effect-half` were uncited because the file asking the \
+         question each answers had not been opened since the root commit"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (46, 93));
+    assert_eq!((c.len(), edges), (47, 103));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -387,7 +414,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 28, "live open questions in this directory");
+    assert_eq!(total, 29, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
@@ -416,9 +443,13 @@ fn the_index_this_directory_never_had_is_current() {
 #[test]
 fn no_record_has_changed_what_it_decided() {
     let root = repo_root();
-    let (mut moved, mut edited) = (Vec::new(), 0);
+    let (mut moved, mut edited, mut uncommitted) = (Vec::new(), 0, Vec::new());
     for p in records(&root) {
         let now = std::fs::read_to_string(&p).expect("readable");
+        if !tracked(&root, &p) {
+            uncommitted.push(stem(&p));
+            continue;
+        }
         let then = at_creation(&root, &p).unwrap_or_else(|| {
             panic!("{}: no history — a shallow clone cannot run this", stem(&p))
         });
@@ -438,8 +469,11 @@ fn no_record_has_changed_what_it_decided() {
         }
     }
     assert_eq!(
-        edited, 17,
-        "records with a commit after the one that wrote them"
+        edited,
+        17,
+        "records with a commit after the one that wrote them \
+         ({} not yet committed, and not judged: {uncommitted:?})",
+        uncommitted.len()
     );
     assert_eq!(
         moved,

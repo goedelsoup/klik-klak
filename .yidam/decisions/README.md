@@ -16,6 +16,10 @@ counted by `status` only when they sit in a corpus node. The convention is
 [marker-count](marker-count.yml)'s — the token names a live question and a retraction
 does not re-emit it.
 
+### [action-pages](action-pages.yml)
+
+- **:131** — **What this does not settle.** Whether a class-level question should have a tagged home of its own. The two live ones are parked on instances because that is where a marker can go, and both are really about the class: walkbox adjacency is a question about the relationship vocabulary, and *"is that a…
+
 ### [actor-position](actor-position.yml)
 
 - **:112** — **What is not done.** `nightwatch.game` still says its watchman is down the hall in prose. Rewriting it would make that specimen test what it was written to say it could not, and would move figures that three phases of records quote. Whether a specimen should be revised to exercise a primitive it ar…
@@ -113,7 +117,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**28 open.**
+**29 open.**
 
 ## What nothing cites
 
@@ -121,12 +125,10 @@ Records no other record points at. Not a defect on its own — a record may be t
 word on something nothing else has needed — but it is the shape `orphan-in` reports for
 nodes, at four times the rate, and it had never been looked at.
 
+- [action-pages](action-pages.yml)
 - [binding-axes](binding-axes.yml)
-- [conversation-boundary](conversation-boundary.yml)
-- [conversation-reduction](conversation-reduction.yml)
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
-- [effect-half](effect-half.yml)
 - [effect-vocabulary](effect-vocabulary.yml)
 - [name-scoping](name-scoping.yml)
 - [specimen-placement](specimen-placement.yml)

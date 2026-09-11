@@ -6,5 +6,7 @@ corpus does.
 - **Which room a surface belongs to** — `yidam query 'walkbox -lies-in-> room'`
 - **Who moves on it** — `yidam query 'actor -traverses-> walkbox'`
 - **What solves paths across it** — `yidam query 'subsystem -realizes-> walkbox'`
-- *Open:* whether adjacency between walkboxes needs its own relationship. With one instance
-  seeded there is nothing yet for such an edge to join.
+- **Whether adjacency needs a relationship** — carried as an open question on
+  [scaled-polygon](scaled-polygon.yml). The reason this page gave for not answering it — one
+  instance, nothing for an edge to join — stopped being true when
+  [room-geometry](../../decisions/room-geometry.yml) measured 84 polygons across 15 rooms.

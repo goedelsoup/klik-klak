@@ -88,6 +88,16 @@ description: |
   becoming better sourced.** The tags were right and the report was right, and what is missing is
   still a way to cite the second kind of evidence; `.yidam/decisions/found-in.yml` names it, and
   [counter-flag](../world-flag/counter-flag.yml) is now the node carrying the warning instead.
+
+  **Whether an item nothing reaches for is an item at all is this class's page's question, moved
+  here because this is the node it is about.** An item that is never required, consumed, or offered
+  as the second object of a binding is scenery with an icon — and the corpus has no such instance,
+  so the question has had nothing to be asked of since it was written. Both instances here are
+  reached: this one by `requires` and `consumes`,
+  [stackable-item](stackable-item.yml) by `consumes`. Whether that absence is evidence the case
+  does not arise, or evidence that this corpus seeds only the cases it already has arguments for,
+  is what a fifth specimen would answer. `[open]`
+
 properties:
   acquisition: |
     A binding whose response removes the object's hotspot from the room and adds the item to

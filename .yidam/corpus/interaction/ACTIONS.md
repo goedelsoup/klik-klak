@@ -8,5 +8,6 @@ corpus does.
   nothing cannot advance a puzzle
 - **Which bindings have no authored refusal** — the `refusal` property absent is the
   precondition failing silently, which is `failure-mode/unwinnable-state`'s ordinary cause
-- *Open:* whether a binding whose response is an exchange is still one of these, or whether
-  `conversation` is a separate primitive. The `opens` edge is where that argument lands.
+- **Whether `conversation` is a separate primitive** — it is, and it is not split:
+  [conversation-boundary](../../decisions/conversation-boundary.yml) found the evidence for
+  splitting it was this corpus reading its own two instances backwards.
