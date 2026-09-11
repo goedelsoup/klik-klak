@@ -37,6 +37,10 @@ does not re-emit it.
 - **:79** — **What stays open.** The reduction being free to the analysis is a fact about *this* checker, and this checker treats inventory as a count per item with a declared ceiling. A checker that modelled the item's identity — which of two crowbars — might not be indifferent, and nothing here has one.
 - **:84** — And the thing the measurement did not touch: **a binary verb makes the table two-dimensional**, which is `binary-binding`'s combinatorics argument, and n×m cells is a cost to an *author* rather than to a checker. Every measurement in this record is a checker's. The authoring cost of arity is the sam…
 
+### [binding-axes](binding-axes.yml)
+
+- **:87** — **What this does not settle.** Whether the three remaining role-named instances declare a shape they have or a shape they had in mind. `acquisition-binding` says `unary` and the corpus's own `is` sites hand an item over from a hotspot, which is how a *binary* use-with can acquire; `default-binding` …
+
 ### [conversation-reduction](conversation-reduction.yml)
 
 - **:81** — **What this does not settle.** Whether an exchange should be enterable from more than one place at all — no specimen has one, and the two-entrance case above is constructed. If exchanges are always entered from one room, the return is free and the class's last ground is a convenience rather than a n…
@@ -105,7 +109,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**26 open.**
+**27 open.**
 
 ## What nothing cites
 
@@ -113,6 +117,7 @@ Records no other record points at. Not a defect on its own — a record may be t
 word on something nothing else has needed — but it is the shape `orphan-in` reports for
 nodes, at four times the rate, and it had never been looked at.
 
+- [binding-axes](binding-axes.yml)
 - [conversation-boundary](conversation-boundary.yml)
 - [conversation-reduction](conversation-reduction.yml)
 - [design-directory](design-directory.yml)
