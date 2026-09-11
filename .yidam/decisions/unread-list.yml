@@ -1,0 +1,96 @@
+id: unread-list
+summary: >-
+  A catalog entry has been announcing the Delores source as the highest-value retrieval nobody here
+  has made, for 272 commits, while the entry for that source sits beside it holding 910 lines and
+  the citations of two thirds of the corpus. The sentence is corrected, the condition that finds it
+  is mechanical and fires exactly once, and the convention it broke — an unread-list records what
+  has since been read — is written down after four entries followed it in four spellings.
+context: |
+  [twp-dev-diary](../catalog/twp-dev-diary.md) closes its unread-list on the artifact it is
+  evidence about: *"The complete game scripts of Delores… were released by Gilbert in 2020 at
+  `github.com/grumpygamer/DeloresDev`… It is the thing the diary is evidence about, in full, and it
+  would turn every claim in this entry from illustrated into counted… **Nobody here has read it. It
+  is the highest-value retrieval this corpus has ever identified.**"*
+
+  It was retrieved the next day. [delores-source](../catalog/delores-source.md) is `obtained:
+  true`, 910 lines, and **cited by 27 of this corpus's 43 nodes and by a class page** — more than
+  any other entry and more than the four AGS entries together. [verified] —
+  `crates/design-gate/tests/catalog.rs`.
+
+  **The figure was already computed three files away.** `yidam catalog-audit` generates the source
+  registry in [`catalog/README.md`](../catalog/README.md), and the row for `delores-source.md` has
+  read `| 27 | 1 |` through every phase the sentence stood.
+decision: |
+  **The sentence is corrected, and the condition that catches its kind is a check.**
+
+  An unread-list naming a URL another entry declares in its `location:` block is mechanical, needs
+  no prose reading, and across eight entries fires exactly once — on this one. It is the narrowest
+  statement of the defect that is still the defect: *this catalog holds the thing this list says
+  nobody has.*
+
+  **The general form is declined, and the measurement is why.** The obvious wider check is *an
+  entry edited since its unread-list last changed* — blame the section, compare to the file. It
+  reports **seven of eight**, because writing a new section into an entry is the ordinary way an
+  entry grows and says nothing about whether the list went stale. That is
+  [inert-reports](inert-reports.yml)'s standing INFO exactly: a line everybody learns to scroll
+  past, on a population where being flagged carries no information. Measured, declined, and
+  recorded so the next person does not build it.
+
+  **And the convention is written into `catalog/README.md`.** When an item on an unread-list is
+  read, the list says so and names where the reading went. Four of the eight entries do it —
+
+  | entry | how it spells it |
+  |---|---|
+  | [scumm-v5-opcode-reference](../catalog/scumm-v5-opcode-reference.md) | *"the rest of the table has now been read and is recorded below"* |
+  | [grumpy-gamer-pdc](../catalog/grumpy-gamer-pdc.md) | *"has since been read, in part"*, naming the entry it became |
+  | [delores-source](../catalog/delores-source.md) | *"have since been read in full — see … above"* |
+  | [ags-manual](../catalog/ags-manual.md) | *"was the item at the top of this list and it has been read"* |
+
+  — four instances in four spellings, which is what a convention with no statement produces.
+rationale: |
+  **This is the ninth undeclared convention found by measuring, and the first one found broken by
+  a file that had no way to know.**
+
+  The eight before it were conventions a single author followed across a corpus — class routing,
+  used-versus-discussed in eight spellings, the rest — and the failure mode was always *deriving
+  the rule from examples and getting the spelling wrong*. This one fails differently. Keeping
+  `twp-dev-diary`'s list current requires knowing that a **different entry** retrieved the thing it
+  points at, and nothing in the writing of `delores-source` would take an author back to the file
+  that recommended it. [inference] A convention that depends on remembering what another file says
+  is a convention that will be broken by anyone working normally, which is the argument for the
+  check rather than for the rule.
+
+  **What the sentence cost is not the error; it is the recommendation.** An unread-list is the one
+  place in this repository a reader goes *to decide what to retrieve next*, and this one has been
+  holding its top slot — explicitly ranked, *"worth more than the rest together"*, *"the highest-
+  value retrieval this corpus has ever identified"* — with something already on disk. Every phase
+  that opened it to pick a retrieval was reading a list whose first recommendation was spent. That
+  is [third-population](third-population.yml)'s mechanism run backwards: **a wrong figure in an
+  unread-list discourages the reading that would correct it**, and a spent recommendation in one
+  crowds out the live ones underneath. The two live items in that same list — the five diary pages
+  on how dialogue and text were authored, and 236 unread posts — sat under it the whole time.
+
+  **The generated row is the part that should be uncomfortable.** `catalog-audit` has been printing
+  `delores-source.md … | 27 | 1 |` in the registry in the same directory, regenerated on every
+  phase, and `mise run regen` writes it. Nothing compares a generated count to a prose sentence
+  because nothing can — one of them is a sentence. That is
+  [unread-clock](unread-clock.yml)'s finding again, and [inert-reports](inert-reports.yml)'s
+  *proximity is not a wire*, arriving now with the two artifacts in the same directory rather than
+  three files apart in a crate.
+
+  **Two of the census's own figures were wrong and its checks caught both before it was
+  committed.** The section matcher took `"## What th"`, which also catches `delores-source`'s
+  *"What the artifact is"* 835 lines earlier — so the entry that records its own retrieval best was
+  the one the check read wrong. And the twenty-eighth citer is `conversation.ont.yml`, a class page
+  rather than a node. Both were caught because the assertions compare a computed list against a
+  written one rather than restating a count, which is the practice
+  [unread-clock](unread-clock.yml) built and the fourth phase to be saved by it.
+
+  **What this does not settle.** Whether the two live items under the spent one are worth taking.
+  `hints_and_dialogs.html`, `text_lock.html` and `translations.html` cover how the dialogue and
+  text were authored, which the diary retrieval explicitly did not ask about and which
+  [conversation](../corpus/conversation.ont.yml)'s two instances rest on a shipped game's source
+  for. The case for reading them is that `topic-list` and `branching-tree` are argued from Delores
+  alone; the case against is that Delores **is** that engine and a diary about it is weaker
+  evidence than its source. This record does not choose, and now that the list above them is
+  honest, the next reader is choosing between live items for the first time. `[open]`
