@@ -210,6 +210,34 @@ pub fn check(root: &Path) -> Findings {
             f.say(doc, root, "declares no title:");
         }
 
+        // `reconciled:` names the commit this document's premises were last read against. A
+        // premise moving is not a defect, which is why nothing could ever catch it — so what is
+        // checked is that somebody looked since it moved. `.yidam/decisions/moved-ground.yml`.
+        if let Some(at) = fm.scalar("reconciled") {
+            for path in fm.list("rests_on") {
+                let since = std::process::Command::new("git")
+                    .arg("-C")
+                    .arg(root)
+                    .args(["rev-list", "--count", &format!("{at}..HEAD"), "--", path])
+                    .output();
+                let moved = since
+                    .ok()
+                    .filter(|o| o.status.success())
+                    .and_then(|o| {
+                        String::from_utf8_lossy(&o.stdout)
+                            .trim()
+                            .parse::<usize>()
+                            .ok()
+                    })
+                    .unwrap_or(0);
+                if moved > 0 {
+                    f.say(doc, root, format!(
+                        "rests_on: {path} has {moved} commit(s) since `reconciled: {at}`. The premise moved; read the document against it and move the watermark"
+                    ));
+                }
+            }
+        }
+
         let rests = fm.list("rests_on");
         if rests.is_empty() {
             f.say(doc, root, "declares no rests_on:. A design names the corpus nodes it derives from, or it is not derived from them");

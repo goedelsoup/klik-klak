@@ -11,9 +11,13 @@
 //! AGS source gained the forty-eight-entry action table, and the SCUMM reference gained eighty-four
 //! opcodes.
 //!
-//! None of that falsifies the proposal. That is the point — **a premise moving is not a defect and
-//! is not visible either**, and the one time this was caught, *"nobody has tried the middle"* being
+//! None of that falsified the proposal. That is the point — **a premise moving is not a defect and
+//! was not visible either**, and the one time it was caught, *"nobody has tried the middle"* being
 //! withdrawn, it was caught by somebody reading.
+//!
+//! The document now carries `reconciled:`, a commit its premises were last read against, and the
+//! gate fails when one of them moves past it. The first test below stays as the census — a closed
+//! window on the drift as it stood — and the last holds the watermark.
 //!
 //! `.yidam/decisions/moved-ground.yml`.
 
@@ -118,19 +122,41 @@ fn the_gate_checks_that_a_premise_resolves_and_says_that_is_all() {
     }
 }
 
-/// **Nothing in the document records when it was last read against its premises.**
+/// **The document records the commit its premises were last read against, and the gate holds it.**
 ///
-/// The census. A `status: proposal` with fourteen premises and no reconciliation date is a
-/// document whose staleness is unmeasurable — not unknown, unmeasurable, because there is no
-/// baseline to measure from.
+/// A `status: proposal` with fourteen premises and no reconciliation date is a document whose
+/// staleness is not unknown but *unmeasurable*, because there is no baseline to measure from.
+/// `reconciled:` is the baseline; `design_gate::check` fails when any `rests_on` file has a commit
+/// after it.
+///
+/// Not a date and not an interval — **an event**, and the event is the one that should send
+/// somebody back to the document. `unread-clock` established that this repository holds no clock
+/// anybody can read; a watermark needs no clock, only a baseline and a comparison, and git has
+/// both exactly.
 #[test]
-fn the_proposal_records_no_reconciliation() {
+fn the_proposal_records_what_it_was_last_read_against() {
     let root = repo_root();
     let src = std::fs::read_to_string(root.join(DESIGN)).expect("readable");
     let fm = front_matter(&src).expect("front matter");
-    assert_eq!(
-        fm.scalar("reconciled"),
-        None,
-        "the field this phase adds; its absence is what makes the drift invisible"
+    let at = fm
+        .scalar("reconciled")
+        .expect("the proposal names the commit its premises were last read against");
+    assert_eq!(at.len(), 40, "a full commit sha: {at}");
+    assert!(
+        git(&root, &["cat-file", "-t", at]) == "commit",
+        "and it is a commit in this history"
     );
+
+    for p in premises(&root) {
+        let moved: usize = git(
+            &root,
+            &["rev-list", "--count", &format!("{at}..HEAD"), "--", &p],
+        )
+        .parse()
+        .expect("a count");
+        assert_eq!(
+            moved, 0,
+            "{p} moved since the watermark; the gate says the same thing and this says why"
+        );
+    }
 }
