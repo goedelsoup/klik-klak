@@ -156,6 +156,15 @@ cargo fmt --all --manifest-path crates/Cargo.toml
 description = "Check that design/ documents still derive from the corpus they name."
 run = "cargo test -p design-gate --manifest-path crates/Cargo.toml"
 
+# `engine/`'s gate is the same derivation one tier down: a module may not invent a
+# subsystem. It lives in `design-gate` because that crate already reads the corpus,
+# which makes the crate's name narrower than its job — `.yidam/decisions/engine-directory.yml`
+# records the condition for renaming rather than leaving it to drift. Like `design-check`,
+# this is a convenience alias: `mise run ci` already runs it inside `cargo test`.
+[tasks.engine-check]
+description = "Check that every engine/ module names a subsystem the corpus declares."
+run = "cargo test -p design-gate --test engine --manifest-path crates/Cargo.toml"
+
 # ── ci ────────────────────────────────────────────────────────────────────
 # The local equivalent of what .github/workflows/ci.yml runs, and "equivalent"
 # is checked rather than intended: `the_local_gate_runs_what_ci_gates_on` reads
