@@ -5,8 +5,8 @@
 //! | files | 43 | **45** |
 //! | bytes | 361 K | **307 K** |
 //! | tagged claims | 559 | **305** |
-//! | live open questions | 7 | **28** |
-//! | citations out | 96 edges + 82 prose | **233** |
+//! | live open questions | 7 | **27** |
+//! | citations out | 96 edges + 86 prose | **234** |
 //!
 //! They were 42 apiece when this file was written. The forty-third record is the one deciding
 //! what a record is.
@@ -220,7 +220,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (233, 41, 30));
+    assert_eq!((total, mentions, tests.len()), (234, 41, 30));
 }
 
 /// **Sixteen of forty-two records are cited by nothing, against three of forty-two nodes.**
@@ -251,13 +251,12 @@ fn a_record_nothing_cites_is_named() {
             "effect-vocabulary",
             "name-scoping",
             "record-layer",
-            "save-boundary",
             "specimen-placement",
             "threshold-trigger",
         ]
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (45, 89));
+    assert_eq!((c.len(), edges), (45, 90));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -335,5 +334,5 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 28, "live open questions in this directory");
+    assert_eq!(total, 27, "live open questions in this directory");
 }

@@ -41,6 +41,14 @@ properties:
     reopens on load, and the failure is silent — the game is consistent, just not with what
     the player did. This is the strongest argument for the save format being derived from
     the flag declaration rather than written alongside it.
+
+    **That argument has its evidence now, and it arrived as the cost of the other choice.** An AGS
+    save is keyed by position — *"separate items are not identified in any way rather than an order
+    in that list"* — so adding or reordering a declaration makes every existing save load its
+    values into the wrong slots ([ags-manual](../../catalog/ags-manual.md)). [verified] Derived
+    from the declarations, a save is keyed by name and cannot do that.
+    [data-format/save-state](../data-format/save-state.yml) is the node;
+    `.yidam/decisions/save-boundary.yml` is why this design had already specified one.
 links:
   - target: ../puzzle/lock-and-key.yml
     relationship: gates

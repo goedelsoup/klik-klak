@@ -65,6 +65,12 @@ properties:
     value. [inference] That is the practical difference from a global: a save format derived
     from the declarations gets the namespace for free, where a flat flag namespace has to encode
     the owner in the name and cannot check that it did.
+
+    **The engine that keeps most of its state here keys its save by neither.** AGS writes lists
+    and identifies a slot by its position ([ags-manual](../../catalog/ags-manual.md)) [verified],
+    so the sentence above understates the case: a flat namespace has to encode the owner in the
+    name, and a positional one has nowhere to put it at all.
+    [data-format/save-state](../data-format/save-state.yml).
 links:
   - target: ../puzzle/state-gate.yml
     relationship: gates

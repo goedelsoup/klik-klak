@@ -73,10 +73,6 @@ does not re-emit it.
 
 - **:75** — **What this does not decide.** Whether a design that did include geometry should have one relation or three. Nothing here bears on it, and the three are genuinely different — a part is contained by its whole, two regions of one thing are interchangeable, and two things that read alike are not interc…
 
-### [latch-default](latch-default.yml)
-
-- **:80** — **What this does not settle.** Whether the declaration should be authored at all. Every figure above says a checker can derive latching from the game, and the one thing derivation cannot supply is the reason [latched-flag](../corpus/world-flag/latched-flag.yml) gives for the property existing: a sav…
-
 ### [marker-count](marker-count.yml)
 
 - **:79** — **What this does not settle.** Whether a marker should carry the phase that opened it. Every one of the five stale markers could have been caught by re-reading a record from the phase that followed, and nothing connects the two — a marker names no date, no phase and no record, so "has this been answ…
@@ -113,7 +109,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**28 open.**
+**27 open.**
 
 ## What nothing cites
 
@@ -130,6 +126,5 @@ nodes, at four times the rate, and it had never been looked at.
 - [effect-vocabulary](effect-vocabulary.yml)
 - [name-scoping](name-scoping.yml)
 - [record-layer](record-layer.yml)
-- [save-boundary](save-boundary.yml)
 - [specimen-placement](specimen-placement.yml)
 - [threshold-trigger](threshold-trigger.yml)

@@ -224,20 +224,20 @@ fn class_of(root: &Path) -> BTreeMap<String, String> {
 /// **Nothing in the corpus checks that a path written in prose points at anything.**
 ///
 /// `design-gate` has resolved every link in `design/` since it was a shell script, and the corpus
-/// — the thing `design/` derives *from* — has never had the same check. 209 references across 43
+/// — the thing `design/` derives *from* — has never had the same check. 215 references across 43
 /// nodes and 12 class definitions, and the reason none of them is broken is luck plus a small
 /// number of hands. The first thing it caught was a reference written by the commit that added it,
 /// to a decision record one commit in the future.
 ///
 /// **The three bases are why no tool was ever written for it.** A reference resolves from the
-/// node's own directory (101), from the repository root (103), or from `.yidam/corpus/` (5), and
+/// node's own directory (105), from the repository root (105), or from `.yidam/corpus/` (5), and
 /// the first two split the corpus nearly in half: `../verb/walk-to.yml` beside
 /// `.yidam/decisions/found-in.yml` in the same paragraph. A checker written against either one
 /// reports about half the corpus as rot, which is a worse report than none and is presumably why
 /// nobody shipped it.
 ///
-/// **And more than half of what the corpus points at is not in the corpus.** 110 of the 209 land
-/// in `.yidam/decisions/`, 88 on another node, 11 on a class definition. The share has grown in
+/// **And more than half of what the corpus points at is not in the corpus.** 112 of the 215 land
+/// in `.yidam/decisions/`, 92 on another node, 11 on a class definition. The share has grown in
 /// every phase since this was first counted, which is the migration continuing under the test
 /// that measures it. `markers.rs` found the
 /// open questions migrating into the decision records where no tool counts them; this is the
@@ -268,15 +268,15 @@ fn every_path_written_in_corpus_prose_resolves() {
     );
     assert_eq!(
         (own, repo, corpus),
-        (101, 103, 5),
+        (105, 105, 5),
         "the three bases, all load-bearing"
     );
-    assert_eq!((own + repo + corpus, decisions), (209, 110));
+    assert_eq!((own + repo + corpus, decisions), (215, 112));
 }
 
-/// **96 declared edges, 82 prose citations, and 18 pairs in both.**
+/// **96 declared edges, 86 prose citations, and 18 pairs in both.**
 ///
-/// So **64 pairs of nodes are joined by a sentence and by nothing a tool can read**, against 78
+/// So **68 pairs of nodes are joined by a sentence and by nothing a tool can read**, against 78
 /// joined by an edge and not by a sentence. Two graphs of nearly the same size over the same 42
 /// nodes, overlapping by a sixth — and one of them is the corpus.
 ///
@@ -291,7 +291,7 @@ fn the_graph_the_tools_read_is_not_the_graph_the_corpus_wrote() {
     let root = repo_root();
     let (e, c) = (edges(&root), citations(&root));
     let both = e.intersection(&c).count();
-    assert_eq!((e.len(), c.len(), both), (96, 82, 18));
+    assert_eq!((e.len(), c.len(), both), (96, 86, 18));
 }
 
 /// **Three nodes have no incoming edge, and every one of them is cited in prose.**
@@ -349,7 +349,7 @@ fn the_nodes_nothing_points_at_are_pointed_at_in_prose() {
 
 /// **A relationship being available is not evidence that an edge is missing. It is 13% of one.**
 ///
-/// Of the 64 citations with no edge, **14 join two classes the ontology already gives a
+/// Of the 68 citations with no edge, **14 join two classes the ontology already gives a
 /// relationship for** — `prior-art -reads-> data-format`, `verb -subsumed-by-> verb`,
 /// `interaction -sets-> world-flag`. That looks like a rule waiting to be written. Reading all
 /// fifteen, it is not:
@@ -395,7 +395,7 @@ fn the_vocabulary_had_a_relationship_available_and_was_right_twice() {
             available += 1;
         }
     }
-    assert_eq!((c.difference(&e).count(), available), (64, 14));
+    assert_eq!((c.difference(&e).count(), available), (68, 14));
 }
 
 /// **A declared relationship no instance authors: the design document says two and there is one.**

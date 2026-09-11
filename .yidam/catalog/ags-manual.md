@@ -16,6 +16,9 @@ location:
     value: https://adventuregamestudio.github.io/ags-manual/
     description: the rendered manual; JavaScript-driven, so a plain fetch returns an empty page
 used-by:
+  - ../corpus/world-flag/boolean-flag.yml
+  - ../corpus/world-flag/counter-flag.yml
+  - ../corpus/world-flag/object-state.yml
   - ../corpus/data-format/save-state.yml
   - ../corpus/prior-art/ags.yml
   - ../corpus/verb/pick-up.yml
