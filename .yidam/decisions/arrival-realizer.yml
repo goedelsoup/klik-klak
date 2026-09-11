@@ -1,0 +1,110 @@
+id: arrival-realizer
+summary: >-
+  Nothing in this corpus ran an `on-enter` binding, and the missing component looked like a fourth
+  subsystem. It is not one. A shipped engine's arrival hook is 161 statements of reconciliation and
+  8 of game events, and both kinds of reconciliation were deleted here by earlier decisions —
+  presentation by `effect-list-semantics`, affordance by computing the verb menu instead of storing
+  it. What is left is a binding with effects, so `interaction-resolver` realizes it and pays one
+  bit: *never nothing* is a promise about a trigger the player composed.
+context: |
+  [prose-edges](prose-edges.yml) counted the corpus against its own prose and found four nodes with
+  no incoming edge. Three were structural or chosen. The fourth,
+  [interaction/entry-binding](../corpus/interaction/entry-binding.yml), had `subsystem -realizes->
+  interaction` available and unwritten, and the reason was not an oversight: **no component in this
+  corpus ran one.** [interaction-resolver](../corpus/subsystem/interaction-resolver.yml) *"takes a
+  verb, a target and an optional second object"* and an entry binding has none of the three;
+  [path-solver](../corpus/subsystem/path-solver.yml) *"reports arrival"* and stops;
+  [verb-menu](../corpus/subsystem/verb-menu.yml) runs before there is a binding at all.
+
+  That is the same hole [interaction-table](../corpus/data-format/interaction-table.yml) documents
+  from the format's side — *"the one trigger an interaction table keyed by verb and target cannot
+  index"* — arriving a second time in the component layer, which is where nobody had looked.
+decision: |
+  **`interaction-resolver` realizes `entry-binding`. No fourth component, and the promise gets a
+  scope instead of a weakening.**
+
+  The node's stated specification is *"exactly one outcome: an authored response, an authored
+  refusal, or a default. Never nothing"*, and it calls that *"the whole specification."* Every
+  clause of it is false for arrival. There is no default — nothing stands in for a room with no
+  `on-enter`. There is no refusal —
+  [entry-binding](../corpus/interaction/entry-binding.yml) argues one cannot exist, *"nobody tried
+  anything, they walked into a room."* And it produces nothing almost always: **one `on-enter`
+  binding across the fourteen rooms of four specimens.** [verified] —
+  `crates/reachability/tests/arrival.rs`.
+
+  The promise survives because its reason names its scope. *Never nothing* exists because *"a
+  silent miss is the failure players read as brokenness"*, and a player who has not clicked cannot
+  read one. It was always about the composed trigger. Nothing in this corpus had said so, because
+  until the second trigger arrived there was nothing to distinguish it from.
+
+  The two inputs cannot collide, which is what makes one component honest rather than a bag: an
+  entry binding is in no menu in any reachable state — `Ix::in_menu` excludes `Site::OnEnter`
+  outright — so the widened resolver is asked either about a verb, a target and an object, or about
+  a room, and never about something that could be both. [verified]
+rationale: |
+  **The fourth component exists in the engine this corpus can read, and it is a reconciler.**
+
+  Delores declares `enter` on all 20 rooms; 17 bodies are non-empty and hold 169 statements
+  ([delores-source](../catalog/delores-source.md)). [verified]
+
+  | | |
+  |---|---|
+  | move an object, actor, camera, walkbox or light | 51 |
+  | `objectState` / `objectTouchable` | 25 |
+  | ambient loops — twinkle, flicker, drip, rat | 81 |
+  | `enableTrigger` on a region | 4 |
+  | **a game event** | **8** |
+
+  `MainStreet.bankDoor` is the whole pattern in one line — `function enter() { objectTouchable(this,
+  Bank.open ? YES : NO) }` — and the sign beside it does the same with `objectState`. An arrival
+  hook is where an engine puts stored presentation and stored affordance back into agreement with
+  world state, at the one moment when doing it is cheap and nobody is looking.
+
+  **Both kinds of stored thing were already refused here, by decisions taken for other reasons.**
+  The 132 presentation statements are outside the state model by
+  [effect-list-semantics](effect-list-semantics.yml). The 25 affordance statements are what
+  [verb-menu](../corpus/subsystem/verb-menu.yml) computes rather than stores — *"a pure function of
+  the target and the state, recomputed whenever either moves"* — so
+  `objectTouchable(this, Bank.open ? YES : NO)` is a shipped engine hand-writing `Ix::in_menu`,
+  sixteen times, at the moment somebody remembered to write it.
+
+  Measured from this side, the derivation does that work **64 times**: of 88 distinct menu entries
+  across the four specimens, 24 are showing before the player has done anything and the other 64
+  become available during play with no line anywhere authored to make them available. [verified]
+  698 slots over 145 reachable states is what it costs.
+
+  So the conclusion is not *this design forgot a component*. It is **a reconciler is what an engine
+  needs when presentation is stored, and this one stores none.** What is left at arrival is eight
+  statements — four state writes, one conversation opened, one line said, one puzzle reset, one
+  thing heard about — every one of which is a binding with effects.
+
+  **The corpus reached this two phases earlier, in testimony, and nobody connected it.**
+  `entry-binding` already quotes Thimbleweed Park's `enter` being the save system: *"When a game
+  loads, I just re-enter the room"* ([twp-dev-diary](../catalog/twp-dev-diary.md)) — which is the
+  reconciler claim exactly, said by the person who built it. An artifact census and a designer's
+  sentence arrived at the same place from opposite directions and the sentence was here first.
+  [inference] That is the fourth kind of retrieval failure [found-in](found-in.yml) collects and
+  the first where the missed source was testimony rather than an artifact.
+
+  **Two things were looked at and not adopted.** Dinky passes the door you came in by: 17 of the 20
+  rooms declare `enter = function(from_door=null)` and **no body reads it.** [verified] A design
+  that omits the argument is indistinguishable from that engine on this evidence. And the 4
+  `enableTrigger` calls belong to a sub-room trigger region this vocabulary does not have, which
+  `entry-binding` has already counted and declined — at region level that game writes departure
+  *more often* than arrival, 13 bodies against 11.
+
+  **A counting rule got written down because two files were about to disagree.** `entry-binding`
+  says `enter` carries 237 statements; this record says 169 of the same bodies. 237 is non-blank
+  lines with comment-only lines dropped, which is the rule that also produces its companion figure
+  of 15 for `exit`; 169 is that minus 30 bare braces and 38 control-flow lines. Both are correct
+  and neither had said which it was, which is how a headline figure goes wrong here — see
+  [verb-count](verb-count.yml), where two files did disagree for six phases.
+
+  **What this does not settle.** The answer is conditional on two refusals holding, and this is the
+  first place they combine. A design that stored presentation, or that stored affordance instead of
+  computing it, gets the fourth component back — and nothing in this corpus records that choosing
+  to store either thing also costs an engine component, which is a consequence neither
+  `effect-list-semantics` nor `verb-menu` could have seen from where it stood. Whether that makes
+  the reconciler a *fifth kind of subsystem* worth naming for the engines that have one, or just a
+  consequence to note, is not decided: this corpus describes one design and the component belongs
+  to the other. `[open]`

@@ -20,6 +20,26 @@ description: |
   that system for its whole history, on both sides of the rewrite that deleted everything else
   about the interaction editor.
 
+  **It has a realizer now, and finding one meant discovering that the obvious candidate does not
+  exist.** For six phases nothing in this corpus ran an `on-enter`: the interaction resolver takes
+  a verb, a target and an optional second object, and this binding has none of the three. A
+  shipped engine's arrival hook says why the gap looked bigger than it was — of 169 statements in
+  Delores's 17 non-empty room `enter` bodies, **161 put stored presentation and stored affordance
+  back into agreement with world state and 8 are game events**
+  ([delores-source](../../catalog/delores-source.md)). [verified] A design with no stored
+  presentation and a computed verb menu has nothing to reconcile, so the component that arrival
+  needs *there* is one this design already does without, and what remains is a binding with
+  effects. [subsystem/interaction-resolver](../subsystem/interaction-resolver.yml) realizes it,
+  and pays one bit: its *"never nothing"* promise is scoped to a trigger a player composed.
+  `.yidam/decisions/arrival-realizer.yml`.
+
+  **The corpus had the reconciler reading two phases before it had the measurement, in testimony
+  rather than in code.** The paragraph below already quotes Thimbleweed Park's `enter` being the
+  save system — *"When a game loads, I just re-enter the room"* — which is precisely the claim:
+  arriving is the moment an engine can put a room back the way the world says it should be. An
+  artifact census and a designer's own sentence reached the same place from opposite directions,
+  and the sentence was here first. [inference]
+
   **What makes it a different kind of thing rather than a verb nobody types is that it is
   forced.** The player is not offered it. A state in which one is available is therefore
   transient — nobody rests there — and that is a property no other binding in this vocabulary

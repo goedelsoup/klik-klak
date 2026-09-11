@@ -25,6 +25,31 @@ description: |
   `.yidam/decisions/default-binding.yml` is the record that the two branches give different answers
   to one question. What was missing was a name for the thing that makes the difference.
 
+  **It realizes the arrival trigger as well, and that is a claim this node had to be read against
+  a shipped engine to make.** An `on-enter` binding has no verb, no target and no second object,
+  so nothing above describes it, and for six phases no component in this corpus ran one —
+  `.yidam/decisions/prose-edges.yml` found the hole by counting edges rather than by reading.
+  The obvious repair is a fourth component, and the obvious repair is wrong. What an engine
+  actually runs on arrival is a **reconciler**: of 169 statements in Delores's 17 non-empty room
+  `enter` bodies, 51 move objects, actors, cameras, walkboxes and lights, 25 set `objectState` and
+  `objectTouchable`, 81 drive ambient loops, 4 enable trigger regions, and **8 are game events**
+  ([delores-source](../../catalog/delores-source.md)). [verified] The 132 presentation statements
+  are outside this state model by `.yidam/decisions/effect-list-semantics.yml`, and the 25
+  affordance statements are what [verb-menu](verb-menu.yml) computes instead of storing.
+  `objectTouchable(this, Bank.open ? YES : NO)` is a shipped engine hand-writing `Ix::in_menu`.
+  So the component that would have realized arrival in that engine has no work here, and what is
+  left is the 8 — which is a binding with effects, which is this component. [inference]
+
+  **The cost is that this node's specification is false for the new trigger, and the fix is a
+  scope rather than a weakening.** *Never nothing* is stated below as the whole of it. Arrival
+  has no default to fall through to, no refusal — [entry-binding](../interaction/entry-binding.yml)
+  argues one cannot exist because *"nobody tried anything, they walked into a room"* — and it
+  produces nothing in thirteen of the fourteen rooms across the four specimens. [verified] —
+  `crates/reachability/tests/arrival.rs`. The guarantee exists because *a silent miss is the
+  failure players read as brokenness*, and a player who has not clicked cannot read one. It was
+  always a promise about the composed trigger; nothing else was ever in its scope, and nothing in
+  this corpus had said so. `.yidam/decisions/arrival-realizer.yml`.
+
   It is also what makes a topic-list conversation work, which is not obvious and is worth
   stating rather than leaving to the edge. [inference] A topic list has no interior state
   and no path through it — `conversation/topic-list.yml` argues that each of its topics
@@ -58,6 +83,8 @@ links:
   - target: ../interaction/unary-binding.yml
     relationship: realizes
   - target: ../interaction/default-binding.yml
+    relationship: realizes
+  - target: ../interaction/entry-binding.yml
     relationship: realizes
   - target: ../subsystem/path-solver.yml
     relationship: depends-on
