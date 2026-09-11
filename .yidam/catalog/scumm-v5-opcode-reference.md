@@ -15,6 +15,7 @@ used-by:
   - ../corpus/conversation/branching-tree.yml
   - ../corpus/verb/use-with.yml
   - ../corpus/verb/walk-to.yml
+  - ../corpus/prior-art/scumm.yml
 ---
 
 **Reverse-engineered, and it says so.** The footer reads "All material © 2000-2002 David Given,
