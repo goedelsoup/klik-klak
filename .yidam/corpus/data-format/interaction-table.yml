@@ -68,8 +68,16 @@ properties:
     reconciling them: declarations are keyed like data, bindings are written as blocks, and the
     construct carrying the join is the guarded response list — `when <predicate> "<line>"`, which
     keys and reads like writing on the same line
-    ([design/specimen](../../../design/specimen/README.md)). [inference] Whether that survives a
-    table with real combinatorics is untested; twenty-three bindings is not a test of scale.
+    ([design/specimen](../../../design/specimen/README.md)). [inference]
+
+    **That construct is what settles the proposal's own first open item**, which called the
+    surface abstract and forwarded a reader here for a tension this property had already
+    resolved. `.yidam/decisions/settled-surface.yml`.
+
+    This paragraph read *"whether that survives a table with real combinatorics is untested;
+    twenty-three bindings is not a test of scale"* for several phases, with the test in the
+    paragraph below it. It is four specimens and 91 bindings now, and the answer is the shipped
+    game rather than the specimens — which is what the sentence was right about.
 
     **A real one has been counted and it is emptier than expected, which cuts the other way.**
     Delores holds 160 live object declarations of which **45 carry no binding at all** and 82

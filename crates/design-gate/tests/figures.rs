@@ -196,13 +196,21 @@ fn every_statement_of_the_surface_size_agrees_with_the_test() {
     let mut wrong = Vec::new();
     let mut seen = 0;
     let mut files: Vec<PathBuf> = Vec::new();
-    let mut stack = vec![root.join(".yidam/corpus"), root.join(".yidam/decisions")];
+    // `design/` joined the population when a design document first stated the size. It is the
+    // likeliest place for the figure to drift — the proposal is written once and re-read least,
+    // which is `design-directory`'s own argument for `rests_on:` — and it was outside the scan
+    // for as long as no document had a number in it. `.yidam/decisions/settled-surface.yml`.
+    let mut stack = vec![
+        root.join(".yidam/corpus"),
+        root.join(".yidam/decisions"),
+        root.join("design"),
+    ];
     while let Some(d) = stack.pop() {
         for e in std::fs::read_dir(&d).expect("readable").flatten() {
             let p = e.path();
             if p.is_dir() {
                 stack.push(p);
-            } else if p.extension().is_some_and(|x| x == "yml") {
+            } else if p.extension().is_some_and(|x| x == "yml" || x == "md") {
                 files.push(p);
             }
         }
@@ -248,8 +256,10 @@ fn every_statement_of_the_surface_size_agrees_with_the_test() {
         wrong.join("\n  ")
     );
     assert_eq!(
-        seen, 1,
-        "places that state the surface size in full. It was three — the property, and the record \
-         twice — and the record now names the test rather than restating it"
+        seen, 2,
+        "places that state the surface size in full: the corpus property, and the proposal, which \
+         states it because the sentence that used to stand there called the surface abstract. It \
+         was three once — the property and a record twice — and the remedy then was the one taken \
+         again here: a record names the test rather than restating it"
     );
 }

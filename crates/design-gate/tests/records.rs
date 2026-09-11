@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (440, 71, 55));
+    assert_eq!((total, mentions, tests.len()), (452, 74, 56));
 }
 
-/// **Five of sixty-six records are cited by nothing, against three of forty-four nodes.**
+/// **Five of sixty-seven records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -325,15 +325,16 @@ fn a_record_nothing_cites_is_named() {
             "binding-axes",
             "declared-reach",
             "domain-computer",
-            "engine-directory",
             "name-scoping",
+            "settled-surface",
         ],
-        "five, the fewest this check has held. `engine-directory` joins as every newest record \
-         does but two, and it took `design-directory` and `specimen-placement` off by citing the \
-         precedent it was built on — which is what following a precedent looks like in the graph"
+        "five for a second phase running. `settled-surface` joins as every newest record does but \
+         two, and it took `engine-directory` off by citing the directory that phase created — so \
+         the list stays at five while both of its ends move, which is what a loop that draws on \
+         its own last phase looks like from here"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (66, 205));
+    assert_eq!((c.len(), edges), (67, 209));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -451,7 +452,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 46, "live open questions in this directory");
+    assert_eq!(total, 47, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
@@ -516,7 +517,7 @@ fn no_record_has_changed_what_it_decided() {
     }
     assert_eq!(
         edited,
-        26,
+        27,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

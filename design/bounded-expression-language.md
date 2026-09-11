@@ -1,7 +1,7 @@
 ---
 title: A bounded expression language for authored interaction
 status: proposal
-reconciled: 5330b3d574f75170708228b4d5f68a8f0cef062a
+reconciled: 46be97225ad387c7f1f57deb297afca815fa7b3e
 rests_on:
   - .yidam/corpus/data-format/interaction-table.yml
   - .yidam/corpus/world-flag/boolean-flag.yml
@@ -605,9 +605,19 @@ or that anybody would enjoy writing in it.
 
 ## 5. What this does not settle
 
-- **Concrete syntax.** Everything above is abstract. The surface belongs with
-  [`interaction-table.yml`](../.yidam/corpus/data-format/interaction-table.yml) and its
-  unresolved tension between being keyed by verb and target and reading like writing.
+- ~~Concrete syntax. Everything above is abstract.~~ **Settled, by somebody building it.**
+  `crates/game-format` implements a surface of **50 constructs** — 5 verbs, 19 keywords the
+  parser dispatches on, 8 effects, 9 predicates, 6 comparisons, 3 sites — and four specimens
+  totalling 662 lines and 91 bindings are written in it. This bullet
+  stood while that happened, in a document that cites `crates/` ten times elsewhere.
+
+  **And the tension it forwarded a reader to was resolved at the forwarding address.**
+  [`interaction-table.yml`](../.yidam/corpus/data-format/interaction-table.yml)'s `authored_by`
+  records that a specimen *"resolves it by splitting the two rather than reconciling them:
+  declarations are keyed like data, bindings are written as blocks, and the construct carrying
+  the join is the guarded response list — `when <predicate> "<line>"`, which keys and reads like
+  writing on the same line."* A named construct, in the file this sentence pointed at.
+  [`.yidam/decisions/settled-surface.yml`](../.yidam/decisions/settled-surface.yml).
 - **Whether the effect list stays closed.** The whole design rests on it. The first effect that
   must be conditional — *set this flag only if* — either becomes a guarded effect, which is
   Layer 1 applied to Layer 2 and costs nothing, or forces the door open. Nothing here has met
@@ -741,6 +751,15 @@ or that anybody would enjoy writing in it.
   exhibited by the only shipped game available to check it against, and `.yidam/decisions/measured-width.yml`
   sets out why that is weaker than a refutation and much stronger than the silence it replaces.
   `[open]`
-- **Nothing here is implemented as an engine.** No engine reads this. It is exercised by one
-  specimen and analysed by `crates/reachability`, which is a checker rather than a runtime —
-  the analysis says a game *can* be finished, and nothing here has ever played one.
+- **Nothing here is implemented as an engine**, and there is now somewhere for one to be. No
+  engine reads this. It is exercised by four specimens and analysed by `crates/reachability`,
+  which is a checker rather than a runtime — the analysis says a game *can* be finished, and
+  nothing here has ever played one.
+
+  [`engine/`](../engine/) exists with a contract and a gate and no code
+  ([`engine-directory`](../.yidam/decisions/engine-directory.yml)), and the corpus specifies four
+  components for it to hold. The nearest obstacle is not in this document: `crates/game-format`
+  matches `"say" | "otherwise" => {}` and keeps no declaration label, so **half the characters an
+  author writes are discarded at the parse** — correct for a checker
+  ([`effect-list-semantics`](../.yidam/decisions/effect-list-semantics.yml)) and fatal for a
+  runtime.

@@ -299,7 +299,7 @@ fn no_question_lives_on_a_class_page() {
         n
     };
     let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
-    assert_eq!((corpus, decisions), (8, 46));
+    assert_eq!((corpus, decisions), (8, 47));
     assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 14);
 }
 
