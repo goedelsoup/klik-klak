@@ -1,0 +1,89 @@
+id: threshold-trigger
+summary: >-
+  No primitive, and the reason is a decision made four phases before the question was asked. A
+  threshold trigger needs an occasion — a moment at which something looks — and refusing duration
+  removed every moment except the bindings that write the value. Those are enumerable, so the
+  trigger reduces to appending the sequence to each of them, and every state value in this corpus
+  has exactly one writer. `cutscene` now has no open questions at all.
+context: |
+  [scripted-sequence](../corpus/cutscene/scripted-sequence.yml) claimed three triggers and was
+  reduced to one over four phases. *Entering a room* turned out to be a position event, documented
+  as first-class in AGS and dispatched outside verb resolution, and became `on-enter`
+  ([arrival-trigger](arrival-trigger.yml)). *Binding resolution* needed an edge into a class no edge
+  reaches, which [effect-list-semantics](effect-list-semantics.yml) found while looking for
+  somewhere to put duration.
+
+  The third sat open with the question stated exactly: *"a sequence beginning because a counter
+  reached a value. Nothing read here documents a threshold trigger in either engine, and it was
+  looked for. Whether that is a genuine gap or the same position trigger wearing a number is the
+  question a later phase inherits."*
+decision: |
+  **No primitive. The threshold trigger is expressible by appending the sequence to every binding
+  that writes the value, and in this corpus that is one binding every time.**
+
+  Twelve distinct state writes across the four specimens — two flags in `ferry`, three counter steps
+  and three flags in `lighthouse`, two each in `nightwatch` and `patrol` — and **not one is written
+  at two sites**. [verified] — `crates/reachability/tests/threshold.rs`. So the reduction costs one
+  copy, which is no copy at all.
+
+  With `cutscene`'s last leg gone, **that class has no open question left**. It is kept rather than
+  withdrawn, for the reason [give-to](../corpus/verb/give-to.yml) was kept, but it is a finished
+  negative result rather than a live one.
+rationale: |
+  **It was documented, in a manual this corpus had already read seventeen pages of, and the page
+  names the problem in this corpus's own words.** `RepExec.md` opens: *"One of the most common
+  things you'll need to do when scripting is to check if something has happened in the game — and if
+  so, then make the game do something in response."* The answer is `repeatedly_execute`, run on every
+  game loop at forty a second, and the worked example on the page is a threshold on a counter —
+  `hungerTimer++; if (hungerTimer == 800) { … }`. [verified]
+  ([ags-manual](../catalog/ags-manual.md).)
+
+  So the claim that *nothing read here documents a threshold trigger* was wrong, and wrong in the
+  usual way: it was looked for among the declarative events and it lives in the scripting reference.
+  This corpus has now made that error in four different forms — a name the source spells
+  differently, an expanded macro name, a zero-hit search read as an absence, and now a construct
+  looked for in the wrong half of a system. [inference]
+
+  **What the manual actually shows is that the occasion is declarative and the condition is not.**
+  `EventTypes.md` lists "Repeatedly execute" in the room's event table beside "Enters Room After
+  Fade In". [verified] The *slot* is declared; what goes in it is arbitrary script. So even the
+  system that has this trigger does not have a declarative form of *when this value reaches that* —
+  it has a polling hook and an `if`, which is [interaction-table](../corpus/data-format/interaction-table.yml)'s
+  escape hatch wearing a schedule.
+
+  **And this design cannot have the occasion at all**, which is the part that settles it rather than
+  merely answering it. `effect-list-semantics` made a binding one atomic edge, so nothing runs
+  between bindings and there are no cycles to poll. The only moments at which a value changes are
+  the bindings that write it. A trigger needs a moment; refusing duration removed every moment but
+  those; and those are already in the author's hands. [inference]
+
+  That is a stronger result than *no site was found*: the trigger is not missing from this
+  vocabulary, it is **excluded by a decision the corpus made for other reasons and has never
+  revisited**.
+
+  **The cost of the reduction is duplication, and nothing here pays it.** With three bindings writing
+  the same value the sequence is written three times, which is
+  [arrival-trigger](arrival-trigger.yml)'s shape reaching the other kind of trigger. Two things keep
+  it from being an argument. No specimen has more than one writer for any value. And in the shipped
+  game, restricting to slots whose owner is unambiguous, six values are written at more than one
+  site and none of them starts a scene — the largest, `Bathroom.has_power`, is written four times
+  and three of those are boot and debug code ([delores-source](../catalog/delores-source.md)).
+  [verified]
+
+  **The shipped game's cutscenes are unanimous about their trigger.** Thirteen `cutscene(` call
+  sites: ten directly inside a verb body, three in scripts that a verb, a dialogue choice or the
+  start screen begins. **Not one fires because a value was reached.** [verified] Where a scene and a
+  state write occur together, the write is *inside* the scene —
+  `cutscene(@{ … Vista.mansion.sploded = YES … })` — so the sequence causes the write, which is the
+  direction this design already has.
+
+  **A detection that looks like a check and is not.** Drop one of three copies and a figure does
+  move, so the missing copy is caught. It is caught only because a binding with no effects is not a
+  transition at all, so the crippled copy vanishes from the graph; give that binding one other thing
+  to do and the drift is silent again. [verified] Worth recording because a report that changes is
+  easy to mistake for a check that fired.
+
+  **What this does not settle.** Whether duration should have been refused. Everything above is
+  downstream of `effect-list-semantics`, and a design that admitted duration would need this trigger,
+  a `skippable` property, and the save-boundary problem the same decision record quotes Thimbleweed
+  Park paying. That trade was made once and is now load-bearing in four places. `[open]`
