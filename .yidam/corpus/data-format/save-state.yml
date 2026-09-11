@@ -1,0 +1,91 @@
+class: data-format
+label: Save State
+description: |
+  The on-disk form of the world state, written by the engine and read by the engine, and the one
+  data format in this corpus nobody authors. It is here because
+  [world-flag.ont.yml](../world-flag.ont.yml) has declared a `save_semantics` property since
+  genesis, all four flag instances answer it, and every answer was an `[inference]` about a format
+  that had never been looked at.
+
+  **The engine this corpus can read most of makes the distinction the property was groping for, and
+  then does not act on it.** An AGS save is a *save state*: *"they contain a 'dump' of all the game
+  objects, regardless of whether they are related to the game progress or not"*
+  ([ags-manual](../../catalog/ags-manual.md)). [verified] So the manual separates state that is
+  about progress from state that is not, in the sentence explaining that the format does not.
+
+  **It is keyed by position, and the manual calls that its one serious flaw.** *"When game data is
+  written to a save file the game objects and variables are written as lists, where separate items
+  are not identified in any way rather than an order in that list."* The consequence is stated for
+  a shipped game: any patch adding an object *"will render the player's saves unstable or
+  unusable."* [verified] That is the evidence for a claim
+  [boolean-flag](../world-flag/boolean-flag.yml) has carried at `[inference]` since genesis — that
+  a save format should be **derived from the declarations rather than written alongside them** —
+  and it arrives as the cost of the other choice rather than as an argument for this one.
+
+  **What breaks a save is the declaration list; what does not is the code.** Adding, removing or
+  reordering a Character, a Dialog, a Global Variable, a GUI control, an Inventory item, a cursor
+  mode or a View invalidates every old save. Rewriting every function body, every dialog script and
+  every macro invalidates none. [verified] So a save file is a constraint on **what an author may
+  revise**, and it falls entirely on the half of a game this project calls declarative. A
+  vocabulary with no general-purpose half has no cheap half to revise.
+
+  **This design's save is the state vector, and it is already specified.**
+  `.yidam/decisions/observed-state.yml` requires that a component of the searched state exist only
+  if some predicate in the game can read it, and applied it four times for a reason that had
+  nothing to do with saving. Read from the other side, that rule *is* the save format: room, mode,
+  carried counts, acquisition sites taken, flags, counters, and nothing else, because nothing else
+  can be observed. [inference] Every narrowing that made the reachable set smaller also made the
+  save smaller, and the corpus has been designing this format for six phases under another name.
+
+  **Three systems hit one constraint and pay three different prices.** Thimbleweed Park could not
+  serialize a running Squirrel thread and answered with three workarounds — global threads not
+  saved, local threads killed and restarted by the room's `enter`, a save during a cutscene
+  restoring from just before it ([twp-dev-diary](../../catalog/twp-dev-diary.md)). AGS forbids the
+  save instead: *"local variables are not saved, because AGS does not allow the game to save while
+  it is inside a script function"* ([ags-manual](../../catalog/ags-manual.md)). This design refused
+  duration in `.yidam/decisions/effect-list-semantics.yml` and has no inside-a-function to be in.
+  [verified] A response with duration is not a state, and a save file is the place that stops being
+  an opinion.
+properties:
+  syntax: |
+    Unspecified here and not arbitrary. The one decision that matters is whether a slot is
+    identified by **name** or by **position**, and the two shipped answers are the same answer:
+    AGS writes lists and pays for it in a documented compatibility article; Thimbleweed Park's
+    rooms are re-entered rather than restored, which is position avoided rather than naming
+    achieved. [inference]
+
+    A format derived from the declarations gets naming for free, because the declarations already
+    have names and `.yidam/decisions/name-scoping.yml` already resolved them. `world-flag
+    /object-state` makes the same point about a namespace: *"a save format derived from the
+    declarations gets the namespace for free, where a flat flag namespace has to encode the owner
+    in the name and cannot check that it did."*
+  authored_by: |
+    **Nobody.** The engine writes it and the engine reads it, and this is the property that made
+    the class widen — its description said *"an author writes and the engine reads"* until this
+    instance was assessed against it. `room-manifest` already answered *"both"* because geometry
+    comes from a tool, so a third answer was less of a stretch than it looked.
+
+    That does not make it less of an authoring concern. The table above is a list of things an
+    author may not do after shipping, and no other format in this corpus constrains what may be
+    *changed* rather than what may be *written*.
+  escape_hatch: |
+    A script callback, which is the fourth time this manual answers a declarative problem that way.
+    Since AGS 3.6.2 an author who has added anything *must* write
+    `validate_restored_save(RestoredSaveInfo* info)` *"or the game will refuse to load older
+    saves"*, and the feature works only for additions made at the **end** of a list
+    ([ags-manual](../../catalog/ags-manual.md)). [verified]
+
+    The rules are written as prohibitions — *"Can't remove existing objects or variables. If you no
+    longer need any, then hide or disable them"* — and that sentence is the conclusion
+    [room-manifest](../data-format/room-manifest.yml) reached about a different format from the
+    other direction: it survives round-tripping through a tool *"by never removing anything."* Two
+    formats, two phases, one rule, and neither was written with the other in view. [inference]
+links:
+  - target: ../world-flag/boolean-flag.yml
+    relationship: encodes
+  - target: ../world-flag/latched-flag.yml
+    relationship: encodes
+  - target: ../room/single-screen.yml
+    relationship: encodes
+  - target: ../data-format.ont.yml
+    relationship: instance-of

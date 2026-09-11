@@ -308,6 +308,8 @@ links:
     relationship: reads
   - target: ../data-format/dialogue-script.yml
     relationship: reads
+  - target: ../data-format/save-state.yml
+    relationship: reads
   - target: ../failure-mode/unwinnable-state.yml
     relationship: exhibits
   - target: ../prior-art.ont.yml

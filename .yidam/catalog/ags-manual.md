@@ -16,6 +16,7 @@ location:
     value: https://adventuregamestudio.github.io/ags-manual/
     description: the rendered manual; JavaScript-driven, so a plain fetch returns an empty page
 used-by:
+  - ../corpus/data-format/save-state.yml
   - ../corpus/prior-art/ags.yml
   - ../corpus/verb/pick-up.yml
   - ../corpus/interaction/acquisition-binding.yml
