@@ -135,20 +135,20 @@ fn splitting_the_object_buys_the_verbs_back() {
     );
 }
 
-/// **The bound is not binding from the other side either: one of the six has never been used.**
+/// **The bound was not binding from the other side either: one of the six had never been used.**
 ///
-/// `give-to` carries no binding in 662 authored lines. [`verb/give-to`] assessed it in the corpus
+/// `give-to` carried no binding in 662 authored lines. [`verb/give-to`] assessed it in the corpus
 /// two phases after it was seeded and found it *"subsumed at the engine tier"* — AGS routes it
 /// through `Use inventory on character` — and kept the node as a record of what was declined. The
-/// parser was never told. So `surface.rs` counts six verbs where the corpus has decided on five,
-/// and the specimens have been voting with their silence the whole time.
+/// parser was never told, so `surface.rs` counted six verbs where the corpus had decided on five,
+/// and the specimens had been voting with their silence the whole time.
 ///
-/// Kept here as a pinned fact rather than fixed, because deleting it is a surface change and the
-/// argument for making one belongs in a decision record, not a test.
+/// That is what withdrew it; the surface is five verbs and fifty constructs now, and this test is
+/// the census that keeps the other five honest.
 ///
 /// [`verb/give-to`]: ../../../.yidam/corpus/verb/give-to.yml
 #[test]
-fn one_of_the_six_verbs_has_never_been_written() {
+fn the_five_that_remain_are_all_written_and_the_sixth_never_was() {
     let mut used = std::collections::BTreeSet::new();
     let mut total = 0;
     for src in [
@@ -166,5 +166,59 @@ fn one_of_the_six_verbs_has_never_been_written() {
     for v in ["look-at", "use-with", "talk-to", "pick-up", "walk-to"] {
         assert!(used.contains(v), "{v}");
     }
-    assert!(!used.contains("give-to"));
+    // `on-enter` and `option` are binding forms rather than verbs; they are how the parser
+    // records a room entry and a conversation choice, and neither is on the verb bar
+    assert_eq!(used.len(), 7);
+    assert!(used.contains("on-enter") && used.contains("option"));
+    assert!(
+        !used.contains("give-to"),
+        "withdrawn, and nothing was written in it"
+    );
+}
+
+/// **`give-to` is withdrawn, and this is the demonstration that withdrew it.**
+///
+/// [`verb/give-to`] concluded two phases after the verb was seeded that it is `use-with` applied to
+/// an actor — AGS's manual says so outright: *"Use inventory on character… could be used to allow
+/// the player to give items to characters."* The node was kept as a record of what was declined and
+/// the parser was never told, so for six phases the surface counted a verb the corpus had decided
+/// against.
+///
+/// Three things closed it. It carries no binding in 662 authored lines. Folding Delores's `giveto`
+/// into `use-with` creates **no new collision** — 198 cells and 18 of them shared, identical either
+/// way — so it earns nothing even in the game that has it, where both its bindings sit on inventory
+/// items whose only other verb is `lookat` ([delores-source]). And while both existed they were two
+/// cells for one intent with nothing to tell them apart: the same game written either way gave the
+/// same states, the same transitions and the same report, and no check had anything to say.
+///
+/// That last is what this test now holds, from the far side. The verb is gone; the game it
+/// expressed is unchanged.
+///
+/// [`verb/give-to`]: ../../../.yidam/corpus/verb/give-to.yml
+#[test]
+fn the_game_give_to_expressed_is_unchanged_without_it() {
+    let src = "room hall \"The Hall\"\nitem coin \"a bent coin\"\nactor beggar \"a beggar\"\n\n\
+               room hall\n  start\n  actor beggar\n\
+               \x20 hotspot purse \"a dropped purse\"\n    is coin\n    pick-up:\n      do    give coin\n\
+               \x20 hotspot out \"out\"\n    walk-to:\n      when  paid\n      ending\n      else  \"Not yet.\"\n";
+    let decl = "flag    paid latched \"the beggar has been paid\"\n";
+    let give = "  actor beggar\n    give-to coin:\n      when  carrying coin\n      say   \"He takes it without looking up.\"\n      do    spend coin\n      do    set paid\n      else  \"You have nothing for him.\"\n";
+    let with = give.replace("give-to coin:", "use-with coin:");
+
+    // the verb is no longer a construct, and the parser says which line stopped being one
+    let (_, gone) = parse(&format!("{decl}{}", src.replace("  actor beggar\n", give)));
+    assert!(
+        gone[0].contains("`give-to` is not a construct this format has"),
+        "{gone:#?}"
+    );
+
+    // and the exchange it was written for still plays, on the verb that subsumed it
+    let g = load(&format!("{decl}{}", src.replace("  actor beggar\n", &with)));
+    let r = analyse(&g);
+    assert!(r.winnable, "{}", r.render());
+    assert_eq!(
+        g.bindings.iter().filter(|x| x.verb == "use-with").count(),
+        1
+    );
+    assert_eq!(r.stranded, 0);
 }

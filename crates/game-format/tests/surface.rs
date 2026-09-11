@@ -6,8 +6,8 @@
 //!
 //! This is that: every construct the format admits, enumerated. The point is not that the numbers
 //! are small — it is what they cost to reach. Nineteen of this corpus's twenty-six decision
-//! records weigh a candidate against the authoring language. **Five constructs were admitted, one
-//! was withdrawn, and twelve candidates were weighed and refused** — and Delores, 203 bindings and
+//! records weigh a candidate against the authoring language. **Five constructs were admitted, two
+//! were withdrawn, and twelve candidates were weighed and refused** — and Delores, 203 bindings and
 //! 1,328 call sites across 107 distinct functions, was read in full against it without the surface
 //! moving to meet it.
 //!
@@ -39,21 +39,16 @@ fn keywords() -> Vec<String> {
     v
 }
 
-/// The closed verb set, likewise.
+/// The closed verb set, likewise — read off the array however `cargo fmt` has chosen to wrap it.
 fn verbs() -> Vec<String> {
     let src = include_str!("../src/parse.rs");
-    let line = src
-        .lines()
-        .find(|l| l.trim_start().starts_with("\"look-at\""))
-        .expect("the VERBS array is one line");
-    let mut v: Vec<String> = line
+    let at = src.find("const VERBS").expect("the parser declares VERBS");
+    let eq = src[at..].find('=').expect("an initialiser") + at;
+    let open = src[eq..].find('[').expect("an array literal") + eq;
+    let body = &src[open + 1..open + 1 + src[open + 1..].find(']').expect("a closing bracket")];
+    let mut v: Vec<String> = body
         .split(',')
-        .filter_map(|s| {
-            s.trim()
-                .trim_matches(|c| c == '"' || c == ']' || c == ';')
-                .into()
-        })
-        .map(|s: &str| s.trim().trim_matches('"').to_string())
+        .map(|s| s.trim().trim_matches('"').to_string())
         .filter(|s| s.contains('-'))
         .collect();
     v.sort();
@@ -61,7 +56,7 @@ fn verbs() -> Vec<String> {
 }
 
 #[test]
-fn the_whole_authoring_surface_is_fifty_one_constructs() {
+fn the_whole_authoring_surface_is_fifty_constructs() {
     // Exhaustive matches: a new variant does not compile until it is named here.
     let effects: usize = {
         fn each(e: &Effect) -> u8 {
@@ -141,7 +136,7 @@ fn the_whole_authoring_surface_is_fifty_one_constructs() {
     let verbs = verbs();
     assert_eq!(
         verbs,
-        ["give-to", "look-at", "pick-up", "talk-to", "use-with", "walk-to"],
+        ["look-at", "pick-up", "talk-to", "use-with", "walk-to"],
         "the verb set is closed"
     );
 
@@ -173,7 +168,7 @@ fn the_whole_authoring_surface_is_fifty_one_constructs() {
     );
 
     // What an author can write, in total.
-    assert_eq!(verbs.len(), 6);
+    assert_eq!(verbs.len(), 5);
     assert_eq!(keywords.len(), 19);
     assert_eq!(effects, 8, "and eight is the ontology's, not a choice");
     assert_eq!(predicates, 9, "six atoms and three connectives");
@@ -183,7 +178,7 @@ fn the_whole_authoring_surface_is_fifty_one_constructs() {
 
     assert_eq!(
         verbs.len() + keywords.len() + effects + predicates + comparisons + sites,
-        51,
+        50,
         "the whole surface an author writes against"
     );
 }

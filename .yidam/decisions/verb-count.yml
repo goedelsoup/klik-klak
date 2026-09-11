@@ -1,0 +1,84 @@
+id: verb-count
+summary: >-
+  A bounded verb vocabulary loses no puzzle; it moves the distinction from the verb into the thing
+  pointed at, and a room has no bound on things. Measured by collapsing a shipped game's 49 used
+  verbs onto this design's six: 198 cells, 18 shared, eleven of them unary, and every one splits.
+  The six become five — `give-to` is withdrawn, six phases after the corpus decided it was subsumed
+  and nobody told the parser.
+context: |
+  [prior-art/sierra-sci](../corpus/prior-art/sierra-sci.yml) has carried one `[open]` since genesis
+  and calls the evidence behind it *"the single most useful piece of evidence available to this
+  corpus"*: Sierra moved from a typed parser to an icon bar inside one product line, and *"what was
+  lost is `[open]`… whether any puzzle expressible to a parser became inexpressible under an icon
+  bar, or whether the parser's apparent range was always mostly unused."*
+
+  It was filed as a retrieval nobody could do — `source_standing` still reads *"nothing
+  retrieved"* — and it is not one. **It is a question about a large verb vocabulary against a small
+  one**, and this corpus has held the source of a 57-verb game since `delores-source` was
+  catalogued, through four phases of weighing candidate constructs against a six-verb design.
+  [inference] The same shape as `measured-width` and `latch-default`: the answer was in a file the
+  corpus had already read, under a different name.
+decision: |
+  **Both answers this node offered are wrong.** The range was used — 49 of the 57 verbs carry a
+  binding and 23 of those exactly once — and nothing became inexpressible.
+  ([delores-source](../catalog/delores-source.md).) [verified]
+
+  **Nor is the reduction free, which is the half worth having.** Mapping all 49 onto the six leaves
+  **19 verbs with no home** — `open`, `close`, `push_left`, `turn_on`, `flush`, `unlock` and the
+  rest of the manipulation vocabulary, 31 bindings, 14% — and in this design every one of them is a
+  `walk-to`, which is how `patrol.game` pushes a kettle switch down. Collapsed, 220 bindings occupy
+  **198 cells of which 18 hold more than one**. Seven are `use-with`, where the second object keys
+  the cell and most separate on it. **Eleven are unary over 24 bindings, and five of those have an
+  unguarded binding beside a guarded one** — the shape `ambiguous_cells` refuses outright.
+  [verified]
+
+  **What a bounded verb set costs is targets.** `BookStore.lowerLadder` binds `climb` unguarded — it
+  is the object's `default_verb` — `push_right` under `position != 2` and `push_left` under
+  `position != 0`, and at position 1 all three are offered with *the world identical under each*, so
+  nothing but the verb the player picked selects between them. Written as one hotspot here the cell
+  is unreadable and the checker refuses it twice; written as three — the ladder and the two ends of
+  the rail — every cell is singly occupied and the game plays. [verified] —
+  `crates/reachability/tests/verbs.rs`. The distinction is conserved and only moves: a parser
+  carries it in the verb, an icon bar carries it in the thing pointed at, and there is no bound on
+  how many things a room may hold. [inference] That is why the icon bar was affordable, and it is
+  the exchange `.yidam/decisions/binary-dimension.yml` measured running the other way.
+
+  **`give-to` is withdrawn and the surface is five verbs and fifty constructs.**
+  [verb/give-to](../corpus/verb/give-to.yml) concluded it is `use-with` applied to an actor two
+  phases after it was seeded, kept the node as a record of the refusal, and the parser was never
+  told. Three measurements closed it: no binding in 662 authored lines; folding the shipped game's
+  `giveto` into `use-with` yields **198 cells and 18 collisions, identical**, with both its bindings
+  on inventory items whose only other verb is `lookat`; and while both existed the same exchange
+  written either way gave the same states, the same transitions and the same report, with no check
+  able to see an author who wrote one where a player would choose the other. [verified]
+rationale: |
+  **The verb vocabulary was never the binding constraint here, and the test that looked for it found
+  the effect vocabulary instead.** Transcribing the ladder faithfully needs a rail the ladder
+  *steps* along, and `Effect::SetCounter` is absolute — this language has no increment — so each
+  step in each direction is its own guarded binding. Four bindings where the shipped game wrote two
+  function bodies. [verified] A verb collapse costs hotspots once; the missing increment costs a
+  binding per step, forever.
+
+  **Two corrections fell out of the counting and both were internal.** `verb.ont.yml` and
+  [prior-art/thimbleweed-park](../corpus/prior-art/thimbleweed-park.yml) have said Delores declares
+  **sixty-three** verbs at `[verified]` since they were written, and
+  [delores-source](../catalog/delores-source.md) has said 57 since it was written.
+  `master_verb_list` and `master_verb_names` hold 57 entries each, are the same set, are checked
+  against each other at boot, and the list carries no commented-out entry. [verified] Two files in
+  this repository disagreed on a headline figure for six phases and nobody put them side by side —
+  the `found-in` failure again, between a catalog and a node rather than between a node and a
+  source. [inference]
+
+  And [verb/walk-to](../corpus/verb/walk-to.yml)'s *"what an author can write in this slot is always
+  the same thing, and that thing is an exit"* is true of the four specimens by a single binding: 19
+  of 22 `walk-to` bindings are an exit, two are bare, and one is `patrol.game`'s kettle switch,
+  written for another phase and never read as a counterexample. [verified] It is also where all 31
+  of the shipped game's homeless manipulation bindings land, which is fifteen times the manipulation
+  these specimens contain. The verdict stands on the corpus this design has rather than on the
+  design.
+
+  **What this does not settle.** Whether the split is the same *game*. The ladder as three hotspots
+  gives the player "the rail, to the left" and "the rail, to the right" as things in the room, where
+  the shipped game gives them a verb menu on one ladder. Every figure this instrument computes is
+  identical and the interface is not, and `.yidam/decisions/default-binding.yml` already established
+  that the layer where such differences matter is one this design has never specified. `[open]`

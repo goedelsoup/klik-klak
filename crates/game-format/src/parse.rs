@@ -8,9 +8,7 @@
 
 use crate::*;
 
-const VERBS: [&str; 6] = [
-    "look-at", "use-with", "talk-to", "pick-up", "walk-to", "give-to",
-];
+const VERBS: [&str; 5] = ["look-at", "use-with", "talk-to", "pick-up", "walk-to"];
 
 struct Line {
     no: usize,
