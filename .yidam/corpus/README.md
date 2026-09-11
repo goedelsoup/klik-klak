@@ -27,7 +27,7 @@ Sorted by: kind, then alphabetically.
 | [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 0v / 2i / 1o | 40 |
 | [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 4 | 3v / 4i / 0o | 76 |
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 8v / 5i / 0o | 103 |
-| [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 11v / 11i / 0o | 230 |
+| [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 11v / 12i / 0o | 238 |
 | [dialogue-script.yml](data-format/dialogue-script.yml) | data-format | Dialogue Script | 2 | 8v / 3i / 0o | 129 |
 | [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 42v / 21i / 1o | 536 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 10v / 7i / 0o | 155 |
@@ -47,7 +47,7 @@ Sorted by: kind, then alphabetically.
 | [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 5 | 16v / 4i / 1o | 166 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 1v / 7i / 0o | 72 |
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 3v / 5i / 0o | 64 |
-| [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 12 | 27v / 10i / 0o | 316 |
+| [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 12 | 27v / 11i / 0o | 325 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
 | [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 8v / 5i / 0o | 111 |
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 6v / 3i / 0o | 73 |
@@ -65,7 +65,7 @@ Sorted by: kind, then alphabetically.
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 4v / 3i / 0o | 63 |
 | [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 4v / 5i / 0o | 83 |
 | [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 15v / 7i / 1o | 186 |
-| [object-state.yml](world-flag/object-state.yml) | world-flag | Object State | 2 | 5v / 4i / 0o | 78 |
+| [object-state.yml](world-flag/object-state.yml) | world-flag | Object State | 2 | 5v / 5i / 0o | 85 |
 <!-- /REGEN -->
 
 ## Semantic index status
