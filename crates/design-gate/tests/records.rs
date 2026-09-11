@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (254, 44, 31));
+    assert_eq!((total, mentions, tests.len()), (268, 44, 32));
 }
 
 /// **Eight of forty-seven records are cited by nothing, against three of forty-three nodes.**
@@ -322,21 +322,20 @@ fn a_record_nothing_cites_is_named() {
     assert_eq!(
         alone,
         [
-            "action-pages",
             "binding-axes",
             "design-directory",
             "domain-computer",
+            "drawn-boundary",
             "effect-vocabulary",
             "name-scoping",
             "specimen-placement",
             "threshold-trigger",
         ],
-        "ten until `action-pages` cited three of them — `conversation-boundary`, \
-         `conversation-reduction` and `effect-half` were uncited because the file asking the \
-         question each answers had not been opened since the root commit"
+        "held at eight across two phases while the membership turned over: `action-pages` cited \
+         three of the ten and then left the list itself when `drawn-boundary` cited it"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (47, 103));
+    assert_eq!((c.len(), edges), (48, 109));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -414,7 +413,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 29, "live open questions in this directory");
+    assert_eq!(total, 30, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are

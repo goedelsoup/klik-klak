@@ -1,0 +1,105 @@
+id: drawn-boundary
+summary: >-
+  This vocabulary expresses what an author types; what an author draws is outside it, and position
+  is room-granular. Six records rest on that and two nodes state it in passing, so the boundary has
+  been load-bearing since before there was a format and nobody decided it. It is not a hole in the
+  central question's answer — the escape it implies goes to a drawing tool rather than to a
+  scripting language, which is a different pen and not a more powerful one.
+context: |
+  Four things had been read as a corpus being thin in a few places:
+
+  - `actor`, `room` and `walkbox` are the only three classes **no node of which cites `crates/`**,
+    while every other class has at least one and the corpus has 60 such references over 23 nodes
+  - `subsystem/path-solver` is the only subsystem carrying no `[verified]` claim
+  - `actor/player-character` and `room/single-screen` carry no verified claim **and no source**,
+    and the first is the node the whole vocabulary is written from — *"the player in every
+    interaction's precondition means this actor's position, inventory and state"*
+  - `walkbox` has one instance, and the question its class page asked for 342 commits was refused
+    for want of instances ([action-pages](action-pages.yml))
+
+  [verified] — `crates/design-gate/tests/reach.rs`.
+
+  They are one thing, and the format says which. A room is a name, an actor's position is
+  `<actor> in <room>`, a hotspot is a name the room gives out. **Every class keeps the half an
+  author types and loses the half an author draws**, so nothing can measure a claim about a walk
+  cycle or a coordinate space, because no `.game` file can state one.
+decision: |
+  **The boundary is modality, not expressiveness: this vocabulary is what an author types.**
+
+  Stated in the negative too, because that is the form the six records already use: **this design
+  has no geometry.** Position is room-granular — `<actor> in <room>` is the whole of it — and there
+  is no coordinate anywhere in the surface.
+
+  Written down rather than introduced. It has been the design since the surface was drawn, it is
+  the premise of six decisions, and two nodes name it without noticing they are naming a rule —
+  [room-manifest](../corpus/data-format/room-manifest.yml)'s *"geometry comes from a tool because
+  polygons are drawn, not typed"* [verified], and [path-solver](../corpus/subsystem/path-solver.yml)'s
+  *"an author **draws** walkboxes and never touches this."*
+
+  **`walkbox` is the only class in the authoring tier the format cannot name, and that is now its
+  account rather than a gap.** Three of eleven are absent and the other two have reasons on file:
+  `cutscene` is **collapsed**, argued by [scripted-sequence](../corpus/cutscene/scripted-sequence.yml);
+  `puzzle` is **derived**, and [lock-and-key](../corpus/puzzle/lock-and-key.yml) says so in its own
+  words — *"the puzzle has no representation of its own."* Walkbox is **excluded**, because every
+  word of its gloss is a thing an author draws.
+
+  The class keeps its place, for the reason [give-to](../corpus/verb/give-to.yml) and
+  [object-state](../corpus/world-flag/object-state.yml) keep theirs: it is this corpus's record of
+  what the excluded half contains, and a kept refusal is worth more than the entry.
+  [prose-edges](prose-edges.yml) named that shape and this is a fourth instance of it.
+
+  **What follows for the three classes is a standing rather than a repair.** They are not
+  under-evidenced; they are correctly outside the instrument, and each says so now. `path-solver`
+  will never be exercised by `crates/reachability` and its own `authoring_visibility` already
+  explains why — *"None."* Writing a check that reaches them would mean giving the format
+  coordinates, which is the thing being refused.
+rationale: |
+  **There is a second escape hatch and it was never counted as one, and counting it does not
+  change the answer.**
+
+  [escape-hatch](escape-hatch.yml) asked this corpus's central question at its sharpest — whether a
+  bounded expression language avoids reaching for a general-purpose one — and answered yes, with a
+  qualifier nobody has re-read: *"for everything that is a fact about the world."* Geometry is not
+  a fact about the world. It is a fact about the picture, and it escapes — to a drawing program,
+  and not optionally. Polygons are drawn.
+
+  That is a different kind of escape and the difference is the whole argument. A scripting escape
+  is a hole in a vocabulary's claim to sufficiency: the author reaches past the primitives to say
+  something the primitives could have said. A tool escape is the author using a different **pen**
+  for something no notation would have made easier. [inference] The central question asks what can
+  be expressed without escaping to a general-purpose *language*, and a polygon editor is not one.
+
+  **The evidence that this is the right split is an engine with every reason to blur it.**
+  Thimbleweed Park has an unrestricted general-purpose language available and still splits a room
+  into a `.JSON` file *"with no behaviour in it at all"* and a separate table of Squirrel where
+  every response lives — and the split falls exactly on this line.
+  [room-manifest](../corpus/data-format/room-manifest.yml) established that, and established that
+  it refuted its own earlier claim that every engine eventually puts a script hook in the room
+  file. [verified] Delores splits the same way: 22 `.wimpy` geometry files, none of them behaviour.
+
+  **And the tool escape has a measured price, which is the reason to name it rather than be pleased
+  about it.** A format round-tripped through an editor survives *"by never removing anything"* —
+  seven dead keys kept alongside live ones across 22 files, and a hand-written template that has
+  drifted into a dialect the tool no longer speaks. [verified] That is the cost of the second
+  escape, it was measured two phases before anybody called it an escape, and it is the same
+  sentence [save-state](../corpus/data-format/save-state.yml) reached about a save format from the
+  other direction.
+
+  **The instrument and prior art are two kinds of evidence and this phase is the third time that
+  has mattered.** `walkbox/scaled-polygon` carries five `[verified]` claims from 84 real polygons
+  and `room/scrolling` six: **this corpus can read geometry it cannot express.** So the three
+  classes outside the instrument are not outside *evidence* — they are evidenced the way the
+  comparative tier is, by reading somebody else's artifact. Nothing here distinguishes the two,
+  which is [found-in](found-in.yml)'s open question — *"claims measured on committed tests, no
+  catalog entry to cite"* — reached from a third side. It is pointed at rather than re-opened,
+  because a third instance of a question already open is evidence for that question and not a new
+  one.
+
+  **What this does not settle.** Whether the ontology should declare, per class, anything about
+  where a class stands — its tier, or which side of this boundary it is on. Neither is schema
+  today: the tiers are prose in [ontology](ontology.yml), and this phase's check had to parse that
+  prose to ask which classes are in the authoring tier. **That is the fourth question of this exact
+  shape** — after [marker-count](marker-count.yml) on back-links, [prose-edges](prose-edges.yml) on
+  a citation syntax, and [found-in](found-in.yml) on marking derived edges — and each was declined
+  as *a schema change to prose that has none*. `prose-edges` wrote that the corpus's own rule makes
+  the second instance the time to look again. That was two instances ago. `[open]`

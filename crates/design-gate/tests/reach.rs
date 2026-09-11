@@ -1,5 +1,5 @@
-//! **This vocabulary excludes what is drawn rather than typed, and that has been a premise in six
-//! records and a decision in none.**
+//! **This vocabulary excludes what is drawn rather than typed, and that was a premise in six
+//! records before it was a decision in one.**
 //!
 //! Four symptoms have been read separately, each as a thin patch of a corpus that is thin
 //! everywhere. They are one thing:
@@ -19,6 +19,10 @@
 //! `.yidam/decisions/ontology.yml` glosses it *"pathable geometry with depth scaling"*, and
 //! [room-manifest] states the rule without drawing the conclusion — *"geometry comes from a tool
 //! because polygons are drawn, not typed."*
+//!
+//! `.yidam/decisions/drawn-boundary.yml` states it, and states what it costs: the escape this
+//! implies goes to a drawing program rather than to a scripting language, which is a different pen
+//! and not a more powerful one.
 //!
 //! [room-manifest]: ../../../.yidam/corpus/data-format/room-manifest.yml
 
@@ -239,7 +243,7 @@ fn the_nodes_with_no_verified_claim_are_drawn_or_definitional() {
     );
 }
 
-/// **Six records rest on *this design has no geometry* and none of them decides it.**
+/// **Six records rest on *this design has no geometry*, and one decides it.**
 ///
 /// It is load-bearing in each: `hotspot-identity` closes both of a node's open questions with it,
 /// `named-condition` separates two hotspot relations by which of them needs it, `frame-width`
@@ -249,22 +253,20 @@ fn the_nodes_with_no_verified_claim_are_drawn_or_definitional() {
 /// mildest and the most telling: it calls a specimen buildable *"needing no geometry, and
 /// therefore not blocked on"* it — the boundary used as a scheduling fact.
 ///
-/// This is the shape [`record-lifecycle`] found for `summary:` and [`save-boundary`] found for the
-/// state vector: a rule the practice follows exactly, that nothing states, and that a later phase
-/// can therefore contradict without noticing. The count is pinned so that a sixth is visible.
+/// That was the shape [`record-lifecycle`] found for `summary:` and [`save-boundary`] found for
+/// the state vector: a rule the practice follows exactly, that nothing states, and that a later
+/// phase can therefore contradict without noticing. `drawn-boundary` states it, and is partitioned
+/// out here rather than counted — a record cannot be evidence that its own premise was unstated.
 ///
 /// [`record-lifecycle`]: ../../../.yidam/decisions/record-lifecycle.yml
 /// [`save-boundary`]: ../../../.yidam/decisions/save-boundary.yml
 #[test]
-fn the_premise_is_load_bearing_in_six_records() {
-    const PREMISE: [&str; 4] = [
-        "no geometry",
-        "without geometry",
-        "geometry in scope",
-        "has none",
-    ];
+fn the_premise_is_load_bearing_in_six_records_and_decided_in_one() {
+    // `has none` was in this list for one commit and matched `prose-edges` on a sentence about
+    // prose having no schema. The three that remain name the thing.
+    const PREMISE: [&str; 3] = ["no geometry", "without geometry", "geometry in scope"];
     let root = repo_root();
-    let mut resting = Vec::new();
+    let (mut resting, mut deciding): (Vec<String>, Vec<String>) = (Vec::new(), Vec::new());
     for e in std::fs::read_dir(root.join(".yidam/decisions"))
         .expect("the directory exists")
         .flatten()
@@ -277,16 +279,26 @@ fn the_premise_is_load_bearing_in_six_records() {
         if !src.contains("geometry") {
             continue;
         }
-        if PREMISE.iter().any(|s| src.contains(s)) {
-            resting.push(
-                p.file_stem()
-                    .expect("a name")
-                    .to_string_lossy()
-                    .into_owned(),
-            );
+        if !PREMISE.iter().any(|s| src.contains(s)) {
+            continue;
+        }
+        let stem = p
+            .file_stem()
+            .expect("a name")
+            .to_string_lossy()
+            .into_owned();
+        if stem == "drawn-boundary" {
+            deciding.push(stem);
+        } else {
+            resting.push(stem);
         }
     }
     resting.sort();
+    assert_eq!(
+        deciding,
+        ["drawn-boundary"],
+        "the record that states the boundary"
+    );
     assert_eq!(
         resting,
         [

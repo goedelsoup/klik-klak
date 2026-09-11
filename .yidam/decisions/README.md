@@ -53,6 +53,10 @@ does not re-emit it.
 
 - **:100** — Not decided here, because one game is one game and because the four rows want three different relations — part-of, same-as, and says-the-same — and a design that collapsed them would be choosing by convenience.
 
+### [drawn-boundary](drawn-boundary.yml)
+
+- **:105** — **What this does not settle.** Whether the ontology should declare, per class, anything about where a class stands — its tier, or which side of this boundary it is on. Neither is schema today: the tiers are prose in [ontology](ontology.yml), and this phase's check had to parse that prose to ask whic…
+
 ### [duplication](duplication.yml)
 
 - **:113** — It settles one shape and not the pressure. `definePseudoRoom` built 110 hotel rooms, which is a *room* template; an archetype per shape does not reach shapes nobody anticipated, and that was the argument against archetypes to begin with.
@@ -117,7 +121,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**29 open.**
+**30 open.**
 
 ## What nothing cites
 
@@ -125,10 +129,10 @@ Records no other record points at. Not a defect on its own — a record may be t
 word on something nothing else has needed — but it is the shape `orphan-in` reports for
 nodes, at four times the rate, and it had never been looked at.
 
-- [action-pages](action-pages.yml)
 - [binding-axes](binding-axes.yml)
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
+- [drawn-boundary](drawn-boundary.yml)
 - [effect-vocabulary](effect-vocabulary.yml)
 - [name-scoping](name-scoping.yml)
 - [specimen-placement](specimen-placement.yml)

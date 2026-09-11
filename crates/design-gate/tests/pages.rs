@@ -266,9 +266,40 @@ fn no_question_lives_on_a_class_page() {
         "was (8, 4) — `.yidam/decisions/action-pages.yml` is the disposition of the other ten"
     );
 
-    // markers.rs's ratio, restated on the denominator that includes this place.
-    let (corpus, decisions) = (9, 29);
-    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 22);
+    // markers.rs's ratio, restated on the denominator that includes this place — and counted
+    // rather than repeated, because a literal here would go stale the next time a phase opens a
+    // question and nothing would say so.
+    let live = |dir: &str, ends: bool| -> usize {
+        let mut n = 0;
+        let mut stack = vec![root.join(dir)];
+        while let Some(d) = stack.pop() {
+            for e in std::fs::read_dir(&d).expect("readable").flatten() {
+                let p = e.path();
+                if p.is_dir() {
+                    stack.push(p);
+                } else if p.extension().is_some_and(|x| x == "yml") {
+                    let src = std::fs::read_to_string(&p).expect("readable");
+                    n += src
+                        .lines()
+                        .enumerate()
+                        .filter(|(i, l)| {
+                            l.contains("[open]")
+                                && (!ends
+                                    || (l.trim_end().ends_with("`[open]`")
+                                        && src
+                                            .lines()
+                                            .nth(i + 1)
+                                            .is_none_or(|x| x.trim().is_empty())))
+                        })
+                        .count();
+                }
+            }
+        }
+        n
+    };
+    let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
+    assert_eq!((corpus, decisions), (9, 30));
+    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 21);
 }
 
 /// **Every class page was written by this repository's first commit, and for 342 commits its last
