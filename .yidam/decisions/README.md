@@ -85,6 +85,10 @@ does not re-emit it.
 
 - **:131** — **What this does not settle.** Whether the second graph should have a form. Every citation in it resolves, so the four spellings and three bases cost nothing today; what they cost is every tool that was never written, and this phase wrote one of them and found the count had drifted in a document nob…
 
+### [record-layer](record-layer.yml)
+
+- **:114** — **What this does not settle.** Whether the migration should be reversed rather than gated. Every phase for six phases has answered a corpus question in a record, and the corpus node it answers now often carries a pointer where it used to carry the argument — which is legible to a reader following li…
+
 ### [testimony](testimony.yml)
 
 - **:68** — **What this does not settle.** Whether testimony and artifact should carry different evidence standing. The prelude is explicit that `[verified]` is about provenance rather than confidence, and a diary entry is a committed source in exactly the way a header file is; `measured-width` quotes Gilbert's…
@@ -101,7 +105,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**25 open.**
+**26 open.**
 
 ## What nothing cites
 
@@ -109,8 +113,6 @@ Records no other record points at. Not a defect on its own — a record may be t
 word on something nothing else has needed — but it is the shape `orphan-in` reports for
 nodes, at four times the rate, and it had never been looked at.
 
-- [arrival-realizer](arrival-realizer.yml)
-- [containment](containment.yml)
 - [conversation-boundary](conversation-boundary.yml)
 - [conversation-reduction](conversation-reduction.yml)
 - [design-directory](design-directory.yml)
@@ -120,6 +122,6 @@ nodes, at four times the rate, and it had never been looked at.
 - [escape-hatch](escape-hatch.yml)
 - [latch-default](latch-default.yml)
 - [name-scoping](name-scoping.yml)
-- [room-geometry](room-geometry.yml)
+- [record-layer](record-layer.yml)
 - [specimen-placement](specimen-placement.yml)
 - [threshold-trigger](threshold-trigger.yml)
