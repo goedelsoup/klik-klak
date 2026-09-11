@@ -112,6 +112,10 @@ does not re-emit it.
 
 - **:88** — **The `[open]` that remains is narrower and no longer about retrieval.** Not *is there a measured width* — there is one now — but whether a whole-game antichain can stand in for the width of an act when the game has no acts, and what a second, larger game would say. Thimbleweed Park's source is not …
 
+### [moved-ground](moved-ground.yml)
+
+- **:84** — **What this does not settle.** Whether `design/` should hold a proposal this long at all. Seven hundred lines resting on fourteen premises is a document that can only be reconciled in one sitting by somebody who has the whole corpus in mind, and the reconciliation above took a phase. A shorter propo…
+
 ### [priority-edge](priority-edge.yml)
 
 - **:76** — **What this does not settle.** Whether the comparative tier wants a relationship of its own. The argument for one is in this record: `originated-in` cannot reach a 2017 engine, and the tier's whole purpose is comparison across time. The argument against is that nothing in the corpus has needed the e…
@@ -168,7 +172,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**41 open.**
+**42 open.**
 
 ## What nothing cites
 
@@ -179,6 +183,7 @@ nodes, at four times the rate, and it had never been looked at.
 - [binding-axes](binding-axes.yml)
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
+- [moved-ground](moved-ground.yml)
 - [name-scoping](name-scoping.yml)
 - [specimen-placement](specimen-placement.yml)
 

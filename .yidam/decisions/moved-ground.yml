@@ -1,0 +1,84 @@
+id: moved-ground
+summary: >-
+  The proposal this corpus exists to inform had nine of its fourteen premises edited under it in a
+  hundred commits, and nothing anywhere could say so. It is reconciled — four changes, every one a
+  strengthening or a qualification and none a correction — and it gains a watermark the gate
+  enforces, so the next reading is due the moment a premise moves rather than the moment somebody
+  happens to notice.
+context: |
+  `design/bounded-expression-language.md` is 709 lines and `status: proposal`. Its fourteen
+  `rests_on` premises are checked, and what is checked is that the paths resolve —
+  `crates/design-gate/src/lib.rs` says so in its own header: *"`rests_on` proves a path resolves
+  rather than that the node still says what the design thought."*
+
+  **Nine of the fourteen changed in the 102 commits since the document was last edited, by +410
+  lines and −22.** [verified] — `crates/design-gate/tests/premises.rs`. Three of the nine are
+  catalog entries the last four phases rewrote:
+  [ags-manual](../catalog/ags-manual.md) gained the scripting language reference,
+  [ags-source](../catalog/ags-source.md) the forty-eight-entry action table, and
+  [scumm-v5-opcode-reference](../catalog/scumm-v5-opcode-reference.md) eighty-four opcodes.
+
+  The one time this was caught before, it was caught by reading: the document opens by quoting
+  [interaction-table](../corpus/data-format/interaction-table.yml) and immediately withdrawing the
+  quote's first sentence, because AGS's Interaction Editor turned up between the writing and the
+  reading.
+decision: |
+  **The proposal is reconciled, and none of the four changes is a correction.**
+
+  | what moved | what the document said | what it says now |
+  |---|---|---|
+  | [script-boundary](script-boundary.yml) | Layer 1's nine operators, argued into place | and **measured**: they are AGS Script's boolean fragment, complement exactly arithmetic and bitwise |
+  | [script-boundary](script-boundary.yml) | *"Neither engine had a reason to make that argument"* | AGS **had** to answer termination and answered it at runtime — 150,000 iterations, `noloopcheck` to disable the guess |
+  | [unwritten](unwritten.yml) | *"The gap is exactly one thing: composition"* | and composition is **authored once** across four games, so the claim about AGS is measured and the claim about the remedy is not |
+  | [third-population](third-population.yml) | *"SCUMM is the other half and says less"* | it says the same: 24 of its 33 acting opcodes are presentation, a third population |
+
+  **And the document gains a watermark.** `reconciled:` in the front matter names the commit the
+  premises were last read against; the gate fails when any `rests_on` file has a commit after it.
+  Not a date and not an interval — **an event**, and the event is exactly the one that should send
+  somebody back to the document.
+
+  That is the second scheduled reading built in two phases and it works for a reason worth naming.
+  [class-evidence](class-evidence.yml) had to answer the prelude's *"read `.ont.yml` files against
+  your evidentiary rules on a schedule"* and found this repository holds no schedules —
+  [unread-clock](unread-clock.yml) established that the one clock it can declare counts something
+  that is not the age of a question. **A repository that cannot hold a schedule can hold a
+  watermark.** A cadence needs a clock somebody trusts; a watermark needs only a baseline and a
+  comparison, and git supplies both exactly.
+rationale: |
+  **A premise moving is not a defect, which is why nothing was ever going to catch it.**
+
+  Every check in this crate fires on something being wrong. Nine premises grew by four hundred
+  lines and every edit was an improvement — a source read further, a node given its account, a
+  claim gaining a second population. There is no state to call bad and no assertion to violate.
+  What there is instead is a **document whose argument was assembled against evidence that is no
+  longer the evidence**, and the only way to know is to read it again. [inference]
+
+  **The reconciliation found the proposal in better shape than the drift suggested, and that is a
+  result rather than a relief.** Four phases of new evidence produced no correction: the design's
+  central argument — *a bounded predicate language is what makes the checker possible, a
+  general-purpose escape is what makes it impossible* — was made with no knowledge of what was on
+  the far side of AGS's hatch, and reading it turned up an engine aborting scripts at 150,000
+  iterations on a guess. **The document was right about a thing it had not looked at.**
+
+  The one place it is now weaker is its own headline. *"The gap is exactly one thing: composition"*
+  is a measurement of AGS and an argument about this design, and
+  [unwritten](unwritten.yml) put a number on the second half: one `and`, no `or`, in every game
+  anyone has written. The document says so now. That is the honest direction for a proposal to
+  move — the case against it got sharper from this repository's own instruments rather than from
+  an outside objection.
+
+  **The watermark is a claim that somebody read, and nothing proves they read well.** Worth stating
+  plainly, because the field looks like a check and is a signature. What it enforces is that the
+  question gets asked; what it cannot enforce is the quality of the answer, exactly as a review
+  cannot. The alternative — a check that compares a document's sentences to its premises' sentences
+  — is the thing [class-evidence](class-evidence.yml) declined one phase ago on the grounds that
+  both sides are prose, and declining it twice for the same reason is the consistent position
+  rather than a second failure of nerve.
+
+  **What this does not settle.** Whether `design/` should hold a proposal this long at all. Seven
+  hundred lines resting on fourteen premises is a document that can only be reconciled in one
+  sitting by somebody who has the whole corpus in mind, and the reconciliation above took a phase.
+  A shorter proposal per layer would each have fewer premises and would drift independently, which
+  is [record-layer](record-layer.yml)'s question arriving in a third directory: the corpus split
+  claims from decisions, the decisions split arguments from accounts, and `design/` has not split
+  anything. `[open]`

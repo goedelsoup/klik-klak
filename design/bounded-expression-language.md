@@ -1,6 +1,7 @@
 ---
 title: A bounded expression language for authored interaction
 status: proposal
+reconciled: 02cf125a528a6c5e4a246f2e27800e78a7ef49f2
 rests_on:
   - .yidam/corpus/data-format/interaction-table.yml
   - .yidam/corpus/world-flag/boolean-flag.yml
@@ -146,6 +147,15 @@ Every one of those is in the grammar in section 2, and none of them is in the ta
 this document exists to fill is exactly one thing: composition.** Having predicates is not what
 distinguishes this proposal from what AGS shipped. Combining them is.
 
+**Half of that sentence is measured and half is not.** What is counted is AGS. What this design
+*does* with composition was counted later and is thin: across the four specimens in this
+repository the binary connectives appear **once** — one `and`, no `or` — while `not`, which is
+unary and combines nothing, appears ten times
+(`.yidam/decisions/unwritten.yml`). [verified] Either four small games are too little authoring to
+need a second conjunct, or a puzzle guard in this form is usually one condition — which is what
+AGS's nesting-yields-conjunction structure assumed, and is the reading nobody has looked for
+evidence against. The gap is a fact about AGS and an argument about the remedy.
+
 That is a smaller claim than this document opened with and a much harder one to wave at. It also
 means the proposal cannot be defended as *adding conditionals to a declarative layer* — someone
 did that, at this scope, and it is the composition that is untried.
@@ -170,10 +180,18 @@ So the gap is real and narrower than this document claimed. The middle — compo
 conditional command — is still untried. What is no longer available is the comfort of "nobody
 went near it."
 
-SCUMM is the other half and says less. Its v5 opcode table has `print` and `printEgo` and
-nothing that manages a menu of options
-([scumm-v5-opcode-reference](../.yidam/catalog/scumm-v5-opcode-reference.md)) [inference] — there
-was no declarative layer, so there was nothing to bound.
+SCUMM is the other half and was read for one question when this was written. Its v5 opcode table
+has `print` and `printEgo` and nothing that manages a menu of options — there was no declarative
+layer, so there was nothing to bound. [inference]
+
+**Read in full it says the same thing as the other two rather than less.** Eighty-four opcodes:
+of the thirty-three that act, **twenty-four are presentation and nine write world state**, and all
+nine map onto Layer 2's eight effects
+([scumm-v5-opcode-reference](../.yidam/catalog/scumm-v5-opcode-reference.md)) [inference]. Its six
+comparison opcodes are the six in Layer 1's grammar. What it has that neither other system does is
+twenty-two `get*` opcodes reading state into a variable for a later test, which measures a bytecode
+with a variable file rather than an authoring vocabulary.
+`.yidam/decisions/third-population.yml`.
 
 ## 2. The proposal
 
@@ -257,6 +275,15 @@ source. See `.yidam/decisions/exit-archetype.yml`.
 
 Total, pure, read-only. Used wherever the vocabulary currently says *precondition*: an
 interaction's gate, a conversation option's availability, a puzzle's gate.
+
+**This grammar was argued into place and turns out also to be a cut.** AGS Script — the language
+the Interaction Editor escaped *to* — declares twenty-one operators, and **nine of them are the
+nine below**: the same six comparisons and the same three connectives. The complement is exactly
+arithmetic and bitwise, with nothing else in it
+([ags-manual](../.yidam/catalog/ags-manual.md)) [verified]. So Layer 1 is the escape language's
+boolean fragment rather than a separate vocabulary aimed at the same job, and the thing left on
+the far side is arithmetic — which AGS's *declarative* table does not have either.
+`.yidam/decisions/script-boundary.yml`.
 
 ```
 pred    :=  disj
@@ -540,6 +567,16 @@ So the case for the middle is not that authors want it. It is:
 
 Neither engine had a reason to make that argument. SCUMM had no declarative layer to analyse.
 AGS's analysis ended at the first indented line, and the indentation is invisible.
+
+**AGS had to answer the smaller half of it anyway, and answered at runtime.** Its script language
+aborts a `while` loop past 150,000 iterations on the assumption that it has hung, and ships
+`noloopcheck` to disable the assumption for one function — offered for the case of "initializing a
+very large array" ([ags-manual](../.yidam/catalog/ags-manual.md)). [verified] That is termination
+decided by a threshold with a documented escape from the threshold, in the language this
+document's Layer 1 excludes loops to avoid needing. The size of the win is worth stating plainly:
+games ship and the threshold works. What a bounded language buys is not that games stop hanging —
+it is that a checker can answer a question about a game **without running it**.
+`.yidam/decisions/script-boundary.yml`.
 
 **The specimen showed this argument was necessary and not sufficient, and then it was made
 sufficient.** [`lighthouse.game`](specimen/lighthouse.game) carries one deliberate reachable

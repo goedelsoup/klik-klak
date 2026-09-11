@@ -167,7 +167,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 61, "every record, in the order it was created");
+    assert_eq!(all.len(), 62, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -180,7 +180,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (27, 28, 17),
+        (28, 28, 18),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -222,7 +222,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (1, 1),
+        (0, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }

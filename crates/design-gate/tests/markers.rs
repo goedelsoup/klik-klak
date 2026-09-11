@@ -145,7 +145,7 @@ fn the_corpus_carries_nine_questions_and_the_count_is_the_token_count() {
 /// **Three quarters of what this corpus still owes is invisible to every tool it has.**
 ///
 /// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds 9 live
-/// markers; the decision records hold **41 across 37 files**, and they are counted as zero — by
+/// markers; the decision records hold **42 across 38 files**, and they are counted as zero — by
 /// `status`, by `due`, by the index, by everything. There was a third place and this file could
 /// not see it either: twelve more sat on the class pages in a spelling nothing reads, which
 /// `crates/design-gate/tests/pages.rs` now holds at zero. The migration happened quietly: as questions
@@ -166,10 +166,10 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (9, 41, 37));
+    assert_eq!((corpus, decisions, records), (9, 42, 38));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        18,
+        17,
         "under a quarter is visible"
     );
 
