@@ -167,7 +167,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 65, "every record, in the order it was created");
+    assert_eq!(all.len(), 66, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -180,12 +180,12 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (31, 30, 20),
+        (31, 30, 21),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
         (alone, neither),
-        (13, 11),
+        (14, 11),
         "resting on the gate and nothing else, and resting on no evidence path at all"
     );
 }
@@ -207,6 +207,13 @@ fn the_evidence_each_record_rests_on() {
 /// say the run is wrong, it says nobody may extend it without noticing. If this assertion has been
 /// re-pinned upward, phases went to the repository instead of its subject — which may well be
 /// right, and the record that did it should say why.
+///
+/// **It is at one, and the record that did it says why.** `engine-directory` creates a top-level
+/// directory: what rule it relaxes, where its gate lives, which crate owns a shared parser. Not
+/// one of those is a question about adventure games, and none of them could be answered by
+/// reading a source. A structural decision resting on `directories.md` and a precedent record is
+/// what this run is for — it is repository work, correctly identified as such, and the tripwire
+/// did its job by making somebody write this paragraph.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -222,7 +229,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (0, 0),
+        (1, 1),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }

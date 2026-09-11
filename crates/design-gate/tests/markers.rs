@@ -165,10 +165,10 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (8, 45, 41));
+    assert_eq!((corpus, decisions, records), (8, 46, 42));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        15,
+        14,
         "under a fifth is visible"
     );
 

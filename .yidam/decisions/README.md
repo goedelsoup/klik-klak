@@ -74,6 +74,10 @@ does not re-emit it.
 - **:113** — It settles one shape and not the pressure. `definePseudoRoom` built 110 hotel rooms, which is a *room* template; an archetype per shape does not reach shapes nobody anticipated, and that was the argument against archetypes to begin with.
 - **:119** — **What this does not touch.** Whether the tractability figures should be re-earned on a game that can be written in this language. They are correct measurements of the games measured, and the games are honest instances of the shapes they claim to be; what they cannot be is evidence that an *author* …
 
+### [engine-directory](engine-directory.yml)
+
+- **:98** — **What this does not settle.** Whether the engine is one workspace or several, and whether it shares CI with `crates/`. The `mise` tasks here have a no-op-until-it-exists idiom from when `crates/` was deferred and it is reused rather than redesigned, so the shape is inherited from a decision about a…
+
 ### [evidence-kinds](evidence-kinds.yml)
 
 - **:105** — **What this does not settle.** The 150 that name nothing. They are continuations — a node establishes a source once and argues from it for several paragraphs, which is how anyone writes and is the reason the census is a lower bound rather than a measurement. But it means a claim's footing is a fact …
@@ -184,7 +188,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**45 open.**
+**46 open.**
 
 ## What nothing cites
 
@@ -194,10 +198,9 @@ nodes, at four times the rate, and it had never been looked at.
 
 - [binding-axes](binding-axes.yml)
 - [declared-reach](declared-reach.yml)
-- [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
+- [engine-directory](engine-directory.yml)
 - [name-scoping](name-scoping.yml)
-- [specimen-placement](specimen-placement.yml)
 
 ## What each record rests on
 
@@ -213,6 +216,7 @@ list is the one that record holds as a tripwire.
 - [carried-claims](carried-claims.yml)
 - [class-evidence](class-evidence.yml)
 - [drawn-boundary](drawn-boundary.yml)
+- [engine-directory](engine-directory.yml)
 - [inert-reports](inert-reports.yml)
 - [inward-turn](inward-turn.yml)
 - [marker-count](marker-count.yml)
