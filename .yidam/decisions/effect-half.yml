@@ -124,7 +124,14 @@ rationale: |
   the statement of what a bounded authoring language is *for*, and the honest form of it is:
   **these bindings can express what a game means and not what it shows.** A design that wants
   both needs a presentation layer beside the effect list, and nothing here has one or has argued
-  for one. `[open]`
+  for one.
+
+  **Argued for one phase later, and refused on the earning rule.**
+  [presentation-layer](presentation-layer.yml) measured the width — say, play a sound, play an
+  animation, covering 92% of what a shipped game writes in a binding — and declined to adopt the
+  two this design lacks, because no specimen has been unable to write a scene. [verified] The
+  sentence above stands as the statement of the cost; what it says is missing has since been
+  weighed and left out on purpose.
 
   **And the control third is the same story from the other side.** 168 sites — 12.7% — are
   `breaktime`, `startthread`, `breakwhiletalking`, `inputOff`. `effect-list-semantics` refused all

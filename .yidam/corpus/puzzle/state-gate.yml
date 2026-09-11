@@ -88,7 +88,7 @@ properties:
     irreversible; a gate over booleans that some other binding clears is not.
 
     **This asked for a declaration and now has one.** The sentence here used to end "and nothing
-    in the vocabulary makes the difference declarable. [open]" — `world-flag.reversible` is that
+    in the vocabulary makes the difference declarable" and carried a marker — `world-flag.reversible` is that
     difference, and [latched-flag](../world-flag/latched-flag.yml) is the instance that shows
     what a one-way flag is for — and, since the counting, that a one-way flag is what nearly every
     flag is: 32 of 41 in a shipped game, and 9 of 9 in this corpus's own specimens, where the

@@ -88,10 +88,10 @@ properties:
     nothing in its manual about what becomes of the room object. [verified] Two engines, opposite
     choices, about a thing neither of them exposes as a verb.
 
-    What remains `[open]` is the question this assessment could not reach: whether AGS authors
-    actually pay for that gap. `interaction/acquisition-binding` predicts a window in which the
-    object is in neither place, and the manual's silence is consistent with the bug and does not
-    demonstrate it. The AGS forums would likely settle it and nobody here has read them.
+    What this assessment could not reach is whether AGS authors actually pay for that gap. The
+    marker for it is on [acquisition-binding](../interaction/acquisition-binding.yml), which is the
+    node that predicts the window; this one carried a second copy of the same question and now
+    carries a pointer. `.yidam/decisions/testimony.yml` says what kind of question it is.
 links:
   - target: ../prior-art/scumm.yml
     relationship: originated-in

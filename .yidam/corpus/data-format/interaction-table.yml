@@ -179,7 +179,7 @@ properties:
     expressiveness**. `authored_by` already records scale as the untested axis — "twenty-three
     bindings is not a test of scale" — and the same pressure appeared one scale down in
     `.yidam/decisions/arrival-trigger.yml`, where four bindings carried one intent and one copy
-    drifted without anything noticing. That was `[open]` for four phases and it is answered below.
+    drifted without anything noticing. That was open for four phases and it is answered below.
 
     **Measured, and the generation half closes.** A response block's *frame* is every non-space
     character outside a string literal and its *prose* is what is inside one, and across the four
@@ -489,8 +489,10 @@ properties:
     while calling the question its most valuable. What is still genuinely open is *why*: the
     manual reasons about migration hazards and never about the decision, and AGS 3.0 was a
     complete editor rewrite, so removal is as consistent with a rewrite's scope as with a verdict
-    on declarative authoring. [inference] The AGS forums and the 3.0 development discussion would
-    settle it; nobody here has read them. `[open]`
+    on declarative authoring. [inference] The marker for it is
+    [prior-art/ags](../prior-art/ags.yml), which is where the retrievals were attempted and
+    recorded; this node carried a second copy of one question for four phases and now carries a
+    pointer. `.yidam/decisions/testimony.yml` says what kind of question it is.
 
     **What the manual does say about the difference is not expressiveness — it is time.** Two
     behaviours changed, both named: interactions without scripting could previously run alongside
@@ -515,9 +517,10 @@ properties:
     One smaller thing, for the collapse named at the top of this node. The 2.72 action editor's
     box "currently says 'Do nothing'" at the same moment the tutorial says "nothing is set to
     happen in response to any of the events" [inference] — so that system represented *never
-    authored* and *authored to do nothing* with one value. `interaction/unary-binding` names that
-    collapse as `[open]`; here is one system that made the choice, and made it in the direction
-    that loses the distinction. It is also a system with a fixed verb bar, which is what obliges it
+    authored* and *authored to do nothing* with one value. `interaction/unary-binding` carried that
+    collapse as a question and has since closed it — the format makes all three distinctions and the
+    layer that cannot is the checker, which is right not to. Here is one system that made the
+    choice anyway, and made it in the direction that loses the distinction. It is also a system with a fixed verb bar, which is what obliges it
     to make the choice at all. [inference]
 
     A proposal for it is in

@@ -27,7 +27,7 @@ description: |
   **The reason to declare a latch is the checker, not the author — and the reason this node gave
   for that is wrong.** It said a flag that moves one way makes the reachable space "a lattice
   rather than a graph… a walk over a partial order instead of a search over every combination",
-  and marked the performance half `[open]` pending a game large enough to show it. That game was
+  and marked the performance half open pending a game large enough to show it. That game was
   generated and it shows the opposite.
 
   **A lattice over *n* independent monotone variables has 2^n elements. It *is* every
@@ -56,7 +56,7 @@ description: |
   having at all: a property nothing reads is a comment, and this class exists partly to give
   the property a site.
 
-  **That `[open]` is closed, and the answer is no.** It asked for something large enough to show
+  **That question is closed, and the answer is no.** It asked for something large enough to show
   that walking a partial order beats searching. Two generated families answered it: the corridor
   is linear and the hub is exponential, and *both are made entirely of monotone variables*. The
   question was malformed — it treated monotonicity as the property that makes the search cheap,
@@ -134,7 +134,7 @@ description: |
   will break the first time someone writes `door_open`, but it suggests the property will
   usually be predictable from the name and therefore that getting it wrong will be quiet.
 
-  **That `[open]` is closed by counting, and it is most.** Eight names off a screenshot were never
+  **That question is closed by counting, and it is most.** Eight names off a screenshot were never
   going to invert a schema; 41 are. A shipped game's source holds **41 boolean state slots written
   in play, of which 32 move one way — 78.0%** ([delores-source](../../catalog/delores-source.md)).
   [verified] The most common of them is `looked_at`, on ten different objects, always `YES`.

@@ -32,7 +32,10 @@ description: |
   conclusions about whose job it is, which is not a thing that happens about a non-problem.
 
   What the evidence does *not* establish is that AGS authors pay for it. The manual's silence is
-  consistent with the window this node predicts and does not demonstrate it. `[open]`
+  consistent with the window this node predicts and does not demonstrate it, and no source this
+  corpus holds reports what using the thing was like — every one of them is an artifact.
+  `.yidam/decisions/testimony.yml` is where that kind of question is named; this is the marker for
+  it and [verb/pick-up](../verb/pick-up.yml) points here rather than carrying a second. `[open]`
 
   **The ontology's inability to express the second write turned out to be this node counting
   wrong.** A specimen marked the removal unsayable, and the weighing that followed found there is
