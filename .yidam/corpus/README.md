@@ -52,8 +52,9 @@ Sorted by: kind, then alphabetically.
 | [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 8v / 5i / 0o | 111 |
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 6v / 3i / 0o | 73 |
 | [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 3i / 0o | 41 |
-| [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 7 | 4v / 5i / 0o | 96 |
+| [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 8 | 4v / 5i / 0o | 98 |
 | [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 0v / 3i / 0o | 45 |
+| [response-presenter.yml](subsystem/response-presenter.yml) | subsystem | Response Presenter | 3 | 4v / 3i / 0o | 87 |
 | [verb-menu.yml](subsystem/verb-menu.yml) | subsystem | Verb Menu | 3 | 7v / 3i / 0o | 89 |
 | [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 10v / 6i / 0o | 140 |
 | [look-at.yml](verb/look-at.yml) | verb | Look At | 2 | 5v / 5i / 0o | 81 |
