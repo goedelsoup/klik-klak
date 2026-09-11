@@ -1,0 +1,91 @@
+id: settled-surface
+summary: >-
+  The proposal's first unsettled item — *"concrete syntax; everything above is abstract"* — was
+  settled by somebody building it, and the tension it forwards a reader to was resolved in the file
+  it forwards to. Three of that section's eight items are struck through and maintained; this is the
+  one that was not, and it is the one a reader meets first. It is struck now, the node's own stale
+  sentence goes with it, and the reconciliation costs three commits because a chain of documents
+  costs one each.
+context: |
+  Section 5 of [`bounded-expression-language.md`](../../design/bounded-expression-language.md)
+  opens: *"**Concrete syntax.** Everything above is abstract. The surface belongs with
+  `interaction-table.yml` and its unresolved tension between being keyed by verb and target and
+  reading like writing."*
+
+  **Everything above is not abstract.** `crates/game-format` implements a concrete syntax of **50
+  constructs**, and four specimens totalling **662 lines and 91 bindings** are written in it.
+  [verified] — `crates/design-gate/tests/settled.rs`. The same document cites `crates/` **ten
+  times** elsewhere, so this is not a document unaware of the crates.
+
+  **And the tension is resolved in the file the bullet points at.**
+  [interaction-table](../corpus/data-format/interaction-table.yml)'s `authored_by` says a specimen
+  *"resolves it by splitting the two rather than reconciling them: declarations are keyed like
+  data, bindings are written as blocks, and the construct carrying the join is the guarded response
+  list — `when <predicate> "<line>"`, which keys and reads like writing on the same line."* A named
+  construct, in the forwarding address. [verified]
+decision: |
+  **The bullet is struck through and says what settled it, which is the convention this section
+  already has.** Three of its eight items carry `~~…~~ **Settled.**` with the evidence beside them
+  — effect-list semantics, `count item`, and enumerability at scale. The convention was followed
+  three times and missed once, and the miss is the first item on the list.
+
+  | what it said | what settled it |
+  |---|---|
+  | *"Everything above is abstract"* | 50 constructs in `crates/game-format`, four specimens, 662 lines, 91 bindings |
+  | *"its unresolved tension between being keyed by verb and target and reading like writing"* | the guarded response list — `when <predicate> "<line>"` — which does both on one line |
+
+  **The last item gains an address.** *"Nothing here is implemented as an engine. No engine reads
+  this"* is still true and now has somewhere to point:
+  [engine-directory](engine-directory.yml) created `engine/` one phase ago, with a gate and no
+  code. An unsettled item that names a place is a different kind of entry from one that names
+  nothing.
+
+  **And the node's own stale sentence goes with it.** `authored_by` says *"whether that survives a
+  table with real combinatorics is untested; twenty-three bindings is not a test of scale"*, and
+  the next paragraph in the same property is 203 bindings from a shipped game concluding the
+  explosion *"does not appear"*. [verified] It is also 91 bindings across four specimens now rather
+  than twenty-three. The sentence is corrected rather than deleted, because what it was right about
+  — that a specimen count is not a scale test — is the reason the shipped game was read.
+rationale: |
+  **A proposal's unsettled list is the part that goes stale fastest, and for a reason that is not
+  carelessness.** A reader who meets *"this is unsettled"* has been told there is nothing to check,
+  and moves on. Every other paragraph in that document makes a claim somebody might test; the
+  unsettled list makes the one claim nobody tests, which is that the question is still open.
+  [inference] Three of eight were maintained here, so the practice exists — what it lacks is
+  anything that brings a reader back.
+
+  **The forwarding worked and the return path did not.** The bullet's whole content is an address,
+  the address has the answer, and nothing walks the pointer in reverse. That is
+  [design-directory](design-directory.yml)'s own argument for `rests_on:`, arriving as the thing it
+  predicted: *"a corpus node that goes stale is caught by a reader eventually, because the corpus
+  is what gets re-read. A design document is not."* The node was re-read — four phases wrote into
+  that property — and the document was not.
+
+  **The watermark could not have caught this and is not at fault.** `interaction-table.yml` has
+  moved under the proposal repeatedly and every move was reported; what the mark asks is that
+  somebody read the document, and the reading happened four times without anyone opening section
+  5. A check that a reader looked cannot be a check that they looked at the right paragraph. That
+  limit is already written in `design/README.md` and this is its first concrete instance.
+
+  **The chain costs a commit per document, and two of them fail the gate.** Correcting a premise
+  the proposal rests on takes: one commit changing the node and the prose, one moving the
+  proposal's mark, one moving the specimen document's mark — because
+  [`design/specimen/README.md`](../../design/specimen/README.md) rests on the proposal, so moving
+  the proposal's mark *is* a commit touching its premise. **The first two fail `mise run ci`**,
+  which is not a defect and is worth stating: the gate reports ground that moved and documents
+  that have not been read against it, and during a reconciliation that description is accurate.
+  [verified] — `crates/design-gate/tests/watermark.rs` records the rule.
+
+  This is a real cost of the instrument, it is linear in the depth of the chain, and it sharpens
+  [moved-ground](moved-ground.yml)'s open question about splitting `design/`: **more documents mean
+  more marks to move, and splitting a proposal into layers would make every premise change more
+  expensive rather than less.** That is an argument against the split which that record did not
+  have, and it is the first evidence in either direction.
+
+  **What this does not settle.** Whether an unsettled list should be a list at all. Three items
+  here are struck through and kept, which makes the section a record of what was asked as well as
+  what is open — good for a reader who wants the history and bad for one who wants the current
+  state, since eight bullets now mean five questions. The alternative is moving settled items into
+  the body where they were answered and leaving the list live, which loses the record of having
+  asked. [record-layer](record-layer.yml) made the same trade for corpus prose in the other
+  direction and has not revisited it. `[open]`
