@@ -666,34 +666,42 @@ because a bare `looked_at = YES` is one slot per object and not one slot written
 passes over 45 `.dinky` files and 11 `.yack` files supply it: the first collects every literal —
 `DEFINE_ROOM("Bathroom", {`, and the nested `sink = DEFINE_OBJECT({` inside it — and the fields
 declared in each, the second resolves every assignment against the scope chain it stands in.
-**180 literals, 1,122 declared fields, 139 writes with a resolved owner and 74 without.** The
+**195 literals, 1,153 declared fields, 139 writes with a resolved owner and 74 without.** The
 unresolved ones are overwhelmingly engine fields written through a parameter — `star`, `name`,
 `position`, `xUsePos`, `text` — rather than game state, and they are excluded rather than guessed.
+
+**The reader got one literal form wrong and the figures moved.** Its first version recognised
+`sink = DEFINE_OBJECT({` and not `glass = DEFINE_INVENTORY("glass", {`, so all sixteen inventory
+items flattened onto the `Inventory` container — reproducing, in a new form, the exact error this
+entry had already recorded as making a census unusable. It was caught by a different question
+asking the same data for each object's verbs, and the corrected reader finds 195 literals against
+180 and 41 boolean slots against 40. The direction did not change and the numbers did, which is why
+they are stated here rather than described.
 
 A field's *initialiser* is not a write: `gave_toy = NO` at the top of `DEFINE_ACTOR("chuckie", {`
 and `GLOBAL(letter_mailed) <- NO` at the top of `Globals.dinky` are declarations, and both of those
 slots are one-way once they are read as such.
 
-**40 boolean state slots are written at least once in play. 31 move one way and 9 come back.**
+**41 boolean state slots are written at least once in play. 32 move one way and 9 come back.**
 
 | | |
 |---|---|
-| written one way only | **31** — 77.5% |
-| written both ways | **9** — 22.5% |
+| written one way only | **32** — 78.0% |
+| written both ways | **9** — 22.0% |
 | the most common of them | `looked_at`, on 10 different objects, always `YES` |
-| non-boolean slots written | 46, over 82 writes |
+| non-boolean slots written | 46, over 81 writes |
 
 **The naming convention that node guessed at holds in one direction and not the other.** It
 proposed, from the eight names, that *"every latch there is named for an event in the past tense —
 talked to, ate, picked up, saw — and the one reversible flag is named for a state."* Classifying
-all 40 by name:
+all 41 by name:
 
 | | one way | both ways |
 |---|---|---|
 | named for an event — `looked_at`, `took_photo`, `tried_switch`, `sploded`, `gave_toy` | **25** | 1 |
-| named for a condition — `lights_on`, `inUse`, `busy`, `broken`, `typing` | 6 | **8** |
+| named for a condition — `lights_on`, `inUse`, `busy`, `broken`, `typing` | 7 | **8** |
 
-So a past-tense name predicts a latch at 25 of 26, and a condition name predicts nothing — 8 of 14.
+So a past-tense name predicts a latch at 25 of 26, and a condition name predicts nothing — 8 of 15.
 The convention is a one-way test, which is worth more than a rule of thumb and less than a
 declaration, and it cannot be read by a checker either way.
 

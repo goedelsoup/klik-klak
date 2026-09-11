@@ -5,7 +5,7 @@
 //! Nothing here changes the default, because eight names is not enough to invert a schema on."*
 //! Those eight names came from a screenshot of a save file in a blog post.
 //!
-//! A shipped game's source says **31 of 40** boolean state slots are written one way and never
+//! A shipped game's source says **32 of 41** boolean state slots are written one way and never
 //! back ([delores-source]). So it is most, and the default is the wrong way round in two places:
 //! in the ontology's property, and in this format, where `latched` is the word you type to get the
 //! behaviour that is already true 78% of the time.

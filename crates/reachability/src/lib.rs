@@ -83,7 +83,7 @@ pub struct Report {
     ///
     /// The mirror of [`Report::latch_violations`], and it exists because the default is the
     /// wrong way round. `world-flag/latched-flag` weighed eight flag names from a blog post and
-    /// declined to invert the schema on them; a shipped game's source says **31 of 40** boolean
+    /// declined to invert the schema on them; a shipped game's source says **32 of 41** boolean
     /// state slots move one way. An author writing the common case out by hand will sometimes
     /// not, and this is the one direction the checker could not previously see: a declaration
     /// that is true and absent costs nothing to make and buys the guarantee.

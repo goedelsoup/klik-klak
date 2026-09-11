@@ -25,7 +25,7 @@ properties:
       gate over a counter that only increments is irreversible and a gate over clearable
       booleans is not, and until now nothing made the difference declarable.
 
-      Its default of `no` was a guess and has been measured: 31 of the 40 boolean state slots a
+      Its default of `no` was a guess and has been measured: 32 of the 41 boolean state slots a
       shipped game writes in play move one way, and of the nine that come back, seven need
       machinery — a change callback, a span, an actor's own thread — that this design refused for
       unrelated reasons. So the default is right here for a stronger reason than it is right

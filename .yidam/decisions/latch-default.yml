@@ -1,6 +1,6 @@
 id: latch-default
 summary: >-
-  Most flags latch — 31 of 40 boolean slots in a shipped game, and 9 of 9 here — so the ontology's
+  Most flags latch — 32 of 41 boolean slots in a shipped game, and 9 of 9 here — so the ontology's
   `reversible: no` default is confirmed rather than inverted. The format's opposite polarity stays:
   `latched` is typed seven times in this corpus and `clearable` would be typed never, and this
   repository does not swap an evidenced construct for an unevidenced one. What the question was
@@ -18,8 +18,8 @@ context: |
   its bindings four times without once asking which direction its state moves. [inference] The same
   shape as `.yidam/decisions/measured-width.yml`, one node over.
 decision: |
-  **Counted, and it is most.** 40 boolean state slots written in play, **31 one way and 9 both —
-  77.5%** ([delores-source](../catalog/delores-source.md)). [verified] The commonest is `looked_at`,
+  **Counted, and it is most.** 41 boolean state slots written in play, **32 one way and 9 both —
+  78.0%** ([delores-source](../catalog/delores-source.md)). [verified] The commonest is `looked_at`,
   on ten different objects, always `YES`.
 
   **The antecedent holds and the consequent is refused, in three parts.**
@@ -50,7 +50,7 @@ rationale: |
 
   This design refused every one of those separately and for unrelated reasons — no derived values
   and no occasion but a binding (`arrival-trigger`, `threshold-trigger`), no duration
-  (`effect-list-semantics`), no autonomous actor. [inference] So the base rate here is not 77.5% but
+  (`effect-list-semantics`), no autonomous actor. [inference] So the base rate here is not 78.0% but
   9 of 9, and the two mechanisms a shipped game does use that this vocabulary keeps are the two that
   are a pair of ordinary bindings.
 
@@ -62,7 +62,7 @@ rationale: |
 
   **The naming convention holds in one direction only.** The rule guessed from eight names — latches
   are named for a past event, reversible flags for a state — predicts a latch from a past-tense name
-  at **25 of 26**, and predicts nothing from a condition name, where 8 of 14 come back. [verified] A
+  at **25 of 26**, and predicts nothing from a condition name, where 8 of 15 come back. [verified] A
   one-way test is worth more than a rule of thumb and less than a declaration, and a checker can
   read neither.
 
