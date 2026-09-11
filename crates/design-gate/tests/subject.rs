@@ -1,0 +1,209 @@
+//! **Seven consecutive phases put five percent of their lines in the thing this repository is
+//! about.**
+//!
+//! The window is closed and the figures are permanent: from the commit before `phase:
+//! spatial-reach` to `phase: priority-edge`, 31 commits and **+2,634 lines**. Of those,
+//! `.yidam/corpus/` took **146**. `crates/design-gate/` took **1,721**. `design/`,
+//! `crates/reachability/` and `crates/game-format/` took **none at all** — the specimens, the
+//! checker and the format were not edited once in seven phases.
+//!
+//! `design-gate` is the instrument that reads the corpus. It is not the engine and it is not the
+//! subject, and `.claude/CLAUDE.md` names the confusion directly: *"`crates/` is not the engine.
+//! The engine is what the corpus describes… conflating them is this repository's characteristic
+//! mistake."*
+//!
+//! **The records say the same thing about themselves, permanently and one at a time.** A decision
+//! rests on a catalog entry, on the engine crates, or on this gate, and which it cites is a fact
+//! about what kind of question it answered. Six of the newest cite no document. Four rest on the
+//! gate alone.
+//!
+//! None of those phases was wrong and their findings were real. What they were not is about
+//! point-and-click adventure games.
+
+use design_gate::repo_root;
+use std::path::Path;
+use std::process::Command;
+
+/// The closed window: the last phase whose work reached the corpus in quantity, to the last phase
+/// before this one. Named by commit subject rather than by hash, so the anchors are readable and
+/// a rebase that rewrites them is a failure rather than a silent drift.
+const FROM: &str = "^phase: spatial-reach";
+const TO: &str = "^phase: priority-edge";
+
+fn git(root: &Path, args: &[&str]) -> String {
+    let out = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(args)
+        .output()
+        .expect("git runs");
+    assert!(out.status.success(), "git {args:?} failed");
+    String::from_utf8_lossy(&out.stdout).trim().to_string()
+}
+
+fn phase(root: &Path, grep: &str) -> String {
+    let found = git(root, &["log", "--format=%H", "--grep", grep]);
+    let sha = found
+        .lines()
+        .next()
+        .unwrap_or_else(|| panic!("no commit matching {grep:?} — the window's anchor is gone"));
+    sha.to_string()
+}
+
+/// Lines added under a path across the window.
+fn added(root: &Path, from: &str, to: &str, path: &str) -> usize {
+    git(
+        root,
+        &["diff", "--numstat", &format!("{from}^1"), to, "--", path],
+    )
+    .lines()
+    .filter_map(|l| l.split('\t').next()?.parse::<usize>().ok())
+    .sum()
+}
+
+/// Every decision record in the order it was created.
+fn records(root: &Path) -> Vec<String> {
+    let log = git(
+        root,
+        &[
+            "log",
+            "--reverse",
+            "--format=%H",
+            "--diff-filter=A",
+            "--name-only",
+            "--",
+            ".yidam/decisions/",
+        ],
+    );
+    let mut out: Vec<String> = Vec::new();
+    for line in log.lines() {
+        if !line.starts_with(".yidam/decisions/") || !line.ends_with(".yml") {
+            continue;
+        }
+        if out.iter().any(|p| p == line) || !root.join(line).exists() {
+            continue;
+        }
+        out.push(line.to_string());
+    }
+    out
+}
+
+/// What a record's own prose points at for evidence.
+#[derive(Debug, PartialEq, Eq)]
+struct Rests {
+    document: bool,
+    engine: bool,
+    gate: bool,
+}
+
+fn rests(root: &Path, rel: &str) -> Rests {
+    let src = std::fs::read_to_string(root.join(rel)).expect("readable");
+    Rests {
+        document: src.contains("catalog/"),
+        engine: src.contains("crates/reachability") || src.contains("crates/game-format"),
+        gate: src.contains("design-gate"),
+    }
+}
+
+/// **Seven phases, and the corpus took five percent.**
+///
+/// A closed window, so these numbers are history rather than a pin that decays. What they measure
+/// is where seven phases of real work went: `.yidam/decisions/` and the gate that reads it, and
+/// **not once** into the specimens, the checker or the format.
+///
+/// The 146 lines the corpus did take are almost all nodes writing about their own bookkeeping —
+/// *"Nothing points at this node"*, *"It was silenced two phases later"* — which is the corpus
+/// describing the repository rather than the subject, one level further in.
+#[test]
+fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
+    let root = repo_root();
+    let (from, to) = (phase(&root, FROM), phase(&root, TO));
+
+    let corpus = added(&root, &from, &to, ".yidam/corpus");
+    let decisions = added(&root, &from, &to, ".yidam/decisions");
+    let gate = added(&root, &from, &to, "crates/design-gate");
+    let total = added(&root, &from, &to, ".");
+    assert_eq!(
+        (corpus, decisions, gate, total),
+        (146, 711, 1721, 2634),
+        "the corpus, the records, the instrument that reads them, and everything"
+    );
+    assert_eq!(
+        corpus * 100 / total,
+        5,
+        "the share that reached the subject"
+    );
+
+    for untouched in ["design", "crates/reachability", "crates/game-format"] {
+        assert_eq!(
+            added(&root, &from, &to, untouched),
+            0,
+            "{untouched} was edited during the window, which would make this finding smaller"
+        );
+    }
+}
+
+/// **A record says what kind of question it answered, by what it cites.**
+///
+/// Three evidence paths, and they are not interchangeable. A catalog entry is a document about
+/// adventure games. `crates/reachability` and `crates/game-format` are the checker and the format
+/// — an argument resting on them is an argument about this design. `crates/design-gate` reads the
+/// corpus itself, so a record resting only on it has answered a question about the repository.
+///
+/// All three are legitimate and the last is the one nothing could count.
+#[test]
+fn the_evidence_each_record_rests_on() {
+    let root = repo_root();
+    let all = records(&root);
+    assert_eq!(all.len(), 55, "every record, in the order it was created");
+
+    let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
+    for rel in &all {
+        let r = rests(&root, rel);
+        document += usize::from(r.document);
+        engine += usize::from(r.engine);
+        gate += usize::from(r.gate);
+        alone += usize::from(r.gate && !r.document && !r.engine);
+        neither += usize::from(!r.document && !r.engine && !r.gate);
+    }
+    assert_eq!(
+        (document, engine, gate),
+        (26, 27, 15),
+        "records citing a document, the engine crates, and the gate — they overlap"
+    );
+    assert_eq!(
+        (alone, neither),
+        (11, 9),
+        "resting on the gate and nothing else, and resting on no evidence path at all"
+    );
+}
+
+/// **Four of the newest records rest on the gate alone, and six cite no document.**
+///
+/// A run, not a total, and that is the point: it rises with every phase that asks a question about
+/// the repository and resets the moment one asks about adventure games. It has never been this
+/// long.
+///
+/// **This is a tripwire rather than a gauge**, in the sense `unread-clock` settled one phase ago:
+/// it does not say the run is wrong, it says nobody may extend it without noticing. If this
+/// assertion has been re-pinned upward, another phase went to the repository instead of its
+/// subject — which may well be right, and the record that did it should say why.
+#[test]
+fn the_newest_records_have_not_needed_a_document() {
+    let root = repo_root();
+    let all = records(&root);
+
+    let run = |f: &dyn Fn(&Rests) -> bool| {
+        all.iter()
+            .rev()
+            .take_while(|rel| f(&rests(&root, rel)))
+            .count()
+    };
+    let no_document = run(&|r: &Rests| !r.document);
+    let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
+    assert_eq!(
+        (no_document, gate_alone),
+        (6, 4),
+        "consecutive newest records citing no catalog entry, and resting on the gate alone"
+    );
+}
