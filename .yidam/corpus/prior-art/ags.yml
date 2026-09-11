@@ -111,7 +111,7 @@ properties:
     [verified] The declarative action list was sequential and blocking by default; the language it
     was converted into was not.
 
-    **Why it was removed is `[open]`, was looked for directly, and was not found.** The manual
+    **Why it was removed was looked for directly and was not found.** The manual
     reasons about migration hazards and never about the decision; it opens by calling 3.0 "this new
     editor" and "a massive improvement over the old one", and 3.0 was a full editor rewrite, so
     removal is as consistent with a rewrite's scope as with a judgement about declarative
@@ -127,6 +127,14 @@ properties:
     and about the eight dialog commands — and it is a worse bet than it looked a phase ago, since
     the thing removed turns out to have been forty-eight commands with a type system rather than
     something thin.
+
+    Three retrievals failing is not three accidents. The code, the manual and the interview are
+    artifacts, and an artifact records what was built rather than why anybody decided to build it —
+    which [delores-source](../../catalog/delores-source.md) states about its own kind in one line:
+    *"No design commentary. The source says what was built and never why."*
+    `.yidam/decisions/testimony.yml` names the class of question this belongs to, and this node is
+    where it is tracked; [data-format/interaction-table](../data-format/interaction-table.yml)
+    points here rather than carrying a second copy. `[open]`
   source_standing: |
     Eight pages of the manual source read on 2026-09-09, listed with what was and was not looked
     for in [the catalog entry](../../catalog/ags-manual.md), which is where that record lives

@@ -81,11 +81,15 @@ rationale: |
   the ones that are written can be told apart by the format or only by the author**, and that is
   a question about keys rather than about quantity.
 
-  **What this does not settle.** Whether a design that admits a binary verb should also let an
-  author say a verb is not offered here — the availability half of what
+  **What this did not settle, and the phase after it did.** Whether a design that admits a binary
+  verb should also let an author say a verb is not offered here — the availability half of what
   [frame-width](frame-width.yml) withdrew a rule over. A drag that matches nothing is that
-  distinction implemented, and it is the reason those 50,473 cells cost nothing; this vocabulary has
-  no way to spell it. `[open]`
+  distinction implemented, and it is the reason those 50,473 cells cost nothing.
+
+  *"This vocabulary has no way to spell it"* was wrong within a phase.
+  [availability](availability.yml) found the form already in the language — a `when` with nothing
+  under it withholds the binding — and [verb-menu](verb-menu.yml) is the component that reads it.
+  [verified]
 
   And the other thing the measurement did not touch: `ambiguous_cells` proves disjointness rather
   than overlap, so `or` is reported as inseparable. Nothing in the corpus writes one in a colliding

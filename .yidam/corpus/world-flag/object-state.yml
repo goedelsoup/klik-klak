@@ -37,7 +37,7 @@ description: |
   authored in the same commit, which is the rule
   [room-manifest](../data-format/room-manifest.yml) states.
 
-  **That `[open]` is closed and the answer is that it collapses.** It asked whether this is a
+  **That question is closed and the answer is that it collapses.** It asked whether this is a
   `counter-flag` for a checker, and said the answer turned on which of two arguments it stands
   on: legibility to a human, or the archetype. **It is the archetype, and this design has no
   archetypes.** Delores needs `"open"` to be a name because `door_verbs = YES` synthesises

@@ -36,8 +36,9 @@ properties:
   player_visible: |
     No. The player experiences a shorter conversation, not a broken one, and has no way to know
     content existed. [inference] That invisibility is why this is under-reported rather than
-    rare — and it is `[open]` whether AGS authors experienced it as a loss at all, which the
-    project's own forums might answer and nobody here has read.
+    rare. Whether AGS authors experienced it as a loss at all is a question about people rather
+    than about artifacts, and every source this corpus holds is an artifact —
+    `.yidam/decisions/testimony.yml`. `[open]`
 links:
   - target: ../conversation/branching-tree.yml
     relationship: arises-from

@@ -1,0 +1,68 @@
+id: testimony
+summary: >-
+  Three of the seven questions this corpus still carries are the same question in different clothes:
+  what an AGS author experienced or intended. They have resisted four retrievals because the corpus
+  holds three AGS artifacts and no AGS testimony, while the other house it studies has supplied
+  both. The gap is in the *kind* of source, it is on one side only, and it is the reason questions
+  about Gilbert's work keep closing and questions about Chris Jones's do not.
+context: |
+  Five markers across five nodes reduced to two questions and then to one kind.
+
+  - **Why AGS 3.0 removed the Interaction Editor** — [prior-art/ags](../corpus/prior-art/ags.yml),
+    with a second copy in [interaction-table](../corpus/data-format/interaction-table.yml) that is
+    now a pointer.
+  - **Whether AGS authors pay for the acquisition gap** —
+    [acquisition-binding](../corpus/interaction/acquisition-binding.yml), with a second copy in
+    [verb/pick-up](../corpus/verb/pick-up.yml) that is now a pointer.
+  - **Whether AGS authors experienced an orphaned dialogue branch as a loss** —
+    [orphaned-dialogue-branch](../corpus/failure-mode/orphaned-dialogue-branch.yml).
+
+  Each has stood for phases with the same note under it: the forums would settle it and nobody here
+  has read them. [ags-source](../catalog/ags-source.md) records **three retrievals attempted and
+  none producing it** — the Adventure Classic Gaming interview with Chris Jones, which covers 3.0
+  as "a complete re-write of the editor" and never mentions the Interaction Editor, and two forum
+  searches returning the manual's removal note and nothing behind it. [verified]
+decision: |
+  **These are not unanswerable and they are not retrieval failures. They are a source-type gap, and
+  it is on one side.** Sorting the eight catalogued sources by what they are rather than what they
+  are about:
+
+  | | artifacts — what was built | testimony — what a maker says |
+  |---|---|---|
+  | Gilbert / Terrible Toybox | `delores-source` | `twp-dev-diary`, `grumpy-gamer-pdc` |
+  | Chris Jones / AGS | `ags-manual`, `ags-272-manual`, `ags-source` | **none** |
+  | Lucasfilm / SCUMM | `scumm-v5-opcode-reference` | none (`wikipedia-scumm` is tertiary) |
+
+  **Every question of this kind the corpus carries is an AGS question, and AGS is the row with no
+  testimony.** [verified] for the classification, [inference] for reading the two as connected —
+  though the connection is not much of a leap: an artifact records what was built and never why, a
+  fact [delores-source](../catalog/delores-source.md) states about its own kind in one line — *"No
+  design commentary. The source says what was built and never why."*
+
+  **So the three stay open, labelled rather than retried.** A fourth search of the same kind of
+  document is the move this record exists to stop. What would settle them is an AGS source of the
+  type the corpus has two of for the other house, and the interview already retrieved shows the
+  kind is reachable — that attempt failed on the document, not on the category.
+rationale: |
+  **The asymmetry explains a pattern nobody had connected.** Questions about Gilbert's work keep
+  closing and questions about Jones's do not, and it is not because one body of work is better
+  documented. [measured-width](measured-width.yml) closed by pairing the shipped source with the
+  designer's own prescription off `grumpy-gamer-pdc`; [duplication](duplication.yml) closed on two
+  diary authors describing why they reached for the escape hatch; `escape-hatch` rests on both.
+  Each of those needed an artifact **and** a maker saying something, and on the Gilbert side both
+  were in the catalog. [inference]
+
+  **It also explains why the corpus kept mistaking the questions for retrievals.** A marker reading
+  *"the forums would settle it and nobody here has read them"* describes a document that has not
+  been fetched, which is a task. Written as *"this corpus has no testimony from this house"* it
+  describes a hole in the catalog, which is a different task and a smaller one — the AGS forums,
+  the 2007-2008 beta threads, and Chris Jones's own writing are all public. [inference] Nothing
+  here retrieves them, because a retrieval is a phase and this is a classification.
+
+  **What this does not settle.** Whether testimony and artifact should carry different evidence
+  standing. The prelude is explicit that `[verified]` is about provenance rather than confidence,
+  and a diary entry is a committed source in exactly the way a header file is; `measured-width`
+  quotes Gilbert's *"two or three"* at `[verified]` and then measures the code and finds the
+  practice is different. That is testimony being checked against an artifact and losing, which
+  suggests the two are not interchangeable evidence for the same claim — and nothing in this
+  corpus's tag vocabulary says which claim each supports. `[open]`

@@ -104,6 +104,13 @@ rationale: |
 
   Under `effect-half`'s rule it is not a new effect. `Move` already realises `occupies`; what is
   missing is an argument place, and eight variants over six relationships stays true. The cost is
-  not zero and is why it stays `[open]`: a checker that tracks *n* actors' rooms multiplies its
-  state space by rooms^n, and the mitigation is the one `observed_space` already uses — track
-  only the actors some precondition asks about, which is free when nobody asks. `[open]`
+  not zero: a checker that tracks *n* actors' rooms multiplies its state space by rooms^n, and the
+  mitigation is the one `observed_space` already uses — track only the actors some precondition
+  asks about, which is free when nobody asks.
+
+  **Done, by the phase after this one, in exactly that shape.** `move <actor> to <room>` and
+  `<actor> in <room>` were added as a pair, `Effect::Move` carries the argument place with `None`
+  for the player, and the cost is rooms^n over the actors a game moves and nothing otherwise —
+  the mitigation this paragraph named. [verified] [actor-position](actor-position.yml) is the
+  record and `patrol.game` is the specimen. The marker that stood here was answered one phase
+  later and outlived the answer by six.

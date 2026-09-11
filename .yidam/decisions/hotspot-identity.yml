@@ -65,7 +65,9 @@ rationale: |
   That is a better answer than the one the node asked for. A second game would not settle it; a
   second game *with geometry in scope* would, and so would reading the geometry this corpus already
   has and has never opened. The 307 KB of `.wimpy` files are where those regions actually are, and
-  they are the corpus's longest-standing unread artifact.
+  they were the corpus's longest-standing unread artifact and have since been read in full; what
+  is still unread there is the lighting and the parallax layers, both presentation
+  ([delores-source](../catalog/delores-source.md)).
 
   **What this does not decide.** Whether a design that did include geometry should have one relation
   or three. Nothing here bears on it, and the three are genuinely different — a part is contained by

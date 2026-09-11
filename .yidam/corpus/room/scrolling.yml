@@ -13,7 +13,7 @@ description: |
   they would not otherwise need, and an edge from those classes to *this* form is what makes
   the dependency legible.
 
-  **That `[open]` is closed, and the answer is neither of the two it offered.** It asked whether
+  **That question is closed, and the answer is neither of the two it offered.** It asked whether
   `extent` belongs on the room or on a camera the ontology does not have. A shipped engine's room
   files declare **both, as two fields side by side**: `room_size` is the extent of the background
   image, and `room_bounds` is a rectangle in the same coordinates naming where the camera may go

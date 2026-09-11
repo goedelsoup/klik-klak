@@ -32,7 +32,7 @@ description: |
   examples: a declarative room file *is* the natural place to catch geometry mistakes, and the
   mistakes it can catch are not the ones that are obvious from a distance. [inference]
 
-  **That `[open]` is closed, and by evidence rather than by choosing.** It asked what this node
+  **That question is closed, and by evidence rather than by choosing.** It asked what this node
   is an instance of. `yidam query 'prior-art -reads-> data-format'` returned nothing and reported
   `relationship-unauthored` — the ontology declared `reads` and no instance authored it — and the
   question was whether `data-format` instances are format *kinds*, of the sort many engines have,
@@ -74,7 +74,7 @@ properties:
     is written directly. A format that survives round-tripping through a tool without losing
     hand-written structure is a real constraint on the syntax and is not yet specified.
 
-    **That `[open]` is closed by watching one do it, and the answer is unattractive: it survives by
+    **That question is closed by watching one do it, and the answer is unattractive: it survives by
     never removing anything.** 22 room files written and rewritten by the Wimpy editor over a
     game's development ([delores-source](../../catalog/delores-source.md)):
 
