@@ -258,6 +258,10 @@ fn binary_frame(src: &str) -> usize {
 /// more**, because every one of them has to say `carrying <item>` in a guard, and that is a thing
 /// the key was saying for free.
 ///
+/// The two totals fell by eight when `availability` deleted two unreachable refusals, both of them
+/// on binary bindings and both there because the key had already refused. The difference between
+/// them did not move.
+///
 /// `binary-dimension` reached the same conclusion structurally — the reduction *"moves the item is
 /// carried out of the first group and into the third"* — and filed the authoring cost as
 /// unmeasured. It is a fifteen per cent surcharge, and it is uniform: every site pays eleven or
@@ -269,7 +273,7 @@ fn writing_the_reduction_costs_more_than_the_key_it_removes() {
         before += binary_frame(src);
         after += binary_frame(&unarise_source(src));
     }
-    assert_eq!((before, after), (826, 950));
+    assert_eq!((before, after), (818, 942));
     assert!(after * 100 > before * 114 && after * 100 < before * 116);
 }
 

@@ -244,7 +244,7 @@ fn a_large_game_at_the_prescribed_width_is_small() {
 /// about tractability, quoted in `world-flag/latched-flag` and in the design. **The games that
 /// carry that argument are games this vocabulary could not express.**
 ///
-/// The numbers, at the sizes the tests above actually run: 664 lines of hand-authored game across
+/// The numbers, at the sizes the tests above actually run: 662 lines of hand-authored game across
 /// four specimens, and 6,315 generated across seventeen. `.yidam/decisions/duplication.yml` is
 /// the record.
 #[test]
@@ -270,7 +270,7 @@ fn the_corpus_generates_ten_times_the_game_source_it_can_write() {
         generated += acts(k, w).lines().count();
     }
 
-    assert_eq!(authored, 664, "four specimens, by hand");
+    assert_eq!(authored, 662, "four specimens, by hand");
     assert_eq!(generated, 6315, "seventeen games, by loop");
     assert!(
         generated > 9 * authored,

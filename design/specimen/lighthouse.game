@@ -134,7 +134,6 @@ room base
       ?? THE TRAP, and it is now expressible. The oil is gone and the lamp cannot be
       ?? filled. Reachable, silent, unwinnable — and visible to a checker for the first
       ?? time, because `spend` is an edge rather than a sentence in the response text.
-      else  "It squeals."
 
   hotspot stair "a spiral stair"
     look-at:

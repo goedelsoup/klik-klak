@@ -117,4 +117,3 @@ room far
     use-with lantern:
       say   "By lantern-light the bar lifts clear, and the road beyond it is dry."
       ending
-      else  "You can feel the bar but not the catch."

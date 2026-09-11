@@ -135,3 +135,116 @@ fn an_unauthored_cell_is_not_reachable_and_nothing_stands_in_for_it() {
         "six verbs against a new target is six cells, and none of them is a transition"
     );
 }
+
+/// Strip every refusal from all four specimens — every bare `else "<line>"` and every
+/// `otherwise` — and nothing moves. Not a state, not a transition, not a stranding.
+///
+/// That is the same fact as `a_response_that_writes_nothing_is_not_a_transition`, one layer along,
+/// and it is why the question this corpus opened twice — whether a failing guard should refuse or
+/// simply not offer the verb — **cannot be settled by anything in this repository**. `offered`
+/// gates on `when` at all three sites and the model carries no text, so the two readings are the
+/// same program. `.yidam/decisions/availability.yml`.
+#[test]
+fn deleting_every_refusal_moves_no_figure() {
+    for src in [FERRY, LIGHTHOUSE, NIGHTWATCH, PATROL] {
+        let stripped: String = src
+            .lines()
+            .filter(|l| {
+                let t = l.trim();
+                !(t.starts_with("otherwise")
+                    || (t.starts_with("else") && !t.starts_with("else when")))
+            })
+            .map(|l| format!("{l}\n"))
+            .collect();
+        assert_ne!(stripped, src, "the strip must apply");
+        let (a, b) = (analyse(&load(src)), analyse(&load(&stripped)));
+        assert_eq!(
+            (a.states, a.transitions, a.winnable, a.strandings.len()),
+            (b.states, b.transitions, b.winnable, b.strandings.len()),
+        );
+    }
+}
+
+/// **The vocabulary already spells both, and the specimens never choose.**
+///
+/// A `when` with no refusal under it is legal and occurs three times in 662 authored lines: twice
+/// on a conversation option, where an unavailable choice is simply not shown, and once on an
+/// `on-enter`, where `interaction/entry-binding` argued a refusal *cannot* exist because nobody
+/// tried anything. Every one of the seventeen gated bindings on a hotspot verb carries a refusal —
+/// no exceptions, in four games by one hand. (A `when <pred> "<line>"` clause is not a gate: it
+/// selects a line inside a response that always applies, which is the other eleven.)
+///
+/// So the bare `when` means *not offered* at both sites where it appears, and the author has never
+/// once reached for it where a refusal was possible.
+#[test]
+fn a_gate_without_a_refusal_appears_only_where_a_refusal_is_impossible() {
+    let (mut bare_verb, mut bare_option, mut bare_enter, mut gated_verb) = (0, 0, 0, 0);
+    for src in [FERRY, LIGHTHOUSE, NIGHTWATCH, PATROL] {
+        let lines: Vec<&str> = src.lines().collect();
+        let mut i = 0;
+        while i < lines.len() {
+            let t = lines[i].trim();
+            let head = t
+                .strip_suffix(':')
+                .map(|h| h.split_whitespace().next().unwrap_or(""));
+            let kind = match head {
+                Some("on-enter") => "enter",
+                Some(h)
+                    if [
+                        "look-at", "pick-up", "walk-to", "talk-to", "use-with", "give-to",
+                    ]
+                    .contains(&h) =>
+                {
+                    "verb"
+                }
+                _ if t.starts_with("option ") => "option",
+                _ => {
+                    i += 1;
+                    continue;
+                }
+            };
+            let indent = lines[i].len() - lines[i].trim_start().len();
+            let (mut gate, mut refusal) = (false, false);
+            let mut j = i + 1;
+            while j < lines.len() {
+                let l = lines[j];
+                if l.trim().is_empty() {
+                    j += 1;
+                    continue;
+                }
+                if l.len() - l.trim_start().len() <= indent {
+                    break;
+                }
+                let b = l.trim();
+                // `when <pred>` alone gates; `when <pred> "<line>"` selects a line
+                if b.starts_with("when ") && !b.contains('"') {
+                    gate = true;
+                }
+                if b.starts_with("else") || b.starts_with("otherwise") {
+                    refusal = true;
+                }
+                j += 1;
+            }
+            if gate {
+                match (kind, refusal) {
+                    ("verb", true) => gated_verb += 1,
+                    ("verb", false) => bare_verb += 1,
+                    ("option", false) => bare_option += 1,
+                    ("enter", false) => bare_enter += 1,
+                    _ => {}
+                }
+            }
+            i = j;
+        }
+    }
+    assert_eq!(
+        (bare_option, bare_enter),
+        (2, 1),
+        "the two sites with no occasion for a refusal"
+    );
+    assert_eq!(
+        bare_verb, 0,
+        "and the author never wrote a bare gate where a refusal was possible"
+    );
+    assert_eq!(gated_verb, 17);
+}
