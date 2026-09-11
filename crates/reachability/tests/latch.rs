@@ -96,20 +96,25 @@ fn claiming_the_latch_moves_nothing() {
     );
 }
 
-/// **The only reverse gear this vocabulary has is the player pressing it**, and that is why the
-/// reversible half of a real game is not expressible here.
+/// **The only reverse gear this vocabulary has is a second binding**, and that turns out to be the
+/// reason latching is not merely common in a shipped game but very nearly forced.
 ///
-/// Of the nine boolean slots Delores writes both ways, eight are named for a condition rather than
-/// an event — `lights_on`, `isWaterSource`, `inUse`, `busy`, `on_ladder`, `broken`, `taking_photo`,
-/// `locked_in_jail` — and a player-operated toggle is exactly what this test builds. The ninth is
-/// `delores_tightened`, and it is the one that does not fit: a valve the player turns and *another
-/// character turns back*, the room saying *"It's back to its original setting… Guess Sandy or Dave
-/// figured it out."* Nothing writes state here except a binding, and a binding is something the
-/// player does — [`effect-list-semantics`] refused duration and
-/// `.yidam/decisions/threshold-trigger.yml` found no other occasion — so this vocabulary can
-/// produce the toggle and cannot produce the valve.
+/// Nine boolean slots in Delores are written both ways, and reading where each write sits splits
+/// them three ways. **Two are player toggles** — `valve.delores_tightened` and
+/// `fireHydrant.isWaterSource`, each written by a `VERB(loosen)` and a `VERB(tighten)` — and those
+/// are what this test builds. **Five are derived or spanning**: `lights_on` is recomputed inside
+/// `adjustLights()` from a switch's state, the two `sink`/`sinkFaucet` `isWaterSource` writes sit
+/// in a `stateChange` callback, and `GLOBAL(taking_photo)` is raised at the top of `takePhoto` and
+/// dropped at the bottom. **Two are an actor's own behaviour**: `sheriff.busy` and
+/// `sheriff.locked_in_jail`, written inside `script`s run by `startthread`.
 ///
-/// What the toggle costs is also worth pinning, because it is small in the direction the corpus
+/// Only the first two are expressible here, and the other seven are reversible for reasons this
+/// design refused one at a time — no derived value and no occasion but a binding
+/// (`.yidam/decisions/threshold-trigger.yml`), no duration ([`effect-list-semantics`]), no
+/// autonomous actor. A vocabulary whose only writer is something the player did is a vocabulary in
+/// which state mostly cannot come back.
+///
+/// What the toggle costs is worth pinning too, because it is small in the direction the corpus
 /// once expected to be large: a binding that clears the flag adds **one transition and no
 /// states**. Both values were reachable already.
 ///

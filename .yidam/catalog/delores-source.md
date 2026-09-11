@@ -652,6 +652,84 @@ passes the index back instead.
 within a `startYack()`, the yack will immediately end (with no error)", and "If an override is
 triggered during a Yack conversation in a `cutscene` the Yack will be killed."
 
+## Which way state moves — 2026-09-11
+
+`world-flag/latched-flag` has carried a schema question since genesis: if most flags move one way,
+`reversible: no` is the wrong default and the property should ask which flags can be *un*set. Its
+evidence was eight variable names visible in a screenshot of a save file in Thimbleweed Park's
+development diary, and it declined to invert a schema on eight names. This is the same question
+asked of source.
+
+**The reader the last census said was missing.** "What starts a cutscene" below records that a
+state census in this language *"needs the owner, and the owner needs the indentation reader"*,
+because a bare `looked_at = YES` is one slot per object and not one slot written many times. Two
+passes over 45 `.dinky` files and 11 `.yack` files supply it: the first collects every literal —
+`DEFINE_ROOM("Bathroom", {`, and the nested `sink = DEFINE_OBJECT({` inside it — and the fields
+declared in each, the second resolves every assignment against the scope chain it stands in.
+**180 literals, 1,122 declared fields, 139 writes with a resolved owner and 74 without.** The
+unresolved ones are overwhelmingly engine fields written through a parameter — `star`, `name`,
+`position`, `xUsePos`, `text` — rather than game state, and they are excluded rather than guessed.
+
+A field's *initialiser* is not a write: `gave_toy = NO` at the top of `DEFINE_ACTOR("chuckie", {`
+and `GLOBAL(letter_mailed) <- NO` at the top of `Globals.dinky` are declarations, and both of those
+slots are one-way once they are read as such.
+
+**40 boolean state slots are written at least once in play. 31 move one way and 9 come back.**
+
+| | |
+|---|---|
+| written one way only | **31** — 77.5% |
+| written both ways | **9** — 22.5% |
+| the most common of them | `looked_at`, on 10 different objects, always `YES` |
+| non-boolean slots written | 46, over 82 writes |
+
+**The naming convention that node guessed at holds in one direction and not the other.** It
+proposed, from the eight names, that *"every latch there is named for an event in the past tense —
+talked to, ate, picked up, saw — and the one reversible flag is named for a state."* Classifying
+all 40 by name:
+
+| | one way | both ways |
+|---|---|---|
+| named for an event — `looked_at`, `took_photo`, `tried_switch`, `sploded`, `gave_toy` | **25** | 1 |
+| named for a condition — `lights_on`, `inUse`, `busy`, `broken`, `typing` | 6 | **8** |
+
+So a past-tense name predicts a latch at 25 of 26, and a condition name predicts nothing — 8 of 14.
+The convention is a one-way test, which is worth more than a rule of thumb and less than a
+declaration, and it cannot be read by a checker either way.
+
+**The single event-named exception, and it is not an exception to anything.**
+`Alleyway.valve.delores_tightened` is written `NO` in `VERB(loosen)` and `YES` in `VERB(tighten)`.
+It is not a record that something happened; it is a record of *which of two routes* left the valve
+in its normal position, so that `VERB(lookat)` can say *"It's back to its original setting"* and add
+*"Guess Sandy or Dave figured it out"* only when the player was not the one who put it back. A
+provenance flag wearing a past-tense name.
+
+**Where the nine reversible writes actually sit, which is the finding.** Reading the enclosing
+definition of each:
+
+- **Two are player toggles.** `valve.delores_tightened` and `fireHydrant.isWaterSource`, each
+  written by a `VERB(loosen)` and a `VERB(tighten)` — a verb pair that undoes itself.
+- **Five are derived or spanning.** `Bathroom.lights_on` is recomputed inside `adjustLights()` from
+  `lightswitch.state`; `sink.isWaterSource` and `sinkFaucet.isWaterSource` are written in a
+  `stateChange` callback; `toilet.inUse` in `useToilet`; and `GLOBAL(taking_photo)` is raised at the
+  top of `takePhoto` and dropped at the bottom, which is a span rather than a value.
+- **Two are an actor's own behaviour.** `sheriff.busy` and `sheriff.locked_in_jail` are written
+  inside `script`s launched by `startthread` — `sheriffLockedInJail`, `sheriffFussing` — and by a
+  `resetSheriffCoronerPuzzle` function beside them.
+
+Only the first pair is a thing an author wrote as a two-way switch. The rest come back because the
+engine has somewhere for them to come back *from*: a change callback, a routine with a duration, a
+thread. [verified] for every count and location above.
+
+**One slot is worth recording for the domain question rather than the direction one.**
+`GLOBAL(hired_lenore_state)` is declared `<- 0` with the comment `1 = thinking about job, 2 =
+working at bank`, is compared against `0`, `1` and `2` in five places, and is also read as a bare
+truth value in three others — `if (GLOBAL(hired_lenore_state) || …)`. `Helpers/Options.dinky:489`
+writes `YES` into it. That last write is debug-menu code, the same caveat that made
+`Bathroom.has_power`'s four writes unusable below, and it is recorded here for what it shows about
+the language rather than about the game: a counter and a flag are the same thing in Dinky, and
+nothing catches the confusion.
+
 ## What was looked for and not found — read this before citing
 
 **Yack's grammar is not documented.** `HelpDocsHtml/yacks.html` documents the *API* — the Dinky
