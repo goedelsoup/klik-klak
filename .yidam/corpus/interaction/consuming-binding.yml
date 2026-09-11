@@ -57,6 +57,16 @@ description: |
   it, added and authored together, and `.yidam/decisions/binding-axes.yml` carries what the
   correction turned out to be about.
 
+  **This node is the one `verified-unsourced` reports, and it is the first to say so while it is
+  true.** All four of its `[verified]` claims rest on `crates/reachability/tests/spend.rs`, none
+  rests on a document, and it draws on no source entry — which is what the linter sees and what the
+  linter should see. Four nodes reached this position before it and each was silenced by a citation
+  added for an unrelated claim; two of them wrote that they were still carrying the warning and
+  went on saying so for four phases after they had stopped.
+  `.yidam/decisions/evidence-kinds.yml` decides what to do about that, which is not to buy the
+  silence: an entry registering `crates/` as a source would quiet all twenty-two such nodes at once
+  and take this one honest report with them.
+
   [inference] The consequence for the format is that consumption has to be *declarable* rather
   than written into response prose. A checker asking which bindings spend a given item gets an
   answer from the graph; a reader asking the same question of prose gets one only if every author

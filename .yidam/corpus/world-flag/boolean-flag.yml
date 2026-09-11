@@ -25,13 +25,20 @@ description: |
   the fourth place that pattern has been named here and the first where the vector was one an
   *author* declared rather than one the instrument invented. `.yidam/decisions/unread-state.yml`.
 
-  This node now trips `verified-unsourced` and the warning is correct: its one `[verified]` rests on
-  a committed assertion in `crates/` and on no document, and citing a catalog entry for some other
-  claim would silence the rule for the whole node without earning it — the unearned silencing
-  [binary-binding](../interaction/binary-binding.yml) records happening to itself. It is left
-  standing. `.yidam/decisions/found-in.yml` carries the gap, and this is its **third** visible
-  instance against a threshold of two; twenty-one nodes rest a `[verified]` claim on a test and the
-  linter can see three, which `crates/design-gate/tests/markers.rs` is now the neighbour of.
+  This node tripped `verified-unsourced` and the warning was correct: its one `[verified]` rests on
+  a committed assertion in `crates/` and on no document. What it said next was that *citing a
+  catalog entry for some other claim would silence the rule for the whole node without earning it*
+  — the unearned silencing [binary-binding](../interaction/binary-binding.yml) records happening to
+  itself — and it declared itself left standing.
+
+  **It was silenced two phases later, by exactly that, and said nothing.** One commit added a
+  source citation to the `save_semantics` below for a claim about save slots, and with it the
+  linter went quiet about a node whose instrument-backed claim had not moved. [verified] —
+  `crates/design-gate/tests/sourcing.rs`. A node's account of a tool's report is a claim like any
+  other and was the one kind this repository never checked; it is checked now, and the paragraph
+  above is what the check was written from. `.yidam/decisions/evidence-kinds.yml` carries the
+  measurement — forty-nine claims rest on the instrument and the linter can see one —
+  and [consuming-binding](../interaction/consuming-binding.yml) is the node carrying the warning.
 properties:
   domain: boolean
   scope: global

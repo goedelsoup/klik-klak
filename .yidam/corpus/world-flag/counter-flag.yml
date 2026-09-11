@@ -44,14 +44,22 @@ description: |
   booleans have no successor relation to derive. [inference]
   `.yidam/decisions/named-condition.yml`.
 
-  **This node now trips `verified-unsourced`, and the warning is correct and is about the tags
+  **This node tripped `verified-unsourced`, and the warning was correct and was about the tags
   rather than about the claims.** Both `[verified]`s above rest on committed assertions in
   `crates/` — a test that can be run and a check that refuses — and neither rests on a document,
-  so a node that cites no catalog source is what the linter sees. This is the gap
+  so a node citing no source was what the linter saw. That is the gap
   `.yidam/decisions/found-in.yml` names, arriving with a cost attached instead of a preference:
   the strongest evidence this corpus can produce about its own language is the kind its own tag
-  vocabulary cannot express. [inference] Nothing is changed here; the vocabulary lives in the
-  read-only prelude.
+  vocabulary cannot express. [inference] The vocabulary lives in the read-only prelude and nothing
+  here changes it.
+
+  **Two nodes named this one as the one still carrying the warning, and it stopped carrying it
+  without any of them noticing.** The same commit that silenced
+  [boolean-flag](boolean-flag.yml) added a source citation to the `save_semantics` below, for a
+  claim about save slots, and silenced this node too. Neither instrument-backed claim moved.
+  [verified] — `crates/design-gate/tests/sourcing.rs`.
+  `.yidam/decisions/evidence-kinds.yml` is where that is decided, and
+  [consuming-binding](../interaction/consuming-binding.yml) is the node carrying the warning.
 properties:
   domain: integer
   scope: global

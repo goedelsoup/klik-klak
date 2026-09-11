@@ -6,10 +6,10 @@
 //! has nothing to do with. Four nodes have been reported, and each, on being silenced, recorded
 //! that the silence was unearned and named a successor still carrying the warning:
 //!
-//! | node | what it says | true today |
+//! | node | what it said | was it true |
 //! |---|---|---|
-//! | `inventory-item/portable-object` | *"It no longer does… the warning went away without any of the claims it was about becoming better sourced"* | yes |
-//! | `interaction/binary-binding` | *"It no longer does, and for the same unearned reason"*, naming `counter-flag` as still carrying it | half |
+//! | `inventory-item/portable-object` | *"It no longer does… the warning went away without any of the claims it was about becoming better sourced"* | yes, but it named `counter-flag` as the successor |
+//! | `interaction/binary-binding` | *"It no longer does, and for the same unearned reason"*, naming `counter-flag` too | same |
 //! | `world-flag/boolean-flag` | *"This node now trips `verified-unsourced`… It is left standing"* | **no** |
 //! | `world-flag/counter-flag` | *"This node now trips `verified-unsourced`, and the warning is correct"* | **no** |
 //!
@@ -20,8 +20,10 @@
 //! instance: *"citing a catalog entry for some other claim would silence the rule for the whole
 //! node without earning it."*
 //!
-//! So the baton was passed three times by hand and dropped on the fourth. `interaction/consuming-binding`
-//! is the only node the lint now reports, and it has never said a word about the lint.
+//! So the baton was passed three times by hand and dropped on the fourth. All four accounts are
+//! corrected, `interaction/consuming-binding` — the only node the lint reports, and the only one
+//! that had never mentioned it — now carries the warning and says so, and the two checks below
+//! hold what four paragraphs could not.
 
 use design_gate::repo_root;
 use std::collections::BTreeMap;
@@ -90,18 +92,23 @@ fn rests(src: &str) -> Rests {
     r
 }
 
-/// **Forty-nine claims say the instrument is what they rest on, and the lint can see one node.**
+/// **The instrument is a kind of evidence the register has no slot for, and it is not a corner.**
 ///
 /// The strongest evidence this corpus produces about its own language is a committed test that can
 /// be re-run, and its tag vocabulary has no way to say so —
 /// `.yidam/decisions/found-in.yml` opened that at two instances and
-/// `.yidam/corpus/world-flag/boolean-flag.yml` called itself the third. There are 49.
+/// `.yidam/corpus/world-flag/boolean-flag.yml` called itself the third.
+///
+/// `.yidam/decisions/evidence-kinds.yml` measured 49 and says 49. The two since are that record's
+/// own finding being written into the nodes it was about, each resting on this file — which is why
+/// the count is pinned here and not in a summary, and is the lesson `record-lifecycle` drew from
+/// the only other record whose figure moved.
 ///
 /// The catalog is not the remedy. An entry for `crates/` would silence `verified-unsourced` on
 /// every node at once, which is the unearned silencing the four nodes below documented, applied
 /// globally and on purpose. `.yidam/decisions/evidence-kinds.yml`.
 #[test]
-fn the_instrument_is_what_forty_nine_claims_rest_on() {
+fn the_instrument_is_a_kind_of_evidence_the_register_has_no_slot_for() {
     let root = repo_root();
     let mut total = Rests::default();
     let (mut instrument_only, mut silenced) = (Vec::new(), Vec::new());
@@ -123,7 +130,7 @@ fn the_instrument_is_what_forty_nine_claims_rest_on() {
         total,
         Rests {
             catalog: 112,
-            instrument: 49,
+            instrument: 51,
             both: 5,
             carried: 150,
         }
@@ -167,7 +174,9 @@ fn no_node_claims_a_lint_report_it_does_not_have() {
         let says_trips = ["now trips `verified-unsourced`", "still trips"]
             .iter()
             .any(|s| src.contains(s));
-        let says_stopped = ["It no longer does", "it no longer does", "stopped"]
+        // `stopped` was in this list and matched a node describing what happened to *other*
+        // nodes. A claim about this node's own report says so in the first person.
+        let says_stopped = ["It no longer does", "it no longer does"]
             .iter()
             .any(|s| src.contains(s));
         if says_trips && !reported {
@@ -179,19 +188,16 @@ fn no_node_claims_a_lint_report_it_does_not_have() {
             ));
         }
     }
-    // Pinned as the census this commit found rather than as the rule it becomes. Both are the
-    // same two nodes, both were silenced by one commit, and neither noticed.
-    assert_eq!(
-        wrong,
-        [
-            "world-flag/boolean-flag.yml: says it trips the lint; it does not",
-            "world-flag/counter-flag.yml: says it trips the lint; it does not",
-        ]
+    assert!(
+        wrong.is_empty(),
+        "a claim about a tool's report is a claim:\n  {}",
+        wrong.join("\n  ")
     );
     assert_eq!(
         claiming.len(),
-        4,
-        "nodes that say something about this lint — and the one node it reports is not among them"
+        5,
+        "nodes that say something about this lint. It was four, and the node the lint actually \
+         reported was not among them"
     );
 }
 
@@ -216,11 +222,21 @@ fn the_node_carrying_the_warning_is_carrying_it() {
             if !para.contains("carrying the warning") {
                 continue;
             }
-            pointers += 1;
-            // the last markdown link in the sentence is the node being handed the warning
-            let Some(target) = para.rsplit("](").next().and_then(|t| t.split(')').next()) else {
+            // A pointer is the markdown link **immediately before** the phrase. Scanning the
+            // whole paragraph matched a node that merely discusses the phrase, and `rsplit` on a
+            // paragraph with no link at all returns the paragraph — two ways to be wrong that the
+            // first version of this check was, on the first prose written after it.
+            let before = &para[..para.find("carrying the warning").expect("just matched")];
+            let Some(target) = before
+                .rsplit("](")
+                .next()
+                .filter(|_| before.contains("]("))
+                .and_then(|t| t.split(')').next())
+                .filter(|t| t.ends_with(".yml"))
+            else {
                 continue;
             };
+            pointers += 1;
             let at = p
                 .parent()
                 .expect("a directory")
@@ -242,15 +258,10 @@ fn the_node_carrying_the_warning_is_carrying_it() {
             }
         }
     }
-    // The census, for the same reason.
-    assert_eq!(
-        bad,
-        [
-            "interaction/binary-binding.yml: hands the warning to ../world-flag/counter-flag.yml, \
-             which the lint does not report",
-            "inventory-item/portable-object.yml: hands the warning to \
-             ../world-flag/counter-flag.yml, which the lint does not report",
-        ]
+    assert!(
+        bad.is_empty(),
+        "a pointer at *the node still carrying the warning*:\n  {}",
+        bad.join("\n  ")
     );
     assert_eq!(pointers, 2, "nodes handing the warning on by name");
 }
