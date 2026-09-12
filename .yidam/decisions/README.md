@@ -236,7 +236,6 @@ nodes, at four times the rate, and it had never been looked at.
 - [domain-computer](domain-computer.yml)
 - [held](held.yml)
 - [name-scoping](name-scoping.yml)
-- [round-trip](round-trip.yml)
 - [settled-surface](settled-surface.yml)
 
 ## What each record rests on

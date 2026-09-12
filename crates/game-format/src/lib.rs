@@ -141,6 +141,96 @@ pub enum Pred {
     Or(Box<Pred>, Box<Pred>),
 }
 
+impl Pred {
+    /// The same predicate in the form the language can spell.
+    ///
+    /// **The grammar is disjunctive normal form.** `disj := conj ('or' conj)*`,
+    /// `conj := unary ('and' unary)*`, `unary := 'not' unary | atom` — a disjunction of
+    /// conjunctions of literals, and nothing else. So `(a or b) and c` is a shape this type
+    /// admits and the reader cannot produce, which is what `.yidam/decisions/round-trip.yml`
+    /// recorded as *"the tree is larger than the language"*.
+    ///
+    /// It is larger than one **spelling** of it. Every propositional formula has a disjunctive
+    /// normal form, so every `Pred` is sayable here: push negations down to the literals by De
+    /// Morgan, then distribute `and` over `or`. `(a or b) and c` is written `a and c or b and c`.
+    ///
+    /// Idempotent, and the identity on anything [`crate::parse`] built — which is every predicate
+    /// in every specimen. `.yidam/decisions/normal-form.yml`.
+    pub fn normal(&self) -> Pred {
+        distribute(&push_not(self))
+    }
+
+    /// Whether this is a shape the reader could have produced: no disjunction under a
+    /// conjunction, and no compound under a negation.
+    pub fn is_normal(&self) -> bool {
+        fn literal(p: &Pred) -> bool {
+            match p {
+                Pred::Not(q) => literal(q),
+                Pred::And(..) | Pred::Or(..) => false,
+                _ => true,
+            }
+        }
+        match self {
+            Pred::Or(a, b) => a.is_normal() && b.is_normal(),
+            Pred::And(a, b) => {
+                !matches!(**a, Pred::Or(..))
+                    && !matches!(**b, Pred::Or(..))
+                    && a.is_normal()
+                    && b.is_normal()
+            }
+            other => literal(other),
+        }
+    }
+}
+
+/// De Morgan, downward: a negation ends up on a literal.
+fn push_not(p: &Pred) -> Pred {
+    match p {
+        Pred::And(a, b) => Pred::And(Box::new(push_not(a)), Box::new(push_not(b))),
+        Pred::Or(a, b) => Pred::Or(Box::new(push_not(a)), Box::new(push_not(b))),
+        Pred::Not(q) => negate(q),
+        other => other.clone(),
+    }
+}
+
+/// `push_not(Not(q))`, written apart because it is the half that recurses under a negation.
+///
+/// **A double negation is cancelled only where it is in the way.** `not not a` is writable —
+/// `unary := 'not' unary` — and cancelling it would be a simplification rather than a spelling,
+/// which would make a round trip lose the shape an author wrote. `not not (a and b)` is not
+/// writable at any depth, so there the cancellation is the only way through. The reader cannot
+/// produce the second: `not` takes a `unary`, and a `unary` is never a conjunction.
+fn negate(q: &Pred) -> Pred {
+    match q {
+        Pred::And(a, b) => Pred::Or(Box::new(negate(a)), Box::new(negate(b))),
+        Pred::Or(a, b) => Pred::And(Box::new(negate(a)), Box::new(negate(b))),
+        Pred::Not(x) if matches!(**x, Pred::And(..) | Pred::Or(..)) => push_not(x),
+        other => Pred::Not(Box::new(push_not(other))),
+    }
+}
+
+/// `and` over `or`, until no disjunction sits under a conjunction.
+fn distribute(p: &Pred) -> Pred {
+    match p {
+        Pred::Or(a, b) => Pred::Or(Box::new(distribute(a)), Box::new(distribute(b))),
+        Pred::And(a, b) => {
+            let (a, b) = (distribute(a), distribute(b));
+            match (&a, &b) {
+                (Pred::Or(x, y), _) => distribute(&Pred::Or(
+                    Box::new(Pred::And(x.clone(), Box::new(b.clone()))),
+                    Box::new(Pred::And(y.clone(), Box::new(b.clone()))),
+                )),
+                (_, Pred::Or(x, y)) => distribute(&Pred::Or(
+                    Box::new(Pred::And(Box::new(a.clone()), x.clone())),
+                    Box::new(Pred::And(Box::new(a.clone()), y.clone())),
+                )),
+                _ => Pred::And(Box::new(a), Box::new(b)),
+            }
+        }
+        other => other.clone(),
+    }
+}
+
 /// The closed effect list. Each variant is a relationship the corpus ontology declares;
 /// `.yidam/decisions/effect-vocabulary.yml` records which, and which candidates were
 /// weighed and found already expressible.

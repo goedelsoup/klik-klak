@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 77, "every record, in the order it was created");
+    assert_eq!(all.len(), 78, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (38, 41, 28),
+        (39, 42, 28),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -249,10 +249,14 @@ fn the_evidence_each_record_rests_on() {
 /// their own editor by permissiveness, keeping a dead key nothing writes, and this format takes
 /// the other branch at both ends.
 ///
-/// **And it is back to one, for the third time and the same reason.** `calculators` retires two
-/// skills this repository approved against its own corpus at genesis; no adventure-game source
-/// answers whether it should. Three of the last four phases touched a document and one did not,
-/// which is the ratio this check exists to keep visible rather than a number to drive to zero.
+/// **And it went to one and was cleared by the next phase, for the third time.** `calculators`
+/// retires two skills this repository approved against its own corpus at genesis, and no
+/// adventure-game source answers whether it should. `normal-form` looked like the same shape — a
+/// question about this format's own grammar — and turned out to have a documentary half after
+/// all: the construct it declines is one AGS's interaction editor also lacks, in a predicate layer
+/// that has no combination at all. Three times now the run has reached one and the phase after it
+/// found a source, which is the ratio this check exists to keep visible rather than a number to
+/// drive to zero.
 ///
 /// Two phases on the same tooling, one with a document and one without, is the distinction this
 /// check was built to make visible. A phase that touches no source and knows it is not the same
@@ -273,7 +277,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (1, 0),
+        (0, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }

@@ -1,0 +1,98 @@
+id: normal-form
+summary: >-
+  **The tree is not larger than the language; it is larger than one spelling of it.** The grammar
+  is disjunctive normal form, every propositional formula has one, so every `Pred` is sayable —
+  `(a or b) and c` is written `a and c or b and c`. `Pred::normal` is that rewriting and the writer
+  is total. Parentheses are declined: a 51st construct to say what the language already says, for
+  the sake of two connectives with one authored use between them.
+context: |
+  [round-trip](round-trip.yml) closed on it: *"`Pred` can represent `(a or b) and c`, which no
+  `.game` file can write and this writer cannot print; the reader cannot build one, because `conj`
+  only ever nests `unary`. **The tree is larger than the language**, the writer's precedence
+  assertion is where that is stated, and it has never fired."*
+
+  The assertion had never fired because nothing can build such a tree. The parser cannot — `And`
+  takes two `unary`s and `Not` takes a `unary` — and nothing else in either workspace constructs a
+  `Pred` at all. [verified] — `crates/game-format/tests/normal_form.rs`. So `print(&Game) ->
+  String` was total in its type, partial in fact, and the input that would show it was one this
+  repository had no way to produce. Handed one, it aborted the process.
+decision: |
+  **The gap is a spelling, and the rewriting is the whole of the repair.**
+
+  **1. The grammar is disjunctive normal form and nobody had said so.** `disj := conj ('or'
+  conj)*`, `conj := unary ('and' unary)*`, `unary := 'not' unary | atom`: a disjunction of
+  conjunctions of literals, three levels each nesting only the one below. That is DNF, and
+  **every propositional formula has a DNF** — so there is no predicate this language cannot say,
+  only shapes it cannot spell directly. `round-trip` read a spelling limit as an expressive one.
+
+  **2. `Pred::normal` is De Morgan then distribution, and `print` calls it.** Negations go down to
+  the literals, `and` distributes over `or`, and what comes out is what the reader could have
+  produced. The writer's assertion stays and changes meaning entirely: it was a statement about
+  the language and is now an invariant of `normal`. [verified] — 1,200 generated predicates over
+  three flags, every one landing in normal form, agreeing with the original in all eight
+  valuations, and idempotent.
+
+  **3. A double negation is cancelled only where it is in the way.** `not not a` is writable —
+  `unary := 'not' unary` — so cancelling it would be a *simplification*, and a writer that
+  simplifies loses the shape an author wrote: a round trip would stop returning the same tree.
+  `not not (a and b)` is unwritable at any depth, and there the cancellation is the only way
+  through. The reader can produce the first and not the second, so the distinction costs nothing
+  it was keeping.
+
+  **4. Parentheses are declined, and the measurement is why.** They are the obvious repair —
+  one construct, and `Pred` would be exactly right — and [unwritten](unwritten.yml) already
+  counted what they would serve: **`or` is written by nothing and `and` once**, across every game
+  anyone has authored in this language. Growing the surface to fifty-one so that two connectives
+  with one authored use between them can nest the other way is the trade that record was written
+  to make visible. What `normal` costs instead is a function nothing calls on real input.
+
+  **5. The prior art has no grouping either, and no combination at all, which is what makes the
+  refusal cheap.** AGS 2.x's interaction editor is the nearest thing this corpus holds to a
+  bounded predicate layer — an event list per entity, each command from a closed combobox, one of
+  them `Conditional - if inventory item was used` — and
+  [data-format/interaction-table](../corpus/data-format/interaction-table.yml) reads it exactly:
+  *"A predicate that is a **command in a list** is not an expression language: nothing shows two
+  conditions combined, negated, or grouped."* [verified] ([ags-source](../catalog/ags-source.md),
+  where the 48 action types are enumerated.)
+
+  So the construct being declined here is one the shipped system does not have, in a shipped system
+  that also has no `and`, no `or` and no `not`. What this design has that it does not is
+  **composition**, and disjunctive normal form is precisely the reason composition does not require
+  grouping: with `or` available, every grouping has a flat equivalent. A language without `or`
+  would need parentheses to express what this one writes flat — which is the shape of the gap
+  `interaction-table` called *"exactly one thing"*, seen from the syntax rather than the semantics.
+  [inference]
+
+  **6. It is the identity on everything the parser builds.** Every predicate in the four specimens
+  comes back byte-identical, and no figure the checker publishes moves — which is the same
+  evidence `round-trip` gave for the writer itself. A normaliser that changed a parsed tree would
+  be a normaliser doing something other than spelling. [verified]
+
+  **What this does not do: bound the cost.** Distribution to DNF is exponential in the worst case,
+  and nothing here stops a pathological guard from producing a very large one. Measured over
+  ~30,000 generated predicates the worst growth was **8×**, and the specimens contain one `and`
+  and no `or`, so on authored work it has never had anything to do. A language whose guards are
+  written by hand in a line does not reach the pathological case, and that is an observation
+  rather than a bound. `[open]`
+rationale: |
+  **The finding is that a limit recorded four phases ago was the wrong kind of limit, and the
+  correction cost one function.** `round-trip` had the observation exactly right — the type admits
+  what the reader cannot produce — and drew from it that the *language* was smaller than the type.
+  What is smaller is the set of shapes, not the set of formulas, and the difference is the
+  difference between a grammar and a semantics. A normal form is precisely the thing that closes
+  that gap, and the grammar was already in one.
+
+  **It is the second time this project has found an expressiveness worry dissolve into a spelling
+  one.** [arity-cost](arity-cost.yml) weighed whether a binary verb's second key was a cost and
+  found the sign reversed: *"what it says — this binding is about this item — has to be said in a
+  guard once it is gone."* The same object seen twice: what a language can say and what it makes
+  an author type are different questions, and this design keeps mistaking the first for the
+  second because it was proposed on a minimality claim. [inference]
+
+  **The partiality was invisible in every way a defect can be, which is the part worth carrying
+  forward.** No caller could trigger it, no type named it, no test reached it, and the one place
+  it was written down was an `assert!` message inside the function it guarded. The repository
+  found it by *writing down what the record left open* — `round-trip` named the shape and a phase
+  later somebody asked whether the shape was reachable. That is the marker convention paying for
+  itself: [marker-count](marker-count.yml) argues the token names a live question, and this is a
+  live question that was answered by being legible rather than by anything failing.

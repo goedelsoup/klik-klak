@@ -45,10 +45,16 @@ fn cmp(c: Cmp) -> &'static str {
 
 /// A predicate, written so the reader's precedence puts it back the way it was.
 ///
-/// `or` binds loosest, then `and`, then `not`. The language has no parentheses, so a tree that
-/// needs them cannot be written — and `pred` cannot build one, because it only ever nests the
-/// other way. The assertion is that round-tripping never has to try.
+/// `or` binds loosest, then `and`, then `not`, and the language has no parentheses — so the only
+/// shapes writable are a disjunction of conjunctions of literals.
+///
+/// **[`Pred::normal`] is what makes this total.** `(a or b) and c` is a tree this type admits and
+/// the reader cannot produce; it is written `a and c or b and c`, which is the same formula in
+/// the form the grammar spells. Every propositional formula has one, so there is no predicate
+/// this cannot write. The assertion below is an invariant of `normal` rather than a limit of the
+/// language, and `.yidam/decisions/normal-form.yml` is the difference between those two things.
 fn pred(p: &Pred) -> String {
+    let p = &p.normal();
     fn at(p: &Pred, level: u8) -> String {
         let (s, mine) = match p {
             Pred::Flag(f) => (f.clone(), 3),
@@ -63,7 +69,8 @@ fn pred(p: &Pred) -> String {
         };
         assert!(
             mine >= level,
-            "this predicate needs parentheses and the language has none: {s}"
+            "`Pred::normal` returned a shape the grammar cannot spell, which is a defect in it \
+             and not in the language: {s}"
         );
         s
     }

@@ -198,14 +198,20 @@ fn three_spellings_of_a_line_come_back_as_one() {
     );
 }
 
-/// **The tree is larger than the language, and the writer is where that is stated.**
+/// **The tree is larger than one spelling of the language, and the writer closes the gap rather
+/// than reporting it.**
 ///
-/// `Pred::And(Box::new(Pred::Or(..)), ..)` is `(a or b) and c`: constructible in the type, and
-/// unwritable in a `.game` file, which has no parentheses. The reader cannot build one — `conj`
-/// only ever nests `unary` — so the writer's precedence assertion has never fired, and the round
-/// trip above is a statement about trees the reader produced rather than about every tree.
+/// This test read: *"`Pred::And(Box::new(Pred::Or(..)), ..)` is `(a or b) and c`: constructible in
+/// the type, and unwritable in a `.game` file, which has no parentheses."* The first half stands
+/// and the conclusion does not. The grammar is **disjunctive normal form** — `disj := conj ('or'
+/// conj)*`, `conj := unary ('and' unary)*` — and every propositional formula has one, so `(a or b)
+/// and c` is written `a and c or b and c`. [`Pred::normal`] is that rewriting and `print` calls
+/// it. `.yidam/decisions/normal-form.yml`.
+///
+/// What the reader still cannot build is the *shape*, and that is why normalising is the identity
+/// on every predicate in every specimen — the round trip below is unchanged by any of it.
 #[test]
-fn the_reader_cannot_build_a_predicate_the_writer_cannot_print() {
+fn the_reader_builds_only_shapes_the_writer_writes_without_rewriting() {
     let src = include_str!("../src/parse.rs");
     assert!(
         src.contains("fn conj<'a>(t: &'a [&'a str]) -> Result<(Pred, &'a [&'a str]), String>")
@@ -215,11 +221,11 @@ fn the_reader_cannot_build_a_predicate_the_writer_cannot_print() {
     );
     let writer = include_str!("../src/print.rs");
     assert!(
-        writer.contains("this predicate needs parentheses and the language has none"),
-        "and the writer says what it would do about the other shape"
+        writer.contains("let p = &p.normal();"),
+        "and the writer normalises rather than asserting about the language"
     );
 
-    // every predicate in the four specimens prints and reads back as itself
+    // every predicate in the four specimens prints and reads back as itself, unrewritten
     for (name, src) in ALL {
         let game = load(src, name);
         let before: Vec<String> = game
@@ -232,6 +238,16 @@ fn the_reader_cannot_build_a_predicate_the_writer_cannot_print() {
             })
             .map(|p| format!("{p:?}"))
             .collect();
+        for p in game.bindings.iter().flat_map(|b| {
+            b.when
+                .iter()
+                .chain(b.says.iter().filter_map(|r| r.when.as_ref()))
+        }) {
+            assert!(
+                p.is_normal(),
+                "{name}: the reader built an unspellable shape"
+            );
+        }
         let after: Vec<String> = load(&print(&game), name)
             .bindings
             .iter()
