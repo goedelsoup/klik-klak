@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 81, "every record, in the order it was created");
+    assert_eq!(all.len(), 82, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,12 +186,12 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (41, 44, 31),
+        (41, 44, 32),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
         (alone, neither),
-        (14, 11),
+        (15, 11),
         "resting on the gate and nothing else, and resting on no evidence path at all"
     );
 }
@@ -275,6 +275,16 @@ fn the_evidence_each_record_rests_on() {
 /// missing citation rather than a missing source. It is the first time the tripwire has caught the
 /// record rather than the phase.
 ///
+/// **`resolver-kind` puts both halves to one at once, which has not happened since `class-evidence`
+/// and is the plainest case either has had.** How a marker should be written, and what a clock can
+/// see when it reports five questions overdue, are questions about this artifact's own practice.
+/// No adventure-game source answers either, the record says so, and it rests on this crate and
+/// nothing else because this crate is what it is about.
+///
+/// What would extend the run wrongly is a second consecutive phase of the same kind, and the thing
+/// that clears it is already named in that record: `actor/player-character`'s question wants a
+/// specimen, which is a game.
+///
 /// Two phases on the same tooling, one with a document and one without, is the distinction this
 /// check was built to make visible. A phase that touches no source and knows it is not the same
 /// as one that should have opened a source and did not, and the only thing that tells them apart
@@ -294,7 +304,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (0, 0),
+        (1, 1),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }

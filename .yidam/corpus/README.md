@@ -13,6 +13,26 @@ or one open question. Every node must have at least one outgoing link.
 See [corpus conventions](../.vendor/prelude/guidelines/directories.md#corpus) for authoring rules,
 the authored/generated node distinction, and `[verified]`/`[inference]`/`[open]` claim tags.
 
+## What an `[open]` owes
+
+Two things, and the second was practice before it was a rule.
+
+1. **The token names a live question, and a retraction does not re-emit it.** A sentence that
+   answers a marker says so without writing `[open]` again, or the count never falls.
+   [marker-count](../decisions/marker-count.yml), held by
+   `crates/design-gate/tests/markers.rs`.
+2. **The question says what would close it.** A specimen, a measurement, a named artifact, a
+   condition that would reopen a declined question — or, where the honest answer is that nothing in
+   reach can, the account of why.
+   [resolver-kind](../decisions/resolver-kind.yml), held by
+   `crates/design-gate/tests/resolvers.rs`.
+
+The second is written down because six of the nine questions here were already doing it, in five
+spellings, and three were not. The cost of naming a resolver is that it can be wrong — `input-side`
+named a document two years too early to answer it and the next phase found out — and that is the
+argument for it rather than against. A marker that says only *this is open* cannot be checked, and
+nothing can tell it apart from one that is waiting for evidence that does not exist.
+
 ## Node index
 
 <!-- REGEN: yidam corpus-index
@@ -24,12 +44,12 @@ Sorted by: kind, then alphabetically.
 | Instance | Class | Label | Links out | Claims | Lines |
 |---|---|---|---|---|---|
 | [non-player-character.yml](actor/non-player-character.yml) | actor | Non-Player Character | 2 | 3v / 4i / 0o | 52 |
-| [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 0v / 2i / 1o | 40 |
+| [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 0v / 2i / 1o | 47 |
 | [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 4 | 3v / 4i / 0o | 76 |
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 8v / 5i / 0o | 103 |
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 11v / 12i / 0o | 238 |
 | [dialogue-script.yml](data-format/dialogue-script.yml) | data-format | Dialogue Script | 2 | 8v / 3i / 0o | 129 |
-| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 46v / 23i / 1o | 582 |
+| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 46v / 23i / 1o | 590 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 10v / 7i / 0o | 155 |
 | [save-state.yml](data-format/save-state.yml) | data-format | Save State | 4 | 5v / 4i / 0o | 91 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 9v / 5i / 1o | 101 |
@@ -62,7 +82,7 @@ Sorted by: kind, then alphabetically.
 | [talk-to.yml](verb/talk-to.yml) | verb | Talk To | 2 | 4v / 5i / 0o | 82 |
 | [use-with.yml](verb/use-with.yml) | verb | Use With | 2 | 11v / 5i / 0o | 106 |
 | [walk-to.yml](verb/walk-to.yml) | verb | Walk To | 3 | 24v / 10i / 0o | 314 |
-| [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 5v / 3i / 1o | 81 |
+| [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 5v / 3i / 1o | 87 |
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 4v / 3i / 0o | 63 |
 | [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 4v / 5i / 0o | 83 |
 | [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 15v / 7i / 1o | 186 |
