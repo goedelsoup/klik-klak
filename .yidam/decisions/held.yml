@@ -1,0 +1,108 @@
+id: held
+summary: >-
+  The two positions do not contradict: **"instantaneous" is a claim about the state model and
+  "do not return until it is over" is the condition that makes it true.** A presenter that blocks
+  is what keeps a binding one edge; one that does not is what gave AGS a page of errata.
+  `engine/response-presenter` is built, it owns *how long* and decides nothing about *how long in
+  seconds*, and the state graph does not move.
+context: |
+  Sixteen files in the corpus and the records say the word *duration* and nothing models it.
+  [verified] — `crates/design-gate/tests/held.rs`. `Effect` has eight variants, none of which takes
+  time, and the model carries no `Wait`, `Pause`, `Delay` or `Duration`.
+
+  Two decided positions read as contradicting each other.
+  [effect-list-semantics](effect-list-semantics.yml): *"**Instantaneous.** No effect takes time and
+  no effect yields control… **Atomic.** A binding is one edge in the state graph. Nothing observes
+  a value between two effects."* [response-presenter](../corpus/subsystem/response-presenter.yml):
+  *"Turn a response into something perceived, **and do not return until it is over**."*
+
+  The construct the first defers duration to is unreachable. **No relationship in the whole
+  ontology targets `cutscene`**, which that record names in the same breath as *"where this
+  decision lands a defect rather than a design"*, and four phases later nothing points at one.
+
+  And `engine/play` prints a line and returns, which [playable](playable.yml) states as a cost.
+decision: |
+  **They are not two positions. They are a claim and its precondition.**
+
+  *Instantaneous* is a statement about the **state model**: no effect writes a value another
+  binding can read at a moment between two writes, so a binding is one edge and the reachable set
+  is a graph. *Do not return until it is over* is a statement about the **player**: while a line is
+  being read, nothing else happens.
+
+  **The second is what makes the first true.** Give a response duration *and let the game go on
+  underneath it*, and other bindings fire during the interval — the state space gains a dimension
+  and the search is over states-and-time, which is exactly what `effect-list-semantics` refused.
+  Block, and the interval contains nothing: no state exists during it that did not exist before it,
+  because nothing can act. **A blocking presenter is the reason a binding can stay an edge**, not a
+  threat to it.
+
+  AGS ran both arms of the experiment and the corpus already holds the result.
+  [effect-list-semantics](effect-list-semantics.yml) quotes the 2.72 manual — *"it was still
+  possible for interactions to run at the same time if they didn't include any scripting"* — and
+  calls that concurrency *"precisely what a checker cannot enumerate"*. Its declarative layer
+  blocked by default because it had nowhere else to put the question; its replacement did not, and
+  the manual gained `BlockingScripts.md` for the consequences: three script threads, a queue of
+  five, and events lost when a thread blocks too long ([ags-manual](../catalog/ags-manual.md)).
+  [verified]
+
+  **`engine/response-presenter` owns *how long* and decides nothing about *how long in seconds*.**
+  It carries `weight(line)`, which is the line's length, because the node already says duration is
+  *"an accident… a line's length is how long the game is held, and that is the only lever over
+  pacing this vocabulary offers"*. What that length means in time belongs to whoever is perceiving:
+  the component takes a `Perceive` sink and returns when the sink returns. **No reading speed is
+  invented, because nothing in the catalog states one.**
+
+  **The seam holds and is now three ways.** The search reads no text at all; the menu reads the
+  labels; the resolver reads the lines and hands them up; the presenter is the only thing that
+  turns one into an interval, and the search never calls it. **The state graph does not move** —
+  same states, transitions, winnability and strandings on all four specimens, with the presenter
+  composed. That is the argument above, asserted.
+rationale: |
+  **The first measurement of pacing in this repository, and it was available all along.** A
+  winning run of `lighthouse.game` holds the player for a countable number of characters, and the
+  longest single hold in four specimens is the 143-character line `walked-in` found the engine
+  dropping. Nothing had counted it because nothing had a component whose business it was.
+
+  `response-presenter` predicted this in its `authoring_visibility`: *"an author who wants a beat
+  writes a longer sentence. That is a real authoring facility arrived at by nobody deciding
+  anything."* It was `[inference]` when it was written and it is a number now.
+
+  **What this does not solve, and the gap is narrower than it was.** Duration for a *line* is
+  settled: the presenter holds, the graph does not move. Duration for a *sequence* — actors moving
+  on their own schedule, a camera, a beat with no text — is still unwritable, and that is still
+  `cutscene`, and `cutscene` is still unreachable. What changed is that the reason is no longer
+  *"duration would break the graph"*. It would not. The reason is that nothing in this vocabulary
+  can say *what happens over an interval*, which is a smaller and more specific hole than the one
+  `effect-list-semantics` recorded.
+
+  **The relationship is still deliberately not added.** `interaction -enters-> cutscene` would
+  create an edge no instance authors, which
+  [data-format/room-manifest](../corpus/data-format/room-manifest.yml) records this corpus as
+  already carrying two of and names as *"indistinguishable from an ontology that overreached"*. No
+  specimen has a cutscene and none can until something can be written inside one.
+
+  **And the census found a declared edge nothing uses.** `interaction-resolver` links `depends-on`
+  to `response-presenter`, and the resolver crate depends on `verb-menu` and nothing else. The
+  built system says the resolver *produces* an outcome and the **client** presents it, which is
+  what that node's own responsibility says — *"produce exactly one outcome"*, not deliver one. So
+  the edge reads as a tier drawn before anything was built.
+
+  It is left alone rather than cut. `engine/`'s gate checks that a cargo dependency is a declared
+  edge and not the converse, deliberately: the resolver also declares `depends-on` `path-solver`,
+  which does not exist, and a rule requiring the converse would require building it. An edge the
+  build does not need is exactly as visible as one it does — which is to say invisible — and what
+  this record can say is that somebody looked once. `[open]`
+
+  **And the census widened a classifier that had gone stale under `engine/`.**
+  `crates/design-gate/tests/subject.rs` sorts records by what they rest on — a catalog entry, the
+  engine crates, or the gate — and its *engine* predicate named `crates/reachability/` and
+  `crates/game-format/`, because it was written before `engine/` existed. A record resting on a
+  component counted as resting on **no evidence path at all**, which is the classification
+  [inward-turn](inward-turn.yml) built that check to make impossible. Two phases of engine records
+  were misfiled before anything looked. [verified]
+
+  **What a text client cannot do, stated rather than papered over.** `play` implements `Perceive`
+  by printing and returning, so it holds the player for nothing at all. The component reports the
+  weight and the client discards it, which is honest: a terminal with no clock and no input between
+  turns has nowhere to put an interval. The number is real and the holding is not, and the first
+  client that can hold a player is the first one with a frame. `[open]`

@@ -65,7 +65,11 @@ fn talking(root: &Path) -> Vec<String> {
 #[test]
 fn duration_is_argued_about_everywhere_and_modelled_nowhere() {
     let root = repo_root();
-    assert_eq!(talking(&root).len(), 16, "files that say the word");
+    assert_eq!(
+        talking(&root).len(),
+        17,
+        "files that say the word — this record is one"
+    );
 
     let semantics = read(&root, ".yidam/decisions/effect-list-semantics.yml");
     assert!(

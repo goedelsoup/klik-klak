@@ -165,11 +165,11 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (8, 53, 48));
+    assert_eq!((corpus, decisions, records), (8, 55, 49));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        13,
-        "under a seventh is visible"
+        12,
+        "under an eighth is visible"
     );
 
     // It was (7, 23, 18) for two phases and the visible share then fell one point a phase — 23,

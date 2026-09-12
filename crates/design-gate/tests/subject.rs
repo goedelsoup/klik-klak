@@ -112,7 +112,13 @@ fn rests(root: &Path, rel: &str) -> Rests {
     let src = std::fs::read_to_string(root.join(rel)).expect("readable");
     Rests {
         document: cites(&src, "catalog/"),
-        engine: cites(&src, "crates/reachability/") || cites(&src, "crates/game-format/"),
+        // `engine/` was added when a record first rested on a component rather than on the
+        // checker. The classifier was written before that directory existed, so a record about
+        // the engine counted as resting on no evidence path at all — which is the classification
+        // `inward-turn` built this to make impossible.
+        engine: cites(&src, "crates/reachability/")
+            || cites(&src, "crates/game-format/")
+            || cites(&src, "engine/"),
         gate: cites(&src, "crates/design-gate/"),
     }
 }
@@ -167,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 72, "every record, in the order it was created");
+    assert_eq!(all.len(), 73, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -180,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (35, 35, 25),
+        (36, 37, 26),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
