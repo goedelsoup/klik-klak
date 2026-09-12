@@ -262,7 +262,43 @@ fn the_nodes_with_no_verified_claim_are_drawn_or_definitional() {
     );
 }
 
-/// **Six records rest on *this design has no geometry*, and one decides it.**
+/// What a record mentioning geometry is doing with it. Hand-made, because whether an argument
+/// rests on a premise is not a thing a substring settles — which is the finding this table exists
+/// to keep from recurring.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Geometry {
+    /// The argument needs the premise. Removing it would change what the record decided.
+    Rests,
+    /// It states the boundary rather than arguing from it.
+    Decides,
+    /// The word appears — a citation of a geometry record, a class-table row, a comparison with a
+    /// format that has geometry — and the argument would stand without it.
+    Mentions,
+    /// A record about this check rather than about the boundary.
+    AboutTheCheck,
+}
+
+/// Every record that mentions geometry, and what it is doing with it.
+const GEOMETRY: &[(&str, Geometry)] = &[
+    ("action-pages", Geometry::Mentions),
+    ("adjacency", Geometry::Rests),
+    ("containment", Geometry::Rests),
+    ("drawn-boundary", Geometry::Decides),
+    ("engine-directory", Geometry::Mentions),
+    ("escape-hatch", Geometry::Rests),
+    ("evidence-kinds", Geometry::Rests),
+    ("frame-width", Geometry::Rests),
+    ("hotspot-identity", Geometry::Rests),
+    ("named-condition", Geometry::Rests),
+    ("ontology", Geometry::Mentions),
+    ("record-layer", Geometry::Mentions),
+    ("room-geometry", Geometry::Rests),
+    ("round-trip", Geometry::Mentions),
+    ("unread-spelling", Geometry::AboutTheCheck),
+];
+
+/// **Eight records rest on *this design has no geometry*, one decides it, and for four phases this
+/// check could see six.**
 ///
 /// It is load-bearing in each: `hotspot-identity` closes both of a node's open questions with it,
 /// `named-condition` separates two hotspot relations by which of them needs it, `frame-width`
@@ -275,30 +311,49 @@ fn the_nodes_with_no_verified_claim_are_drawn_or_definitional() {
 /// That was the shape [`record-lifecycle`] found for `summary:` and [`save-boundary`] found for
 /// the state vector: a rule the practice follows exactly, that nothing states, and that a later
 /// phase can therefore contradict without noticing. `drawn-boundary` states it, and is partitioned
-/// out here rather than counted — a record cannot be evidence that its own premise was unstated.
+/// out rather than counted — a record cannot be evidence that its own premise was unstated.
+///
+/// **Two more were being skipped in silence and the phrasing list is why.** This test filtered the
+/// directory to records mentioning geometry and then matched three phrasings inside them; what
+/// matched no phrasing was `continue`d past and reported nowhere, so the census published six of
+/// six while computing six of fourteen. `.yidam/decisions/unread-spelling.yml`.
+///
+/// - **`evidence-kinds`** builds a third kind of provenance on `drawn-boundary`'s sentence, quoted:
+///   *"this corpus can read geometry it cannot express."* A fourth phrasing, and a fourth entry in
+///   the list would have caught it.
+/// - **`adjacency`** uses no phrasing at all. It read 84 walkbox polygons out of a shipped game and
+///   derived every room's adjacency graph from them, **because this vocabulary has none to derive
+///   it from** — a record resting on the premise by doing the thing the premise makes necessary.
+///   No list of spellings could have found it.
+///
+/// **So the fix is not a longer list.** Every record the filter admits is classified by hand and
+/// the residue is held at empty, which is the shape `resolvers.rs` gave the corpus markers and
+/// `lineage.rs` gave the prior-art nodes. What a phrasing does now is suggest; what settles it is
+/// somebody reading the record, and the reading is written down where it can be argued with.
 ///
 /// [`record-lifecycle`]: ../../../.yidam/decisions/record-lifecycle.yml
 /// [`save-boundary`]: ../../../.yidam/decisions/save-boundary.yml
+
 #[test]
-fn the_premise_is_load_bearing_in_six_records_and_decided_in_one() {
-    // `has none` was in this list for one commit and matched `prose-edges` on a sentence about
-    // prose having no schema. The three that remain name the thing.
-    const PREMISE: [&str; 3] = ["no geometry", "without geometry", "geometry in scope"];
+fn the_premise_is_load_bearing_in_eight_records_and_decided_in_one() {
     let root = repo_root();
-    let (mut resting, mut deciding): (Vec<String>, Vec<String>) = (Vec::new(), Vec::new());
-    for e in std::fs::read_dir(root.join(".yidam/decisions"))
+    // `has none` was in this list for one commit and matched `prose-edges` on a sentence about
+    // prose having no schema. The three that remain name the thing — and two of the fifteen below
+    // say it in words none of them uses, which is why the list no longer decides anything.
+    const PREMISE: [&str; 3] = ["no geometry", "without geometry", "geometry in scope"];
+
+    let mut mentioning: Vec<String> = Vec::new();
+    let mut matched: Vec<String> = Vec::new();
+    let mut files: Vec<std::path::PathBuf> = std::fs::read_dir(root.join(".yidam/decisions"))
         .expect("the directory exists")
         .flatten()
-    {
-        let p = e.path();
-        if p.extension().is_none_or(|x| x != "yml") {
-            continue;
-        }
+        .map(|e| e.path())
+        .filter(|p| p.extension().is_some_and(|x| x == "yml"))
+        .collect();
+    files.sort();
+    for p in files {
         let src = std::fs::read_to_string(&p).expect("readable");
         if !src.contains("geometry") {
-            continue;
-        }
-        if !PREMISE.iter().any(|s| src.contains(s)) {
             continue;
         }
         let stem = p
@@ -306,32 +361,64 @@ fn the_premise_is_load_bearing_in_six_records_and_decided_in_one() {
             .expect("a name")
             .to_string_lossy()
             .into_owned();
-        // a record *about* this check rather than about the boundary: `unread-spelling` quotes
-        // the premise to say that the filter above skips seven records that mention geometry
-        if stem == "drawn-boundary" {
-            deciding.push(stem);
-        } else if stem == "unread-spelling" {
-            continue;
-        } else {
-            resting.push(stem);
+        if PREMISE.iter().any(|s| src.contains(s)) {
+            matched.push(stem.clone());
         }
+        mentioning.push(stem);
     }
-    resting.sort();
+
+    // **The residue, published.** Every record the filter admits has a row, and a row needs a
+    // record — so a phase that writes about geometry lands here and has to be read, rather than
+    // falling through a list of phrasings into a number nobody can question.
+    let declared: Vec<&str> = GEOMETRY.iter().map(|(n, _)| *n).collect();
     assert_eq!(
-        deciding,
-        ["drawn-boundary"],
-        "the record that states the boundary"
+        mentioning, declared,
+        "a record mentioning geometry with no row, or a row with no record"
     );
+
+    let of = |k: Geometry| -> Vec<&str> {
+        GEOMETRY
+            .iter()
+            .filter(|(_, g)| *g == k)
+            .map(|(n, _)| *n)
+            .collect()
+    };
     assert_eq!(
-        resting,
+        of(Geometry::Rests),
         [
+            "adjacency",
             "containment",
             "escape-hatch",
+            "evidence-kinds",
             "frame-width",
             "hotspot-identity",
             "named-condition",
             "room-geometry",
         ],
         "records that rest on the boundary; none of them is a record about the boundary"
+    );
+    assert_eq!(
+        of(Geometry::Decides),
+        ["drawn-boundary"],
+        "the record that states the boundary"
+    );
+    assert_eq!(
+        of(Geometry::Mentions).len(),
+        5,
+        "the word without the premise"
+    );
+    assert_eq!(of(Geometry::AboutTheCheck), ["unread-spelling"]);
+
+    // and what the phrasings are worth: they find six of the eight that rest, miss two, and admit
+    // one that does not — a suggestion rather than a classifier
+    let rests: Vec<&str> = of(Geometry::Rests);
+    let found = rests
+        .iter()
+        .filter(|r| matched.contains(&r.to_string()))
+        .count();
+    assert_eq!(
+        (found, rests.len(), matched.len()),
+        (6, 8, 8),
+        "records the phrasings find, records that rest, and everything a phrasing matched"
     );
 }

@@ -1,39 +1,35 @@
-//! **Three of the gate's six hand-written vocabularies fail silent, and one of them is skipping
-//! seven records right now.**
+//! **A check built on a hand-written vocabulary reports what it could not classify.**
 //!
 //! `.yidam/decisions/unread-specimen.yml` found twenty-five tests whose input was a copy of a
-//! directory and stated the precondition the method here rests on: **a pinned figure is a signal
-//! only if the input is the world.** It fixed that for one directory. This is the same defect in
-//! the dimension the gate actually spends most of its checks on — not files, but **English**.
+//! directory and stated the precondition this method rests on: **a pinned figure is a signal only
+//! if the input is the world.** It fixed that for one directory. This is the same defect in the
+//! dimension the gate actually spends most of its checks on — not files, but **English**.
 //!
-//! Six checks are built on a hand-written list of phrasings, and what a missed spelling does to
-//! each is not the same thing:
+//! Seven checks read for a hand-written list of phrasings, and what a missed spelling does to each is
+//! not the same thing. A vocabulary that **confirms** is a floor: the material is enumerated some
+//! other way and the phrasings account for it, so falling through one is a hole somebody sees. A
+//! vocabulary that **detects** is a ceiling: nothing enumerates what it did not match, so the
+//! material above it is reported as absent rather than as unread. **Nobody had ever asked which way
+//! one of these fails.**
 //!
-//! | vocabulary | file | a phrasing nobody listed |
-//! |---|---|---|
-//! | `ROUTES`, 8 | `routing.rs` | **loud** — the set of routing classes is pinned, so one dropping out fails |
-//! | `WAS_READ`, 4 | `retrieval.rs` | **loud** — it confirms, so a miss reads as *the catalog does not say it* |
-//! | `READ`, 4 titles | `retrieval.rs` | **loud** on the titles, and its list of *entries* is the unheld table below |
-//! | `CLOSED`, 6 | `markers.rs` | **silent** — a retraction worded newly is not detected |
-//! | `PREMISE`, 3 | `reach.rs` | **silent** — a record is dropped out of the census |
-//! | `STALE`, 5 | `enumerated.rs` | **silent** — a stale figure worded newly is not found |
+//! Three were ceilings, and `reach.rs` was above its. It counted the records resting on *this
+//! vocabulary has no geometry* by filtering `.yidam/decisions/` to those mentioning geometry and
+//! matching three phrasings inside them — publishing six of six while computing six of fourteen,
+//! and skipping seven records in silence. **Two of the seven rest on the premise**, so the figure
+//! was eight.
 //!
-//! **The direction is the whole of it, and nobody had ever asked which way one of these fails.** A
-//! vocabulary that *confirms* is safe: the list is a floor, and falling through it is a failure. A
-//! vocabulary that *detects* is not: the list is a ceiling, and what is above it is reported as
-//! nothing at all.
+//! **A longer list would not have found them, which is the finding.** `evidence-kinds` uses a
+//! fourth phrasing and a fourth entry would catch it. `adjacency` uses none: it read 84 walkbox
+//! polygons out of a shipped game and derived every room's adjacency graph from them **because this
+//! vocabulary has none to derive it from** — a record resting on a premise by doing the thing the
+//! premise makes necessary. No list of spellings could have found it, and adding spellings is what
+//! this check has always done, which is why nobody noticed: each addition makes the number go up,
+//! which reads as the check getting better rather than as the ceiling getting higher.
 //!
-//! **`reach.rs` is above its ceiling today.** It counts the records resting on *this vocabulary has
-//! no geometry* by taking every record that mentions geometry and matching three phrasings.
-//! Fifteen records mention geometry. It classifies eight — seven resting, one deciding — and
-//! **silently skips the other seven** — among them `adjacency`, the phase that read 84 walkbox polygons out of a shipped
-//! game, which is the record most about geometry this corpus has.
-//!
-//! And one hand table of **files** is unheld: `retrieval.rs`'s `READ` states that two catalog
-//! entries list the documents they contain and never reads `.yidam/catalog/` to check. That was
-//! offered as the pattern this phase would sweep and it is one instance, which
-//! `.yidam/decisions/unread-list.yml` is on record as not being a convention. It is fixed here and
-//! the finding is the other one. `.yidam/decisions/unread-spelling.yml`.
+//! **So a ceiling declares its cover.** Each silent vocabulary below names the thing that reports
+//! what it did not match — a residue table somebody classifies by hand, a published denominator, or
+//! a second check that catches the same defect loudly — and this file holds the naming to being
+//! true. `.yidam/decisions/unread-spelling.yml`.
 
 use design_gate::repo_root;
 use std::path::{Path, PathBuf};
@@ -46,21 +42,51 @@ enum Miss {
     Loud,
     /// The check passes. The vocabulary is a ceiling: nothing enumerates what it did not match, so
     /// the material above it is reported as absent rather than as unread.
+    ///
+    /// A ceiling is allowed, because there is no `read_dir` for the ways a person might write a
+    /// sentence. What is not allowed is an undeclared one: every row of this kind names the thing
+    /// that reports its residue, and `every_ceiling_names_what_covers_it` holds the naming.
     Silent,
 }
 
-/// Every hand-written vocabulary in the gate, and which way it fails.
+/// Every hand-written vocabulary in the gate, which way it fails, and what covers it.
 ///
 /// Hand-classified, like `resolvers.rs`'s kinds and `subject.rs`'s evidence paths, because the
 /// direction is a fact about how the surrounding test is written and not about the constant. The
-/// claim is the classification; the check below is that it covers every vocabulary on disk.
-const VOCABULARIES: &[(&str, &str, usize, Miss)] = &[
-    ("enumerated.rs", "STALE", 5, Miss::Silent),
-    ("markers.rs", "CLOSED", 5, Miss::Silent),
-    ("reach.rs", "PREMISE", 3, Miss::Silent),
-    ("retrieval.rs", "READ", 4, Miss::Loud),
-    ("retrieval.rs", "WAS_READ", 4, Miss::Loud),
-    ("routing.rs", "ROUTES", 8, Miss::Loud),
+/// claim is the classification; the check below is that it covers every vocabulary on disk and that
+/// every ceiling names something real.
+const VOCABULARIES: &[(&str, &str, usize, Miss, &str)] = &[
+    (
+        "enumerated.rs",
+        "STALE",
+        5,
+        Miss::Silent,
+        // its own denominator: every living document that mentions the specimens at all
+        "living documents read, and living documents that mention the specimens",
+    ),
+    (
+        "markers.rs",
+        "CLOSED",
+        5,
+        Miss::Silent,
+        // a second check that catches the same defect loudly, three phases older and unaware
+        "the backstop for this check's silence is gone",
+    ),
+    (
+        "reach.rs",
+        "PREMISE",
+        3,
+        Miss::Silent,
+        // a residue table: every record the filter admits is classified by hand
+        "a record mentioning geometry with no row, or a row with no record",
+    ),
+    ("retrieval.rs", "READ", 4, Miss::Loud, ""),
+    ("retrieval.rs", "WAS_READ", 4, Miss::Loud, ""),
+    ("routing.rs", "ROUTES", 8, Miss::Loud, ""),
+    // this table, which is one: the three covers above are phrases it looks for in other files.
+    // It is a floor — a cover naming something absent fails `every_ceiling_names_what_covers_it`,
+    // by name — and it is listed because a census that exempts itself is the defect it is about.
+    ("spellings.rs", "VOCABULARIES", 3, Miss::Loud, ""),
 ];
 
 /// A `const NAME: [&str; N]` whose members are phrases rather than paths — the shape the table
@@ -140,7 +166,7 @@ fn the_table_covers_every_vocabulary_in_the_gate() {
     let found = vocabularies(&root);
     let declared: Vec<(String, String, usize)> = VOCABULARIES
         .iter()
-        .map(|(f, n, c, _)| (f.to_string(), n.to_string(), *c))
+        .map(|(f, n, c, _, _)| (f.to_string(), n.to_string(), *c))
         .collect();
     assert_eq!(
         found, declared,
@@ -148,127 +174,115 @@ fn the_table_covers_every_vocabulary_in_the_gate() {
     );
 }
 
-/// **Three of six fail silent, which is a thing nobody had asked about any of them.**
+/// **Three of seven fail silent, and every one of the three names what covers it.**
 ///
-/// Pinned as a census rather than as a rule, because two of the three are silent for reasons that
-/// take a different fix each and one of them is silent and harmless. The rule this becomes is in
-/// `.yidam/decisions/unread-spelling.yml`.
+/// The rule. A ceiling is not a defect — there is no `read_dir` for the ways a person might write a
+/// sentence, and a list of phrasings is the only way in. What is a defect is an *undeclared*
+/// ceiling: a check reporting a clean result over material it never looked at, with nothing saying
+/// how much that was.
+///
+/// The three covers are three different shapes, which is the reason this is a rule about declaring
+/// rather than a rule about mechanism:
+///
+/// - **a residue table** — `reach.rs` names every record its filter admits and classifies each by
+///   hand, so a phase that writes about geometry has to be read rather than falling through;
+/// - **a published denominator** — `enumerated.rs` reports how many living documents mention the
+///   specimens at all, so a clean result over a shrinking denominator is not the same result;
+/// - **a loud second check** — `markers.rs` keeps a silent check and names `resolvers.rs`, where a
+///   marker it let through has no row and fails by name.
 #[test]
-fn three_of_six_vocabularies_fail_silent() {
-    let count = |m: Miss| VOCABULARIES.iter().filter(|(_, _, _, x)| *x == m).count();
-    assert_eq!(
-        (count(Miss::Loud), count(Miss::Silent)),
-        (3, 3),
-        "vocabularies whose miss is a failure, and whose miss is a pass"
-    );
-}
-
-/// **`reach.rs` filters fifteen records and reads eight of them.**
-///
-/// The live instance, and the one that makes this a defect rather than a shape. That test counts
-/// the records resting on *this vocabulary has no geometry* by filtering `.yidam/decisions/` to
-/// those mentioning geometry and then matching three phrasings inside them. The filter finds
-/// fifteen. The phrasings match eight. **The other seven are `continue`d past and reported
-/// nowhere**, so the census the test publishes is drawn from half of what it looked at.
-///
-/// Its own comment records the near miss in the other direction — a fourth phrasing, `has none`,
-/// was in the list for one commit and matched `prose-edges` on a sentence about prose having no
-/// schema. The author who took that one out looked for false positives and there was no way to look
-/// for false negatives, because nothing counted the denominator.
-///
-/// `adjacency` is in the seven. It is the phase that read 84 walkbox polygons out of a shipped
-/// game's source and derived every room's adjacency graph from them — whether it rests on the
-/// boundary this test enumerates is exactly the question the test exists to answer, and the test
-/// has never seen it.
-#[test]
-fn the_geometry_census_skips_seven_of_the_records_it_filters() {
-    let root = repo_root();
-    // Read out of `reach.rs` rather than copied here. The first version of this test copied the
-    // three phrasings, and the scanner above found them — a census of hand-written vocabularies
-    // holding a hand-written copy of the vocabulary it was measuring, which is the defect
-    // `adjacency` named as *a copy of something that is not constant* and `unread-specimen`
-    // generalised. Caught by its own check on the first run, which is the one way this shape has
-    // ever been caught here.
-    let premise: Vec<String> = {
-        let src = std::fs::read_to_string(root.join("crates/design-gate/tests/reach.rs"))
-            .expect("readable");
-        let at = src
-            .find("const PREMISE:")
-            .expect("the vocabulary this test is about");
-        let body = &src[at..at + src[at..].find("];").expect("its end")];
-        body.split('"')
-            .skip(1)
-            .step_by(2)
-            .map(str::to_string)
-            .collect()
+fn three_of_six_vocabularies_fail_silent_and_each_names_its_cover() {
+    let count = |m: Miss| {
+        VOCABULARIES
+            .iter()
+            .filter(|(_, _, _, x, _)| *x == m)
+            .count()
     };
     assert_eq!(
-        premise.len(),
-        3,
-        "the phrasings `reach.rs` reads for: {premise:?}"
+        (count(Miss::Loud), count(Miss::Silent)),
+        (4, 3),
+        "vocabularies whose miss is a failure, and whose miss is a pass"
     );
-    let (mut mentioning, mut matched, mut skipped) = (0usize, 0usize, Vec::new());
-    let mut files: Vec<PathBuf> = std::fs::read_dir(root.join(".yidam/decisions"))
-        .expect("the directory exists")
-        .flatten()
-        .map(|e| e.path())
-        .filter(|p| p.extension().is_some_and(|x| x == "yml"))
-        .collect();
-    files.sort();
-    for p in files {
-        let src = std::fs::read_to_string(&p).expect("readable");
-        if !src.contains("geometry") {
-            continue;
-        }
-        mentioning += 1;
-        if premise.iter().any(|s| src.contains(s.as_str())) {
-            matched += 1;
-        } else {
-            skipped.push(
-                p.file_stem()
-                    .expect("a name")
-                    .to_string_lossy()
-                    .into_owned(),
-            );
-        }
+    for (file, name, _, miss, cover) in VOCABULARIES {
+        assert_eq!(
+            *miss == Miss::Silent,
+            !cover.is_empty(),
+            "{file}'s {name} is a ceiling with no declared cover, or declares one and is not"
+        );
     }
-    assert_eq!(
-        (mentioning, matched, skipped.len()),
-        (15, 8, 7),
-        "records mentioning geometry, records a phrasing matched, records dropped in silence — \
-         the first two move whenever a record says the word and the third is the finding"
-    );
-    assert_eq!(
-        skipped,
-        [
-            "action-pages",
-            "adjacency",
-            "engine-directory",
-            "evidence-kinds",
-            "ontology",
-            "record-layer",
-            "round-trip",
-        ],
-        "and none of them has ever been looked at by the check that enumerates this premise"
-    );
 }
 
-/// **One hand table of files is unheld, and one is not a pattern.**
+/// **Every ceiling names something that is actually there.**
 ///
-/// `retrieval.rs`'s `READ` names two catalog entries and the documents each records as read, under
-/// a header stating that *"two entries have a list at all"* — a claim about `.yidam/catalog/`, made
-/// without reading it. Twelve files are there. A twelfth source arriving with a list of documents
-/// inside it is invisible to that check in exactly the way `lock.game` was invisible to
-/// twenty-five others.
-///
-/// **It is one instance and it was offered as a pattern.** The survey that opened this phase looked
-/// for hand tables of files across both workspaces and found that almost every one is a citation —
-/// a test naming the two records it is about — rather than a copy of a listing, and that the two
-/// that are copies (`resolvers.rs`, `lineage.rs`) already hold themselves against a directory scan
-/// without either of them arguing for it. `.yidam/decisions/unread-list.yml` is on record that one
-/// instance is not a convention. It is repaired below and it is not the finding.
+/// The half that keeps the declaration from being a comment. Each silent vocabulary names a string
+/// its own file must contain — the assertion or message that publishes the residue — and a phase
+/// that deletes the cover while leaving the row fails here rather than going quiet again.
 #[test]
-fn one_table_of_files_claims_a_directory_it_does_not_read() {
+fn every_ceiling_names_what_covers_it() {
+    let root = repo_root();
+    for (file, name, _, miss, cover) in VOCABULARIES {
+        if *miss != Miss::Silent {
+            continue;
+        }
+        let src = std::fs::read_to_string(root.join("crates/design-gate/tests").join(file))
+            .expect("readable");
+        assert!(
+            src.contains(cover),
+            "{file}'s {name} declares that {cover:?} reports what it could not match, and the \
+             file does not say it"
+        );
+    }
+}
+
+/// **`reach.rs` publishes its residue now, and the phrasings find six of the eight that rest.**
+///
+/// The instance this phase was about, held from outside the file it repairs. Fifteen records
+/// mention geometry; every one has a row in `reach.rs`'s hand-made table; eight rest on the
+/// premise, and the three phrasings find six of them. **The gap between six and eight is the
+/// measurement that could not be taken before**, because nothing counted what the filter admitted
+/// and the phrasings missed.
+///
+/// `evidence-kinds` is the one a fourth spelling would have caught. `adjacency` is the one no
+/// spelling could: it rests on the premise by acting on it.
+#[test]
+fn the_geometry_check_publishes_what_its_phrasings_miss() {
+    let root = repo_root();
+    let src =
+        std::fs::read_to_string(root.join("crates/design-gate/tests/reach.rs")).expect("readable");
+    for held in [
+        "const GEOMETRY: &[(&str, Geometry)]",
+        "a record mentioning geometry with no row, or a row with no record",
+        "records the phrasings find, records that rest, and everything a phrasing matched",
+    ] {
+        assert!(src.contains(held), "`reach.rs` no longer {held:?}");
+    }
+    for (name, why) in [
+        ("adjacency", "Geometry::Rests"),
+        ("evidence-kinds", "Geometry::Rests"),
+    ] {
+        assert!(
+            src.contains(&format!("(\"{name}\", {why})")),
+            "{name} was found resting on the premise by this phase and is no longer classified so"
+        );
+    }
+}
+
+/// **One hand table of files was unheld, and one is not a pattern.**
+///
+/// `retrieval.rs`'s `READ` named two catalog entries and the documents each records as read, under
+/// a header stating that *"two entries have a list at all"* — a claim about `.yidam/catalog/`, made
+/// without reading it. It reads it now: `SHAPE` covers all twelve files and `READ` must name
+/// exactly the two classified as a list.
+///
+/// **It was offered as the pattern this phase would sweep and it is one instance.** The survey
+/// looked for hand tables of files across both workspaces and found that almost every one is a
+/// *citation* — a test naming the two records it is about — rather than a copy of a listing, and
+/// that the two which are copies (`resolvers.rs`, `lineage.rs`) already hold themselves against a
+/// directory scan without either arguing for it. `.yidam/decisions/unread-list.yml` is on record
+/// that one instance is not a convention, and that standard applies to a claim this repository
+/// makes about its own work as much as to one it makes about adventure games.
+#[test]
+fn the_one_table_of_files_reads_its_directory() {
     let root = repo_root();
     let src = std::fs::read_to_string(root.join("crates/design-gate/tests/retrieval.rs"))
         .expect("readable");
@@ -279,11 +293,11 @@ fn one_table_of_files_claims_a_directory_it_does_not_read() {
         .count();
     assert_eq!(entries, 12, "files in the catalog");
     assert!(
-        !src.contains("join(\".yidam/catalog\")"),
-        "`retrieval.rs` reads the catalog now, which is what this census was pinning the absence of"
+        src.contains("a catalog entry with no row, or a row with no entry"),
+        "`retrieval.rs` claims two entries have a document list and does not read the catalog"
     );
 
-    // and the two that do it right, neither of which says so
+    // and the two that did it right all along, neither of which says so
     for (file, marker) in [
         (
             "resolvers.rs",
