@@ -1,10 +1,11 @@
-//! **One of the four systems this corpus holds a `prior-art` node on has no source about itself.**
+//! **One of the four systems this corpus holds a `prior-art` node on had no source about itself,
+//! from genesis to the eighty-eighth phase.**
 //!
-//! `prior-art/sierra-sci.yml` makes eight claims about Sierra's two engines and cites exactly one
+//! `prior-art/sierra-sci.yml` made eight claims about Sierra's two engines and cited exactly one
 //! catalog entry: `delores-source.md`, a game written by different people on a different engine in
-//! a different decade. Its own `source_standing` says so — *"Nothing retrieved… None of it has been
-//! located or read, and the era range above is recollection"* — and that sentence has stood since
-//! genesis while the node above it grew to argue about what Sierra's transition proves.
+//! a different decade. Its own `source_standing` said so — *"Nothing retrieved… None of it has been
+//! located or read, and the era range above is recollection"* — and that sentence stood while the
+//! node above it grew to argue about what Sierra's transition proves.
 //!
 //! The other three nodes each cite a source about their own subject. `ags` cites three, `scumm`
 //! cites two, `thimbleweed-park` cites the diary its subject was written in. Nothing made the
@@ -104,18 +105,19 @@ fn the_aboutness_table_is_complete() {
     }
 }
 
-/// **Three nodes rest on a source about themselves and one rests on somebody else's game.**
+/// **Every prior-art node cites a source about the system it describes.**
 ///
-/// This is the census, and it pins the defective state rather than the rule: the assertion below
-/// says `sierra-sci` cites none of its own sources, which is a fact about this repository and not
-/// a thing anybody wants to keep true.
+/// This was a census when it was written one commit ago, and it named `sierra-sci` as the one node
+/// that did not: its only catalog citation was `delores-source.md`, a game by different people on
+/// a different engine in a different decade. It is a rule now, and the flip is the phase.
 ///
-/// **The sources are already in the catalog** — `agi-specifications` and `sci-inhouse-docs` landed
-/// one commit before this file — so what is pinned here is the gap between having retrieved a thing
-/// and having read it into the node. That gap is the whole of what this phase closes, and it flips
-/// to the rule: *every prior-art node cites at least one source about its own subject.*
+/// The rule is weaker than it looks and deliberately so. It does not say a node is *well* sourced,
+/// or that its claims are carried by what it cites — `verified-unsourced` already tries the first
+/// and `sourcing.rs` records what that costs. It says only that somewhere in the node is a pointer
+/// to a document about its own subject, which is the floor, and which one node sat below from
+/// genesis to the eighty-eighth phase with nothing able to say so.
 #[test]
-fn one_node_rests_only_on_a_source_about_a_different_system() {
+fn every_prior_art_node_cites_a_source_about_itself() {
     let root = repo_root();
 
     let mut without: Vec<&str> = Vec::new();
@@ -126,17 +128,18 @@ fn one_node_rests_only_on_a_source_about_a_different_system() {
         }
     }
 
-    assert_eq!(
-        without,
-        ["sierra-sci.yml"],
-        "prior-art nodes citing no source about the system they describe"
+    assert!(
+        without.is_empty(),
+        "prior-art nodes citing no source about the system they describe: {without:?}"
     );
 
-    // And what the one without rests on instead, so the substitution is on the record by name
-    // rather than by absence.
-    assert_eq!(
-        cited(&root, "sierra-sci.yml"),
-        ["delores-source.md"],
-        "every catalog entry the Sierra node cites"
-    );
+    // And the node that used to be the whole of that list, by name, so a regression is legible as
+    // one rather than as an empty vector becoming non-empty.
+    let sierra = cited(&root, "sierra-sci.yml");
+    for e in ["agi-specifications.md", "sci-inhouse-docs.md"] {
+        assert!(
+            sierra.contains(&e.to_string()),
+            "the Sierra node no longer cites {e}, which is what this phase was"
+        );
+    }
 }

@@ -103,8 +103,18 @@ fn no_retraction_re_emits_the_token() {
 ///
 /// It was seven for six phases. The two that arrived came from **outside the corpus**: they had
 /// been sitting on class pages since the root commit in a spelling no tool reads, and
-/// `.yidam/decisions/action-pages.yml` moved them somewhere countable. So this is the one figure
-/// here that went up because something was found rather than because something was asked.
+/// `.yidam/decisions/action-pages.yml` moved them somewhere countable. So that rise was the one
+/// figure here that went up because something was *found* rather than because something was asked.
+///
+/// Then `declared-reach` closed `portable-object`'s and it was eight, and this heading and the one
+/// on `most_of_the_open_questions_are_where_nothing_looks` both went on saying nine while the list
+/// below held eight. It is nine again and the two sentences are true again, which is the worst way
+/// for a figure to come right.
+///
+/// **And this rise is the ordinary kind, for the first time.** `.yidam/decisions/input-side.yml`
+/// asked whether SCI1's icon bar was a game script or an engine feature — a question about
+/// adventure games, raised by reading a source, answerable by reading another one that is already
+/// retrieved and unread. Every previous movement in this count was a closure or a migration.
 #[test]
 fn the_corpus_carries_nine_questions_and_the_count_is_the_token_count() {
     let root = repo_root();
@@ -135,6 +145,7 @@ fn the_corpus_carries_nine_questions_and_the_count_is_the_token_count() {
             "hotspot/static-region.yml",
             "interaction/acquisition-binding.yml",
             "prior-art/ags.yml",
+            "prior-art/sierra-sci.yml",
             "walkbox/scaled-polygon.yml",
             "world-flag/latched-flag.yml",
         ]
@@ -144,7 +155,8 @@ fn the_corpus_carries_nine_questions_and_the_count_is_the_token_count() {
 /// **Three quarters of what this corpus still owes is invisible to every tool it has.**
 ///
 /// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds 9 live
-/// markers; the decision records hold **42 across 38 files**, and they are counted as zero — by
+/// markers again — it held eight between `declared-reach` and `input-side`, and this sentence
+/// said nine throughout; the decision records hold **42 across 38 files**, and they are counted as zero — by
 /// `status`, by `due`, by the index, by everything. There was a third place and this file could
 /// not see it either: twelve more sat on the class pages in a spelling nothing reads, which
 /// `crates/design-gate/tests/pages.rs` now holds at zero. The migration happened quietly: as questions
@@ -165,10 +177,10 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (8, 56, 50));
+    assert_eq!((corpus, decisions, records), (9, 56, 50));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        12,
+        13,
         "under an eighth is visible"
     );
 
@@ -180,8 +192,14 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
     // of the denominator are readable now — `.yidam/decisions/README.md` lists the record side by
     // record and line, and `crates/design-gate/tests/pages.rs` holds the class pages to zero.
     //
-    // It has fallen back since, to 17 and now to 16, and the mechanism is the first one again:
-    // nothing was closed and two records were added. `action-pages` bought a point by making a
-    // hidden question visible, which is a one-off; the drift is not. A share that only rises when
-    // somebody widens the numerator by hand is a share that goes one way.
+    // It has fallen back since, by the first mechanism again: nothing closed in the corpus and
+    // records kept arriving. `action-pages` bought a point by making a hidden question visible,
+    // which is a one-off; the drift is not. This comment tracked the fall as far as 16 and then
+    // stopped, while the assertion above was re-pinned to 12 — so the series here is history and
+    // the number to read is the one being asserted.
+    //
+    // `input-side` put it to 13, and by the mechanism nobody had used: it asked a question in the
+    // corpus. Not found and moved, not closed elsewhere — asked, about adventure games, out of a
+    // source. That is the only move that raises this share without widening the numerator by hand,
+    // and it took eighty-eight phases to happen once.
 }

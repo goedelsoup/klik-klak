@@ -16,13 +16,13 @@ Sorted by: type, then slug.
 -->
 | Entry | Type | Description | Obtained | Artifacts | Nodes | Elsewhere |
 |---|---|---|---|---|---|---|
-| [agi-specifications.md](agi-specifications.md) | other | Reverse-engineered specification of Sierra's Adventure Game Interpreter — the bytecode, the resource formats, and a LOGIC language the document says is not the one Sierra wrote in. | yes | — | 0 | 0 |
+| [agi-specifications.md](agi-specifications.md) | other | Reverse-engineered specification of Sierra's Adventure Game Interpreter — the bytecode, the resource formats, and a LOGIC language the document says is not the one Sierra wrote in. | yes | — | 1 | 0 |
 | [ags-272-manual.md](ags-272-manual.md) | other | The AGS manual as it stood before version 3.0 removed the Interaction Editor — the only description this corpus has of a shipped declarative interaction layer. | yes | — | 3 | 0 |
 | [ags-manual.md](ags-manual.md) | other | The AGS manual's own markdown source, maintained by the AGS project — the authoring surface documented by the people who built it. | yes | — | 24 | 0 |
 | [ags-source.md](ags-source.md) | other | AGS's own editor and engine source, which still contains the complete action table of the Interaction Editor that version 3.0 removed. | yes | — | 4 | 0 |
 | [delores-source.md](delores-source.md) | dataset | The complete authored source of a shipped point-and-click adventure by Ron Gilbert and David Fox, with the engine's reference manual — the first artifact this corpus can count rather than quote. | yes | — | 29 | 1 |
 | [grumpy-gamer-pdc.md](grumpy-gamer-pdc.md) | other | The designer of Maniac Mansion and Monkey Island describing the tool he invented for arranging an adventure game's puzzles, and what shape a good one has. | yes | — | 2 | 0 |
-| [sci-inhouse-docs.md](sci-inhouse-docs.md) | other | Eleven documents Sierra wrote for its own game programmers between 1988 and the early nineties, preserved by the SCI community — the first source here written by a working author's employer to tell them how to write. | yes | — | 0 | 0 |
+| [sci-inhouse-docs.md](sci-inhouse-docs.md) | other | Eleven documents Sierra wrote for its own game programmers between 1988 and the early nineties, preserved by the SCI community — the first source here written by a working author's employer to tell them how to write. | yes | — | 1 | 0 |
 | [scumm-v5-opcode-reference.md](scumm-v5-opcode-reference.md) | other | Reverse-engineered listing of SCUMM v5 script opcodes by number and name, hosted by ScummVM. | yes | — | 9 | 0 |
 | [twp-dev-diary.md](twp-dev-diary.md) | other | A near-daily record, 2015-2019, of a classic point-and-click adventure being designed and its engine being built, written by the people who invented the form. | yes | — | 10 | 0 |
 | [wikipedia-scumm.md](wikipedia-scumm.md) | other | Tertiary account of the SCUMM engine, its verb interface, and the years it was in use. | yes | — | 5 | 0 |
