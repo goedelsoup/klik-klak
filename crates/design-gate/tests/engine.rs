@@ -175,7 +175,7 @@ fn every_module_names_a_subsystem_the_corpus_declares() {
     );
 }
 
-/// **Four subsystems are specified and two are built.**
+/// **Four subsystems are specified and three are built.**
 ///
 /// The engine's roadmap, derived from the corpus rather than written beside it — and pinned, so it
 /// changes only when somebody builds a component or the corpus names one. Both of those should
@@ -191,7 +191,7 @@ fn every_module_names_a_subsystem_the_corpus_declares() {
 /// of what is built that counted its clients would say the engine has more of itself than it
 /// does.
 #[test]
-fn the_corpus_specifies_four_components_and_two_are_built() {
+fn the_corpus_specifies_four_components_and_three_are_built() {
     let root = repo_root();
     assert_eq!(
         declared(&root).into_iter().collect::<Vec<_>>(),
@@ -212,8 +212,8 @@ fn the_corpus_specifies_four_components_and_two_are_built() {
     built.dedup();
     assert_eq!(
         built,
-        ["interaction-resolver", "verb-menu"],
-        "components that exist; `path-solver` and `response-presenter` do not"
+        ["interaction-resolver", "response-presenter", "verb-menu"],
+        "components that exist; `path-solver` does not"
     );
 
     // and the contract's table says the same, so a reader meets it without running anything
@@ -238,16 +238,18 @@ fn the_corpus_specifies_four_components_and_two_are_built() {
 /// two crates. The declaration is prose and the manifest is the build; holding them together is
 /// what stops the first from becoming decoration.
 ///
-/// `response-presenter` is deliberately not among them. The slice prints a line and returns, which
-/// is that component's job done inline and done wrongly — `.yidam/decisions/playable.yml` states
-/// it as a cost rather than hiding it behind a declaration that would claim the component exists.
+/// `response-presenter` joined when it was built. `path-solver` is not among them and will not be
+/// until something has a path to walk — a text slice has nothing to cross a room with.
 #[test]
 fn a_client_composes_exactly_the_components_it_depends_on() {
     let root = repo_root();
     let src = std::fs::read_to_string(root.join("engine/play/src/lib.rs")).expect("the slice");
     let (kind, names) = declaration(&src).expect("it declares something");
     assert_eq!(kind, Kind::Composes, "and what it declares is a client");
-    assert_eq!(names, ["verb-menu", "interaction-resolver"]);
+    assert_eq!(
+        names,
+        ["verb-menu", "interaction-resolver", "response-presenter"]
+    );
 
     let manifest = std::fs::read_to_string(root.join("engine/play/Cargo.toml")).expect("readable");
     for name in &names {

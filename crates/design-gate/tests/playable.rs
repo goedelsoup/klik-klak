@@ -56,14 +56,19 @@ fn files(root: &Path, crate_: &str, dir: &str) -> Vec<std::path::PathBuf> {
     out
 }
 
-/// **Three crates, a binary, and something that drives both components.**
+/// **Four crates, a binary, and something that drives the components.**
 #[test]
 fn the_engine_has_components_and_a_client_that_runs_them() {
     let root = repo_root();
     assert_eq!(
         engine_crates(&root),
-        ["interaction-resolver", "play", "verb-menu"],
-        "two components and a client"
+        [
+            "interaction-resolver",
+            "play",
+            "response-presenter",
+            "verb-menu"
+        ],
+        "three components and a client"
     );
 
     let mut bins = 0;

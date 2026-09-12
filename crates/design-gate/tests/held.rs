@@ -1,6 +1,6 @@
-//! **Sixteen files talk about duration and nothing models it.**
+//! **The two positions are a claim and its precondition, and the state graph does not move.**
 //!
-//! Two decided positions, and they read as contradicting each other.
+//! Seventeen files talk about duration. Two decided positions read as contradicting each other.
 //!
 //! [`effect-list-semantics`](../../../.yidam/decisions/effect-list-semantics.yml): *"**Instantaneous.**
 //! No effect takes time and no effect yields control… **Atomic.** A binding is one edge in the
@@ -12,16 +12,20 @@
 //! and only the first is obvious: a component that delivers a line and returns immediately has
 //! presented nothing a player can read."*
 //!
-//! Nothing reconciles them, and the one construct the first defers duration to is unreachable:
-//! **no relationship in the whole ontology targets `cutscene`**, so a binding cannot start one.
-//! `.yidam/decisions/effect-list-semantics.yml` records that as *"where this decision lands a
-//! defect rather than a design"* and deliberately declines to add the edge.
+//! They do not contradict. *Instantaneous* is about the **state model**; *do not return until it
+//! is over* is about the **player**; and the second is what makes the first true, because an
+//! interval nothing can act during contains no state that did not exist before it. **A blocking
+//! presenter is the reason a binding can stay an edge.** `.yidam/decisions/held.yml`.
 //!
-//! Meanwhile `engine/play` prints a line and returns, which
-//! [`playable`](../../../.yidam/decisions/playable.yml) states as a cost rather than hiding: the
-//! slice does that component's job inline and does the first half of it.
+//! `engine/response-presenter` exists and owns *how long* — the line's length, which the node
+//! already called the only lever over pacing this vocabulary offers — and decides nothing about
+//! seconds, because nothing in the catalog states a reading speed.
 //!
-//! These checks pin the state. They are rewritten into the rule in the same phase.
+//! The one construct the first position defers duration to is still unreachable: **no
+//! relationship in the whole ontology targets `cutscene`**. What changed is the reason. Duration
+//! for a *line* no longer threatens the graph; duration for a *sequence* is unwritable because
+//! nothing in this vocabulary can say what happens over an interval, which is a smaller hole than
+//! the one that record wrote down.
 
 use design_gate::repo_root;
 use std::path::Path;
@@ -61,9 +65,13 @@ fn talking(root: &Path) -> Vec<String> {
     out
 }
 
-/// **Sixteen files, two positions, and no model.**
+/// **Seventeen files, two positions, and the model is still free of time.**
+///
+/// The presenter owns duration and `game-format` does not: the state model has no `Wait`, no
+/// `Pause`, no `Delay`, and eight effects none of which takes one. That is the half of
+/// `effect-list-semantics` this phase leaves exactly where it was.
 #[test]
-fn duration_is_argued_about_everywhere_and_modelled_nowhere() {
+fn duration_is_the_presenters_and_the_state_model_is_free_of_it() {
     let root = repo_root();
     assert_eq!(
         talking(&root).len(),
@@ -99,6 +107,17 @@ fn duration_is_argued_about_everywhere_and_modelled_nowhere() {
     assert_eq!(variants.len(), 8, "effects, none of which takes time");
     for word in ["Wait", "Pause", "Delay", "Duration"] {
         assert!(!model.contains(word), "the model has no {word}");
+    }
+
+    // and the component that does own it invents no unit
+    let presenter = read(&root, "engine/response-presenter/src/lib.rs");
+    assert!(
+        presenter.contains("pub fn weight(line: &str) -> usize {")
+            && presenter.contains("line.chars().count()"),
+        "how long is how much"
+    );
+    for unit in ["Duration", "millis", "secs", "sleep"] {
+        assert!(!presenter.contains(unit), "and not how many {unit}");
     }
 }
 
@@ -147,13 +166,19 @@ fn nothing_in_the_ontology_points_at_a_cutscene() {
     );
 }
 
-/// **Nothing presents, and the corpus declares an edge the built system does not have.**
+/// **The client presents and the search does not, which is why the graph cannot move.**
 ///
-/// `engine/play` prints a line and returns. And `interaction-resolver` links `depends-on` to
-/// `response-presenter` in the corpus, while the crate depends on `verb-menu` and nothing else —
-/// which is either an edge the engine has not needed yet or one the corpus should not have.
+/// Three components, and the seam is three ways: the search reads no text at all, the menu reads
+/// the labels, the resolver reads the lines and hands them up, and only the presenter turns one
+/// into an interval. `crates/reachability` does not depend on it and never calls it, so every
+/// figure it publishes is a figure about a graph nothing in this phase touched — held by the
+/// tests that pinned them before the component existed.
+///
+/// The corpus declares `interaction-resolver -depends-on-> response-presenter` and the built
+/// resolver does not have it: the client presents, which is what that node's own responsibility
+/// says — *produce* an outcome, not deliver one. Left alone rather than cut, and recorded.
 #[test]
-fn nothing_presents_and_an_edge_is_declared_that_nothing_uses() {
+fn the_client_presents_and_the_search_does_not() {
     let root = repo_root();
 
     let engine = std::fs::read_dir(root.join("engine"))
@@ -163,8 +188,8 @@ fn nothing_presents_and_an_edge_is_declared_that_nothing_uses() {
         .map(|e| e.file_name().to_string_lossy().into_owned())
         .collect::<std::collections::BTreeSet<_>>();
     assert!(
-        !engine.contains("response-presenter"),
-        "the component does not exist"
+        engine.contains("response-presenter"),
+        "the component exists"
     );
 
     let client = read(&root, "engine/play/src/lib.rs");
@@ -172,23 +197,35 @@ fn nothing_presents_and_an_edge_is_declared_that_nothing_uses() {
         client
             .lines()
             .take(10)
-            .any(|l| l.contains("composes: verb-menu, interaction-resolver")),
-        "and the client composes two components"
+            .any(|l| l.contains("composes: verb-menu, interaction-resolver, response-presenter")),
+        "and the client composes three"
     );
     assert!(
-        client.contains("out.push_str(&format!(\"  {line}\\n\"))"),
-        "printing a line and returning, which is the first half of one job"
+        client.contains("present_all(") && client.contains("impl Perceive for Collect"),
+        "everything a player is told goes through it"
     );
 
+    // The search does not, and cannot: no dependency, and it names none of the component.
+    let manifest = read(&root, "crates/reachability/Cargo.toml");
+    assert!(
+        !manifest.contains("response-presenter"),
+        "the search does not depend on the presenter"
+    );
+    let search = read(&root, "crates/reachability/src/lib.rs");
+    for name in ["response_presenter", "Perceive", "present_all"] {
+        assert!(!search.contains(name), "and never reaches for {name}");
+    }
+
+    // And the corpus's edge is still one the build does not have.
     let node = read(&root, ".yidam/corpus/subsystem/interaction-resolver.yml");
     assert!(
         flat(&node)
             .contains("- target: ../subsystem/response-presenter.yml relationship: depends-on"),
         "the corpus declares the edge"
     );
-    let manifest = read(&root, "engine/interaction-resolver/Cargo.toml");
+    let resolver = read(&root, "engine/interaction-resolver/Cargo.toml");
     assert!(
-        !manifest.contains("response-presenter"),
-        "and nothing in the build has it"
+        !resolver.contains("response-presenter"),
+        "and the resolver does not have it — `.yidam/decisions/held.yml` leaves it alone"
     );
 }

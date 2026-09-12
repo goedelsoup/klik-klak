@@ -519,7 +519,7 @@ fn no_record_has_changed_what_it_decided() {
     }
     assert_eq!(
         edited,
-        31,
+        30,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

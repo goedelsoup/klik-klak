@@ -10,6 +10,7 @@ description = "Play a .game file: the menu, a choice, the response, and again."
 game-format.workspace = true
 verb-menu.workspace = true
 interaction-resolver.workspace = true
+response-presenter.workspace = true
 
 # **A dev-dependency and never a dependency.** `.yidam/decisions/two-components.yml` runs the
 # dependency instrument-to-engine, and this is the one place the arrow points back: a test that

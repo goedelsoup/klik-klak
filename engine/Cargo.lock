@@ -21,6 +21,7 @@ dependencies = [
  "game-format",
  "interaction-resolver",
  "reachability",
+ "response-presenter",
  "verb-menu",
 ]
 
@@ -32,6 +33,10 @@ dependencies = [
  "interaction-resolver",
  "verb-menu",
 ]
+
+[[package]]
+name = "response-presenter"
+version = "0.1.0"
 
 [[package]]
 name = "verb-menu"
