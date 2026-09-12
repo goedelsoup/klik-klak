@@ -1,9 +1,10 @@
 ---
 title: what the specimens found
 status: proposal
-reconciled: a0e59068218befb58a25c2ac73f42bf9ce60b66a
+reconciled: 2f1ce4c2fc1ac184881ab5c70aaab9f10252e7a4
 rests_on:
   - design/bounded-expression-language.md
+  - .yidam/corpus/actor/player-character.yml
   - design/specimen/lighthouse.game
   - design/specimen/ferry.game
   - .yidam/corpus/data-format/interaction-table.yml
