@@ -1,7 +1,7 @@
 ---
 title: what the specimens found
 status: proposal
-reconciled: 33319345f8425f338b4c4e9aa9e79d2d658ca872
+reconciled: acd731f9250abcff1fd8156c1841e9dcd4ff609b
 rests_on:
   - design/bounded-expression-language.md
   - design/specimen/lighthouse.game
@@ -256,6 +256,12 @@ called the surface abstract and forwarded a reader to
 [`interaction-table.yml`](../../.yidam/corpus/data-format/interaction-table.yml) for an unresolved
 tension between keying and reading like writing; the guarded response list — `when <predicate>
 "<line>"` — does both on one line, and four games are written against fifty constructs.
+
+**And the marker at the forwarding address now names what would settle it, which is these four
+games.** It asked whether a file that carries the writing reads like writing, and that is a
+measurement over 662 authored lines rather than a position anybody can take. This document is where
+the lines are counted; nothing in it moves, and the question it half-answers is now addressed to it
+by name. `.yidam/decisions/resolver-kind.yml`.
 `.yidam/decisions/settled-surface.yml`.
 
 **One specimen is much better evidence that a primitive was needed than that one is not**, and

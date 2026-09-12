@@ -1,7 +1,7 @@
 ---
 title: A bounded expression language for authored interaction
 status: proposal
-reconciled: 4555f765e60b10d96a2f29cd643d9bbf65f6de80
+reconciled: acd731f9250abcff1fd8156c1841e9dcd4ff609b
 rests_on:
   - .yidam/corpus/data-format/interaction-table.yml
   - .yidam/corpus/world-flag/boolean-flag.yml
@@ -686,6 +686,14 @@ or that anybody would enjoy writing in it.
   the join is the guarded response list — `when <predicate> "<line>"`, which keys and reads like
   writing on the same line."* A named construct, in the file this sentence pointed at.
   [`.yidam/decisions/settled-surface.yml`](../.yidam/decisions/settled-surface.yml).
+
+  **The marker stayed open under that, and now says what would close it, and it is this document.**
+  `authored_by`'s `[open]` read *"Nothing here resolves it, and one thing now tries"* without naming
+  the thing. The thing is this proposal, and what would settle it is **a measurement** rather than
+  another argument: whether a syntax that keys bindings separately from declarations reads like
+  writing is a question about the 662 authored lines, not about the sections above them.
+  [`.yidam/decisions/resolver-kind.yml`](../.yidam/decisions/resolver-kind.yml). Nothing here
+  changes; what changes is that the question is now addressed to an instrument.
 - **Whether the effect list stays closed.** The whole design rests on it. The first effect that
   must be conditional — *set this flag only if* — either becomes a guarded effect, which is
   Layer 1 applied to Layer 2 and costs nothing, or forces the door open. Nothing here has met
