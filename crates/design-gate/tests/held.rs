@@ -65,17 +65,23 @@ fn talking(root: &Path) -> Vec<String> {
     out
 }
 
-/// **Seventeen files, two positions, and the model is still free of time.**
+/// **Eighteen files, two positions, and the model is still free of time.**
 ///
 /// The presenter owns duration and `game-format` does not: the state model has no `Wait`, no
 /// `Pause`, no `Delay`, and eight effects none of which takes one. That is the half of
 /// `effect-list-semantics` this phase leaves exactly where it was.
+///
+/// The eighteenth is `resolver-kind`, and it uses the word about a clock rather than about a
+/// response: a question's duration is what `yidam due` measures and is the thing that record argues
+/// means nothing for three of the nine. Two senses of one word in one repository, and this count
+/// reads the string — which is worth knowing about a check whose whole subject is that the model
+/// has no time in it.
 #[test]
 fn duration_is_the_presenters_and_the_state_model_is_free_of_it() {
     let root = repo_root();
     assert_eq!(
         talking(&root).len(),
-        17,
+        18,
         "files that say the word — this record is one"
     );
 

@@ -231,12 +231,12 @@ word on something nothing else has needed — but it is the shape `orphan-in` re
 nodes, at four times the rate, and it had never been looked at.
 
 - [binding-axes](binding-axes.yml)
-- [calculators](calculators.yml)
 - [declared-reach](declared-reach.yml)
 - [domain-computer](domain-computer.yml)
 - [held](held.yml)
 - [line-format](line-format.yml)
 - [name-scoping](name-scoping.yml)
+- [resolver-kind](resolver-kind.yml)
 - [settled-surface](settled-surface.yml)
 
 ## What each record rests on
@@ -261,6 +261,7 @@ list is the one that record holds as a tripwire.
 - [prose-edges](prose-edges.yml)
 - [record-layer](record-layer.yml)
 - [record-lifecycle](record-lifecycle.yml)
+- [resolver-kind](resolver-kind.yml)
 - [schema-deferral](schema-deferral.yml)
 - [unread-clock](unread-clock.yml)
 

@@ -1,0 +1,131 @@
+id: resolver-kind
+summary: >-
+  **A question says what would close it, and the nine this corpus carries are four kinds the clock
+  reports as one.** Three wait on testimony no artifact supplies, one on a named artifact nobody has
+  retrieved, two are declined with a condition that would reopen them, and three did not say. Six
+  already said, in five spellings, with nothing having asked them to. The convention is written down
+  and the three are answered; the clock's declaration says what it can and cannot see.
+context: |
+  `yidam due` read *"none past 100 commit(s)"* for this repository's whole life. It now reads **"5 of
+  9 open question(s) past 100 commit(s)"**, and the eleven commits of the two phases before this one
+  are what pushed it over. The one clock `.yidam/config.toml` declares has fired for the first time.
+
+  [unread-clock](unread-clock.yml) already established that the number the report counts is not the
+  age of a question: `due` says 101 for the genesis marker in `actor/player-character.yml`, and the
+  commit that last wrote that line is **513** back. [verified] — `crates/design-gate/tests/clock.rs`
+  computes the second and `.yidam/config.toml` carries the argument for holding them apart.
+
+  So the figure is not the finding. The finding is that a threshold has been crossed and the
+  repository is asked to do something about five questions, and **three of the five will not close
+  by anybody doing anything.**
+decision: |
+  **1. The nine are four kinds.** [verified] —
+  `crates/design-gate/tests/resolvers.rs`, where the classification is a declared table and what is
+  checked is that it covers every marker and invents none.
+
+  | what would close it | questions |
+  |---|---|
+  | **testimony** — an account of what authoring was like | `prior-art/ags`, `interaction/acquisition-binding`, `failure-mode/orphaned-dialogue-branch` |
+  | **retrieval** — a named artifact, not yet held | `prior-art/sierra-sci` |
+  | **a condition** — declined, and the marker states what would reopen it | `hotspot/static-region`, `world-flag/latched-flag` |
+  | **unstated** | `actor/player-character`, `data-format/interaction-table`, `walkbox/scaled-polygon` |
+
+  **The three waiting on testimony are the case that matters.** All three ask what an author
+  experienced or intended; all three already point at [testimony](testimony.yml); and that record's
+  whole argument is that every source this corpus holds is an artifact, and an artifact records what
+  was built rather than why or what building it was like. [verified]
+  [class-library](class-library.yml) put that to the test three times in one phase and it held:
+  an infrastructure memo, an unreadable scan, and a style manual that prescribes.
+
+  **A tripwire that fires on a condition nobody can clear is an alarm with no off switch.** That is
+  not an argument for silencing it. It is an argument for the report saying which of the five it is
+  reporting, which no clock can do and which the table above now does.
+
+  **2. The convention was already there, in five spellings, and is written down now.** Six of the
+  nine say what would close them and nothing had asked them to:
+
+  - `orphaned-dialogue-branch` — *"a question about people rather than about artifacts, and every
+    source this corpus holds is an artifact"*
+  - `acquisition-binding` — *"no source this corpus holds reports what using the thing was like"*
+  - `ags` — *"Three retrievals failing is not three accidents"*
+  - `sierra-sci` — *"What would settle it is an SCI1-era artifact"*
+  - `static-region` — *"the condition on adopting it has not changed"*
+  - `latched-flag` — *"sets out the three readings and declines to choose"*
+
+  **This is the third time this repository has found a convention with a following and no
+  statement.** [unread-list](unread-list.yml) found it in the catalog — four entries recording where
+  a reading went, in four spellings, before anything said to. `crates/design-gate/tests/sourcing.rs`
+  found four nodes writing about their own evidence standing, *"and all four are nodes the lint had
+  reported at some point"*. The pattern is the same each time: a practice that is obviously right is
+  adopted by whoever notices, spelled differently by each, and breaks on the first case where nobody
+  notices. [inference]
+
+  So [marker-count](marker-count.yml)'s convention gains a second half. That record says **the token
+  names a live question and a retraction does not re-emit it**; this adds that **the question says
+  what would close it**. `.yidam/corpus/README.md` carries both, where the claim-tag conventions are.
+
+  **3. The three that did not say, say now, and answering them is not what happened.**
+
+  - `actor/player-character` asks whether transferring control needs vocabulary beyond a world flag
+    naming the controlled actor. What would close it is **a specimen**: a game in which the player
+    switches between characters, written in this language, that either needs a construct or does
+    not. None of the four does. That makes it the same kind as the question `design/specimen`
+    carries about `exit` — a primitive argued for and unexercised — and the two are related for the
+    first time here.
+  - `data-format/interaction-table.authored_by` said *"Nothing here resolves it, and one thing now
+    tries."* The thing was `design/bounded-expression-language.md` and it is named now. What would
+    close it is **a measurement**: whether the syntax that keys bindings separately from
+    declarations reads like writing, against a body of authored work. Four specimens and 662 lines
+    exist to measure against.
+  - `walkbox/scaled-polygon` asks whether adjacency between regions needs a relationship of its own,
+    and had already found the shape of its own answer without saying so: *"a relationship no author
+    ever writes is the shape [found-in](found-in.yml) turned out to have."* What would close it is
+    **that record's own test**, applied here — and the marker says so.
+
+  **What this does not do: change the interval, or silence the clock.** Raising 100 would be hiding
+  a report that is correct about the thing it can see. [inert-reports](inert-reports.yml) settled
+  that every clock is answered — declared, or declined with its reason on the commented key — and
+  this is the same discipline one level in: the clock stays, and what it cannot distinguish is
+  written where a reader who follows its arrow will land.
+
+  **And it does not retire the three.** A question nothing in reach can answer is still a live
+  question about adventure games, and `testimony` is a standing account of why rather than a
+  retirement. [calculators](calculators.yml) retired two skills because *the thing that wanted them
+  went away*; nothing here has gone away. `[open]`
+rationale: |
+  **The clock firing is the least interesting thing that happened and it is what made the rest
+  visible.** The number `due` reports is not an age and this repository has known that for a long
+  time; what a threshold does is force somebody to look at the list, and the list turned out to have
+  a structure nothing had recorded.
+
+  **What separates a question waiting for work from one waiting for evidence that does not exist is
+  whether anybody can say what would close it** — and that is a property of the *marker*, not of the
+  question. A marker that says only *this is open* is unfalsifiable and unschedulable: nothing can
+  check it, nothing can plan against it, and it will sit at whatever age the clock computes forever
+  without anyone being able to say whether that is a failure.
+
+  **The cost of the convention is that a marker can be wrong, and that is the argument for it.**
+  [class-library](class-library.yml) is the demonstration: `input-side` named the artifact that would
+  close its question, the next phase read that artifact, and it was dated two years before the thing
+  it was supposed to describe. A question with a named resolver *reads as nearly answered*, which is
+  the failure mode, and it is also the only reason anybody checked. Three of the nine have now been
+  wrong-able for the first time. [inference]
+
+  **This is a phase about the repository and not about adventure games, and
+  `crates/design-gate/tests/subject.rs` is right to say so.** It rests on the gate alone: no catalog
+  entry, no engine crate, and the run of records needing no document goes to one along with the run
+  resting on the gate alone. Both are correct. How a marker should be written and what a clock can
+  see are questions about this artifact's practice, and no adventure-game source answers either.
+
+  That check exists to make this visible rather than to prevent it, and it names the test: *"it does
+  not say the run is wrong, it says nobody may extend it without noticing."* What would extend it
+  wrongly is a second consecutive phase on the same subject, and the thing that clears it is already
+  named — `actor/player-character`'s question wants a specimen, which is a game, which is the
+  subject. [inference]
+
+  **The three testimony-blocked questions are the corpus's most honest artifact and its least
+  useful report.** They are honest because a repository that stopped at *we do not know* would be
+  worth less than one that says *and here is the kind of thing that would tell us, and it does not
+  exist for this subject*. They are useless to a clock because a clock measures duration and their
+  duration means nothing. Both halves are true at once and the table is what lets them be written
+  down together.

@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (589, 97, 74));
+    assert_eq!((total, mentions, tests.len()), (603, 98, 75));
 }
 
-/// **Eight of eighty-one records are cited by nothing, against three of forty-four nodes.**
+/// **Eight of eighty-two records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -323,12 +323,12 @@ fn a_record_nothing_cites_is_named() {
         alone,
         [
             "binding-axes",
-            "calculators",
             "declared-reach",
             "domain-computer",
             "held",
             "line-format",
             "name-scoping",
+            "resolver-kind",
             "settled-surface",
         ],
         "eight, and `normal-form` is not here because the record it answers cites it back. \
@@ -345,7 +345,7 @@ fn a_record_nothing_cites_is_named() {
          now cites the record that corrected it"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (81, 276));
+    assert_eq!((c.len(), edges), (82, 284));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
