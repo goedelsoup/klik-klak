@@ -1,0 +1,97 @@
+id: parser-silence
+summary: >-
+  The reader accounts for every token on every line, and the arity is stated once per construct
+  rather than checked by hand fifteen times. **229 of 349 specimen lines accepted a word the reader
+  never looked at and eight keywords aborted the process on a bare one** — because only `when`,
+  `do` and `else` had a grammar, and everything else in the format was an index expression.
+  `design/bounded-expression-language.md` was named after the half that worked.
+context: |
+  [parse.rs](../../crates/game-format/src/parse.rs) has opened with this since it was written:
+  *"Anything it does not recognise is reported rather than ignored — a reader that silently skips
+  what it does not understand would let a specimen claim coverage it does not have, which is the
+  one failure this crate exists to prevent."* Nothing ever checked it.
+
+  [verb-names](verb-names.yml) found one violation by accident, from the outside: rendering a menu
+  wanted to know who a conversation was held with, and `conversation <name> with <actor>` turned
+  out to read `t[1]` and never `t[2]`, so `conversation keeper-talk beside keeper` parsed
+  identically. That phase repaired the one construct. It did not ask how many others were the same
+  shape, and the answer is all of them.
+
+  **229 of 349 mutable lines accept a junk token in silence.** [verified] —
+  `crates/game-format/tests/ignored.rs`. Three constructs are strict, covering 106 lines: `when`,
+  `do` and `else`, which hand the whole token slice to `pred` or `effect` and must consume it.
+
+  **The census had to be run twice, because the first answer flattered the reader by 76 lines.**
+  Mutating with `XYZZY` gives 153, and the difference is `resolve`'s admission rule answering a
+  question the reader was asked: `look-at XYZZY` fails because nothing declares `XYZZY`, never
+  because a unary verb was handed an object. Hand it a **declared** name and it is taken — and
+  taken *as an object*, so `look-at crowbar:` becomes a binding `verb_menu::live` shows only while
+  the player carries a crowbar. A description that appears and disappears, written by a typo, and
+  reported by nothing. [verified]
+
+  The other side of indexing is the crash. `t[1]` where `t.len() == 3` drops a token and `t[1]`
+  where `t.len() == 1` is an index out of bounds: **eight keywords panic on a line with nothing
+  after them** — `room`, `item`, `flag`, `counter`, `conversation`, `actor`, `hotspot`, `option`.
+  [verified] A reader whose stated purpose is to report rather than ignore does neither there; it
+  aborts.
+decision: |
+  **Every construct states the form it reads, and the reader holds the line to it. Nothing is
+  added to the `.game` surface and nothing is taken away.**
+
+  **1. Two helpers, not fifteen checks.** `P::at` returns the operand at an index or reports the
+  form, replacing every `t[1]`; `P::rest` reports whatever follows what the construct consumed.
+  The defect is not that fifteen checks were missing — it is that the one check that existed,
+  `t.len() != 2` on the `room` declaration, was written at one site and could not be reused. A
+  rule that has to be remembered per branch is a rule that will be forgotten at the next branch,
+  and this file has sixteen.
+
+  **2. The form is the error message.** A construct names what it reads — ``a room section reads
+  `room <name>` `` — so the reader that rejects a line is also the reader that documents it. That
+  is worth more here than a count: the `.game` format has no grammar document a person reads, and
+  [`bounded-expression-language`](../../design/bounded-expression-language.md) specifies the half
+  that already worked.
+
+  **3. `look-at crowbar:` is a parse error and not a resolve error.** The admission rule stays
+  exactly as it is — it answers *this name is not declared* — and the reader answers *this verb
+  takes no object*. The two were doing one job badly between them, and the 76-line gap is what
+  that looked like.
+
+  **4. The specimens do not change.** All four read clean before and after, which is the evidence
+  that this is a reader change rather than a format change: the authoring surface is the same size
+  it was — `crates/design-gate/tests/figures.rs` is where that figure lives and this record does
+  not restate it — and every figure four phases quote is computed from the same parse trees, with
+  the same 91 bindings and 81 declared names. [verified]
+
+  **What this does not do: give the format a grammar.** Sixteen branches each stating their own
+  arity is better than sixteen branches stating nothing, and it is not a specification. The
+  boundary this phase draws is that a construct must account for its line; what a construct *is*
+  remains a match arm. Whether the declaration half should be described the way the expression
+  half is — a written grammar, from which the reader is derived rather than compared — is a real
+  question and is not answered here. `[open]`
+rationale: |
+  **The shape of the defect is the shape of the design's best idea, inverted.** This project's
+  central claim is that a bounded language is worth its constraints because it can be checked
+  through — [escape-hatch](escape-hatch.yml), [effect-vocabulary](effect-vocabulary.yml) and the
+  bounded-language proposal all argue it. `pred` and `effect` are that argument in code: they take
+  a slice and must account for it, so nothing can hide in one. The declarations were never given
+  the same treatment and nobody noticed, because the declarations are the boring half.
+
+  **And the boring half is where an author spends their errors.** The three strict constructs are
+  the ones a checker reads most and a person writes least: 106 lines of guard and effect against
+  243 lines of declaring, siting and saying. [verified] The part of the format most likely to be
+  mistyped had the least of the reader's attention, which is the exact inversion of where it
+  should have been.
+
+  **The 76-line gap is a lesson about checks that pass for the wrong reason.**
+  [inert-reports](inert-reports.yml) named the failure of a report nobody reads; this is its
+  neighbour — a check that holds because something else happens to catch the case, and stops
+  holding the moment that something else is not looking. `look-at XYZZY` failing made four verbs
+  look accounted-for for as long as nobody tried a real name. A census is only as good as its
+  mutation, and this one had to be run twice before it stopped agreeing with the code.
+
+  **Eight panics is the same defect wearing the opposite face, and it matters more than it looks.**
+  A dropped token corrupts a specimen quietly; an abort is loud and cannot be ignored. But both
+  come from `t[1]`, and a repair that fixed only the crash would have left the silence — which is
+  the worse half, because `authored-text`, `walked-in`, `verb-names` and `orphaned-lines` all rest
+  on parse trees this reader produced, and a tree that silently dropped a token is a figure nobody
+  can audit.
