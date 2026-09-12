@@ -129,9 +129,16 @@ decision: |
   every claim here about AGI authoring practice is `[inference]` on that account. For SCI it is the
   other way round: Sierra's own documents, one of eleven read.
 
-  **Whether SCI1's icon bar was a game script or an engine feature is answerable and unanswered.**
-  *Script Classes for Adventure Games* is in the retrieved set, unread, and is where a verb bar
-  would be declared if Sierra declared one. `[open]`
+  **Whether SCI1's icon bar was a game script or an engine feature is answerable and unanswered,
+  and this marker named the wrong document to answer it with.** It said *Script Classes for
+  Adventure Games* *"is where a verb bar would be declared if Sierra declared one"*. That document
+  is Jeff Stephenson, **5 April 1988** — SCI0, two years before SCI1 shipped — and both dates were
+  already in the catalog entry this sentence sits beside. It was read, it lists thirty-one classes
+  and no verb interface among them, and it is too early to be evidence either way.
+  [class-library](class-library.yml).
+
+  What would settle it is an **SCI1-era** artifact: a system script from 1990 or later, or a
+  shipped title's own `Game` and `User` subclasses. Neither is retrieved. `[open]`
 rationale: |
   **The finding is that a retrieval nobody did was holding a conclusion nobody could check, and
   the conclusion was about the most important thing in the file.** `sierra-sci` called its own

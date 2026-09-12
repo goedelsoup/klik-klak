@@ -123,21 +123,23 @@ fn no_unread_list_names_an_artifact_the_catalog_holds() {
     );
 }
 
-/// **Five of ten record what has since been read, and the rule is written down now.**
+/// **Six of ten record what has since been read, and the rule is written down now.**
 ///
 /// It was four, in four spellings, with nothing asking them to. The discriminator is exact: the
 /// entries that record a retrieval write some form of *been read* in the list itself and the ones
 /// that do not, do not — which is what a convention with a following and no statement produces.
 ///
-/// The five that stay silent are silent correctly. `ags-272-manual` and `wikipedia-scumm` have
+/// The four that stay silent are silent correctly. `ags-272-manual` and `wikipedia-scumm` have
 /// had nothing further read, and `ags-source`'s list excludes what was read by naming it (*"the
 /// editor beyond the four files above"*), which is a fifth spelling of the same intent and is left
 /// alone rather than regularised.
 ///
-/// `agi-specifications` and `sci-inhouse-docs` are silent because they are new: an entry retrieved
-/// in the commit that re-pins this check has an unread-list and nothing that has come off one. A
-/// sixth spelling would be a first entry claiming a re-reading it has not had, and the discriminator
-/// is exact enough to catch that too.
+/// `agi-specifications` is silent because it is new: an entry has an unread-list and nothing that
+/// has come off one until something does. `sci-inhouse-docs` was silent for one phase and is not
+/// any more — three items came off its list together, and one of the three came off in a way this
+/// convention has no state for. It is **retrieved, opened, and not readable here**: a scan with no
+/// text layer, on a machine with no OCR. The entry writes that out rather than leaving it on the
+/// list, because a reader who saw it listed as unread would repeat the attempt.
 #[test]
 fn most_unread_lists_record_what_has_since_been_read() {
     let root = repo_root();
@@ -157,6 +159,7 @@ fn most_unread_lists_record_what_has_since_been_read() {
             "ags-manual.md",
             "delores-source.md",
             "grumpy-gamer-pdc.md",
+            "sci-inhouse-docs.md",
             "scumm-v5-opcode-reference.md",
             "twp-dev-diary.md",
         ],
@@ -168,10 +171,9 @@ fn most_unread_lists_record_what_has_since_been_read() {
             "agi-specifications.md",
             "ags-272-manual.md",
             "ags-source.md",
-            "sci-inhouse-docs.md",
             "wikipedia-scumm.md",
         ],
-        "and the five with nothing to record"
+        "and the four with nothing to record"
     );
 
     let readme = std::fs::read_to_string(root.join(".yidam/catalog/README.md")).expect("readable");

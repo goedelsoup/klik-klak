@@ -18,6 +18,12 @@ location:
   - kind: url
     value: https://sciwiki.sierrahelp.com/index.php/Sierra_Creative_Interpreter
     description: the community's account of SCI's versions, read for the SCI0-to-SCI1 interface change
+  - kind: url
+    value: https://sciwiki.sierrahelp.com/index.php/Script_Classes_for_Adventure_Games
+    description: Jeff Stephenson, 5 April 1988 — thirty-one classes, read in full
+  - kind: url
+    value: https://sciwiki.sierrahelp.com/images/9/95/Laura_Bow_II_-_Programming_Style_Manual.pdf
+    description: a 5.4MB scan with no text layer; retrieved and unreadable without OCR
 used-by:
   - ../corpus/prior-art/sierra-sci.yml
 ---
@@ -38,7 +44,8 @@ The set as indexed is eleven documents: *The Script Programming Language*, *SCI 
 Documentation*, *Object Oriented Programming in Script*, *Script Classes for Adventure Games*,
 *SCI Parser Programmer's Reference*, *Run Time System Changes*, *SCI Changes & Updates*, *The SCI
 Programming Language*, *Recommended Procedures for SCI Game Programming Coordinators*, *Gravity
-Simulation in SCI*, and *Laura Bow II Programming Style Manual*. **One has been read.**
+Simulation in SCI*, and *Laura Bow II Programming Style Manual*. **Three have been opened: two read,
+one that cannot be read here.**
 
 The transcriptions are hosted on a live wiki, so the TTL is set against the subject rather than the
 page: SCI stopped changing in 1997 and these documents are dated 1988 onward. The risk this entry
@@ -97,17 +104,67 @@ If that holds, the icon bar was a library a game shipped rather than a primitive
 and Sierra's authoring surface was a general-purpose language at both ends of the transition —
 which is what [`prior-art/sierra-sci.yml`](../corpus/prior-art/sierra-sci.yml) rests on it for.
 
+**Script Classes for Adventure Games**, Jeff Stephenson, 5 April 1988 — read for one question and
+answering a larger one.
+
+It opens by saying what a language is not enough for: *"An interesting feature of object-oriented
+languages is that simply knowing the syntax and the primitive procedures (kernel calls) of the
+language does not help you all that much in the actual process of sitting down and embodying an idea
+using the language."* [verified] What Sierra gave an author above the language is thirty-one
+classes — `RootObj`, `Object`, `Collection`, `List`, `Set`, `EventHandler`, `Inventory`, `Script`,
+`Timer`, `Feature`, `View`, `Prop`, `Actor`, `Ego`, `PicView`, the cycling and motion classes,
+`Avoider`, `Event`, `User`, `Game`, `Region`, `Locale`, `Room`, `InvItem`, `Block`, `Cage`, `Sound`,
+`StatusLine`, `File`, `Code` — and **not one of them is a verb bar, icon bar or menu class.**
+[verified]
+
+- **`Feature`** is *"simply a location on the screen that has a handleEvent method"*: three
+  properties, `x`, `y` and `z`, and one method. It is attached with `(curRoom setFeature:myFeature)`,
+  and with `useSortedFeatures` set, events are distributed by proximity to the player. [verified]
+  Nothing can enumerate what a Feature offers, because the answer is inside a method.
+- **`User`** is the whole input path: *"an object which corresponds to the person playing the game
+  and acts as the intermediary between the person and the other objects in the game."* Its `doit:`
+  sends `handleEvent:` in succession to `TheMenuBar`, `alterEgo` and the regions, and when nothing
+  claims the event, *"User puts up an input line and waits for the player to type a line of input."*
+  [verified] `TheMenuBar` is glossed there as **"the game's menu bar"** — an object the game
+  supplies, not a class this library defines.
+- **`Room`** carries `north`, `east`, `south` and `west`: *"The number of the room to which you wish
+  to automatically change when ego hits the specified edge of the room. If you wish to control the
+  room change yourself when ego hits a certain edge, do not specify the room for that edge in the
+  Room instance and check (ego edgeHit?) yourself."* [verified] A declarative exit in four fixed
+  slots, whose escape hatch is the empty slot. Also `blocks`, *"rectangles which Actors are not
+  allowed to enter"*, and `horizon`.
+
+The document is two years earlier than the interface question it was retrieved to settle, so it
+cannot settle it. What it settles instead is what kind of thing Sierra handed an author, and the
+answer is a third one beside a vocabulary and an escape hatch.
+
 ## What this document holds that nobody here has looked at
 
-Ten of the eleven, and two of them are aimed straight at open questions here.
+Eight of the eleven. Three came off this list in one phase and each says where it went —
+`.yidam/decisions/class-library.yml`.
 
-- ***Script Classes for Adventure Games*** is the authoring surface this entry has read around
-  rather than read: what an author inherits from, and what a room, an actor and a feature are as
-  classes. The corpus's `subsystem` class and its `verb` instances both have a stake in it.
-- ***Recommended Procedures for SCI Game Programming Coordinators*** and the ***Laura Bow II
-  Programming Style Manual*** are procedural rather than referential — what Sierra told a team to
-  *do*. Nothing else in this catalog is that, and they are the nearest thing in reach to the
-  question `testimony.yml` names, without being it.
+- ***Script Classes for Adventure Games*** **has been read.** Jeff Stephenson, 5 April 1988:
+  thirty-one classes, no verb interface among them, a `Feature` that is *"simply a location on the
+  screen that has a handleEvent method"*, and a `Room` whose `north`/`east`/`south`/`west` hold the
+  number of a room to change to automatically. It was named as the document that would settle
+  whether SCI1's icon bar was an engine feature, and it is two years too early to settle it.
+- ***Recommended Procedures for SCI Game Programming Coordinators*** **has been read, and it
+  declines.** Pablo Ghenis for the SCI Development Group, 30 January 1989, addressed to Scott
+  Murphy, Corey Cole, Chris Iden, Warren Schwader and all game programming coordinators. It is
+  directory structure, system version freezing and `autoexec.bat` — *"To fix system bugs or
+  shortcomings and provide enhancements in order to facilitate further game development"* against
+  *"To isolate game developers from system instabilities while the above goal is being met."*
+  Nothing in it is about authoring a game.
+- ***Laura Bow II Programming Style Manual*** is **retrieved, opened, and not readable here** —
+  which is a third state this section's convention has no spelling for, and is why it is written out
+  rather than left on the list. The file is a 5.4MB scan: 15 images, 37 compressed streams, and
+  **no text layer at all**. This machine has no `pdftotext` and no `pdftoppm`, so nothing here can
+  turn it into words. It is the one of the three most likely to be near what `testimony.yml` wants —
+  a named lead programmer's coding preferences for a shipped game — and what it says is unknown.
+
+  Left on the list as merely unread, it would send the next reader down the same path. That is the
+  same argument `unread-list.yml` makes for recording where a reading went, applied to a reading
+  that did not happen and was not skipped.
 - *The Script Programming Language*, *The SCI Programming Language*, *Object Oriented Programming
   in Script* and the *SCI Kernel Documentation* describe the general-purpose half — the thing an
   AGS author escapes *to*, documented from the inside for once.

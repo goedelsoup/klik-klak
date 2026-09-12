@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (579, 97, 73));
+    assert_eq!((total, mentions, tests.len()), (589, 97, 74));
 }
 
-/// **Nine of eighty records are cited by nothing, against three of forty-four nodes.**
+/// **Eight of eighty-one records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -327,23 +327,25 @@ fn a_record_nothing_cites_is_named() {
             "declared-reach",
             "domain-computer",
             "held",
-            "input-side",
             "line-format",
             "name-scoping",
             "settled-surface",
         ],
-        "nine, and `normal-form` is not here because the record it answers cites it back. \
+        "eight, and `normal-form` is not here because the record it answers cites it back. \
          A phase that retracts an earlier `[open]` writes into the record that raised it, so \
          the newest record is cited by the oldest thing it touched on the day it lands — which \
          is the one way this list empties from the front. `held` stays for the reason it \
          arrived: it reconciles two standing positions rather than answering a question either \
          of them left open, so nothing had a marker to retract. Reconciling is the one kind of \
-         work this list cannot see — and `input-side` has now shown a second: a phase whose \
-         subject is a retrieval revises a corpus node rather than a record, so it touches \
-         nothing here and lands uncited on the day it arrives"
+         work this list cannot see — and `input-side` showed a second for one phase: a phase \
+         whose subject is a retrieval revises a corpus node rather than a record, so it touches \
+         nothing here and lands uncited on the day it arrives. Both it and `class-library` came \
+         off the front the ordinary way and one commit apart, which is the mechanism twice: \
+         `class-library` read the documents `input-side` had named, and `input-side`'s marker \
+         now cites the record that corrected it"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (80, 269));
+    assert_eq!((c.len(), edges), (81, 276));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -524,20 +526,27 @@ fn no_record_has_changed_what_it_decided() {
             moved.push(stem(&p));
         }
     }
-    // 34 rather than 30 because `parser-silence`, `round-trip`, `calculators` and `normal-form`
+    // 35 rather than 30 because `parser-silence`, `round-trip`, `calculators` and `normal-form`
     // were each extended after their `decide:` commit and before their phase settled — the gate
     // asked each a question its first draft did not answer, which is the gate working. Three of
     // the four were asked for a source and found one. What this check is for is a record whose
     // *summary* moved, and that is `moved` below.
     //
-    // It counts what the history holds rather than what happened: `line-format` was extended the
-    // same way and the extension was folded into its `decide:` commit with `--amend`, so it is not
-    // here. That is the check reading the record it was given, which is the only thing it can do —
-    // and a reason to prefer the amend, since a record's history should be the phase's argument
-    // rather than the drafting of it.
+    // It counts what the history holds rather than what happened: `line-format` and
+    // `class-library` were both extended the same way and both extensions were folded into their
+    // `decide:` commits with `--amend`, so neither is here. That is the check reading the record it
+    // was given, which is the only thing it can do — and a reason to prefer the amend, since a
+    // record's history should be the phase's argument rather than the drafting of it.
+    //
+    // The thirty-fifth is `input-side`, and it is the other kind entirely: a later phase writing
+    // into it, which is what `a_record_nothing_cites_is_named` calls the one way that list empties
+    // from the front. `class-library` found the marker named a document two years too early to
+    // answer it, and the correction went where the marker is. A record edited by the phase that
+    // drafted it and a record edited by the phase that read it are both edits, and only the second
+    // is the graph doing what it is for.
     assert_eq!(
         edited,
-        34,
+        35,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()
