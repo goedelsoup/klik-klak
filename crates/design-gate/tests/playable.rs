@@ -1,27 +1,28 @@
-//! **Three components, and nothing plays a game.**
+//! **The engine plays a game, and the file that does it is not a component.**
 //!
-//! `engine/` holds two crates, 391 lines of source, five tests and **no binary**. Every test
-//! drives one component in isolation: the menu is asked what it shows, the resolver is asked what
-//! one binding does. Nothing asks the two of them in turn, which is what playing is.
+//! `engine/` held two crates, 391 lines of source, five tests and **no binary**. Every test drove
+//! one component in isolation: the menu asked what it shows, the resolver asked what one binding
+//! does. Nothing asked the two of them in turn, which is what playing is.
 //!
 //! The only thing in this repository that composes the components is `reachability::analyse` — and
 //! it is a **search**. It asks the menu for what is offered, applies every one of them, and walks
 //! the graph. A player picks one. The difference between those two sentences is the whole of what
 //! is missing, and it lives in the instrument rather than in the engine.
 //!
-//! **The file that would do it cannot be written.** `engine/`'s gate asks every source file under
-//! the directory for a `realizes: subsystem/<name>` naming a node the corpus declares. A driver is
-//! not one of the four and would not be one if there were forty: it is a *client* of components,
-//! and the gate has no spelling for that. *"Silence is not available"* is the rule, and the only
-//! way to write this file today is to claim it is a component it is not.
+//! **The file that would do it could not be written.** The gate asked every source file for a
+//! `realizes: subsystem/<name>`, and a driver is not one of the four and would not be one if there
+//! were forty: it is a *client* of components. `composes:` is the second spelling, and it invents
+//! nothing — every name in it must still be a subsystem the corpus declares, so *"silence is not
+//! available"* survives intact. `.yidam/decisions/playable.yml`.
 //!
-//! **And the guarantee the resolver exists for is unchecked.** `interaction-resolver`'s whole
-//! specification is *"never nothing — a silent miss is the failure players read as brokenness"*,
-//! and `Outcome::Refused { says: None }` is that failure with a name. Nothing holds it against a
-//! game. `.yidam/decisions/authored-text.yml` opened the question and declined to check it;
-//! `.yidam/decisions/two-components.yml` gave it a type and did not check it either.
+//! **And the guarantee the resolver exists for is checked now.** *"Never nothing — a silent miss
+//! is the failure players read as brokenness"* is that node's whole specification, and
+//! `Report::silent` holds it against four games. Two phases walked past it: one opened the
+//! question, the other gave it a type.
 //!
-//! These checks pin the state. They are rewritten into the rule in the same phase.
+//! The slice narrowed the check on its first run. Three turns of a winning run of
+//! `lighthouse.game` say nothing and none is a miss — the world moved, and the movement is the
+//! response.
 
 use design_gate::repo_root;
 use std::path::Path;
@@ -55,55 +56,50 @@ fn files(root: &Path, crate_: &str, dir: &str) -> Vec<std::path::PathBuf> {
     out
 }
 
-/// **Two crates, no binary, and every test drives one component alone.**
+/// **Three crates, a binary, and something that drives both components.**
 #[test]
-fn the_engine_has_components_and_no_way_to_run_them() {
+fn the_engine_has_components_and_a_client_that_runs_them() {
     let root = repo_root();
     assert_eq!(
         engine_crates(&root),
-        ["interaction-resolver", "verb-menu"],
-        "the components that exist"
+        ["interaction-resolver", "play", "verb-menu"],
+        "two components and a client"
     );
 
-    let (mut src, mut tests, mut bins) = (0, 0, 0);
+    let mut bins = 0;
     for c in engine_crates(&root) {
         for p in files(&root, &c, "src") {
-            src += std::fs::read_to_string(&p)
-                .expect("readable")
-                .lines()
-                .count();
             if p.file_name().is_some_and(|n| n == "main.rs") {
                 bins += 1;
             }
         }
-        for p in files(&root, &c, "tests") {
-            tests += std::fs::read_to_string(&p)
-                .expect("readable")
-                .matches("\n#[test]")
-                .count();
-        }
     }
-    assert_eq!(
-        (src, tests, bins),
-        (391, 5, 0),
-        "source lines, tests, binaries"
-    );
+    assert_eq!(bins, 1, "`cargo run -p play -- <game> [script]`");
 
-    // and neither component reaches for the other's turn
+    // and neither component reaches for the other's turn — the composition is the client's
     let menu = read(&root, "engine/verb-menu/src/lib.rs");
     assert!(
         !menu.contains("interaction_resolver"),
         "the menu does not resolve"
     );
+    let resolver = read(&root, "engine/interaction-resolver/src/lib.rs");
+    assert!(
+        !resolver
+            .lines()
+            .any(|l| !l.trim_start().starts_with("//") && l.contains("verb_menu::in_menu")),
+        "and the resolver does not decide what is shown — it names the function in prose only"
+    );
 }
 
-/// **The only thing that composes the components is a search, and it is in the instrument.**
+/// **Two compositions now, and the difference between them is the whole of what was missing.**
 ///
-/// `analyse` asks the menu what is offered and applies *every* one of them. A player picks one.
-/// That difference is the slice, and nothing in `engine/` performs it.
+/// `reachability::analyse` asks the menu what is offered and applies *every* one of them.
+/// `play::Session::take` asks the same question and applies the one that was picked. A search and
+/// a player, over one evaluator.
 #[test]
-fn the_one_composition_that_exists_is_a_search() {
+fn the_search_applies_every_offer_and_the_client_applies_one() {
     let root = repo_root();
+
     let search = read(&root, "crates/reachability/src/lib.rs");
     assert!(
         search.contains("verb_menu::in_menu(") && search.contains("resolver::apply("),
@@ -114,38 +110,49 @@ fn the_one_composition_that_exists_is_a_search() {
         "by walking a queue rather than by being told what to do"
     );
 
-    for c in engine_crates(&root) {
-        for p in files(&root, &c, "src")
-            .into_iter()
-            .chain(files(&root, &c, "tests"))
-        {
-            let s = std::fs::read_to_string(&p).expect("readable");
-            assert!(
-                !s.contains("verb_menu::") || !s.contains("interaction_resolver::"),
-                "{}: something in engine/ composes both components",
-                p.display()
-            );
-        }
+    let client = read(&root, "engine/play/src/lib.rs");
+    assert!(
+        client.contains("shown(&self.world, &self.state)")
+            && client.contains("respond(&self.world"),
+        "and the client drives both components too"
+    );
+    assert!(
+        !client.contains("VecDeque"),
+        "by being told which one, which is the only difference between them"
+    );
+
+    // The state is the client's and no component's — all four subsystems declare none across
+    // frames, which is what `.yidam/decisions/playable.yml` answered for `two-components`.
+    assert!(
+        client.contains("pub state: State,"),
+        "the client owns the world"
+    );
+    for c in ["verb-menu", "interaction-resolver"] {
+        let src = read(&root, &format!("engine/{c}/src/lib.rs"));
+        assert!(
+            !src.contains("pub struct") || !src.contains(": State,"),
+            "{c} holds a state between calls"
+        );
     }
 }
 
-/// **The gate has no spelling for a file that is not a component.**
+/// **The gate has a spelling for a file that is not a component, and it invents nothing.**
 ///
-/// A driver composes components and is none of them. The rule asks every source file to name the
-/// subsystem it realizes, so the only way to write one today is to claim it is something it is
-/// not — and `engine/README.md` says *"silence is not available"*, which is exactly right and
-/// leaves nowhere to put this.
+/// `composes:` names components rather than claiming to be one, and every name in it is checked
+/// against the corpus exactly as `realizes:` is. A file with neither still fails.
 #[test]
-fn a_file_that_composes_components_cannot_be_written_here() {
+fn a_file_that_composes_components_says_so_and_names_only_declared_ones() {
     let root = repo_root();
     let gate = read(&root, "crates/design-gate/tests/engine.rs");
     assert!(
-        gate.contains("a file under engine/ declaring no `realizes:` in its first ten lines"),
-        "every source file must name a subsystem"
+        gate.contains("composes:") && gate.contains("Kind::Composes"),
+        "the gate reads the second spelling"
     );
     assert!(
-        !gate.contains("composes:"),
-        "and there is no second spelling for a client of components"
+        gate.contains(
+            "a file under engine/ declaring neither `realizes:` nor `composes:` in its first ten"
+        ),
+        "and a file with neither is still a failure"
     );
 
     let readme = read(&root, "engine/README.md");
@@ -154,55 +161,49 @@ fn a_file_that_composes_components_cannot_be_written_here() {
         "which the contract states as the rule rather than as an accident"
     );
     assert!(
-        flat(&readme).contains("nothing here has a loop, a clock, or an output"),
-        "and the contract already says what is missing"
+        flat(&readme).contains("composes: verb-menu, interaction-resolver"),
+        "and shows the declaration in the form the gate reads"
+    );
+
+    let client = read(&root, "engine/play/src/lib.rs");
+    assert!(
+        client.lines().take(10).any(|l| l.contains("composes:")),
+        "the client declares what it composes"
     );
 }
 
-/// **The guarantee the resolver exists for is unchecked.**
+/// **Never nothing, held against four games.**
 ///
-/// *"Never nothing"* is the whole specification, `Outcome::Refused { says: None }` is the failure
-/// it names, and no test anywhere holds it against a game. Two phases have walked past it: one
-/// opened the question, the other gave it a type.
+/// `Report::silent` is the guarantee as a check, and the mutation test beside it is what makes it
+/// bite: deleting one clause of the lamp's guarded refusal leaves a reachable state in which the
+/// oil can is offered, declines, and says nothing — while **every figure the search reports stays
+/// identical**, because a refusal writes no state.
 #[test]
-fn never_nothing_is_promised_and_nothing_checks_it() {
+fn never_nothing_is_promised_and_something_checks_it() {
     let root = repo_root();
-    let resolver = read(&root, "engine/interaction-resolver/src/lib.rs");
+    let search = read(&root, "crates/reachability/src/lib.rs");
     assert!(
-        resolver.contains("Refused { says: Option<&'a str> },"),
-        "the failure has a name in the type"
+        search.contains("pub silent: Vec<String>,"),
+        "the report carries it"
     );
     assert!(
-        flat(&resolver).contains("`says: None` is the hole"),
-        "and the doc comment says what it is"
+        search.contains("Shown, declining, and saying nothing:"),
+        "and renders it"
     );
 
-    let mut checking: Vec<String> = Vec::new();
-    for dir in ["engine", "crates"] {
-        let mut stack = vec![root.join(dir)];
-        while let Some(d) = stack.pop() {
-            for e in std::fs::read_dir(&d).expect("readable").flatten() {
-                let p = e.path();
-                if p.is_dir() {
-                    if p.file_name().is_some_and(|n| n == "target") {
-                        continue;
-                    }
-                    stack.push(p);
-                } else if p.extension().is_some_and(|x| x == "rs")
-                    // used versus discussed, for the twelfth time: this file names the failure in
-                    // order to say nothing checks it, and a scan of test sources reads itself
-                    && p.file_name().is_some_and(|n| n != "playable.rs")
-                    && p.components().any(|c| c.as_os_str() == "tests")
-                    && std::fs::read_to_string(&p)
-                        .is_ok_and(|s| s.contains("Refused") && s.contains("says: None"))
-                {
-                    checking.push(p.display().to_string());
-                }
-            }
-        }
-    }
+    let fixture = read(&root, "crates/reachability/tests/silence.rs");
     assert!(
-        checking.is_empty(),
-        "something checks it after all: {checking:?}"
+        fixture.contains("fn nothing_authored_here_declines_in_silence")
+            && fixture.contains("fn deleting_a_clause_of_a_guarded_refusal_is_reported"),
+        "the guarantee and the mutation that would break it"
+    );
+
+    // and the client tells a silent turn from a wordless one, which is the distinction the slice
+    // found and neither the corpus nor the checker had
+    let client = read(&root, "engine/play/src/lib.rs");
+    assert!(
+        client.contains("pub fn silent(&self) -> bool {")
+            && flat(&client).contains("self.said.is_none() && self.moved.is_none()"),
+        "a turn is silent when nothing was said and nothing visible changed"
     );
 }

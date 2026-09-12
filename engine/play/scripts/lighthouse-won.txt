@@ -1,0 +1,17 @@
+# A winning run of `design/specimen/lighthouse.game`, as a player would take it.
+#
+# `cargo run -p play -- ../../design/specimen/lighthouse.game scripts/lighthouse-won.txt`
+# The transcript this produces is pinned by `tests/transcript.rs`.
+pick-up loose-crowbar
+use-with crowbar on crate
+talk-to keeper
+option lamp
+option wick-ask
+option leave
+use-with brass-key on door
+walk-to door
+walk-to stair
+pick-up loose-match
+use-with wick on lamp
+use-with oil-can on lamp
+use-with match on lamp

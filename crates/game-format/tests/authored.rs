@@ -190,12 +190,27 @@ fn the_search_reads_none_of_it_and_the_components_read_it() {
     let read = |rel: &str| std::fs::read_to_string(root().join(rel)).expect("readable");
 
     let search = read("crates/reachability/src/lib.rs");
-    for field in [".says", ".refusals", ".labels", ".text", "Response"] {
+    for field in [".says", ".labels", ".text", "Response"] {
         assert!(
             !search.contains(field),
             "the reachability search reached for {field}, which is the seam this holds"
         );
     }
+
+    // **One exception, and it is the seam being drawn more finely rather than crossed.** The
+    // search reads `b.refusals` in exactly one place: to report a binding that is shown, declines,
+    // and has no line for the state it declined in. It is not reading the text — it never looks at
+    // a character of it — it is asking whether one exists. A count of nothing is state the search
+    // may know about. `.yidam/decisions/playable.yml`.
+    assert_eq!(
+        search.matches("&b.refusals").count(),
+        1,
+        "the search asks once whether a refusal has a line, and reads no line"
+    );
+    assert!(
+        search.contains("pub silent: Vec<String>,"),
+        "and what it does with the answer is report it"
+    );
     assert!(
         search.contains("b.effects") && search.contains("resolver::apply("),
         "and it still reads the half that is state, through the component that owns it"

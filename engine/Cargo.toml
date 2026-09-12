@@ -4,9 +4,14 @@
 # `.claude/CLAUDE.md` calls conflating the two this repository's characteristic mistake, and the
 # two workspaces are how the distinction is kept once both are Rust.
 #
-# **One crate per subsystem.** A member here is a `subsystem` node in `.yidam/corpus/`, by the same
-# name, and `crates/design-gate/tests/engine.rs` holds the two lists against each other. The
-# directory listing is the roadmap.
+# **A member here is a component or a client of components**, and the file says which: a source file
+# declares `realizes: subsystem/<name>` or `composes: <name>, <name>`, and every name must be a
+# subsystem `.yidam/corpus/` declares. `crates/design-gate/tests/engine.rs` holds both against the
+# corpus. `verb-menu` and `interaction-resolver` are components; `play` is a client.
+#
+# `.yidam/decisions/two-components.yml` said the directory listing was the subsystem list;
+# `.yidam/decisions/playable.yml` corrects that to components plus whatever runs them, and moves
+# the distinction out of the layout and into the declaration the gate reads.
 #
 # The dependency on `../crates/game-format` reads awkwardly and is deliberate:
 # `.yidam/decisions/engine-directory.yml` calls the parser shared infrastructure rather than an
@@ -14,7 +19,7 @@
 
 [workspace]
 resolver = "2"
-members = ["verb-menu", "interaction-resolver"]
+members = ["verb-menu", "interaction-resolver", "play"]
 
 [workspace.package]
 version = "0.1.0"
@@ -25,3 +30,4 @@ publish = false
 [workspace.dependencies]
 game-format = { path = "../crates/game-format" }
 verb-menu = { path = "verb-menu" }
+interaction-resolver = { path = "interaction-resolver" }

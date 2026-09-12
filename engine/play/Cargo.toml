@@ -1,0 +1,12 @@
+[package]
+name = "play"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Play a .game file: the menu, a choice, the response, and again."
+
+[dependencies]
+game-format.workspace = true
+verb-menu.workspace = true
+interaction-resolver.workspace = true

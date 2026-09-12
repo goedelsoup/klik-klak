@@ -87,6 +87,20 @@ pub struct Report {
     pub menu_slots: usize,
     /// Bindings in no menu in any reachable state: authored, and never shown to anybody.
     pub unshown: Vec<String>,
+    /// Bindings the menu shows in a reachable state which decline there and say nothing.
+    ///
+    /// **`subsystem/interaction-resolver`'s one guarantee, held against a game.** *"Never
+    /// nothing — a silent miss is the failure players read as brokenness, and it is entirely
+    /// preventable at this boundary."* A `when` with an `else` under it is offered and declines;
+    /// if no clause of the `else` list covers the state it was declined in, the player clicks and
+    /// is told nothing.
+    ///
+    /// This could not be looked for until the parse tree kept response text
+    /// (`.yidam/decisions/authored-text.yml`) or asked until the resolver was a component that
+    /// answered in outcomes (`.yidam/decisions/two-components.yml`). It is narrower than *fired
+    /// and said nothing*, which is not a miss at all: walking through a door says nothing and the
+    /// movement is the response. `.yidam/decisions/playable.yml`.
+    pub silent: Vec<String>,
     /// Flags, counters and items the game declares and no predicate reads.
     ///
     /// `.yidam/decisions/observed-state.yml` asked whether its rule *"wants enforcing rather than
@@ -418,6 +432,7 @@ pub fn analyse(game: &Game) -> Report {
     let mut shown_ever: BTreeSet<(String, String)> = BTreeSet::new();
     let mut shown_at_start: BTreeSet<(String, String)> = BTreeSet::new();
     let mut unshown: Vec<String> = Vec::new();
+    let mut silent: Vec<String> = Vec::new();
     let mut menu_slots = 0usize;
     for b in &game.bindings {
         if matches!(b.site, Site::OnEnter { .. }) {
@@ -440,6 +455,29 @@ pub fn analyse(game: &Game) -> Report {
                 if i == 0 {
                     shown_at_start.insert(key.clone());
                 }
+                // **The silent miss, which could not be looked for until the lines were kept.**
+                // A binding shown in this state whose `when` does not hold declines, and if no
+                // clause of its refusal list covers the state it declines without a word.
+                // `subsystem/interaction-resolver`: *"never nothing — a silent miss is the failure
+                // players read as brokenness"*.
+                // Asked as `offered` + `select` rather than through `resolve`, because `resolve`
+                // applies the effect list to build the state it would leave and this loop runs
+                // once per binding per reachable state. The two are the same question: a binding
+                // in the menu that is not offered is one that declines.
+                if !resolver::offered(&ix, b, st)
+                    && resolver::select(&ix, &b.refusals, st).is_none()
+                {
+                    silent.push(format!(
+                        "`{}{}` at line {} is shown and declines in a reachable state, and its \
+                         `else` says nothing there",
+                        b.verb,
+                        b.object
+                            .as_ref()
+                            .map(|o| format!(" {o}"))
+                            .unwrap_or_default(),
+                        b.line
+                    ));
+                }
             }
         }
         if !ever {
@@ -457,6 +495,8 @@ pub fn analyse(game: &Game) -> Report {
     }
     unshown.sort();
     unshown.dedup();
+    silent.sort();
+    silent.dedup();
 
     // the corpus claims a latching flag never goes back; hold it against the game, both ways
     let mut latch_violations = Vec::new();
@@ -594,6 +634,7 @@ pub fn analyse(game: &Game) -> Report {
         menu_entries: (shown_ever.len(), shown_at_start.len()),
         menu_slots,
         unshown,
+        silent,
         monotone_counters,
         overflows,
         observed_space: observed,
@@ -674,6 +715,12 @@ impl Report {
         if !self.unshown.is_empty() {
             s.push_str("\nAuthored and shown to nobody:\n");
             for v in &self.unshown {
+                s.push_str(&format!("  {v}\n"));
+            }
+        }
+        if !self.silent.is_empty() {
+            s.push_str("\nShown, declining, and saying nothing:\n");
+            for v in &self.silent {
                 s.push_str(&format!("  {v}\n"));
             }
         }
