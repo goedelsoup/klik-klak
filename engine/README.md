@@ -20,11 +20,12 @@ the gate below is a different kind of check for that reason.
 
 ## The rule it does not
 
-**A module may not invent a subsystem.** A **source file** here — `.rs` or `.md` — declares it in
-its first ten lines:
+**A module may not invent a subsystem.** A **source file** here — `.rs` or `.md` — declares one of
+two things in its first ten lines:
 
 ```rust
-//! realizes: subsystem/response-presenter
+//! realizes: subsystem/verb-menu                 // it IS that component
+//! composes: verb-menu, interaction-resolver     // it USES those components
 ```
 
 ```yaml
@@ -32,6 +33,11 @@ its first ten lines:
 realizes: subsystem/interaction-resolver
 ---
 ```
+
+`composes:` is for a **client**: a file that drives components and is none of them. It invents
+nothing either — every name in it is checked against the corpus exactly as `realizes:` is — and a
+file declaring neither still fails. [`playable`](../.yidam/decisions/playable.yml) added it when
+the first driver turned out to have nowhere to say what it was.
 
 The gate fails when `.yidam/corpus/subsystem/<name>.yml` does not exist, and the failure is
 deliberately ambiguous: **either the module is a component the corpus has not described, or the
@@ -65,6 +71,12 @@ to scroll past — [`.yidam/decisions/inert-reports.yml`](../.yidam/decisions/in
 | [`path-solver`](../.yidam/corpus/subsystem/path-solver.yml) | a route across a room's walkboxes, and reporting arrival | — |
 | [`response-presenter`](../.yidam/corpus/subsystem/response-presenter.yml) | making a response perceptible, and not returning until it is over | — |
 
+And one client, which is not a subsystem and does not claim to be:
+
+| crate | | |
+|---|---|---|
+| [`play`](play/) | the menu, a choice, the response, and again | `composes: verb-menu, interaction-resolver` |
+
 The two that are built were built before this directory existed, as private methods of
 `crates/reachability`. [`two-components`](../.yidam/decisions/two-components.yml) moved them; what
 that phase built was not the components but the place they say they are — and `crates/reachability`
@@ -96,16 +108,33 @@ Stated because a gate mistaken for complete is worse than no gate.
 - **It does not run the engine.** Whether the thing built plays a game is not a property any check
   here inspects.
 
+## Playing one
+
+```
+cargo run -p play -- ../design/specimen/lighthouse.game
+cargo run -p play -- ../design/specimen/lighthouse.game play/scripts/lighthouse-won.txt
+```
+
+With a script it prints a transcript; without one it reads choices from stdin. The transcript of a
+winning run is pinned by `play/tests/transcript.rs` — thirteen turns, and three of them say
+nothing and are not silent, because the world moved and the movement is the response.
+
+**The state is the client's and no component's.** All four subsystems declare none across frames,
+so `World` and `State` live in `crates/game-format` and the loop threads a `State` through itself.
+A component that held it would be a component the other two had to ask.
+
 ## What is not here yet
 
-`path-solver` and `response-presenter`, and **anything that plays a game**. Two components and a
-world model are not a runtime: nothing here has a loop, a clock, or an output. The gate says so
-itself — *"it does not run the engine"*.
+`path-solver` and `response-presenter`, and **a clock**.
 
-There is also no owner of the world's state, and that is a gap in the corpus rather than in this
-directory. All four subsystems declare no state across frames, so `World` and `State` live in
-`crates/game-format` — a world is the game's declared names arranged for lookup, and a module
-here that held one would be inventing a fifth component.
+The slice prints a line and returns, which is the presenter's job done inline and done wrongly —
+that node's responsibility is *"turn a response into something perceived, and do not return until
+it is over"*, and a `println!` is the first half without the second. It declares
+`composes: verb-menu, interaction-resolver` and not the presenter, because it does not use one.
+
+`path-solver` has neither code nor data and stays that way for a reason rather than by neglect: a
+text slice has nothing to walk. `walk-to` moves the player between rooms and never across one, and
+**the first thing that would need a path is a screen**.
 
 The first thing that had to happen before a module could do anything useful has happened.
 `game-format` used to parse `say` and declaration labels and discard both — `"say" | "otherwise"

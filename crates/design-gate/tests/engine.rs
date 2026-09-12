@@ -4,11 +4,22 @@
 //! the corpus, the gate is the derivation."* `design/`'s derivation is `rests_on:` and
 //! `derives_effects_from:`. This one is a tier down: **a module may not invent a subsystem.**
 //!
-//! A **source file** under `engine/` declares `realizes: subsystem/<name>` in its first ten
-//! lines, as markdown front matter or a `//!` doc comment, and the corpus must declare that node.
-//! The unit is a `.rs` or `.md` file and not a file: this asked a crate's `Cargo.toml` for a doc
-//! comment until `.yidam/decisions/two-components.yml`, which is the rule that was writable over
-//! an empty directory and refused the first thing the directory is for.
+//! A **source file** under `engine/` declares one of two things in its first ten lines, as
+//! markdown front matter or a `//!` doc comment:
+//!
+//! ```text
+//! realizes: subsystem/verb-menu                 // it IS that component
+//! composes: verb-menu, interaction-resolver     // it USES those components
+//! ```
+//!
+//! and every name in either must be a subsystem the corpus declares. The unit is a `.rs` or `.md`
+//! file and not a file: this asked a crate's `Cargo.toml` for a doc comment until
+//! `.yidam/decisions/two-components.yml`, which is the rule that was writable over an empty
+//! directory and refused the first thing the directory is for.
+//!
+//! `composes:` arrived one phase later for the same reason from the other side: a driver is a
+//! client of components and none of them, so the only way to write one was to claim it was a
+//! component it was not. `.yidam/decisions/playable.yml`.
 //!
 //! When the corpus declares no such node the failure is deliberately ambiguous, in the way the
 //! effect check is: either the module is a component nothing has described, or the corpus is
@@ -67,13 +78,37 @@ fn modules(root: &Path) -> Vec<PathBuf> {
 /// kind is the kind this repository has found nine of by measuring. Both are declared in
 /// `engine/README.md` rather than left to be derived from examples.
 fn realizes(src: &str) -> Option<String> {
+    declaration(src).and_then(|(kind, names)| (kind == Kind::Realizes).then(|| names[0].clone()))
+}
+
+#[derive(PartialEq, Eq, Debug)]
+enum Kind {
+    /// this file is that component
+    Realizes,
+    /// this file uses those components and is none of them
+    Composes,
+}
+
+/// What a source file says it is, from its first ten lines.
+fn declaration(src: &str) -> Option<(Kind, Vec<String>)> {
     src.lines().take(10).find_map(|l| {
         let l = l.trim();
         let l = l.strip_prefix("//!").map(str::trim).unwrap_or(l);
-        l.strip_prefix("realizes:")
-            .map(str::trim)
-            .and_then(|v| v.strip_prefix("subsystem/"))
-            .map(|v| v.trim_end_matches(".yml").to_string())
+        if let Some(v) = l.strip_prefix("realizes:") {
+            let name = v
+                .trim()
+                .strip_prefix("subsystem/")?
+                .trim_end_matches(".yml");
+            return Some((Kind::Realizes, vec![name.to_string()]));
+        }
+        let v = l.strip_prefix("composes:")?;
+        Some((
+            Kind::Composes,
+            v.split(',')
+                .map(|n| n.trim().trim_start_matches("subsystem/").to_string())
+                .filter(|n| !n.is_empty())
+                .collect(),
+        ))
     })
 }
 
@@ -88,11 +123,15 @@ fn declared(root: &Path) -> BTreeSet<String> {
         .collect()
 }
 
-/// **Every module names a subsystem the corpus declares.**
+/// **Every source file names subsystems the corpus declares, whether it is one or uses them.**
 ///
-/// The whole of the derivation, and it is one rule because there is one thing an engine can get
-/// structurally wrong that a compiler will not catch: build a component nothing described. The
-/// corpus is where components are described, and this is the edge between them.
+/// The whole of the derivation, and it is one rule with two spellings because there is one thing
+/// an engine can get structurally wrong that a compiler will not catch: name a component nothing
+/// described. The corpus is where components are described, and this is the edge between them.
+///
+/// The second spelling does not weaken the first. A `composes:` line still cannot name anything
+/// the corpus has not declared, and a file with neither is still a failure — *silence is not
+/// available* was the rule and still is.
 #[test]
 fn every_module_names_a_subsystem_the_corpus_declares() {
     let root = repo_root();
@@ -108,19 +147,30 @@ fn every_module_names_a_subsystem_the_corpus_declares() {
         let Ok(src) = std::fs::read_to_string(&p) else {
             continue;
         };
-        match realizes(&src) {
-            Some(name) if known.contains(&name) => {}
-            Some(name) => bad.push(format!(
-                "{rel} realizes subsystem/{name} — the corpus declares no such node. Either the \
-                 component has not been described, or the corpus is missing one the engine needs"
-            )),
+        match declaration(&src) {
+            Some((kind, names)) => {
+                let verb = match kind {
+                    Kind::Realizes => "realizes",
+                    Kind::Composes => "composes",
+                };
+                for name in names {
+                    if !known.contains(&name) {
+                        bad.push(format!(
+                            "{rel} {verb} subsystem/{name} — the corpus declares no such node. \
+                             Either the component has not been described, or the corpus is \
+                             missing one the engine needs"
+                        ));
+                    }
+                }
+            }
             None => anonymous.push(rel),
         }
     }
     assert!(bad.is_empty(), "{}", bad.join("\n  "));
     assert!(
         anonymous.is_empty(),
-        "a file under engine/ declaring no `realizes:` in its first ten lines:\n  {}",
+        "a file under engine/ declaring neither `realizes:` nor `composes:` in its first ten \
+         lines:\n  {}",
         anonymous.join("\n  ")
     );
 }
@@ -133,9 +183,13 @@ fn every_module_names_a_subsystem_the_corpus_declares() {
 ///
 /// **It read `built.is_empty()` for one phase and was wrong the whole time.** `verb-menu` and
 /// `interaction-resolver` were written — as private methods of `crates/reachability`, cited by
-/// name in four committed files and `[verified]` against the checker's own fixtures. What this
+/// name in four committed files and `[verified]` against the checker's own fixtures. What that
 /// phase built was not the components; it was the place they say they are.
 /// `.yidam/decisions/two-components.yml`.
+///
+/// Only `realizes:` counts here. `engine/play` names both components and is neither, and a list
+/// of what is built that counted its clients would say the engine has more of itself than it
+/// does.
 #[test]
 fn the_corpus_specifies_four_components_and_two_are_built() {
     let root = repo_root();
@@ -175,6 +229,40 @@ fn the_corpus_specifies_four_components_and_two_are_built() {
                         && l.ends_with("**built** |")),
             "engine/README.md does not mark {name} built"
         );
+    }
+}
+
+/// **A client composes what it depends on, and nothing more.**
+///
+/// `engine/play` declares `composes: verb-menu, interaction-resolver` and depends on exactly those
+/// two crates. The declaration is prose and the manifest is the build; holding them together is
+/// what stops the first from becoming decoration.
+///
+/// `response-presenter` is deliberately not among them. The slice prints a line and returns, which
+/// is that component's job done inline and done wrongly — `.yidam/decisions/playable.yml` states
+/// it as a cost rather than hiding it behind a declaration that would claim the component exists.
+#[test]
+fn a_client_composes_exactly_the_components_it_depends_on() {
+    let root = repo_root();
+    let src = std::fs::read_to_string(root.join("engine/play/src/lib.rs")).expect("the slice");
+    let (kind, names) = declaration(&src).expect("it declares something");
+    assert_eq!(kind, Kind::Composes, "and what it declares is a client");
+    assert_eq!(names, ["verb-menu", "interaction-resolver"]);
+
+    let manifest = std::fs::read_to_string(root.join("engine/play/Cargo.toml")).expect("readable");
+    for name in &names {
+        assert!(
+            manifest.contains(&format!("\n{name}.workspace = true")),
+            "it composes {name} and does not depend on it"
+        );
+    }
+    for other in declared(&root) {
+        if !names.contains(&other) {
+            assert!(
+                !manifest.contains(&format!("\n{other}.workspace = true")),
+                "it depends on {other} and does not say so"
+            );
+        }
     }
 }
 

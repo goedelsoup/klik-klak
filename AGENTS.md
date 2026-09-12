@@ -181,23 +181,38 @@ relaxation than `design/`'s, because a proposal is still held to provenance and 
 the scheme entirely. **The three tags cannot protect that directory.**
 
 **The rule it does not relax: a module may not invent a subsystem.** A *source* file — `.rs` or
-`.md` — declares `realizes: subsystem/<name>` in its first ten lines, as markdown front matter or
-a `//!` doc comment, and the gate fails when the corpus declares no such node. The ambiguity is
-deliberate and is `derives_effects_from:`'s: either the module is a component nothing has
-described, or the corpus is missing one the engine has just discovered it needs. Both are
-findings. A manifest is not a module, and **a component may not invent a dependency** either: a
-cargo dependency between engine crates must be a `depends-on` edge in the corpus.
+`.md` — declares one of two things in its first ten lines, as markdown front matter or a `//!` doc
+comment:
 
-**One crate per subsystem, named for the node**, so the directory listing is the roadmap.
-`engine/verb-menu` and `engine/interaction-resolver` are built; `path-solver` and
-`response-presenter` are not. It is a **second cargo workspace** — `crates/` is the instrument that
-reads the corpus, this is the artifact the corpus is about — and `crates/reachability` **depends on
-it**, which reads backwards and is right: the checker checks a language, and the language's
-semantics are the engine's. One implementation, so the two cannot disagree.
+```rust
+//! realizes: subsystem/verb-menu                 // it IS that component
+//! composes: verb-menu, interaction-resolver     // it USES those components
+```
+
+and the gate fails when the corpus declares no such node. The ambiguity is deliberate and is
+`derives_effects_from:`'s: either the module is a component nothing has described, or the corpus is
+missing one the engine has just discovered it needs. Both are findings, and a file declaring
+neither is a third. A manifest is not a module, and **a component may not invent a dependency**
+either: a cargo dependency between engine crates must be a `depends-on` edge in the corpus.
+
+**A crate here is a component or a client**, and the declaration inside the file says which.
+`engine/verb-menu` and `engine/interaction-resolver` are components; `path-solver` and
+`response-presenter` are specified and unbuilt; `engine/play` is a client and plays a game. It is a
+**second cargo workspace** — `crates/` is the instrument that reads the corpus, this is the
+artifact the corpus is about — and `crates/reachability` **depends on it**, which reads backwards
+and is right: the checker checks a language, and the language's semantics are the engine's. One
+implementation, so the two cannot disagree.
+
+**The world's state belongs to whatever composes the components.** All four subsystems declare
+none across frames, so `World` and `State` live in `crates/game-format` and a loop threads a
+`State` through itself. The main loop is not a fifth subsystem and is not missing from the corpus:
+this is a corpus about **authoring vocabularies**, and a bounded vocabulary cannot have a
+`repeatedly_execute` slot without ceasing to be bounded.
 
 ```
 mise run engine-check     # cargo test -p design-gate --test engine
 mise run engine-test      # cargo test --workspace --manifest-path engine/Cargo.toml
+cargo run -p play --manifest-path engine/Cargo.toml -- design/specimen/lighthouse.game
 ```
 
 [`engine/README.md`](engine/README.md) has the contract, what is built and what is not, and what
@@ -206,7 +221,9 @@ the gate cannot catch.
 created the directory, including why `game-format` is still under `crates/`;
 [`.yidam/decisions/two-components.yml`](.yidam/decisions/two-components.yml) is the one that filled
 it, including why the world and its state are in the format crate rather than here — **no subsystem
-in this corpus owns state.**
+in this corpus owns state** — and
+[`.yidam/decisions/playable.yml`](.yidam/decisions/playable.yml) is the one that made it play,
+including why the loop is outside this corpus's subject rather than missing from it.
 
 ## Reading the corpus
 

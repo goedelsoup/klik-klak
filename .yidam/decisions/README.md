@@ -129,6 +129,10 @@ does not re-emit it.
 
 - **:84** — **What this does not settle.** Whether `design/` should hold a proposal this long at all. Seven hundred lines resting on fourteen premises is a document that can only be reconciled in one sitting by somebody who has the whole corpus in mind, and the reconciliation above took a phase. A shorter propo…
 
+### [playable](playable.yml)
+
+- **:104** — **What the slice does that it should not, stated rather than hidden.** It prints a line and returns. [response-presenter](../corpus/subsystem/response-presenter.yml)'s responsibility is *"turn a response into something perceived, **and do not return until it is over**"*, and a `println!` is the firs…
+
 ### [priority-edge](priority-edge.yml)
 
 - **:76** — **What this does not settle.** Whether the comparative tier wants a relationship of its own. The argument for one is in this record: `originated-in` cannot reach a 2017 engine, and the tier's whole purpose is comparison across time. The argument against is that nothing in the corpus has needed the e…
@@ -179,8 +183,7 @@ does not re-emit it.
 
 ### [two-components](two-components.yml)
 
-- **:120** — **What this does not settle.** Where the world's state lives when there is a save to write. Putting `World` and `State` in the format crate is right for a value derived from declarations and says nothing about the component that owns one at runtime — and this corpus has no such component, which is a…
-- **:125** — **And whether one crate per subsystem survives a component with parts.** Two crates of one file each is not evidence that the mapping scales, and the first component that wants three modules will make every one of them declare the same `realizes:` line. That is either the rule working or ceremony, a…
+- **:131** — **And whether one crate per subsystem survives a component with parts.** Two crates of one file each is not evidence that the mapping scales, and the first component that wants three modules will make every one of them declare the same `realizes:` line. That is either the rule working or ceremony, a…
 
 ### [unread-clock](unread-clock.yml)
 
@@ -215,7 +218,6 @@ nodes, at four times the rate, and it had never been looked at.
 - [domain-computer](domain-computer.yml)
 - [name-scoping](name-scoping.yml)
 - [settled-surface](settled-surface.yml)
-- [two-components](two-components.yml)
 
 ## What each record rests on
 

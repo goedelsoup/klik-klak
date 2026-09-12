@@ -1,0 +1,109 @@
+id: playable
+summary: >-
+  The gate gains a second declaration — `composes:` — and `engine/play` is the first file to use
+  it. A driver is a client of components and none of them, and the loop it runs is **outside this
+  corpus's subject** rather than a fifth subsystem: this is a corpus about authoring vocabularies,
+  and a bounded vocabulary cannot have a `repeatedly_execute` slot without ceasing to be bounded.
+  The client owns the world, which answers what [two-components](two-components.yml) left open.
+context: |
+  `engine/` holds two crates, 391 lines, five tests and **no binary**, and every test drives one
+  component alone. [verified] — `crates/design-gate/tests/playable.rs`. The only thing in this
+  repository that composes the components is `reachability::analyse`, and it is a **search**: it
+  asks the menu what is offered and applies every one of them. A player picks one. That difference
+  is the whole of what is missing, and it lives in the instrument.
+
+  **The file that would do it cannot be written.** The gate asks every source file under `engine/`
+  for a `realizes: subsystem/<name>`, and `engine/README.md` states the reason as *"silence is not
+  available"*. A driver is not one of the four components and would not be one if there were forty.
+  The only way to write it today is to claim it is a component it is not.
+
+  And the guarantee the resolver exists for is unchecked. *"Never nothing — a silent miss is the
+  failure players read as brokenness"* is that node's whole specification, `Refused { says: None }`
+  is the failure with a name in the type, and two phases have walked past it:
+  [authored-text](authored-text.yml) opened the question, [two-components](two-components.yml) gave
+  it a type.
+decision: |
+  **A source file under `engine/` declares one of two things, and `composes:` is the new one.**
+
+  ```rust
+  //! realizes: subsystem/verb-menu                    // it IS that component
+  //! composes: verb-menu, interaction-resolver        // it USES those components
+  ```
+
+  Every name in either must be a subsystem the corpus declares, so nothing is invented either way
+  and **silence stays unavailable**. What `composes:` adds is the one honest answer the gate had no
+  spelling for: *this file is a client.*
+
+  **`engine/play` is the slice**: a crate with a binary that loads a `.game`, settles the start,
+  shows the menu, takes a choice, resolves it, prints what the game says, and repeats until an
+  ending or a stop. `cargo run -p play -- design/specimen/lighthouse.game`, and a second argument
+  plays a written script instead of a person, which is how the fixtures play four specimens to
+  their endings.
+
+  **The client owns the world.** [two-components](two-components.yml) left open *"where the world's
+  state lives when there is a save to write"*, having found that **no subsystem in this corpus owns
+  state**. The answer is that none should: `State` is threaded through a loop that holds it, and a
+  component that held it would be a component two other components had to ask. That is what makes
+  the menu *"a pure function of the target and the state"* and resolution *"a pure function of the
+  binding and the world state it reads"* — both quoted from nodes written before anything here ran.
+  `[open]` closed.
+
+  **The loop is outside this corpus's subject, and that is a position rather than a gap.** This is a
+  corpus about **authoring vocabularies**, and the loop is the one part of an engine no vocabulary
+  here addresses. AGS is the test case and it answers in the negative: `repeatedly_execute` runs
+  *"on every game loop (by default this is 40 times per second)"* and `EventTypes.md` lists
+  *"Repeatedly execute"* in the room's event table beside *"Enters Room After Fade In"* — so **the
+  slot is a declared event and what goes in it is arbitrary script**
+  ([ags-manual](../catalog/ags-manual.md)). [verified]
+
+  A declarative form of it cannot exist in this design. A loop slot an author can write into is
+  unbounded computation on every frame, which is precisely what
+  `design/bounded-expression-language.md` excludes to keep the reachable set enumerable. **So this
+  vocabulary cannot have the slot, and the loop is entirely the engine's.** [inference] No fifth
+  subsystem node; a client instead.
+
+  **The directory listing is the roadmap plus whatever runs it.** [two-components](two-components.yml)
+  wrote *"one crate per subsystem, named for the node, so the directory listing is the subsystem
+  list"*, and `engine/play` is not a subsystem. Corrected one phase later: the listing is components
+  and clients, and **the declaration inside the file is what tells them apart** rather than the
+  layout. That is the better rule anyway — a layout convention is a thing to remember and a
+  declaration is a thing the gate reads.
+rationale: |
+  **A slice is worth a phase because it is the only thing that can be wrong in a way nothing else
+  catches.** Five component tests pass and the components have never been asked in turn. The
+  reachability search composes them and cannot find this class of defect, because a search applies
+  every offered binding and never has to decide what a player is looking at.
+
+  **What it found on its first run is recorded in the `revise:` rather than promised here**, which
+  is the honest order: a phase that predicts its own findings has usually chosen them.
+
+  **`composes:` is the smaller of two repairs and the gate's own argument says which.**
+  [engine-directory](engine-directory.yml) made the failure deliberately ambiguous — *"either the
+  module is a component the corpus has not described, or the corpus is missing one the engine has
+  just discovered it needs. Both are findings."* This is the third answer for the second time:
+  [two-components](two-components.yml) found that a `World` is **not a component at all**, and this
+  finds that a driver is not either. Twice in two phases is enough to say the binary question was
+  the wrong shape, and the repair is a second spelling rather than a fifth node.
+
+  **Adding the node would have been the expensive mistake.** A `subsystem` node is a claim about
+  point-and-click adventure games — `.claude/CLAUDE.md` draws exactly that line between a corpus
+  node and a record — and *"engines have a main loop"* is a claim about interactive programs.
+  [data-format/room-manifest](../corpus/data-format/room-manifest.yml) already records this corpus
+  as carrying two relationships no instance authors and names that as *"indistinguishable from an
+  ontology that overreached"*. A fifth subsystem nothing in the authoring vocabulary implies would
+  be the third.
+
+  **What the slice does that it should not, stated rather than hidden.** It prints a line and
+  returns. [response-presenter](../corpus/subsystem/response-presenter.yml)'s responsibility is
+  *"turn a response into something perceived, **and do not return until it is over**"*, and a
+  `println!` is the first half without the second. So the slice does that component's job inline
+  and does it wrongly, in the exact way that node was seeded to name — it declares
+  `composes: verb-menu, interaction-resolver` and not the presenter, because it does not use one.
+  The slice is where duration stops being a design question: it is a text game with no clock, and
+  the first line that should hold the player is the first thing a presenter would have to own.
+  `[open]`
+
+  **And `path-solver` is absent because a text slice has nothing to walk.** Not a gap: `walk-to`
+  moves the player between rooms and never across one. The component with neither code nor data
+  stays that way, and what this phase adds is a reason — **the first thing that would need it is a
+  screen**, which is further from this vocabulary than anything else the corpus specifies.
