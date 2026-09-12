@@ -180,7 +180,7 @@ fn the_specimen_census_is_what_the_documents_quote() {
     for (doc, phrase) in [
         (
             ".yidam/corpus/data-format/interaction-table.yml",
-            "904 lines and 120 bindings",
+            "five specimens and 120 bindings",
         ),
         (
             ".yidam/corpus/verb/give-to.yml",

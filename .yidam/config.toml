@@ -34,9 +34,9 @@
 # one correct then and stale since. `.yidam/decisions/unread-clock.yml`.
 #
 # What it covers is a fifth. `yidam open-questions` walks `.yidam/corpus/` and nothing
-# else, so this clock watches 7 markers while 57 sit in `.yidam/decisions/`; the larger
+# else, so this clock watches 6 markers while 57 sit in `.yidam/decisions/`; the larger
 # share is listed in `.yidam/decisions/README.md` and is invisible to every yidam
-# command. A green `due` here is a statement about 10% of what is owed, on this
+# command. A green `due` here is a statement about 9% of what is owed, on this
 # denominator and on the wider one `crates/design-gate/tests/pages.rs` uses. It fell 17,
 # 16, 15, 14, 13, 12 without a corpus question ever being closed, rose once when
 # `.yidam/decisions/verb-names.yml` answered one of `authored-text`'s two, and fell back.
@@ -70,6 +70,13 @@
 # denominator growing is work being written down; a numerator falling is work being
 # finished; a numerator rising because somebody asked is curiosity. A numerator rising
 # because an answer was wrong is a repair, and no clock can tell it from the third.
+#
+# **And it came back down the same phase, by the one movement this figure was built to
+# hope for.** `.yidam/decisions/reads-like-writing.yml` measured the last question in the
+# corpus whose resolver was a count. What is left is three waiting on testimony no artifact
+# supplies, two declined with a condition, and one waiting on a judgement — so the number
+# will not move again by anybody counting anything, and a green `due` from here is a
+# statement about six questions none of which counting can close.
 # **It has fired, and what it reports is one of four things.** `due` called nothing past this
 # interval for this repository's whole life and now calls five of nine — and three of those five
 # are waiting on testimony no artifact supplies, which is a condition nobody can clear. A clock
