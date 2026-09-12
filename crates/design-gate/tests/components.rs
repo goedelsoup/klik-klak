@@ -155,6 +155,7 @@ fn the_corpus_names_them_and_verifies_them_against_the_instrument() {
         [
             ".yidam/corpus/subsystem/interaction-resolver.yml",
             ".yidam/decisions/arrival-realizer.yml",
+            ".yidam/decisions/two-components.yml",
             ".yidam/decisions/unread-state.yml",
             ".yidam/decisions/verb-menu.yml",
         ],

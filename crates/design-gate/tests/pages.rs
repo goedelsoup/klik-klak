@@ -299,10 +299,11 @@ fn no_question_lives_on_a_class_page() {
         n
     };
     let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
-    assert_eq!((corpus, decisions), (8, 49));
+    assert_eq!((corpus, decisions), (8, 51));
     // 17, 16, 15, 14 and now 13, and never once because a corpus question was closed. Every
     // phase that settles something opens one or two in the record that settled it, and the
-    // corpus numerator has not moved in five. `.yidam/decisions/authored-text.yml` opened two.
+    // corpus numerator has not moved in six. `authored-text` and `two-components` opened two
+    // each, and 13 is where the two denominators met: the wider one reached it first.
     assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 13);
 }
 
