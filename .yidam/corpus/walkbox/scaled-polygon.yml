@@ -47,19 +47,36 @@ description: |
   Whether that trigger is a primitive this vocabulary lacks is asked in three other places and
   settled in none; `interaction/entry-binding` holds the nearest form of it.
 
-  **Whether adjacency between regions needs a relationship of its own is this class's page's
-  question, moved here because it can finally be counted.** The page refused it for want of
-  instances — *"with one instance seeded there is nothing yet for such an edge to join"* — and
-  there are 84 polygons across 15 rooms to look at now. What the 84 do not settle is the part that
-  matters: nothing in that geometry declares adjacency, a path-solver derives it from shared
-  edges, and a relationship no author ever writes is the shape
-  [found-in](../../decisions/found-in.yml) turned out to have. `[open]`
+  **Whether adjacency between regions needs a relationship of its own was this class's page's
+  question, moved here because it could finally be counted — and the answer is no.** The page
+  refused it for want of instances — *"with one instance seeded there is nothing yet for such an
+  edge to join"* — and the 84 settle it, by [found-in](../../decisions/found-in.yml)'s own test.
+  [verified] — `crates/design-gate/tests/adjacency.rs` and
+  [adjacency](../../decisions/adjacency.yml).
 
-  **What would close it is that record's own test, applied here.** `found-in` settled a relationship
-  by asking whether anything authors it and what breaks if nothing does; the same question about
-  adjacency has 84 polygons across 15 rooms to ask of, and the answer this node already half-writes
-  is that a derived relation is not an authored one. What it has not done is run it.
-  [resolver-kind](../../decisions/resolver-kind.yml).
+  **The geometry answers exactly.** Of the 290 within-room pairs, **66 share an edge exactly** — the
+  same two vertices, consecutive in both rings, opposite winding — and **none meet along a collinear
+  segment without sharing one**, so no tolerance is needed and none could have been chosen from the
+  data. The walkboxes tile; the editor snaps. A relationship a tool computes without a parameter is
+  not one an author should be asked to write.
+
+  **And it does not stay answered, which is the stronger half.** `walkboxHidden` is called at 11
+  sites, and the graph is a function of world state. A declared edge would not merely be a copy of
+  something derivable — it would be a copy of something that is **not constant**, false in half the
+  states of the game by construction. [inference] `found-in` was refused because nothing read it;
+  this is refused because everything reads it and no copy could be kept true.
+
+  **What an author writes instead is a region that exists or does not**, which is `passability`
+  below — a property of one region rather than a relation between two, declared on this class since
+  genesis. `jail_door` is four vertices, shares an edge with exactly two regions, and hiding it
+  isolates `jail`: the door is a piece of floor. [verified] So the pairing recorded above — a larger
+  non-convex region and a 4-vertex partner — is a room and its doorway, and there are three of them.
+
+  **What the geometry cannot say is intent.** Six of the fifteen rooms are in more than one piece
+  with every region present, across gaps of 3 to 16 pixels in rooms 320 to 600 wide, and nothing
+  distinguishes a gap meaning *you may not go there* from one left by a mouse that stopped short.
+  An authored `adjacent-to` would not have said either: it states that two regions connect, not that
+  two were meant not to.
 
 properties:
   geometry: polygon
@@ -80,6 +97,22 @@ properties:
     not a property some regions have and others lack; it is a consequence of the region having an
     identity to refer to, which is the same shape `hotspot` reaches from the other side
     ([static-region](../hotspot/static-region.yml)).
+
+    **This property is where adjacency lives, and the description above is why.** A door in that
+    game is a named 4-vertex region bridging two others, and opening it is showing the region. The
+    object that owns one carries a hotspot, a flag, a walkbox and a drawn offset, and
+    `walkboxHidden` for a single door appears **three times inside it** — in the room's `enter()`
+    and in each of the two scripts — with `enter()` re-deriving every tier from the flag.
+    [verified] ([delores-source](../../catalog/delores-source.md)) That is one fact stated four
+    ways and kept in step by hand, which is [`puzzle/state-gate`](../puzzle/state-gate.yml)'s
+    complaint arriving at a tier that node was not written about.
+
+    **And the two scripts cannot be mirror images, because the door takes time.** Closing hides the
+    region first and then slides the sprite; opening slides, waits out the duration, and shows the
+    region last — the floor must stop being walkable before the door shuts and start being walkable
+    only after it has finished opening. [verified] A vocabulary whose effects are instantaneous
+    needs one guard where this needs four ordered writes.
+    [`effect-list-semantics`](../../decisions/effect-list-semantics.yml).
 links:
   - target: ../room/single-screen.yml
     relationship: lies-in

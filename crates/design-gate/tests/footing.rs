@@ -123,12 +123,12 @@ fn the_evidence_base_of_fifteen_nodes_is_a_single_source() {
     }
     assert_eq!(
         (evidenced, one_entry, one_line),
-        (41, 14, 10),
+        (41, 14, 9),
         "nodes with a verified claim; of those, resting on one catalog entry; of those, on one line"
     );
     assert_eq!(
         (held, carried),
-        (86, 38),
+        (90, 40),
         "claims those thirteen carry, and how many name nothing in their own paragraph"
     );
 }
@@ -143,6 +143,13 @@ fn the_evidence_base_of_fifteen_nodes_is_a_single_source() {
 ///
 /// A lint that answers differently before and after a line about a different claim is answering a
 /// question about the node, and the question everybody reads it as is about the claims.
+///
+/// **A node leaves this set by citing its one source twice**, which `walkbox/scaled-polygon` did
+/// when `.yidam/decisions/adjacency.yml` gave it a second place that rests on the same entry.
+/// Nothing about its evidence changed: one source, more claims, and the citation now sits beside
+/// each of the two passages that use it rather than beside one. That is strictly better and it is
+/// invisible to the lint, which counts entries and not placements — the sensitivity this check
+/// exists to show, working in the flattering direction for once.
 #[test]
 fn one_line_is_the_difference_between_sourced_and_not() {
     let root = repo_root();
@@ -175,7 +182,7 @@ fn one_line_is_the_difference_between_sourced_and_not() {
         }
         flipped.push(name(&root, &p));
     }
-    assert_eq!(flipped.len(), 10);
+    assert_eq!(flipped.len(), 9);
     assert_eq!(
         attributed,
         [
@@ -184,7 +191,6 @@ fn one_line_is_the_difference_between_sourced_and_not() {
             "interaction/conversational-binding.yml",
             "interaction/unary-binding.yml",
             "inventory-item/stackable-item.yml",
-            "walkbox/scaled-polygon.yml",
             "world-flag/boolean-flag.yml",
             "world-flag/counter-flag.yml",
         ],
@@ -193,9 +199,8 @@ fn one_line_is_the_difference_between_sourced_and_not() {
          which claim the line was for"
     );
     assert!(
-        flipped.contains(&"walkbox/scaled-polygon.yml".to_string()),
-        "the node whose single citation genuinely earns all five of its claims is in the same list \
-         as the ones whose does not, which is the finding rather than an oversight"
+        !flipped.contains(&"walkbox/scaled-polygon.yml".to_string()),
+        "it is back to citing its one source on a single line, which puts it back in this set"
     );
 }
 
@@ -249,6 +254,7 @@ fn a_single_source_node_that_also_rests_on_the_instrument_is_named() {
             "inventory-item/portable-object.yml",
             "puzzle/state-gate.yml",
             "subsystem/verb-menu.yml",
+            "walkbox/scaled-polygon.yml",
             "world-flag/boolean-flag.yml",
             "world-flag/counter-flag.yml",
         ],

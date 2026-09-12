@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 83, "every record, in the order it was created");
+    assert_eq!(all.len(), 84, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (42, 45, 33),
+        (43, 45, 34),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -292,6 +292,12 @@ fn the_evidence_each_record_rests_on() {
 /// specimen, and a specimen is `design/` — a path this check does not count as an evidence path at
 /// all. It cleared by reaching for a source *about* what the specimen found: a diary post titled
 /// **switching and inventory**, in a catalog entry read five phases earlier for something else.
+///
+/// **`adjacency` holds it at zero the same way**, and the two together are a pattern this check
+/// cannot see: both reached for a source already in the house and read it a second time for a
+/// question the first reading was not aimed at. The unread list says which documents nobody
+/// opened. Nothing says what an opened document was not looked at for, and the run cannot tell a
+/// retrieval from a re-reading.
 ///
 /// Two phases on the same tooling, one with a document and one without, is the distinction this
 /// check was built to make visible. A phase that touches no source and knows it is not the same

@@ -1,0 +1,135 @@
+id: adjacency
+summary: >-
+  **Adjacency between regions needs no relationship of its own, and the reason is stronger than
+  `found-in`'s.** The geometry answers exactly — 66 of 290 pairs share an edge, none needs a
+  tolerance — and it does not stay answered: a door is a piece of floor that exists while the door
+  is open. What an author writes is `passability`, a property `walkbox` has declared since genesis,
+  and the question asked for an edge when the class already had it. A shipped game's door is written
+  at four tiers and kept in step by hand, and one of its three doorways is never opened.
+context: |
+  [`walkbox/scaled-polygon`](../corpus/walkbox/scaled-polygon.yml) has asked whether adjacency
+  between regions needs a relationship of its own since [action-pages](action-pages.yml) moved the
+  question off the class page, and it had already found the shape of its own answer without running
+  it: *"a relationship no author ever writes is the shape [found-in](found-in.yml) turned out to
+  have."*
+
+  [resolver-kind](resolver-kind.yml) classified it as wanting **a measurement** and named both the
+  method and the material — `found-in`'s own test, applied to the 84 walkbox polygons across 15
+  rooms of *Delores* ([delores-source](../catalog/delores-source.md)).
+
+  `found-in` asks two things of a relationship. **Does anything author it**, which the catalog had
+  already answered — `polygon` and `name` are the only two keys that ever appear on a walkbox — and
+  **what breaks if nothing does**, which is this phase.
+decision: |
+  **1. The derivation is exact, and that is the half that could have gone the other way.**
+  [verified] — `crates/design-gate/tests/adjacency.rs` for the two rooms, and
+  [delores-source](../catalog/delores-source.md) for the figures.
+
+  Of the **290 within-room pairs, 66 share an edge exactly** — the same two vertices, consecutive
+  in both rings, opposite winding. **None meet along a collinear segment without sharing an edge**,
+  so no tolerance is needed, and none could have been chosen from the data if one were. One pair
+  covers common floor without sharing an edge; one pair shares a single vertex, and it joins two
+  regions already adjacent by other edges.
+
+  **The walkboxes tile.** An author dragging polygons over a background has no reason to land on a
+  neighbour's vertex, and these land on it 66 times out of 66. The editor snaps, and a relationship
+  the tool computes without a parameter is not one the author should be asked to write.
+
+  **2. And it does not stay answered, which `found-in` never had to reckon with.**
+  `walkboxHidden(name, state)` is called at 11 sites, and the graph is a function of world state. A declared `walkbox -adjacent-to-> walkbox` would not merely be a copy of something
+  derivable; it would be **a copy of something that is not constant**, wrong in half the states of
+  the game by construction. [inference]
+
+  **3. The named quad is a door.** `jail_door` is four vertices and shares an edge with exactly two
+  regions — the office floor and `jail`; remove it and the room's floor falls into two pieces with
+  `jail` as the isolated one. `desk_path` does the same for `natalie_desk`. [verified] So the
+  pairing the catalog had already noticed — *"in each pair the larger region is non-convex and its
+  partner is a 4-vertex quad"* — is **a room and its doorway**, and that entry recorded the shape a
+  phase before anything knew what it was for.
+
+  **What the author writes to open and shut it is not an edge between two regions. It is a region
+  that exists or does not** — and that is `passability`, which
+  [`walkbox.ont.yml`](../corpus/walkbox.ont.yml) has declared since genesis as *"whether the region
+  is always walkable or conditional on world state"*. A property of one region, not a relation
+  between two. **The question asked for an edge and the class already had the answer as a
+  property.**
+
+  **4. A door in that game is written at four tiers and kept in step by hand.** `jailDoor` is one
+  object carrying a hotspot, a state (`open`), a walkbox and a drawn offset;
+  `walkboxHidden("jail_door", not open)` appears **three times inside it** — in `enter()`, in
+  `openJailDoor()` and in `closeJailDoor()` — and `enter()` re-derives every tier from `open`,
+  which is the diary's *"When a game loads, I just re-enter the room"*
+  ([twp-dev-diary](../catalog/twp-dev-diary.md)). [verified]
+
+  That is [`puzzle/state-gate`](../corpus/puzzle/state-gate.yml)'s complaint exactly — *"a gate
+  depending on three flags is stated three times, or more, and nothing checks that the statements
+  agree"* — arriving in geometry, which is a tier that node was not written about.
+
+  **5. The two scripts are not mirror images, and duration is why.** `closeJailDoor` hides the
+  walkbox **first** and then slides the sprite; `openJailDoor` slides, `breaktime`s for the
+  duration, and unhides **last**. Neither ordering is a judgement about doors: the floor must stop
+  being walkable before the door shuts and start being walkable only after it has finished opening.
+  `moveLadder` has the same shape and the same `breaktime` in the middle. [verified]
+
+  **This is the strongest argument this corpus has for a decision it made on other grounds.**
+  [`effect-list-semantics`](effect-list-semantics.yml) settled that effects are sequential, total,
+  instantaneous and atomic, and refused AGS's per-command blocking flag because *"give an effect
+  duration and other bindings can fire inside it"*. Here is the cost, in a shipped game: a door
+  whose effects take time needs four ordered writes in two non-symmetric scripts, and the same door
+  in this format is `exit door to base` with a `when` under it. [inference]
+
+  **6. One of the three doorways is never opened.** `walkboxHidden("desk_path", YES)` at
+  `Nickel.dinky:194` is inside `enter()`, so it runs on every entry, and it is the only mention of
+  `desk_path` in the game's 49 script files. `natalie_desk` shares an edge with `desk_path` and
+  nothing else. **The region behind the counter is authored and can never be stood on.** [verified]
+
+  That is `Report::orphaned` one tier down — [orphaned-lines](orphaned-lines.yml) reports a binding
+  written and selected in no reachable state, and the four specimens carry four — and **nothing in
+  that engine could report it**, because the fact to be checked is split across a polygon file and a
+  script and stated in neither.
+
+  **7. So: no relationship, and the ontology is right as it stands.** `walkbox` declares
+  `bounded-by`, `traverses`, `realizes` and `lies-in`, and none between two walkboxes. That was an
+  absence and it is a decision now.
+
+  **What the geometry cannot say is intent, and that is a different question.** Six of the fifteen
+  rooms are in more than one piece with every region present, across gaps of 3 to 16 pixels in
+  rooms 320 to 600 wide, and **nothing distinguishes a gap that means *you may not go there* from
+  one left by a mouse that stopped short.** An authored relationship would not have fixed that
+  either — `adjacent-to` says two regions connect, not that two regions were meant not to. What
+  would close it is a source that says which, and the one source here is geometry.
+  `[open]`
+rationale: |
+  **`found-in`'s test gave the opposite answer to `found-in`'s and the conclusion is the same,
+  which is what makes the method worth keeping.** That record refused a relationship because
+  **nothing read it**: `holds <item>` removed, moved, aimed at nothing and made to contradict
+  itself produced the same states, the same stranding and the same silence every time. Adjacency is
+  the reverse in every particular — nothing writes it and **everything reads it**, since a path
+  solver is the component that exists to. A test that reached the same verdict from opposite
+  evidence is a test rather than a way of writing down a conclusion. [inference]
+
+  **The refusal is stronger here and it should be stated as the stronger one.** `found-in`'s worst
+  case is an author maintaining a fact whose only purpose is to be verified against the fact it was
+  copied from. Adjacency's worst case is an author maintaining a fact that is **false in half the
+  states of their own game**, because the door is shut in the other half. A copy can be kept
+  correct by care; a copy of something that varies cannot be kept correct at all.
+
+  **And the class had already declared the property that answers it**, which is the second time in
+  three phases that a question turned out to be answered by something the corpus wrote at genesis
+  and nobody held it against. [control-transfer](control-transfer.yml) found `actor.ont.yml` saying
+  *"control over one may transfer during play"* while the format made `player` a kind; this finds
+  `walkbox.ont.yml` declaring `passability` while the node beneath it asked for an edge. Both
+  ontologies were written in the root commit by somebody thinking about the domain, and both
+  questions were asked later by somebody thinking about the instrument. [inference]
+
+  **This is subject work on the third evidence path and it rests on a catalog entry**, which
+  `crates/design-gate/tests/subject.rs` will read as a phase about adventure games. It is: the
+  material is a shipped game's floor plan, the finding is about how that game expresses a door, and
+  the only thing this repository contributed is the question.
+
+  **What it cost was a second reading of a source already held**, for the second phase running.
+  `control-transfer` reopened a diary post read five phases earlier for something else;
+  this reopened the polygon files read two phases earlier for scale and convexity. Both were
+  recorded as read and both had more in them, because a retrieval is aimed and the aim is not in
+  the record. The catalog's unread list says which documents nobody opened. Nothing anywhere says
+  what an opened document was not looked at for, and that is now twice.

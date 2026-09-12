@@ -18,7 +18,7 @@ does not re-emit it.
 
 ### [action-pages](action-pages.yml)
 
-- **:135** — **What this does not settle.** Whether a class-level question should have a tagged home of its own. The two live ones are parked on instances because that is where a marker can go, and both are really about the class: walkbox adjacency is a question about the relationship vocabulary, and *"is that a…
+- **:142** — **One of the two is answered and the parking turned out not to have cost anything.** [adjacency](adjacency.yml) closed the walkbox question with a measurement, and the answer landed in `walkbox.ont.yml`'s own prose — on the class, where the question always belonged — without anything having had to m…
 
 ### [actor-position](actor-position.yml)
 
@@ -231,7 +231,6 @@ word on something nothing else has needed — but it is the shape `orphan-in` re
 nodes, at four times the rate, and it had never been looked at.
 
 - [binding-axes](binding-axes.yml)
-- [control-transfer](control-transfer.yml)
 - [declared-reach](declared-reach.yml)
 - [domain-computer](domain-computer.yml)
 - [held](held.yml)

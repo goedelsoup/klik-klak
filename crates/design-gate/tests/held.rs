@@ -65,7 +65,7 @@ fn talking(root: &Path) -> Vec<String> {
     out
 }
 
-/// **Eighteen files, two positions, and the model is still free of time.**
+/// **Nineteen files, two positions, and the model is still free of time.**
 ///
 /// The presenter owns duration and `game-format` does not: the state model has no `Wait`, no
 /// `Pause`, no `Delay`, and eight effects none of which takes one. That is the half of
@@ -76,12 +76,19 @@ fn talking(root: &Path) -> Vec<String> {
 /// means nothing for three of the nine. Two senses of one word in one repository, and this count
 /// reads the string — which is worth knowing about a check whose whole subject is that the model
 /// has no time in it.
+///
+/// **The nineteenth is `adjacency` and it is the first to use the word about somebody else's
+/// engine.** A door in *Delores* takes time, and what that costs is four ordered writes across two
+/// scripts that cannot be mirror images of each other — the floor must stop being walkable before
+/// the door shuts and start being walkable only after it has finished opening. That is the cost
+/// `effect-list-semantics` refused, measured in a shipped game rather than argued, and it arrives
+/// in this count as a third sense of the word.
 #[test]
 fn duration_is_the_presenters_and_the_state_model_is_free_of_it() {
     let root = repo_root();
     assert_eq!(
         talking(&root).len(),
-        18,
+        20,
         "files that say the word — this record is one"
     );
 

@@ -49,6 +49,11 @@ enum Closes {
     /// that vanishes when it empties cannot be told from one nobody thought of.
     Specimen,
     /// A count over work that already exists.
+    ///
+    /// **Down to one, and the one that went was closed by counting.** `walkbox/scaled-polygon`
+    /// wanted `found-in`'s test run over 84 real polygons; `.yidam/decisions/adjacency.yml` ran it.
+    /// Two of the six columns emptied or shrank in consecutive phases, and both were the columns
+    /// whose resolver was a thing somebody could go and do.
     Measurement,
     /// The marker does not say. This column is empty and the check below is that it stays so.
     Unstated,
@@ -69,7 +74,6 @@ const KINDS: &[(&str, Closes)] = &[
     ("interaction/acquisition-binding.yml", Closes::Testimony),
     ("prior-art/ags.yml", Closes::Testimony),
     ("prior-art/sierra-sci.yml", Closes::Retrieval),
-    ("walkbox/scaled-polygon.yml", Closes::Measurement),
     ("world-flag/latched-flag.yml", Closes::Condition),
 ];
 
@@ -126,13 +130,19 @@ fn the_table_covers_every_question() {
 ///
 /// Three wait on testimony and will not close by anybody doing anything, which is the case worth
 /// having a column for. One waits on an artifact nobody has retrieved. Two are declined and say what
-/// would reopen them, and two want a count over work that already exists.
+/// would reopen them, and one wants a count over work that already exists.
 ///
-/// **The specimen column is empty and that is this table's first result.** It had one member — a
-/// game that switches between characters, which none of the four in `design/specimen` did — and the
-/// phase after this table was written wrote the fifth. Sorting questions by what would close them
-/// turns out to be a work queue: the one kind whose resolver was a thing somebody could simply go
-/// and make is the one that got made. `.yidam/decisions/control-transfer.yml`.
+/// **The specimen column is empty, the measurement column is down to one, and that is this table's
+/// first result.** The specimen column had one member — a game that switches between characters,
+/// which none of the four in `design/specimen` did — and the phase after this table was written
+/// wrote the fifth (`.yidam/decisions/control-transfer.yml`). The phase after *that* ran the
+/// measurement `walkbox/scaled-polygon` had been waiting for
+/// (`.yidam/decisions/adjacency.yml`).
+///
+/// **Sorting questions by what would close them turned the list into a queue.** Two consecutive
+/// closures, after eleven phases with none, and both were the kinds whose resolver is a thing
+/// somebody can go and do rather than a thing somebody has to find. That is the argument for the
+/// classification stated as an outcome rather than as a hope.
 #[test]
 fn every_question_says_what_would_close_it() {
     let root = repo_root();
@@ -151,16 +161,14 @@ fn every_question_says_what_would_close_it() {
             count(Closes::Specimen),
             count(Closes::Measurement),
         ),
-        (3, 1, 2, 0, 2),
+        (3, 1, 2, 0, 1),
         "testimony, a named artifact, a condition that would reopen it, a game, and a count"
     );
 
-    // Two of the three that were silent name their resolver and point at the record that asked
-    // them to. The third was `actor/player-character` and it has been answered.
-    for node in [
-        "data-format/interaction-table.yml",
-        "walkbox/scaled-polygon.yml",
-    ] {
+    // One of the three that were silent still names its resolver and points at the record that
+    // asked it to. The other two — `actor/player-character` and `walkbox/scaled-polygon` — have
+    // been answered, in the two phases after the asking.
+    for node in ["data-format/interaction-table.yml"] {
         let src = std::fs::read_to_string(root.join(".yidam/corpus").join(node)).expect("readable");
         assert!(
             src.contains("What would close it is") && src.contains("resolver-kind"),

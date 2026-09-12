@@ -9,6 +9,15 @@ description: |
   within it. Irreducible because it separates where an actor may *be* from what the room
   looks like: the pathable surface is authored independently of the background it sits under.
 
+  **No relationship joins two walkboxes, and that is decided rather than absent.** The class page
+  once refused one for want of instances — *"with one instance seeded there is nothing yet for such
+  an edge to join"* — and 84 real polygons have since answered it: adjacency is exact from the
+  geometry, no tolerance is needed, and it is not constant, because a door is a region that is shown
+  and hidden. So a declared edge would be a copy of something that varies during play.
+  [scaled-polygon](walkbox/scaled-polygon.yml) carries the measurement and
+  `.yidam/decisions/adjacency.yml` the argument. **The property that answers it is `passability`,
+  which this page has declared since the root commit.**
+
   **This is the only class in the authoring tier the `.game` surface cannot name at all**, and the
   reason is that it has no typed half: every word above is a thing an author draws. Two other
   classes are absent from the format and both have accounts — `cutscene` is collapsed into

@@ -387,6 +387,66 @@ and `stairs`. `walkboxHidden(name, state)` is called at 11 sites, every one nami
 the 70 unnamed ones are never hidden. In each pair the larger region is non-convex and its partner
 is a 4-vertex quad.
 
+### Adjacency, derived — 2026-09-12
+
+**A second reading of the same 84 polygons, for a different question:** whether adjacency between
+regions is a relationship an author writes. Nothing here declares one — `polygon` and `name` are
+still the only two keys — so the question is what the geometry says on its own.
+
+**It says it exactly.** Of the **290 within-room pairs**, **66 share an edge exactly**: the same
+two vertices, consecutive in both rings, opposite winding. **None meet along a collinear segment
+without sharing an edge**, so no tolerance is needed and none could have been chosen from the data.
+**One pair covers common floor without sharing an edge**, and **one pair shares a single vertex and
+no edge** (SheriffsOffice, at `(282,70)`, between two regions already adjacent by other edges).
+[verified] The walkboxes tile; the editor snaps.
+
+`walkboxHidden` is called at 11 sites, and the graph is a function of world state.
+
+**The named quad is a door.** `jail_door` is four vertices and shares an edge with exactly two
+regions — the office floor and `jail`. `desk_path` is four vertices and shares an edge with exactly
+two — the shop floor and `natalie_desk`. Remove either and the room's floor falls into two pieces
+with the larger named region as the isolated one. [verified] That is what
+`walkboxHidden("jail_door", not open)` is doing at line 551 of `SheriffsOffice.dinky`: **the cell
+door is a piece of floor that exists while the door is open.** The pairing noted above — a
+non-convex region and a 4-vertex partner — is a room and its doorway, and there are three such
+pairs.
+
+**One of the three doorways is never opened.** `walkboxHidden("desk_path", YES)` at
+`Nickel.dinky:194` is inside `enter()`, so it runs on every entry to the room, and it is the only
+mention of `desk_path` anywhere in the 49 script files. [verified] `natalie_desk` shares an edge
+with `desk_path` and with nothing else, so **the region behind the counter is authored and can
+never be stood on**, and the quad that would reach it is authored and never shown. Nothing in that
+engine reports it. `jailDoor` and the BookStore ladders are the other two and both are opened.
+
+**Six of the fifteen rooms are already in more than one piece with every region present**, and the
+gaps are small: Diner 3 and 7 and 16 pixels across three components, QuickiePal 3, PostOffice 4,
+Bank 6, CityHall 8, BookStore 14 — in rooms 320 to 600 pixels wide. [verified] BookStore's split is
+the ladder, whose six named boxes are shown one pair at a time; the other five carry no named box
+in the split at all, and **nothing in the geometry distinguishes a gap that means *you may not go
+there* from one left by a mouse that stopped short.**
+
+**A door is written at four tiers and an author keeps them in step by hand.** `jailDoor` in
+`SheriffsOffice.dinky` is one object carrying a hotspot (`name`, `photo_name`, `objectTouchable`,
+a `default_verb` flipping between `verb_open` and `verb_close`), a state (`open = NO`), a walkbox
+(`walkboxHidden("jail_door", not open)`) and a drawn offset (`objectOffsetTo(jailDoor, point(-58,
+0), …)`). **`walkboxHidden` for that one door appears three times in the object** — in `enter()`,
+in `openJailDoor()` and in `closeJailDoor()` — and `enter()` re-derives every tier from `open`,
+which is the diary's *"When a game loads, I just re-enter the room"* ([twp-dev-diary](twp-dev-diary.md)). [verified]
+
+**And the two scripts are not mirror images, because the door takes time.** `closeJailDoor` hides
+the walkbox **first** and then slides the sprite; `openJailDoor` slides first, `breaktime`s for the
+duration, and unhides **last**. Neither ordering is a choice about doors — it is what an effect
+with a duration forces, because the floor must stop being walkable before the door shuts and start
+being walkable only after it has finished opening. `moveLadder` in `BookStore.dinky` has the same
+shape and the same `breaktime` in the middle of it. [verified]
+
+**Reproducing it.** The `.wimpy` files parse as a relaxed JSON — bare keys, no commas, tuples
+written `(x,y)` unquoted in some values and inside a string in others — and a `polygon` is
+`"(x,y);(x,y);…"`. A reimplementation should get **84 polygons in 15 of 23 files, 42
+quadrilaterals, vertex counts 4 to 118, 14 named, and exactly two distinct keys across all 84**
+before its adjacency numbers are trusted. `SheriffsOffice` and `Nickel` are transcribed in
+`crates/design-gate/tests/adjacency.rs`, which executes the door claim.
+
 ### Extent and camera
 
 **A room declares its size and its camera range as two separate fields, and they differ in ten of
