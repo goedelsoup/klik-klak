@@ -149,8 +149,8 @@ this document exists to fill is exactly one thing: composition.** Having predica
 distinguishes this proposal from what AGS shipped. Combining them is.
 
 **Half of that sentence is measured and half is not.** What is counted is AGS. What this design
-*does* with composition was counted later and is thin: across the four specimens in this
-repository the binary connectives appear **once** — one `and`, no `or` — while `not`, which is
+*does* with composition was counted later and is no longer thin: across the specimens in this
+repository the binary connectives appear **eight times** — eight `and`, no `or` — while `not`, which is
 unary and combines nothing, appears ten times
 (`.yidam/decisions/unwritten.yml`). [verified] Either four small games are too little authoring to
 need a second conjunct, or a puzzle guard in this form is usually one condition — which is what
@@ -291,10 +291,11 @@ hinges" — and a binding that fires on entering the far room is too late to say
 That sentence assumes the door is clickable while locked, and **the format lets an author say
 otherwise without any new syntax**: a `when` with an `else` under it offers the binding and
 declines out loud, and a `when` with nothing under it withholds it. The specimens use the second
-form three times, all at sites where a refusal cannot exist — two conversation options and one
-`on-enter` — and every one of the seventeen gated bindings on a hotspot verb writes a line. Nothing
-in `crates/` can tell the two readings apart, by construction: strip every refusal from all four
-specimens and no figure moves. See [`availability`](../.yidam/decisions/availability.yml). The two
+form five times, all at sites where a refusal cannot exist — two conversation options, one
+`on-enter`, and two `talk-to` bindings on the character the player is currently driving — and
+twenty-six of the twenty-eight gated bindings on a hotspot verb write a line. Nothing in `crates/`
+can tell the two readings apart, by construction: strip every refusal from every specimen and no
+figure moves. See [`availability`](../.yidam/decisions/availability.yml). The two
 assessments wanted arrival at two granularities: a room, and a place within a room. Only the first
 was demonstrated by a specimen and only the first was built.
 
@@ -623,7 +624,7 @@ again" [verified] — and nothing in the authoring surface detects the consequen
 
 **That prediction has been run, and it came back with the scope wrong and the argument
 intact.** The checker names every authored clause no reachable state selects, and it found four
-in the 105 the four specimens carry — **none of them in a conversation**. So *"a question about
+in the 154 the specimens carry — **none of them in a conversation**. So *"a question about
 the option-availability graph"* was the wrong graph: a guarded response list orphans without
 any option, any tree and any subtree, because **the guard is the path**. What was right is the
 conditional this section is about. The question is answerable here for exactly the reason given
@@ -851,7 +852,7 @@ or that anybody would enjoy writing in it.
   sets out why that is weaker than a refutation and much stronger than the silence it replaces.
   `[open]`
 - **Nothing here is implemented as an engine**, and there is now somewhere for one to be. No
-  engine reads this. It is exercised by four specimens and analysed by `crates/reachability`,
+  engine reads this. It is exercised by five specimens and analysed by `crates/reachability`,
   which is a checker rather than a runtime — the analysis says a game *can* be finished, and
   nothing here has ever played one.
 

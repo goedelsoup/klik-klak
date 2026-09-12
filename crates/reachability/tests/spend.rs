@@ -22,24 +22,10 @@
 //!
 //! [`consuming-binding`]: ../../../.yidam/corpus/interaction/consuming-binding.yml
 
+mod common;
+
 use game_format::Effect;
 use reachability::{analyse, Cause};
-
-const S: [(&str, &str); 4] = [
-    ("ferry", include_str!("../../../design/specimen/ferry.game")),
-    (
-        "lighthouse",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    (
-        "nightwatch",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    (
-        "patrol",
-        include_str!("../../../design/specimen/patrol.game"),
-    ),
-];
 
 fn load(src: &str) -> game_format::Game {
     let (mut g, mut p) = game_format::parse(src, "spend.game");
@@ -53,16 +39,20 @@ fn spends(b: &game_format::Binding) -> bool {
     b.effects.iter().any(|e| matches!(e, Effect::Spend(..)))
 }
 
-/// **Six bindings spend, five states-worth of stranding, three of them consumption.**
+/// **Seven bindings spend, six states-worth of stranding, three of them consumption.**
 ///
 /// The node says *"against a specimen it named exactly one."* That was one specimen. Across the
-/// four there are five strandings and the split is 3 to 2, which is the figure the node should
+/// specimens there are six strandings and the split is 3 to 3, which is the figure the node should
 /// have carried and the reason it is pinned here rather than described there.
+///
+/// A fifth game added one spending binding and one stranding, and the stranding is an **ordering**
+/// one — the committed defect `lock.game` was written to carry. The consumption count has not
+/// moved since the third specimen.
 #[test]
-fn the_corpus_strands_five_times_and_three_are_a_spend() {
+fn the_corpus_strands_six_times_and_three_are_a_spend() {
     let (mut spending, mut strandings, mut consumption, mut ordering) = (0, 0, 0, 0);
-    for (_, src) in S {
-        let g = load(src);
+    for (_, src) in common::sources() {
+        let g = load(&src);
         spending += g.bindings.iter().filter(|b| spends(b)).count();
         let r = analyse(&g);
         strandings += r.strandings.len();
@@ -73,7 +63,7 @@ fn the_corpus_strands_five_times_and_three_are_a_spend() {
             }
         }
     }
-    assert_eq!((spending, strandings, consumption, ordering), (6, 5, 3, 2));
+    assert_eq!((spending, strandings, consumption, ordering), (7, 6, 3, 3));
 }
 
 /// **A binding that spends is not a consumption stranding, and the difference is a re-run.**
@@ -88,7 +78,7 @@ fn the_corpus_strands_five_times_and_three_are_a_spend() {
 /// node claiming the two methods are the same computation would have shipped that error.
 #[test]
 fn the_only_spending_binding_in_ferry_strands_for_another_reason() {
-    let g = load(S[0].1);
+    let g = load(&common::source("ferry"));
     let r = analyse(&g);
     let s = &r.strandings[0];
     assert_eq!((r.strandings.len(), s.verb.as_str()), (1, "use-with"));
@@ -121,7 +111,7 @@ fn the_only_spending_binding_in_ferry_strands_for_another_reason() {
 /// often and then written as though that shape were the only one.
 #[test]
 fn the_spend_that_strands_nightwatch_is_not_a_binary_binding() {
-    let g = load(S[2].1);
+    let g = load(&common::source("nightwatch"));
     let r = analyse(&g);
     assert_eq!(r.strandings.len(), 2);
     for s in &r.strandings {
@@ -163,11 +153,11 @@ fn the_spend_that_strands_nightwatch_is_not_a_binary_binding() {
 /// says so, and costs four reachable states.
 #[test]
 fn the_player_was_shown_every_binding_that_stranded_them() {
-    for (name, src) in S {
-        let r = analyse(&load(src));
+    for (name, src) in common::sources() {
+        let r = analyse(&load(&src));
         assert!(r.unshown.is_empty(), "{name}: {:?}", r.unshown);
     }
-    let r = analyse(&load(S[1].1));
+    let r = analyse(&load(&common::source("lighthouse")));
     let s = r
         .strandings
         .iter()

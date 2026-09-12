@@ -39,7 +39,7 @@ properties:
 
     It is not a rule against writing two bindings in one cell, which would refuse a shape a shipped
     game writes: a `pick-up` that also describes the thing the first time, beside a bare one after.
-    [verified] The four specimens key every cell distinctly, so nothing here was found by it — it
+    [verified] Every specimen keys every cell distinctly, so nothing here was found by it — it
     was written to make a *different* question answerable, and `.yidam/decisions/arity-cost.yml`
     is what it answered.
     Hand-editable, because the alternative is a tool and a tool for a sparse table is a
@@ -66,10 +66,13 @@ properties:
     [bounded-expression-language](../../../design/bounded-expression-language.md), which keys
     bindings separately from declarations and puts the writing on the same line as the guard.
 
-    **What would close it is a measurement, and the material for one exists.** Four specimens,
-    662 lines and 91 bindings are authored in that syntax, and whether it reads like writing is a
-    question about those lines rather than about the proposal — the kind of thing
-    `crates/game-format/tests/authored.rs` already counts one half of.
+    **What would close it is a measurement, and the material for one exists.** Five specimens,
+    **904 lines and 120 bindings** are authored in that syntax, and whether it reads like writing
+    is a question about those lines rather than about the proposal — the kind of thing
+    `crates/game-format/tests/authored.rs` already counts one half of. (This named the previous
+    four-specimen figures for eleven commits after a fifth was written, which is
+    `.yidam/decisions/unread-specimen.yml`: the marker naming the only measurable question here was
+    itself wrong about what there was to measure.)
     [resolver-kind](../../decisions/resolver-kind.yml).
 
     A specimen authored in the proposed language resolves it by splitting the two rather than
@@ -84,7 +87,7 @@ properties:
 
     This paragraph read *"whether that survives a table with real combinatorics is untested;
     twenty-three bindings is not a test of scale"* for several phases, with the test in the
-    paragraph below it. It is four specimens and 91 bindings now, and the answer is the shipped
+    paragraph below it. It is five specimens and 120 bindings now, and the answer is the shipped
     game rather than the specimens — which is what the sentence was right about.
 
     **A real one has been counted and it is emptier than expected, which cuts the other way.**
@@ -137,7 +140,7 @@ properties:
     **It was 51 and six verbs for six phases, and the sixth was one the corpus had already decided
     against.** [give-to](../verb/give-to.yml) was assessed as `use-with` applied to an actor two
     phases after it was seeded, the node was kept as a record of the refusal, and nobody told the
-    parser — so every figure above counted a construct that carried no binding in 662 authored
+    parser — so every figure above counted a construct that carried no binding in 904 authored
     lines and earned nothing in the shipped game either: folding Delores's `giveto` into `use-with`
     leaves 198 cells and 18 collisions, identical. [verified] —
     `crates/reachability/tests/verbs.rs`, `.yidam/decisions/verb-count.yml`. The lesson is about
@@ -198,22 +201,29 @@ properties:
     drifted without anything noticing. That was open for four phases and it is answered below.
 
     **Measured, and the generation half closes.** A response block's *frame* is every non-space
-    character outside a string literal and its *prose* is what is inside one, and across the four
-    specimens the ratio is roughly two to one in prose's favour: 188 string literals of which **186
+    character outside a string literal and its *prose* is what is inside one, and across the
+    specimens the ratio is roughly two to one in prose's favour: 258 string literals of which **256
     are different**, and the two that repeat are five words long. [verified] —
-    `crates/game-format/tests/duplication.rs`. Structural repetition is real and pervasive — 91
-    bindings in 29 shapes, 70 of them sharing one — and it is almost all a frame two words wide
+    `crates/game-format/tests/duplication.rs`. Structural repetition is real and pervasive — 120
+    bindings in 41 shapes, 89 of them sharing one — and it is almost all a frame two words wide
     around a paragraph nobody else wrote. A shape census cannot see that, which is why the count
     alone settled nothing.
 
-    **Sixteen blocks in 664 lines contain no prose at all. Fifteen are the bare exit.** The
-    sixteenth is this corpus's one conversation opener and it occurs once. `walk-to` is the only
-    verb in the language whose blocks cost more frame than they carry writing; `look-at` is the
-    commonest by nearly double and the most prose-dense of all, so an archetype there would take
-    the frame and leave the work. [verified] The criterion is mechanical, it runs on any candidate,
-    and applied to this language it returns exactly the shape
-    [`exit-archetype`](../../decisions/exit-archetype.yml) had already admitted on a census of two
-    unrelated bodies of authored work.
+    **Eighteen blocks in 904 lines contain no prose at all. Seventeen are the bare exit.** The
+    eighteenth is this corpus's one conversation opener and it occurs once. [verified] The
+    criterion is mechanical, it runs on any candidate, and applied to this language it returns
+    exactly the shape [`exit-archetype`](../../decisions/exit-archetype.yml) had already admitted
+    on a census of two unrelated bodies of authored work.
+
+    **The second criterion beside it reversed on a fifth specimen and the margin says why it should
+    not have been trusted.** This paragraph also read *"`walk-to` is the only verb in the language
+    whose blocks cost more frame than they carry writing"*, which was true of four games by 588
+    characters to 552 — a six per cent gap. One more game made it 1,040 to 1,272 and **no verb in
+    this language costs more frame than it carries writing**. The prose-free census above moved the
+    way a census should, fifteen to seventeen, because a block either carries prose or does not; a
+    ranking between two quantities that both grow is decided by whoever wrote last.
+    `.yidam/decisions/unread-specimen.yml`. `look-at` is still the commonest by nearly double and
+    the most prose-dense of all, which was never close.
 
     So *an archetype per shape does not reach shapes nobody anticipated* assumed the difficulty is
     enumerating shapes. It is not: the shapes are cheap and the writing is the work.
@@ -221,7 +231,7 @@ properties:
 
     **Two more instances since, and the second is this corpus's own.** Eleven of twenty delegation
     sites are one object drawn as several regions; and `crates/reachability/tests/scaling.rs`
-    writes its games with three Rust `for` loops — 6,315 generated lines against 664 authored —
+    writes its games with three Rust `for` loops — 6,315 generated lines against 904 authored —
     because a corridor of sixty-four rooms cannot be written by hand here. [verified] Five
     instances across two games, and this corpus had recorded four of them in somebody else's before
     noticing the fifth in its own.
@@ -308,7 +318,7 @@ properties:
     a line in it, so the two are not the same primitive read at different scales, and this
     vocabulary was said here to have no way to say a verb should not be offered at all.
 
-    **It has one, it is `when` with nothing under it, and it is used three times in 662 lines.**
+    **It has one, it is `when` with nothing under it, and it is used five times in 904 lines.**
     Twice on a conversation option, where an unavailable choice is simply not shown, and once on an
     `on-enter`, where [entry-binding](../interaction/entry-binding.yml) argued a refusal *cannot*
     exist because nobody tried anything. Every one of the **seventeen** gated bindings on a hotspot
@@ -318,7 +328,7 @@ properties:
     possible.
 
     **And the choice cannot be settled here, which is the finding rather than an excuse.** Strip
-    every refusal from all four specimens — every bare `else` and every `otherwise` — and no state,
+    every refusal from every specimen — every bare `else` and every `otherwise` — and no state,
     transition, stranding or winnability moves. [verified] `offered` gates on `when` at all three
     sites and `Binding` carries no text, so *refused out loud* and *never offered* are the same
     program. The instrument was built to be blind to exactly this.

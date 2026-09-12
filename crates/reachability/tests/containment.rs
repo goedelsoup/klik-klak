@@ -12,23 +12,12 @@
 //! form is not an idiom — it is what `carried-form-of` makes of a container, and it is what makes
 //! taking the contents self-limiting.
 
+mod common;
+
 use game_format::Game;
 use reachability::analyse;
 
 const PATROL: &str = include_str!("../../../design/specimen/patrol.game");
-const ALL: [(&str, &str); 4] = [
-    ("ferry", include_str!("../../../design/specimen/ferry.game")),
-    (
-        "lighthouse",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    (
-        "nightwatch",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    ("patrol", PATROL),
-];
-
 fn load(name: &str, src: &str) -> Game {
     let (mut game, problems) = game_format::parse(src, name);
     let problems: Vec<String> = problems
@@ -126,17 +115,21 @@ fn folding_the_container_and_its_contents_into_one_hotspot_is_caught() {
     );
 }
 
-/// **How much of the corpus has the shape: two of eight, and both are named for it.**
+/// **How much of the corpus has the shape: two of nine, and both are named for it.**
 ///
-/// A hotspot carrying `is <item>` is the uncarried form of that item. Six of the eight in these
+/// A hotspot carrying `is <item>` is the uncarried form of that item. Seven of the nine in these
 /// specimens are simply lying about and their `pick-up` is unguarded; two are inside something,
 /// and those two are exactly the two whose `pick-up` carries a guard.
+///
+/// **A fifth game added one loose item and no contained one**, and the naming convention held
+/// without anybody being told about it: `lockside.loose-windlass` is lying at the gear, and its
+/// `pick-up` is unguarded like the other six.
 #[test]
-fn six_are_loose_and_two_are_contained_and_the_names_say_which() {
+fn seven_are_loose_and_two_are_contained_and_the_names_say_which() {
     let mut loose = Vec::new();
     let mut contained = Vec::new();
-    for (name, src) in ALL {
-        let g = load(name, src);
+    for (name, src) in common::sources() {
+        let g = load(&name, &src);
         for hotspot in g.carried_form.keys() {
             let guarded = g.bindings.iter().any(|b| {
                 matches!(&b.site, game_format::Site::InRoom { target, .. } if target == hotspot)
@@ -150,7 +143,7 @@ fn six_are_loose_and_two_are_contained_and_the_names_say_which() {
             }
         }
     }
-    assert_eq!(loose.len(), 6, "{loose:?}");
+    assert_eq!(loose.len(), 7, "{loose:?}");
     assert_eq!(contained.len(), 2, "{contained:?}");
     for c in &contained {
         assert!(

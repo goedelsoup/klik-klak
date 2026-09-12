@@ -10,24 +10,10 @@
 //! difference allowed is the **line numbers**, which must move because the writer emits no
 //! comments and no blank lines. `.yidam/decisions/round-trip.yml`.
 
+mod common;
+
 use game_format::{parse, print, resolve, Game};
 use reachability::analyse;
-
-const ALL: [(&str, &str); 4] = [
-    ("ferry", include_str!("../../../design/specimen/ferry.game")),
-    (
-        "lighthouse",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    (
-        "nightwatch",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    (
-        "patrol",
-        include_str!("../../../design/specimen/patrol.game"),
-    ),
-];
 
 fn load(source: &str, name: &str) -> Game {
     let (mut game, problems) = parse(source, name);
@@ -62,9 +48,9 @@ fn without_lines(report: &str) -> String {
 /// somebody thought to assert.
 #[test]
 fn the_checker_says_the_same_thing_about_the_game_it_wrote_out() {
-    for (name, src) in ALL {
-        let original = load(src, name);
-        let round_tripped = load(&print(&original), name);
+    for (name, src) in common::sources() {
+        let original = load(&src, &name);
+        let round_tripped = load(&print(&original), &name);
         let (before, after) = (
             analyse(&original).render(),
             analyse(&round_tripped).render(),
@@ -86,9 +72,9 @@ fn the_checker_says_the_same_thing_about_the_game_it_wrote_out() {
 #[test]
 fn the_figures_records_quote_do_not_move() {
     let mut seen = Vec::new();
-    for (name, src) in ALL {
-        let original = load(src, name);
-        let round_tripped = load(&print(&original), name);
+    for (name, src) in common::sources() {
+        let original = load(&src, &name);
+        let round_tripped = load(&print(&original), &name);
         let (a, b) = (analyse(&original), analyse(&round_tripped));
         assert_eq!(
             (a.states, a.transitions, a.winnable, a.stranded),
@@ -114,16 +100,17 @@ fn the_figures_records_quote_do_not_move() {
             ),
             "{name}: a finding moved"
         );
-        seen.push((name, a.states, a.transitions, a.strandings.len()));
+        seen.push((name.clone(), a.states, a.transitions, a.strandings.len()));
     }
     assert_eq!(
         seen,
         [
-            ("ferry", 20, 34, 1),
-            ("lighthouse", 91, 173, 1),
-            ("nightwatch", 14, 31, 2),
-            ("patrol", 20, 33, 1),
+            ("ferry".to_string(), 20, 34, 1),
+            ("lighthouse".to_string(), 91, 173, 1),
+            ("lock".to_string(), 58, 118, 1),
+            ("nightwatch".to_string(), 14, 31, 2),
+            ("patrol".to_string(), 20, 33, 1),
         ],
-        "the four specimens, as `design/specimen/README.md` states them"
+        "the specimens, as `design/specimen/README.md` states them"
     );
 }

@@ -195,7 +195,7 @@ fn the_node_no_longer_calls_scale_untested_above_the_paragraph_that_tests_it() {
     );
     assert!(
         text.contains(
-            "It is four specimens and 91 bindings now, and the answer is the shipped \
+            "It is five specimens and 120 bindings now, and the answer is the shipped \
                        game rather than the specimens"
         ),
         "the claim, corrected in place rather than deleted"

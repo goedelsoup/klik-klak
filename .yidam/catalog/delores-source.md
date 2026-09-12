@@ -883,7 +883,7 @@ opposite ways.
 | | withhold | refuse |
 |---|---|---|
 | Delores | `VERB_OK` — **62 sites, 32 of them a genuine availability gate** (the other 30 test `noun2`, which is this design's second key) | `VERB_PRE` — **4 sites, 3 of them a refusal** |
-| this design's four specimens | `when` with no `else` — **0** on a hotspot verb | `when` with an `else` — **17** |
+| this design's specimens | `when` with no `else` — **2** on a hotspot verb, both `talk-to` on the character the player is driving | `when` with an `else` — **26** |
 
 [verified] for every count. Roughly **eight to one toward hiding** in the shipped game, and
 seventeen to nothing toward showing here.

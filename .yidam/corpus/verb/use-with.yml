@@ -31,7 +31,7 @@ description: |
   **They can, exactly, and the answer had been sitting in this repository's own code.**
   `crates/reachability`'s `offered` gates a binding's second object on `items[o] >= 1`, and
   `Pred::Carrying(o)` evaluates to `items[o] >= 1` — the same expression, ten lines apart.
-  [verified] Moving every second object into its guard leaves all four specimens analysing
+  [verified] Moving every second object into its guard leaves every specimen analysing
   identically: same reachable set, transitions, strandings, winnability, latch violations.
   [verified] — `crates/reachability/tests/arity.rs`. Arity costs the state space nothing.
 

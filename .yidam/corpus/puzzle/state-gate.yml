@@ -14,11 +14,40 @@ description: |
   refusal. Whether the vocabulary should have a name for the condition itself was called here
   the strongest live case for *adding* a primitive rather than removing one.
 
-  **It was, and the answer is no primitive — because the gate described above does not occur.**
-  Across the four specimens there are **36 predicates and exactly one joins more than one atom**.
-  [verified] — `crates/reachability/tests/conditions.rs`. There is no three-flag gate anywhere to
-  give a name to. A condition over several flags is the thing this node was seeded worrying about
-  and it is not what an author writes.
+  **It was, and the answer was no primitive — on a census that was measuring four fifths of the
+  material.** This node carried, as `[verified]`, that there were 36 predicates across the
+  specimens and exactly one joined more than one atom — and concluded there was no three-flag gate
+  anywhere to give a name to.
+
+  **There are sixty predicates and eight join more than one atom, and seven of the eight are in one
+  game.** [verified] — `crates/reachability/tests/conditions.rs`. `design/specimen/lock.game` was
+  written eleven commits before this was noticed and the test that counts predicates could not see
+  it, because its input was a hardcoded list of the four games that existed when it was written
+  (`.yidam/decisions/unread-specimen.yml`).
+
+  **The gate described above is in that game, written the way this node said it would be.**
+  `gates-shut and paddle-up` appears in four separate preconditions — twice alone, once with
+  `boatman in chamber` after it, and once inside a five-atom conjunction:
+
+  ```
+  when gates-shut and paddle-up and boatman in lockside and mate in lockside and not gates-open
+  ```
+
+  That is *"a gate depending on three flags is stated three times, or more, and nothing checks that
+  the statements agree"*, which was written at genesis and called imagined. It was not imagined. It
+  was waiting for a game with a mechanism in it: a lock with two gates, a paddle and two crew,
+  where being allowed to act depends on the state of the water **and** on where two other people
+  are standing.
+
+  **So the question is open again.** `.yidam/decisions/named-condition.yml` declined the primitive
+  for reasons beyond the census — the successor relation is derivable from the bindings, and a
+  static check closed the gap reachability could not see — and those reasons are untouched. What is
+  gone is the premise it led with. Whether four restatements of one conjunction, in one game, earn
+  a name for the condition is a decision somebody has to take against the corpus that now exists
+  rather than the one that was counted. **What would close it is a decision**, weighing the eight
+  compound predicates and the four restatements against the cost of a new declarable — the same
+  weighing `named-condition` did, on evidence that has reversed.
+  [resolver-kind](../../decisions/resolver-kind.yml). `[open]`
 
   **What is restated is a counter's position in a sequence, and it is all on one target.**
   `lighthouse.game`'s `lamp-prep` is read at **nine sites, every one of them sited on the lamp**
@@ -45,7 +74,7 @@ description: |
   a counter can hold is its declared floor plus everything any `set` writes, and that is already in
   the bindings; a comparison no holdable value satisfies is a branch the game cannot reach.
   `unreachable_values` in `crates/game-format/src/resolve.rs` refuses it, the first mutation now
-  fails at two sites before the search runs, and all four specimens still resolve clean.
+  fails at two sites before the search runs, and every specimen still resolves clean.
   [verified] — verified to fail by commenting out the call.
 
   **The general lesson is about the instrument, not the vocabulary.** Reachability could not see

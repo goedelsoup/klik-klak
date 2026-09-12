@@ -14,6 +14,8 @@
 //!
 //! [`data-format/interaction-table`]: ../../../.yidam/corpus/data-format/interaction-table.yml
 
+mod common;
+
 const HEAD: &str = "room a \"A\"\nitem x \"x\"\nitem y \"y\"\nflag seen \"seen\"\n\
                     counter step 0..3 \"how far\"\n\nroom a\n  start\n";
 const TAIL: &str = "  hotspot out \"out\"\n    walk-to:\n      ending\n";
@@ -120,13 +122,8 @@ fn a_disjunction_is_treated_as_inseparable() {
 /// be written rather than a report about what is.
 #[test]
 fn no_committed_specimen_writes_two_bindings_into_one_cell() {
-    for src in [
-        include_str!("../../../design/specimen/ferry.game"),
-        include_str!("../../../design/specimen/lighthouse.game"),
-        include_str!("../../../design/specimen/nightwatch.game"),
-        include_str!("../../../design/specimen/patrol.game"),
-    ] {
-        let (mut g, mut p) = game_format::parse(src, "specimen.game");
+    for (_, src) in common::sources() {
+        let (mut g, mut p) = game_format::parse(&src, "specimen.game");
         p.extend(game_format::resolve(&mut g));
         let msgs: Vec<String> = p.into_iter().map(|p| p.to_string()).collect();
         assert!(msgs.is_empty(), "{msgs:?}");

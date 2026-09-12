@@ -18,14 +18,11 @@
 //!
 //! `.yidam/decisions/orphaned-lines.yml`.
 
+mod common;
+
 use game_format::{parse, resolve, Game};
 use reachability::analyse;
 use std::path::{Path, PathBuf};
-
-const FERRY: &str = include_str!("../../../design/specimen/ferry.game");
-const LIGHTHOUSE: &str = include_str!("../../../design/specimen/lighthouse.game");
-const NIGHTWATCH: &str = include_str!("../../../design/specimen/nightwatch.game");
-const PATROL: &str = include_str!("../../../design/specimen/patrol.game");
 
 fn load(source: &str, name: &str) -> Game {
     let (mut game, problems) = parse(source, name);
@@ -35,16 +32,14 @@ fn load(source: &str, name: &str) -> Game {
     game
 }
 
-fn specimens() -> Vec<(&'static str, Game)> {
-    [
-        ("ferry", FERRY),
-        ("lighthouse", LIGHTHOUSE),
-        ("nightwatch", NIGHTWATCH),
-        ("patrol", PATROL),
-    ]
-    .into_iter()
-    .map(|(n, s)| (n, load(s, n)))
-    .collect()
+fn specimens() -> Vec<(String, Game)> {
+    common::sources()
+        .into_iter()
+        .map(|(n, s)| {
+            let g = load(&s, &n);
+            (n, g)
+        })
+        .collect()
 }
 
 fn repo_root() -> PathBuf {
@@ -68,8 +63,12 @@ fn flat(src: &str) -> String {
 /// All four stay in the specimens. Three are the evidence for the structural finding and deleting
 /// them would delete it; the fourth is a genuine authoring slip and is the proof the check is not
 /// vacuous. A specimen is evidence before it is an example.
+///
+/// **A fifth game added forty-nine response clauses and not one orphan**, which is the first
+/// evidence that the four are a property of how those two games are written rather than a rate.
+/// The denominator moved by half and the numerator did not move at all.
 #[test]
-fn four_authored_lines_in_a_hundred_and_five_are_reached_by_nobody() {
+fn four_authored_lines_in_a_hundred_and_fifty_four_are_reached_by_nobody() {
     let mut clauses = 0;
     let mut found: Vec<String> = Vec::new();
     for (name, game) in specimens() {
@@ -89,8 +88,8 @@ fn four_authored_lines_in_a_hundred_and_five_are_reached_by_nobody() {
         }
     }
     assert_eq!(
-        clauses, 105,
-        "authored response clauses in the four specimens"
+        clauses, 154,
+        "authored response clauses across the specimens"
     );
     assert_eq!(
         found,
@@ -126,7 +125,7 @@ fn four_authored_lines_in_a_hundred_and_five_are_reached_by_nobody() {
 /// `lighthouse.game` was written for.
 #[test]
 fn a_binding_that_spends_its_own_object_cannot_decline() {
-    let game = load(LIGHTHOUSE, "lighthouse");
+    let game = load(&common::source("lighthouse"), "lighthouse");
     let orphaned: Vec<usize> = analyse(&game)
         .orphaned
         .iter()
@@ -189,7 +188,7 @@ fn a_binding_that_spends_its_own_object_cannot_decline() {
 /// to exhibit `unwinnable-state` and exhibits this too, in the same construct.
 #[test]
 fn the_ferrymans_line_is_true_only_where_he_cannot_be_seen() {
-    let game = load(FERRY, "ferry");
+    let game = load(&common::source("ferry"), "ferry");
     let orphan = game
         .bindings
         .iter()
@@ -217,7 +216,7 @@ fn the_ferrymans_line_is_true_only_where_he_cannot_be_seen() {
     );
 
     assert!(
-        FERRY.contains("THE TRAP. The boat does not come back."),
+        common::source("ferry").contains("THE TRAP. The boat does not come back."),
         "and the specimen says the crossing is one-way"
     );
 }
@@ -272,7 +271,7 @@ fn the_corpus_says_a_guard_orphans_and_not_only_a_path() {
 /// unreachable.
 #[test]
 fn the_census_sees_a_line_said_between_two_resting_states() {
-    let game = load(NIGHTWATCH, "nightwatch");
+    let game = load(&common::source("nightwatch"), "nightwatch");
     let forced: Vec<usize> = game
         .bindings
         .iter()

@@ -21,7 +21,7 @@ description: |
   wrong, and the vocabulary currently has no way for an author to say which they meant.
 
   **It is the only subsystem with no `[verified]` claim, and the only one that never will have
-  one.** `crates/reachability` exercises the other two against four specimens; this component
+  one.** `crates/reachability` exercises the other two against every specimen; this component
   consumes the half of a room a `.game` file cannot state, so there is nothing for a check to read.
   Its own `authoring_visibility` had the reason all along without drawing it — *"an author draws
   walkboxes and never touches this"* — and drawn, rather than typed, is exactly where the line

@@ -25,23 +25,9 @@
 //!   makes `otherwise` a fallback is that it is written last"* — and the file has three
 //!   spellings of that one thing.
 
-use game_format::{parse, resolve, Game};
+mod common;
 
-const ALL: [(&str, &str); 4] = [
-    ("ferry", include_str!("../../../design/specimen/ferry.game")),
-    (
-        "lighthouse",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    (
-        "nightwatch",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    (
-        "patrol",
-        include_str!("../../../design/specimen/patrol.game"),
-    ),
-];
+use game_format::{parse, resolve, Game};
 
 fn root() -> std::path::PathBuf {
     std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
@@ -154,7 +140,7 @@ fn two_standing_claims_need_a_file_to_be_checked() {
     );
 
     // and nothing uses `exit`, so the expansion has never even been read in anger
-    for (name, src) in ALL {
+    for (name, src) in common::sources() {
         assert!(
             !src.lines().any(|l| l.trim_start().starts_with("exit ")),
             "{name} writes an `exit` now"
@@ -171,7 +157,7 @@ fn two_standing_claims_need_a_file_to_be_checked() {
 #[test]
 fn one_construct_is_written_three_ways() {
     let (mut say, mut otherwise, mut bare) = (0, 0, 0);
-    for (_, src) in ALL {
+    for (_, src) in common::sources() {
         for line in src.lines() {
             let t = line.trim_start();
             if t.starts_with("say ") {
@@ -183,12 +169,12 @@ fn one_construct_is_written_three_ways() {
             }
         }
     }
-    assert_eq!((say, otherwise, bare), (28, 11, 34), "the three spellings");
+    assert_eq!((say, otherwise, bare), (41, 20, 39), "the three spellings");
 
     // and every one of them is the same thing in the tree
     let mut unguarded = 0;
-    for (name, src) in ALL {
-        let game = load(src, name);
+    for (name, src) in common::sources() {
+        let game = load(&src, &name);
         unguarded += game
             .bindings
             .iter()
@@ -212,7 +198,7 @@ fn one_construct_is_written_three_ways() {
 #[test]
 fn a_third_of_the_file_is_for_whoever_reads_the_file() {
     let (mut total, mut hash, mut annotation, mut blank) = (0, 0, 0, 0);
-    for (_, src) in ALL {
+    for (_, src) in common::sources() {
         for line in src.lines() {
             total += 1;
             let t = line.trim();
@@ -225,5 +211,5 @@ fn a_third_of_the_file_is_for_whoever_reads_the_file() {
             }
         }
     }
-    assert_eq!((total, hash, annotation, blank), (662, 133, 3, 143));
+    assert_eq!((total, hash, annotation, blank), (904, 186, 3, 185));
 }

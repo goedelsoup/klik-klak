@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (652, 114, 79));
+    assert_eq!((total, mentions, tests.len()), (659, 114, 79));
 }
 
 /// **Seven of eighty-seven records are cited by nothing, against three of forty-four nodes.**
@@ -355,7 +355,7 @@ fn a_record_nothing_cites_is_named() {
          nodes and test files, so it revises no record and nothing here has a marker to retract"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (87, 309));
+    assert_eq!((c.len(), edges), (87, 313));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**

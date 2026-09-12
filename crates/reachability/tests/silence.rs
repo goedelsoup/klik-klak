@@ -15,12 +15,9 @@
 //! counts is a binding the menu **shows**, which **declines** in that state, whose `else` list has
 //! no clause covering it. `.yidam/decisions/playable.yml`.
 
-use reachability::analyse;
+mod common;
 
-const FERRY: &str = include_str!("../../../design/specimen/ferry.game");
-const LIGHTHOUSE: &str = include_str!("../../../design/specimen/lighthouse.game");
-const NIGHTWATCH: &str = include_str!("../../../design/specimen/nightwatch.game");
-const PATROL: &str = include_str!("../../../design/specimen/patrol.game");
+use reachability::analyse;
 
 fn load(source: &str, name: &str) -> game_format::Game {
     let (mut g, mut p) = game_format::parse(source, name);
@@ -30,18 +27,11 @@ fn load(source: &str, name: &str) -> game_format::Game {
     g
 }
 
-const ALL: [(&str, &str); 4] = [
-    ("ferry", FERRY),
-    ("lighthouse", LIGHTHOUSE),
-    ("nightwatch", NIGHTWATCH),
-    ("patrol", PATROL),
-];
-
 /// **No binding in any specimen is shown, declines, and says nothing.**
 #[test]
 fn nothing_authored_here_declines_in_silence() {
-    for (name, src) in ALL {
-        let r = analyse(&load(src, name));
+    for (name, src) in common::sources() {
+        let r = analyse(&load(&src, &name));
         assert!(r.silent.is_empty(), "{name}: {:?}", r.silent);
     }
 }
@@ -63,12 +53,17 @@ fn nothing_authored_here_declines_in_silence() {
 fn deleting_a_clause_of_a_guarded_refusal_is_reported() {
     let live = "      else when lamp-prep = 0    \"It would run straight through. It wants a wick first.\"\n";
     let dead = "      else when lamp-prep >= 2   \"The reservoir is full.\"\n";
-    assert!(LIGHTHOUSE.contains(live) && LIGHTHOUSE.contains(dead));
+    assert!(
+        common::source("lighthouse").contains(live) && common::source("lighthouse").contains(dead)
+    );
 
-    let whole = analyse(&load(LIGHTHOUSE, "lighthouse"));
+    let whole = analyse(&load(&common::source("lighthouse"), "lighthouse"));
     assert!(whole.silent.is_empty(), "the specimen is total as written");
 
-    let holed = analyse(&load(&LIGHTHOUSE.replace(live, ""), "no-wick-yet"));
+    let holed = analyse(&load(
+        &common::source("lighthouse").replace(live, ""),
+        "no-wick-yet",
+    ));
     assert_eq!(holed.silent.len(), 1, "{:?}", holed.silent);
     assert!(
         holed.silent[0].contains("use-with oil-can")
@@ -97,7 +92,10 @@ fn deleting_a_clause_of_a_guarded_refusal_is_reported() {
 
     // And the other clause is unreachable: the binding that raises the counter past 1 spends the
     // can that is the key to the binding.
-    let without = analyse(&load(&LIGHTHOUSE.replace(dead, ""), "no-full-reservoir"));
+    let without = analyse(&load(
+        &common::source("lighthouse").replace(dead, ""),
+        "no-full-reservoir",
+    ));
     assert!(
         without.silent.is_empty(),
         "deleting it leaves no state in which anything declines in silence: {:?}",
@@ -114,7 +112,7 @@ fn deleting_a_clause_of_a_guarded_refusal_is_reported() {
 /// menu rather than the binding.
 #[test]
 fn a_binding_with_no_else_is_never_asked_to_decline() {
-    let game = load(LIGHTHOUSE, "lighthouse");
+    let game = load(&common::source("lighthouse"), "lighthouse");
     let gated_without_else = game
         .bindings
         .iter()

@@ -12,30 +12,21 @@
 //!
 //! What the checker could not see is the direction that costs nothing to fix. It has always
 //! reported a flag declared latched that something clears. The reverse — a flag nothing clears
-//! that does not say so — is a guarantee the author has and is not claiming, and the four
-//! specimens hold two of them. `.yidam/decisions/latch-default.yml`.
+//! that does not say so — is a guarantee the author has and is not claiming, and the specimens
+//! hold two of them. `.yidam/decisions/latch-default.yml`.
+//!
+//! **The `clear` count went from zero to three and the argument got better.**
+//! `.yidam/decisions/unread-specimen.yml` is why this file could not see the fifth game for
+//! eleven commits. What it says now is sharper than what it said: fourteen flags, eleven declaring
+//! the latch, two holding it silently, and **exactly one that is genuinely two-way**.
 //!
 //! [`world-flag/latched-flag`]: ../../../.yidam/corpus/world-flag/latched-flag.yml
 //! [delores-source]: ../../../.yidam/catalog/delores-source.md
 
+mod common;
+
 use game_format::Effect;
 use reachability::analyse;
-
-const S: [(&str, &str); 4] = [
-    ("ferry", include_str!("../../../design/specimen/ferry.game")),
-    (
-        "lighthouse",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    (
-        "nightwatch",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    (
-        "patrol",
-        include_str!("../../../design/specimen/patrol.game"),
-    ),
-];
 
 fn load(src: &str) -> game_format::Game {
     let (mut g, mut p) = game_format::parse(src, "latch.game");
@@ -45,23 +36,40 @@ fn load(src: &str) -> game_format::Game {
     g
 }
 
-/// **The reverse gear exists and has never been used**, and `crates/game-format/tests/coverage.rs`
-/// now holds that as a count rather than an observation: zero authored sites in four specimens,
-/// against three commands AGS spent on the same direction (`.yidam/decisions/forty-eight.yml`).
-/// `clear` is one of the eight effects the
-/// format admits, and across 662 authored lines it appears zero times: every flag in this corpus
-/// is one-way in fact.
+/// **The reverse gear is used exactly once, and what it writes is not a fact about the world.**
 ///
-/// Seven of the nine say so. The two that do not are `door-open`, which the lighthouse's front
-/// door sets when it is unlocked, and `asked-key`, scoped to a conversation — and the second is
-/// the more interesting, because a conversation-local flag is exactly where an author might
-/// reasonably expect to start over.
+/// This test read *"the reverse gear exists and has never been used… across 662 authored lines it
+/// appears zero times"* for eleven commits after that stopped being true, because its input was a
+/// list of four games and there were five (`.yidam/decisions/unread-specimen.yml`).
+///
+/// The corrected census is a better argument than the zero was. **Fourteen flags across the
+/// specimens, and the three `clear` sites all write one of them: `ashore`.** Eleven of the
+/// remaining thirteen declare `latched`; the other two hold the guarantee without claiming it, and
+/// are reported.
+///
+/// `ashore` is the flag `lock.game` uses to record **which character the player is driving** —
+/// `.yidam/decisions/control-transfer.yml` found that this format has no site for a control switch
+/// and an author has to spend a flag on it. So the division is not *most flags latch*. It is:
+///
+/// - a flag recording something about the world is latched, because a door that has been unlocked
+///   does not re-lock itself and nothing in this vocabulary would say so if it did;
+/// - the one flag recording something about the **player** is cleared, because you can stop being
+///   who you were.
+///
+/// Thirteen of fourteen, and the exception is the one flag that is not a fact about the world at
+/// all. That is the case `world-flag/latched-flag` was arguing and it could not have been made
+/// before somebody wrote the game.
+///
+/// The two that hold the guarantee silently are `door-open`, which the lighthouse's front door
+/// sets when it is unlocked, and `asked-key`, scoped to a conversation — and the second is the
+/// more interesting, because a conversation-local flag is exactly where an author might reasonably
+/// expect to start over.
 #[test]
-fn nothing_in_this_corpus_ever_clears_a_flag_and_two_flags_decline_to_say_so() {
+fn the_one_flag_anything_clears_is_the_one_that_is_not_about_the_world() {
     let (mut flags, mut declared, mut clears) = (0, 0, 0);
     let mut unclaimed: Vec<String> = Vec::new();
-    for (name, src) in S {
-        let g = load(src);
+    for (name, src) in common::sources() {
+        let g = load(&src);
         flags += g.flags.len();
         declared += g.flags.iter().filter(|f| f.latched).count();
         clears += g
@@ -74,9 +82,26 @@ fn nothing_in_this_corpus_ever_clears_a_flag_and_two_flags_decline_to_say_so() {
         assert!(r.latch_violations.is_empty(), "{name}: {r:?}");
         unclaimed.extend(r.unclaimed_latches.iter().map(|u| format!("{name}: {u}")));
     }
-    assert_eq!((flags, declared, clears), (9, 7, 0));
+    assert_eq!((flags, declared, clears), (14, 11, 3));
     assert_eq!(unclaimed.len(), 2, "{unclaimed:#?}");
     assert!(unclaimed[0].contains("door-open") && unclaimed[1].contains("asked-key"));
+
+    // and every clear writes the same flag, which is the whole of the argument above
+    let mut cleared: Vec<String> = Vec::new();
+    for (_, src) in common::sources() {
+        for b in &load(&src).bindings {
+            for e in &b.effects {
+                if let Effect::ClearFlag(f) = e {
+                    cleared.push(f.clone());
+                }
+            }
+        }
+    }
+    assert_eq!(
+        cleared,
+        ["ashore", "ashore", "ashore"],
+        "a second flag has been cleared, and whether it is a fact about the world is the question          to ask before re-pinning this"
+    );
 }
 
 /// **The declaration the checker asks for is free**, which is what makes asking reasonable. Adding
@@ -84,8 +109,8 @@ fn nothing_in_this_corpus_ever_clears_a_flag_and_two_flags_decline_to_say_so() {
 /// property nothing contradicts costs only the word.
 #[test]
 fn claiming_the_latch_moves_nothing() {
-    let src = S[1].1; // lighthouse holds both undeclared flags
-    let before = analyse(&load(src));
+    let src = common::source("lighthouse"); // it holds both undeclared flags
+    let before = analyse(&load(&src));
     let after = analyse(&load(
         &src.replace("flag    door-open   \"", "flag    door-open   latched \"")
             .replace("flag    asked-key   in", "flag    asked-key   latched in"),

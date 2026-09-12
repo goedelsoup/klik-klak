@@ -16,25 +16,14 @@
 //!
 //! `.yidam/decisions/named-condition.yml` is the record.
 
+mod common;
+
 use game_format::{Cmp, Effect, Game, Pred, Site};
 use std::collections::BTreeMap;
 
-const ALL: [(&str, &str); 4] = [
-    ("ferry", include_str!("../../../design/specimen/ferry.game")),
-    (
-        "lighthouse",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    (
-        "nightwatch",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    (
-        "patrol",
-        include_str!("../../../design/specimen/patrol.game"),
-    ),
-];
-const LIGHTHOUSE: &str = ALL[1].1;
+fn lighthouse() -> String {
+    common::source("lighthouse")
+}
 
 fn load(name: &str, src: &str) -> Game {
     let (mut game, problems) = game_format::parse(src, name);
@@ -93,30 +82,84 @@ fn subjects(p: &Pred, out: &mut Vec<String>) {
     }
 }
 
-/// **The gate `state-gate` describes is not the gate these specimens have.**
+/// **The gate `state-gate` describes is exactly the gate the fifth specimen has, and the decision
+/// that said it does not occur was resting on four games that had no mechanism.**
+///
+/// This test read *"there are no multi-flag conditions to give a name to"* and asserted **one
+/// compound predicate in thirty-six**. That figure is what `.yidam/decisions/named-condition.yml`
+/// declined a primitive on, and what `puzzle/state-gate` carried as `[verified]`.
+///
+/// It is **eight in sixty**, and seven of the eight are in `lock.game` — which this file could not
+/// see for eleven commits, because its input was a list of the four games that existed when it was
+/// written (`.yidam/decisions/unread-specimen.yml`).
+///
+/// **`gates-shut and paddle-up` is written at four sites.** Twice on its own, once with
+/// `boatman in chamber` after it, and once inside a five-atom conjunction:
+///
+/// ```text
+/// when gates-shut and paddle-up and boatman in lockside and mate in lockside and not gates-open
+/// ```
+///
+/// That is `state-gate`'s sentence, which was written at genesis and called imagined: *"a gate
+/// depending on three flags is stated three times, or more, and nothing checks that the statements
+/// agree."* It was not imagined. It was waiting for somebody to write a game with a mechanism in
+/// it — a lock with two gates, a paddle and two crew, where being allowed to do a thing depends on
+/// the state of the water **and** where two other people are standing.
+///
+/// **This does not re-decide anything.** `named-condition` declined the primitive for reasons
+/// beyond the census — the successor relation is derivable, a static check closed the gap — and
+/// weighing those against a corpus that now has the shape is a phase, not a re-pin. What is
+/// recorded here is that the premise it led with is gone, and `puzzle/state-gate`'s question is
+/// open again.
 #[test]
-fn there_are_no_multi_flag_conditions_to_give_a_name_to() {
+fn the_multi_flag_gate_is_written_and_one_conjunction_is_written_four_times() {
     let mut total = 0;
     let mut compound = 0;
-    for (name, src) in ALL {
-        for p in every_pred(&load(name, src)) {
+    let mut shown: Vec<String> = Vec::new();
+    for (name, src) in common::sources() {
+        for p in every_pred(&load(&name, &src)) {
             total += 1;
             if atom_count(p) > 1 {
                 compound += 1;
+                shown.push(format!("{name}: {} atoms  {p:?}", atom_count(p)));
             }
         }
     }
-    assert_eq!(total, 36, "predicates across the four specimens");
+    assert_eq!(total, 60, "predicates across the specimens");
     assert_eq!(
-        compound, 1,
-        "predicates joining more than one atom — the shape a named condition would abbreviate"
+        compound, 8,
+        "predicates joining more than one atom: {shown:#?}"
+    );
+    assert_eq!(
+        shown.iter().filter(|s| s.starts_with("lock:")).count(),
+        7,
+        "and all but one are in the game with a mechanism"
+    );
+    assert!(
+        shown.iter().any(|s| s.starts_with("lock: 5 atoms")),
+        "the widest gate, which is the shape `state-gate` described"
+    );
+
+    // and the restatement itself: one conjunction, written into four separate guards
+    let mut restated = 0;
+    for (name, src) in common::sources() {
+        for p in every_pred(&load(&name, &src)) {
+            if format!("{p:?}").contains("And(Flag(\"gates-shut\"), Flag(\"paddle-up\"))") {
+                restated += 1;
+            }
+        }
+    }
+    assert_eq!(
+        restated, 4,
+        "`gates-shut and paddle-up`, written by hand into four preconditions with nothing \
+         checking that the four agree — which is what a named condition would abbreviate"
     );
 }
 
 /// **What is restated is one counter's position in a sequence, nine times, on one hotspot.**
 #[test]
 fn the_pressure_is_a_sequence_and_it_is_all_on_one_target() {
-    let g = load("lighthouse", LIGHTHOUSE);
+    let g = load("lighthouse", &lighthouse());
 
     let mut reads: BTreeMap<String, usize> = BTreeMap::new();
     for p in every_pred(&g) {
@@ -151,7 +194,7 @@ fn the_pressure_is_a_sequence_and_it_is_all_on_one_target() {
 /// **The invariant is between a value one binding writes and a value another requires.**
 #[test]
 fn each_step_writes_the_value_the_next_one_demands() {
-    let g = load("lighthouse", LIGHTHOUSE);
+    let g = load("lighthouse", &lighthouse());
     let mut writes = Vec::new();
     for b in &g.bindings {
         for e in &b.effects {
@@ -187,8 +230,8 @@ fn each_step_writes_the_value_the_next_one_demands() {
 #[test]
 fn breaking_the_agreement_three_ways() {
     // 1. Write the wrong next value: the oil step becomes unreachable.
-    let skip = LIGHTHOUSE.replace("do    set lamp-prep 1", "do    set lamp-prep 2");
-    assert_ne!(skip, LIGHTHOUSE, "the mutation applied");
+    let skip = lighthouse().replace("do    set lamp-prep 1", "do    set lamp-prep 2");
+    assert_ne!(skip, lighthouse(), "the mutation applied");
     let found = problems("skip", &skip);
     assert_eq!(found.len(), 2, "refused at two sites: {found:?}");
     for f in &found {
@@ -199,16 +242,16 @@ fn breaking_the_agreement_three_ways() {
     }
 
     // Without the check it resolves cleanly and analyses *better* than the specimen.
-    let base = reachability::analyse(&load("lighthouse", LIGHTHOUSE));
+    let base = reachability::analyse(&load("lighthouse", &lighthouse()));
     assert_eq!(base.states, 91);
     assert_eq!(base.stranded, 16, "the specimen is deliberately trapped");
 
     // 2. Require the wrong value: two steps accept the same one, and reachability catches it.
-    let race = LIGHTHOUSE.replace(
+    let race = lighthouse().replace(
         "when  lamp-prep = 1\n      say   \"You fill",
         "when  lamp-prep = 0\n      say   \"You fill",
     );
-    assert_ne!(race, LIGHTHOUSE);
+    assert_ne!(race, lighthouse());
     assert!(
         problems("race", &race).is_empty(),
         "resolves — this one is a reachability finding"
@@ -225,11 +268,11 @@ fn breaking_the_agreement_three_ways() {
     );
 
     // 3. Require a value only this binding writes: the ending goes.
-    let orphan = LIGHTHOUSE.replace(
+    let orphan = lighthouse().replace(
         "when  lamp-prep = 2\n      say   \"The wick catches",
         "when  lamp-prep = 3\n      say   \"The wick catches",
     );
-    assert_ne!(orphan, LIGHTHOUSE);
+    assert_ne!(orphan, lighthouse());
     assert!(problems("orphan", &orphan).is_empty());
     assert!(
         !reachability::analyse(&load("orphan", &orphan)).winnable,
@@ -259,8 +302,8 @@ fn containment_is_spelled_in_the_hotspot_name() {
             "strongroom.bond-in-cabinet",
         ),
     ] {
-        let src = ALL.iter().find(|(n, _)| *n == game).unwrap().1;
-        let g = load(game, src);
+        let src = common::source(game);
+        let g = load(game, &src);
         let mut sites: Vec<&str> = Vec::new();
         for b in &g.bindings {
             let mut s = Vec::new();

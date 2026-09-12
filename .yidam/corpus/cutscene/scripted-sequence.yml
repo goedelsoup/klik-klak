@@ -42,9 +42,17 @@ description: |
   **And this design cannot have the occasion, because it refused duration.** Nothing runs between
   bindings, so the only moments at which a threshold can be crossed are the bindings that write the
   value — and those are enumerable, which makes the trigger expressible by appending the sequence to
-  each of them. [inference] Counted, **every one of the twelve distinct state writes across the four
-  specimens has exactly one writer**, so the appending costs one copy and the trigger buys nothing.
-  [verified] — `crates/reachability/tests/threshold.rs`.
+  each of them. [inference] Counted, **sixteen of the eighteen distinct state writes across the
+  specimens have exactly one writer**, so the appending costs one copy and the trigger buys
+  nothing. [verified] — `crates/reachability/tests/threshold.rs`.
+
+  The two that do not are `set ashore` and `clear ashore` in `lock.game`, at three sites each —
+  and `ashore` is the flag that records which character the player is driving rather than anything
+  about the world ([control-transfer](../../decisions/control-transfer.yml)). It has six writers
+  and no sequence to append to them: the three sets and the three clears are the same switch from
+  two sides, and what an author wants at each is the sentence, which they wrote. The verdict is
+  unchanged and its reason is narrower than *every value has one door*. The census read twelve
+  writes and no repeats until `.yidam/decisions/unread-specimen.yml`.
 
   With several writers it would cost a copy each, which is
   [arrival-trigger](../../decisions/arrival-trigger.yml)'s shape reaching the other kind of trigger.

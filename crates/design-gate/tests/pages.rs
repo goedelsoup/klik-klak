@@ -222,7 +222,7 @@ fn every_path_a_class_page_writes_resolves() {
         "a class page points at something that is not there:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!(cites, 32, "paths written across the fifteen pages");
+    assert_eq!(cites, 33, "paths written across the fifteen pages");
 }
 
 /// **No question lives on a class page, and no stub is left.**
@@ -304,7 +304,7 @@ fn no_question_lives_on_a_class_page() {
         n
     };
     let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
-    assert_eq!((corpus, decisions), (6, 57));
+    assert_eq!((corpus, decisions), (7, 57));
     // 17, 16, 15, 14, 13, 12 — never once because a corpus question was closed. The corpus
     // numerator had not moved in eight phases while the records opened thirty-odd, and
     // `playable` closing one was the only close in that run. The two denominators parted at 13
@@ -320,8 +320,10 @@ fn no_question_lives_on_a_class_page() {
     // `actor/player-character`'s question — the one asked in the root commit — by writing the game
     // that asks it, so a corpus question has now been closed and the run of movements that never
     // was one is over at twenty phases. The share falls either way and the fall means the opposite
-    // thing, which is what a ratio cannot say.
-    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 9);
+    // thing, which is what a ratio cannot say. It has now risen, and that means a third thing:
+    // `unread-specimen` reopened `puzzle/state-gate`, which is the first question here to come
+    // back.
+    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 10);
 }
 
 /// **Every class page was written by this repository's first commit, and for 342 commits its last

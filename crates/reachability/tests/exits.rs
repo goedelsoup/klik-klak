@@ -10,6 +10,8 @@
 //! nothing and leaves every exception sayable. That is not a property of archetypes in general —
 //! it is a property of expanding early, and `delores-source` is where the alternative shows.
 
+mod common;
+
 use game_format::{Effect, Site};
 use reachability::analyse;
 
@@ -107,12 +109,7 @@ fn a_gate_written_under_an_exit_reaches_the_checker() {
 fn the_bare_exit_is_the_dominant_shape_in_both_bodies_of_work() {
     let mut total = 0;
     let mut bare = 0;
-    for src in [
-        include_str!("../../../design/specimen/ferry.game"),
-        LIGHTHOUSE,
-        include_str!("../../../design/specimen/nightwatch.game"),
-        include_str!("../../../design/specimen/patrol.game"),
-    ] {
+    for (_, src) in common::sources() {
         let lines: Vec<&str> = src.lines().collect();
         for (i, l) in lines.iter().enumerate() {
             if l.trim() != "walk-to:" {
@@ -139,8 +136,9 @@ fn the_bare_exit_is_the_dominant_shape_in_both_bodies_of_work() {
         }
     }
     // Delores ships 20 exits, 18 of them a bare declaration and 2 gated
-    // (`.yidam/catalog/delores-source.md`). Four specimens written without reference to it:
-    assert_eq!((total, bare), (20, 15), "the exit census the record quotes");
+    // (`.yidam/catalog/delores-source.md`). Specimens written without reference to it — and the
+    // bare share held at three quarters across a fifth game, where the shipped game's is 90%:
+    assert_eq!((total, bare), (23, 17), "the exit census the record quotes");
 }
 
 #[test]

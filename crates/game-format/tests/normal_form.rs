@@ -17,6 +17,8 @@
 //! rewriting, `print` calls it, and there is no predicate this language cannot write.
 //! `.yidam/decisions/normal-form.yml`.
 
+mod common;
+
 use game_format::*;
 
 fn atom(name: &str) -> Pred {
@@ -163,29 +165,20 @@ fn a_double_negation_survives_unless_it_is_in_the_way() {
 
 /// **It is the identity on everything the reader builds.**
 ///
-/// Every predicate in the four specimens, unchanged. A normaliser that moved a parsed tree would
-/// be doing something other than spelling — and the round trip in `round_trip.rs` would stop
+/// Every predicate in every specimen, unchanged. A normaliser that moved a parsed tree would be
+/// doing something other than spelling — and the round trip in `round_trip.rs` would stop
 /// returning the same game.
+///
+/// **Sixty now, and it was thirty-six over four games.** The fifth specimen brought twenty-four
+/// more guards than any of the others — it is the one with a controlled character, so most of what
+/// it offers is conditional on who you are — and the normaliser is the identity on all of them. An
+/// identity claim gets stronger by being asked more often, which is the one kind of figure here
+/// that wants its input to grow.
 #[test]
 fn normalising_changes_no_predicate_any_specimen_wrote() {
-    const ALL: [(&str, &str); 4] = [
-        ("ferry", include_str!("../../../design/specimen/ferry.game")),
-        (
-            "lighthouse",
-            include_str!("../../../design/specimen/lighthouse.game"),
-        ),
-        (
-            "nightwatch",
-            include_str!("../../../design/specimen/nightwatch.game"),
-        ),
-        (
-            "patrol",
-            include_str!("../../../design/specimen/patrol.game"),
-        ),
-    ];
     let mut seen = 0;
-    for (name, source) in ALL {
-        let (mut game, problems) = parse(source, name);
+    for (name, source) in common::sources() {
+        let (mut game, problems) = parse(&source, &name);
         assert!(problems.is_empty(), "{name}: {problems:?}");
         assert!(resolve(&mut game).is_empty());
         for p in game.bindings.iter().flat_map(|b| {
@@ -205,7 +198,7 @@ fn normalising_changes_no_predicate_any_specimen_wrote() {
             );
         }
     }
-    assert_eq!(seen, 36, "guards and guarded clauses across the four");
+    assert_eq!(seen, 60, "guards and guarded clauses across the specimens");
 }
 
 /// **The only thing that builds a predicate outside the parser is the normaliser.**

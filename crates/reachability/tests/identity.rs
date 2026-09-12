@@ -16,23 +16,9 @@
 //!
 //! `.yidam/decisions/hotspot-identity.yml` is the record.
 
-use std::collections::HashMap;
+mod common;
 
-const ALL: [(&str, &str); 4] = [
-    ("ferry", include_str!("../../../design/specimen/ferry.game")),
-    (
-        "lighthouse",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    (
-        "nightwatch",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    (
-        "patrol",
-        include_str!("../../../design/specimen/patrol.game"),
-    ),
-];
+use std::collections::HashMap;
 
 /// Every `(hotspot, verb, body-as-written)` in a specimen, with blank lines and indentation
 /// normalised away.
@@ -74,9 +60,9 @@ fn bindings(src: &str) -> Vec<(String, String, Vec<String>)> {
 #[test]
 fn no_two_hotspots_here_are_one_thing_addressed_twice() {
     let mut shared = 0;
-    for (name, src) in ALL {
+    for (name, src) in common::sources() {
         let mut by_body: HashMap<(String, Vec<String>), Vec<String>> = HashMap::new();
-        for (site, verb, body) in bindings(src) {
+        for (site, verb, body) in bindings(&src) {
             by_body.entry((verb, body)).or_default().push(site);
         }
         for ((verb, body), sites) in by_body.iter().filter(|(_, s)| s.len() > 1) {
@@ -92,7 +78,7 @@ fn no_two_hotspots_here_are_one_thing_addressed_twice() {
             shared += 1;
         }
         assert!(
-            !bindings(src).is_empty(),
+            !bindings(&src).is_empty(),
             "{name} parsed to nothing, so this census read the wrong thing"
         );
     }

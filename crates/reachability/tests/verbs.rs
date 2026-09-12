@@ -19,6 +19,8 @@
 //! [`prior-art/sierra-sci`]: ../../../.yidam/corpus/prior-art/sierra-sci.yml
 //! [delores-source]: ../../../.yidam/catalog/delores-source.md
 
+mod common;
+
 use reachability::analyse;
 
 fn parse(src: &str) -> (game_format::Game, Vec<String>) {
@@ -137,7 +139,7 @@ fn splitting_the_object_buys_the_verbs_back() {
 
 /// **The bound was not binding from the other side either: one of the six had never been used.**
 ///
-/// `give-to` carried no binding in 662 authored lines. [`verb/give-to`] assessed it in the corpus
+/// `give-to` carried no binding in 904 authored lines. [`verb/give-to`] assessed it in the corpus
 /// two phases after it was seeded and found it *"subsumed at the engine tier"* — AGS routes it
 /// through `Use inventory on character` — and kept the node as a record of what was declined. The
 /// parser was never told, so `surface.rs` counted six verbs where the corpus had decided on five,
@@ -151,18 +153,13 @@ fn splitting_the_object_buys_the_verbs_back() {
 fn the_five_that_remain_are_all_written_and_the_sixth_never_was() {
     let mut used = std::collections::BTreeSet::new();
     let mut total = 0;
-    for src in [
-        include_str!("../../../design/specimen/ferry.game"),
-        include_str!("../../../design/specimen/lighthouse.game"),
-        include_str!("../../../design/specimen/nightwatch.game"),
-        include_str!("../../../design/specimen/patrol.game"),
-    ] {
-        for b in &load(src).bindings {
+    for (_, src) in common::sources() {
+        for b in &load(&src).bindings {
             used.insert(b.verb.clone());
             total += 1;
         }
     }
-    assert_eq!(total, 91);
+    assert_eq!(total, 120);
     for v in ["look-at", "use-with", "talk-to", "pick-up", "walk-to"] {
         assert!(used.contains(v), "{v}");
     }

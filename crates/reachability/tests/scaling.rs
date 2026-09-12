@@ -15,6 +15,8 @@
 //! of the language.** A corridor collapses totally. A hub does not collapse at all, and a hub is
 //! an ordinary adventure-game shape — find the three map pieces, collect the four keys.
 
+mod common;
+
 use reachability::analyse;
 
 fn load(src: &str) -> game_format::Game {
@@ -244,20 +246,16 @@ fn a_large_game_at_the_prescribed_width_is_small() {
 /// about tractability, quoted in `world-flag/latched-flag` and in the design. **The games that
 /// carry that argument are games this vocabulary could not express.**
 ///
-/// The numbers, at the sizes the tests above actually run: 662 lines of hand-authored game across
-/// four specimens, and 6,315 generated across seventeen. `.yidam/decisions/duplication.yml` is
-/// the record.
+/// The numbers, at the sizes the tests above actually run: 904 lines of hand-authored game across
+/// the specimens, and 6,315 generated across seventeen. `.yidam/decisions/duplication.yml` is the
+/// record, and it was written when the authored side was 662 — the ratio has come down from
+/// nine-and-a-half to seven, which is the direction a person writing games moves it.
 #[test]
 fn the_corpus_generates_ten_times_the_game_source_it_can_write() {
-    let authored: usize = [
-        include_str!("../../../design/specimen/ferry.game"),
-        include_str!("../../../design/specimen/lighthouse.game"),
-        include_str!("../../../design/specimen/nightwatch.game"),
-        include_str!("../../../design/specimen/patrol.game"),
-    ]
-    .iter()
-    .map(|s| s.lines().count())
-    .sum();
+    let authored: usize = common::sources()
+        .iter()
+        .map(|(_, s)| s.lines().count())
+        .sum();
 
     let mut generated = 0usize;
     for n in [4usize, 8, 16, 32, 64] {
@@ -270,10 +268,10 @@ fn the_corpus_generates_ten_times_the_game_source_it_can_write() {
         generated += acts(k, w).lines().count();
     }
 
-    assert_eq!(authored, 662, "four specimens, by hand");
+    assert_eq!(authored, 904, "the specimens, by hand");
     assert_eq!(generated, 6315, "seventeen games, by loop");
     assert!(
-        generated > 9 * authored,
+        generated > 6 * authored,
         "if this ratio has moved, the record in .yidam/decisions/duplication.yml has to move too"
     );
 }

@@ -20,25 +20,11 @@
 //! [`cutscene/scripted-sequence`]: ../../../.yidam/corpus/cutscene/scripted-sequence.yml
 //! [`effect-list-semantics`]: ../../../.yidam/decisions/effect-list-semantics.yml
 
+mod common;
+
 use game_format::Effect;
 use reachability::analyse;
 use std::collections::BTreeMap;
-
-const S: [(&str, &str); 4] = [
-    ("ferry", include_str!("../../../design/specimen/ferry.game")),
-    (
-        "lighthouse",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    (
-        "nightwatch",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    (
-        "patrol",
-        include_str!("../../../design/specimen/patrol.game"),
-    ),
-];
 
 fn load(src: &str) -> game_format::Game {
     let (mut g, mut p) = game_format::parse(src, "threshold.game");
@@ -48,17 +34,35 @@ fn load(src: &str) -> game_format::Game {
     g
 }
 
-/// **Every state value in the corpus is written in exactly one place**, which is why no specimen
-/// has ever wanted this trigger: appending a sequence to the writers means appending it once.
+/// **Every state value about the world is written in exactly one place, and the one that is not
+/// about the world is written at six.**
 ///
-/// Twelve distinct writes across four games — two flags in `ferry`, three counter steps and three
-/// flags in `lighthouse`, two in `nightwatch`, two in `patrol` — and not one of them is written
-/// twice. A threshold trigger buys nothing where the threshold has a single door.
+/// This test asserted *"every state value in the corpus is written in exactly one place"* over
+/// twelve writes in four games, and `.yidam/decisions/threshold-trigger.yml` declined the trigger
+/// on it: *"a threshold trigger buys nothing where the threshold has a single door."* It could not
+/// see the fifth game for eleven commits (`.yidam/decisions/unread-specimen.yml`).
+///
+/// Eighteen writes now, and **two of them have more than one writer: `set ashore` and
+/// `clear ashore`**, at lines 88, 104, 206 and 122, 195, 232 of `lock.game`. Sixteen of eighteen
+/// still have a single door.
+///
+/// **It is the same exception for the third time in this file's neighbourhood.** `ashore` is the
+/// flag `lock.game` spends on recording which character the player is driving, because
+/// `.yidam/decisions/control-transfer.yml` found the format has no site for a control switch. It
+/// is also the only flag anything clears (`latch.rs`), and the only atom in a five-way conjunction
+/// (`conditions.rs`). Every generalisation this corpus had made about flags — latched, single-
+/// writer, never joined — holds for flags that record something about the world and fails for the
+/// one that records who you are.
+///
+/// **The decision survives and its reason changes.** A trigger buys nothing here not because every
+/// value has one door, but because the value with six doors has no sequence to append: the three
+/// sets and the three clears are the same event from two sides, and what an author wants at each
+/// is the sentence, which they wrote.
 #[test]
-fn every_value_in_the_corpus_is_written_at_exactly_one_site() {
+fn only_the_flag_that_is_not_about_the_world_has_more_than_one_writer() {
     let mut writers: BTreeMap<String, usize> = BTreeMap::new();
-    for (n, src) in S {
-        for b in &load(src).bindings {
+    for (n, src) in common::sources() {
+        for b in &load(&src).bindings {
             for e in &b.effects {
                 let k = match e {
                     Effect::SetFlag(f) => format!("{n} set {f}"),
@@ -70,13 +74,23 @@ fn every_value_in_the_corpus_is_written_at_exactly_one_site() {
             }
         }
     }
-    assert_eq!(writers.len(), 12);
+    assert_eq!(writers.len(), 18);
     let multi: Vec<&String> = writers
         .iter()
         .filter(|(_, n)| **n > 1)
         .map(|(k, _)| k)
         .collect();
-    assert!(multi.is_empty(), "{multi:?}");
+    assert_eq!(
+        multi,
+        ["lock clear ashore", "lock set ashore"],
+        "a second value has grown a second writer; whether it is a fact about the world is the \
+         question to ask before re-pinning this"
+    );
+    assert_eq!(
+        (writers["lock set ashore"], writers["lock clear ashore"]),
+        (3, 3),
+        "three sites each, and they are the same switch from two sides"
+    );
 }
 
 /// **With one writer the reduction is free, and the sequence is indistinguishable from the
