@@ -154,9 +154,24 @@ description: |
   dropped inside one `takePhoto`, an actor's own `startthread`. [verified] This design refused
   every one of those, separately and for other reasons. [inference] So in a vocabulary whose only
   writer is a player-triggered binding, latching is not the common case but very nearly the only
-  one — and the four specimens bear it out, with `clear` among the eight admitted effects and used
-  **zero times in 662 authored lines**. [verified] —
-  `crates/reachability/tests/latch.rs`.
+  one — and the specimens bear it out, in a way sharper than a zero would have been.
+
+  **Fourteen flags. Eleven declare the latch, two hold it without saying so, and exactly one is
+  genuinely two-way.** [verified] — `crates/reachability/tests/latch.rs`. The one is `ashore`, the
+  flag `design/specimen/lock.game` spends on recording **which character the player is driving**,
+  because this format has no site for a control switch and an author has to put it somewhere
+  ([control-transfer](../../decisions/control-transfer.yml)). All three `clear` sites in 904
+  authored lines write it.
+
+  So the division is not *most flags latch*. It is: **a flag recording something about the world is
+  latched, because a door that has been unlocked does not re-lock itself and nothing in this
+  vocabulary would say so if it did — and the one flag recording something about the player is
+  cleared, because you can stop being who you were.**
+
+  This paragraph claimed, as `[verified]`, that `clear` had never been written at all — and went on
+  claiming it for eleven commits after that became false, because the test it cites held a
+  hardcoded list of the games that existed when it was written. `.yidam/decisions/unread-specimen.yml`. The claim was
+  falsified into a better one, which is what a census is for.
 
   What follows for the schema is `.yidam/decisions/latch-default.yml`. The short version is that
   the default is backwards in two places at once — here, where `reversible: no` is written out as

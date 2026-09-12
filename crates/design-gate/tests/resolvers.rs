@@ -62,6 +62,16 @@ enum Closes {
     /// Two of the six columns emptied or shrank in consecutive phases, and both were the columns
     /// whose resolver was a thing somebody could go and do.
     Measurement,
+    /// The evidence exists and somebody has to weigh it.
+    ///
+    /// **New, and it arrived by a route none of the others can: a settled question reopening.**
+    /// `puzzle/state-gate` was closed because the multi-flag gate it described did not occur in
+    /// the corpus — one compound predicate in thirty-six. A fifth specimen wrote seven more, one
+    /// of them joining five atoms, and `.yidam/decisions/unread-specimen.yml` found that the test
+    /// counting them had not read that game. Nothing needs retrieving and nothing needs counting;
+    /// the count is done. What is missing is a decision about whether four restatements of one
+    /// conjunction earn a declarable.
+    Judgement,
     /// The marker does not say. This column is empty and the check below is that it stays so.
     Unstated,
 }
@@ -80,6 +90,7 @@ const KINDS: &[(&str, Closes)] = &[
     ("hotspot/static-region.yml", Closes::Condition),
     ("interaction/acquisition-binding.yml", Closes::Testimony),
     ("prior-art/ags.yml", Closes::Testimony),
+    ("puzzle/state-gate.yml", Closes::Judgement),
     ("world-flag/latched-flag.yml", Closes::Condition),
 ];
 
@@ -151,11 +162,18 @@ fn the_table_covers_every_question() {
 /// retrieval. That is the argument for the classification stated as an outcome rather than as a
 /// hope.
 ///
-/// **What is left is what the table said would be left.** Three questions wait on testimony and
-/// two are declined with a condition; between them they are five of the six, and not one will
-/// close by anybody doing anything. The one that might is a measurement over authored work that
-/// already exists. `.yidam/decisions/resolver-kind.yml` predicted exactly this shape and the
-/// prediction is what the emptying columns confirm.
+/// **What is left is what the table said would be left, and one thing it did not predict.** Three
+/// questions wait on testimony and two are declined with a condition; between them they are five
+/// of the seven, and not one will close by anybody doing anything. One is a measurement over
+/// authored work that already exists. `.yidam/decisions/resolver-kind.yml` predicted exactly that
+/// shape and the emptying columns confirmed it.
+///
+/// **The seventh is a reopening, which is a direction this table had no way to expect.** Every
+/// closure it sorted for was a question leaving the list. `puzzle/state-gate` came back onto it
+/// because `.yidam/decisions/unread-specimen.yml` found that the census closing it had been
+/// reading four of five specimens — so a question can be resolved by evidence that is wrong, and
+/// nothing in a resolver kind says how the evidence was gathered. The new column is `Judgement`:
+/// the counting is done and somebody has to weigh it.
 #[test]
 fn every_question_says_what_would_close_it() {
     let root = repo_root();
@@ -173,9 +191,11 @@ fn every_question_says_what_would_close_it() {
             count(Closes::Condition),
             count(Closes::Specimen),
             count(Closes::Measurement),
+            count(Closes::Judgement),
         ),
-        (3, 0, 2, 0, 1),
-        "testimony, a named artifact, a condition that would reopen it, a game, and a count"
+        (3, 0, 2, 0, 1, 1),
+        "testimony, a named artifact, a condition that would reopen it, a game, a count, and a \
+         decision somebody has to take"
     );
 
     // One of the three that were silent still names its resolver and points at the record that

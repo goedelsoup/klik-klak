@@ -16,23 +16,9 @@
 //!
 //! [`observed-state`]: ../../../.yidam/decisions/observed-state.yml
 
-use reachability::analyse;
+mod common;
 
-const S: [(&str, &str); 4] = [
-    ("ferry", include_str!("../../../design/specimen/ferry.game")),
-    (
-        "lighthouse",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    (
-        "nightwatch",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    (
-        "patrol",
-        include_str!("../../../design/specimen/patrol.game"),
-    ),
-];
+use reachability::analyse;
 
 fn load(src: &str) -> game_format::Game {
     let (mut g, mut p) = game_format::parse(src, "unread.game");
@@ -50,8 +36,8 @@ fn load(src: &str) -> game_format::Game {
 /// it is the state the previous three narrowings were found in — a green run that stayed green.
 #[test]
 fn nothing_in_this_corpus_declares_state_it_cannot_read() {
-    for (name, src) in S {
-        let r = analyse(&load(src));
+    for (name, src) in common::sources() {
+        let r = analyse(&load(&src));
         assert!(r.unread.is_empty(), "{name}: {:#?}", r.unread);
     }
 }

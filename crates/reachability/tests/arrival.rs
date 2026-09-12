@@ -31,24 +31,10 @@
 //! [`prose-edges`]: ../../../.yidam/decisions/prose-edges.yml
 //! [`effect-list-semantics`]: ../../../.yidam/decisions/effect-list-semantics.yml
 
+mod common;
+
 use game_format::Site;
 use reachability::analyse;
-
-const S: [(&str, &str); 4] = [
-    ("ferry", include_str!("../../../design/specimen/ferry.game")),
-    (
-        "lighthouse",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    (
-        "nightwatch",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    (
-        "patrol",
-        include_str!("../../../design/specimen/patrol.game"),
-    ),
-];
 
 fn load(src: &str) -> game_format::Game {
     let (mut g, mut p) = game_format::parse(src, "arrival.game");
@@ -76,10 +62,10 @@ fn load(src: &str) -> game_format::Game {
 /// [`interaction-resolver`]: ../../../.yidam/corpus/subsystem/interaction-resolver.yml
 /// [`entry-binding`]: ../../../.yidam/corpus/interaction/entry-binding.yml
 #[test]
-fn arrival_produces_nothing_in_thirteen_rooms_out_of_fourteen() {
+fn arrival_produces_nothing_in_sixteen_rooms_out_of_seventeen() {
     let (mut rooms, mut entries) = (0, 0);
-    for (_, src) in S {
-        let g = load(src);
+    for (_, src) in common::sources() {
+        let g = load(&src);
         rooms += g.rooms.len();
         entries += g
             .bindings
@@ -87,7 +73,11 @@ fn arrival_produces_nothing_in_thirteen_rooms_out_of_fourteen() {
             .filter(|b| matches!(b.site, Site::OnEnter { .. }))
             .count();
     }
-    assert_eq!((rooms, entries), (14, 1));
+    assert_eq!(
+        (rooms, entries),
+        (17, 1),
+        "a fifth game added three rooms and no second entry binding"
+    );
 }
 
 /// **The two triggers are disjoint at the interface, and the format already said so.**
@@ -101,7 +91,7 @@ fn arrival_produces_nothing_in_thirteen_rooms_out_of_fourteen() {
 /// the same menu as if it had none.
 #[test]
 fn an_entry_binding_is_never_in_a_menu() {
-    let g = load(S[2].1);
+    let g = load(&common::source("nightwatch"));
     let r = analyse(&g);
     assert_eq!(r.menu_entries, (23, 8));
     assert!(
@@ -112,8 +102,8 @@ fn an_entry_binding_is_never_in_a_menu() {
     );
 }
 
-/// **Sixty-four of eighty-eight menu entries appear during play and no line in any specimen makes
-/// them appear.**
+/// **Eighty-six of a hundred and seventeen menu entries appear during play and no line in any
+/// specimen makes them appear.**
 ///
 /// This is the reconciliation, measured from the far side. A shipped engine stores affordance and
 /// must therefore re-derive it on arrival — eight `objectTouchable` calls and seventeen
@@ -121,22 +111,28 @@ fn an_entry_binding_is_never_in_a_menu() {
 /// function of the state, so an entry becomes available the instant its guard holds and nothing
 /// records that it changed.
 ///
-/// The figure is the cost side of the same fact: **698 menu slots over 145 reachable states for
-/// 88 distinct entries**, which is the work an engine does either once per state change or once
+/// The figure is the cost side of the same fact: **1,169 menu slots over 203 reachable states for
+/// 117 distinct entries**, which is the work an engine does either once per state change or once
 /// per arrival and then hopes. `default-binding` named the price of the first choice without a
 /// number; this is the number.
+///
+/// It was 698 over 145 for 88 when this file could see four games (`.yidam/decisions/
+/// unread-specimen.yml`). **The share that is showing at the start fell from 27% to 26%** — the
+/// fifth game is the one where most of what you can do depends on which character you are, so
+/// almost none of it is offered on arrival, and the claim this test makes got stronger by the same
+/// evidence that moved every number in it.
 #[test]
-fn affordance_changes_sixty_four_times_and_nothing_is_authored_to_change_it() {
+fn affordance_changes_eighty_six_times_and_nothing_is_authored_to_change_it() {
     let (mut entries, mut showing, mut slots, mut states) = (0, 0, 0, 0);
-    for (_, src) in S {
-        let r = analyse(&load(src));
+    for (_, src) in common::sources() {
+        let r = analyse(&load(&src));
         entries += r.menu_entries.0;
         showing += r.menu_entries.1;
         slots += r.menu_slots;
         states += r.states;
     }
-    assert_eq!((entries, showing, slots, states), (88, 24, 698, 145));
-    assert_eq!(entries - showing, 64);
+    assert_eq!((entries, showing, slots, states), (117, 31, 1169, 203));
+    assert_eq!(entries - showing, 86);
 }
 
 /// **An entry binding fires into a state nobody rests in, which is the one thing a reconciler
@@ -152,8 +148,8 @@ fn affordance_changes_sixty_four_times_and_nothing_is_authored_to_change_it() {
 /// settles rather than the assertion that the check works — that one is `entry.rs`'s.
 #[test]
 fn no_specimen_arrives_somewhere_it_cannot_rest() {
-    for (name, src) in S {
-        let r = analyse(&load(src));
+    for (name, src) in common::sources() {
+        let r = analyse(&load(&src));
         assert!(r.entry_cycles.is_empty(), "{name}: {:?}", r.entry_cycles);
     }
 }

@@ -1,0 +1,175 @@
+id: unread-specimen
+summary: >-
+  **A fifth specimen was written eleven commits ago and twenty-three tests never read it.** Their
+  input is a hardcoded list of the four that existed when they were written, and the re-pin cascade
+  that keeps every figure here honest is driven by failures — which a constant input cannot
+  produce. Two `[verified]` claims were false, **one settled question is reopened** — the fifth game
+  writes the multi-flag gate `puzzle/state-gate` was closed for lacking — and twenty living
+  documents quoted a stale figure. The rule is that a test over the specimens reads the directory,
+  and that no test may name them all: a list equal to the set is a copy of the set.
+context: |
+  [control-transfer](control-transfer.yml) wrote `design/specimen/lock.game` — the fifth specimen
+  and the largest, 242 lines, three rooms, two actors and a switch of controlled character. That
+  phase ran the usual cascade: every test whose figures moved was found by running the suite and
+  re-pinned.
+
+  **Twenty-three test files did not move, and could not have.** They name their specimens by path:
+
+  ```rust
+  const S: [(&str, &str); 4] = [
+      ("ferry", include_str!("../../../design/specimen/ferry.game")),
+      ("lighthouse", include_str!("../../../design/specimen/lighthouse.game")),
+      ("nightwatch", include_str!("../../../design/specimen/nightwatch.game")),
+      ("patrol", include_str!("../../../design/specimen/patrol.game")),
+  ];
+  ```
+
+  Six in `game-format`, seventeen in `reachability`. Every census they take covers **662 of 904
+  authored lines and 91 of 120 bindings** — 73% of the material, reported as all of it. [verified]
+  — `crates/design-gate/tests/enumerated.rs`.
+
+  **Two files were extended by hand and the reason is the reason to distrust the method.**
+  `walked.rs` and `lost.rs` were carried to five during that phase because both failed: the fifth
+  game has a way to lose, so six stranding bindings became seven and a transcript count moved.
+  Nothing extended them on purpose. A failure did, and the next specimen may not oblige.
+
+  **Six read the directory** — `calculators.rs`, `settled.rs`, `authored.rs`, `coverage.rs`,
+  `declared.rs`, `transfer.rs` — and what separates them from the twenty-three is not care. Their
+  input is the artifact rather than a copy of it.
+
+  Two consequences were already on disk when the census was taken:
+
+  - [latched-flag](../corpus/world-flag/latched-flag.yml) carried a **`[verified]` claim that was
+    false**: `clear` *"used zero times in 662 authored lines"*, citing
+    `crates/reachability/tests/latch.rs`. `lock.game` clears a flag three times and the test still
+    reported zero, because it cannot see the file.
+  - **Twenty living documents quote a stale specimen figure** — seventeen corpus nodes, two design
+    documents, one catalog row. Four of them carry an open question, including
+    [interaction-table](../corpus/data-format/interaction-table.yml), the only question anybody can
+    act on, whose marker described the material for the measurement that would close it using the
+    four-specimen figures.
+
+  Re-pinning every figure the twenty-five tests compute turned up more than that, which is the part
+  the census could not have shown: **five of them were not numbers, they were conclusions.**
+decision: |
+  **1. A test that makes a claim about the specimens reads `design/specimen/`.** All
+  twenty-three are converted, and `walked.rs` and `lost.rs` with them — a list that is complete by
+  hand today is the same defect with its fuse unlit. [verified] —
+  `crates/design-gate/tests/enumerated.rs`.
+
+  The conversion is not cosmetic and it is the point: **it makes the input a thing that can
+  change.** A pinned figure over a pinned input is two constants agreeing with each other. A pinned
+  figure over the directory fails the moment a sixth game lands, and a failure is the only signal
+  this repository has ever acted on.
+
+  **2. The check is that no test file names every specimen.** [verified] — same file. A test may
+  name the games it is about, and thirteen do: `effects.rs` reads `ferry` and `lighthouse` because
+  they are the two that write the effect it is about, and that stays a choice however many
+  specimens exist. A file naming *all* of them is not choosing. It is holding a copy of the
+  directory, and only that copy can be silently wrong.
+
+  The check is stated as a prohibition on the complete set rather than a requirement to enumerate,
+  because the second would be unfalsifiable — a file could satisfy it by reading the directory and
+  then filtering. What is forbidden is the shape that failed.
+
+  **3. The false claim is corrected and the argument it served survives, sharpened.**
+  [latched-flag](../corpus/world-flag/latched-flag.yml) argues that a latched flag is the normal
+  case and an unlatched one wants a reason. Its evidence was that `clear` had never been written.
+  The evidence is now that it has been written three times, in one game, and all three write
+  `ashore` — the flag naming which character the player is driving, which
+  [control-transfer](control-transfer.yml) established is **the one flag in five games that is not
+  a fact about the world**. A flag recording that a door is open is latched because a door does not
+  un-open. A flag recording who you are is cleared because you can stop being them.
+
+  That is a better argument than zero was, and it was available only because somebody wrote the
+  game. **The claim was falsified into a stronger claim**, which is the outcome a census is for.
+
+  **4. Every figure the twenty-three compute is re-pinned, and the twenty documents quoting one
+  quote the computed figure.** The idiom is the one [adjacency](adjacency.yml) and
+  [control-transfer](control-transfer.yml) already use: the test that computes a number holds every
+  document that states it. [verified] — the per-figure checks in the converted files.
+
+  **5. Five conclusions moved, not five figures.** Re-pinning is ordinary. These are not:
+
+  | what it said | what it says | where |
+  |---|---|---|
+  | *"there are no multi-flag conditions to give a name to"* — 1 compound predicate in 36 | **8 in 60**, seven in one game, one joining five atoms, and `gates-shut and paddle-up` written into four separate guards | [named-condition](named-condition.yml), reopened below |
+  | `clear` *"used zero times"* — `[verified]` | three times, all writing `ashore` | [latched-flag](../corpus/world-flag/latched-flag.yml) |
+  | *"every state value is written in exactly one place"* | **16 of 18**; `ashore` has six writers | [threshold-trigger](threshold-trigger.yml) |
+  | *"`walk-to` is the only verb whose blocks cost more frame than they carry writing"* | **no verb is**; it turned on a 6% margin and one game erased it | [frame-width](frame-width.yml) |
+  | *"the seventeen bindings that could have withheld all chose a line"* — 17 to 0 | **26 to 2**, and the two are `talk-to` on the character you are | [availability](availability.yml) |
+
+  Four of the five survive as arguments and got better. **One does not**, and it is the reason this
+  phase reopened a question.
+
+  **6. [`puzzle/state-gate`](../corpus/puzzle/state-gate.yml) is open again.** [verified] —
+  `crates/reachability/tests/conditions.rs`. That node was seeded at genesis worrying that *"a gate
+  depending on three flags is stated three times, or more, and nothing checks that the statements
+  agree"*, called it *"the strongest live case for adding a primitive"*, and was closed by
+  [named-condition](named-condition.yml) on the finding that the shape does not occur.
+
+  It occurs. `lock.game` writes it seven times, and the widest is five atoms — two flags and the
+  positions of two actors. The record's other reasons stand: the successor relation is derivable
+  and a static check closed the gap reachability could not see. What is gone is the premise it led
+  with, and re-deciding on the corpus that exists is a phase rather than a re-pin. The marker says
+  so, and says its resolver is a **judgement** — the first of that kind, added to
+  `crates/design-gate/tests/resolvers.rs` beside testimony, retrieval, condition, specimen and
+  measurement.
+
+  **7. What the cascade catches is bounded by what its tests read, and that had never been
+  stated.** [verified] — stated now in `.yidam/corpus/README.md` beside the claim tags, where
+  [resolver-kind](resolver-kind.yml) put the other convention this repository had been keeping
+  without saying.
+rationale: |
+  **The method had an unstated precondition.** Everything here rests on pinning a figure so that a
+  change to the world shows up as a red test — `surface.rs` says so in its own header: *"A change
+  here is not a failure. It is a signal."* The precondition is that the test's **input is the
+  world**. Where the input is a copy of the world, the figure is pinned to the copy, the copy never
+  changes, and the signal is permanently green. Twenty-three tests were in that state for eleven
+  commits and nothing could have told anyone.
+
+  **It is the second-copy defect, found in the instrument for the first time.** This repository has
+  found it in the format ([adjacency](adjacency.yml): a declared walkbox edge would be *"a copy of
+  something that varies"*), in the reader ([line-format](line-format.yml): a branch naming its own
+  form is *"a second copy of the specification"*), in the corpus
+  ([retraction-reach](retraction-reach.yml): the correction went into the record and the node is
+  the copy every tool reads), and in the records ([testimony](testimony.yml): one question carried
+  in two nodes). `adjacency` stated the sharpest version — *"a copy of something derivable can be
+  kept correct by care; a copy of something that varies cannot be kept correct at all."*
+
+  **The one place nobody had looked was the thing doing the looking.** The gate reads the corpus,
+  the design documents, the catalog, the commit log and the specimens, and it had been trusted as
+  an observer rather than treated as another document that can hold a stale copy. It is not an
+  observer. It is 336 assertions in 76 files, and every one of them reads something.
+
+  **Coverage here is not a property of the suite.** 313 tests passing said nothing about whether
+  the fifth specimen had been read, because a test that does not read a file also does not fail on
+  it. The number that would have said something is the one this phase computed: how much of the
+  artifact the assertions actually touch. That is a different measurement from how many assertions
+  there are, and this is the first time the two have been told apart.
+
+  **Every exception is the same flag, and it is the one flag that is not about the world.**
+  `ashore` records which character the player is driving. It is the only flag anything clears, the
+  only value with more than one writer, and an atom in the widest conjunction anybody has written.
+  Three separate generalisations — *flags latch*, *values have one door*, *guards join one atom* —
+  each had exactly one counterexample and it was the same one.
+
+  That is not a coincidence and it is [control-transfer](control-transfer.yml)'s finding arriving
+  from four directions at once. **This format has no site for a control switch, so an author spends
+  a flag on it** — and a flag holding something that is not a fact about the world then breaks
+  every rule the corpus had inferred from flags that are. [inference] The sharper statement of all
+  three findings is the same sentence: *a flag recording the world behaves one way; the flag
+  recording the player behaves the other.*
+
+  **And it argues for the cheapness of the fifth specimen.** `control-transfer` wrote 242 lines of
+  game to answer one question about switching characters. Those lines falsified two `[verified]`
+  claims in unrelated nodes, reopened a question closed eleven phases ago, reversed a criterion an
+  archetype had been argued on, supplied the first authored instance of a withheld verb, staled
+  twenty documents, and exposed a structural defect in three quarters of the test suite — none of
+  which was the reason for writing them. [inference] Authored material is the only thing here that
+  pushes back, and it pushes back in places nobody aimed it at.
+
+  **The clock has a fourth kind of movement now and cannot see it.** `.yidam/config.toml` records
+  three: a denominator growing is work being written down, a numerator falling is work being
+  finished, a numerator rising because somebody asked is curiosity. A numerator rising because an
+  answer was wrong is a repair, and `yidam due` reports it identically to the third. [inference]

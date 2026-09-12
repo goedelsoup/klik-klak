@@ -10,12 +10,9 @@
 //! right not to, which is what the second test holds. And what the distinction is *for* belongs to
 //! an interface this design has never specified — `.yidam/decisions/default-binding.yml`.
 
-use reachability::analyse;
+mod common;
 
-const FERRY: &str = include_str!("../../../design/specimen/ferry.game");
-const LIGHTHOUSE: &str = include_str!("../../../design/specimen/lighthouse.game");
-const NIGHTWATCH: &str = include_str!("../../../design/specimen/nightwatch.game");
-const PATROL: &str = include_str!("../../../design/specimen/patrol.game");
+use reachability::analyse;
 
 fn load(source: &str) -> game_format::Game {
     let (mut g, mut p) = game_format::parse(source, "defaults.game");
@@ -33,12 +30,16 @@ fn load(source: &str) -> game_format::Game {
 /// in a game"*. That is true at Delores's scale — 164 objects against 57 verbs is 9,348 cells and
 /// 203 are authored, **2.17%** — and it is a fact about the size of the verb vocabulary rather than
 /// about adventure games. This design has six verbs.
+///
+/// **Five specimens: 56 sites, 336 cells, 116 authored — 34.5%, unmoved.** The figure held to a
+/// tenth of a point across a game written long after the other four, which is what makes it a fact
+/// about vocabulary size rather than about these files.
 #[test]
 fn the_leverage_of_a_default_is_a_function_of_how_many_verbs_there_are() {
     let mut sites = 0;
     let mut bindings = 0;
-    for src in [FERRY, LIGHTHOUSE, NIGHTWATCH, PATROL] {
-        let g = load(src);
+    for (_, src) in common::sources() {
+        let g = load(&src);
         sites += g
             .declared
             .values()
@@ -51,7 +52,7 @@ fn the_leverage_of_a_default_is_a_function_of_how_many_verbs_there_are() {
             .count();
     }
     let cells = sites * 6;
-    assert_eq!((sites, bindings), (42, 87));
+    assert_eq!((sites, bindings), (56, 116));
     let filled = bindings as f64 / cells as f64;
     assert!(
         (0.33..0.36).contains(&filled),
@@ -70,7 +71,7 @@ fn the_leverage_of_a_default_is_a_function_of_how_many_verbs_there_are() {
 /// asks whether the game is winnable, and that is correct behaviour rather than lost information.
 #[test]
 fn a_response_that_writes_nothing_is_not_a_transition() {
-    let base = analyse(&load(LIGHTHOUSE));
+    let base = analyse(&load(&common::source("lighthouse")));
     let anchor = "  hotspot crate \"a nailed-shut crate\"\n";
 
     let variants = [
@@ -86,8 +87,8 @@ fn a_response_that_writes_nothing_is_not_a_transition() {
         ),
     ];
     for (what, insert) in variants {
-        let src = LIGHTHOUSE.replace(anchor, &format!("{insert}{anchor}"));
-        assert_ne!(src, LIGHTHOUSE, "`{what}` did not apply");
+        let src = common::source("lighthouse").replace(anchor, &format!("{insert}{anchor}"));
+        assert_ne!(src, common::source("lighthouse"), "`{what}` did not apply");
         let r = analyse(&load(&src));
         assert_eq!(
             (r.states, r.transitions, r.winnable, r.strandings.len()),
@@ -111,12 +112,12 @@ fn a_response_that_writes_nothing_is_not_a_transition() {
 /// decision rather than a drift.
 #[test]
 fn an_unauthored_cell_is_not_reachable_and_nothing_stands_in_for_it() {
-    let base = analyse(&load(LIGHTHOUSE));
-    let src = LIGHTHOUSE.replace(
+    let base = analyse(&load(&common::source("lighthouse")));
+    let src = common::source("lighthouse").replace(
         "  hotspot crate \"a nailed-shut crate\"\n",
         "  hotspot rock \"a rock\"\n  hotspot crate \"a nailed-shut crate\"\n",
     );
-    assert_ne!(src, LIGHTHOUSE);
+    assert_ne!(src, common::source("lighthouse"));
     let g = load(&src);
     assert!(
         g.declared.contains_key("quay.rock"),
@@ -146,7 +147,7 @@ fn an_unauthored_cell_is_not_reachable_and_nothing_stands_in_for_it() {
 /// same program. `.yidam/decisions/availability.yml`.
 #[test]
 fn deleting_every_refusal_moves_no_figure() {
-    for src in [FERRY, LIGHTHOUSE, NIGHTWATCH, PATROL] {
+    for (_, src) in common::sources() {
         let stripped: String = src
             .lines()
             .filter(|l| {
@@ -157,7 +158,7 @@ fn deleting_every_refusal_moves_no_figure() {
             .map(|l| format!("{l}\n"))
             .collect();
         assert_ne!(stripped, src, "the strip must apply");
-        let (a, b) = (analyse(&load(src)), analyse(&load(&stripped)));
+        let (a, b) = (analyse(&load(&src)), analyse(&load(&stripped)));
         assert_eq!(
             (a.states, a.transitions, a.winnable, a.strandings.len()),
             (b.states, b.transitions, b.winnable, b.strandings.len()),
@@ -179,7 +180,7 @@ fn deleting_every_refusal_moves_no_figure() {
 #[test]
 fn a_gate_without_a_refusal_appears_only_where_a_refusal_is_impossible() {
     let (mut bare_verb, mut bare_option, mut bare_enter, mut gated_verb) = (0, 0, 0, 0);
-    for src in [FERRY, LIGHTHOUSE, NIGHTWATCH, PATROL] {
+    for (_, src) in common::sources() {
         let lines: Vec<&str> = src.lines().collect();
         let mut i = 0;
         while i < lines.len() {
@@ -243,8 +244,9 @@ fn a_gate_without_a_refusal_appears_only_where_a_refusal_is_impossible() {
         "the two sites with no occasion for a refusal"
     );
     assert_eq!(
-        bare_verb, 0,
-        "and the author never wrote a bare gate where a refusal was possible"
+        bare_verb, 2,
+        "`lock.game`'s two `talk-to` bindings on the character the player is driving — the first \
+         hotspot verbs any author here withheld, and `menu.rs` carries why"
     );
-    assert_eq!(gated_verb, 17);
+    assert_eq!(gated_verb, 26);
 }

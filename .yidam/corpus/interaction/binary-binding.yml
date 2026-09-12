@@ -14,9 +14,11 @@ description: |
   authored content is.*
 
   **The count is right and the corpus had never done it.** Two of this design's six verbs take a
-  second object, so the four specimens are **396 cells and not 252** — the figure
-  `.yidam/decisions/default-binding.yml` computed as 42 sites × 6 verbs — and the authored density
-  is 22.0% rather than 34.5%. [verified] — `crates/reachability/tests/arity.rs`. The same error is
+  second object, so the specimens are **480 cells and not 336** — the shape of the error
+  `.yidam/decisions/default-binding.yml` made when it computed 42 sites × 6 verbs — and the
+  authored density is 24.1% rather than 34.5%. (It read 396 and 22.0% while the test computing it
+  could see only the first four games; `.yidam/decisions/unread-specimen.yml` is why that stood for
+  eleven commits. The correction is the same size either way, which is the point of it.) [verified] — `crates/reachability/tests/arity.rs`. The same error is
   in that record's other side and larger: 164 objects against 57 verbs is 9,348 only if none of the
   57 is binary, and eighteen are. Counted properly it is **50,676 cells with 203 authored — 0.40%**
   ([delores-source](../../catalog/delores-source.md)). [verified]

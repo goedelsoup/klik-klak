@@ -16,6 +16,8 @@
 //! What is held here is the checker's side: six bindings, by line, cause and states killed, and a
 //! run written down for every one of them. `.yidam/decisions/walked-in.yml`.
 
+mod common;
+
 use reachability::{analyse, Cause};
 use std::path::{Path, PathBuf};
 
@@ -27,23 +29,6 @@ fn root() -> PathBuf {
         .to_path_buf()
 }
 
-const ALL: [(&str, &str); 5] = [
-    ("ferry", include_str!("../../../design/specimen/ferry.game")),
-    (
-        "lighthouse",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    ("lock", include_str!("../../../design/specimen/lock.game")),
-    (
-        "nightwatch",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    (
-        "patrol",
-        include_str!("../../../design/specimen/patrol.game"),
-    ),
-];
-
 fn load(source: &str, name: &str) -> game_format::Game {
     let (mut g, mut p) = game_format::parse(source, name);
     p.extend(game_format::resolve(&mut g));
@@ -53,10 +38,10 @@ fn load(source: &str, name: &str) -> game_format::Game {
 }
 
 /// Every way to lose, across the five.
-fn strandings() -> Vec<(&'static str, usize, String, Cause, usize)> {
+fn strandings() -> Vec<(String, usize, String, Cause, usize)> {
     let mut out = Vec::new();
-    for (name, src) in ALL {
-        let r = analyse(&load(src, name));
+    for (name, src) in common::sources() {
+        let r = analyse(&load(&src, &name));
         assert!(
             r.winnable,
             "{name} is winnable, which is what makes a trap one"
@@ -66,7 +51,7 @@ fn strandings() -> Vec<(&'static str, usize, String, Cause, usize)> {
                 Some(o) => format!("{} {o} on {}", s.verb, s.target),
                 None => format!("{} on {}", s.verb, s.target),
             };
-            out.push((name, s.line, verb, s.cause, s.states));
+            out.push((name.clone(), s.line, verb, s.cause, s.states));
         }
     }
     out
@@ -79,42 +64,42 @@ fn every_specimen_is_stranded_somewhere() {
         strandings(),
         [
             (
-                "ferry",
+                "ferry".to_string(),
                 64,
                 "use-with coin on ferryman".into(),
                 Cause::Ordering,
                 2
             ),
             (
-                "lighthouse",
+                "lighthouse".to_string(),
                 131,
                 "use-with oil-can on base.hinge".into(),
                 Cause::Consumption,
                 4
             ),
             (
-                "lock",
+                "lock".to_string(),
                 152,
                 "walk-to on lockside.paddle-gear".into(),
                 Cause::Ordering,
                 2
             ),
             (
-                "nightwatch",
+                "nightwatch".to_string(),
                 59,
                 "walk-to on yard.hall-door".into(),
                 Cause::Consumption,
                 1
             ),
             (
-                "nightwatch",
+                "nightwatch".to_string(),
                 153,
                 "walk-to on study.hall-door".into(),
                 Cause::Consumption,
                 1
             ),
             (
-                "patrol",
+                "patrol".to_string(),
                 141,
                 "walk-to on canteen.corridor-door".into(),
                 Cause::Ordering,
@@ -171,7 +156,7 @@ fn every_one_of_them_has_a_run_written_down() {
         );
     }
 
-    let ferry = ALL[0].1;
+    let ferry = common::source("ferry");
     assert!(
         ferry.contains("Reachable, silent, and the game goes on answering normally."),
         "the specimen states the claim the transcripts now hold"

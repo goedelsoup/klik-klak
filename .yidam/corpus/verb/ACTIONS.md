@@ -9,7 +9,7 @@ corpus does.
 - **Arity census** — group by the `arity` property; the binary verbs are what force the
   second-object machinery on everything downstream
 - **Which constructs an author has never written** —
-  `cargo test -p game-format --test coverage`, over the four specimens. This is what
+  `cargo test -p game-format --test coverage`, over every specimen in `design/specimen/`. This is what
   `vocabulary-coverage` was scaffolded to compute and is not how it was scaffolded to compute it:
   the question is about the language rather than about the graph of claims, and the skill is
   retired. `.yidam/decisions/calculators.yml`, `.yidam/decisions/unwritten.yml`.

@@ -9,8 +9,8 @@ description: |
 
   **[inference] It is the only binding in this vocabulary whose success can be the mistake.**
   Every other shape either resolves correctly or refuses, and a refusal is a message the player
-  can act on. The half of that a checker can confirm is confirmed: **every one of the five
-  strandings in the four specimens was a binding the player had been shown**, in the state it
+  can act on. The half of that a checker can confirm is confirmed: **every one of the six
+  strandings in the specimens was a binding the player had been shown**, in the state it
   stranded them from — `Report::unshown` is empty everywhere — so none of them was reached by
   accident or by a route the interface hid. [verified] — `crates/reachability/tests/spend.rs`. This one resolves correctly on the wrong target: the oil goes into the hinge rather
   than the lamp, and the text that follows is written as a success because at that moment it is
@@ -22,9 +22,11 @@ description: |
   this binding, which is locally correct and will stay correct, but on what remains reachable
   after it resolves.
 
-  **That is now where the check is, and the four specimens strand five times.** `crates/reachability`
+  **That is now where the check is, and the specimens strand six times.** `crates/reachability`
   finds a stranding as an edge stepping out of the set of states from which an ending is still
-  reachable. Six bindings spend; three of the five strandings are consumption and two are ordering.
+  reachable. Seven bindings spend; three of the six strandings are consumption and three are
+  ordering — the consumption count has not moved since the third specimen, and both games written
+  since have stranded by ordering instead.
   `lighthouse.game`'s is the can of oil poured into a hinge — four reachable states lost, from
   *"in base; carrying crowbar, brass-key, wick; lamp-prep=0"*, and the report says which rather
   than only how many. [verified] — `crates/reachability/tests/spend.rs`.

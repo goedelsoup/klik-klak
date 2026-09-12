@@ -268,8 +268,10 @@ fn a_document_that_declares_no_watermark_fails() {
             std::fs::read_dir(root.join(d))
                 .expect("readable")
                 .flatten()
-                .map(|e| {
-                    std::fs::read_to_string(e.path())
+                .map(|e| e.path())
+                .filter(|p| p.extension().is_some_and(|x| x == "rs"))
+                .map(|p| {
+                    std::fs::read_to_string(p)
                         .expect("readable")
                         .matches("\n#[test]")
                         .count()

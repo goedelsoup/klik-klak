@@ -41,12 +41,15 @@ description: |
   benefit is that nothing can be forgotten. [inference] It is also why this design has no arrival
   realizer to write: `.yidam/decisions/arrival-realizer.yml`.
 
-  **What it is for, in one number.** Across the four specimens this component holds 88 distinct
-  target-and-verb entries and 698 slots over 145 reachable states, of which 24 entries are showing
-  before the player has done anything. The reachability search reasons about 45 of the 91 bindings,
-  and the 43 it does not are almost exactly the 42 effect-free `look-at`s. [verified] So roughly
-  half of what a player is shown contributes nothing to any figure the instrument reports, which is
-  the boundary of what a reachability search is for rather than a defect in one.
+  **What it is for, in one number.** Across the specimens this component holds 117 distinct
+  target-and-verb entries and 1,169 slots over 203 reachable states, of which 31 entries are
+  showing before the player has done anything. The reachability search reasons about 60 of the 120
+  bindings, and the 60 it does not are almost exactly the 56 effect-free `look-at`s. [verified] —
+  `crates/reachability/tests/menu.rs`. So roughly half of what a player is shown contributes
+  nothing to any figure the instrument reports, which is the boundary of what a reachability search
+  is for rather than a defect in one. **The half stayed a half across a fifth game** — 45 of 91 was
+  49%, 60 of 120 is 50% — which is what makes it a fact about the vocabulary rather than about four
+  files.
 properties:
   responsibility: |
     Given a target and a state, produce the verbs to display and no others. The negative half is
@@ -82,9 +85,11 @@ properties:
     **And the two systems lean opposite ways.** The corpus writes the refusing form seventeen times
     and the withholding form never on a hotspot verb; Delores writes 32 genuine `VERB_OK`
     withholdings against 3 `VERB_PRE` refusals ([delores-source](../../catalog/delores-source.md)).
-    [verified] Eight to one toward hiding there, seventeen to nothing toward showing here, in
-    systems that both offer the choice. [inference] Nothing here explains the difference, and the
-    obvious guess — that four small specimens are not a house style — is the honest one.
+    [verified] Eight to one toward hiding there, twenty-six to two toward showing here, in systems
+    that both offer the choice. [inference] Nothing here explains the difference, and the obvious
+    guess — that a handful of small specimens is not a house style — is the honest one. The count
+    read *seventeen to nothing* until a fifth specimen withheld twice, at the one site where a
+    refusal has nobody to be said to: `talk-to` on the character the player is driving.
 links:
   - target: ../interaction/unary-binding.yml
     relationship: realizes

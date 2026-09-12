@@ -24,24 +24,10 @@
 //! [`arity-cost`]: ../../../.yidam/decisions/arity-cost.yml
 //! [`availability`]: ../../../.yidam/decisions/availability.yml
 
+mod common;
+
 use game_format::{Binding, Site};
 use reachability::analyse;
-
-const S: [(&str, &str); 4] = [
-    ("ferry", include_str!("../../../design/specimen/ferry.game")),
-    (
-        "lighthouse",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    (
-        "nightwatch",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    (
-        "patrol",
-        include_str!("../../../design/specimen/patrol.game"),
-    ),
-];
 
 fn load(src: &str) -> game_format::Game {
     let (mut g, mut p) = game_format::parse(src, "menu.game");
@@ -60,13 +46,24 @@ fn on_a_hotspot(b: &&Binding) -> bool {
 ///
 /// That record found *"all seventeen gated bindings on a hotspot verb carry a line"* and that the
 /// withholding form is *"used 3× in 662 lines, all where a refusal is impossible."* Sweeping the
-/// reachable states and asking which bindings a menu would hold finds the same 17 and the same 3,
+/// reachable states and asking which bindings a menu would hold found the same 17 and the same 3,
 /// having counted nothing and read no source.
+///
+/// **A fifth specimen is the first to withhold a hotspot verb, and it withholds twice.** Twenty-
+/// eight gated hotspot bindings now, twenty-six carrying a refusal, and the two that do not are
+/// `lock.game`'s `talk-to` on the boatman and on the mate. The specimen states its own reason
+/// beside them: ***"A bare `when` and no `else`: withheld rather than refused. You are not shown
+/// the choice of talking to yourself."***
+///
+/// That is `availability`'s own criterion — *"all where a refusal is impossible"* — applied to a
+/// case it had no instance of. You cannot decline to talk to yourself; there is nobody to say the
+/// refusal to. So the record's rule holds and the census under it moves, which is the good version
+/// of a figure changing. `.yidam/decisions/unread-specimen.yml` is why it took eleven commits.
 #[test]
 fn the_menu_recovers_what_availability_found_by_reading() {
     let (mut gated, mut refusing, mut withheld_elsewhere, mut unshown) = (0, 0, 0, 0);
-    for (name, src) in S {
-        let g = load(src);
+    for (name, src) in common::sources() {
+        let g = load(&src);
         gated += g
             .bindings
             .iter()
@@ -90,8 +87,9 @@ fn the_menu_recovers_what_availability_found_by_reading() {
     }
     assert_eq!(
         (gated, refusing),
-        (17, 17),
-        "every gated hotspot verb is shown"
+        (28, 26),
+        "gated hotspot bindings, and the ones carrying a refusal — the two that do not are \
+         `talk-to` on the character the player is currently driving"
     );
     assert_eq!(
         withheld_elsewhere, 3,
@@ -154,22 +152,26 @@ fn one_else_line_is_the_whole_of_the_leak_and_costs_nothing_in_the_graph() {
 /// **Half of what a player is shown is invisible to the thing that checks the game.**
 ///
 /// The search is built from bindings that can move it — `acting` drops every response that writes
-/// no state — so across the four specimens it reasons about **45** of 91 bindings. A menu holds
-/// **88 distinct `(target, verb)` entries**, of which **24 are showing before the player has done
-/// anything**. The gap between 45 and 88 is almost exactly the 42 `look-at` bindings, which are
+/// no state — so across the specimens it reasons about **60** of 120 bindings. A menu holds **117
+/// distinct `(target, verb)` entries**, of which **31 are showing before the player has done
+/// anything**. The gap between 60 and 117 is almost exactly the 56 `look-at` bindings, which are
 /// the largest single thing the interface displays and contribute nothing to any figure this
 /// instrument reports.
 ///
+/// **The half stayed a half across a fifth game** — 45 of 91 was 49%, 60 of 120 is 50% — which is
+/// the claim in the title. It is not an accident of four files: `look-at` is roughly half of what
+/// an author writes, and `look-at` writes no state.
+///
 /// That is not a defect. It is the boundary of what a reachability search is for, stated as a
 /// number for the first time, and it is why `default-binding` was right that the question belongs
-/// to a different layer. Summed over every reachable state the four games have, the menu holds
-/// **698 slots**.
+/// to a different layer. Summed over every reachable state the five games have, the menu holds
+/// **1,169 slots**.
 #[test]
 fn the_search_reasons_about_half_of_what_the_interface_shows() {
     let (mut bindings, mut acting, mut look_at, mut ever, mut at_start) = (0, 0, 0, 0, 0);
     let mut slots = 0;
-    for (_, src) in S {
-        let g = load(src);
+    for (_, src) in common::sources() {
+        let g = load(&src);
         bindings += g.bindings.len();
         acting += g
             .bindings
@@ -187,12 +189,12 @@ fn the_search_reasons_about_half_of_what_the_interface_shows() {
         at_start += r.menu_entries.1;
         slots += r.menu_slots;
     }
-    assert_eq!((bindings, acting, look_at), (91, 45, 42));
-    assert_eq!((ever, at_start), (88, 24));
+    assert_eq!((bindings, acting, look_at), (120, 60, 56));
+    assert_eq!((ever, at_start), (117, 31));
 
-    // and summed over the 145 reachable states of the four games, the interface holds 698
+    // and summed over the 203 reachable states of the five games, the interface holds 1,169
     // target-and-verb slots — the size of the thing nobody had specified
-    assert_eq!(slots, 698);
+    assert_eq!(slots, 1169);
 }
 
 /// **A binding in no menu is a defect the corpus had no way to see, and it is an ordinary

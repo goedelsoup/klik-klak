@@ -15,23 +15,9 @@
 //! `authored-text` says the file's three spellings of an unguarded line are one construct. Both
 //! describe an artefact; the writer produces it. `.yidam/decisions/round-trip.yml`.
 
-use game_format::{parse, print, resolve, Game};
+mod common;
 
-const ALL: [(&str, &str); 4] = [
-    ("ferry", include_str!("../../../design/specimen/ferry.game")),
-    (
-        "lighthouse",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    (
-        "nightwatch",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    (
-        "patrol",
-        include_str!("../../../design/specimen/patrol.game"),
-    ),
-];
+use game_format::{parse, print, resolve, Game};
 
 fn load(source: &str, name: &str) -> Game {
     let (mut game, problems) = parse(source, name);
@@ -76,10 +62,10 @@ fn shape(game: &Game) -> String {
 /// or should be.
 #[test]
 fn every_specimen_comes_back_as_the_same_game() {
-    for (name, src) in ALL {
-        let first = load(src, name);
+    for (name, src) in common::sources() {
+        let first = load(&src, &name);
         let written = print(&first);
-        let second = load(&written, name);
+        let second = load(&written, &name);
         assert_eq!(
             shape(&first),
             shape(&second),
@@ -93,18 +79,22 @@ fn every_specimen_comes_back_as_the_same_game() {
     }
 }
 
-/// **221 of 662 lines do not survive, and none of it is meaning.**
+/// **299 of 904 lines do not survive, and none of it is meaning.**
 ///
-/// 133 comments, 3 `??` annotations and 143 blank lines: a third of a `.game` file is for
-/// whoever reads the file. A writer that reproduced them would be claiming they are in the tree.
+/// 186 comments, 3 `??` annotations and 185 blank lines: a third of a `.game` file is for whoever
+/// reads the file. A writer that reproduced them would be claiming they are in the tree.
+///
+/// The share held at a third across a fifth game, which is worth more than the figure: a ratio
+/// that survives an author who was not writing to it is a fact about the format rather than about
+/// four files.
 #[test]
 fn a_third_of_the_file_is_for_whoever_reads_the_file() {
     let (mut before, mut after) = (0, 0);
-    for (name, src) in ALL {
+    for (name, src) in common::sources() {
         before += src.lines().count();
-        after += print(&load(src, name)).lines().count();
+        after += print(&load(&src, &name)).lines().count();
     }
-    assert_eq!((before, after), (662, 441), "lines written, lines kept");
+    assert_eq!((before, after), (904, 605), "lines written, lines kept");
 }
 
 /// **An `exit` comes back as the binding an author would have written, which is the claim.**
@@ -156,7 +146,7 @@ room b
 #[test]
 fn three_spellings_of_a_line_come_back_as_one() {
     let (mut say, mut otherwise, mut bare) = (0, 0, 0);
-    for (_, src) in ALL {
+    for (_, src) in common::sources() {
         for line in src.lines() {
             let t = line.trim_start();
             if t.starts_with("say ") {
@@ -168,13 +158,13 @@ fn three_spellings_of_a_line_come_back_as_one() {
             }
         }
     }
-    assert_eq!((say, otherwise, bare), (28, 11, 34), "the three spellings");
+    assert_eq!((say, otherwise, bare), (41, 20, 39), "the three spellings");
 
     // and after a round trip there is one spelling and the same number of lines
     let (mut written_say, mut written_other) = (0, 0);
     let mut clauses = 0;
-    for (name, src) in ALL {
-        let game = load(src, name);
+    for (name, src) in common::sources() {
+        let game = load(&src, &name);
         clauses += game
             .bindings
             .iter()
@@ -226,8 +216,8 @@ fn the_reader_builds_only_shapes_the_writer_writes_without_rewriting() {
     );
 
     // every predicate in the four specimens prints and reads back as itself, unrewritten
-    for (name, src) in ALL {
-        let game = load(src, name);
+    for (name, src) in common::sources() {
+        let game = load(&src, &name);
         let before: Vec<String> = game
             .bindings
             .iter()
@@ -248,7 +238,7 @@ fn the_reader_builds_only_shapes_the_writer_writes_without_rewriting() {
                 "{name}: the reader built an unspellable shape"
             );
         }
-        let after: Vec<String> = load(&print(&game), name)
+        let after: Vec<String> = load(&print(&game), &name)
             .bindings
             .iter()
             .flat_map(|b| {

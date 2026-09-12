@@ -149,11 +149,20 @@ properties:
     constructed.
 
     **And this class holds the canonical instance of the other half.** A `when` with no refusal
-    under it is the only form an entry binding can take, and `nightwatch.game` writes one; the only
-    other two in 662 authored lines are conversation options, where an unavailable choice is not
-    shown. So the spelling that means *not offered* appears exactly where a refusal is impossible,
-    and the seventeen bindings that could have chosen it all chose a line instead. [verified]
-    `.yidam/decisions/availability.yml`.
+    under it is the only form an entry binding can take, and `nightwatch.game` writes one. Two of
+    the other four in 904 authored lines are conversation options, where an unavailable choice is
+    not shown.
+
+    **The remaining two are the first hotspot verbs any author here withheld**, and they arrived
+    with the fifth specimen: `lock.game`'s `talk-to` on the boatman and on the mate, each guarded on
+    which character the player is currently driving. The specimen states its own reason beside them
+    — *"You are not shown the choice of talking to yourself."* So the spelling that means *not
+    offered* still appears exactly where a refusal is impossible, and the twenty-six bindings that
+    could have chosen it and had somebody to refuse all chose a line instead. [verified] —
+    `crates/reachability/tests/menu.rs`, `crates/reachability/tests/defaults.rs`.
+    `.yidam/decisions/availability.yml`. The census read *seventeen to nothing* until
+    `.yidam/decisions/unread-specimen.yml`; the rule it was evidence for is unchanged and the
+    instance it lacked now exists.
 links:
   - target: ../room/single-screen.yml
     relationship: triggered-by

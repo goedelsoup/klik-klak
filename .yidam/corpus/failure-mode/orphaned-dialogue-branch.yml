@@ -10,13 +10,13 @@ description: |
   written and unreachable look identical in the file, which is the whole difficulty.
 
   **That scoping is on the wrong axis, and counting it is what showed so. A path is not what
-  orphans content — a guard is.** Four of the 105 authored lines in the four specimens are
+  orphans content — a guard is.** Four of the 154 authored lines in the specimens are
   selected in no reachable state, and **not one of them is in a conversation**: three are
   `use-with` refusals in a room and the fourth is a `look-at` on an actor. [verified] —
   `crates/reachability/tests/orphans.rs`. A guarded response list is what this vocabulary chose
   in place of a tree ([data-format/interaction-table](../data-format/interaction-table.yml)), and
   a clause whose predicate holds in no reachable state is unreachable by exactly the mechanism
-  described above. The narrower claim survives only as an accident of these four games: a
+  described above. The narrower claim survives only as an accident of these games: a
   topic-list option is a unary binding with a `when`
   ([topic-list](../conversation/topic-list.yml)), so it can orphan as any guarded thing can, and
   here none happens to. `.yidam/decisions/orphaned-lines.yml`.

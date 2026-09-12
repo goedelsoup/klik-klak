@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 86, "every record, in the order it was created");
+    assert_eq!(all.len(), 87, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (44, 46, 36),
+        (44, 47, 37),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -320,6 +320,19 @@ fn the_evidence_each_record_rests_on() {
 /// check was built to make visible. A phase that touches no source and knows it is not the same
 /// as one that should have opened a source and did not, and the only thing that tells them apart
 /// is the record.
+///
+/// **`unread-specimen` puts it to one, and the reason is the one this check keeps proving it
+/// cannot see.** The phase found that twenty-three tests had stopped reading the fifth specimen,
+/// which is a question about this repository's instrument and no source about adventure games
+/// answers it. But it reads as **engine** rather than gate-alone, because the defect falsified a
+/// claim about authoring: `latched-flag` said no author had ever cleared a flag, and the game
+/// nobody had read clears one three times. So the gate-alone run stays at zero while the
+/// no-document run goes to one — the two halves disagreeing, which is what they are for.
+///
+/// **The evidence was already in the house and nobody had to go anywhere for it.** That is a third
+/// way to clear nothing at all: not a retrieval, not a re-reading, but a source this repository
+/// wrote itself and then failed to open. 242 lines of authored game, committed eleven commits
+/// earlier, unread by three quarters of the suite.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -335,7 +348,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (0, 0),
+        (1, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }

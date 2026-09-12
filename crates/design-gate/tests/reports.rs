@@ -120,15 +120,22 @@ fn every_due_clock_is_declared_or_declined_in_writing() {
 /// eighty-eight to do it. The heading keeps *a sixth* because that is where the fraction has lived
 /// and where it will return: one question against fifty-six records is not a trend reversing.
 ///
+/// **And it widened a second way, which is new: a question came back.** `unread-specimen` found
+/// that `puzzle/state-gate` had been closed on a census reading four of five specimens, and the
+/// fifth writes the gate it was closed for lacking. A clock that counts open questions cannot
+/// distinguish a question nobody has answered from one that was answered wrongly and has returned
+/// — and the second is the more urgent of the two, because something downstream is resting on the
+/// answer.
+///
 /// [`markers.rs`]: markers.rs
 #[test]
 fn the_clock_that_is_declared_covers_a_sixth_of_what_is_owed() {
     let root = repo_root();
     let (corpus, decisions) = owed(&root);
-    assert_eq!((corpus, decisions), (6, 57));
+    assert_eq!((corpus, decisions), (7, 57));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        9,
+        10,
         "what a declared questions clock can see"
     );
 }

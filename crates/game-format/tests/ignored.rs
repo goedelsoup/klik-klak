@@ -2,7 +2,10 @@
 //! one.**
 //!
 //! It was 229 of 349 lines accepting a word the reader never looked at, and eight keywords
-//! aborting the process on a line with nothing after them.
+//! aborting the process on a line with nothing after them. The census runs over 491 mutable lines
+//! now, because a fifth specimen was written and this file could not see it for eleven commits
+//! (`.yidam/decisions/unread-specimen.yml`). Zero accept, as before — an absence claim that gets
+//! stronger every time the corpus grows, and only if the corpus is where the input comes from.
 //!
 //! [`parse.rs`](../src/parse.rs) opens by stating the opposite:
 //!
@@ -25,31 +28,31 @@
 //! reader on its own. Both runs are kept, because a check that holds for the wrong reason holds
 //! right up until the reason moves.
 
+mod common;
+
 use game_format::{parse, resolve};
 
 /// Each specimen, and one name it declares — the second mutation word.
-const ALL: [(&str, &str, &str); 4] = [
-    (
-        "ferry",
-        "coin",
-        include_str!("../../../design/specimen/ferry.game"),
-    ),
-    (
-        "lighthouse",
-        "crowbar",
-        include_str!("../../../design/specimen/lighthouse.game"),
-    ),
-    (
-        "nightwatch",
-        "ledger",
-        include_str!("../../../design/specimen/nightwatch.game"),
-    ),
-    (
-        "patrol",
-        "key",
-        include_str!("../../../design/specimen/patrol.game"),
-    ),
-];
+///
+/// The name is read off the parse tree rather than written here beside the file. A hand-kept table
+/// of specimens is what `.yidam/decisions/unread-specimen.yml` is about, and a hand-kept table of
+/// *names inside* specimens would be the same defect one level down: a word that stops being
+/// declared makes this run the `XYZZY` case twice and report nothing.
+fn all() -> Vec<(String, String, String)> {
+    common::sources()
+        .into_iter()
+        .map(|(name, src)| {
+            let (mut game, _) = parse(&src, &name);
+            let _ = resolve(&mut game);
+            let item = game
+                .items
+                .first()
+                .unwrap_or_else(|| panic!("{name} declares no item to mutate with"))
+                .clone();
+            (name, item, src)
+        })
+        .collect()
+}
 
 /// Does the reader say anything at all about this source — at parse or at admission?
 fn complains(src: &str, name: &str) -> bool {
@@ -90,12 +93,15 @@ fn census(declared: bool) -> (Vec<(String, usize, usize)>, usize, usize) {
     let mut silent: std::collections::BTreeMap<String, usize> = Default::default();
     let mut seen: std::collections::BTreeMap<String, usize> = Default::default();
     let (mut quiet, mut total) = (0, 0);
-    for (name, item, src) in ALL {
-        assert!(!complains(src, name), "{name} does not read clean as it is");
-        let word = if declared { item } else { "XYZZY" };
+    for (name, item, src) in all() {
+        assert!(
+            !complains(&src, &name),
+            "{name} does not read clean as it is"
+        );
+        let word = if declared { item } else { "XYZZY".to_string() };
         let lines: Vec<&str> = src.lines().collect();
         for (i, line) in lines.iter().enumerate() {
-            let Some(mutant) = junk(line, word) else {
+            let Some(mutant) = junk(line, &word) else {
                 continue;
             };
             total += 1;
@@ -103,7 +109,7 @@ fn census(declared: bool) -> (Vec<(String, usize, usize)>, usize, usize) {
             *seen.entry(k.clone()).or_insert(0) += 1;
             let mut copy = lines.clone();
             copy[i] = &mutant;
-            if !complains(&copy.join("\n"), name) {
+            if !complains(&copy.join("\n"), &name) {
                 quiet += 1;
                 *silent.entry(k).or_insert(0) += 1;
             }
@@ -129,7 +135,7 @@ fn census(declared: bool) -> (Vec<(String, usize, usize)>, usize, usize) {
 fn nothing_on_a_line_goes_unread() {
     for declared in [false, true] {
         let (rows, quiet, total) = census(declared);
-        assert_eq!(total, 349, "mutable lines in the four specimens");
+        assert_eq!(total, 491, "mutable lines across the specimens");
         let loud: Vec<&(String, usize, usize)> = rows.iter().filter(|(_, s, _)| *s > 0).collect();
         assert!(
             quiet == 0,
@@ -233,25 +239,25 @@ fn no_keyword_crashes_on_a_line_with_nothing_after_it() {
 
 /// **The specimens did not move, which is what makes this a reader change.**
 ///
-/// All four read clean before and after. 50 constructs before, 50 after, and every figure four
+/// All of them read clean before and after. 50 constructs before, 50 after, and every figure four
 /// phases of records quote is computed from the same parse trees — the evidence that nothing was
 /// taken out of the format to make the reader strict.
 #[test]
 fn the_specimens_read_clean_and_the_surface_did_not_move() {
-    for (name, _, src) in ALL {
-        assert!(!complains(src, name), "{name} no longer reads clean");
+    for (name, _, src) in all() {
+        assert!(!complains(&src, &name), "{name} no longer reads clean");
     }
     let mut bindings = 0;
     let mut declared = 0;
-    for (name, _, src) in ALL {
-        let (game, _) = parse(src, name);
+    for (name, _, src) in all() {
+        let (game, _) = parse(&src, &name);
         bindings += game.bindings.len();
         declared += game.declared.len();
     }
     assert_eq!(
         (bindings, declared),
-        (91, 81),
-        "bindings and declared names across the four, unchanged by the reader getting strict"
+        (120, 104),
+        "bindings and declared names across the specimens, unchanged by the reader getting strict"
     );
 }
 

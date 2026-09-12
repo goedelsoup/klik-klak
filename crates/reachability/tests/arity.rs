@@ -13,19 +13,10 @@
 //!
 //! `.yidam/decisions/binary-dimension.yml` is the record.
 
+mod common;
+
 use game_format::{Binding, Game, Pred};
 use reachability::{analyse, Cause};
-
-const FERRY: &str = include_str!("../../../design/specimen/ferry.game");
-const LIGHTHOUSE: &str = include_str!("../../../design/specimen/lighthouse.game");
-const NIGHTWATCH: &str = include_str!("../../../design/specimen/nightwatch.game");
-const PATROL: &str = include_str!("../../../design/specimen/patrol.game");
-const ALL: [(&str, &str); 4] = [
-    ("ferry", FERRY),
-    ("lighthouse", LIGHTHOUSE),
-    ("nightwatch", NIGHTWATCH),
-    ("patrol", PATROL),
-];
 
 fn load(source: &str) -> Game {
     let (mut g, mut p) = game_format::parse(source, "arity.game");
@@ -66,12 +57,12 @@ fn binary_count(g: &Game) -> usize {
 /// the same winnability, the same latch violations. Arity costs the state space nothing.
 #[test]
 fn moving_the_second_object_into_the_guard_changes_no_figure() {
-    for (name, src) in ALL {
-        let before = load(src);
+    for (name, src) in common::sources() {
+        let before = load(&src);
         let n = binary_count(&before);
         assert!(n > 0, "{name} has no binary binding to reduce");
 
-        let mut after = load(src);
+        let mut after = load(&src);
         assert_eq!(unarise(&mut after), n);
         assert_eq!(binary_count(&after), 0);
 
@@ -111,8 +102,8 @@ fn moving_the_second_object_into_the_guard_changes_no_figure() {
 /// to name which of the two objects is wrong."*
 #[test]
 fn what_it_costs_is_the_diagnostic_and_not_the_analysis() {
-    let a = analyse(&load(LIGHTHOUSE));
-    let mut reduced = load(LIGHTHOUSE);
+    let a = analyse(&load(&common::source("lighthouse")));
+    let mut reduced = load(&common::source("lighthouse"));
     unarise(&mut reduced);
     let b = analyse(&reduced);
 
@@ -135,13 +126,24 @@ fn what_it_costs_is_the_diagnostic_and_not_the_analysis() {
 ///
 /// Delores ships 203 bindings of which 26 take a second object — **12.8%** — across 16 distinct
 /// binary verbs, with 18 declared binary in an engine list validated at boot and no generic
-/// "use with" among them (`.yidam/catalog/delores-source.md`). These four specimens were written
+/// "use with" among them (`.yidam/catalog/delores-source.md`). These specimens were written
 /// without reference to that game and land in the same place.
+///
+/// **Twelve of a hundred and twenty is 10.0%, and it was eleven of ninety-one — 12.1%.** A fifth
+/// game moved the share by two points and left it inside the band, which is the useful thing about
+/// stating a claim as a range: an agreement between two independent bodies of work survives one
+/// more author, and would not have survived being pinned to three decimal places.
 #[test]
 fn the_binary_share_is_about_an_eighth_in_both_bodies_of_work() {
-    let total: usize = ALL.iter().map(|(_, s)| load(s).bindings.len()).sum();
-    let binary: usize = ALL.iter().map(|(_, s)| binary_count(&load(s))).sum();
-    assert_eq!(binary, 11);
+    let total: usize = common::sources()
+        .iter()
+        .map(|(_, s)| load(s).bindings.len())
+        .sum();
+    let binary: usize = common::sources()
+        .iter()
+        .map(|(_, s)| binary_count(&load(s)))
+        .sum();
+    assert_eq!(binary, 12);
     let share = binary as f64 / total as f64;
     assert!(
         (0.10..0.16).contains(&share),
@@ -267,15 +269,17 @@ fn binary_frame(src: &str) -> usize {
 /// `binary-dimension` reached the same conclusion structurally — the reduction *"moves the item is
 /// carried out of the first group and into the third"* — and filed the authoring cost as
 /// unmeasured. It is a fifteen per cent surcharge, and it is uniform: every site pays eleven or
-/// twelve characters, because the sentence added is the same sentence.
+/// twelve characters, because the sentence added is the same sentence. **A fifth specimen with one
+/// more binary site left the surcharge at fifteen per cent** — 868 characters becoming 1,004 —
+/// which is what this check was claiming: the cost is per site and does not depend on which game.
 #[test]
 fn writing_the_reduction_costs_more_than_the_key_it_removes() {
     let (mut before, mut after) = (0usize, 0usize);
-    for (_, src) in ALL {
-        before += binary_frame(src);
-        after += binary_frame(&unarise_source(src));
+    for (_, src) in common::sources() {
+        before += binary_frame(&src);
+        after += binary_frame(&unarise_source(&src));
     }
-    assert_eq!((before, after), (817, 941));
+    assert_eq!((before, after), (868, 1004));
     assert!(after * 100 > before * 114 && after * 100 < before * 116);
 }
 
@@ -283,15 +287,15 @@ fn writing_the_reduction_costs_more_than_the_key_it_removes() {
 /// stays quiet.
 #[test]
 fn the_reduction_is_writable_and_moves_no_figure() {
-    for (name, src) in ALL {
-        let rewritten = unarise_source(src);
+    for (name, src) in common::sources() {
+        let rewritten = unarise_source(&src);
         assert_ne!(rewritten, src, "{name}: the rewrite must apply");
         let (mut g, mut p) = game_format::parse(&rewritten, "reduced.game");
         p.extend(game_format::resolve(&mut g));
         let msgs: Vec<String> = p.into_iter().map(|p| p.to_string()).collect();
         assert!(msgs.is_empty(), "{name} reduced: {msgs:?}");
 
-        let (a, b) = (analyse(&load(src)), analyse(&g));
+        let (a, b) = (analyse(&load(&src)), analyse(&g));
         assert_eq!(
             (a.states, a.transitions, a.winnable, a.strandings.len()),
             (b.states, b.transitions, b.winnable, b.strandings.len()),
@@ -313,7 +317,7 @@ fn the_reduction_is_writable_and_moves_no_figure() {
 /// by a coincidence of this specimen rather than by construction.
 #[test]
 fn the_one_site_that_collides_is_saved_by_its_counter() {
-    let reduced = unarise_source(LIGHTHOUSE);
+    let reduced = unarise_source(&common::source("lighthouse"));
     let g = load(&reduced);
     let n = g
         .bindings
@@ -342,16 +346,22 @@ fn the_one_site_that_collides_is_saved_by_its_counter() {
 ///
 /// `.yidam/decisions/default-binding.yml` computed the specimens' authored density as *"42 sites
 /// against six verbs: 252 cells, 87 authored, 34.5%"*. Two of the six verbs take a second object,
-/// so their cells are sites × items, not sites. Counted that way there are **396**, and the density
-/// is **22.0%**.
+/// so their cells are sites × items, not sites. Counted that way there were **396**, and the
+/// density **22.0%**.
+///
+/// **A fifth specimen makes it 56 sites, 480 cells and 24.1%**, and the density held within two
+/// points across a game written years after the others. The
+/// authored count is computed here rather than quoted, because quoting it is how the flat figure
+/// survived three phases — and how this file went on reporting four games' worth of sites after a
+/// fifth was written (`.yidam/decisions/unread-specimen.yml`).
 ///
 /// The correction runs the same way on the other side of the comparison and further: 164 objects
 /// against 57 verbs is 9,348 only if none of the 57 is binary, and eighteen are.
 #[test]
 fn the_binary_verbs_make_the_table_two_dimensional() {
     let (mut sites, mut cells) = (0usize, 0usize);
-    for (_, src) in ALL {
-        let g = load(src);
+    for (_, src) in common::sources() {
+        let g = load(&src);
         let n: std::collections::BTreeSet<String> = g
             .bindings
             .iter()
@@ -363,14 +373,27 @@ fn the_binary_verbs_make_the_table_two_dimensional() {
         sites += n.len();
         cells += n.len() * 4 + n.len() * g.items.len() * 2;
     }
-    assert_eq!(sites, 42, "the site count default-binding used");
-    assert_eq!(cells, 396, "and the cell count it should have used");
-    assert_eq!(sites * 6, 252, "the flat count, for the record");
+    assert_eq!(sites, 56, "sites, where `default-binding` counted 42");
+    assert_eq!(
+        cells, 480,
+        "and the cell count it should have used, where it used 252"
+    );
 
-    let authored = 87;
+    // computed, not quoted: every binding an author sited on a hotspot in a room
+    let authored: usize = common::sources()
+        .iter()
+        .map(|(_, src)| {
+            load(src)
+                .bindings
+                .iter()
+                .filter(|b| matches!(&b.site, game_format::Site::InRoom { .. }))
+                .count()
+        })
+        .sum();
+    assert_eq!(authored, 116, "where `default-binding` counted 87");
     assert_eq!(
         authored * 1000 / cells,
-        219,
-        "22.0%, against the recorded 34.5%"
+        241,
+        "24.1%, against the 34.5% the flat count produced"
     );
 }

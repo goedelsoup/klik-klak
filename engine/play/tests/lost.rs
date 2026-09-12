@@ -1,6 +1,6 @@
 //! composes: verb-menu, interaction-resolver
 //!
-//! **Four games, each walked into its own trap, and not one of them says so.**
+//! **Five games, each walked into its own trap, and not one of them says so.**
 //!
 //! Every specimen carries a documented way to lose and `crates/reachability` has reported all of
 //! them for phases — a line, a cause, and how many reachable states die. Nothing had ever walked
@@ -19,11 +19,12 @@
 //!
 //! `.yidam/decisions/walked-in.yml`.
 
+mod common;
+
 use play::{load, Session, Stop};
 
 struct Trap {
     name: &'static str,
-    source: &'static str,
     script: &'static str,
     /// the line `crates/reachability` blames, and the turn that takes it
     blamed: usize,
@@ -34,7 +35,6 @@ struct Trap {
 const TRAPS: [Trap; 5] = [
     Trap {
         name: "ferry",
-        source: include_str!("../../../design/specimen/ferry.game"),
         script: include_str!("../scripts/ferry-lost.txt"),
         blamed: 64,
         at_turn: 4,
@@ -56,7 +56,6 @@ const TRAPS: [Trap; 5] = [
     },
     Trap {
         name: "lighthouse",
-        source: include_str!("../../../design/specimen/lighthouse.game"),
         script: include_str!("../scripts/lighthouse-lost.txt"),
         blamed: 131,
         at_turn: 8,
@@ -92,7 +91,6 @@ const TRAPS: [Trap; 5] = [
     },
     Trap {
         name: "nightwatch",
-        source: include_str!("../../../design/specimen/nightwatch.game"),
         script: include_str!("../scripts/nightwatch-lost.txt"),
         blamed: 153,
         at_turn: 4,
@@ -117,7 +115,6 @@ const TRAPS: [Trap; 5] = [
     },
     Trap {
         name: "patrol",
-        source: include_str!("../../../design/specimen/patrol.game"),
         script: include_str!("../scripts/patrol-lost.txt"),
         blamed: 141,
         at_turn: 3,
@@ -143,7 +140,6 @@ const TRAPS: [Trap; 5] = [
     },
     Trap {
         name: "lock",
-        source: include_str!("../../../design/specimen/lock.game"),
         script: include_str!("../scripts/lock-lost.txt"),
         blamed: 152,
         at_turn: 3,
@@ -185,7 +181,7 @@ fn choices(script: &str) -> Vec<&str> {
 #[test]
 fn every_specimen_is_walked_into_its_trap() {
     for t in &TRAPS {
-        let game = load(t.source, t.name).expect("the specimen reads clean");
+        let game = load(&common::source(t.name), t.name).expect("the specimen reads clean");
         let mut session = Session::start(&game).expect("it starts");
         assert_eq!(
             session.play(&choices(t.script)),
@@ -209,7 +205,7 @@ fn every_specimen_is_walked_into_its_trap() {
 #[test]
 fn the_game_goes_on_answering_after_the_turn_that_ends_it() {
     for t in &TRAPS {
-        let game = load(t.source, t.name).expect("the specimen reads clean");
+        let game = load(&common::source(t.name), t.name).expect("the specimen reads clean");
         let mut session = Session::start(&game).expect("it starts");
         session.play(&choices(t.script));
 
@@ -257,7 +253,7 @@ fn the_game_goes_on_answering_after_the_turn_that_ends_it() {
 #[test]
 fn the_checker_blames_the_turn_the_player_took() {
     for t in &TRAPS {
-        let game = load(t.source, t.name).expect("the specimen reads clean");
+        let game = load(&common::source(t.name), t.name).expect("the specimen reads clean");
         let report = reachability::analyse(&game);
         assert!(
             report.winnable,

@@ -413,8 +413,8 @@ it has nowhere to put one.
 
 **Built, and it did not need a third site.** `exit <name> to <room>` is a declaration that expands
 at parse time into exactly the binding above, so the guard and the refusal are written under it and
-the table indexes nothing new. The four specimens turn out to supply half the evidence for its
-shape without having been asked: **20 exits, 15 bare and 5 carrying a guard or refusal**, against
+the table indexes nothing new. The specimens turn out to supply half the evidence for its
+shape without having been asked: **23 exits, 17 bare and 6 carrying a guard or refusal**, against
 Delores's 20, 18 bare and 2 gated. Same count, same dominant shape, arrived at independently.
 `.yidam/decisions/exit-archetype.yml`.
 

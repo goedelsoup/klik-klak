@@ -238,11 +238,16 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
 /// marker lines were written at eight distinct moments and the largest group sharing one is the
 /// three that `marker-count` rewrote in a single commit.
 ///
-/// **The corpus is at eight and [`REPORTED`] holds nine.** `declared-reach` closed
-/// `portable-object`'s, `input-side` asked one about Sierra's icon bar, and `control-transfer`
-/// closed the genesis one — so the reading held below is of the nine that stood when it was taken,
-/// and it is not re-taken. The tie it records is a fact about that reading and does not decay with
-/// the count.
+/// **The corpus is at seven and [`REPORTED`] holds nine.** `declared-reach` closed
+/// `portable-object`'s, `input-side` asked one about Sierra's icon bar, `control-transfer` closed
+/// the genesis one, `adjacency` closed `scaled-polygon`'s, `two-bars` closed `sierra-sci`'s, and
+/// `unread-specimen` **reopened** `puzzle/state-gate`'s — so the reading held below is of the nine
+/// that stood when it was taken, and it is not re-taken. The tie it records is a fact about that
+/// reading and does not decay with the count.
+///
+/// The reopening is worth naming here because it is the movement this clock is least able to
+/// report. A question that comes back looks identical to a question that was just asked, and the
+/// difference is that something downstream was resting on the answer.
 ///
 /// A five-way tie cannot come out of a three-way maximum, so the report's number is not a count
 /// of commits since the question was asked, under any reading of "asked" this repository can
@@ -254,10 +259,10 @@ fn the_report_ties_five_questions_the_history_keeps_apart() {
     let computed: Vec<usize> = ages(&root).into_iter().map(|(_, a)| a).collect();
     assert_eq!(
         (computed.len(), REPORTED.len()),
-        (6, 9),
-        "the corpus against the reading `REPORTED` holds: `control-transfer` closed the genesis \
-         question, which is the one the report called oldest and the only one this repository \
-         has ever answered"
+        (7, 9),
+        "the corpus against the reading `REPORTED` holds: three closures, one question asked, and \
+         one reopened by `unread-specimen` when the census that closed it turned out to have been \
+         reading four of five specimens"
     );
 
     let widest = |v: &[usize]| {
@@ -346,7 +351,7 @@ fn every_figure_the_config_states_about_this_clock_is_computed_here() {
     );
     assert_eq!(
         (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
-        (9, 9),
+        (10, 10),
         "the share the config claims, against the share"
     );
 }

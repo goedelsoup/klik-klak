@@ -45,7 +45,7 @@ description: |
   scope rather than a weakening.** *Never nothing* is stated below as the whole of it. Arrival
   has no default to fall through to, no refusal — [entry-binding](../interaction/entry-binding.yml)
   argues one cannot exist because *"nobody tried anything, they walked into a room"* — and it
-  produces nothing in thirteen of the fourteen rooms across the four specimens. [verified] —
+  produces nothing in sixteen of the seventeen rooms across the specimens. [verified] —
   `crates/reachability/tests/arrival.rs`. The guarantee exists because *a silent miss is the
   failure players read as brokenness*, and a player who has not clicked cannot read one. It was
   always a promise about the composed trigger; nothing else was ever in its scope, and nothing in

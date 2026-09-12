@@ -20,7 +20,7 @@ description: |
   own — one small game — and it points the same way.
 
   **A fourth line, and it is the strongest because it is a silence this corpus can count.** The
-  four specimens carry 91 bindings across 662 lines and **not one of them is a `give-to`**; the
+  specimens carry **120 bindings across 904 lines** and **not one of them is a `give-to`**; the
   other five verbs are all used. [verified] — `crates/reachability/tests/verbs.rs`. The shipped
   game does use its `giveto`, twice ([delores-source](../../catalog/delores-source.md)), so the
   verb is not dead in general — it is dead here, and it has been dead for every phase since the
@@ -38,8 +38,8 @@ description: |
   and wants the hand-off badly enough to spend an item and set a flag to fake it — and still writes
   no `give-to`, because what it wanted was not a verb but an inventory per actor
   ([control-transfer](../../decisions/control-transfer.yml)). [verified] So the count holds and its
-  reading narrows: 120 bindings across five games and not one is a `give-to`, and four of the five
-  could not have produced one.
+  reading narrows: across five games not one is a `give-to`, and four of the five could not have
+  produced one.
 
   The shipped game that does use its `giveto` is also the one with five playable characters, and
   its actors carry `flags = GIVEABLE|TALKABLE`. Whether those two facts are the same fact is not

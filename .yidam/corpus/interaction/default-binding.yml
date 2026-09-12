@@ -35,8 +35,8 @@ description: |
   reachable and nothing needs to stand in ([delores-source](../../catalog/delores-source.md)).
   [verified] The premise above — that the default handles the great majority of what a player
   triggers — is true where every cell is reachable and is a fact about **vocabulary size**: 160 live
-  object declarations against 57 verbs is 2.2% authored, and this design's four specimens are 42
-  sites against six verbs, 34.5%. [verified] A conclusion drawn at 57 verbs does not transfer to
+  object declarations against 57 verbs is 2.2% authored, and this design's specimens are 56 sites
+  against six verbs, 34.5% — a figure that has not moved a tenth of a point across a fifth game. [verified] A conclusion drawn at 57 verbs does not transfer to
   six. (The figure read 164 and 2.17% until the object count was recounted; four of the 164 are
   commented-out declarations.)
   `.yidam/decisions/default-binding.yml`.
