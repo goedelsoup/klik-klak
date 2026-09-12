@@ -168,13 +168,12 @@ fn every_question_says_what_would_close_it() {
     // One of the three that were silent still names its resolver and points at the record that
     // asked it to. The other two — `actor/player-character` and `walkbox/scaled-polygon` — have
     // been answered, in the two phases after the asking.
-    for node in ["data-format/interaction-table.yml"] {
-        let src = std::fs::read_to_string(root.join(".yidam/corpus").join(node)).expect("readable");
-        assert!(
-            src.contains("What would close it is") && src.contains("resolver-kind"),
-            "{node} does not say what would close it"
-        );
-    }
+    let node = "data-format/interaction-table.yml";
+    let src = std::fs::read_to_string(root.join(".yidam/corpus").join(node)).expect("readable");
+    assert!(
+        src.contains("What would close it is") && src.contains("resolver-kind"),
+        "{node} does not say what would close it"
+    );
 
     // And the convention is written where the claim tags are, rather than only in a record.
     let readme = std::fs::read_to_string(root.join(".yidam/corpus/README.md")).expect("readable");
