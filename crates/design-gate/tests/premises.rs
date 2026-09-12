@@ -44,7 +44,12 @@ fn premises(root: &Path) -> Vec<String> {
     fm.list("rests_on").to_vec()
 }
 
-/// **Fourteen premises, nine of them moved, and the gate reported none of it.**
+/// **Fourteen premises, ten of them moved, and the gate reported none of it.**
+///
+/// It was nine for five phases. `failure-mode/orphaned-dialogue-branch` is the tenth, and it is
+/// the first premise to move for a reason the document had itself predicted — it argued the mode
+/// is detectable *given* a bounded language, and `.yidam/decisions/orphaned-lines.yml` ran the
+/// prediction. The watermark moved with it; the count is what the watermark does not say.
 ///
 /// A **closed window**, anchored by commit subject to the edit that stood before `moved-ground`
 /// opened. The first version of this measured from *the document's last commit* and the phase's
@@ -53,7 +58,7 @@ fn premises(root: &Path) -> Vec<String> {
 const BEFORE: &str = "^revise: two sentences that were edges";
 
 #[test]
-fn nine_of_fourteen_premises_moved_under_the_proposal() {
+fn ten_of_fourteen_premises_moved_under_the_proposal() {
     let root = repo_root();
     let found = git(&root, &["log", "--format=%H", "--grep", BEFORE]);
     let last = found
@@ -90,7 +95,7 @@ fn nine_of_fourteen_premises_moved_under_the_proposal() {
     }
     assert_eq!(
         moved.len(),
-        9,
+        10,
         "premises edited since the document was: {moved:?}"
     );
     assert!(

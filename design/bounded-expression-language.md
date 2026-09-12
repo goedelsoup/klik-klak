@@ -1,7 +1,7 @@
 ---
 title: A bounded expression language for authored interaction
 status: proposal
-reconciled: 46be97225ad387c7f1f57deb297afca815fa7b3e
+reconciled: 4555f765e60b10d96a2f29cd643d9bbf65f6de80
 rests_on:
   - .yidam/corpus/data-format/interaction-table.yml
   - .yidam/corpus/world-flag/boolean-flag.yml
@@ -558,6 +558,24 @@ is answerable exactly when option state is written by a closed effect list under
 guards. AGS took the escape hatch instead, and that node is the price: its manual documents the
 mechanism — `option-off-forever` is permanent, "no other command can ever turn it back on
 again" [verified] — and nothing in the authoring surface detects the consequence.
+
+**That prediction has been run, and it came back with the scope wrong and the argument
+intact.** The checker names every authored clause no reachable state selects, and it found four
+in the 105 the four specimens carry — **none of them in a conversation**. So *"a question about
+the option-availability graph"* was the wrong graph: a guarded response list orphans without
+any option, any tree and any subtree, because **the guard is the path**. What was right is the
+conditional this section is about. The question is answerable here for exactly the reason given
+— the guards are decidable and the effect list is closed — and three of the four turn out to be
+made by the vocabulary rather than by an author, which is a finding only a checker that can run
+at all could have produced. `.yidam/decisions/orphaned-lines.yml`.
+
+It also sharpens what the middle buys over the escape hatch, which this section had stated as a
+possibility rather than a difference. AGS's price is that the consequence is undetectable. The
+price here is that it is detectable **and the author still has nowhere to say it**: a shipped
+engine declares exhaustion on the choice — `once` 47 times, `showonce` 13, `temponce` 2 against
+79 guards written as expressions ([delores-source](../.yidam/catalog/delores-source.md))
+[verified] — and this vocabulary expresses it only in the guard that also serves as the gate.
+A bounded language makes the defect visible; it does not by itself make it unwritable.
 
 So the case for the middle is not that authors want it. It is:
 

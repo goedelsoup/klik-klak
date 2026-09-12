@@ -277,7 +277,7 @@ fn the_artifact_that_was_called_unretrieved_is_the_most_cited_source_here() {
         .find(|l| l.starts_with("| [delores-source.md]"))
         .expect("the generated registry has a row for it");
     assert!(
-        row.ends_with("| yes | — | 28 | 1 |"),
+        row.ends_with("| yes | — | 29 | 1 |"),
         "the generated row already carries the count the sentence denies: {row}"
     );
 }
