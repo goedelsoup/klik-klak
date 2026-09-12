@@ -1,215 +1,213 @@
-//! **Two of the four components the corpus specifies are written, and they are private methods of
-//! a struct inside the instrument.**
+//! **Two of the four components the corpus specifies were built before the directory that holds
+//! them, and nothing said so.**
 //!
-//! `engine/` holds a contract, a gate, and no code
-//! ([`engine-directory`](../../../.yidam/decisions/engine-directory.yml)), and its gate pins the
-//! four subsystems nothing implements. That pin is wrong about two of them.
+//! `engine/` held a contract, a gate and no code
+//! ([`engine-directory`](../../../.yidam/decisions/engine-directory.yml)), and the gate pinned
+//! four subsystems that nothing implemented. It was wrong about two.
 //!
-//! `crates/reachability` declares `struct Index<'a>` — not `pub` — with **fourteen methods across
-//! 544 lines**, against five public items in the whole crate. `Ix::in_menu` is
-//! [`verb-menu`](../../../.yidam/corpus/subsystem/verb-menu.yml): *"given a target and a state,
-//! the verbs to display and no others"*, and that node cites the function by name. `live`,
-//! `offered`, `apply` and `settle` are
+//! `crates/reachability` declared `struct Index<'a>` — not `pub` — with **fourteen methods across
+//! 544 lines**, against five public items in the whole crate. `Ix::in_menu` was
+//! [`verb-menu`](../../../.yidam/corpus/subsystem/verb-menu.yml)'s responsibility verbatim:
+//! *"given a target and a state, the verbs to display and no others"*. `live`, `offered`, `apply`
+//! and `settle` were
 //! [`interaction-resolver`](../../../.yidam/corpus/subsystem/interaction-resolver.yml).
 //!
-//! **The corpus has been citing them from inside the instrument's test directory for four
-//! phases.** `verb-menu`'s figures are `[verified]` against `crates/reachability/tests/menu.rs`,
-//! and `interaction-resolver`'s arrival guarantee against `crates/reachability/tests/arrival.rs`.
-//! A subsystem node whose evidence is a checker's fixture is a component that exists, in the one
-//! place `.claude/CLAUDE.md` says the engine is not: *"`crates/` is not the engine… conflating
-//! them is this repository's characteristic mistake."*
+//! The corpus had been citing them from inside the instrument for four phases —
+//! *"`objectTouchable(this, Bank.open ? YES : NO)` is a shipped engine hand-writing
+//! `Ix::in_menu`"* is a claim about adventure games resting on a private symbol, and both
+//! subsystem nodes carry `[verified]` figures against `crates/reachability/tests/`. A subsystem
+//! verified by a checker's fixture is a component that exists, in the one place
+//! `.claude/CLAUDE.md` says the engine is not.
 //!
-//! **And the gate cannot admit the first module.** It asks every file under `engine/` for a
-//! `realizes:` in its first ten lines, which a crate's `Cargo.toml` has nowhere to put. The rule
-//! was writable while the directory was empty and is not writable once it holds a crate.
-//!
-//! These checks pin the defective state. They are rewritten into the rule in the same phase.
+//! They are `engine/verb-menu` and `engine/interaction-resolver` now, and the checker depends on
+//! them. What follows holds the split: the evaluator is where the corpus says the components are,
+//! the search kept only what serves a search, and no crate carries a second copy.
+//! `.yidam/decisions/two-components.yml`.
 
 use design_gate::repo_root;
 use std::path::Path;
+
+/// Prose wraps, so a quotation from a node is not a substring of it. The eleventh time this crate
+/// has had to learn it, and the first in a check about code.
+fn flat(src: &str) -> String {
+    src.split_whitespace().collect::<Vec<_>>().join(" ")
+}
 
 fn read(root: &Path, rel: &str) -> String {
     std::fs::read_to_string(root.join(rel)).expect("readable")
 }
 
-/// The `impl` block's extent and the names inside it.
-fn evaluator(root: &Path) -> (usize, Vec<String>, Vec<String>) {
-    let src = read(root, "crates/reachability/src/lib.rs");
-    let lines: Vec<&str> = src.lines().collect();
-    let start = lines
-        .iter()
-        .position(|l| l.starts_with("impl<'a> Index<'a> {"))
-        .expect("the evaluator's impl block");
-    let end = (start + 1..lines.len())
-        .find(|i| lines[*i] == "}")
-        .expect("its end");
-    let methods = lines[start..end]
-        .iter()
-        .filter_map(|l| {
-            l.strip_prefix("    fn ")
-                .or_else(|| l.strip_prefix("    pub fn "))
-        })
-        .map(|l| l.split('(').next().unwrap_or(l).to_string())
-        .collect();
-    let public = src
+/// Every free function a file declares, in order.
+fn functions(root: &Path, rel: &str) -> Vec<String> {
+    read(root, rel)
         .lines()
         .filter_map(|l| {
             let rest = l
-                .strip_prefix("pub struct ")
-                .or_else(|| l.strip_prefix("pub enum "))
-                .or_else(|| l.strip_prefix("pub fn "))?;
-            Some(
-                rest.split(['<', '(', ' ', '{'])
-                    .next()
-                    .unwrap_or(rest)
-                    .trim()
-                    .to_string(),
-            )
+                .strip_prefix("pub fn ")
+                .or_else(|| l.strip_prefix("fn "))?;
+            Some(rest.split(['(', '<']).next()?.trim().to_string())
         })
-        .collect();
-    (end - start + 1, methods, public)
+        .collect()
 }
 
-/// **Fourteen methods, five hundred and forty-four lines, and none of it is public.**
+/// **The fourteen methods are in three places, and which one each landed in is the decision.**
 ///
-/// The figure that matters is the ratio: the crate publishes a state, three report types and one
-/// entry point, and keeps the entire evaluation of the language behind them.
+/// The world and what is true in it went to the format, because no subsystem in this corpus owns
+/// state — all four declare none across frames — and a module under `engine/` that held one would
+/// be inventing a fifth component. What a player is shown is the menu; what firing one does is the
+/// resolver; what only a search needs stayed with the search.
 #[test]
-fn the_evaluator_is_private_and_is_most_of_the_crate() {
+fn the_evaluator_is_public_and_split_where_the_corpus_splits_it() {
     let root = repo_root();
-    let (lines, methods, public) = evaluator(&root);
-    assert_eq!(lines, 544, "the evaluator's impl block");
+
+    let world = read(&root, "crates/game-format/src/world.rs");
+    assert!(
+        world.contains("pub struct World<'a> {") && world.contains("pub struct State {"),
+        "the world and a state of it are public"
+    );
+    for m in ["pub fn new", "pub fn initial", "pub fn holds"] {
+        assert!(world.contains(m), "the format carries {m}");
+    }
+
     assert_eq!(
-        methods,
+        functions(&root, "engine/verb-menu/src/lib.rs"),
+        ["at", "shown", "in_menu", "live"],
+        "what a player is shown"
+    );
+    assert_eq!(
+        functions(&root, "engine/interaction-resolver/src/lib.rs"),
         [
-            "new",
-            "settle",
-            "settle_tracking",
-            "initial",
-            "describe",
-            "holds",
+            "select",
+            "resolve",
             "offered",
-            "in_menu",
-            "observable",
-            "live",
             "spends",
             "apply_without_spending",
-            "can_finish",
             "apply",
+            "settle",
+            "settle_tracking",
         ],
-        "every method of the evaluator"
-    );
-    assert_eq!(
-        public,
-        ["State", "Cause", "Stranding", "Report", "analyse"],
-        "everything the crate publishes"
+        "what firing one does"
     );
 
-    let src = read(&root, "crates/reachability/src/lib.rs");
+    let search = functions(&root, "crates/reachability/src/lib.rs");
+    assert_eq!(
+        search,
+        ["describe", "observable", "can_finish", "analyse"],
+        "and the search kept only what serves a search"
+    );
+
+    // fourteen, still: three moved to the format, two to the menu, six to the resolver, three
+    // stayed. `select` and `resolve` are new and `analyse` was always the entry point.
     assert!(
-        src.contains("\nstruct Index<'a> {") && !src.contains("\npub struct Index"),
-        "and the struct itself is private"
+        !read(&root, "crates/reachability/src/lib.rs").contains("struct Index"),
+        "nothing is called Index any more"
     );
 }
 
-/// **A private method is cited by name in five committed files, and one of them is a corpus
-/// node.**
+/// **A corpus node is corrected and a record is not, and the difference is what each is for.**
 ///
-/// `Ix::in_menu` cannot be called from outside its crate and is written into the corpus as though
-/// it were a component: *"a shipped engine hand-writing `Ix::in_menu`"*. `verb-menu`'s record says
-/// *"`Ix::in_menu` is those three and nothing else"*. Both subsystem nodes carry `[verified]`
-/// figures against fixtures of the instrument.
+/// `Ix::in_menu` is not a symbol any more. `.yidam/corpus/subsystem/interaction-resolver.yml` is
+/// living prose about adventure games and says `verb_menu::in_menu` now; the three records that
+/// name the old symbol are left exactly as written, because a record is what was decided when it
+/// was decided and rewriting one to keep a checker green is the wrong way round.
 ///
-/// A subsystem node whose evidence is a checker's fixture is a component that exists, in the one
-/// place `.claude/CLAUDE.md` says the engine is not.
+/// The same rule `design-directory` gives for `rests_on:`: *"a corpus node that goes stale is
+/// caught by a reader eventually, because the corpus is what gets re-read."* A record is not.
 #[test]
-fn the_corpus_names_them_and_verifies_them_against_the_instrument() {
+fn the_node_names_the_component_and_the_records_still_name_the_method() {
     let root = repo_root();
-    let mut citing: Vec<String> = Vec::new();
-    for dir in [".yidam/corpus", ".yidam/decisions"] {
-        let mut stack = vec![root.join(dir)];
-        while let Some(d) = stack.pop() {
-            for e in std::fs::read_dir(&d).expect("readable").flatten() {
-                let p = e.path();
-                if p.is_dir() {
-                    stack.push(p);
-                } else if read(
-                    &root,
-                    p.strip_prefix(&root).expect("under root").to_str().unwrap(),
-                )
-                .contains("Ix::")
-                {
-                    citing.push(
-                        p.strip_prefix(&root)
-                            .expect("under root")
-                            .to_string_lossy()
-                            .into_owned(),
-                    );
-                }
+    let mut stale: Vec<String> = Vec::new();
+    let mut stack = vec![root.join(".yidam/corpus"), root.join(".yidam/decisions")];
+    while let Some(d) = stack.pop() {
+        for e in std::fs::read_dir(&d).expect("readable").flatten() {
+            let p = e.path();
+            if p.is_dir() {
+                stack.push(p);
+            } else if std::fs::read_to_string(&p).is_ok_and(|s| s.contains("Ix::")) {
+                stale.push(
+                    p.strip_prefix(&root)
+                        .expect("under root")
+                        .to_string_lossy()
+                        .into_owned(),
+                );
             }
         }
     }
-    citing.sort();
+    stale.sort();
     assert_eq!(
-        citing,
+        stale,
         [
-            ".yidam/corpus/subsystem/interaction-resolver.yml",
             ".yidam/decisions/arrival-realizer.yml",
             ".yidam/decisions/two-components.yml",
             ".yidam/decisions/unread-state.yml",
             ".yidam/decisions/verb-menu.yml",
         ],
-        "files naming a method that cannot be called from outside its crate"
+        "records name the method they were written about; no corpus node does"
     );
 
+    let node = read(&root, ".yidam/corpus/subsystem/interaction-resolver.yml");
+    assert!(
+        flat(&node).contains("hand-writing `verb_menu::in_menu`"),
+        "the node names the component"
+    );
     for name in ["verb-menu", "interaction-resolver"] {
-        let node = read(&root, &format!(".yidam/corpus/subsystem/{name}.yml"));
+        let n = read(&root, &format!(".yidam/corpus/subsystem/{name}.yml"));
         assert!(
-            node.contains("crates/reachability/tests/"),
-            "{name} is verified against a fixture of the instrument"
+            n.contains(&format!("engine/{name}")),
+            "{name} says where it is built"
+        );
+        assert!(
+            n.contains("crates/reachability/tests/"),
+            "and keeps the fixtures its figures are verified against"
+        );
+    }
+}
+
+/// **One implementation, and the dependency runs instrument to engine.**
+///
+/// A checker with its own evaluator is two systems that can disagree. This corpus holds the case
+/// study — AGS ran a declarative layer and a scripting layer side by side — so the checker depends
+/// on the engine rather than carrying a copy. Held as a name check against the manifests and the
+/// search's own source; the behavioural evidence is that 158 fixtures passed unchanged through the
+/// move.
+#[test]
+fn the_checker_depends_on_the_engine_rather_than_repeating_it() {
+    let root = repo_root();
+    let manifest = read(&root, "crates/reachability/Cargo.toml");
+    for dep in ["verb-menu", "interaction-resolver"] {
+        assert!(
+            manifest.contains(&format!("{dep} = {{ path = \"../../engine/{dep}\" }}")),
+            "the checker depends on {dep}"
         );
     }
 
-    // and the gate still says nothing is built
-    let gate = read(&root, "crates/design-gate/tests/engine.rs");
+    let search = read(&root, "crates/reachability/src/lib.rs");
+    for gone in [
+        "fn offered",
+        "fn in_menu",
+        "fn live",
+        "fn apply",
+        "fn settle",
+        "fn holds",
+        "fn spends",
+    ] {
+        assert!(
+            !search.contains(gone),
+            "the search declares `{gone}` again, which is the second copy this split exists to \
+             prevent"
+        );
+    }
     assert!(
-        gate.contains("fn the_corpus_specifies_four_components_and_the_engine_has_none"),
-        "the pin that four are specified and none exists"
+        search.contains("resolver::apply(") && search.contains("verb_menu::in_menu("),
+        "and calls the components instead"
     );
-    assert!(
-        std::fs::read_dir(root.join("engine"))
-            .expect("the engine directory")
-            .flatten()
-            .all(|e| e.file_name() == "README.md"),
-        "and the directory holds its contract and nothing else"
-    );
-}
 
-/// **The gate asks a `Cargo.toml` for a doc comment.**
-///
-/// `modules()` takes every file under `engine/` but the README and requires a `realizes:` in its
-/// first ten lines. A crate is a manifest and its source, and a manifest has nowhere to put one —
-/// so the rule that was writable over an empty directory refuses the first thing the directory is
-/// for. Stated as a defect in the gate rather than worked around in the crate.
-#[test]
-fn the_gate_as_written_cannot_admit_a_crate() {
-    let root = repo_root();
-    let gate = read(&root, "crates/design-gate/tests/engine.rs");
-    assert!(
-        gate.contains("p != root.join(\"engine/README.md\")"),
-        "every file but the contract is a module"
-    );
-    let modules = gate
-        .split("fn modules(")
-        .nth(1)
-        .and_then(|t| t.split("\nfn ").next())
-        .expect("the function that decides what a module is");
-    assert!(
-        !modules.contains("extension"),
-        "and nothing in it distinguishes source from a manifest"
-    );
-    assert!(
-        gate.contains("a file under engine/ declaring no `realizes:` in its first ten lines"),
-        "so a manifest fails as an anonymous module"
-    );
+    // Nothing in `engine/` reads the corpus, which is the other half of the separation.
+    for c in ["verb-menu", "interaction-resolver"] {
+        let src = read(&root, &format!("engine/{c}/src/lib.rs"));
+        assert!(
+            !src.contains(".yidam/corpus/") || src.matches(".yidam/corpus/").count() == 0,
+            "an engine crate reading the corpus: {c}"
+        );
+    }
 }

@@ -180,21 +180,33 @@ tag, which is not a softening of the discipline but an exit from it — and it i
 relaxation than `design/`'s, because a proposal is still held to provenance and code is outside
 the scheme entirely. **The three tags cannot protect that directory.**
 
-**The rule it does not relax: a module may not invent a subsystem.** A file that implements one
-declares `realizes: subsystem/<name>` in its first ten lines — markdown front matter or a `//!`
-doc comment — and the gate fails when the corpus declares no such node. The ambiguity is
+**The rule it does not relax: a module may not invent a subsystem.** A *source* file — `.rs` or
+`.md` — declares `realizes: subsystem/<name>` in its first ten lines, as markdown front matter or
+a `//!` doc comment, and the gate fails when the corpus declares no such node. The ambiguity is
 deliberate and is `derives_effects_from:`'s: either the module is a component nothing has
 described, or the corpus is missing one the engine has just discovered it needs. Both are
-findings.
+findings. A manifest is not a module, and **a component may not invent a dependency** either: a
+cargo dependency between engine crates must be a `depends-on` edge in the corpus.
+
+**One crate per subsystem, named for the node**, so the directory listing is the roadmap.
+`engine/verb-menu` and `engine/interaction-resolver` are built; `path-solver` and
+`response-presenter` are not. It is a **second cargo workspace** — `crates/` is the instrument that
+reads the corpus, this is the artifact the corpus is about — and `crates/reachability` **depends on
+it**, which reads backwards and is right: the checker checks a language, and the language's
+semantics are the engine's. One implementation, so the two cannot disagree.
 
 ```
 mise run engine-check     # cargo test -p design-gate --test engine
+mise run engine-test      # cargo test --workspace --manifest-path engine/Cargo.toml
 ```
 
-[`engine/README.md`](engine/README.md) has the contract, the four subsystems the corpus specifies,
-and what the gate cannot catch.
-[`.yidam/decisions/engine-directory.yml`](.yidam/decisions/engine-directory.yml) is the record,
-including why `game-format` is still under `crates/` and the condition for moving it.
+[`engine/README.md`](engine/README.md) has the contract, what is built and what is not, and what
+the gate cannot catch.
+[`.yidam/decisions/engine-directory.yml`](.yidam/decisions/engine-directory.yml) is the record that
+created the directory, including why `game-format` is still under `crates/`;
+[`.yidam/decisions/two-components.yml`](.yidam/decisions/two-components.yml) is the one that filled
+it, including why the world and its state are in the format crate rather than here — **no subsystem
+in this corpus owns state.**
 
 ## Reading the corpus
 

@@ -16,7 +16,7 @@
 //! | when a binary verb's entry appears | [`arity-cost`] — keyed by the second object, so while carried |
 //! | whether a gated binding is in it | [`availability`] — `when` alone withholds, `when` with `else` shows and declines |
 //!
-//! `Ix::in_menu` is those three sentences. What had to be added was one bit the model was
+//! `verb_menu::in_menu` is those three sentences. What had to be added was one bit the model was
 //! throwing away: whether an `else` was written at all.
 //!
 //! [`tier-split`]: ../../../.yidam/decisions/tier-split.yml
@@ -198,7 +198,7 @@ fn the_search_reasons_about_half_of_what_the_interface_shows() {
 /// **A binding in no menu is a defect the corpus had no way to see, and it is an ordinary
 /// authoring mistake rather than a contrived one.**
 ///
-/// An acquisition site stops being a site once its object is taken — `Ix::live` says so, and
+/// An acquisition site stops being a site once its object is taken — `verb_menu::live` says so, and
 /// `hotspot/static-region` established why. So a response on that hotspot, gated on the flag the
 /// taking sets, can never be reached: by the time the guard holds, the shelf is gone.
 ///

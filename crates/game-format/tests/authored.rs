@@ -168,28 +168,56 @@ fn every_quoted_string_in_a_specimen_reaches_the_parse_tree() {
     assert_eq!((resp + labels) * 100 / chars, 52, "percent of the file");
 }
 
-/// **The search reads none of it, and that is checked rather than asserted.**
+/// **The search reads none of it, the components read all of it, and the seam is checked rather
+/// than asserted.**
 ///
-/// The position in `effect-list-semantics` is that presentation is separable from state. The
-/// cheap way to lose it is for something in the checker to start reading a line — a refusal
-/// changing a count, a label reaching a predicate — so the seam is held against the checker's own
-/// source.
+/// The position in `effect-list-semantics` is that presentation is separable from state. The cheap
+/// way to lose it is for something in the checker to start reading a line — a refusal changing a
+/// count, a label reaching a predicate — so the seam is held against source.
 ///
-/// It is a name check and says nothing about behaviour, which is the same limit `engine/README.md`
-/// states about its own gate. The behavioural evidence is the rest of the suite: 158 fixtures in
-/// `crates/reachability/tests` passed unchanged through the phase that filled these fields.
+/// It got sharper when the evaluator moved. There are three readers now and each takes a different
+/// half: `crates/reachability` searches the state graph and touches no text; `engine/verb-menu`
+/// reads the **labels**, because a menu has to say what it is pointing at;
+/// `engine/interaction-resolver` reads the **lines**, because saying them is what it is for.
+/// `.yidam/decisions/two-components.yml`.
+///
+/// A name check, saying nothing about behaviour — the same limit `engine/README.md` states about
+/// its own gate. The behavioural evidence is the rest of the suite: 158 fixtures in
+/// `crates/reachability/tests` passed unchanged through the phase that filled these fields, and
+/// again through the phase that moved the functions reading them into another workspace.
 #[test]
-fn the_search_reads_none_of_it() {
-    let search =
-        std::fs::read_to_string(root().join("crates/reachability/src/lib.rs")).expect("readable");
+fn the_search_reads_none_of_it_and_the_components_read_it() {
+    let read = |rel: &str| std::fs::read_to_string(root().join(rel)).expect("readable");
+
+    let search = read("crates/reachability/src/lib.rs");
     for field in [".says", ".refusals", ".labels", ".text", "Response"] {
         assert!(
             !search.contains(field),
-            "the reachability search reached for {field}, which is the seam this phase drew"
+            "the reachability search reached for {field}, which is the seam this holds"
         );
     }
-    // and it still reads the half that is state
-    assert!(search.contains("b.guards()") && search.contains("b.effects"));
+    assert!(
+        search.contains("b.effects") && search.contains("resolver::apply("),
+        "and it still reads the half that is state, through the component that owns it"
+    );
+
+    let menu = read("engine/verb-menu/src/lib.rs");
+    assert!(
+        menu.contains("w.game.label(target)")
+            && !menu.contains(".says")
+            && !menu.contains(".refusals"),
+        "the menu reads what a target is called and none of what it says"
+    );
+
+    let resolver = read("engine/interaction-resolver/src/lib.rs");
+    assert!(
+        resolver.contains("&b.says") && resolver.contains("&b.refusals"),
+        "and the resolver reads both response lists"
+    );
+    assert!(
+        !resolver.contains(".labels"),
+        "and not the labels, which are the menu's half"
+    );
 }
 
 /// **A binding the player can fire now carries what it says and what it refuses.**

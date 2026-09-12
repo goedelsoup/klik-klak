@@ -16,9 +16,11 @@ use std::fmt;
 
 mod parse;
 mod resolve;
+mod world;
 
 pub use parse::parse;
 pub use resolve::resolve;
+pub use world::{slot, State, World};
 
 // ── model ───────────────────────────────────────────────────────────────────
 

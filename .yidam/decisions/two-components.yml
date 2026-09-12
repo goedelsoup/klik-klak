@@ -102,6 +102,14 @@ rationale: |
   disagree about, or a second consumer outside this repository. A path that reads awkwardly is not
   that. [inference]
 
+  **This record cites no catalog entry and `subject.rs`'s run goes to one.** That check asks
+  whether a phase answered a question about adventure games or about this repository, and the
+  honest answer is the second: *where a component lives* is not a question any source about
+  adventure games answers. What keeps it from being the inward turn `inward-turn` measured is the
+  other half of the same check — **the gate-alone run stays at zero**, because this rests on the
+  engine crates rather than on the instrument that reads the corpus. It is code work about the
+  subject, which is the third evidence path and is the one that check was extended to see.
+
   **What this does not settle.** Where the world's state lives when there is a save to write.
   Putting `World` and `State` in the format crate is right for a value derived from declarations
   and says nothing about the component that owns one at runtime — and this corpus has no such

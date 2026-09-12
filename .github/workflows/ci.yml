@@ -189,6 +189,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       crates: ${{ steps.check.outputs.crates }}
+      engine: ${{ steps.check.outputs.engine }}
       packages: ${{ steps.check.outputs.packages }}
       web: ${{ steps.check.outputs.web }}
     steps:
@@ -196,6 +197,7 @@ jobs:
       - id: check
         run: |
           test -f crates/Cargo.toml     && echo "crates=true"   >> "$GITHUB_OUTPUT" || echo "crates=false"   >> "$GITHUB_OUTPUT"
+          test -f engine/Cargo.toml     && echo "engine=true"   >> "$GITHUB_OUTPUT" || echo "engine=false"   >> "$GITHUB_OUTPUT"
           test -f packages/pyproject.toml && echo "packages=true" >> "$GITHUB_OUTPUT" || echo "packages=false" >> "$GITHUB_OUTPUT"
           test -f web/package.json      && echo "web=true"      >> "$GITHUB_OUTPUT" || echo "web=false"      >> "$GITHUB_OUTPUT"
 
@@ -496,6 +498,35 @@ jobs:
       - run: cargo test --workspace
       # Doc links from a calculator to the corpus node that says what it is for
       # are load-bearing, and they break silently.
+      - run: cargo doc --no-deps --workspace
+        env:
+          RUSTDOCFLAGS: -D warnings
+
+  # The engine is a second workspace, and that is the decision rather than an accident:
+  # `crates/` is the instrument that reads the corpus and `engine/` is the artifact the
+  # corpus is about. `.yidam/decisions/two-components.yml`. It builds separately because
+  # they are separate; `crates/reachability` depends on it by path, so the job above
+  # compiles this code too — what this job adds is fmt, clippy and doc over it in its own
+  # right, which the other workspace's `--all-targets` does not reach.
+  engine:
+    name: engine
+    needs: detect
+    if: needs.detect.outputs.engine == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: engine
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: engine
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --all-targets -- -D warnings
+      - run: cargo test --workspace
       - run: cargo doc --no-deps --workspace
         env:
           RUSTDOCFLAGS: -D warnings

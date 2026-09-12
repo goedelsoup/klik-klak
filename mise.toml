@@ -139,6 +139,29 @@ if [ ! -f crates/Cargo.toml ]; then echo "no crates/Cargo.toml yet — skipping"
 cargo fmt --all --manifest-path crates/Cargo.toml
 """
 
+# ── engine/ ───────────────────────────────────────────────────────────────
+# A second workspace, and that is the decision rather than an accident: `crates/`
+# is the instrument that reads the corpus and `engine/` is the artifact the corpus
+# is about. One crate per subsystem, named for the node.
+# `.yidam/decisions/two-components.yml`.
+#
+# `crates/reachability` depends on these by path, so `mise run test` compiles them
+# already. What these add is fmt, clippy and test over the engine in its own right.
+
+[tasks.engine-build]
+description = "Build the engine (engine/ workspace). No-op until engine/Cargo.toml exists."
+run = """
+if [ ! -f engine/Cargo.toml ]; then echo "no engine/Cargo.toml yet — skipping"; exit 0; fi
+cargo build --workspace --manifest-path engine/Cargo.toml
+"""
+
+[tasks.engine-test]
+description = "Run engine tests. No-op until engine/Cargo.toml exists."
+run = """
+if [ ! -f engine/Cargo.toml ]; then echo "no engine/Cargo.toml yet — skipping"; exit 0; fi
+cargo test --workspace --manifest-path engine/Cargo.toml
+"""
+
 # ── design/ ───────────────────────────────────────────────────────────────
 # The gate for the design directory. `directories.md` asks a new top-level
 # directory for a gate, and "if what it holds derives from the corpus, the gate
@@ -205,4 +228,8 @@ cargo clippy --workspace --all-targets --manifest-path crates/Cargo.toml -- -D w
 # `design-gate` runs here: the gate for design/ is a test now, so `cargo test` is the
 # whole of it and there is no separate step to forget.
 cargo test --workspace --manifest-path crates/Cargo.toml
+if [ ! -f engine/Cargo.toml ]; then exit 0; fi
+cargo fmt --all --manifest-path engine/Cargo.toml -- --check
+cargo clippy --workspace --all-targets --manifest-path engine/Cargo.toml -- -D warnings
+cargo test --workspace --manifest-path engine/Cargo.toml
 """

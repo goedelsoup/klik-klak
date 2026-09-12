@@ -14,7 +14,24 @@ name = "game-format"
 version = "0.1.0"
 
 [[package]]
+name = "interaction-resolver"
+version = "0.1.0"
+dependencies = [
+ "game-format",
+ "verb-menu",
+]
+
+[[package]]
 name = "reachability"
+version = "0.1.0"
+dependencies = [
+ "game-format",
+ "interaction-resolver",
+ "verb-menu",
+]
+
+[[package]]
+name = "verb-menu"
 version = "0.1.0"
 dependencies = [
  "game-format",
