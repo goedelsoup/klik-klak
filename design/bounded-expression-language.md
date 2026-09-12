@@ -205,14 +205,64 @@ reading engine documentation, and
 [`cutscene/scripted-sequence`](../.yidam/corpus/cutscene/scripted-sequence.yml), assessed against
 a specimen — arrived at the same missing site by different routes.
 
-There is a second site now:
+There is a second site now, and **this block is the model rather than the syntax** — it says where
+a binding hangs, not what an author types:
 
 ```
 site    :=  verb target [ object ]        -- what the player did
          |  'on-enter' room               -- where the player got to
-
-decl    :=  'exit' name 'to' room         -- an edge between two rooms
 ```
+
+Read as syntax it is wrong in both alternatives and was, for as long as it has stood. `look-at door`
+is *"`door` is not part of `look-at`"* and `on-enter hall` is *"`hall` is not part of `on-enter`"*: a
+binding's target comes from the `hotspot` or `actor` line above it and its room from the enclosing
+`room` section, and only `use-with` writes an operand of its own. Nothing is missing from the
+language — the same three sites all parse, written the way the reader takes them — and nothing had
+ever held the block against the thing that reads the file. `.yidam/decisions/line-format.yml`.
+
+**What an author writes is below, and it is a table rather than a grammar.** The predicate layer in
+section 2 nests — `unary := 'not' unary | atom` has no bound on depth — and that is what BNF is for.
+A declaration does not nest at all, so BNF for it is twenty productions of one alternative apiece.
+These twenty rows are `game_format::FORMS`, they are the text of the reader's own error messages,
+and `crates/game-format/tests/forms.rs` holds this block equal to them:
+
+```
+room <name> "<label>"                                   -- declare a room
+room <name>                                             -- open its section
+actor <name> "<label>"                                  -- declare an actor
+actor <name>                                            -- site a binding on one
+item <name> [<lo>..<hi>] ["<label>"]
+flag <name> [latched] [in <conversation>] ["<label>"]
+counter <name> <lo>..<hi> ["<label>"]
+conversation <name> with <actor> ["<label>"]
+hotspot <name> ["<label>"]
+option <name> ["<line>"]
+start                                                   -- the room the player begins in
+holds <actor>                                           -- where an actor begins
+exit <name> to <room>                                   -- an edge between two rooms
+on-enter                                                -- the forced site, below
+is <item>                                               -- this hotspot stands for that item
+look-at
+pick-up
+talk-to
+walk-to
+use-with [<item>]
+```
+
+Two things the table says that nothing said before. **The quoted label is optional at six of them
+and is the discriminator at two**: `room hall` is a section and `room hall "The Hall"` is a
+declaration, while `hotspot gate` is the same construct as `hotspot gate "a gate"` with nothing to
+show in a menu. The optionality is not a courtesy — `exit` expands into a hotspot declared with no
+label at all, and the writer in `print.rs` writes that expansion back out as a bare `hotspot door`,
+so a reader that demanded labels could not read this crate's own output.
+
+And **a construct with no slot for a quoted string refuses one**. `start "x"` and `look-at: "x"` and
+four others used to take it and drop it without a word; that is `.yidam/decisions/parser-silence.yml`'s
+rule — a construct accounts for its line — reaching the half of the line that phase's mutation
+deliberately stayed clear of.
+
+The binding body is not in the table and is not a line format: `when` carries a predicate, which is
+the recursive half, and `else when` chains.
 
 An `on-enter` binding is **forced**. The player is not offered it; it fires on arrival. That makes
 the state it fires from *transient* — nobody rests there — which is a property no other binding

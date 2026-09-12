@@ -138,52 +138,35 @@ fn nothing_on_a_line_goes_unread() {
     }
 }
 
-/// **Sixteen constructs, each stating the form it reads.**
+/// **Sixteen constructs, each stating the form it reads — and none of them stating it here.**
 ///
-/// Pinned as a list rather than a count, because the list is the format's declaration half
-/// written down — there is no grammar document for it, and
-/// `design/bounded-expression-language.md` specifies the expression half that already worked.
-/// `.yidam/decisions/parser-silence.yml` left that gap open deliberately; this is the nearest
-/// thing to a specification the repository has, and a reader meeting it should meet all of it.
+/// This check used to be the specification. It pinned the six `const FORM` literals and the six
+/// inline ones as a list, *"because the list is the format's declaration half written down — there
+/// is no grammar document for it"*, and that was true when it was written.
+///
+/// There is one now. `game_format::FORMS` holds all twenty rows, the reader reads its error text
+/// out of them, `design/bounded-expression-language.md` quotes them and
+/// `crates/game-format/tests/forms.rs` holds the three together. So the list moved out of this file
+/// and what is left here is the half that is about `parse.rs` rather than about the format: that
+/// operands are read through the helper rather than by indexing, and that the indexing left over
+/// cannot outrun its length check. `.yidam/decisions/line-format.yml`.
 #[test]
 fn every_construct_states_the_form_it_reads() {
     let src = include_str!("../src/parse.rs");
 
-    // the six forms named twice in a branch, and so written once
-    let mut declared: Vec<&str> = src
-        .match_indices("const FORM: &str = \"")
-        .map(|(i, _)| {
-            let rest = &src[i + 20..];
-            &rest[..rest.find("\";").expect("the end of the literal")]
-        })
-        .collect();
-    declared.sort();
-    assert_eq!(
-        declared,
-        [
-            "actor <name> \\\"<label>\\\"",
-            "counter <name> <lo>..<hi> \\\"<label>\\\"",
-            "flag <name> [latched] [in <conversation>] \\\"<label>\\\"",
-            "hotspot <name> \\\"<label>\\\"",
-            "item <name> [<lo>..<hi>] \\\"<label>\\\"",
-            "option <name> \\\"<line>\\\"",
-        ],
-        "the forms a branch names twice"
+    // No form is written here any more: they live in `forms.rs` and the reader looks them up.
+    assert!(
+        !src.contains("const FORM: &str"),
+        "a branch names its own form, which is a second copy of the specification"
     );
-
-    // and the ones written inline, at a branch that names its form once
-    for form in [
-        "room <name>",
-        "conversation <name> with <actor>",
-        "use-with [<item>]",
-        "holds <actor>",
-        "is <item>",
-        "exit <name> to <room>",
-    ] {
-        assert!(
-            src.contains(&format!("\"{form}\"")),
-            "no branch states the form `{form}`"
-        );
+    for row in game_format::FORMS {
+        if row.written != row.keyword {
+            assert!(
+                !src.contains(&format!("\"{}\"", row.written)),
+                "the reader writes the form `{}` as a literal",
+                row.written
+            );
+        }
     }
 
     // every construct that reads an operand goes through the helper rather than indexing
@@ -293,10 +276,11 @@ fn the_reader_states_the_rule_it_does_not_keep() {
         ),
         "the rule"
     );
-    // and the one place it is kept by an explicit check
+    // and the one place it is kept by an explicit check. The message it raises used to be a
+    // literal here and is read out of `forms.rs` now, so what this can still hold is the check
+    // itself and the fact that its text comes from the table.
     assert!(
-        src.contains("if t.len() != 2 {")
-            && src.contains("a room declaration is `room <name> \\\"<label>\\\"`"),
+        src.contains("if t.len() != 2 {") && src.contains("a room declaration is `{}`"),
         "the one arity check in the file"
     );
 }

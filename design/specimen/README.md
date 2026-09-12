@@ -1,7 +1,7 @@
 ---
 title: what the specimens found
 status: proposal
-reconciled: e4499308b304baa2fb23c72d61f6cfdb2c4ce112
+reconciled: 33319345f8425f338b4c4e9aa9e79d2d658ca872
 rests_on:
   - design/bounded-expression-language.md
   - design/specimen/lighthouse.game
@@ -231,12 +231,25 @@ running rather than by reasoning.
 
 ## Grammar coverage
 
+**The heading is half right now and the premise is why.** `bounded-expression-language.md` used to
+specify one thing in one notation; it specifies two, in two, because the two halves of this format
+are not the same kind of object. The predicate layer has a grammar — it nests, and `unary := 'not'
+unary | atom` has no bound on depth. The declaration half has a **table** of twenty written line
+forms, because a declaration does not nest and BNF for it is twenty productions of one alternative
+apiece. `.yidam/decisions/line-format.yml`.
+
+The count below spans both and is unaffected: fifty constructs is fifty keywords, effects,
+comparisons and predicate atoms, and which document specifies each was never what it measured. What
+the split does change is the sentence at the end of this paragraph. Grouping parentheses are in the
+grammar — `atom := '(' pred ')'` — and are not in the fifty, which is the distinction it was
+reaching for and did not have the words for.
+
 Unexercised across all four games: **`!=`, `<=`, `>`, `clear-flag`, `exit`, `or`** — six of the
 fifty constructs the surface declares, counted rather than listed. [verified] —
 `crates/game-format/tests/coverage.rs`. `count` is no longer on the list; `clear-flag` and `exit`
 were not on it when it was written at two games, and `exit` is the one worth a second look,
 [below](#the-verb-vocabulary). Grouping parentheses came off by being counted: the check reads
-constructs the grammar declares, and they are not one.
+constructs the surface declares, and punctuation is not one.
 
 **The proposal's own first open item is settled and this is half of what settled it.** Section 5
 called the surface abstract and forwarded a reader to
@@ -325,7 +338,7 @@ artifact they compose into. Noted rather than proposed — and noted more carefu
 
 ## Using them as fixtures
 
-**198 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
+**202 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
 thirty-eight for six phases; the figure was never derived from anything and is held by a check now
 (`crates/design-gate/tests/watermark.rs`).
 
