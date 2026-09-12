@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 84, "every record, in the order it was created");
+    assert_eq!(all.len(), 85, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,12 +186,12 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (43, 45, 34),
+        (43, 45, 35),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
         (alone, neither),
-        (15, 11),
+        (16, 11),
         "resting on the gate and nothing else, and resting on no evidence path at all"
     );
 }
@@ -299,6 +299,16 @@ fn the_evidence_each_record_rests_on() {
 /// opened. Nothing says what an opened document was not looked at for, and the run cannot tell a
 /// retrieval from a re-reading.
 ///
+/// **`retraction-reach` puts it back to one and the record says why.** How a corpus keeps a marker
+/// true when the record that corrects it lives somewhere no tool walks is a question about this
+/// artifact's practice, and no source about SCI, AGS or SCUMM answers it. It reads a catalog entry
+/// to build a table of what has been read and rests no claim about adventure games on it, which is
+/// the distinction this check cannot draw and the record has to.
+///
+/// **And what clears it is named in advance for the second time.** The marker that phase corrected
+/// asks for an SCI1-era artifact and nobody holds one, so the phase that goes and gets it is a
+/// retrieval. If the run reaches two, that sentence was wrong.
+///
 /// Two phases on the same tooling, one with a document and one without, is the distinction this
 /// check was built to make visible. A phase that touches no source and knows it is not the same
 /// as one that should have opened a source and did not, and the only thing that tells them apart
@@ -318,7 +328,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (0, 0),
+        (1, 1),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }

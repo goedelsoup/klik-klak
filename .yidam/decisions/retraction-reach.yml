@@ -1,0 +1,109 @@
+id: retraction-reach
+summary: >-
+  **A correction was written into the record and never reached the node, and the node is the copy
+  every tool reads.** `prior-art/sierra-sci`'s marker names a document as the unread thing that
+  would settle its question; that document was read two phases ago and is two years too early. The
+  node contradicts itself ninety lines apart. The rule is narrow — a marker may not name a document
+  the catalog records as read — and it is possible only because `resolver-kind` made a marker say
+  what would close it.
+context: |
+  [class-library](class-library.yml) found that `input-side`'s marker had named the wrong artifact:
+  *Script Classes for Adventure Games* is Jeff Stephenson, 5 April 1988, and SCI1's icon bar shipped
+  in 1990. That phase wrote the correction into [input-side](input-side.yml), rewrote its resolver
+  to *"an **SCI1-era** artifact"*, and built `crates/design-gate/tests/retrieval.rs` to hold the
+  record to it.
+
+  **The corpus node was not touched.** `prior-art/sierra-sci.yml`'s `source_standing` still reads:
+
+  > *Script Classes for Adventure Games* is in the retrieved set, **unread**, and is where a verb
+  > bar would be declared if Sierra declared one. `[open]`
+
+  Ninety lines above it, the same node's `description` quotes that document at length, dates it,
+  names thirty-one classes out of it and cites the record that refuted the marker. **Both halves
+  are in one file and they disagree.**
+decision: |
+  **1. The node is corrected and the record is not the authority.** The marker names what
+  `input-side` names — an SCI1-era system script or a shipped 1990 title's own `Game` and `User`
+  subclasses — and says that the document it used to name has been read and is too early.
+  [verified] — `crates/design-gate/tests/retrieval.rs`.
+
+  **2. The asymmetry that produced this is structural and worth naming.** A phase is *about* its
+  record: the record is where the argument goes, where the reviewer looks, and what the settling
+  commit is named after. The node is a line the phase edited on the way past.
+
+  **And the node is the copy that gets read.** `yidam open-questions`, `status` and `due` walk
+  `.yidam/corpus/` and nothing else — [marker-count](marker-count.yml) established that, from the
+  other side, when it found 56 of 63 live questions sitting where no command looks. This is the
+  same fact doing the opposite damage: **the directory nothing walks is also the directory every
+  correction gets written into.** [inference]
+
+  **3. The rule: a marker may not name a document the catalog records as having been read.**
+  [verified] — `crates/design-gate/tests/retrieval.rs`, where the list of read documents is a
+  declared table and the first check is that the catalog says each of them, in the four spellings
+  it uses.
+
+  It is narrow on purpose, like the date check it sits beside. **It cannot know whether a named
+  document answers a question** — nothing can, short of reading it, which is a phase and not a
+  gate. What it knows is the one thing that makes a resolver impossible rather than merely
+  optimistic: that the artifact is already in the house.
+
+  Two of ten catalog entries have a list of documents at all. Every other source here is one
+  document retrieved whole, and there is nothing for a marker to name a part of.
+
+  **4. It is the third occurrence of a shape that has been named and never checked.**
+  [stale-markers](stale-markers.yml) swept twenty-nine markers, retired six, and wrote the
+  diagnosis: *"An open question is a claim and gets none of the treatment a claim gets here…
+  Nothing anywhere notices that a question has been answered."* It built no check.
+  [marker-count](marker-count.yml) built one for the **token** — a retraction does not re-emit it —
+  and said in as many words that it *"cannot notice that a question has been answered"*.
+
+  **What changed is that a marker now has content to be wrong about.**
+  [resolver-kind](resolver-kind.yml) added the second half of the convention — the question says
+  what would close it — and the cost of that convention was stated there as the argument for it:
+  *"the cost of naming a resolver is that it can be wrong, and that is the argument for it."* This
+  is the first time the cost has been paid in the corpus rather than in a record, and the first
+  time anything could have caught it.
+
+  **5. The error ran in the flattering direction, for the second time on the same sentence.**
+  `class-library` recorded that a question with a named resolver *"reads as nearly answered"*. This
+  one read as nearly answered **and cheap**: a document already retrieved, merely unread, needing
+  nobody to go anywhere. It sat that way for two phases while the document sat read.
+
+  **6. The classification survives and the artifact changes.** `resolvers.rs` puts this question in
+  the **retrieval** column, and that is still right: what would close it is a named artifact nobody
+  holds. What was wrong was which one, and the table read the record to find out.
+
+  **What this does not settle.** Whether the corpus or the record is the authority anywhere other
+  than a marker. Nothing checks that a node and the record that argued about it agree on anything
+  else, and the two copies have been drifting in whichever direction each phase was looking. What
+  would close it is **a measurement**: how often, across 44 nodes and 85 records, a record's summary
+  and the node's prose disagree about a fact either could state. Nobody has counted, and the
+  material is entirely in this repository. `[open]`
+rationale: |
+  **The finding is not that a marker was stale. It is that the correction existed and had somewhere
+  else to be.** A stale marker nobody has revisited is an ordinary backlog. This one was revisited,
+  by a phase whose whole subject was that the marker was wrong, which wrote the right sentence
+  down — and the sentence went into the file the phase was writing rather than the file the
+  question lives in.
+
+  That is why a check is worth more here than another sweep. `stale-markers` swept and found six;
+  `marker-count` swept again and found five more, *"which is what a diagnosis without a check
+  predicts"*. A third sweep would find this one and a fourth would find the next. [inference]
+
+  **The check is possible because a convention made the corpus wrong-able**, and that ordering is
+  the general point. A marker reading only *this is open* cannot be checked against anything: there
+  is no proposition in it. `resolver-kind` put a proposition in it — *this artifact would close
+  this* — and propositions can be held against a catalog. **A convention that makes writing harder
+  made checking possible**, which is the same trade `.yidam/corpus/README.md`'s claim tags make and
+  had not been observed twice.
+
+  **This is a phase about this repository and not about adventure games, and it rests on the gate
+  alone.** `crates/design-gate/tests/subject.rs` will read it that way and should: how a corpus
+  keeps a marker true when the record that corrects it lives elsewhere is a question about this
+  artifact's practice, and no source about SCI, AGS or SCUMM answers it. The nearest thing declined
+  is the catalog entry the marker names — this record reads it to build the table and does not rest
+  a claim about adventure games on it.
+
+  **And what clears the run is already scheduled.** The corrected marker names an SCI1-era artifact
+  and nobody holds one; the phase that goes and gets it is a retrieval, which is the other thing
+  `resolver-kind`'s table still has somebody able to do. [inference]

@@ -94,7 +94,7 @@ fn no_retraction_re_emits_the_token() {
     );
 }
 
-/// **Eight live questions, one to a node**, which is what the tool reports because the bytes and
+/// **Seven live questions, one to a node**, which is what the tool reports because the bytes and
 /// the prose agree.
 ///
 /// Three of them are the same kind and say so: `prior-art/ags`, `acquisition-binding` and
@@ -121,8 +121,19 @@ fn no_retraction_re_emits_the_token() {
 /// characters, answered by writing the game that asks it. `declared-reach` closed one before it, so
 /// this is the second closure and the first of a question that was here from the beginning. The
 /// list is shorter by its oldest member, which no other movement in this figure has ever been.
+///
+/// **And seven, one phase later, which has never happened twice running.** `adjacency` closed
+/// `walkbox/scaled-polygon`'s with a measurement. Both closures were of questions
+/// `.yidam/decisions/resolver-kind.yml` had sorted by what would close them, and both resolvers
+/// were things somebody could go and do — so sorting the list turned it into a queue, which is the
+/// classification stated as an outcome rather than as a hope.
+///
+/// **The headline on this test said eight while the list below held seven**, for one phase, which
+/// is the defect `.yidam/decisions/retraction-reach.yml` is about arriving in the file that checks
+/// for it. A figure in a sentence and a figure in an assertion are two copies, and only one of them
+/// fails.
 #[test]
-fn the_corpus_carries_eight_questions_and_the_count_is_the_token_count() {
+fn the_corpus_carries_seven_questions_and_the_count_is_the_token_count() {
     let root = repo_root();
     let mut open: Vec<String> = Vec::new();
     for p in yml(&root.join(".yidam/corpus")) {
@@ -158,9 +169,10 @@ fn the_corpus_carries_eight_questions_and_the_count_is_the_token_count() {
 
 /// **Three quarters of what this corpus still owes is invisible to every tool it has.**
 ///
-/// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds 9 live
-/// markers again — it held eight between `declared-reach` and `input-side`, said nine while it did,
-/// and is eight once more now that `control-transfer` has closed the genesis question; the decision records hold **42 across 38 files**, and they are counted as zero — by
+/// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds **7 live
+/// markers** — it has held nine, eight and seven in four phases, and the two falls were closures
+/// rather than the drift this file has otherwise tracked; the decision records hold **57 across 51
+/// files**, and they are counted as zero — by
 /// `status`, by `due`, by the index, by everything. There was a third place and this file could
 /// not see it either: twelve more sat on the class pages in a spelling nothing reads, which
 /// `crates/design-gate/tests/pages.rs` now holds at zero. The migration happened quietly: as questions
@@ -181,10 +193,10 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (7, 56, 50));
+    assert_eq!((corpus, decisions, records), (7, 57, 51));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        11,
+        10,
         "under an eighth is visible"
     );
 
