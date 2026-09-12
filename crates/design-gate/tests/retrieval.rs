@@ -245,37 +245,53 @@ fn the_table_of_read_documents_is_the_catalogs() {
     }
 }
 
-/// **CENSUS. A marker calls a document unread that the catalog read a phase later, and the node
-/// carrying it quotes that same document at length ninety lines above.**
+/// **A marker may name a document the catalog has read, and must then say so.**
 ///
-/// `prior-art/sierra-sci`'s `source_standing` still reads: *"Script Classes for Adventure Games is
-/// in the retrieved set, **unread**, and is where a verb bar would be declared if Sierra declared
-/// one."* `class-library` read that document in full, dated it 5 April 1988, and established that
-/// it is two years too early to answer the question — and that node's own `description` says so.
+/// This was a census one commit ago and pinned the defect. `prior-art/sierra-sci`'s
+/// `source_standing` read *"Script Classes for Adventure Games is in the retrieved set,
+/// **unread**, and is where a verb bar would be declared if Sierra declared one"* — while ninety
+/// lines above it, the same node quoted that document at length, dated it 5 April 1988, and cited
+/// the record that had refuted the marker two phases earlier.
 ///
-/// **The correction went into the record and stopped there.** `.yidam/decisions/input-side.yml`
-/// carries it, `crates/design-gate/tests/retrieval.rs` checks that it does, and
-/// `crates/design-gate/tests/resolvers.rs` classifies this question as waiting on a **retrieval**
-/// on the strength of the record's wording — while the node names an artifact that is already in
-/// the house.
+/// **The rule is not that a marker may not name a read document.** Quoting what you correct is this
+/// repository's standing practice and the corrected marker names it again, in order to say it was
+/// the wrong one. What a marker may not do is name a document the catalog has read **and call it
+/// unread**, because that sentence is not stale — it is false against a file in the same
+/// directory, and it makes the question look cheap.
 ///
-/// This is the shape `.yidam/decisions/stale-markers.yml` diagnosed and built no check for —
-/// *"the prose was updated and the marker was not"* — on its third occurrence, and the first where
-/// a check is possible: it is possible because `resolver-kind` made a marker say what would close
-/// it, which is what gave the sentence something to be wrong about.
+/// Narrow on purpose, like the date check above. It cannot know whether a named document answers a
+/// question; nothing can, short of reading it, which is a phase and not a gate. What it knows is
+/// that the artifact is already in the house.
+///
+/// The shape is `.yidam/decisions/stale-markers.yml`'s — *"the prose was updated and the marker was
+/// not"* — on its third occurrence, and the first where a check was possible at all. It is possible
+/// because `resolver-kind` made a marker say what would close it, which is what gave the sentence
+/// something to be wrong about. `.yidam/decisions/retraction-reach.yml`.
 #[test]
-fn a_marker_names_a_document_the_catalog_has_already_read() {
+fn a_marker_naming_a_read_document_says_it_has_been_read() {
     let root = repo_root();
     let read_titles: Vec<&str> = READ.iter().flat_map(|(_, t)| t.iter().copied()).collect();
 
     let mut naming: Vec<(String, &str)> = Vec::new();
     for (node, para) in marker_paragraphs(&root) {
         for t in &read_titles {
-            if para.contains(t) {
-                naming.push((node.clone(), t));
+            if !para.contains(t) {
+                continue;
             }
+            naming.push((node.clone(), t));
+            assert!(
+                WAS_READ.iter().any(|w| para.contains(w)),
+                "{node}'s marker names {t:?} and does not say it has been read"
+            );
+            assert!(
+                !para.contains("unread") && !para.contains("has not been read"),
+                "{node}'s marker names {t:?} and calls it unread, which is false against \
+                 the catalog entry the node cites"
+            );
         }
     }
+    // One marker names one, which is the instance the rule was written for. A second would be
+    // governed without anything moving here; zero would make this vacuous, and it is not.
     assert_eq!(
         naming,
         [(
@@ -284,42 +300,42 @@ fn a_marker_names_a_document_the_catalog_has_already_read() {
         )],
         "markers naming a document the catalog records as read"
     );
-
-    // And it says the thing that makes it a contradiction rather than a stale pointer.
-    let node = flat(&read(&root, ".yidam/corpus/prior-art/sierra-sci.yml"));
-    assert!(
-        node.contains("is in the retrieved set, unread"),
-        "the marker no longer calls it unread, which is the half that makes this wrong"
-    );
-    // In the same file, read and dated and used for a finding.
-    assert!(
-        node.contains("Jeff Stephenson, 5 April 1988")
-            && node.contains("Thirty-one classes follow"),
-        "and the node no longer quotes the document it calls unread"
-    );
 }
 
-/// **CENSUS. The node and the record disagree about what would close the question.**
+/// A question, the record that owns it, and the phrase both must carry about what would close it.
 ///
-/// `input-side.yml` says *"What would settle it is an **SCI1-era** artifact: a system script from
-/// 1990 or later, or a shipped title's own `Game` and `User` subclasses."* The node says a document
-/// that was retrieved in the same phase that wrote the record and read in the phase after it.
-///
-/// The record is the copy that gets edited, because a phase is *about* its record. The node is the
-/// copy that gets read — by `yidam open-questions`, by `status`, by `due`, and by anybody following
-/// the corpus rather than the history. **The wrong one of the two has been right for two phases.**
-#[test]
-fn the_node_and_the_record_disagree_about_what_would_close_it() {
-    let root = repo_root();
-    let node = flat(&read(&root, ".yidam/corpus/prior-art/sierra-sci.yml"));
-    let record = flat(&read(&root, ".yidam/decisions/input-side.yml"));
+/// Hand-written, because which record owns a question is not a thing a string search settles. One
+/// row, and it is the row this rule was built from.
+const AGREES: &[(&str, &str, &str)] = &[(
+    ".yidam/corpus/prior-art/sierra-sci.yml",
+    ".yidam/decisions/input-side.yml",
+    "SCI1-era",
+)];
 
-    assert!(
-        record.contains("What would settle it is an **SCI1-era** artifact"),
-        "the record no longer names the resolver"
-    );
-    assert!(
-        !node.contains("SCI1-era"),
-        "the node has been brought into line, which is what this census is waiting to become"
-    );
+/// **The node and the record say the same thing about what would close the question.**
+///
+/// A census one commit ago: `input-side.yml` said *"What would settle it is an **SCI1-era**
+/// artifact"* and the node said a document that had been read. **The record is the copy that gets
+/// edited**, because a phase is about its record. **The node is the copy that gets read** — by
+/// `yidam open-questions`, by `status`, by `due`, and by anybody following the corpus rather than
+/// the history. For two phases the wrong one of the two was right.
+///
+/// `.yidam/decisions/marker-count.yml` found the same fact doing the opposite damage: 56 of 63 live
+/// questions sit where no command walks. The directory nothing reads is also the directory every
+/// correction gets written into.
+#[test]
+fn the_node_and_the_record_agree_about_what_would_close_it() {
+    let root = repo_root();
+    for (node, record, phrase) in AGREES {
+        let n = flat(&read(&root, node));
+        let r = flat(&read(&root, record));
+        assert!(
+            r.contains(phrase),
+            "{record} no longer names the resolver ({phrase:?})"
+        );
+        assert!(
+            n.contains(phrase),
+            "{node} does not say what {record} says would close its question ({phrase:?})"
+        );
+    }
 }

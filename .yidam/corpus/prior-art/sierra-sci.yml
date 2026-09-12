@@ -181,8 +181,17 @@ properties:
     — `crates/design-gate/tests/lineage.rs` is the rule that was missing.
 
     **Whether SCI1's icon bar was a game script or an engine feature is answerable and unanswered.**
-    *Script Classes for Adventure Games* is in the retrieved set, unread, and is where a verb bar
-    would be declared if Sierra declared one. `[open]`
+    This marker named *Script Classes for Adventure Games* as the document that would settle it, and
+    named it wrongly: that document is Jeff Stephenson, **5 April 1988**, two years before SCI1
+    shipped, and it was read in full a phase later
+    ([class-library](../../decisions/class-library.yml)). Thirty-one classes, no verb interface
+    among them, and nothing that could say whether an interface built two years afterward was the
+    engine's. **What would settle it is an SCI1-era artifact**: a system script from 1990 or later,
+    or a shipped title's own `Game` and `User` subclasses. Neither is retrieved. `[open]`
+
+    The sentence it replaces stood for two phases after the reading that refuted it, because the
+    correction was written into the record and the record is not what any tool walks
+    ([retraction-reach](../../decisions/retraction-reach.yml)).
 links:
   - target: ../verb/look-at.yml
     relationship: implements
