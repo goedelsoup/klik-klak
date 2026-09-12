@@ -23,6 +23,7 @@ used-by:
   - ../corpus/world-flag/latched-flag.yml
   - ../corpus/failure-mode/unwinnable-state.yml
   - ../corpus/verb/give-to.yml
+  - ../corpus/actor/player-character.yml
 ---
 
 **A source of record, and the closest one this corpus will ever get to its own question.**
@@ -43,6 +44,9 @@ for engineers — code appears as illustration, never as specification, so a cla
 engine could *not* do is `[inference]` unless the text says so.
 
 ## What was read — 2026-09-10, twenty-two posts of 258
+
+One of them was read a second time, two days later and for a different question; that reading is
+its own section below.
 
 The retrieval was aimed at one question: **what authoring surface did they build?**
 
@@ -91,6 +95,45 @@ with a count, a state change at zero, and one verb slot calling another. `codemo
 (Jenn Sandercock, 11 Jan 2016) has the same shape reached from the other end: a shared
 `sewerValveSetup(this)` helper in `SewerHelpers.nut`, written because the alternative was
 copy-paste across dozens of rooms.
+
+## A second reading of one post — 2026-09-12
+
+**`switching_and_inventory.html` was read in the first retrieval for the shape of an object and
+not for either thing in its title.** It was opened again for
+[actor/player-character](../corpus/actor/player-character.yml)'s question, which is the oldest in
+this corpus, and it answers it directly.
+
+**Switching.** The player changes character with the number keys **1 to 5**, and Gilbert confirms
+"those will work in the final game as well". The interface for it did not exist: *"There is no UI
+for the character switching yet, and we don't know exactly how we're going to do it, but it's
+completely functional."* [verified] An icon in the upper corner that pops down a list of the
+others is what they were considering.
+
+**And the reason the obvious answer was refused is a budget.** *"Maniac Mansion had a New Kid verb
+that displayed a list of the kids... We don't have the space for another verb."* [verified] So the
+two games that shipped this, thirty years apart and by the same designers, put control transfer in
+two different places — the verb bar and the keyboard — and **neither made it a binding on a
+target**, which is the form
+[control-transfer](../decisions/control-transfer.yml) found this format has nowhere to put.
+
+**Per-character inventory.** Characters have individual inventories and what is picked up goes
+into the active one. Asked whether the GIVE verb exists and whether transfers of items between
+characters are necessary for puzzle solutions, Gilbert answers **"Yes to both questions"**.
+[verified] That is a shipped game reporting the hand-off as load-bearing, and it is the thing
+this format cannot express at all: an item here has three states and none of them is *in somebody
+else's hands*.
+
+`currentActor` appears in this entry's own first code sample — `currentActor.say("It's who
+cares'o clock.")` — and is the mechanism for all of it: not a value an author sets and reads but a
+**parameter every primitive is threaded through**, so `say`, `pickup` and the inventory panel all
+mean *the character whose turn it is* without any author writing which. Reading it that way is a
+reading rather than a quotation [inference]; the posts show its uses and never classify it.
+
+**The lesson for this entry is about readings rather than about the source.** A post can be read,
+recorded as read, and still hold the answer to a question asked later — because a retrieval is
+aimed, and this one was aimed at *what authoring surface did they build?* The unread list below
+says which posts nobody has opened. Nothing says what an opened post was not looked at for, and
+this is the first instance of that mattering. `.yidam/decisions/control-transfer.yml`.
 
 **The room file, which is a different thing.** `tool_names.html` (14 Mar 2015) and `wimpy.html`
 (16 Mar 2015) describe **Wimpy**, the successor to SCUMM's FLEM: a standalone editor that reads
@@ -146,6 +189,13 @@ published artifact was produced so that they cannot be counted. That closes off 
 **No enumeration of the verb set.** Six are named in passing and the corpus should not infer the
 rest from the screenshots, which is what the "verb counts" trap in
 [wikipedia-scumm](wikipedia-scumm.md) already cost once.
+
+**Nothing on the cost of five playable characters.** The switching post says it works and says
+the UI is undecided; no post read here says what having five cost the *authoring* — whether a
+room's bindings had to ask which character was present, whether puzzles were harder to chart, or
+whether the per-character inventories needed anything of an author at all. That is the half
+[control-transfer](../decisions/control-transfer.yml) measured in this corpus's own language and
+could not check against a shipped game.
 
 **No statement that anything was impossible.** The posts describe what was built. Nowhere does
 anyone say a declarative layer was considered and rejected — Gilbert costs writing a *scripting

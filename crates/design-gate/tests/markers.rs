@@ -94,7 +94,7 @@ fn no_retraction_re_emits_the_token() {
     );
 }
 
-/// **Nine live questions, one to a node**, which is what the tool reports because the bytes and
+/// **Eight live questions, one to a node**, which is what the tool reports because the bytes and
 /// the prose agree.
 ///
 /// Three of them are the same kind and say so: `prior-art/ags`, `acquisition-binding` and
@@ -115,8 +115,14 @@ fn no_retraction_re_emits_the_token() {
 /// asked whether SCI1's icon bar was a game script or an engine feature — a question about
 /// adventure games, raised by reading a source, answerable by reading another one that is already
 /// retrieved and unread. Every previous movement in this count was a closure or a migration.
+///
+/// **It is eight, and the fall is the one this list had never had.** `control-transfer` closed
+/// `actor/player-character`'s — the question asked in the root commit, about switching between
+/// characters, answered by writing the game that asks it. `declared-reach` closed one before it, so
+/// this is the second closure and the first of a question that was here from the beginning. The
+/// list is shorter by its oldest member, which no other movement in this figure has ever been.
 #[test]
-fn the_corpus_carries_nine_questions_and_the_count_is_the_token_count() {
+fn the_corpus_carries_eight_questions_and_the_count_is_the_token_count() {
     let root = repo_root();
     let mut open: Vec<String> = Vec::new();
     for p in yml(&root.join(".yidam/corpus")) {
@@ -139,7 +145,6 @@ fn the_corpus_carries_nine_questions_and_the_count_is_the_token_count() {
     assert_eq!(
         open,
         [
-            "actor/player-character.yml",
             "data-format/interaction-table.yml",
             "failure-mode/orphaned-dialogue-branch.yml",
             "hotspot/static-region.yml",
@@ -155,8 +160,8 @@ fn the_corpus_carries_nine_questions_and_the_count_is_the_token_count() {
 /// **Three quarters of what this corpus still owes is invisible to every tool it has.**
 ///
 /// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds 9 live
-/// markers again — it held eight between `declared-reach` and `input-side`, and this sentence
-/// said nine throughout; the decision records hold **42 across 38 files**, and they are counted as zero — by
+/// markers again — it held eight between `declared-reach` and `input-side`, said nine while it did,
+/// and is eight once more now that `control-transfer` has closed the genesis question; the decision records hold **42 across 38 files**, and they are counted as zero — by
 /// `status`, by `due`, by the index, by everything. There was a third place and this file could
 /// not see it either: twelve more sat on the class pages in a spelling nothing reads, which
 /// `crates/design-gate/tests/pages.rs` now holds at zero. The migration happened quietly: as questions
@@ -177,10 +182,10 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (9, 56, 50));
+    assert_eq!((corpus, decisions, records), (8, 56, 50));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        13,
+        12,
         "under an eighth is visible"
     );
 
@@ -202,4 +207,10 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
     // corpus. Not found and moved, not closed elsewhere — asked, about adventure games, out of a
     // source. That is the only move that raises this share without widening the numerator by hand,
     // and it took eighty-eight phases to happen once.
+    //
+    // `control-transfer` put it back to 12 by the opposite move, which nobody had used either: it
+    // **closed** one. The share falling is the ordinary drift and the cause is not — the corpus lost
+    // a question by answering it rather than the records gaining one, and the two are
+    // indistinguishable in this figure, which is worth knowing about a figure this file has tracked
+    // for twenty phases. A ratio cannot tell progress from accumulation.
 }

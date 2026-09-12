@@ -94,7 +94,7 @@ fn every_settled_item_says_what_settled_it() {
     let root = repo_root();
     assert_eq!(
         surface(&root),
-        (50, 4, 662, 91),
+        (50, 5, 904, 120),
         "constructs, specimens, lines, bindings"
     );
 
@@ -109,7 +109,7 @@ fn every_settled_item_says_what_settled_it() {
         .nth(1)
         .expect("the section");
     let items: Vec<&str> = section.lines().filter(|l| l.starts_with("- ")).collect();
-    assert_eq!(items.len(), 8, "items in the section");
+    assert_eq!(items.len(), 9, "items in the section");
     let struck: Vec<&&str> = items.iter().filter(|l| l.starts_with("- ~~")).collect();
     assert_eq!(struck.len(), 4, "struck through: {struck:?}");
     for l in &struck {

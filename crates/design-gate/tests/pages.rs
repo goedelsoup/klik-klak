@@ -304,19 +304,24 @@ fn no_question_lives_on_a_class_page() {
         n
     };
     let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
-    assert_eq!((corpus, decisions), (9, 56));
+    assert_eq!((corpus, decisions), (8, 56));
     // 17, 16, 15, 14, 13, 12 — never once because a corpus question was closed. The corpus
     // numerator had not moved in eight phases while the records opened thirty-odd, and
     // `playable` closing one was the only close in that run. The two denominators parted at 13
     // and met again at 12.
     //
-    // 13, and this is the first movement the numerator has ever caused: `input-side` asked a
+    // 13, and that was the first movement the numerator has ever caused: `input-side` asked a
     // corpus question rather than closing one or importing one. The wider denominator this file
-    // uses and the narrower one in `clock.rs` agree at 13 too, which they have done only because
-    // `open` and `stub` are both zero — the class pages were emptied by `action-pages` and have
-    // stayed empty, so the two measurements differ by nothing at present and will part again the
-    // moment either fills.
-    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 13);
+    // uses and the narrower one in `clock.rs` agree, which they do only because `open` and `stub`
+    // are both zero — the class pages were emptied by `action-pages` and have stayed empty, so the
+    // two measurements differ by nothing at present and will part again the moment either fills.
+    //
+    // 12, and the sentence at the top of this comment is spent. `control-transfer` closed
+    // `actor/player-character`'s question — the one asked in the root commit — by writing the game
+    // that asks it, so a corpus question has now been closed and the run of movements that never
+    // was one is over at twenty phases. The share falls either way and the fall means the opposite
+    // thing, which is what a ratio cannot say.
+    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 12);
 }
 
 /// **Every class page was written by this repository's first commit, and for 342 commits its last

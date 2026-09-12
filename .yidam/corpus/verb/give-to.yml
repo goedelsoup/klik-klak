@@ -32,6 +32,21 @@ description: |
   against. The node was kept deliberately and the construct was kept by omission, which are
   different things that look the same from the outside. [inference]
 
+  **A fifth line, and it qualifies the fourth rather than reopening anything.** The silence above
+  is the strongest evidence this node has and every game in it had **one protagonist**, which is
+  the one condition under which giving has nobody to give to. A fifth specimen has two characters
+  and wants the hand-off badly enough to spend an item and set a flag to fake it — and still writes
+  no `give-to`, because what it wanted was not a verb but an inventory per actor
+  ([control-transfer](../../decisions/control-transfer.yml)). [verified] So the count holds and its
+  reading narrows: 120 bindings across five games and not one is a `give-to`, and four of the five
+  could not have produced one.
+
+  The shipped game that does use its `giveto` is also the one with five playable characters, and
+  its actors carry `flags = GIVEABLE|TALKABLE`. Whether those two facts are the same fact is not
+  settled here and is worth naming: a give verb may be a verb for handing an object to a *character
+  the player is not*, in which case it is an artifact of multiple protagonists rather than of
+  SCUMM-style surfaces. [inference]
+
   **Withdrawn. The surface is five verbs and fifty constructs.** What closed it was not the silence
   but a third measurement: folding the shipped game's `giveto` into `use-with` creates **no new
   collision** — 198 cells and 18 of them shared, identical either way — and both its bindings sit on

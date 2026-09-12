@@ -244,11 +244,11 @@ fn the_objection_named_one_calculator_and_was_true_of_three() {
         "and what was said about all three"
     );
 
-    // four games now, and the corpus is not where any of them lives
+    // five games now, and the corpus is not where any of them lives
     let games = std::fs::read_dir(root.join("design/specimen"))
         .expect("the specimen directory")
         .flatten()
         .filter(|e| e.path().extension().is_some_and(|x| x == "game"))
         .count();
-    assert_eq!(games, 4, "specimens, in `design/` and not in the corpus");
+    assert_eq!(games, 5, "specimens, in `design/` and not in the corpus");
 }

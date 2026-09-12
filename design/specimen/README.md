@@ -33,18 +33,18 @@ derives_effects_from:
 
 # what the specimens found
 
-Four games authored in the language proposed by
+Five games authored in the language proposed by
 [`../bounded-expression-language.md`](../bounded-expression-language.md), each written to
 break it.
 
-| | [`lighthouse.game`](lighthouse.game) | [`ferry.game`](ferry.game) | [`nightwatch.game`](nightwatch.game) | [`patrol.game`](patrol.game) |
-|---|---|---|---|---|
-| written for | *can this say a game at all?* | *does `count item` earn its place?* | *does `cutscene` earn its place?* | *does an actor's position need to be state?* |
-| committed defect | consumption | ordering | consumption | ordering |
-| reachable states | 91 of 12,288 (0.74%) | 20 of 120 (16.7%) | 14 of 64 (21.9%) | 20 of 128 (15.6%) |
+| | [`lighthouse.game`](lighthouse.game) | [`ferry.game`](ferry.game) | [`nightwatch.game`](nightwatch.game) | [`patrol.game`](patrol.game) | [`lock.game`](lock.game) |
+|---|---|---|---|---|---|
+| written for | *can this say a game at all?* | *does `count item` earn its place?* | *does `cutscene` earn its place?* | *does an actor's position need to be state?* | *does control transfer need more than a flag?* |
+| committed defect | consumption | ordering | consumption | ordering | ordering |
+| reachable states | 91 of 12,288 (0.74%) | 20 of 120 (16.7%) | 14 of 64 (21.9%) | 20 of 128 (15.6%) | 58 of 768 (7.6%) |
 
 **And a fifth thing they found is not in that table, because nothing counted it for eleven
-phases.** The four carry 105 authored response clauses and **four of them are selected in no
+phases.** The five carry 154 authored response clauses and **four of them are selected in no
 reachable state** — written, and unreachable. Three are in `lighthouse.game` and are not
 authoring slips: a binary entry is keyed by the object carried, so a binding that spends that
 object cannot be asked again and therefore cannot decline, and the *already done* refusal under
@@ -55,7 +55,7 @@ becomes unreachable in the same act. `.yidam/decisions/orphaned-lines.yml`, and
 [`../bounded-expression-language.md`](../bounded-expression-language.md) §4 is where the
 prediction that this would be detectable was written down.
 
-**Each was written to answer one question and none of the four answered only that.** The list
+**Each was written to answer one question and none of the five answered only that.** The list
 below is in the order they were written; `patrol` is the first written *after* a real game's
 source had been read, and it is the only one that exists because a shipped game was found doing
 something this vocabulary could not say.
@@ -210,6 +210,102 @@ and the truth is narrower and better evidenced than a silence.
 `.yidam/decisions/threshold-trigger.yml` closed the question outright — **`cutscene` has no open
 questions left**, and this document went on carrying one of them for two phases.
 
+## lock — the second character
+
+Three rooms, two actors, one item, five flags, and one question: **does transferring control
+between characters need vocabulary beyond a world flag naming the controlled one?**
+
+[`actor/player-character`](../../.yidam/corpus/actor/player-character.yml) has asked it since the
+root commit and it is the oldest question in the corpus.
+[`resolver-kind`](../../.yidam/decisions/resolver-kind.yml) classified it as the one question here
+that only a **specimen** can close and observed that none of the four above switches at all. This
+game does exactly what the question proposes — one flag, `ashore`, naming the controlled character
+— and the answer is that the flag is the cheapest part of it.
+
+**The player is not an actor in this format, and that is the whole finding.** A player is a
+nameless slot with a room and an inventory; an `actor` is a name with a room and no inventory.
+`Effect::Move`'s own doc comment has said so since the day it took an operand — *"`None` is the
+player, and the asymmetry is the point"* — and read as a note about NPCs it is correct. Read
+against a game with two controlled characters it is the defect.
+
+The node said this first and in the opposite direction, from UFO, at genesis: *"modeling the
+controlled one as a distinct kind means the transfer is a change of kind — which is exactly the
+thing UFO says a kind cannot undergo."* **The corpus made `player` a role and the format made it a
+kind**, and nothing noticed for eleven phases because no game had two.
+
+It is visible in two lines of this game. `start` and `holds boatman` sit one under the other in the
+same room section, saying the same thing about the same person, and nothing relates them —
+declare the boatman in a different room from the one play begins in and the file parses clean,
+resolves clean, plays, and is winnable at 61 states instead of 58, with nothing attributing the
+difference to the contradiction. That is [`found-in`](../../.yidam/decisions/found-in.yml)'s shape,
+found this time in a fact the format *cannot* hold rather than one it forgot to.
+
+**A transfer is not a verb applied to a target, so it has no site.** Layer 0 offers two — a verb on
+a hotspot or an actor, and arrival in a room — and switching is neither. Four of this game's six
+switches hang on scenery declared for the purpose: `mate-above`, *"the mate, up on the coping"*, is
+a hotspot standing for a character who is **not in the room**, because an `actor` site is live only
+where the actor is, and the whole point is that she is elsewhere.
+
+**Both games that shipped this agree it is not a binding**, and they disagree about everything
+else. *Maniac Mansion* made it a verb — a **New Kid** verb that displayed a list of the kids.
+*Thimbleweed Park*, by the same designers thirty years later, took it out of the verb space
+altogether: number keys 1 to 5, *"There is no UI for the character switching yet, and we don't know
+exactly how we're going to do it, but it's completely functional"*, and the reason the old answer
+was refused is a budget — *"We don't have the space for another verb"*
+([twp-dev-diary](../../.yidam/catalog/twp-dev-diary.md)). [verified] One put it in the verb bar and
+one refused to, and neither hung it on a target.
+
+**The destination is a literal, and a binding has one guard and one effect list.** So a switch
+cannot say *go to where she is*; it names a room, and a site is needed per ordered pair of
+positions. The bound is **twice the product of the two characters' room sets** — two rooms each is
+the smallest map that lets both of them move, and it already wants eight sites. This game writes
+six switch sites, and the two it leaves out are the pair that never co-occurs.
+
+Two of the six cost nothing. Once both characters stand in the same room an `actor` site is live
+and the transfer is one binding with **no destination in it at all** — so the only natural site
+control transfer has here is the case where nobody has to move.
+
+**An item cannot change hands.** `inventory-item` has three states — unclaimed, carried, spent —
+and none of them is *in the other character's hands*; `is <item>` gives an item exactly one
+hotspot, so a thing put down cannot be picked up by somebody else, and `spend` is terminal. The
+windlass is an item for two bindings and a flag for the other four: it goes up onto the coping as
+`spend windlass` plus `set windlass-up`, and the visible cost is one line — the mate winds the
+paddle with `walk-to` and not with `use-with windlass`, **because she cannot carry it**. The binary
+verb is lost with the item.
+
+That is the one of these findings a shipped game reports as load-bearing. Asked whether the GIVE
+verb exists and whether item transfers between characters are necessary for puzzle solutions,
+Gilbert answers *"Yes to both questions"*
+([twp-dev-diary](../../.yidam/catalog/twp-dev-diary.md)). [verified] Characters there have
+individual inventories and what is picked up goes into the active one — which is the second thing
+a flag cannot do, and the engine does it without the author writing anything, because
+`currentActor` is not a value an author reads but a parameter every primitive is threaded through.
+
+**The flag itself is read three times and all three are in one room.** Everywhere else the room the
+player is standing in already says who they are, because the boatman cannot get out of the chamber
+and the mate cannot get into it. `lockside` at the end is the one room that holds both, and it is
+the only place `ashore` carries anything — which is the `holds <item>` question asked from the
+other side: not *does anything read it* but *is there anywhere it could be read*.
+
+**And it is the first flag any specimen has ever put back.** Five games declare fourteen flags and
+until this one no binding had ever cleared a single one; `clear-flag` sat on the never-written list
+for eleven phases and `world-flag.reversible` has had a value with no authored instance since
+genesis. The reason is not a gap in the games. Every flag in the other four is a thing that
+happened to a world, and worlds do not un-happen — a crate is not re-nailed, a toll is not un-paid.
+**Which character the player is, is the only fact in any of these games that goes both ways**, and
+it is not a fact about the world at all.
+
+**The last measurement is the one nobody was looking for.** The four games before this wrote the
+binary connectives **once between them** — a single `and`, no `or` — which made
+[`interaction-table`](../../.yidam/corpus/data-format/interaction-table.yml)'s claim that
+composition is this language's one advantage an argument rather than a measurement, and this
+document said so. `lock.game` writes eleven more, and every one is about who the player is or where
+the other character is standing: `gates-shut and paddle-up and boatman in lockside and mate in
+lockside`. A game with one protagonist asks about the world, and a world's facts are independent,
+so its guards are single terms. A game with two asks about the world **and** about the pair.
+[inference] — `crates/game-format/tests/coverage.rs`, and
+`crates/game-format/tests/transfer.rs` holds the rest.
+
 ## Three defects in the calculator, all found by the second specimen
 
 A second game is worth more than a second reading of the first, and this is the evidence.
@@ -244,10 +340,11 @@ the split does change is the sentence at the end of this paragraph. Grouping par
 grammar — `atom := '(' pred ')'` — and are not in the fifty, which is the distinction it was
 reaching for and did not have the words for.
 
-Unexercised across all four games: **`!=`, `<=`, `>`, `clear-flag`, `exit`, `or`** — six of the
+Unexercised across all five games: **`!=`, `<=`, `>`, `exit`, `or`** — five of the
 fifty constructs the surface declares, counted rather than listed. [verified] —
-`crates/game-format/tests/coverage.rs`. `count` is no longer on the list; `clear-flag` and `exit`
-were not on it when it was written at two games, and `exit` is the one worth a second look,
+`crates/game-format/tests/coverage.rs`. `count` is no longer on the list, and neither is
+`clear-flag`, which came off it when a game needed to hand control back; `exit` is the one worth a
+second look,
 [below](#the-verb-vocabulary). Grouping parentheses came off by being counted: the check reads
 constructs the surface declares, and punctuation is not one.
 
@@ -255,18 +352,18 @@ constructs the surface declares, and punctuation is not one.
 called the surface abstract and forwarded a reader to
 [`interaction-table.yml`](../../.yidam/corpus/data-format/interaction-table.yml) for an unresolved
 tension between keying and reading like writing; the guarded response list — `when <predicate>
-"<line>"` — does both on one line, and four games are written against fifty constructs.
+"<line>"` — does both on one line, and five games are written against fifty constructs.
 
-**And the marker at the forwarding address now names what would settle it, which is these four
+**And the marker at the forwarding address now names what would settle it, which is these five
 games.** It asked whether a file that carries the writing reads like writing, and that is a
-measurement over 662 authored lines rather than a position anybody can take. This document is where
+measurement over 904 authored lines rather than a position anybody can take. This document is where
 the lines are counted; nothing in it moves, and the question it half-answers is now addressed to it
 by name. `.yidam/decisions/resolver-kind.yml`.
 `.yidam/decisions/settled-surface.yml`.
 
 **One specimen is much better evidence that a primitive was needed than that one is not**, and
-four is only a little better. Ninety-one bindings across four deliberately small games is a thin
-basis for removing anything — and the six above are the measurement, not the backlog.
+five is only a little better. A hundred and twenty bindings across five deliberately small games is
+a thin basis for removing anything — and the five above are the measurement, not the backlog.
 `.yidam/decisions/unwritten.yml`.
 
 ## The verb vocabulary
@@ -320,15 +417,19 @@ shape without having been asked: **20 exits, 15 bare and 5 carrying a guard or r
 Delores's 20, 18 bare and 2 gated. Same count, same dominant shape, arrived at independently.
 `.yidam/decisions/exit-archetype.yml`.
 
-**And no specimen writes it.** `exit` appears zero times in all four games; the twenty-two
-`walk-to` sites are all still the long form it was built to replace. [verified] —
+**And no specimen writes it.** `exit` appears zero times in all five games, and `lock.game` adds
+eleven more `walk-to` sites of the long form it was built to replace. [verified] —
 `crates/game-format/tests/coverage.rs`. That is this document's own last question — *whether a
 specimen should be revised to exercise a primitive it argued for* — with a second instance, in a
 section eleven headings above the one that asks it.
 
-**Declared and not used: `give-to`.** No natural site arose in any of the four, and the silence
-has since been counted rather than observed: **91 bindings across 662 lines and not one is a
-`give-to`**, where the other five verbs are all used. [verified] —
+**Declared and not used: `give-to`, and the fifth specimen is where that verdict's evidence base
+shows.** No natural site arose in any of the four, and the silence was counted rather than
+observed: **120 bindings across 904 lines and not one is a `give-to`**, where the other five verbs
+are all used. What none of the four could supply is a *second* character to give to — giving has no
+natural site in a game with one protagonist, which is the one condition every specimen shared. The
+fifth has two and wants the hand-off badly enough to spend an item to fake it, and still writes no
+`give-to`, because the verb was withdrawn and because what it wanted was not a verb. [verified] —
 `crates/reachability/tests/verbs.rs`, and
 [`verb/give-to`](../../.yidam/corpus/verb/give-to.yml) is where it bears weight. This document
 said *"either game"* for four phases after there were four; the node it fed took the observation,
@@ -344,12 +445,12 @@ artifact they compose into. Noted rather than proposed — and noted more carefu
 
 ## Using them as fixtures
 
-**202 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
+**207 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
 thirty-eight for six phases; the figure was never derived from anything and is held by a check now
 (`crates/design-gate/tests/watermark.rs`).
 
 **And three of them are here to say what these games could not have shown.**
-`crates/game-format/tests/declared.rs` counts the eleven items across the four and finds every one
+`crates/game-format/tests/declared.rs` counts the twelve items across the five and finds every one
 reached by a binding — not because the games were written that way but because an item in this
 format is a name and a ceiling, so no specimen however authored could have produced the
 counterexample [`portable-object`](../../.yidam/corpus/inventory-item/portable-object.yml) asked a

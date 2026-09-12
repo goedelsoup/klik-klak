@@ -451,6 +451,17 @@ That symmetry is not general and should not be assumed: `set` has no matching re
 design invented, because a flag *is* its own predicate. What it applies to is any effect writing
 a thing the predicate layer had no operand for, and this was the first.
 
+**And the pair carries an assumption neither half states: that there is one player, and that the
+player is not one of the actors.** `move <room>` writes a slot with no name; `move <actor> to
+<room>` writes a named one; `<actor> in <room>` reads only the second. That is exactly right for
+moving a non-player character about, and it is the whole of what this vocabulary can say about a
+game with two controlled characters — which is not enough. A fifth specimen switches between two
+and pays for it in six switch sites, an item that cannot change hands, and two records of where
+the player is that nothing holds in step. The corpus has called `player` a **role** since genesis,
+on the grounds that control transfers; this format makes it a **kind**.
+[`control-transfer`](../.yidam/decisions/control-transfer.yml). Not fixed here, because giving
+`actor` an inventory is a change to the ontology rather than to the format.
+
 This is the part the gate checks, and the reason `design/check.sh` exists in the shape it does:
 a design that names an effect the ontology does not declare is either wrong or has just found a
 missing relationship. **Two turned up, and neither was being looked for.**
@@ -675,8 +686,8 @@ or that anybody would enjoy writing in it.
 
 - ~~Concrete syntax. Everything above is abstract.~~ **Settled, by somebody building it.**
   `crates/game-format` implements a surface of **50 constructs** — 5 verbs, 19 keywords the
-  parser dispatches on, 8 effects, 9 predicates, 6 comparisons, 3 sites — and four specimens
-  totalling 662 lines and 91 bindings are written in it. This bullet
+  parser dispatches on, 8 effects, 9 predicates, 6 comparisons, 3 sites — and five specimens
+  totalling 904 lines and 120 bindings are written in it. This bullet
   stood while that happened, in a document that cites `crates/` ten times elsewhere.
 
   **And the tension it forwarded a reader to was resolved at the forwarding address.**
@@ -691,9 +702,20 @@ or that anybody would enjoy writing in it.
   `authored_by`'s `[open]` read *"Nothing here resolves it, and one thing now tries"* without naming
   the thing. The thing is this proposal, and what would settle it is **a measurement** rather than
   another argument: whether a syntax that keys bindings separately from declarations reads like
-  writing is a question about the 662 authored lines, not about the sections above them.
+  writing is a question about the 904 authored lines, not about the sections above them.
   [`.yidam/decisions/resolver-kind.yml`](../.yidam/decisions/resolver-kind.yml). Nothing here
   changes; what changes is that the question is now addressed to an instrument.
+- **Whether `actor` and the player should be one kind.** They are two here, and a fifth specimen
+  is what made the cost countable rather than arguable: control transfer has no site in Layer 0,
+  its destination must be a literal so the site count is quadratic in the map, and
+  `inventory-item`'s three states have no *held by somebody else*. The one shipped engine in this
+  corpus with multiple playable characters answers with `currentActor`, which is not a construct an
+  author writes but a parameter every primitive is threaded through
+  ([twp-dev-diary](../.yidam/catalog/twp-dev-diary.md)). [verified] **What is not measured is the
+  other half** — a minimal vocabulary is allowed to refuse a feature the form has, and this one
+  refuses arithmetic, quantifiers and delegation on that ground. What would settle it is a design
+  written down far enough to be weighed against six switch sites.
+  [`control-transfer`](../.yidam/decisions/control-transfer.yml). `[open]`
 - **Whether the effect list stays closed.** The whole design rests on it. The first effect that
   must be conditional — *set this flag only if* — either becomes a guarded effect, which is
   Layer 1 applied to Layer 2 and costs nothing, or forces the door open. Nothing here has met

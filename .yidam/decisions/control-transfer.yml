@@ -1,0 +1,174 @@
+id: control-transfer
+summary: >-
+  **A flag can name the controlled character and that is all it can do.** A fifth specimen switches
+  between two, and the four costs are a transfer with no site, a destination that must be a literal,
+  an item that cannot change hands, and two records of where the player is that nothing holds in
+  step. The corpus's oldest question closes: the player is not an actor in this format, and control
+  transfer needs them to be one kind of thing. What the one shipped multi-character engine here did
+  instead was not a flag but a parameter.
+context: |
+  [`actor/player-character`](../corpus/actor/player-character.yml) has carried this since the root
+  commit and it is the oldest open question in the corpus: whether transferring control between
+  characters *"needs vocabulary beyond a world flag naming the controlled actor"*.
+
+  [resolver-kind](resolver-kind.yml) sorted the nine open questions by what would close each and
+  found this one alone in its kind. What would close it is **a specimen** — *"a game in which the
+  player switches between characters, written in this language, either reaches for a construct the
+  vocabulary does not have or does not"* — and none of the four in `design/specimen` switches at
+  all, so nothing here had ever put the question to the only instrument that answers it.
+
+  `design/specimen/lock.game` is the fifth. A wide lock at night, a boat in it, a boatman aboard
+  and a mate on the bank, and getting a boat up a wide lock is a two-person job: one winds and one
+  holds her, and there are two top gates with a beam each. Three rooms, two actors, one item, five
+  flags, **58 reachable states of 768**, winnable, with a committed ordering defect. The control
+  flag is called `ashore` and it is exactly the shape the question proposes.
+decision: |
+  **1. The player is not an actor in this format, and that is the whole finding.** [verified] —
+  `crates/game-format/tests/transfer.rs`.
+
+  A player is a nameless slot with a room and an inventory. An `actor` is a name with a room and no
+  inventory. `Effect::Move`'s own doc comment has said so since the day that effect took an
+  operand — *"`None` is the player, and the asymmetry is the point"* — and read as a note about
+  non-player characters it is correct.
+
+  **The node said it first, from UFO, and in the opposite direction.** At genesis: *"modeling the
+  controlled one as a distinct kind means the transfer is a change of kind — which is exactly the
+  thing UFO says a kind cannot undergo."* The corpus made `player` a **role**; the format made it a
+  **kind**; and nothing noticed for eleven phases because no game had two.
+
+  It is visible in two lines of this game. `start` and `holds boatman` sit one under the other in
+  the same room section, saying the same thing about the same person, and resolution relates them
+  not at all — declare the boatman in a room other than the one play begins in, which is a flat
+  contradiction, and the file **parses clean, resolves clean, plays and is winnable** at 61 states
+  instead of 58, with nothing attributing the difference to the contradiction. [verified]
+
+  That is [found-in](found-in.yml)'s shape — two records of one fact and nothing holding them in
+  step — found this time in a fact the format *cannot* hold rather than one it forgot to. Deleting
+  the declaration **is** caught, because `boatman in <room>` would have no answer. Contradicting it
+  is caught by nothing.
+
+  **2. A transfer of control is not a verb applied to a target, so it has no site.** Layer 0 offers
+  two — a verb on a hotspot or an actor, and arrival in a room — and switching is neither. Four of
+  this game's six switches hang on scenery declared for the purpose: `mate-above`, *"the mate, up
+  on the coping"*, is a hotspot standing for a character who is **not in the room**, because an
+  `actor` site is live only where the actor is and the whole point is that she is elsewhere.
+  [verified]
+
+  **Both games that shipped this agree it is not a binding, and they disagree about everything
+  else.** *Maniac Mansion* made it a verb — a **New Kid** verb that displayed a list of the kids.
+  *Thimbleweed Park*, by the same designers thirty years later, took it out of the verb space
+  altogether: number keys 1 to 5, *"There is no UI for the character switching yet, and we don't
+  know exactly how we're going to do it, but it's completely functional"*, and the reason the old
+  answer was refused is a budget — *"We don't have the space for another verb"*
+  ([twp-dev-diary](../catalog/twp-dev-diary.md)). [verified] One put it in the verb bar and one
+  refused to, and neither hung it on a target.
+
+  **3. The destination is a literal, so the cost is quadratic in the map.** A binding carries one
+  guard and one effect list, so a switch cannot say *go to where she is* — it names a room, and a
+  site is needed per ordered pair of positions. The bound is **twice the product of the two
+  characters' room sets**. Two rooms each is the smallest map that lets both of them move and it
+  already wants eight sites; this game writes six switch sites, and the two it leaves out are the pair that
+  never co-occurs. [verified]
+
+  Two of the six cost nothing. Once both characters stand in the same room an `actor` site is live
+  and the transfer is one binding with **no destination in it at all** — so the only natural site
+  control transfer has in this format is the case where nobody has to move.
+
+  **4. An item cannot change hands, and that is the one a shipped game reports as load-bearing.**
+  `inventory-item` has three states — unclaimed, carried, spent — and none of them is *in the other
+  character's hands*; `is <item>` gives an item exactly one hotspot, so a thing put down cannot be
+  picked up by somebody else, and `spend` is terminal. The windlass is an item for two bindings and
+  a flag for the other four, and the visible cost is one line: the mate winds the paddle with
+  `walk-to` and not with `use-with windlass`, **because she cannot carry it**. The binary verb is
+  lost with the item. [verified]
+
+  Asked whether the GIVE verb exists and whether item transfers between characters are necessary
+  for puzzle solutions, Gilbert answers *"Yes to both questions"*
+  ([twp-dev-diary](../catalog/twp-dev-diary.md)). [verified] Characters there have individual
+  inventories and what is picked up goes into the active one.
+
+  **5. So the answer is yes, and what it needs is not a construct.** `currentActor` is not a value
+  an author reads. It is a **parameter every primitive is threaded through** — `pickup` puts the
+  object in that character's inventory, `say` puts the line over that character's head, the
+  inventory panel draws that character's items — and no author writes it at any of those sites. A
+  world flag is the opposite kind of thing: a value an author sets and an author reads, inert
+  between those two acts. [inference] — the reading of `currentActor` as a parameter rather than a
+  variable is ours; the diary shows its uses and does not classify it.
+
+  That is why the question's own phrasing had the answer in it. *A flag naming the controlled
+  actor* presumes the controlled thing is an actor, and here it is not.
+
+  **6. The flag is read three times and all three are in one room**, and that is the `holds
+  <item>` question asked from the other side. Everywhere else the room the player is standing in
+  already says who they are, because the boatman cannot get out of the chamber and the mate cannot
+  get into it. `lockside` at the end is the one room that holds both. `found-in` refused a
+  construct because nothing read it; this one is read, and only where the geography stops
+  answering. [inference]
+
+  **7. And it is the first flag any specimen has ever put back.** Five games declare fourteen flags
+  and until this one no binding had cleared a single one; `clear-flag` sat on
+  `crates/game-format/tests/coverage.rs`'s never-written list for eleven phases and
+  `world-flag.reversible` has had a value with no authored instance since genesis. [verified]
+
+  The reason is not a gap in the games. Every flag in the other four is a thing that happened to a
+  world, and worlds do not un-happen — a crate is not re-nailed, a toll is not un-paid, a kettle
+  boiled stays boiled. **Which character the player is, is the only fact in any of these games that
+  goes both ways**, and it is not a fact about the world at all. [inference]
+
+  **8. One measurement nobody was looking for.** The four games before this wrote the binary
+  connectives **once between them** — a single `and`, no `or` — which made
+  [`data-format/interaction-table`](../corpus/data-format/interaction-table.yml)'s claim that
+  composition is this language's one advantage over the table an argument rather than a
+  measurement, and `coverage.rs` said so in those words. `lock.game` writes eleven more, and every
+  one is about who the player is or where the other character is standing. A game with one
+  protagonist asks about the world, and a world's facts are independent, so its guards are single
+  terms; a game with two asks about the world **and** about the pair. [inference]
+
+  **What this does not decide: whether this vocabulary should pay for it.** Every cost above is
+  measured and none of them is weighed. A minimal authoring vocabulary is allowed to refuse a
+  feature the form has — this one refuses arithmetic, quantifiers and delegation on exactly that
+  ground — and four of the five specimens never wanted a second character. What would close it is
+  the test every primitive here gets and half of which is now done: **what it costs is measured;
+  what cannot be said without it is not.** A design that gave `actor` an inventory and made the
+  player one would have to be written down before anybody could tell whether it is smaller than
+  six switch sites. `[open]`
+rationale: |
+  **The finding is one line up in the model, and the line was already written.** `Effect::Move`
+  carries a doc comment explaining why its actor operand is optional, and that comment is correct,
+  load-bearing and eleven phases old. It says the asymmetry is the point. It is the point, and it
+  is also the defect, and nothing could tell which until a game had two controlled characters —
+  because with one, a nameless player is not an asymmetry at all, it is an economy.
+
+  **A specimen is the only instrument that could have found it**, which is what `resolver-kind`
+  classified this question as needing, and the classification was right for a reason worth
+  separating from the result: nothing in the corpus and nothing in the gate could have caught this.
+  The format is internally consistent. The parse tree is correct. Every check passes. What was
+  wrong was a premise nobody had written down — that there is one player — and a premise is only
+  visible against a case that violates it. [inference]
+
+  **The specimen is the largest of the five and the reason is the finding.** 242 lines against 119,
+  201, 166 and 176; six switch sites; eleven of the corpus's twelve authored conjunctions. A game
+  with two characters is not twice a game with one, and where the excess goes is legible: it goes
+  into saying, over and over, which of the two is being spoken about.
+
+  **It closes a corpus question, which has not happened before.** The count goes from nine to
+  eight, and every previous movement in that figure was the denominator: `.yidam/config.toml`
+  records the percentage falling 17, 16, 15, 14, 13, 12 *"without a corpus question ever being
+  closed"*, and rising once when a record's question was answered. [verified] The one before this
+  that moved it upward was `input-side`, which **asked** one. So this is the first time the corpus
+  has answered something it wondered about at genesis, and it took a game to do it.
+
+  **And it clears a tripwire that named it in advance.** `crates/design-gate/tests/subject.rs`
+  holds the run of consecutive records resting on no document and on the gate alone, and the
+  paragraph written there one phase ago says what would break it: *"the thing that clears it is
+  already named in that record: `actor/player-character`'s question wants a specimen, which is a
+  game."* Both runs go to zero. A tripwire that predicts what will clear it and is then cleared by
+  that thing is testable in a way one saying only *do not extend me* is not, and this is the second
+  time that has held. [verified]
+
+  **What the phase declines to do is propose the fix**, and the discipline is this repository's
+  own. Six switch sites is a cost and not an argument; `escape-hatch` and `effect-vocabulary` both
+  record that a gap weighed against what the ontology already declares usually turns out to be
+  three parts reading and one part gap. `actor` gaining an inventory, and the player becoming one
+  of them, is a change to the ontology and not to the format, and it would be decided against the
+  corpus rather than against one game.
