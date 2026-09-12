@@ -37,6 +37,13 @@ enum Closes {
     /// `.yidam/decisions/testimony.yml` is where that is argued.
     Testimony,
     /// A specific artifact, named, and not yet retrieved.
+    ///
+    /// **Empty, and it emptied by the phase going and getting something else.** `prior-art/
+    /// sierra-sci` was its only member and it named an artifact twice — a document, then a shipped
+    /// title's scripts — where what settled it was an **enumeration**: SCI0's kernel function
+    /// table, which is the complete list of what the interpreter offered a script.
+    /// `.yidam/decisions/two-bars.yml`. So a marker can name a resolver of the wrong *kind*, which
+    /// is a failure no check here could have caught and only going and looking finds.
     Retrieval,
     /// Nothing — it is declined, and the marker states the condition that would reopen it.
     Condition,
@@ -73,7 +80,6 @@ const KINDS: &[(&str, Closes)] = &[
     ("hotspot/static-region.yml", Closes::Condition),
     ("interaction/acquisition-binding.yml", Closes::Testimony),
     ("prior-art/ags.yml", Closes::Testimony),
-    ("prior-art/sierra-sci.yml", Closes::Retrieval),
     ("world-flag/latched-flag.yml", Closes::Condition),
 ];
 
@@ -139,10 +145,17 @@ fn the_table_covers_every_question() {
 /// measurement `walkbox/scaled-polygon` had been waiting for
 /// (`.yidam/decisions/adjacency.yml`).
 ///
-/// **Sorting questions by what would close them turned the list into a queue.** Two consecutive
-/// closures, after eleven phases with none, and both were the kinds whose resolver is a thing
-/// somebody can go and do rather than a thing somebody has to find. That is the argument for the
-/// classification stated as an outcome rather than as a hope.
+/// **Sorting questions by what would close them turned the list into a queue.** Three consecutive
+/// closures, after eleven phases with none, and all three were the kinds whose resolver is a thing
+/// somebody can go and do rather than a thing somebody has to find — a specimen, a measurement, a
+/// retrieval. That is the argument for the classification stated as an outcome rather than as a
+/// hope.
+///
+/// **What is left is what the table said would be left.** Three questions wait on testimony and
+/// two are declined with a condition; between them they are five of the six, and not one will
+/// close by anybody doing anything. The one that might is a measurement over authored work that
+/// already exists. `.yidam/decisions/resolver-kind.yml` predicted exactly this shape and the
+/// prediction is what the emptying columns confirm.
 #[test]
 fn every_question_says_what_would_close_it() {
     let root = repo_root();
@@ -161,7 +174,7 @@ fn every_question_says_what_would_close_it() {
             count(Closes::Specimen),
             count(Closes::Measurement),
         ),
-        (3, 1, 2, 0, 1),
+        (3, 0, 2, 0, 1),
         "testimony, a named artifact, a condition that would reopen it, a game, and a count"
     );
 

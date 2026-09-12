@@ -138,9 +138,30 @@ properties:
 
     That makes bounded-versus-scripted an axis rather than a scale. Finiteness has a *place* as
     well as an amount, and the two houses everybody compares chose opposite places — Sierra spent
-    its entire declarative budget on recognising the player's sentence and none on saying what
-    happens next, and this design fixes the site so there is nothing to recognise and spends the
-    budget on the guard and the effect. [inference]
+    its declarative budget on recognising the player's sentence and none on saying what happens
+    next, and this design fixes the site so there is nothing to recognise and spends the budget on
+    the guard and the effect. [inference]
+
+    **There is a second declarative construct and it is for the chrome.** The interpreter's kernel
+    table — 114 calls, `0x00` to `0x71`
+    ([sci-specifications](../../catalog/sci-specifications.md)) — carries five for the menu bar,
+    and `AddMenu` takes a **string** rather than a drawing: a backtick right-justifies, a colon
+    separates items, `--!` draws a separation line, `#` is a function key shown as F, `^` is a
+    control key shown as CTRL. [verified] A menu, its items, their layout and their accelerators,
+    declared in one operand.
+
+    **So the budget is two closed pattern languages and both are at the edges** — one bounding what
+    the player may type, one bounding what the chrome contains, with a general-purpose
+    object-oriented language between them and nothing bounded at all.
+    [two-bars](../../decisions/two-bars.yml). [inference]
+
+    **And the interface this class page is named for has no declaration at all.** Three of the 114
+    calls are controls — `DrawControl`, `HiliteControl`, `EditControl` — against six control types, of
+    which the fourth is an **icon**. [verified] So an icon is a thing the engine knew how to draw
+    in 1988. There is no `AddIcon` beside `AddMenu`, no icon-bar call, no verb call, and nothing
+    named Icon anywhere in the table, so which icons, in what order, meaning what, is nowhere in
+    the engine. The icon is an engine feature and the bar is a game script, and the two halves fall
+    on either side of one object.
   scripting: |
     A bytecode virtual machine with its own language, in both engines. [verified] AGI's logics are
     compiled to codes in the range `0x00`–`0xB5` with a separate, much smaller condition range
@@ -180,18 +201,26 @@ properties:
     a sourced node to every check here and this one cited a game by another house on another engine
     — `crates/design-gate/tests/lineage.rs` is the rule that was missing.
 
-    **Whether SCI1's icon bar was a game script or an engine feature is answerable and unanswered.**
-    This marker named *Script Classes for Adventure Games* as the document that would settle it, and
-    named it wrongly: that document is Jeff Stephenson, **5 April 1988**, two years before SCI1
-    shipped, and it was read in full a phase later
-    ([class-library](../../decisions/class-library.yml)). Thirty-one classes, no verb interface
-    among them, and nothing that could say whether an interface built two years afterward was the
-    engine's. **What would settle it is an SCI1-era artifact**: a system script from 1990 or later,
-    or a shipped title's own `Game` and `User` subclasses. Neither is retrieved. `[open]`
+    **Whether SCI1's icon bar was a game script or an engine feature is answered, by an enumeration
+    rather than an artifact.** This marker asked twice for the wrong kind of evidence. It first
+    named *Script Classes for Adventure Games*, which is Jeff Stephenson, 5 April 1988, two years
+    early ([class-library](../../decisions/class-library.yml)); corrected, it asked for an SCI1-era
+    system script or a shipped title's `Game` and `User` subclasses
+    ([retraction-reach](../../decisions/retraction-reach.yml)). What settled it is neither: **SCI0's
+    kernel function table**, which is the complete list of what the interpreter offered any script,
+    so a thing absent from it is a thing the engine did not do
+    ([sci-specifications](../../catalog/sci-specifications.md)).
+    [two-bars](../../decisions/two-bars.yml).
 
-    The sentence it replaces stood for two phases after the reading that refuted it, because the
-    correction was written into the record and the record is not what any tool walks
-    ([retraction-reach](../../decisions/retraction-reach.yml)).
+    A shipped title's scripts would have shown what one game built. A negative claim about an engine
+    needs an enumeration and not an example, and this marker asked for an example twice because the
+    question was posed as *what did they build* rather than *what could they have built*.
+    [inference]
+
+    **What the table does not carry is SCI1's own list.** It is headed *SCI0 Kernel functions* and
+    no equivalent for 1.xxx appears, so *SCI1 added no icon-bar call* is an inference from SCI0's
+    table and the shape of the change. That is a retrieval and it is registered where retrievals
+    are, on the entry's unread list, rather than re-emitted here as a question.
 links:
   - target: ../verb/look-at.yml
     relationship: implements

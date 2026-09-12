@@ -89,36 +89,55 @@ fn the_catalog_carries_the_kernel_census() {
     }
 }
 
-/// **CENSUS. The question is still open and the artifact that answers it is now in the house.**
+/// **The node argues from the table and the marker is gone.**
 ///
-/// The marker reads *"What would settle it is an SCI1-era artifact: a system script from 1990 or
-/// later, or a shipped title's own `Game` and `User` subclasses. Neither is retrieved."* Both
-/// halves were true when they were written and the second is about to stop being the point: a
-/// kernel table is neither of the two things the marker names, and it settles the question better
-/// than either would.
+/// This was a census one commit ago: the question was open and the artifact that answers it had
+/// just arrived. It is a rule now, and what it holds is that the node quotes the catalog's figures
+/// rather than its own — the third phase running to apply
+/// `.yidam/decisions/collected-verdict.yml`'s remedy, because three documents restating one
+/// measurement is how a measurement goes stale.
 ///
 /// **A marker that names its resolver can be wrong about the artifact and right about the
 /// question**, which is a third way for the convention to be useful and was not predicted. The two
 /// already recorded are being wrong about the date ([class-library]) and being wrong about whether
-/// the thing is already held ([retraction-reach]).
+/// the thing is already held ([retraction-reach]). This one was wrong about the *kind* — it asked
+/// for a shipped game's scripts twice, and what settled it is an enumeration. Only going and
+/// looking finds that.
 ///
 /// [class-library]: ../../../.yidam/decisions/class-library.yml
 /// [retraction-reach]: ../../../.yidam/decisions/retraction-reach.yml
 #[test]
-fn the_marker_is_open_and_the_answer_is_now_retrievable() {
+fn the_node_argues_from_the_table_and_quotes_the_catalogs_figures() {
     let root = repo_root();
     let node = flat(&read(&root, NODE));
+    let record = flat(&read(&root, ".yidam/decisions/two-bars.yml"));
 
-    assert!(node.contains("`[open]`"), "the question has been closed");
     assert!(
-        node.contains("Neither is retrieved"),
-        "the marker no longer says the artifact it names is not held"
+        !node.contains("`[open]`"),
+        "the question is open again, which nothing here did"
     );
-    // And the thing that does answer it is neither of the two it names. The node says "kernel
-    // calls" once already — inside Stephenson's own sentence about the language not being enough —
-    // so the census is that it does not yet count them.
+    // A retraction does not re-emit the token and does say what answered it —
+    // `.yidam/decisions/marker-count.yml` for the first half, `resolver-kind` for the second.
     assert!(
-        !node.contains("114"),
-        "the node already argues from the kernel table, which is what the revision does"
+        node.contains("is answered, by an enumeration rather than an artifact"),
+        "the node does not say the question was answered"
     );
+
+    // The figure every document is tempted to round, held to the catalog.
+    let catalog = flat(&read(&root, CATALOG));
+    for doc in [&node, &record] {
+        assert!(
+            doc.contains("114 calls, `0x00` to `0x71`"),
+            "a document states the table's size differently from the catalog"
+        );
+    }
+    assert!(catalog.contains("114 calls, `0x00` to `0x71`"));
+
+    // And the two halves of the answer, in both.
+    for doc in [&node, &record] {
+        assert!(
+            doc.contains("no `AddIcon` beside `AddMenu`"),
+            "a document drops the absence the whole finding rests on"
+        );
+    }
 }

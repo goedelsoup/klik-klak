@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (640, 104, 78));
+    assert_eq!((total, mentions, tests.len()), (641, 104, 78));
 }
 
 /// **Eight of eighty-six records are cited by nothing, against three of forty-four nodes.**
@@ -329,7 +329,6 @@ fn a_record_nothing_cites_is_named() {
             "line-format",
             "name-scoping",
             "settled-surface",
-            "two-bars",
         ],
         "eight, and `normal-form` is not here because the record it answers cites it back. \
          A phase that retracts an earlier `[open]` writes into the record that raised it, so \
@@ -349,7 +348,7 @@ fn a_record_nothing_cites_is_named() {
          here to be cited by two consecutive phases for having sorted their work for them"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (86, 302));
+    assert_eq!((c.len(), edges), (86, 303));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**

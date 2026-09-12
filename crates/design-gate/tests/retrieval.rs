@@ -254,10 +254,13 @@ fn the_table_of_read_documents_is_the_catalogs() {
 /// the record that had refuted the marker two phases earlier.
 ///
 /// **The rule is not that a marker may not name a read document.** Quoting what you correct is this
-/// repository's standing practice and the corrected marker names it again, in order to say it was
+/// repository's standing practice, and the corrected marker named it again in order to say it was
 /// the wrong one. What a marker may not do is name a document the catalog has read **and call it
 /// unread**, because that sentence is not stale — it is false against a file in the same
 /// directory, and it makes the question look cheap.
+///
+/// **The instance is gone: `two-bars` answered that question one phase later and the marker with
+/// it.** So this holds zero markers today and governs every one written after it.
 ///
 /// Narrow on purpose, like the date check above. It cannot know whether a named document answers a
 /// question; nothing can, short of reading it, which is a phase and not a gate. What it knows is
@@ -290,15 +293,20 @@ fn a_marker_naming_a_read_document_says_it_has_been_read() {
             );
         }
     }
-    // One marker names one, which is the instance the rule was written for. A second would be
-    // governed without anything moving here; zero would make this vacuous, and it is not.
-    assert_eq!(
-        naming,
-        [(
-            ".yidam/corpus/prior-art/sierra-sci.yml".to_string(),
-            "Script Classes for Adventure Games"
-        )],
-        "markers naming a document the catalog records as read"
+    // **Zero, one phase after the rule was written, because the question closed.** The marker that
+    // motivated this named *Script Classes for Adventure Games*; `.yidam/decisions/two-bars.yml`
+    // answered the question and retracted the marker, and no marker names a read document now.
+    //
+    // That is the ordinary life of a guard and it is worth being exact about what it means here.
+    // The loop above governs every marker in the corpus and fires on the next one; what it has
+    // never done is catch something nobody already knew, because the instance was repaired by the
+    // phase that wrote the check. A guard with no current violation is not the defect
+    // `.yidam/decisions/unread-list.yml` warns about — that one is a *measurement* reporting seven
+    // of eight and meaning nothing — but the two are easy to confuse and the difference is whether
+    // the number is load-bearing. Here it is not; the loop is.
+    assert!(
+        naming.is_empty(),
+        "a marker names a document the catalog has read: {naming:?}"
     );
 }
 

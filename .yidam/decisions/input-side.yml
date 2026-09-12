@@ -138,7 +138,14 @@ decision: |
   [class-library](class-library.yml).
 
   What would settle it is an **SCI1-era** artifact: a system script from 1990 or later, or a
-  shipped title's own `Game` and `User` subclasses. Neither is retrieved. `[open]`
+  shipped title's own `Game` and `User` subclasses.
+
+  **Both of those are examples and the answer was an enumeration.** SCI0's kernel function table
+  settles it — an icon is control type 4 of six and there is no call that arranges any, so the icon
+  is an engine feature and the bar is a game script. This marker asked for the wrong *kind* of
+  evidence twice, having already asked for the wrong document once, and the reason is the same both
+  times: the question was posed as *what did they build* when it wanted *what could they have
+  built*. [two-bars](two-bars.yml).
 rationale: |
   **The finding is that a retrieval nobody did was holding a conclusion nobody could check, and
   the conclusion was about the most important thing in the file.** `sierra-sci` called its own
