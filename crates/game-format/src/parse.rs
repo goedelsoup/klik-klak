@@ -90,6 +90,37 @@ impl P {
         });
     }
 
+    /// The operand at `i`, or a problem naming the form this construct reads.
+    ///
+    /// **This replaces every `t[1]`, and the crash is why.** `t[1]` on a line with one token is
+    /// an index out of bounds, and eight keywords aborted the process on a bare form until
+    /// `.yidam/decisions/parser-silence.yml`. A reader whose stated purpose is to report rather
+    /// than ignore must do neither.
+    fn at<'a>(&mut self, no: usize, t: &[&'a str], i: usize, form: &str) -> Option<&'a str> {
+        match t.get(i) {
+            Some(x) => Some(x),
+            None => {
+                self.err(no, format!("reads `{form}`"));
+                None
+            }
+        }
+    }
+
+    /// Report whatever follows the `used` tokens this construct accounted for.
+    ///
+    /// The other half of the same defect: `t[1]` where the line has three tokens drops the third
+    /// without looking, and 229 of 349 specimen lines took a word that way. The form is carried
+    /// into the message because this format has no grammar document a person reads, so the reader
+    /// rejecting a line is the only place the line's shape is written down.
+    fn rest(&mut self, no: usize, t: &[&str], used: usize, form: &str) {
+        if t.len() > used {
+            self.err(
+                no,
+                format!("`{}` is not part of `{form}`", t[used..].join(" ")),
+            );
+        }
+    }
+
     /// Declare `name` in `scope`, under its canonical name. A declaration always knows its
     /// own scope, so only *references* need a second pass.
     ///
@@ -234,50 +265,88 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
             }
             "room" => {
                 p.flush();
-                p.room = Some(t[1].to_string());
+                let Some(name) = p.at(no, &t, 1, "room <name>") else {
+                    continue;
+                };
+                p.rest(no, &t, 2, "room <name>");
+                p.room = Some(name.to_string());
                 p.conv = None;
                 p.site = None;
             }
             "actor" if line.text.is_some() => {
-                p.declare(t[1], Kind::Actor, no, line.text.as_deref());
+                const FORM: &str = "actor <name> \"<label>\"";
+                let Some(name) = p.at(no, &t, 1, FORM) else {
+                    continue;
+                };
+                p.rest(no, &t, 2, FORM);
+                p.declare(name, Kind::Actor, no, line.text.as_deref());
             }
             "actor" => {
                 p.flush();
+                let Some(name) = p.at(no, &t, 1, "actor <name>") else {
+                    continue;
+                };
+                p.rest(no, &t, 2, "actor <name>");
+                let name = name.to_string();
                 match &p.room {
                     Some(r) => {
                         p.site = Some(Site::InRoom {
                             room: r.clone(),
-                            target: t[1].to_string(),
+                            target: name,
                         })
                     }
                     None => p.err(no, "an actor site outside a room section"),
                 }
             }
             "item" => {
-                p.declare(t[1], Kind::Item, no, line.text.as_deref());
-                p.game.items.push(t[1].to_string());
+                const FORM: &str = "item <name> [<lo>..<hi>] \"<label>\"";
+                let Some(name) = p.at(no, &t, 1, FORM) else {
+                    continue;
+                };
+                let name = name.to_string();
                 // `item coin 0..9` is `quantity: many`; a bare `item crowbar` is one.
-                let cap = match t.get(2).and_then(|r| r.split_once("..")) {
+                let range = t.get(2).and_then(|r| r.split_once(".."));
+                if t.len() > 2 && range.is_none() {
+                    p.err(no, format!("`{}` is not a range, as `0..4`", t[2]));
+                }
+                p.rest(no, &t, 2 + usize::from(range.is_some()), FORM);
+                let cap = match range {
                     Some((_, hi)) => hi.parse().unwrap_or(1),
                     None => 1,
                 };
                 if cap < 1 {
                     p.err(no, "an item that cannot be carried at all is not an item");
                 }
-                p.game.item_cap.insert(t[1].to_string(), cap.max(1));
+                p.declare(&name, Kind::Item, no, line.text.as_deref());
+                p.game.items.push(name.clone());
+                p.game.item_cap.insert(name, cap.max(1));
             }
+            // `flag <name> [latched] [in <conversation>] "<label>"`, read in that order rather
+            // than searched for. `t.contains(&"latched")` found the word anywhere on the line,
+            // so it read a conversation called `latched` as the modifier, and every token it did
+            // not recognise fell through. Order is the cheapest grammar there is.
             "flag" => {
-                let latched = t.contains(&"latched");
-                let owner = t
-                    .iter()
-                    .position(|x| *x == "in")
-                    .and_then(|i| t.get(i + 1))
-                    .map(|s| s.to_string());
+                const FORM: &str = "flag <name> [latched] [in <conversation>] \"<label>\"";
+                let Some(flag) = p.at(no, &t, 1, FORM) else {
+                    continue;
+                };
+                let mut i = 2;
+                let latched = t.get(i) == Some(&"latched");
+                i += usize::from(latched);
+                let owner = match t.get(i) {
+                    Some(&"in") => {
+                        let owner = p.at(no, &t, i + 1, FORM).map(str::to_string);
+                        i += 2;
+                        owner
+                    }
+                    _ => None,
+                };
+                p.rest(no, &t, i, FORM);
                 let scope = match &owner {
                     Some(c) => Scope::Conversation(c.clone()),
                     None => Scope::Global,
                 };
-                let name = p.declare_in(t[1], Kind::Flag, no, &scope, line.text.as_deref());
+                let name = p.declare_in(flag, Kind::Flag, no, &scope, line.text.as_deref());
                 p.game.flags.push(Flag {
                     name,
                     latched,
@@ -286,7 +355,12 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 });
             }
             "counter" => {
-                p.declare(t[1], Kind::Counter, no, line.text.as_deref());
+                const FORM: &str = "counter <name> <lo>..<hi> \"<label>\"";
+                let Some(name) = p.at(no, &t, 1, FORM) else {
+                    continue;
+                };
+                let name = name.to_string();
+                p.rest(no, &t, 3, FORM);
                 let (lo, hi) = match t.get(2).and_then(|r| r.split_once("..")) {
                     Some((a, b)) => (a.parse().unwrap_or(0), b.parse().unwrap_or(0)),
                     None => {
@@ -294,8 +368,9 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                         (0, 0)
                     }
                 };
+                p.declare(&name, Kind::Counter, no, line.text.as_deref());
                 p.game.counters.push(Counter {
-                    name: t[1].to_string(),
+                    name,
                     lo,
                     hi,
                     line: no,
@@ -307,63 +382,87 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
             // `.yidam/decisions/verb-names.yml`.
             "conversation" => {
                 p.flush();
-                p.declare(t[1], Kind::Conversation, no, line.text.as_deref());
+                let Some(name) = p.at(no, &t, 1, "conversation <name> with <actor>") else {
+                    continue;
+                };
+                let name = name.to_string();
+                p.rest(no, &t, 4, "conversation <name> with <actor>");
+                p.declare(&name, Kind::Conversation, no, line.text.as_deref());
                 match (t.get(2), t.get(3)) {
                     (Some(&"with"), Some(a)) => {
-                        p.game.spoken_with.insert(t[1].to_string(), a.to_string());
+                        p.game.spoken_with.insert(name.clone(), a.to_string());
                     }
                     _ => p.err(
                         no,
                         format!(
-                            "a conversation reads `conversation {} with <actor>` — the `with` is \
-                             what names who it is held with",
-                            t[1]
+                            "a conversation reads `conversation {name} with <actor>` — the \
+                             `with` is what names who it is held with"
                         ),
                     ),
                 }
-                p.conv = Some(t[1].to_string());
+                p.conv = Some(name);
                 p.room = None;
                 p.site = None;
             }
             "hotspot" => {
                 p.flush();
+                const FORM: &str = "hotspot <name> \"<label>\"";
+                let Some(name) = p.at(no, &t, 1, FORM) else {
+                    continue;
+                };
+                let name = name.to_string();
+                p.rest(no, &t, 2, FORM);
                 match p.room.clone() {
                     Some(r) => {
                         let scope = Scope::Room(r.clone());
                         let target =
-                            p.declare_in(t[1], Kind::Hotspot, no, &scope, line.text.as_deref());
+                            p.declare_in(&name, Kind::Hotspot, no, &scope, line.text.as_deref());
                         p.site = Some(Site::InRoom { room: r, target });
                     }
                     None => p.err(no, "a hotspot outside a room section"),
                 }
             }
-            "option" => match p.conv.clone() {
-                Some(c) => {
-                    let scope = Scope::Conversation(c.clone());
-                    let option =
-                        p.declare_in(t[1], Kind::Option_, no, &scope, line.text.as_deref());
-                    let site = Site::InConversation {
-                        conversation: c,
-                        option,
-                    };
-                    p.open_binding("option", None, site, no);
+            "option" => {
+                const FORM: &str = "option <name> \"<line>\"";
+                let Some(name) = p.at(no, &t, 1, FORM) else {
+                    continue;
+                };
+                let name = name.to_string();
+                p.rest(no, &t, 2, FORM);
+                match p.conv.clone() {
+                    Some(c) => {
+                        let scope = Scope::Conversation(c.clone());
+                        let option =
+                            p.declare_in(&name, Kind::Option_, no, &scope, line.text.as_deref());
+                        let site = Site::InConversation {
+                            conversation: c,
+                            option,
+                        };
+                        p.open_binding("option", None, site, no);
+                    }
+                    None => p.err(no, "an option outside a conversation"),
                 }
-                None => p.err(no, "an option outside a conversation"),
-            },
+            }
 
             // ── room- and site-level facts ──────────────────────────────────
-            "start" => match p.room.clone() {
-                Some(r) => p.game.start_room = Some(r),
-                None => p.err(no, "`start` outside a room section"),
-            },
+            "start" => {
+                p.rest(no, &t, 1, "start");
+                match p.room.clone() {
+                    Some(r) => p.game.start_room = Some(r),
+                    None => p.err(no, "`start` outside a room section"),
+                }
+            }
             // `holds <actor>` says where an actor begins, and it is the only way to say it.
             // It once took an item too; `resolve` is where that stopped, and why. Recorded
             // raw and sorted out there, because a room may be written before the actor is.
-            "holds" => match (p.room.clone(), t.get(1)) {
-                (Some(r), Some(x)) => p.game.holds.push((r, x.to_string(), no)),
-                (None, _) => p.err(no, "`holds` outside a room section"),
-                (_, None) => p.err(no, "`holds` needs a name"),
-            },
+            "holds" => {
+                p.rest(no, &t, 2, "holds <actor>");
+                match (p.room.clone(), t.get(1)) {
+                    (Some(r), Some(x)) => p.game.holds.push((r, x.to_string(), no)),
+                    (None, _) => p.err(no, "`holds` outside a room section"),
+                    (_, None) => p.err(no, "`holds` needs a name"),
+                }
+            }
             // `exit <name> to <room>` — the first primitive this corpus has admitted on the
             // second question in `AGENTS.md` rather than the first. Each of the eighteen bare
             // exits in a shipped game is sayable here as a hotspot with a `walk-to` that moves;
@@ -375,46 +474,77 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
             // written under it lands on the expansion the way it lands on any other binding.
             // That is the whole of what makes an archetype safe here and is not free elsewhere;
             // see `.yidam/decisions/exit-archetype.yml`.
-            "exit" => match (p.room.clone(), t.get(1), t.get(2), t.get(3)) {
-                (Some(r), Some(name), Some(&"to"), Some(dest)) => {
-                    p.flush();
-                    let scope = Scope::Room(r.clone());
-                    let target = p.declare_in(name, Kind::Hotspot, no, &scope, None);
-                    let site = Site::InRoom {
-                        room: r,
-                        target: target.clone(),
-                    };
-                    p.site = Some(site.clone());
-                    p.open_binding("walk-to", None, site, no);
-                    if let Some(b) = p.binding.as_mut() {
-                        b.effects.push(Effect::Move(None, dest.to_string()));
+            "exit" => {
+                p.rest(no, &t, 4, "exit <name> to <room>");
+                match (p.room.clone(), t.get(1), t.get(2), t.get(3)) {
+                    (Some(r), Some(name), Some(&"to"), Some(dest)) => {
+                        p.flush();
+                        let scope = Scope::Room(r.clone());
+                        let target = p.declare_in(name, Kind::Hotspot, no, &scope, None);
+                        let site = Site::InRoom {
+                            room: r,
+                            target: target.clone(),
+                        };
+                        p.site = Some(site.clone());
+                        p.open_binding("walk-to", None, site, no);
+                        if let Some(b) = p.binding.as_mut() {
+                            b.effects.push(Effect::Move(None, dest.to_string()));
+                        }
                     }
+                    (None, ..) => p.err(no, "`exit` outside a room section"),
+                    (_, None, ..) => p.err(no, "`exit` needs a name"),
+                    (_, Some(name), ..) => p.err(
+                        no,
+                        format!(
+                            "an exit reads `exit {name} to <room>` — the `to` is what names where \
+                         it goes"
+                        ),
+                    ),
                 }
-                (None, ..) => p.err(no, "`exit` outside a room section"),
-                (_, None, ..) => p.err(no, "`exit` needs a name"),
-                (_, Some(name), ..) => p.err(
-                    no,
-                    format!("an exit reads `exit {name} to <room>` — the `to` is what names where it goes"),
-                ),
-            },
-            "on-enter" => match p.room.clone() {
-                Some(r) => {
-                    let site = Site::OnEnter { room: r };
-                    p.site = None; // an entry binding belongs to the room, not to a target
-                    p.open_binding("on-enter", None, site, no);
+            }
+            "on-enter" => {
+                p.rest(no, &t, 1, "on-enter");
+                match p.room.clone() {
+                    Some(r) => {
+                        let site = Site::OnEnter { room: r };
+                        p.site = None; // an entry binding belongs to the room, not to a target
+                        p.open_binding("on-enter", None, site, no);
+                    }
+                    None => p.err(no, "`on-enter` outside a room section"),
                 }
-                None => p.err(no, "`on-enter` outside a room section"),
-            },
-            "is" => match (&p.site, t.get(1)) {
-                (Some(Site::InRoom { target, .. }), Some(item)) => {
-                    p.game.carried_form.insert(target.clone(), item.to_string());
+            }
+            "is" => {
+                p.rest(no, &t, 2, "is <item>");
+                match (&p.site, t.get(1)) {
+                    (Some(Site::InRoom { target, .. }), Some(item)) => {
+                        p.game.carried_form.insert(target.clone(), item.to_string());
+                    }
+                    _ => p.err(no, "`is <item>` needs a hotspot and an item"),
                 }
-                _ => p.err(no, "`is <item>` needs a hotspot and an item"),
-            },
+            }
 
             // ── bindings ────────────────────────────────────────────────────
+            // **Only `use-with` takes a second object, and this is where that is enforced.**
+            // It was `t.get(1)` for every verb, so `look-at crowbar:` parsed as a binding with
+            // an object on it — which `verb_menu::live` shows only while the player carries the
+            // crowbar. A description that comes and goes with the inventory, written by a typo.
+            // `resolve` never caught it because the name it was handed was declared.
+            // `.yidam/decisions/parser-silence.yml`.
             v if VERBS.contains(&v) => {
-                let object = t.get(1).map(|s| s.to_string());
+                let object = if v == "use-with" {
+                    // **Optional, and `arity-cost`'s measurement is why.** The reduction that
+                    // record measured — take the second key away and put `carrying <item>` in
+                    // the guard — is written in this format and parsed by this reader, and a
+                    // bare `use-with` is the reduced form. `crates/reachability/tests/arity.rs`
+                    // writes 124 characters more of it than of the real thing, which is the
+                    // finding. Requiring the object here would make the counterfactual
+                    // unwritable and the measurement unrepeatable.
+                    p.rest(no, &t, 2, "use-with [<item>]");
+                    t.get(1).map(|s| s.to_string())
+                } else {
+                    p.rest(no, &t, 1, v);
+                    None
+                };
                 match p.site.clone() {
                     Some(s) => p.open_binding(v, object, s, no),
                     None => p.err(no, format!("`{v}` outside a hotspot or actor")),
@@ -432,6 +562,9 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 } else {
                     1
                 };
+                if matches!(t[0], "ending" | "say" | "otherwise") {
+                    p.rest(no, &t, 1, t[0]);
+                }
                 match t[0] {
                     "ending" => p.binding.as_mut().unwrap().ending = true,
                     // **A `say` and an `otherwise` are one construct**: a line with no predicate.

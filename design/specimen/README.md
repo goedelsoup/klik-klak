@@ -1,7 +1,7 @@
 ---
 title: what the specimens found
 status: proposal
-reconciled: 7cfc735a2de341d6d455759934ee5b123c47fb04
+reconciled: 9ade5a844a4825d09d233b45636a0c4fe0b7e5fe
 rests_on:
   - design/bounded-expression-language.md
   - design/specimen/lighthouse.game
@@ -42,6 +42,18 @@ break it.
 | written for | *can this say a game at all?* | *does `count item` earn its place?* | *does `cutscene` earn its place?* | *does an actor's position need to be state?* |
 | committed defect | consumption | ordering | consumption | ordering |
 | reachable states | 91 of 12,288 (0.74%) | 20 of 120 (16.7%) | 14 of 64 (21.9%) | 20 of 128 (15.6%) |
+
+**And a fifth thing they found is not in that table, because nothing counted it for eleven
+phases.** The four carry 105 authored response clauses and **four of them are selected in no
+reachable state** — written, and unreachable. Three are in `lighthouse.game` and are not
+authoring slips: a binary entry is keyed by the object carried, so a binding that spends that
+object cannot be asked again and therefore cannot decline, and the *already done* refusal under
+each of the three is dead the moment it becomes true. The fourth is `ferry.game:61`, the
+ferryman's *"He is already unmooring."*, which is true only after a crossing the specimen
+documents as one-way — so the flag becomes true and the room holding the line that reads it
+becomes unreachable in the same act. `.yidam/decisions/orphaned-lines.yml`, and
+[`../bounded-expression-language.md`](../bounded-expression-language.md) §4 is where the
+prediction that this would be detectable was written down.
 
 **Each was written to answer one question and none of the four answered only that.** The list
 below is in the order they were written; `patrol` is the first written *after* a real game's
@@ -305,7 +317,7 @@ artifact they compose into. Noted rather than proposed — and noted more carefu
 
 ## Using them as fixtures
 
-**175 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
+**180 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
 thirty-eight for six phases; the figure was never derived from anything and is held by a check now
 (`crates/design-gate/tests/watermark.rs`).
 
