@@ -156,7 +156,6 @@ fn the_corpus_carries_seven_questions_and_the_count_is_the_token_count() {
     assert_eq!(
         open,
         [
-            "data-format/interaction-table.yml",
             "failure-mode/orphaned-dialogue-branch.yml",
             "hotspot/static-region.yml",
             "interaction/acquisition-binding.yml",
@@ -164,17 +163,20 @@ fn the_corpus_carries_seven_questions_and_the_count_is_the_token_count() {
             "puzzle/state-gate.yml",
             "world-flag/latched-flag.yml",
         ],
-        "seven — `puzzle/state-gate` reopened when a fifth specimen produced the multi-flag gate \
-         it had been closed for lacking (`.yidam/decisions/unread-specimen.yml`)"
+        "six — `puzzle/state-gate` reopened when a fifth specimen produced the multi-flag gate it \
+         had been closed for lacking, and `data-format/interaction-table` closed the same phase by \
+         being measured (`.yidam/decisions/unread-specimen.yml`, \
+         `.yidam/decisions/reads-like-writing.yml`)"
     );
 }
 
 /// **Three quarters of what this corpus still owes is invisible to every tool it has.**
 ///
-/// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds **7 live
-/// markers** — nine, then eight, then six across five phases, and now seven again: the falls were
-/// closures rather than the drift this file has otherwise tracked, and the rise is the first
-/// **reopening**, a question closed on a census that was reading four fifths of the specimens.
+/// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds **6 live
+/// markers** — nine, then eight, then six across five phases, then seven, then six again. The
+/// falls were closures rather than the drift this file has otherwise tracked; the rise was the
+/// first **reopening**, a question closed on a census that had been reading four fifths of the
+/// specimens, and the last fall was the last question here anybody could close by counting.
 /// The decision records hold **57 across 51 files**, and they are counted as zero — by
 /// `status`, by `due`, by the index, by everything. There was a third place and this file could
 /// not see it either: twelve more sat on the class pages in a spelling nothing reads, which
@@ -196,11 +198,11 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (7, 57, 51));
+    assert_eq!((corpus, decisions, records), (6, 57, 51));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        10,
-        "a tenth is visible"
+        9,
+        "under a tenth is visible"
     );
 
     // It was (7, 23, 18) for two phases and the visible share then fell one point a phase — 23,

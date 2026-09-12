@@ -57,10 +57,17 @@ enum Closes {
     Specimen,
     /// A count over work that already exists.
     ///
-    /// **Down to one, and the one that went was closed by counting.** `walkbox/scaled-polygon`
-    /// wanted `found-in`'s test run over 84 real polygons; `.yidam/decisions/adjacency.yml` ran it.
-    /// Two of the six columns emptied or shrank in consecutive phases, and both were the columns
-    /// whose resolver was a thing somebody could go and do.
+    /// **Empty, and it emptied the way the other two did — by somebody going and counting.**
+    /// `walkbox/scaled-polygon` wanted `found-in`'s test run over 84 real polygons and
+    /// `.yidam/decisions/adjacency.yml` ran it; `data-format/interaction-table` wanted the file
+    /// that carries the writing measured against the file it is keyed like, and
+    /// `.yidam/decisions/reads-like-writing.yml` took it — 84% of a response line is the sentence,
+    /// against 66% keyed flat, and 2.02 characters of writing per character of frame against a
+    /// shipped game's 0.56.
+    ///
+    /// **So all three columns whose resolver was a thing somebody could do are empty.** That is
+    /// the prediction this table made, complete. What it leaves is a corpus where nothing can be
+    /// closed by counting.
     Measurement,
     /// The evidence exists and somebody has to weigh it.
     ///
@@ -82,7 +89,6 @@ enum Closes {
 /// thing a string search can settle. The claim is the classification; the check below is that it
 /// covers every marker on disk and no other.
 const KINDS: &[(&str, Closes)] = &[
-    ("data-format/interaction-table.yml", Closes::Measurement),
     (
         "failure-mode/orphaned-dialogue-branch.yml",
         Closes::Testimony,
@@ -162,11 +168,13 @@ fn the_table_covers_every_question() {
 /// retrieval. That is the argument for the classification stated as an outcome rather than as a
 /// hope.
 ///
-/// **What is left is what the table said would be left, and one thing it did not predict.** Three
-/// questions wait on testimony and two are declined with a condition; between them they are five
-/// of the seven, and not one will close by anybody doing anything. One is a measurement over
-/// authored work that already exists. `.yidam/decisions/resolver-kind.yml` predicted exactly that
-/// shape and the emptying columns confirmed it.
+/// **What is left is what the table said would be left.** Three questions wait on testimony and two
+/// are declined with a condition; between them they are five of the six, and not one will close by
+/// anybody doing anything. `.yidam/decisions/resolver-kind.yml` predicted exactly that shape and
+/// the three emptied columns are the prediction complete: specimen, retrieval and measurement were
+/// the three whose resolver was a thing somebody could go and do, and all three are gone.
+///
+/// **Nothing in this corpus can now be closed by counting.**
 ///
 /// **The seventh is a reopening, which is a direction this table had no way to expect.** Every
 /// closure it sorted for was a question leaving the list. `puzzle/state-gate` came back onto it
@@ -193,15 +201,16 @@ fn every_question_says_what_would_close_it() {
             count(Closes::Measurement),
             count(Closes::Judgement),
         ),
-        (3, 0, 2, 0, 1, 1),
+        (3, 0, 2, 0, 0, 1),
         "testimony, a named artifact, a condition that would reopen it, a game, a count, and a \
          decision somebody has to take"
     );
 
-    // One of the three that were silent still names its resolver and points at the record that
-    // asked it to. The other two — `actor/player-character` and `walkbox/scaled-polygon` — have
-    // been answered, in the two phases after the asking.
-    let node = "data-format/interaction-table.yml";
+    // All three that were silent have been answered — `actor/player-character` by a specimen,
+    // `walkbox/scaled-polygon` by a measurement, `data-format/interaction-table` by the last
+    // measurement this corpus had to take. The one question added since says what would close it
+    // in the same form, and it is the first to name a judgement.
+    let node = "puzzle/state-gate.yml";
     let src = std::fs::read_to_string(root.join(".yidam/corpus").join(node)).expect("readable");
     assert!(
         src.contains("What would close it is") && src.contains("resolver-kind"),

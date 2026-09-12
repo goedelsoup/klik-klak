@@ -1,0 +1,112 @@
+id: reads-like-writing
+summary: >-
+  **The question was a trade-off in one dimension and it is a trade between two.** A response line
+  is 84% sentence; keyed as the flat table this node describes it would be 66%. The keying is not
+  deleted, it is moved above the line — 2,628 characters of header, and a median twenty-two-line
+  reach back to the room. Against a shipped game measured the same way, a binding here carries
+  three and a quarter times the writing per character of frame. The question closes; what it cannot
+  answer is whether an author finds it pleasant, which is testimony.
+context: |
+  [`data-format/interaction-table`](../corpus/data-format/interaction-table.yml)'s `authored_by` has
+  carried this since genesis: *"This is the file that carries the writing, and it should read like
+  writing rather than like data — which is a constraint on the syntax that pulls against the keying
+  above."*
+
+  [resolver-kind](resolver-kind.yml) classified it as the only question in the corpus whose resolver
+  is a **measurement** — a count over work that already exists — and one phase later
+  [unread-specimen](unread-specimen.yml) found the marker was wrong about the work: it named four
+  specimens, 662 lines and 91 bindings, and there were five, 904 and 120. The material is
+  `crates/game-format/tests/authored.rs`'s census: **19,968 authored characters, 53% of them inside
+  quotes, 154 response sites and 103 labels**, every one of them held against the parse tree.
+
+  **The question has two readings and nobody had separated them.** *Reads like writing* can mean
+  *is what is on the line writing* or *does the file read as prose*. The second is answerable and
+  the answer is no; the first is the one the node is about. Separating them is what made a
+  measurement possible, and the separation is the first of the four findings.
+decision: |
+  **1. The file does not read as prose, and a format that fixed that would be the wrong format.**
+  [verified] — `crates/game-format/tests/reading.rs`. 154 sentences in **126 runs, median run one,
+  longest four**. A sentence is adjacent to another only where a binding carries a refusal or an
+  `otherwise`.
+
+  That is what the medium is. An adventure game's writing is not paragraphs; it is 154 separate
+  answers to 154 separate clicks, and a syntax producing runs would be producing a scene. The corpus
+  already has the node for that — [`dialogue-script`](../corpus/data-format/dialogue-script.yml) —
+  and keeps it separate from the interaction table on exactly this ground. **So the screenplay
+  reading of the question is answered no and dismissed**, which is not a defect and is the thing
+  that had to be settled before the other reading could be counted.
+
+  **2. On the line the answer is yes, and the margin is wide.** [verified] — same file. A response
+  line is **51.9 characters of sentence behind 9.2 of prefix — 84%**, median prefix six characters,
+  which is `say` and two spaces. The longest prefix in the corpus is 32 and it is a guard rather
+  than a key.
+
+  The comparison is the same 154 responses keyed the way this node says an interaction table is
+  keyed, one row each carrying room, target, verb and guard: **26 characters of prefix, 66%.**
+
+  **3. The keying is moved rather than removed, and the currency is distance.** [verified] — same
+  file. **2,628 characters of header** — `room`, `hotspot`, `actor`, `<verb>:` — 13% of everything
+  an author types, written once and read from below. What that buys costs reach: a sentence's verb
+  is a median **2** lines above it, its target **4**, its room **22**, and the furthest a room
+  header gets from a sentence in this corpus is **94**.
+
+  **So the pull the node named is real and now has a price: 16% of a response line, or 34% and a
+  flat table.** The syntax takes the first. It spends the reach on the room, which is the key a
+  reader needs least often, and that ordering is a thing somebody chose and nobody wrote down.
+
+  **4. Against a shipped game the ratio is three and a quarter to one.** [verified] —
+  `crates/game-format/tests/reading.rs`, [delores-source](../catalog/delores-source.md).
+
+  | | sites | frame/site | prose/site | prose : frame |
+  |---|---|---|---|---|
+  | Delores, all | 287 | 73.1 | 41.1 | **0.56** |
+  | Delores, less its 62 prose-free availability gates | 225 | 83.8 | 52.2 | **0.62** |
+  | this design | 120 | 32.0 | 64.5 | **2.02** |
+  | this design, `look-at` only | 56 | 17.5 | 71.0 | **4.07** |
+
+  Both sides counted the same way — frame is every non-space character outside a string literal,
+  prose is what is inside one — and the shipped side is a hand-authored adventure game by the author
+  whose SCUMM, SPUTM and Dinky formats this corpus has read at every turn. **A shipped binding body
+  is mostly machinery with a line in it; one of these is mostly a line.**
+
+  **5. The question is closed and the residue is named.** The marker goes. What no count here can
+  reach is whether 84% is *enough* — whether a person writing a game in this syntax experiences it
+  as writing — and that is testimony, which [testimony](testimony.yml) established no artifact
+  supplies. The node says so rather than leaving a question open that nothing could close, which is
+  [resolver-kind](resolver-kind.yml)'s rule applied to a closure instead of to a marker.
+rationale: |
+  **The tension was assumed to be a trade-off and it is a trade between dimensions.** The node put
+  writing and keying in opposition as though they compete for the same characters. On a flat row
+  they do: the key is on the line and every character of it is a character the sentence does not
+  get, which is the 66%. Nesting moves the contest into a second dimension — the key is satisfied
+  vertically, in headers, and the writing horizontally, on the line — and the two stop competing for
+  the same resource. What they compete for instead is a reader's working memory, and that is
+  measurable too: twenty-two lines.
+
+  **It is the same shape as [arity-cost](arity-cost.yml) and [binary-dimension](binary-dimension.yml)
+  reached from the other side.** Those found that a second object makes the table two-dimensional
+  and that counting it flat understates the space by a factor. This finds that the *syntax* is
+  two-dimensional for the same reason and that counting its cost flat overstates it. A format keyed
+  hierarchically is not a table with fewer columns; it is a different shape, and figures taken as
+  though it were a table are wrong in both directions. [inference]
+
+  **A percentage of a line is a number with no scale, and the scale had been in the house for
+  phases.** 84% means nothing on its own. `.yidam/catalog/delores-source.md` carries the same
+  measurement over a shipped game, taken by [frame-width](frame-width.yml) for a different question
+  — whether an archetype should exist — and never read for this one. **That is the third phase in
+  five to close a question with a source already retrieved**, after
+  [control-transfer](control-transfer.yml) and [adjacency](adjacency.yml).
+
+  The catalog's unread list says which documents nobody opened. Nothing says what an opened document
+  was **not** looked at for, and `crates/design-gate/tests/subject.rs` records that its evidence
+  classifier cannot tell a retrieval from a re-reading. Three instances is no longer one instance.
+  [inference] — the convention has a following and still no statement, which is the shape
+  [unread-list](unread-list.yml) named and this repository keeps finding.
+
+  **And the measurement column is empty.** [resolver-kind](resolver-kind.yml) sorted nine questions
+  by what would close each and predicted that the columns whose resolver is a thing somebody can go
+  and do would empty first. Specimen emptied, retrieval emptied, and measurement is the last of the
+  three. What is left is three questions waiting on testimony no artifact supplies, two declined
+  with a condition, and one — `puzzle/state-gate`, reopened by [unread-specimen](unread-specimen.yml)
+  — waiting on a judgement. **Nothing in the corpus is now closable by counting, and that is the
+  prediction the sorting made coming true rather than a place to stop.**

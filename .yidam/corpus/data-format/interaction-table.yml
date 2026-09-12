@@ -62,18 +62,45 @@ properties:
   authored_by: |
     A person, directly. This is the file that carries the writing, and it should read like
     writing rather than like data — which is a constraint on the syntax that pulls against
-    the keying above. [open] Nothing here resolves it, and one thing now tries:
+    the keying above. That was asked here at genesis and carried for the whole of this node's
+    life; it is measured now, and the answer is that the two do not pull on the same thing.
+    `.yidam/decisions/reads-like-writing.yml`.
+
+    **A response line is 84% sentence.** 51.9 characters of sentence behind 9.2 of prefix, median
+    prefix six — which is `say` and two spaces. The same 154 responses keyed the way this node says
+    an interaction table is keyed, one row each carrying room, target, verb and guard, would be
+    **66%**. [verified] — `crates/game-format/tests/reading.rs`.
+
+    **And a binding here is 2.02 characters of writing per character of frame, where a shipped
+    game's is 0.56.** Delores, counted the same way over 287 authored binding bodies —
+    [delores-source](../../catalog/delores-source.md) — or 0.62 excluding its 62 prose-free
+    availability gates. A shipped binding body is mostly machinery with a line in it; one of these
+    is mostly a line. [verified]
+
+    **The keying is not deleted, it is moved above the line, and the currency is distance.** 2,628
+    characters of `room`, `hotspot`, `actor` and `<verb>:` header — 13% of the file — written once
+    and read from below. A sentence's verb is a median **2** lines above it, its target **4**, its
+    room **22**, and the furthest a room header gets from a sentence is **94**. [verified] So the
+    pull is real and priced at 16% of a response line, against 34% and a flat row. The syntax takes
+    the first and spends the reach on the room, which is the key a reader needs least often.
+
+    **The file does not read as prose and a format that fixed that would be the wrong format.** 154
+    sentences in 126 runs, median run one, longest four. [verified] An adventure game's writing is
+    not paragraphs; it is one answer per click. The thing with runs is
+    [dialogue-script](dialogue-script.yml), which this corpus keeps a separate node for on exactly
+    this ground — and separating the two readings of *reads like writing* is what made the rest of
+    this measurable.
+
+    **What no count reaches is whether 84% is enough** — whether a person writing a game in this
+    syntax experiences it as writing. That is testimony, and
+    [testimony](../../decisions/testimony.yml) established that every source here is an artifact
+    and an artifact records what was built rather than what building it was like. It is stated
+    rather than left open, because a question nothing can close is not a question this corpus
+    keeps. [inference]
+
+    One thing tries the proposal:
     [bounded-expression-language](../../../design/bounded-expression-language.md), which keys
     bindings separately from declarations and puts the writing on the same line as the guard.
-
-    **What would close it is a measurement, and the material for one exists.** Five specimens,
-    **904 lines and 120 bindings** are authored in that syntax, and whether it reads like writing
-    is a question about those lines rather than about the proposal — the kind of thing
-    `crates/game-format/tests/authored.rs` already counts one half of. (This named the previous
-    four-specimen figures for eleven commits after a fifth was written, which is
-    `.yidam/decisions/unread-specimen.yml`: the marker naming the only measurable question here was
-    itself wrong about what there was to measure.)
-    [resolver-kind](../../decisions/resolver-kind.yml).
 
     A specimen authored in the proposed language resolves it by splitting the two rather than
     reconciling them: declarations are keyed like data, bindings are written as blocks, and the
