@@ -155,8 +155,11 @@ fn every_design_document_records_what_it_was_last_read_against() {
 /// **Only the near end of the window is fixed.** The far end is HEAD, so the count of premises
 /// that have moved rises whenever a phase edits one of the eighteen, and this assertion is
 /// re-pinned rather than held. It went to fourteen when `authored-text` took a needless escape out
-/// of `ferry.game`. What the check is for is the comparison against the watermarked document, not
-/// the number — and the comparison has widened, which is the direction the finding predicted.
+/// of `ferry.game`, and to fifteen when `calculators` retired `vocabulary-coverage` — a premise
+/// that moved because the thing it described stopped existing, which is a kind of drift this
+/// measure cannot tell from any other. What the check is for is the comparison against the
+/// watermarked document, not the number — and the comparison has widened, which is the direction
+/// the finding predicted.
 #[test]
 fn the_second_document_rests_on_more_and_has_drifted_further() {
     let root = repo_root();
@@ -201,7 +204,7 @@ fn the_second_document_rests_on_more_and_has_drifted_further() {
     }
     assert_eq!(
         moved.len(),
-        14,
+        15,
         "premises edited since this document was: {moved:?}"
     );
     assert!(

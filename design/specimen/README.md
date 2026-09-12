@@ -1,7 +1,7 @@
 ---
 title: what the specimens found
 status: proposal
-reconciled: 9ade5a844a4825d09d233b45636a0c4fe0b7e5fe
+reconciled: e4499308b304baa2fb23c72d61f6cfdb2c4ce112
 rests_on:
   - design/bounded-expression-language.md
   - design/specimen/lighthouse.game
@@ -260,6 +260,14 @@ Movement is a verb in both systems this corpus has read — AGS ships Mode 0 (Wa
 Tumbleweed template carries `eMG_WalkTo` ([ags-manual](../../.yidam/catalog/ags-manual.md))
 [verified] — and no `verb` node declared it. That was `vocabulary-coverage`'s second list, and it
 had one member for three phases.
+
+**That skill is retired, and this document is the reason.** Both of its lists were produced here
+rather than by the calculator, over games rather than over the corpus it was specified to read —
+and its own page came to say that a coverage report over verbs *"cannot tell you which class the
+gap is in, and this one was read as though it could"*, which is exactly what happened to the
+member below. `.yidam/decisions/calculators.yml` retires it and `collapse-signature` beside it: all
+three calculators approved at genesis were answered by reading a game, and a specimen is corpus
+input for none of them.
 
 **Now assessed, and the answer is that these six sites are not verb bindings at all.**
 [verb/walk-to](../../.yidam/corpus/verb/walk-to.yml) finds that no engine lets an author write a
