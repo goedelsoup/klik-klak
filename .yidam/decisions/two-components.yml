@@ -110,14 +110,20 @@ rationale: |
   engine crates rather than on the instrument that reads the corpus. It is code work about the
   subject, which is the third evidence path and is the one that check was extended to see.
 
-  **What this does not settle.** Where the world's state lives when there is a save to write.
-  Putting `World` and `State` in the format crate is right for a value derived from declarations
-  and says nothing about the component that owns one at runtime — and this corpus has no such
-  component, which is a gap the tier did not notice while none of its four members needed to
-  persist anything. `save-state` describes an AGS save as *"a dump of all the game objects,
-  regardless of whether they are related to the game progress or not"* and records that as the
-  flaw that breaks saves across a patch; a design with no owner of state has not yet earned the
-  right to call that a flaw. `[open]`
+  **Where the world's state lives when there is a save to write.** Putting `World` and `State` in
+  the format crate is right for a value derived from declarations and says nothing about the
+  component that owns one at runtime — and this corpus has no such component, which is a gap the
+  tier did not notice while none of its four members needed to persist anything. `save-state`
+  describes an AGS save as *"a dump of all the game objects, regardless of whether they are related
+  to the game progress or not"* and records that as the flaw that breaks saves across a patch; a
+  design with no owner of state has not yet earned the right to call that a flaw.
+
+  **Answered by [playable](playable.yml), one phase later, and the answer is that none should.**
+  The state is held by whatever composes the components — `engine/play` threads it through its
+  loop — and a component that held it would be a component the other two had to ask. That is what
+  makes the menu *"a pure function of the target and the state"* and resolution *"a pure function of
+  the binding and the world state it reads"*, both of which were written before anything ran. The
+  gap the tier did not notice was not a gap.
 
   **And whether one crate per subsystem survives a component with parts.** Two crates of one file
   each is not evidence that the mapping scales, and the first component that wants three modules

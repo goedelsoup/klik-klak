@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (469, 82, 58));
+    assert_eq!((total, mentions, tests.len()), (478, 85, 59));
 }
 
-/// **Six of sixty-nine records are cited by nothing, against three of forty-four nodes.**
+/// **Five of seventy records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -327,14 +327,15 @@ fn a_record_nothing_cites_is_named() {
             "domain-computer",
             "name-scoping",
             "settled-surface",
-            "two-components",
         ],
-        "six, and the newest is on it as almost every newest record is. `authored-text` came \
-         off inside its own phase, because the record it corrects now cites it — which is what \
-         this list is for and is not what usually happens"
+        "five, with both ends moving for the second phase in three. `playable` never joined — \
+         the record it answers a question for cites it back in the same phase — and \
+         `two-components` came off for the same reason. A record written to close another \
+         record's question is cited by construction, which is the one shape that keeps this \
+         list from growing"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (69, 214));
+    assert_eq!((c.len(), edges), (70, 218));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**

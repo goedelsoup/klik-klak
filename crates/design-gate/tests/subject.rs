@@ -167,7 +167,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 69, "every record, in the order it was created");
+    assert_eq!(all.len(), 70, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -180,7 +180,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (32, 33, 23),
+        (33, 33, 24),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -226,8 +226,14 @@ fn the_evidence_each_record_rests_on() {
 /// zero**, which is the distinction this check was built to make. That phase moved the evaluator
 /// out of the instrument and into `engine/`: it rests on the engine crates, so it is subject work
 /// by the third evidence path, and it needed no document because *where a component lives* is not
-/// a question any adventure-game source answers. A run of one here is a phase about code rather
-/// than about a game, and the record says so.
+/// a question any adventure-game source answers. A run of one there was a phase about code rather
+/// than about a game, and the record said so.
+///
+/// **`playable` cleared it by asking whether an engine's main loop belongs in a corpus about
+/// authoring vocabularies**, which is a question a document answers: AGS exposes the loop as a
+/// script slot and nothing declarative, so the vocabulary has no form of it and the loop is the
+/// engine's. A phase can reach for a source to decide what *not* to write down, which is not a use
+/// of the catalog this check was built expecting.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -243,7 +249,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (1, 0),
+        (0, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
