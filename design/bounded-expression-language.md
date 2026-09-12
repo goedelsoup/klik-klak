@@ -1,7 +1,7 @@
 ---
 title: A bounded expression language for authored interaction
 status: proposal
-reconciled: be19e2828a3cfe21fbc5a0466d15a3cf4bcbf793
+reconciled: 19a3fe57b55a2175c630118b1a9f3efc5bb8ebb5
 rests_on:
   - .yidam/corpus/actor/player-character.yml
   - .yidam/corpus/data-format/interaction-table.yml
@@ -708,13 +708,23 @@ or that anybody would enjoy writing in it.
   writing on the same line."* A named construct, in the file this sentence pointed at.
   [`.yidam/decisions/settled-surface.yml`](../.yidam/decisions/settled-surface.yml).
 
-  **The marker stayed open under that, and now says what would close it, and it is this document.**
-  `authored_by`'s `[open]` read *"Nothing here resolves it, and one thing now tries"* without naming
-  the thing. The thing is this proposal, and what would settle it is **a measurement** rather than
-  another argument: whether a syntax that keys bindings separately from declarations reads like
-  writing is a question about the 904 authored lines, not about the sections above them.
-  [`.yidam/decisions/resolver-kind.yml`](../.yidam/decisions/resolver-kind.yml). Nothing here
-  changes; what changes is that the question is now addressed to an instrument.
+  **The marker stayed open under that, then said what would close it, and the measurement has been
+  taken.** It wanted a count over the 904 authored lines rather than another argument
+  ([`resolver-kind`](../.yidam/decisions/resolver-kind.yml)), and the count says the tension this
+  document was asked to resolve is not a contest for the same characters.
+
+  **A response line is 84% sentence** — 51.9 characters of writing behind 9.2 of prefix — where the
+  same 154 responses keyed as one flat row each would be **66%**. Per binding this syntax carries
+  **2.02** characters of writing per character of frame; Delores, counted identically over 287
+  authored bodies, carries **0.56**. The keying is not deleted, it is moved above the line: 2,628
+  characters of header, 13% of the file, and the cost is reach — a median **2** lines to the verb,
+  **4** to the target, **22** to the room.
+  [`.yidam/decisions/reads-like-writing.yml`](../.yidam/decisions/reads-like-writing.yml).
+
+  So the proposal's answer to the tension is the right shape and the price is now a number: 16% of a
+  response line against 34% and a flat row, paid in distance rather than in characters. What no
+  count reaches is whether 84% is enough for the person writing, which is testimony and is stated
+  rather than left open.
 - **Whether `actor` and the player should be one kind.** They are two here, and a fifth specimen
   is what made the cost countable rather than arguable: control transfer has no site in Layer 0,
   its destination must be a literal so the site count is quadratic in the map, and
