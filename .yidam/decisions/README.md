@@ -235,6 +235,7 @@ nodes, at four times the rate, and it had never been looked at.
 - [declared-reach](declared-reach.yml)
 - [domain-computer](domain-computer.yml)
 - [held](held.yml)
+- [input-side](input-side.yml)
 - [name-scoping](name-scoping.yml)
 - [settled-surface](settled-surface.yml)
 

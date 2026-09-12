@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 78, "every record, in the order it was created");
+    assert_eq!(all.len(), 79, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (39, 42, 28),
+        (40, 42, 29),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -257,6 +257,14 @@ fn the_evidence_each_record_rests_on() {
 /// that has no combination at all. Three times now the run has reached one and the phase after it
 /// found a source, which is the ratio this check exists to keep visible rather than a number to
 /// drive to zero.
+///
+/// **`input-side` cleared it a fourth time and by a different act: it retrieved the document
+/// rather than opening one already held.** Every clearing before it drew on the eight sources that
+/// were here on 2026-09-10, and **66 of this repository's 88 phases have run against a catalog that
+/// stopped growing** — which is a fact this check cannot see, because a record citing a source is a
+/// record citing a source whether the retrieval was a year old or an hour. The run measures whether
+/// a phase reached for evidence. Nothing here measures whether the evidence was already in the
+/// house, and for two thirds of this repository's life it always was.
 ///
 /// Two phases on the same tooling, one with a document and one without, is the distinction this
 /// check was built to make visible. A phase that touches no source and knows it is not the same

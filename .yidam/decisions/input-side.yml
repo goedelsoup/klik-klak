@@ -1,0 +1,170 @@
+id: input-side
+summary: >-
+  **Sierra had no authoring vocabulary at either end of the transition this corpus called its best
+  evidence, so the transition is not evidence about one.** AGI is script-only and SCI1's icon bar
+  was written in the game's own scripts. What Sierra bounded was the **input** — a declared
+  dictionary, and a closed pattern language for what the player typed — with nothing whatever
+  bounding what happens next. That is the third position `vocabulary_shape` said this corpus had no
+  word for, and it is this design's split run backwards.
+context: |
+  [prior-art/sierra-sci](../corpus/prior-art/sierra-sci.yml) has said since genesis that Sierra's
+  move from a typed parser to an icon bar is *"the single most useful piece of evidence available
+  to this corpus, because it is the same house making both choices within one product line"*, and
+  in the same file, in a property nobody had to read to believe the sentence above it:
+  *"Nothing retrieved. The ScummVM and SCI decompilation projects have published substantial
+  documentation of both engines. None of it has been located or read, and the era range above is
+  recollection."*
+
+  Its `[open]` was closed four phases in, by substitution: [verb-count](verb-count.yml) asked the
+  question of Delores's 57 declared verbs instead, and that answer stands — the range was used,
+  nothing became inexpressible, and what a small verb set costs is targets. **The retrieval was
+  never done.** A question closed by asking it of something else leaves the source gap exactly
+  where it was, and this repository had no way to notice: a node citing *any* catalog entry looks
+  sourced to every check here. [verified] — `crates/design-gate/tests/lineage.rs`, where three of
+  the four `prior-art` nodes cite a source about their own subject and `sierra-sci` cites only
+  `delores-source.md`.
+
+  Eight sources, two houses — three AGS, five SCUMM and Ron Gilbert — and a corpus about the
+  authoring vocabulary of point-and-click adventure games had read no third.
+decision: |
+  **Two entries retrieved, and the node is rewritten around what they say rather than around what
+  it hoped they would.**
+
+  **1. There is no declarative layer in AGI, and the specification says so structurally rather than
+  by omission.** *"All rooms have a single LOGIC script that governs what happens within that
+  room"*; `logic.0` runs *"over and over again with each interpretation cycle"* and every other
+  logic executes only when called from it. [verified] —
+  [agi-specifications](../catalog/agi-specifications.md). Every interaction is a branch in a
+  procedure. There is no table, no binding list, and nothing an author fills in.
+
+  So AGI joins SCUMM as an engine with no declarative layer to escape *from*, and it is the
+  stronger instance: SCUMM's absence is read off a reverse-engineered opcode table, which
+  `scumm-v5-opcode-reference` itself warns is the weaker kind of evidence, while this is a positive
+  statement about where behaviour lives.
+
+  **2. SCI1's icon bar was not an engine primitive.** *"SCI1 also introduced a Point&Click interface
+  (a mouse-driven, icon-based), which was implemented by the game's scripts, not the SCI1
+  interpreter."* [inference] — this is the SCI community's sentence and not Sierra's; the same
+  page's account of generic classes *"for rooms and actors and icon bars"* living in **system
+  scripts** is consistent with it, and none of Sierra's own documents read here speaks to it.
+
+  If it holds — and this is the one load-bearing claim in this record that is not `[verified]` —
+  then the sentence at the top of `sierra-sci` is answering a question about **interfaces** while
+  presenting itself as evidence about **primitives**. The same house did make both choices. It made
+  both of them in a general-purpose language, and an engine that offers no verb vocabulary at
+  either end cannot testify about what a verb vocabulary costs.
+
+  **3. What Sierra bounded is the input, and it bounded it twice, declaratively, in both engines.**
+  AGI's `WORDS.TOK` is *"used to store the games vocabulary, i.e. the dictionary of words that the
+  interpreter understands"*; `said` is condition `0x0E`, the one test with a variable argument
+  count, and its arguments are word-group numbers from that file. Even the wildcards are declared:
+  group 1 is `anyword`, group 9999 is `rol`, rest-of-line. [verified]
+
+  SCI replaces the word-number list with a grammar. From Sierra's own *SCI Parser Programmer's
+  Reference* (Pablo Ghenis, 21 July 1988): *"The parser is the part of SCI that accepts sentences
+  from the user and allows game coders to specify how to respond to it."* A Said spec is
+  `(Said 'take/gold/dwarf<from')` — *"three sections separated by slashes"*, the first the verb,
+  then direct object, then indirect; `<` *"means 'modified by'"*. [verified] —
+  [sci-inhouse-docs](../catalog/sci-inhouse-docs.md). Two operators, three slots, roots from a
+  declared dictionary. What follows a match is ordinary object-oriented code in a room's
+  `handleEvent`.
+
+  **`vocabulary_shape` asked for a word and the file formats supply it.** That property says the
+  parser's vocabulary was *"open at the surface and closed in fact — bounded by whatever the author
+  had written responses for — which is a third position this corpus's binary of
+  bounded-versus-scripted does not currently have a word for."* The closure is not an emergent
+  property of how much the author wrote. **It is declared, and it is declared on the input.** A word
+  the game has not put in `WORDS.TOK` is not a word.
+
+  **4. That makes the comparison an axis rather than a scale, and this design sits at the other
+  end of it.** Sierra spent its entire declarative budget on recognising the player's sentence and
+  none on saying what happens next. This design fixes the site — a verb menu, so there is nothing to
+  recognise — and spends the budget on the guard and the effect. Two systems, opposite allocations,
+  and both of them finite in exactly one place. [inference]
+
+  A Said spec is **Layer 0 written as a grammar**:
+  [`design/bounded-expression-language.md`](../../design/bounded-expression-language.md) says
+  `site := verb target [ object ]` and a Said spec is the same three slots, plus a preposition and
+  root-matching that this design has no need for because its targets are declared names rather than
+  typed words. That is a second independent arrival at the same three slots, from the only other
+  direction anyone has approached them from.
+
+  **5. AGI's action vocabulary grew per title, which this corpus has argued against and never
+  watched happen.** *"The value 181 (0xB5) may well be different for each game. Sierra will have
+  added more commands to their set as they went along."* [verified] The test range did not grow the
+  same way: `0x00 - 0x12`, at most nineteen, against roughly a hundred and eighty actions. And some
+  of what accreted stopped doing anything — *"commands 175, 176, 178, 179 and 180 of the last
+  version of AGI (ver 3.002.149) do absolutely nothing."* [verified]
+
+  [verb/give-to](../corpus/verb/give-to.yml) keeps a declined verb as a node because *"a vocabulary
+  growing by accident needs a record of what it declined"*. Sierra kept no such record; the engine
+  simply got bigger, and five dead opcodes at the end of it are what that looks like from the
+  inside. This is the first measurement in this catalog of the failure that convention exists to
+  prevent.
+
+  **6. Two of AGI's nineteen tests are spatial and this design has none.** `posn(n,x1,y1,x2,y2)`
+  and `obj.in.box(n,x1,y1,x2,y2)` test where something is to a rectangle. [verified] The design
+  document already names this gap from the other side: *"The two assessments wanted arrival at two
+  granularities: a room, and a place within a room. Only the first was demonstrated by a specimen
+  and only the first was built."*
+
+  **Not proposed here.** Prior art showing a construct exists is not a specimen needing it, and
+  `AGENTS.md` is explicit that a primitive earns its place by being something the vocabulary cannot
+  say in work somebody actually wrote. Four specimens want no such test. What changes is that the
+  gap is now evidenced rather than merely noticed, and the evidence is that the engine which had it
+  had no declared coordinates to compare against either — `posn` takes raw pixel bounds, which is
+  the operand this design's admission rule exists to refuse.
+
+  **7. 256 flags and 256 variables, numbered, declared by nothing.** [verified] An author writes
+  `f5` and remembers. Against this design's admission rule — *every operand names something the
+  corpus already declares* — that is the exact complement, and it is the first concrete picture
+  this corpus has of what the other choice costs. It also explains the one thing Sierra did declare:
+  a parser **must** have a dictionary, because the player's typing has to resolve to something, and
+  nothing forces the same discipline on a flag.
+
+  **What the sources cannot settle, and the entries say so rather than trading on proximity.** The
+  AGI specification disclaims the authoring surface in as many words — *"This is the 'official'
+  LOGIC syntax that has been decided on. It is not the same syntax as Sierra used."* [verified] So
+  for AGI this corpus has a source about the machine and still none about what an author typed, and
+  every claim here about AGI authoring practice is `[inference]` on that account. For SCI it is the
+  other way round: Sierra's own documents, one of eleven read.
+
+  **Whether SCI1's icon bar was a game script or an engine feature is answerable and unanswered.**
+  *Script Classes for Adventure Games* is in the retrieved set, unread, and is where a verb bar
+  would be declared if Sierra declared one. `[open]`
+rationale: |
+  **The finding is that a retrieval nobody did was holding a conclusion nobody could check, and
+  the conclusion was about the most important thing in the file.** `sierra-sci` called its own
+  subject the single most useful evidence available here and then recorded, two properties down,
+  that none of it had been read. Both sentences were true. Nothing in eighty-eight phases put them
+  side by side, because a node that cites a catalog entry is a sourced node to every instrument in
+  this repository, and this one cited a game by another house on another engine.
+
+  **`verified-unsourced` and this are the same rule at two levels, and `sourcing.rs` saw the first
+  one without generalising it.** That check recorded that *"one citation anywhere silences the rule
+  for the whole node — including for claims that citation has nothing to do with"* and held the
+  finding at claim level. One level up, the same mechanism silenced a whole node's provenance on a
+  citation about a different system, and `crates/design-gate/tests/lineage.rs` is that rule stated
+  where it was missing.
+
+  **The correction runs in two directions and only one of them is a loss.** As evidence about
+  authoring primitives the transition is worth much less than claimed — both ends are a
+  general-purpose language, and the icon bar is a library rather than a vocabulary. As evidence
+  about *where a system puts its finiteness* it is worth more, because Sierra is the only case
+  anyone here has of a house that bounded the input and left the effects open. This corpus's binary
+  had been bounded-versus-scripted, a scale with two ends; what Sierra shows is that finiteness has
+  a **place** as well as an amount, and that the two engines everybody compares chose opposite
+  places. [inference]
+
+  **It is the second time a phase here has answered a question by finding it was the wrong
+  question, and the first time the wrongness was in the corpus's own valuation of its subject.**
+  [normal-form](normal-form.yml) found a limit recorded as expressive that was a spelling. This
+  finds a piece of evidence recorded as decisive that is decisive about something else. Both were
+  reached the same way — by taking a sentence the repository had written down and asking what it
+  would take to check it — and in both cases the thing that had stood in the way was that nobody
+  could have failed while it stood.
+
+  **What it does not do is close `testimony`.** Sierra's in-house set is the nearest thing in reach
+  — *Recommended Procedures for SCI Game Programming Coordinators*, the *Laura Bow II Programming
+  Style Manual* — and it is still artifacts. A style manual tells an author what to do; it does not
+  report what doing it was like. [testimony](testimony.yml) stays open, one source closer.
