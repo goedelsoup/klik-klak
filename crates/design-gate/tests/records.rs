@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (611, 99, 76));
+    assert_eq!((total, mentions, tests.len()), (624, 101, 77));
 }
 
-/// **Eight of eighty-three records are cited by nothing, against three of forty-four nodes.**
+/// **Eight of eighty-four records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -322,8 +322,8 @@ fn a_record_nothing_cites_is_named() {
     assert_eq!(
         alone,
         [
+            "adjacency",
             "binding-axes",
-            "control-transfer",
             "declared-reach",
             "domain-computer",
             "held",
@@ -344,10 +344,12 @@ fn a_record_nothing_cites_is_named() {
          `class-library` read the documents `input-side` had named, and `input-side`'s marker \
          now cites the record that corrected it. `resolver-kind` came off it a third way and \
          the plainest: it sorted the open questions by what would close each, and the phase \
-         that closed one cites the sorting rather than being cited by it"
+         that closed one cites the sorting rather than being cited by it. `control-transfer` \
+         came off it the same way one commit later, which makes `resolver-kind` the first record \
+         here to be cited by two consecutive phases for having sorted their work for them"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (83, 286));
+    assert_eq!((c.len(), edges), (84, 292));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**

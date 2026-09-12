@@ -230,8 +230,8 @@ Records no other record points at. Not a defect on its own — a record may be t
 word on something nothing else has needed — but it is the shape `orphan-in` reports for
 nodes, at four times the rate, and it had never been looked at.
 
+- [adjacency](adjacency.yml)
 - [binding-axes](binding-axes.yml)
-- [control-transfer](control-transfer.yml)
 - [declared-reach](declared-reach.yml)
 - [domain-computer](domain-computer.yml)
 - [held](held.yml)
