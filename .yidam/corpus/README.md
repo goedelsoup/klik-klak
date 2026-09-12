@@ -49,7 +49,7 @@ Sorted by: kind, then alphabetically.
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 8v / 5i / 0o | 103 |
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 11v / 12i / 0o | 246 |
 | [dialogue-script.yml](data-format/dialogue-script.yml) | data-format | Dialogue Script | 2 | 8v / 3i / 0o | 129 |
-| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 46v / 23i / 1o | 600 |
+| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 50v / 24i / 0o | 627 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 10v / 7i / 0o | 155 |
 | [save-state.yml](data-format/save-state.yml) | data-format | Save State | 4 | 5v / 4i / 0o | 91 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 9v / 5i / 1o | 101 |
