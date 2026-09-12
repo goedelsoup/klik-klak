@@ -205,12 +205,16 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
+### [verb-names](verb-names.yml)
+
+- **:77** — **What the menu now reads, and why it reads slightly oddly.** *"Use a short crowbar with a nailed-shut crate"* — because an author writes hotspot labels as noun phrases with articles, and a template that assumed otherwise would be telling authors how to write. Delores's authors face the same seam an…
+
 ### [walked-in](walked-in.yml)
 
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**53 open.**
+**54 open.**
 
 ## What nothing cites
 
@@ -223,6 +227,7 @@ nodes, at four times the rate, and it had never been looked at.
 - [domain-computer](domain-computer.yml)
 - [name-scoping](name-scoping.yml)
 - [settled-surface](settled-surface.yml)
+- [verb-names](verb-names.yml)
 - [walked-in](walked-in.yml)
 
 ## What each record rests on

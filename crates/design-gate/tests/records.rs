@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (485, 86, 60));
+    assert_eq!((total, mentions, tests.len()), (494, 87, 61));
 }
 
-/// **Six of seventy-one records are cited by nothing, against three of forty-four nodes.**
+/// **Seven of seventy-two records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -327,15 +327,16 @@ fn a_record_nothing_cites_is_named() {
             "domain-computer",
             "name-scoping",
             "settled-surface",
+            "verb-names",
             "walked-in",
         ],
-        "six. `playable` never joined, because the record it answered a question for cites it \
-         back; this one joins, because it answers nobody's question and closes none. The \
-         difference is the whole of what keeps this list from growing, and it is not a \
-         property anybody chose"
+        "seven, and two of them arrived in consecutive phases. Neither closed another \
+         record's question, which is the one shape that takes a record off this list — \
+         `playable` did and never joined it. A phase that answers an open question is cited \
+         by construction and a phase that opens one is not"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (71, 222));
+    assert_eq!((c.len(), edges), (72, 226));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -453,7 +454,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 53, "live open questions in this directory");
+    assert_eq!(total, 54, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
