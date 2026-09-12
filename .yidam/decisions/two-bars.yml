@@ -1,0 +1,129 @@
+id: two-bars
+summary: >-
+  **Sierra shipped two bars and declared the one nobody plays through.** SCI0's kernel has five
+  calls for a menu bar and a five-character markup to declare its contents; the icon bar has one
+  control type and no arrangement, no declaration and no event. So the icon is an engine feature
+  and the bar is a game script, which is the question's binary dissolved rather than answered — and
+  the declarative budget this corpus counted as one closed pattern language is two, both of them at
+  the edges.
+context: |
+  [input-side](input-side.yml) asked whether SCI1's icon bar was a game script or an engine
+  feature, and named the wrong document to settle it. [class-library](class-library.yml) found the
+  document was two years too early. [retraction-reach](retraction-reach.yml) found the correction
+  had never reached the node, repaired the marker, and left it asking for an SCI1-era artifact —
+  *"a system script from 1990 or later, or a shipped title's own `Game` and `User` subclasses."*
+
+  **What was retrieved is neither, and it is better than either.** SCI0's **kernel function table**,
+  114 calls, from the SCI community's reverse engineering of the interpreter
+  ([sci-specifications](../catalog/sci-specifications.md)). A shipped title's scripts show what one
+  game built. A kernel table shows what *any* game could ask the engine for, so a thing absent from
+  it is a thing the engine did not do. The table is **114 calls, `0x00` to `0x71`**.
+decision: |
+  **1. The icon is an engine feature and the bar is a game script.** [verified] —
+  `crates/design-gate/tests/kernel.rs`, over
+  [sci-specifications](../catalog/sci-specifications.md).
+
+  The interpreter has three control calls — `DrawControl`, `HiliteControl`, `EditControl` — and a
+  control has six types: 1 Button, 2 Text, 3 Edit, **4 Icon**, 5 unused, 6 Selector. So an icon is
+  a thing SCI0 knew how to draw in 1988, two years before SCI1's interface shipped.
+
+  **And there is no bar** — no `AddIcon` beside `AddMenu`, no icon-bar call, no verb call, and
+  nothing named Icon anywhere in the 114 — the icon is a *type number* handed to a general
+  control-drawing routine. Which icons, in what order, meaning what, is nowhere in the engine.
+
+  **The question presumed a binary and the grain is the finding.** Asked as *script or engine* it
+  has no answer; asked as *what did the engine offer* it has a precise one, and the two halves fall
+  on either side of the same object. [inference]
+
+  **2. Sierra declared the menu it did not care about.** Five of the 114 are the menu bar:
+  `AddMenu`, `DrawMenuBar`, `MenuSelect`, `GetMenu`, `SetMenu` — and `AddMenu` takes a
+  **declaration rather than a drawing**. Its `content` is a string in a five-character markup:
+  a backtick right-justifies, a colon separates items, `--!` draws a separation line, `#` is a
+  function key shown as F, `^` is a control key shown as CTRL. [verified]
+
+  A menu, its items, their layout and their accelerators, in one string handed to the engine.
+  **That is a declarative interface construct, and it is for File, Save, Restore and Quit.** The
+  verb interface — the thing a player uses every second of the game — got a drawing call per icon
+  and nothing else.
+
+  **This corpus's central question, answered backwards.** *What is the smallest set of authoring
+  primitives that can express a classic point-and-click adventure?* Sierra's answer includes exactly
+  one declarative construct for an interface, and it is the one interface the game is not played
+  through. [inference]
+
+  **3. The declarative budget is two closed pattern languages, not one.** `input-side` read the
+  Said spec — `(Said 'take/gold/dwarf<from')`, two operators and three sections — and concluded
+  *"that is where all of Sierra's declarative budget went"*. The menu markup is the second, it is
+  smaller, and it points the same way: **both are at the edges.** One bounds what the player may
+  type and one bounds what the chrome contains, and between them is a general-purpose
+  object-oriented language with nothing bounded at all. [verified] for both languages; [inference]
+  for reading them as a pair.
+
+  **4. The event vocabulary is the mechanism, and it is five types wide.** `0x00` null, `0x01`
+  mouse button, `0x02` mouse button release, `0x04` keyboard, `0x40` movement. [verified]
+  **Nothing in it reports a selection.** A script receives a raw mouse-down and hands it to
+  `MenuSelect` for the engine to interpret.
+
+  An engine that reports a click and never a choice cannot offer a verb menu, because a verb menu
+  is precisely a thing that must say *which verb*. [inference] `subsystem/verb-menu` is answerable
+  here for *"given a target and a state, the verbs to display and no others"*, and the reason that
+  is expressible at all is that selection is this design's unit rather than a coordinate.
+
+  **5. It explains a dispatch order `class-library` recorded and could not account for.** That
+  phase found `User.doit:` sending `handleEvent:` in succession to `TheMenuBar`, `alterEgo` and the
+  regions, with `TheMenuBar` glossed as *"the game's menu bar"* — an object the game supplies. The
+  order is not taste: `MenuSelect` takes the **raw event**, so the menu bar has to be offered it
+  before anything else can consume it. [inference] A kernel whose menu call parses an event forces
+  every script that uses it to dispatch menus first.
+
+  **6. The question closes.** `prior-art/sierra-sci`'s marker is retracted and the corpus goes from
+  seven live questions to six — the third closure in four phases, after eleven with none.
+
+  **What this does not settle, and where it is registered.** SCI1's kernel table is not in the
+  document read here; the list is headed *SCI0 Kernel functions* and no equivalent for 1.xxx
+  appears. So *SCI1 added no icon-bar call* is an inference from SCI0's table and the shape of the
+  change, not a reading of SCI1's. **That is a retrieval and it belongs on an unread list rather
+  than in the corpus**, which is what [unread-list](unread-list.yml) established that register for;
+  the entry names it and names where it would be found. The corpus does not gain a question to
+  replace the one it lost.
+
+  **What the record leaves open is a different thing: what a declaration buys, measured.** Sierra's
+  menu is declared and its icon bar is not, in one engine, by one set of people, at the same time.
+  That is a natural experiment nothing here has run — the obvious candidate is *enumerability*, and
+  whether Sierra's own tooling or documentation ever exploited the declared menu the way
+  `engine/verb-menu` exploits a declared verb set is unknown. What would close it is the SCI1
+  kernel table beside a shipped game's menu declaration, and neither is held. `[open]`
+rationale: |
+  **A kernel table answers a question about an interface better than a game does, and that is the
+  method finding.** The marker asked for an artifact — somebody's system script, somebody's `Game`
+  subclass — because the question was posed as *what did they build*. Posed as *what could they
+  have built*, it wants the table, and the table is smaller, older, and complete. **A negative
+  claim about an engine needs an enumeration and not an example**, and this corpus had been asking
+  for examples. [inference]
+
+  **That is a third way for a named resolver to be useful, and it was not predicted.** The two on
+  record are being wrong about the date ([class-library](class-library.yml)) and being wrong about
+  whether the artifact is already held ([retraction-reach](retraction-reach.yml)). This is being
+  wrong about the *kind* of thing — right question, wrong genre of evidence — and it is the only
+  one of the three that a phase could not have caught by checking the marker against anything. Only
+  going and looking finds it. [inference]
+
+  **The finding about Sierra is the one worth carrying out of here.** Three houses have now answered
+  the central question and none of the three answers is a vocabulary. AGS bounded what happens and
+  escaped to a script; SCUMM never had a declarative layer; Sierra bounded the input, handed the
+  author thirty-one classes above the language ([class-library](class-library.yml)), and shipped
+  exactly one declarative interface construct — for the menu that lets you quit.
+
+  **And the shape of that is a pattern rather than a coincidence.** What gets a declaration is what
+  the *engine* has to own: a menu bar must be drawn before any game script runs, must work
+  identically in every game, and must be reachable when the game is confused. A verb bar is the
+  game's. So the declarative constructs land where the engine cannot afford variation, and the
+  authoring surface — the place variation is the whole point — is left to code. [inference] This
+  design takes the other side of that and `crates/reachability` is what it buys: a thing you can
+  enumerate is a thing you can report on, and `Report::orphaned` exists because the verbs are
+  declared.
+
+  **This is subject work and it rests on a catalog entry retrieved for it.**
+  `crates/design-gate/tests/subject.rs` will read it that way, and the run of records needing no
+  document goes back to zero — cleared for the third time by a phase that went and got something,
+  and the first of those three where the thing retrieved had never been in the house at all.

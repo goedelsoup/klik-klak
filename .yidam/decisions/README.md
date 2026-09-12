@@ -240,8 +240,8 @@ nodes, at four times the rate, and it had never been looked at.
 - [held](held.yml)
 - [line-format](line-format.yml)
 - [name-scoping](name-scoping.yml)
-- [retraction-reach](retraction-reach.yml)
 - [settled-surface](settled-surface.yml)
+- [two-bars](two-bars.yml)
 
 ## What each record rests on
 
