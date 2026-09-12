@@ -239,8 +239,8 @@ nodes, at four times the rate, and it had never been looked at.
 - [domain-computer](domain-computer.yml)
 - [held](held.yml)
 - [name-scoping](name-scoping.yml)
-- [reads-like-writing](reads-like-writing.yml)
 - [settled-surface](settled-surface.yml)
+- [unread-spelling](unread-spelling.yml)
 
 ## What each record rests on
 
@@ -268,6 +268,7 @@ list is the one that record holds as a tripwire.
 - [retraction-reach](retraction-reach.yml)
 - [schema-deferral](schema-deferral.yml)
 - [unread-clock](unread-clock.yml)
+- [unread-spelling](unread-spelling.yml)
 
 **On no evidence path named here** — structural, or resting on the prelude.
 

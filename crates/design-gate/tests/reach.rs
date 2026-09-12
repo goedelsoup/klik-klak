@@ -306,8 +306,12 @@ fn the_premise_is_load_bearing_in_six_records_and_decided_in_one() {
             .expect("a name")
             .to_string_lossy()
             .into_owned();
+        // a record *about* this check rather than about the boundary: `unread-spelling` quotes
+        // the premise to say that the filter above skips seven records that mention geometry
         if stem == "drawn-boundary" {
             deciding.push(stem);
+        } else if stem == "unread-spelling" {
+            continue;
         } else {
             resting.push(stem);
         }

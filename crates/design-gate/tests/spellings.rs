@@ -25,7 +25,7 @@
 //!
 //! **`reach.rs` is above its ceiling today.** It counts the records resting on *this vocabulary has
 //! no geometry* by taking every record that mentions geometry and matching three phrasings.
-//! Fourteen records mention geometry. It classifies seven — six resting, one deciding — and
+//! Fifteen records mention geometry. It classifies eight — seven resting, one deciding — and
 //! **silently skips the other seven** — among them `adjacency`, the phase that read 84 walkbox polygons out of a shipped
 //! game, which is the record most about geometry this corpus has.
 //!
@@ -163,12 +163,12 @@ fn three_of_six_vocabularies_fail_silent() {
     );
 }
 
-/// **`reach.rs` filters fourteen records and reads seven of them.**
+/// **`reach.rs` filters fifteen records and reads eight of them.**
 ///
 /// The live instance, and the one that makes this a defect rather than a shape. That test counts
 /// the records resting on *this vocabulary has no geometry* by filtering `.yidam/decisions/` to
 /// those mentioning geometry and then matching three phrasings inside them. The filter finds
-/// fourteen. The phrasings match seven. **The other seven are `continue`d past and reported
+/// fifteen. The phrasings match eight. **The other seven are `continue`d past and reported
 /// nowhere**, so the census the test publishes is drawn from half of what it looked at.
 ///
 /// Its own comment records the near miss in the other direction — a fourth phrasing, `has none`,
@@ -181,7 +181,7 @@ fn three_of_six_vocabularies_fail_silent() {
 /// boundary this test enumerates is exactly the question the test exists to answer, and the test
 /// has never seen it.
 #[test]
-fn the_geometry_census_skips_seven_of_the_fourteen_records_it_filters() {
+fn the_geometry_census_skips_seven_of_the_records_it_filters() {
     let root = repo_root();
     // Read out of `reach.rs` rather than copied here. The first version of this test copied the
     // three phrasings, and the scanner above found them — a census of hand-written vocabularies
@@ -234,8 +234,9 @@ fn the_geometry_census_skips_seven_of_the_fourteen_records_it_filters() {
     }
     assert_eq!(
         (mentioning, matched, skipped.len()),
-        (14, 7, 7),
-        "records mentioning geometry, records a phrasing matched, records dropped in silence"
+        (15, 8, 7),
+        "records mentioning geometry, records a phrasing matched, records dropped in silence — \
+         the first two move whenever a record says the word and the third is the finding"
     );
     assert_eq!(
         skipped,

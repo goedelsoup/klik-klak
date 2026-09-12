@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 88, "every record, in the order it was created");
+    assert_eq!(all.len(), 89, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,12 +186,12 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (45, 48, 38),
+        (45, 48, 39),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
         (alone, neither),
-        (16, 11),
+        (17, 11),
         "resting on the gate and nothing else, and resting on no evidence path at all"
     );
 }
@@ -344,6 +344,19 @@ fn the_evidence_each_record_rests_on() {
 /// repository wrote.** `control-transfer`, `adjacency` and now this one. The unread list says which
 /// documents nobody opened. Nothing says what an opened document was not looked at for, and on the
 /// evidence of five phases that is where most of the answers have been.
+///
+/// **`unread-spelling` puts both runs to one, and the gate-alone run is the one that matters.** It
+/// is the first record since `class-evidence` to rest on the gate and nothing else, and the reason
+/// is the subject: whether a check built on a list of English phrasings can report what it did not
+/// recognise is a question about this repository's instrument, and no source about SCI, AGS or
+/// SCUMM answers it. The record says so, which is what this tripwire asks of a phase that extends
+/// the run rather than clearing it.
+///
+/// **It is also the case the run was built to allow rather than to forbid.** `unread-clock`
+/// settled that this is a tripwire and not a gauge — it does not say the run is wrong, it says
+/// nobody may extend it without noticing. One phase on the instrument, immediately after two that
+/// corrected what the instrument had been measuring, is the sequence somebody would choose. A run
+/// of two would be a different conversation.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -359,7 +372,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (0, 0),
+        (1, 1),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
