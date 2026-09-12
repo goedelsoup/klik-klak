@@ -1,5 +1,8 @@
-//! **Nothing can write a `.game` file, so nothing has ever asked whether the tree holds what the
-//! file says.**
+//! **The crate reads, admits and writes, and the third is what checks the first two against each
+//! other.**
+//!
+//! It was *model, reader, and the admission rule*, and nothing could write a `.game` file — so
+//! nothing had ever asked whether the tree holds what the file says.
 //!
 //! The reader accounts for every token on every line now —
 //! `.yidam/decisions/parser-silence.yml` — which answers *did anything go unread*. It does not
@@ -12,8 +15,9 @@
 //! them; `spoken_with` until a menu asked who a conversation was held with. None was found by
 //! looking at the reader.
 //!
-//! Two standing claims rest on the tree being faithful and neither has been checked, because
-//! checking either means producing a file:
+//! Both are checked now, by being executed — `crates/game-format/tests/round_trip.rs`. What this
+//! file keeps is the census that made the question worth asking, and the two claims in the
+//! wording they were made in:
 //!
 //! * `exit-archetype` says an `exit` *"expands at parse time into the binding an author would
 //!   otherwise have written"* — and nothing has ever written that binding out to compare.
@@ -59,12 +63,12 @@ fn flat(src: &str) -> String {
     src.split_whitespace().collect::<Vec<_>>().join(" ")
 }
 
-/// **The crate reads and admits, and does not write.**
+/// **The crate reads, admits and writes.**
 ///
-/// Its own description says so — *"model, reader, and the admission rule"* — and the third thing
-/// a format needs is the one that would let either direction be checked against the other.
+/// Its description said *"model, reader, and the admission rule"* and the fourth module is the
+/// one that lets either direction be checked against the other.
 #[test]
-fn nothing_in_this_crate_can_write_a_game_file() {
+fn the_crate_can_write_what_it_reads() {
     let root = root();
     let src = root.join("crates/game-format/src");
     let modules: Vec<String> = std::fs::read_dir(&src)
@@ -79,23 +83,19 @@ fn nothing_in_this_crate_can_write_a_game_file() {
         .collect();
     assert_eq!(
         modules,
-        ["lib", "parse", "resolve", "world"],
+        ["lib", "parse", "print", "resolve", "world"],
         "the modules this crate has"
     );
 
-    let lib = std::fs::read_to_string(src.join("lib.rs")).expect("readable");
-    for writing in [
-        "fn print",
-        "fn write",
-        "impl fmt::Display for Game",
-        "to_source",
-    ] {
-        assert!(!lib.contains(writing), "something writes a game: {writing}");
-    }
+    let writer = std::fs::read_to_string(src.join("print.rs")).expect("readable");
+    assert!(
+        flat(&writer).contains("It is not a formatter."),
+        "and the writer says what it is not, because a third of the file is not in the tree"
+    );
     let manifest =
         std::fs::read_to_string(root.join("crates/game-format/Cargo.toml")).expect("readable");
     assert!(
-        manifest.contains("model, reader, and the admission rule"),
+        manifest.contains("model, reader, writer, and the admission rule"),
         "and the crate says what it is"
     );
 }
@@ -128,10 +128,10 @@ fn the_fields_that_went_missing_say_how_they_were_found() {
     );
 }
 
-/// **Two claims about the tree, both standing on nothing a check can reach.**
+/// **Two claims about the tree, in the wording they were made in.**
 ///
-/// Pinned because they are what a round trip would test, and because a claim that cannot be
-/// tested by the means available is worth naming as such rather than counting as settled.
+/// `round_trip.rs` executes both. This holds the sentences, so that a record edited into
+/// agreement with a passing test would be caught rather than quietly become the claim.
 #[test]
 fn two_standing_claims_need_a_file_to_be_checked() {
     let root = root();
@@ -162,8 +162,9 @@ fn two_standing_claims_need_a_file_to_be_checked() {
 /// **Seventy-three lines are written three ways and the tree holds one thing.**
 ///
 /// `say`, `otherwise`, and a bare quoted line: the file distinguishes them and the parse tree
-/// does not — every one is a `Response` with `when: None`. Whether that is a collapse or a loss
-/// is the question, and it cannot be asked without something that writes the tree back out.
+/// does not — every one is a `Response` with `when: None`. It is a collapse and not a loss, and
+/// `round_trip.rs` is where that is shown: the writer emits `say` for all three and no tree and
+/// no figure moves. What tells them apart is where they sit in the list, which is order.
 #[test]
 fn one_construct_is_written_three_ways() {
     let (mut say, mut otherwise, mut bare) = (0, 0, 0);
@@ -199,7 +200,8 @@ fn one_construct_is_written_three_ways() {
     );
 }
 
-/// **A third of the file is not in the tree, and that is the other thing a round trip measures.**
+/// **A third of the file is not in the tree, and the round trip measures it: 662 lines in, 441
+/// out.**
 ///
 /// 662 lines across the four specimens, of which 133 are comments, 3 are `??` annotations and
 /// 143 are blank. None of it survives parsing and none of it should — but nothing has ever said

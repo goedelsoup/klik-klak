@@ -15,10 +15,12 @@ use std::collections::BTreeMap;
 use std::fmt;
 
 mod parse;
+mod print;
 mod resolve;
 mod world;
 
 pub use parse::parse;
+pub use print::print;
 pub use resolve::resolve;
 pub use world::{slot, State, World};
 

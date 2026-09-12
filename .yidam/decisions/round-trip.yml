@@ -60,6 +60,25 @@ decision: |
   meaning, and `otherwise` *is* `say` written last. The line each declaration carries is what
   puts the order back, and it is the first use of that field for anything but an error message.
 
+  **6. A shipped format round-trips through its own tool by the opposite strategy, and this
+  corpus had already read the evidence.** Delores's 22 `.wimpy` room files survive the editor
+  rewriting them by **permissiveness**: `roomsize` is a dead key alive in seven of them and the
+  tool rewrites the file without removing it; the hand-written template writes an encoding the
+  tool has stopped emitting; `parallax` is a scalar in 34 layers and a tuple in five
+  ([delores-source](../catalog/delores-source.md)). [verified]
+  [room-geometry](room-geometry.yml) read that and concluded *"the reader ignores what it does
+  not know and the writer preserves what it did not write, which is the only strategy"* — for a
+  format with no checker.
+
+  This format takes the other branch at both ends. The reader **rejects** what it does not know
+  ([parser-silence](parser-silence.yml)) and the writer emits **only** what the tree holds, so
+  nothing can survive that nothing understands. Both formats round-trip and neither loses an
+  author's work; what differs is where the unknown goes — preserved and unexamined there, refused
+  at the door here. [inference] The condition is the same one
+  [`bounded-expression-language`](../../design/bounded-expression-language.md) turns on: a format
+  that can be checked through can afford to refuse, and one that cannot must keep everything in
+  case it mattered.
+
   **What this does not do: make the tree a specification.** The round trip proves the tree holds
   everything **the reader produced**, which is a weaker statement than everything the format can
   say — and the gap is visible in the type. `Pred` can represent `(a or b) and c`, which no
