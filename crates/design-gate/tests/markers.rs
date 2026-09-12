@@ -68,6 +68,17 @@ fn markers(p: &Path) -> Vec<(usize, String, bool)> {
 ///
 /// So the serialization is made truthful instead, which costs one convention: a retraction says the
 /// question is closed without re-emitting the token.
+///
+/// **This check fails silent and something else catches what it misses.** `CLOSED` is six
+/// phrasings; a retraction worded a seventh way carries `[open]` past it and nothing here says so.
+/// What does say so is `crates/design-gate/tests/resolvers.rs`, where every live marker needs a row
+/// in a hand-classified table and a row needs a marker — so a marker this check let through has no
+/// row and fails there, loudly, by name.
+///
+/// The two were built three phases apart for different reasons and neither knew about the other
+/// until `.yidam/decisions/unread-spelling.yml` went looking for which of the gate's vocabularies
+/// fail silent. **A defence nobody knows about is one somebody removes**, so both files name it
+/// now, and the assertion below is what keeps the naming true.
 #[test]
 fn no_retraction_re_emits_the_token() {
     const CLOSED: [&str; 6] = [
@@ -91,6 +102,15 @@ fn no_retraction_re_emits_the_token() {
         bad.is_empty(),
         "a sentence retracting a marker must not re-emit it:\n{}",
         bad.join("\n")
+    );
+
+    // the loud check that catches what six phrasings do not
+    let resolvers = std::fs::read_to_string(root.join("crates/design-gate/tests/resolvers.rs"))
+        .expect("readable");
+    assert!(
+        resolvers.contains("every marker needs a row, and a row needs a marker"),
+        "the backstop for this check's silence is gone, and nothing else reports a retraction \
+         worded in a phrasing `CLOSED` does not hold"
     );
 }
 

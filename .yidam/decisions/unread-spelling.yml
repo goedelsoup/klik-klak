@@ -1,0 +1,132 @@
+id: unread-spelling
+summary: >-
+  **Three of the gate's six hand-written vocabularies fail silent, and the fix is not a longer
+  list.** `reach.rs` publishes *the premise is load-bearing in six records* from a filter that found
+  fourteen and read seven. Two of the seven it skipped do rest on it, so the figure is **eight** —
+  and one of the two, `adjacency`, states no phrasing at all: it rests on the premise by acting on
+  it. A vocabulary can only find what says the thing. The rule is that a check built on one reports
+  what it could not classify, so the residue is a list somebody reads rather than a silence.
+context: |
+  [unread-specimen](unread-specimen.yml) found twenty-five tests whose input was a copy of a
+  directory and stated the precondition this repository's method rests on: **a pinned figure is a
+  signal only if the input is the world.** It fixed that for one directory.
+
+  **The gate spends most of its checks on English rather than on files.** Six read for a
+  hand-written list of phrasings, and what a missed spelling does to each is not the same thing:
+
+  | vocabulary | file | a phrasing nobody listed |
+  |---|---|---|
+  | `ROUTES`, 8 | `routing.rs` | **loud** — the set of routing class files is pinned, so one dropping out fails |
+  | `WAS_READ`, 4 | `retrieval.rs` | **loud** — it confirms, so a miss reads as *the catalog does not say it* |
+  | `READ`, 4 titles | `retrieval.rs` | **loud** on titles; its list of *entries* is the unheld table below |
+  | `CLOSED`, 5 | `markers.rs` | **silent** — a retraction worded newly is not detected |
+  | `PREMISE`, 3 | `reach.rs` | **silent** — a record is dropped out of the census |
+  | `STALE`, 5 | `enumerated.rs` | **silent** — a stale figure worded newly is not found |
+
+  [verified] — `crates/design-gate/tests/spellings.rs`.
+
+  **The direction is the whole of it and nobody had ever asked which way one of these fails.** A
+  vocabulary that *confirms* is a floor: the material is enumerated some other way and the phrasings
+  account for it, so falling through one is a hole somebody sees. A vocabulary that *detects* is a
+  ceiling: nothing enumerates what it did not match, so the material above it is reported as absent
+  rather than as unread.
+
+  **`reach.rs` is above its ceiling.** It filters `.yidam/decisions/` to records mentioning geometry
+  and matches three phrasings inside them. The filter finds **fourteen**; the phrasings match
+  **seven**; the other seven are `continue`d past and reported nowhere. Its own comment records the
+  near miss in the other direction — a fourth phrasing, `has none`, was in the list for one commit
+  and matched `prose-edges` on a sentence about prose having no schema. **The author who took it out
+  could look for false positives and had no way to look for false negatives, because nothing counted
+  the denominator.**
+decision: |
+  **1. Two of the seven rest on the premise, so the published figure is eight and not six.**
+  [verified] — `crates/design-gate/tests/reach.rs`.
+
+  - [adjacency](adjacency.yml) read 84 walkbox polygons out of a shipped game and derived every
+    room's adjacency graph from them, because this vocabulary has no geometry to derive it from.
+  - [evidence-kinds](evidence-kinds.yml) builds a third kind of provenance on
+    [drawn-boundary](drawn-boundary.yml)'s sentence, quoted: *"this corpus can read geometry it
+    cannot express."*
+
+  The other five mention geometry and do not rest on it: [action-pages](action-pages.yml),
+  [engine-directory](engine-directory.yml), [ontology](ontology.yml),
+  [record-layer](record-layer.yml) and [round-trip](round-trip.yml) cite a geometry record, list a
+  class, or compare against a format that has geometry. That is a judgement and it is written down
+  as one.
+
+  **2. A longer list would not have found them, which is the finding.** `evidence-kinds` uses a
+  fourth phrasing and a fourth entry would catch it. **`adjacency` uses none.** It never states the
+  premise; it *acts* on it — the whole phase exists because the geometry it needed was in somebody
+  else's file. A vocabulary can only find a record that says the thing, and a record can rest on a
+  premise by doing something the premise makes necessary. [inference]
+
+  So the remedy cannot be the thing the defect invites. Adding spellings is what this check has
+  always done and it is why nobody noticed: each addition made the number go up, which reads as the
+  check getting better rather than as the ceiling getting higher.
+
+  **3. The rule: a check built on a hand-written vocabulary reports what it could not classify.**
+  [verified] — `crates/design-gate/tests/spellings.rs`. The residue becomes a list somebody reads
+  and classifies by hand, and the classification is held against the scan — which is exactly the
+  shape [resolver-kind](resolver-kind.yml) gave the corpus markers and `lineage.rs` gave the
+  prior-art nodes, both of them without saying they were doing it.
+
+  Applied: `reach.rs` names all fourteen and asserts none is unclassified; `enumerated.rs` reports
+  how many living documents mention the specimens at all against how many quote a computed figure;
+  `markers.rs` keeps its silent check and names the loud one that backstops it.
+
+  **4. `markers.rs`'s silence was already covered and nobody had noticed that either.** A retraction
+  re-emitting `[open]` in an unlisted phrasing passes `no_retraction_re_emits_the_token` — and
+  fails `resolvers.rs`, where every live marker needs a row in a hand-classified table and a row
+  needs a marker. The two were built three phases apart for different reasons. [verified] The
+  backstop is named in both files now, because a defence nobody knows about is one somebody removes.
+
+  **5. The unheld table of files is repaired and it is one instance.** `retrieval.rs`'s `READ`
+  states that two catalog entries list the documents they contain — a claim about `.yidam/catalog/`,
+  made without reading it — and now reads it. [verified]
+
+  **This was offered as the pattern the phase would sweep and it is not one.** The survey found that
+  almost every hand table of files in either workspace is a *citation* — a test naming the two
+  records it is about — and that the two which are copies of a listing already hold themselves
+  against a directory scan. [unread-list](unread-list.yml) is on record that one instance is not a
+  convention, and that standard applies to a claim this repository makes about its own work.
+rationale: |
+  **The defect is the same one and the dimension is the one that matters more.** `unread-specimen`
+  found a test reading a copy of a directory. This finds a test reading a copy of a *language* —
+  and the second is worse, because a directory can be enumerated and English cannot. There is no
+  `read_dir` for the ways a person might write *this vocabulary has no geometry*, so the remedy has
+  to be structural rather than exhaustive: count the denominator, publish the residue, and let a
+  person do the part a list cannot.
+
+  **The check that publishes a ratio without its denominator is the general shape.** Six of
+  fourteen is a different claim from six of six, and `reach.rs` published the second while
+  computing the first. Every one of the silent three does this: `enumerated.rs` says no document
+  quotes a stale figure without saying how many documents it understood, and `markers.rs` says no
+  retraction re-emits the token without saying how many retractions it recognised. **A zero from
+  nothing-there and a zero from nothing-matched are the same byte.** [inference]
+
+  **And the pattern that fixes it was in the repository twice, unstated, again.**
+  `crates/design-gate/tests/resolvers.rs` holds its hand-classified table against a corpus scan;
+  `lineage.rs` holds its table against the prior-art directory. Neither argues for the practice and
+  neither names the other. That is now the **ninth** convention this crate has had to learn by
+  measuring it — `routing.rs` was counting them at eight — and the ones before it were found the
+  same way: something went quiet, somebody counted, and the remedy turned out to be sitting in two
+  files that had never been compared.
+
+  **This is repository work and says so, because the check that counts asks it to.**
+  `crates/design-gate/tests/subject.rs` tracks a run of consecutive records resting on the gate and
+  nothing else, and `unread-clock` settled that the run is a tripwire rather than a gauge: it does
+  not say the run is wrong, it says nobody may extend it without noticing, and *"the record that did
+  it should say why"*. Why: whether a check built on a list of English phrasings can report what it
+  did not recognise is a question about this repository's instrument. No source about SCI, AGS or
+  SCUMM answers it, and the two phases immediately before this one — [unread-specimen](unread-specimen.yml)
+  and [reads-like-writing](reads-like-writing.yml) — were both corrections to what that instrument
+  had been measuring. One phase on the instrument after two of those is the sequence somebody would
+  choose. A run of two would be a different conversation.
+
+  **The census caught itself on its first run.** It copied `reach.rs`'s three phrasings into its own
+  source, and the scanner that finds hand-written vocabularies found them — a census of copied
+  vocabularies holding a copied vocabulary. It reads them out of `reach.rs` now. That is the third
+  time a check here has failed its own rule on the day it was written
+  ([prose-edges](prose-edges.yml) found a reference written by the commit that added it;
+  [line-format](line-format.yml) found the reader naming its own form) and the first time the check
+  caught it rather than a person. [inference]

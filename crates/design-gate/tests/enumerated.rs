@@ -207,7 +207,15 @@ fn the_specimen_census_is_what_the_documents_quote() {
 /// route.
 ///
 /// The tokens are the ones that were actually wrong. A check for *every* number in the corpus
-/// would be a check on nothing; these five are the figures that propagated.
+/// would be a check on nothing; these six are the figures that propagated.
+///
+/// **And the denominator is published, because a zero from nothing-there and a zero from
+/// nothing-matched are the same byte.** `.yidam/decisions/unread-spelling.yml` found this shape in
+/// three of the gate's checks, this one among them: a list of stale phrasings is a ceiling, and a
+/// figure worded in a seventh way is reported as absent rather than as unread. Nothing can
+/// enumerate the ways a person might write a number, so what is enumerated instead is **how much
+/// material the check looked at** — every living document that mentions the specimens at all. When
+/// that figure moves, somebody reads the new document rather than trusting a silence.
 #[test]
 fn no_living_document_quotes_a_stale_specimen_figure() {
     let root = repo_root();
@@ -219,7 +227,7 @@ fn no_living_document_quotes_a_stale_specimen_figure() {
         "81 declared",
         "105 authored",
     ];
-    let mut quoting: Vec<String> = Vec::new();
+    let (mut quoting, mut scanned, mut mentioning) = (Vec::new(), 0usize, 0usize);
     for dir in [".yidam/corpus", "design", ".yidam/catalog"] {
         let mut stack = vec![root.join(dir)];
         let mut files: Vec<PathBuf> = Vec::new();
@@ -237,6 +245,10 @@ fn no_living_document_quotes_a_stale_specimen_figure() {
         for p in files {
             let src = std::fs::read_to_string(&p).expect("readable");
             let flat = src.split_whitespace().collect::<Vec<_>>().join(" ");
+            scanned += 1;
+            if flat.contains("specimen") {
+                mentioning += 1;
+            }
             if let Some(s) = STALE.iter().find(|s| flat.contains(**s)) {
                 quoting.push(format!("{}  ({s})", rel(&root, &p)));
             }
@@ -246,6 +258,13 @@ fn no_living_document_quotes_a_stale_specimen_figure() {
         quoting.is_empty(),
         "a living document quotes a specimen figure that has moved:\n  {}",
         quoting.join("\n  ")
+    );
+    assert_eq!(
+        (scanned, mentioning),
+        (105, 35),
+        "living documents read, and living documents that mention the specimens — the second is \
+         what this check is a claim about, and a clean result over a shrinking denominator is not \
+         the same result"
     );
 }
 

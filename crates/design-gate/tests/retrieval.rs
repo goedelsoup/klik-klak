@@ -142,7 +142,42 @@ fn an_attempted_reading_that_failed_says_so() {
 /// claim is the table; what the first check below does is refuse to let it invent an entry.
 ///
 /// Two entries have a list at all. Every other source in this catalog is one document, retrieved
-/// whole, and there is nothing for a marker to name a part of.
+/// whole, and there is nothing for a marker to name a part of — and that was a claim about
+/// `.yidam/catalog/` made without reading it until `.yidam/decisions/unread-spelling.yml`. `SHAPE`
+/// below covers the directory, so a twelfth source arriving with a list of documents inside it has
+/// to be classified rather than sliding past.
+/// Whether a catalog entry is one document or a list of them.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Shape {
+    /// Several named documents, any of which a marker could point at. `READ` names these.
+    List,
+    /// One document, retrieved whole. There is no part of it for a marker to name.
+    OneDocument,
+    /// The catalog's own index, which is not a source.
+    Index,
+}
+
+/// Every file in `.yidam/catalog/`, and which it is.
+///
+/// Hand-made for the same reason `READ` is: whether an entry records several documents is a thing
+/// its prose says. What is mechanical is that the table covers the directory, which is the half
+/// that was missing — the claim *"two entries have a list at all"* was true and unchecked, and an
+/// unchecked true claim is indistinguishable from an unchecked false one once the directory grows.
+const SHAPE: &[(&str, Shape)] = &[
+    ("README.md", Shape::Index),
+    ("agi-specifications.md", Shape::OneDocument),
+    ("ags-272-manual.md", Shape::OneDocument),
+    ("ags-manual.md", Shape::List),
+    ("ags-source.md", Shape::OneDocument),
+    ("delores-source.md", Shape::OneDocument),
+    ("grumpy-gamer-pdc.md", Shape::OneDocument),
+    ("sci-inhouse-docs.md", Shape::List),
+    ("sci-specifications.md", Shape::OneDocument),
+    ("scumm-v5-opcode-reference.md", Shape::OneDocument),
+    ("twp-dev-diary.md", Shape::OneDocument),
+    ("wikipedia-scumm.md", Shape::OneDocument),
+];
+
 const READ: &[(&str, &[&str])] = &[
     (
         ".yidam/catalog/sci-inhouse-docs.md",
@@ -219,6 +254,56 @@ fn marker_paragraphs(root: &Path) -> Vec<(String, String)> {
 ///
 /// The half that keeps the rule below honest. A table of things-already-read that quietly grew a
 /// row nothing supports would turn the check into a way of banning words.
+/// **The catalog is covered, so the claim that two entries have a list is one somebody made
+/// against the directory rather than against memory.**
+#[test]
+fn every_catalog_entry_is_classified() {
+    let root = repo_root();
+    let mut on_disk: Vec<String> = std::fs::read_dir(root.join(".yidam/catalog"))
+        .expect("the catalog")
+        .flatten()
+        .map(|e| e.path())
+        .filter(|p| p.extension().is_some_and(|x| x == "md"))
+        .map(|p| {
+            p.file_name()
+                .expect("a name")
+                .to_string_lossy()
+                .into_owned()
+        })
+        .collect();
+    on_disk.sort();
+    let declared: Vec<String> = {
+        let mut v: Vec<String> = SHAPE.iter().map(|(n, _)| n.to_string()).collect();
+        v.sort();
+        v
+    };
+    assert_eq!(
+        on_disk, declared,
+        "a catalog entry with no row, or a row with no entry"
+    );
+
+    // and `READ` names exactly the entries classified as a list
+    let mut listed: Vec<&str> = SHAPE
+        .iter()
+        .filter(|(_, s)| *s == Shape::List)
+        .map(|(n, _)| *n)
+        .collect();
+    listed.sort();
+    let mut named: Vec<&str> = READ
+        .iter()
+        .map(|(e, _)| e.rsplit('/').next().expect("a name"))
+        .collect();
+    named.sort();
+    assert_eq!(
+        (listed, named.clone()),
+        (
+            vec!["ags-manual.md", "sci-inhouse-docs.md"],
+            vec!["ags-manual.md", "sci-inhouse-docs.md"]
+        ),
+        "the entries with a document list, and the entries `READ` names"
+    );
+}
+
 #[test]
 fn the_table_of_read_documents_is_the_catalogs() {
     let root = repo_root();
