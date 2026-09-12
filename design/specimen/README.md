@@ -1,7 +1,7 @@
 ---
 title: what the specimens found
 status: proposal
-reconciled: f9e54b885acaf8c02da393ae9f294a9277d8d3a6
+reconciled: 41037031890d14c289d79e4d03e17edc1efcd0a9
 rests_on:
   - design/bounded-expression-language.md
   - .yidam/corpus/actor/player-character.yml
@@ -355,12 +355,17 @@ called the surface abstract and forwarded a reader to
 tension between keying and reading like writing; the guarded response list — `when <predicate>
 "<line>"` — does both on one line, and five games are written against fifty constructs.
 
-**And the marker at the forwarding address now names what would settle it, which is these five
-games.** It asked whether a file that carries the writing reads like writing, and that is a
-measurement over 904 authored lines rather than a position anybody can take. This document is where
-the lines are counted; nothing in it moves, and the question it half-answers is now addressed to it
-by name. `.yidam/decisions/resolver-kind.yml`.
-`.yidam/decisions/settled-surface.yml`.
+**And the marker at the forwarding address has been settled, by these five games.** It asked
+whether a file that carries the writing reads like writing, which is a measurement over 904 authored
+lines rather than a position anybody can take. Taken: **a response line is 84% sentence** — 51.9
+characters of writing behind 9.2 of prefix — where the same 154 responses keyed as one flat row each
+would be 66%, and a binding here carries **2.02** characters of writing per character of frame
+against **0.56** in a shipped, hand-authored game counted the same way. The keying is moved above
+the line rather than removed, at a median twenty-two-line reach back to the room.
+
+These files are the material and they were the material all along; what they were waiting for was
+somebody to say what counting them would answer. `.yidam/decisions/resolver-kind.yml`,
+`.yidam/decisions/reads-like-writing.yml`, `.yidam/decisions/settled-surface.yml`.
 
 **One specimen is much better evidence that a primitive was needed than that one is not**, and
 five is only a little better. A hundred and twenty bindings across five deliberately small games is
