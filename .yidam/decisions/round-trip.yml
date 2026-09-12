@@ -1,0 +1,115 @@
+id: round-trip
+summary: >-
+  The format gets a writer, and `parse(print(parse(src))) == parse(src)` holds for all four
+  specimens — **identical trees, and every figure the checker publishes identical with them.**
+  Two standing claims are checked for the first time by being *executed*: an `exit` comes back as
+  the binding an author would have written, and the file's three spellings of an unguarded line
+  come back as one. What does not come back is 221 of 662 lines, and none of it is meaning.
+context: |
+  [parser-silence](parser-silence.yml) answered *did anything go unread*. It could not answer *did
+  anything go unkept*, and the two fail differently: a token the reader drops is a line nobody
+  meant, and a token the tree drops is a line somebody wrote that no consumer can find.
+
+  **The tree had lost something three times in seven phases and every one was found from the
+  outside.** Labels and response text went missing until [authored-text](authored-text.yml)'s menu
+  and presenter wanted them; `spoken_with` until [verb-names](verb-names.yml)'s menu asked who a
+  conversation was held with. Each field carries its own account of how it was found, which is the
+  evidence rather than the documentation: a field that has to explain why it exists is a field
+  something noticed the absence of, after the fact.
+
+  `crates/game-format` was *"model, reader, and the admission rule"*, and the thing it did not
+  have is the one that lets either direction be checked against the other. [verified] —
+  `crates/game-format/tests/written.rs`.
+decision: |
+  **`game_format::print` exists, and it is a writer rather than a formatter. The round trip is
+  the check, and the four specimens pass it whole.**
+
+  **1. The tree is faithful, and this is the first evidence of it.** All four specimens print and
+  re-read to an identical tree, and `reachability::analyse` publishes an identical report on the
+  re-read game — same reachable states, transitions, strandings, causes, example states, orphaned
+  lines, latch violations and counter monotonicity, differing only in the **line numbers**, which
+  are the one thing that must move when the layout does. [verified] —
+  `crates/game-format/tests/round_trip.rs`. The writer is also idempotent: printing the re-read
+  game gives the same text.
+
+  **2. `exit-archetype`'s claim is checked by being executed.** That record says an `exit`
+  *"expands at parse time into the binding an author would otherwise have written — a hotspot, a
+  `walk-to`, an `Effect::Move`"*. Printing the tree **produces that binding**, and it is a
+  hotspot, a `walk-to` and a `move`: `exit door to b` comes back as `hotspot door` with
+  `walk-to: do move b`, and the tree is identical either way. [verified] This is as close to a
+  proof of that claim as the repository can get, and it needed a writer rather than an argument.
+
+  No specimen uses `exit`, so the check runs on a fixture. That is worth saying rather than
+  hiding: the construct with the strongest claim attached to it is the one nothing writes.
+
+  **3. The three spellings collapse, and now something has watched them do it.** `say`,
+  `otherwise` and a bare quoted line are 28, 11 and 34 lines across the four specimens and the
+  tree holds 73 identical `Response`s with no predicate. The writer emits `say` for all three and
+  **nothing moves** — not the tree, not one figure. [verified] `authored-text` stated this and
+  could not test it; the difference between the three is where they sit in the list, which is
+  order, which the tree keeps.
+
+  **4. 221 of 662 lines do not survive, and none of it is meaning.** 133 comments, 3 `??`
+  annotations, 143 blank lines: a third of a `.game` file is for whoever reads the file. The
+  writer reproduces none of it and must not — *"it is not a formatter"* is the module's first
+  sentence, and a writer that tried to keep comments would be claiming they are in the tree.
+
+  **5. The writer emits in the order an author wrote, and that is not cosmetic.** `rooms`,
+  `items` and `bindings` are `Vec`s the reader fills in source order, and a round trip that
+  reordered them would be comparing a different game — first-match-wins makes clause order
+  meaning, and `otherwise` *is* `say` written last. The line each declaration carries is what
+  puts the order back, and it is the first use of that field for anything but an error message.
+
+  **6. A shipped format round-trips through its own tool by the opposite strategy, and this
+  corpus had already read the evidence.** Delores's 22 `.wimpy` room files survive the editor
+  rewriting them by **permissiveness**: `roomsize` is a dead key alive in seven of them and the
+  tool rewrites the file without removing it; the hand-written template writes an encoding the
+  tool has stopped emitting; `parallax` is a scalar in 34 layers and a tuple in five
+  ([delores-source](../catalog/delores-source.md)). [verified]
+  [room-geometry](room-geometry.yml) read that and concluded *"the reader ignores what it does
+  not know and the writer preserves what it did not write, which is the only strategy"* — for a
+  format with no checker.
+
+  This format takes the other branch at both ends. The reader **rejects** what it does not know
+  ([parser-silence](parser-silence.yml)) and the writer emits **only** what the tree holds, so
+  nothing can survive that nothing understands. Both formats round-trip and neither loses an
+  author's work; what differs is where the unknown goes — preserved and unexamined there, refused
+  at the door here. [inference] The condition is the same one
+  [`bounded-expression-language`](../../design/bounded-expression-language.md) turns on: a format
+  that can be checked through can afford to refuse, and one that cannot must keep everything in
+  case it mattered.
+
+  **What this does not do: make the tree a specification.** The round trip proves the tree holds
+  everything **the reader produced**, which is a weaker statement than everything the format can
+  say — and the gap is visible in the type. `Pred` can represent `(a or b) and c`, which no
+  `.game` file can write and this writer cannot print; the reader cannot build one, because
+  `conj` only ever nests `unary`. **The tree is larger than the language**, the writer's
+  precedence assertion is where that is stated, and it has never fired. `[open]`
+rationale: |
+  **The finding is that there is nothing to find, and that is worth a phase because of how the
+  last three went.** `authored-text`, `verb-names` and `walked-in` each found the tree missing
+  something, each from a consumer, each after the field had been absent for phases. A fourth
+  phase of the same shape was a reasonable expectation. Asking directly costs one module and
+  answers it for every field at once, rather than one field at a time whenever somebody happens
+  to want one.
+
+  **And a negative result from a mechanical check is not the same object as an absence of
+  reports.** [inert-reports](inert-reports.yml) is about a finding nobody reads;
+  [orphaned-lines](orphaned-lines.yml) found a defect that had been invisible for eleven phases
+  because nothing looked. *Nobody has reported a loss* was the standing of the tree's fidelity
+  until now, and it was the same standing `orphaned-dialogue-branch` had.
+
+  **The two claims are checked in opposite directions and that is the interesting part.** A round
+  trip normally tests the writer against the reader. Here it tests two *records* — `exit` expands
+  into the binding an author would have written, and three spellings are one construct — by
+  producing the artefact each claim describes and reading it back. The writer is an instrument
+  for checking prose, which is not what a printer is usually for. [inference]
+
+  **The `exit` result is the sharper of the two, because the claim it checks was about safety.**
+  `exit-archetype` admitted a construct on the grounds that *"an archetype that expands before
+  the checker is a shorthand; one that expands after it is a hole"* — and contrasted it with
+  Delores, where `door_verbs = YES` generates an `okverb_open` that *"exists nowhere in the
+  source"*. The difference between the two systems is exactly whether the generated thing can be
+  written out and read. This writer is the demonstration: the expansion is a shorthand here
+  because it can be printed, and the printing is what makes *before the checker* mean something
+  a person can inspect rather than a claim about compilation order. [inference]

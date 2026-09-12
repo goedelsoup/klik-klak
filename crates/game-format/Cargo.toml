@@ -2,6 +2,6 @@
 name = "game-format"
 version.workspace = true
 edition.workspace = true
-description = "The .game specimen format: model, reader, and the admission rule that every operand names something declared."
+description = "The .game specimen format: model, reader, writer, and the admission rule that every operand names something declared."
 license.workspace = true
 publish.workspace = true
