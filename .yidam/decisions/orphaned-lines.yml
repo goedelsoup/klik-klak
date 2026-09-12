@@ -1,0 +1,142 @@
+id: orphaned-lines
+summary: >-
+  The one failure mode this corpus names and nothing detected is counted: **four authored lines in
+  105 are selected in no reachable state.** It is not about conversations and not about trees — the
+  guard is the path, and none of the four is in a conversation. **Three of them this vocabulary
+  makes by construction**: a binary binding that spends its second object can never decline, so the
+  *you already did this* refusal is dead the moment it becomes true.
+context: |
+  [failure-mode/orphaned-dialogue-branch](../corpus/failure-mode/orphaned-dialogue-branch.yml) has
+  had `detectable_at: authoring` since genesis and nothing has ever made it true. Its own account
+  of why says so about shipped games — *"they simply never see it — which is why it survives in
+  shipped games and **why nobody counts it**"* — and the sentence was true of this repository for
+  eleven phases.
+
+  Both halves were present and unjoined. The parse tree has held each response with the line it was
+  written on since [authored-text](authored-text.yml); the search has enumerated reachable states
+  since genesis. A line a player can reach is a line some reachable state selects.
+
+  One instance had already been found by accident and not generalised.
+  `crates/reachability/tests/silence.rs` says of a mutation it wrote for a different purpose:
+  *"one of the two clauses it was written for is unreachable"*. That was a clause the test had
+  introduced. Nobody asked the question of the lines the specimens were actually shipped with.
+
+  **105 authored clauses across four specimens, four of them orphaned, and no binding unshown.**
+  [verified] — `crates/reachability/tests/orphans.rs`. Every one of the four is at the guard rather
+  than at the binding: the entry is offered somewhere, and a clause under it is offered nowhere.
+decision: |
+  **The count exists, the mode's scope in the corpus is wrong, and the four lines stay where they
+  are.**
+
+  **1. It is not about conversations.** The node says *"It belongs to `branching-tree` specifically
+  rather than to conversations generally. A topic list has no paths, so it cannot orphan anything;
+  a tree can."* Not one of the four is in a conversation. Three are `use-with` refusals in a room
+  and the fourth is a `look-at` on an actor. **A path is not what orphans content — a guard is**,
+  and a guarded response list is the construct this vocabulary chose in place of a tree. The
+  narrower claim survives only as an accident of these four games: a topic-list option is a unary
+  binding with a `when` ([topic-list](../corpus/conversation/topic-list.yml)), so it can orphan
+  exactly as any other guarded thing can, and here none happens to.
+
+  **2. Three of the four are the vocabulary's doing, not the author's.** `lighthouse.game` has
+  three `use-with` bindings that spend their own second object, and all three carry the *already
+  done* refusal — *"It is wicked already."*, *"The reservoir is full."*, *"It is already lit."* All
+  three are unreachable, for one reason: [arity-cost](arity-cost.yml) keys a binary entry by the
+  object carried, so `spend`ing that object removes the entry in the same transition that makes the
+  refusal true. **The binding cannot be asked again, so it cannot decline.** [verified]
+
+  That is a systematic hole in the authoring surface rather than three mistakes. The *already done*
+  refusal is the most natural line an author writes against a one-shot binding, it is the one this
+  vocabulary guarantees nobody will read, and nothing in the surface says so. Two decisions
+  combine to produce it and neither is wrong on its own: `arity-cost` measured the keying as a
+  saving and it is one, and `spend` is the effect that makes an item finite.
+
+  **3. The fourth is the classic case, and it is inside the trap the specimen was written for.**
+  `ferry.game:61` is the ferryman's *"He is already unmooring."*, guarded on `paid`. Paying moves
+  the player to the far bank, and the far bank is the one-way crossing this specimen exists to
+  demonstrate — *"THE TRAP. The boat does not come back."* So the flag becomes true and the room
+  holding the line that reads it becomes unreachable **in the same act**. [verified] The specimen
+  was written to exhibit `unwinnable-state` and exhibits this too, in the same construct, and
+  seven phases of checking it never looked.
+
+  **4. Report, do not repair.** All four lines stay in the specimens and the census pins exactly
+  them. Three are the evidence for (2) and deleting them would delete the finding; the fourth is a
+  genuine authoring slip and is the proof the check is not vacuous — the same reason `silence.rs`
+  keeps a mutation rather than asserting a number. A specimen is evidence before it is an example.
+
+  **5. `orphaned` is the mirror of `silent`, and the pair is one boundary seen from both sides.**
+  [`Report::silent`](../../crates/reachability/src/lib.rs) is a reachable state with no line:
+  `subsystem/interaction-resolver`'s *"never nothing"* failing. `Report::orphaned` is a line with
+  no reachable state. The first is a defect a player meets and the second is one only the author
+  can meet, which is exactly what `player_visible: No` says — and it is why this one needed the
+  instrument and the other only needed a player.
+
+  **6. The resolver hands back the clause, not the text.** `select` returned `&str`, so a caller
+  counting what a player can reach could not name what it counted. `clause` is the selection and
+  `select` is `clause` plus `.text`; `Fired.says` carries the clause for the same reason. The
+  ordering rule [walked-in](walked-in.yml) established is load-bearing here: a forced binding's
+  line is read **between** two resting states, so the census collects it inside the search where
+  `settle_tracking` can still see it. Taken over the resting states alone, every `on-enter` line in
+  four specimens reads as unreachable.
+
+  **7. A shipped engine spends 62 declarations on the thing that would make those three lines
+  unnecessary, and this vocabulary has no form of it.** Delores's conversations carry bare modifier
+  tags on an option — `once` 47 times, `showonce` 13, `temponce` 2, against 79 guards written as
+  real expressions ([delores-source](../catalog/delores-source.md)). [verified] An option marked
+  `once` is gone after it is taken, so there is nothing to write an *already done* line **for**:
+  exhaustion is declared on the choice rather than expressed in a predicate about the world.
+
+  This vocabulary has only the predicate. `when lamp-prep = 0` says *not yet done* and the author
+  reads *do it once*, which is the same thing said in the one place that also has to serve as the
+  gate. So the orphan is not a slip of these four games; it is where a missing declaration surfaces
+  — the author writes the refusal because the language gave them nowhere to say the binding is
+  spent. [inference] Two systems is not a survey, and the count is one system's.
+
+  **Not proposed here, and this is the third time the same shape has been declined.** A `once`
+  modifier is a 51st construct, and `latch-default` already weighed declaring a property whose
+  truth the checker can compute — *"a declaration that is true and absent costs nothing to make and
+  buys the guarantee"* — and declined to invert a schema on eight names from a blog post. The same
+  objection applies with the same force: `Report::orphaned` computes the fact, so the declaration
+  would buy a better *message* rather than a fact nothing else has. `[open]`
+
+  **What is not decided: whether (2) should be prevented.** The repairs are all worse than the
+  hole. Unkeying the binary entry is the saving `arity-cost` measured, given back. Not spending is
+  not an option the author has. Letting a refusal outlive its entry means a menu showing a verb for
+  an object the player is not carrying, which is the interface `default-binding` refused. What is
+  wanted is not a language change but the thing this record builds: **the author is told.**
+  `[open]`
+rationale: |
+  **The reason this was the last mode standing is that it is the only one with no witness.** A
+  stranded state is met by a player who cannot finish. A silent miss is met by a player who clicks
+  and is told nothing. An orphaned line is met by nobody: `player_visible: No`, and the author
+  cannot see it either because *"the file shows the subtree exactly as it always looked."* Every
+  other mode this corpus names could in principle be found by playing, and
+  [walked-in](walked-in.yml) found one that way. This one has no such route, and that is why it
+  needed the instrument rather than the slice.
+
+  **The three structural orphans are a finding about arity and could only be reached from here.**
+  [arity-cost](arity-cost.yml) closed with the sign of the cost reversed: the second key *"costs
+  six and a half characters and saves eleven or twelve"*, and the n×m explosion is free because
+  *"those cells are not filled with a shared refusal, they are not filled at all."* That is still
+  true and this does not reopen it. What it adds is the cell that **is** filled and cannot be
+  reached: keying by the carried object is what pays for the arity, and it is also what makes a
+  one-shot binary binding unable to decline. The cost was measured per site; this is a cost per
+  *refusal*, on the one refusal an author is most likely to write.
+
+  **It reads the other way as evidence for the keying.** A vocabulary where the entry survives the
+  spend would show `use-with wick` on a lamp the player has no wick for, which is
+  [default-binding](default-binding.yml)'s refused interface arriving through the back door. The
+  orphaned refusal is the price of not having that, and three lines in four games is what the
+  price looks like.
+
+  **And the ferry's orphan is a second reading of a construct this corpus had called settled.**
+  [exit-archetype](exit-archetype.yml) and the trap literature treat the one-way door as a
+  reachability problem: what you cannot get back to, you cannot finish from. It is also an
+  *authoring* problem, and a quieter one — everything written about the far side of the door that
+  reads state set at the threshold is written for nobody. [inference] Nothing here measures how
+  general that is; one instance in four specimens is an instance.
+
+  **The four are pinned individually rather than counted.** A bare count is
+  [inert-reports](inert-reports.yml)'s INFO line: it moves for reasons nobody can attribute. Named
+  with their lines, the census says which line stopped being unreachable and which one started,
+  and an author who fixes `ferry.game:61` is told so by a failing test rather than by a number
+  going down.
