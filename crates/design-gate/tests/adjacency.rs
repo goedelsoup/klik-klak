@@ -390,3 +390,71 @@ fn the_region_behind_the_counter_is_reachable_only_through_a_quad_that_is_never_
         "the catalog no longer carries the script half of this claim"
     );
 }
+
+/// The three documents that state these figures, in the order a reader meets them: the source
+/// they were measured from, the node that rests on it, and the record that argues from it.
+const QUOTING: [&str; 3] = [
+    ".yidam/catalog/delores-source.md",
+    ".yidam/corpus/walkbox/scaled-polygon.yml",
+    ".yidam/decisions/adjacency.yml",
+];
+
+/// **The figures are stated three times and nothing held them equal.**
+///
+/// Two of the four checks above execute what this repository can reach; the corpus-wide numbers
+/// are over 84 polygons in a repository this one does not vendor, so they are a **quotation** and
+/// live in the catalog. A quotation restated in two more documents is the defect
+/// `.yidam/decisions/collected-verdict.yml` names — unreadable, mistaken, decayed — and the remedy
+/// it settled on is to hold every copy against one.
+///
+/// The catalog is the one. What is checked is that the node and the record say what it says, so a
+/// figure corrected at the source cannot be left standing anywhere else, and a figure invented
+/// downstream fails on the day it is written.
+#[test]
+fn every_document_quoting_the_corpus_wide_figures_quotes_the_catalog() {
+    let root = design_gate::repo_root();
+    let flat = |rel: &str| {
+        std::fs::read_to_string(root.join(rel))
+            .expect("readable")
+            .replace('*', "")
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ")
+    };
+
+    // Each figure is read as the number standing immediately before a phrase every copy uses.
+    let figure = |doc: &str, after: &str| -> u32 {
+        let at = doc
+            .find(after)
+            .unwrap_or_else(|| panic!("a document no longer says {after:?}"));
+        doc[..at]
+            .rsplit(|c: char| !c.is_ascii_digit())
+            .find(|s| !s.is_empty())
+            .and_then(|s| s.parse().ok())
+            .unwrap_or_else(|| panic!("no figure before {after:?}"))
+    };
+
+    let source = flat(QUOTING[0]);
+    let anchors = [
+        " within-room pairs",
+        " share an edge exactly",
+        " sites, and the graph is a function of world state",
+    ];
+    let truth: Vec<u32> = anchors.iter().map(|a| figure(&source, a)).collect();
+    assert_eq!(
+        truth,
+        [290, 66, 11],
+        "the figures the catalog carries, which are the ones everything else must repeat"
+    );
+
+    for rel in &QUOTING[1..] {
+        let doc = flat(rel);
+        for (a, want) in anchors.iter().zip(&truth) {
+            assert_eq!(
+                figure(&doc, a),
+                *want,
+                "{rel} disagrees with the catalog about {a:?}"
+            );
+        }
+    }
+}

@@ -151,7 +151,6 @@ fn the_corpus_carries_eight_questions_and_the_count_is_the_token_count() {
             "interaction/acquisition-binding.yml",
             "prior-art/ags.yml",
             "prior-art/sierra-sci.yml",
-            "walkbox/scaled-polygon.yml",
             "world-flag/latched-flag.yml",
         ]
     );
@@ -182,10 +181,10 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (8, 56, 50));
+    assert_eq!((corpus, decisions, records), (7, 56, 50));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        12,
+        11,
         "under an eighth is visible"
     );
 

@@ -400,6 +400,8 @@ without sharing an edge**, so no tolerance is needed and none could have been ch
 no edge** (SheriffsOffice, at `(282,70)`, between two regions already adjacent by other edges).
 [verified] The walkboxes tile; the editor snaps.
 
+`walkboxHidden` is called at 11 sites, and the graph is a function of world state.
+
 **The named quad is a door.** `jail_door` is four vertices and shares an edge with exactly two
 regions — the office floor and `jail`. `desk_path` is four vertices and shares an edge with exactly
 two — the shop floor and `natalie_desk`. Remove either and the room's floor falls into two pieces

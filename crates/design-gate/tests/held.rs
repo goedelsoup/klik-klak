@@ -88,7 +88,7 @@ fn duration_is_the_presenters_and_the_state_model_is_free_of_it() {
     let root = repo_root();
     assert_eq!(
         talking(&root).len(),
-        19,
+        20,
         "files that say the word — this record is one"
     );
 

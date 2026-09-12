@@ -254,7 +254,7 @@ fn the_report_ties_five_questions_the_history_keeps_apart() {
     let computed: Vec<usize> = ages(&root).into_iter().map(|(_, a)| a).collect();
     assert_eq!(
         (computed.len(), REPORTED.len()),
-        (8, 9),
+        (7, 9),
         "the corpus against the reading `REPORTED` holds: `control-transfer` closed the genesis \
          question, which is the one the report called oldest and the only one this repository \
          has ever answered"
@@ -346,7 +346,7 @@ fn every_figure_the_config_states_about_this_clock_is_computed_here() {
     );
     assert_eq!(
         (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
-        (12, 12),
+        (11, 11),
         "the share the config claims, against the share"
     );
 }

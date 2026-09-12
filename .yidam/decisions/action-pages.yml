@@ -128,7 +128,14 @@ rationale: |
   **What this does not settle.** Whether a class-level question should have a tagged home of its
   own. The two live ones are parked on instances because that is where a marker can go, and both
   are really about the class: walkbox adjacency is a question about the relationship vocabulary,
-  and *"is that an item or scenery with an icon"* is a question about the class boundary. The
+  and *"is that an item or scenery with an icon"* is a question about the class boundary.
+
+  **One of the two is answered and the parking turned out not to have cost anything.**
+  [adjacency](adjacency.yml) closed the walkbox question with a measurement, and the answer landed
+  in `walkbox.ont.yml`'s own prose — on the class, where the question always belonged — without
+  anything having had to move it there first. A question parked on an instance was still asked, was
+  still counted, and was still answered by the page it was about. That is one instance and not a
+  rule, and it is the first evidence either way. [inference] The
   corpus has a de facto home for these already — [ontology](ontology.yml) holds both live class
   collapses and has since genesis — and what it does not have is any way to count what is in it.
   That is [marker-count](marker-count.yml)'s threshold again, reached from a third side: a typed

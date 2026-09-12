@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (624, 101, 77));
+    assert_eq!((total, mentions, tests.len()), (625, 102, 77));
 }
 
 /// **Eight of eighty-four records are cited by nothing, against three of forty-four nodes.**
@@ -322,7 +322,6 @@ fn a_record_nothing_cites_is_named() {
     assert_eq!(
         alone,
         [
-            "adjacency",
             "binding-axes",
             "declared-reach",
             "domain-computer",
@@ -349,7 +348,7 @@ fn a_record_nothing_cites_is_named() {
          here to be cited by two consecutive phases for having sorted their work for them"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (84, 292));
+    assert_eq!((c.len(), edges), (84, 293));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**

@@ -159,19 +159,26 @@ fn walkbox_is_the_only_authoring_class_the_format_cannot_name() {
     );
 }
 
-/// **Two classes the instrument has never measured, and `actor` has stopped being one of them.**
+/// **One class left, and two left this list in two phases for the same reason.**
 ///
 /// It was three, and the argument for all three was the same: it is not that the checker is weak
 /// there, it is that there is nothing for it to read. A `.game` file says an actor is in a room and
 /// cannot say where in the room, so no test can measure a claim about a walk cycle or a coordinate
 /// space.
 ///
-/// **The argument held for the drawing and not for the question.** `actor/player-character`'s
+/// **The argument held for the drawing and not for the questions.** `actor/player-character`'s
 /// oldest claim was about control transferring between characters, which is an authoring question
-/// and not a rendering one, and `.yidam/decisions/control-transfer.yml` measured it with a fifth
-/// specimen and `crates/game-format/tests/transfer.rs`. So a class left this list not by the
-/// instrument getting stronger but by somebody noticing that one of its claims was never on the far
-/// side of the boundary. `room` and `walkbox` stay, and their claims are geometry.
+/// and not a rendering one; `walkbox/scaled-polygon`'s was whether adjacency between regions needs
+/// a relationship, which is a question about a relationship vocabulary and was answered by counting
+/// somebody else's polygons. `.yidam/decisions/control-transfer.yml` and
+/// `.yidam/decisions/adjacency.yml` measured them with `crates/game-format/tests/transfer.rs` and
+/// `crates/design-gate/tests/adjacency.rs`.
+///
+/// So two classes left this list in consecutive phases, and neither left because the instrument got
+/// stronger. **The boundary was drawn around the format and this check read it as a boundary around
+/// the corpus** — a claim a `.game` file cannot express is not thereby a claim nothing can measure,
+/// because the corpus reads artifacts the format cannot hold. `room` stays, and its claims are
+/// geometry.
 ///
 /// What did measure them is prior art. `walkbox/scaled-polygon` carries five `[verified]` claims
 /// from 84 real polygons in a shipped game, and `room/scrolling` six. **This corpus can read
@@ -198,10 +205,10 @@ fn the_classes_the_instrument_never_measured_are_the_drawn_ones() {
     }
     assert_eq!(
         untouched,
-        ["room", "walkbox"],
+        ["room"],
         "classes no node of which cites the instrument"
     );
-    assert_eq!(citing, 26, "nodes resting some claim on a committed test");
+    assert_eq!(citing, 27, "nodes resting some claim on a committed test");
 }
 
 /// **Four nodes carry no `[verified]` claim at all, and three of them are on the drawn side.**
