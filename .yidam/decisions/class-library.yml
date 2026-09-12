@@ -1,0 +1,154 @@
+id: class-library
+summary: >-
+  **Sierra handed an author a class library rather than a vocabulary, and the man who wrote the
+  interpreter says the language alone was not enough.** Thirty-one classes for adventure games, and
+  no verb interface among them: a `Feature` is a point on the screen with one method, so nothing can
+  enumerate what it offers. The `[open]` this repository raised one phase ago named a 1988 document
+  as the thing that would settle a question about a 1990 interface; it is corrected rather than
+  closed. `testimony` stays open, and each of three documents now says why.
+context: |
+  [input-side](input-side.yml) retrieved eleven of Sierra's in-house documents and read one. It
+  closed on a marker naming three of the remaining ten — one to settle its own `[open]`, two as the
+  nearest thing in reach to [testimony](testimony.yml), which blocks three of this corpus's nine
+  questions and all three of those are past the interval `.yidam/config.toml` declares.
+
+  All three have now been opened. **None of them does what the marker said it would**, and the three
+  failures are three different kinds.
+decision: |
+  **1. The marker named a document that predates its own question by two years, and this is a
+  correction rather than an answer.** *Script Classes for Adventure Games* is Jeff Stephenson,
+  5 April 1988 — SCI0, the parser era. SCI1 and its icon bar shipped in 1990. [verified] —
+  `crates/design-gate/tests/retrieval.rs`, where both dates are read out of the catalog entry the
+  marker sits beside.
+
+  A marker that names what would close it is doing the most useful thing a marker can do, and it is
+  the one thing nothing here checks. This one was **wrong in the direction that looks like
+  progress**: a question with a named resolver reads as nearly answered, and five of the nine
+  overdue questions are overdue precisely because nobody can say what would close them.
+
+  **2. What the document does establish is larger than what it was asked for.** Thirty-one classes
+  in Sierra's own class library for adventure games ([sci-inhouse-docs](../catalog/sci-inhouse-docs.md)) — `RootObj`, `Feature`, `View`, `Prop`, `Actor`,
+  `Ego`, `Room`, `Region`, `Locale`, `InvItem`, `User`, `Game`, `StatusLine` and the rest — and
+  **not one of them is a verb bar, icon bar, or menu class.** [verified]
+
+  The `User` class is the whole of the input path: *"A User is an object which corresponds to the
+  person playing the game and acts as the intermediary between the person and the other objects in
+  the game."* Its `doit:` sends `handleEvent:` in succession to `TheMenuBar`, `alterEgo` and the
+  regions, and if nothing claims the event, *"User puts up an input line and waits for the player to
+  type a line of input."* [verified] `TheMenuBar` is glossed in that sentence as **"the game's menu
+  bar"** — an object the game supplies, not a class this library defines.
+
+  So at the parser end Sierra's adventure-game library had no verb-selection class at all. That is
+  **consistent with** the icon bar being a game's own script and does not prove it, because the
+  document is two years too early to be evidence either way. The marker is rewritten to say what
+  would: an SCI1-era system script, or the shipped `Game`/`User` subclasses of a 1990 title.
+
+  **3. Sierra's answer to what you give an author was a class library, and its author says the
+  language was not enough.** Stephenson opens: *"An interesting feature of object-oriented languages
+  is that simply knowing the syntax and the primitive procedures (kernel calls) of the language does
+  not help you all that much in the actual process of sitting down and embodying an idea using the
+  language."* [verified]
+
+  That is this corpus's central question answered from the other side by the person who built the
+  interpreter. **The vocabulary an SCI author worked in was not the language; it was thirty-one
+  classes above it**, and the language's own designer says so in the first sentence of the document
+  that introduces them. [inference] — the reading of it as an answer to *this* question is ours.
+
+  **4. A `Feature` is a point on the screen with one method, and that is the whole contrast.**
+  *"The Feature class is simply a location on the screen that has a handleEvent method."* [verified]
+  Three properties — `x`, `y`, `z` — and `handleEvent:`. It is attached with
+  `(curRoom setFeature:myFeature)`, and if `useSortedFeatures` is set, events are distributed by
+  proximity to the player.
+
+  **Nothing can enumerate what a Feature offers**, because the answer is inside a method. This
+  format's `hotspot <name> ["<label>"]` carries one binding per verb, each with its own guard and
+  refusal, and `engine/verb-menu` enumerates exactly what is offered in a given state — which is
+  what makes `Report::orphaned` and `Report::silent` possible at all
+  ([orphaned-lines](orphaned-lines.yml)). A Feature admits no such report and never could. That is
+  the price of the class library, stated as a property of the design rather than as a complaint.
+  [inference]
+
+  **5. `Room.north/east/south/west` is a declarative exit whose escape is the empty slot.** The
+  property reads: *"The number of the room to which you wish to automatically change when ego hits
+  the specified edge of the room. **If you wish to control the room change yourself when ego hits a
+  certain edge, do not specify the room for that edge in the Room instance and check (ego edgeHit?)
+  yourself.**"* [verified]
+
+  **This is the third screen-edge exit in the prior art and the first declarative one.**
+  [verb/walk-to](../corpus/verb/walk-to.yml) already records two: AGS's *"Walk off left edge"* and
+  its three siblings, which are room **events** an author writes code into, and Tumbleweed's
+  `>el`/`>er`/`>eu`/`>ed`, written into a hotspot's **description string**. Sierra's is four typed
+  slots holding a room number. Fixed names, exactly four, no guard and no refusal — narrower than
+  this format's `exit <name> to <room>` in every direction, and the only one an author fills in
+  rather than programs.
+
+  **And the escape hatch is the absence of the declaration**, which is a shape
+  [escape-hatch](escape-hatch.yml) has not seen. That record asked whether a bounded layer avoids a
+  general-purpose escape and split the question five ways; every reading assumed the escape is a
+  *mechanism* — a script slot, a function call, a door out. Here there is no door: you leave the
+  slot empty and write the code, and the same four properties are the declarative form and the
+  choice not to use it. [inference]
+
+  It is worth holding against this format's own use of absence. A `when` with nothing under it
+  withholds a binding and a `when` with an `else` declines out loud
+  ([availability](availability.yml)) — absence meaning *not offered*. Sierra's absence means *I will
+  handle it myself*. Same syntax-free mechanism, opposite readings, and neither system says which
+  in the file.
+
+  **6. `testimony` stays open, and the three documents fail it three different ways.**
+
+  - ***Recommended Procedures for SCI Game Programming Coordinators***
+    ([sci-inhouse-docs](../catalog/sci-inhouse-docs.md)) — Pablo Ghenis for the SCI
+    Development Group, 30 January 1989, addressed to Scott Murphy, Corey Cole, Chris Iden, Warren
+    Schwader and all game programming coordinators. It is **entirely** directory structure, system
+    version freezing and `autoexec.bat`, against the stated tension *"To fix system bugs… "* versus
+    *"To isolate game developers from system instabilities."* [verified] Read, and it declines: an
+    infrastructure memo says nothing about what authoring was like. This is the risk that was named
+    in advance and it came true.
+  - ***Laura Bow II Programming Style Manual*** — retrieved and **not readable here**. A 5.4MB scan
+    with no text layer; this machine has no `pdftotext` and no `pdftoppm`. [verified] It is the one
+    of the three most likely to be near testimony — a named lead programmer's coding preferences for
+    a shipped game — and what it says is unknown.
+  - ***Script Classes for Adventure Games*** — read, and prescription rather than account. Its
+    closest approach is *"classes should be embodiments of abstract concepts, not kludged code to do
+    something that you don't feel like thinking through"*, which names a failure mode and still
+    describes what to do rather than what doing it was like. [verified]
+
+  `testimony`'s standing is unchanged and is better documented: three artifacts, one irrelevant, one
+  unreadable, one prescriptive. **An artifact about practice is not an account of experience, and
+  three tries in one phase is the strongest evidence this corpus has that the distinction is real
+  rather than fussy.**
+
+  **What this leaves: a third state the catalog has no spelling for.** An unread-list item is on the
+  list or it came off and the list says where the reading went. *Retrieved, opened, and unreadable
+  here* is neither, and it matters because the next reader would otherwise repeat the attempt. The
+  entry says so now. Whether the convention should carry it formally — a fourth column in the
+  registry, or a rule like the one `unread-list` wrote — is not decided here. `[open]`
+rationale: |
+  **The finding is that a marker was wrong one phase after being written, and it was wrong about the
+  thing markers are for.** [marker-count](marker-count.yml) argues the token names a live question.
+  `input-side` went further and named the artifact that would answer it, which is better practice and
+  is why the error was possible: a question with a named resolver is *checkable*, and this one was
+  checked by the next phase and failed.
+
+  That is the convention working rather than failing, and the distinction matters because the
+  alternative — a marker that says only *this is open* — cannot be wrong and cannot be checked. The
+  cost of naming a resolver is that you can name the wrong one. The benefit is that somebody finds
+  out. [inference]
+
+  **And it is the second time this session a phase has overturned the one before it.**
+  `normal-form` overturned `round-trip`'s conclusion; this corrects `input-side`'s marker. In both
+  cases the correction came from *doing the thing the record said to do next*, which is what a
+  record is for and is not the same as a record being unreliable.
+
+  **The larger result is that the central question has an answer from a third house and it is not
+  the answer either of the other two gave.** AGS bounded what happens and escaped to a script.
+  SCUMM never had a declarative layer. Sierra bounded the input ([input-side](input-side.yml)) and
+  then, above the language, handed the author **a class library** — which is neither a vocabulary
+  nor an escape hatch but a third thing: an open set of abstractions the author extends. Every
+  primitive this corpus weighs is a question about what an author may *select*; a class library is
+  the design that answers *you may write your own*. [inference]
+
+  What this format gives up by refusing that is stated exactly once and is worth restating: a
+  `Feature` cannot be reported on. Sierra's authors could express anything and could be told
+  nothing, and `crates/reachability` exists because this design took the other side of that trade.

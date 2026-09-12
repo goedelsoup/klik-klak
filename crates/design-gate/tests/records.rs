@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (579, 97, 73));
+    assert_eq!((total, mentions, tests.len()), (588, 97, 74));
 }
 
-/// **Nine of eighty records are cited by nothing, against three of forty-four nodes.**
+/// **Nine of eighty-one records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -324,10 +324,10 @@ fn a_record_nothing_cites_is_named() {
         [
             "binding-axes",
             "calculators",
+            "class-library",
             "declared-reach",
             "domain-computer",
             "held",
-            "input-side",
             "line-format",
             "name-scoping",
             "settled-surface",
@@ -338,12 +338,13 @@ fn a_record_nothing_cites_is_named() {
          is the one way this list empties from the front. `held` stays for the reason it \
          arrived: it reconciles two standing positions rather than answering a question either \
          of them left open, so nothing had a marker to retract. Reconciling is the one kind of \
-         work this list cannot see — and `input-side` has now shown a second: a phase whose \
-         subject is a retrieval revises a corpus node rather than a record, so it touches \
-         nothing here and lands uncited on the day it arrives"
+         work this list cannot see — and `input-side` showed a second for one phase: a phase \
+         whose subject is a retrieval revises a corpus node rather than a record, so it touches \
+         nothing here and lands uncited on the day it arrives. It came off the front the ordinary \
+         way, when `class-library` read the documents it had named and wrote back into it"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (80, 269));
+    assert_eq!((c.len(), edges), (81, 275));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**

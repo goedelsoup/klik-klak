@@ -232,10 +232,10 @@ nodes, at four times the rate, and it had never been looked at.
 
 - [binding-axes](binding-axes.yml)
 - [calculators](calculators.yml)
+- [class-library](class-library.yml)
 - [declared-reach](declared-reach.yml)
 - [domain-computer](domain-computer.yml)
 - [held](held.yml)
-- [input-side](input-side.yml)
 - [line-format](line-format.yml)
 - [name-scoping](name-scoping.yml)
 - [settled-surface](settled-surface.yml)
