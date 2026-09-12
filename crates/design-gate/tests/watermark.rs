@@ -280,7 +280,7 @@ fn a_document_that_declares_no_watermark_fails() {
         })
         .sum::<usize>();
     assert_eq!(
-        actual, 211,
+        actual, 215,
         "the fixtures the document describes carry this many tests"
     );
     assert!(
