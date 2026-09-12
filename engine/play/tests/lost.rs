@@ -31,7 +31,7 @@ struct Trap {
     transcript: &'static str,
 }
 
-const TRAPS: [Trap; 4] = [
+const TRAPS: [Trap; 5] = [
     Trap {
         name: "ferry",
         source: include_str!("../../../design/specimen/ferry.game"),
@@ -139,6 +139,36 @@ const TRAPS: [Trap; 4] = [
   → The Corridor
 > walk-to canteen-door
   He is in there with his tea, and the door is not wide.
+",
+    },
+    Trap {
+        name: "lock",
+        source: include_str!("../../../design/specimen/lock.game"),
+        script: include_str!("../scripts/lock-lost.txt"),
+        blamed: 152,
+        at_turn: 3,
+        transcript: "\
+> pick-up locker
+  You take the windlass. It is cold and it is heavier than it looks.
+> use-with windlass on coping
+  You send it up underarm. It lands flat, skids, and stops.
+> talk-to mate-above
+  You call up. She comes to the edge and looks down at you, and then it is her.
+  → The Lockside
+> walk-to paddle-gear
+  You fit the windlass and wind, and it comes up a click at a time and stays up.
+> walk-to towpath
+  → The Tail
+> walk-to bottom-beams
+  The water is coming through them. You will not shut them against that.
+> look-at bottom-beams
+  Standing open, the way a boat leaves them.
+> walk-to towpath-up
+  → The Lockside
+> walk-to ladder
+  There is nothing to come up for yet.
+> look-at boat
+  Eight foot down, with a man standing on the counter.
 ",
     },
 ];

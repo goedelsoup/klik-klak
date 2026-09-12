@@ -1,6 +1,6 @@
 //! composes: verb-menu, interaction-resolver
 //!
-//! **A game, played from the first menu to the ending, and what the transcript shows.**
+//! **Two games, played from the first menu to the ending, and what the transcripts show.**
 //!
 //! Five component tests passed before this one existed and the components had never been asked in
 //! turn. This is the first thing in the repository that plays: it settles the start, shows a menu,
@@ -12,11 +12,25 @@
 //! `subsystem/interaction-resolver`'s *"never nothing"* is a promise about the **outcome**, not
 //! about the line, and nothing could tell the two apart until something printed a transcript.
 //! `.yidam/decisions/playable.yml`.
+//!
+//! **The second run is here for the opposite reason: to show a thing that does not appear.**
+//! `lock.game` changes which character the player is, twice, and the transcript is where you can
+//! see that nothing reports it — no menu change, no inventory change, no room change on one of the
+//! two. `.yidam/decisions/control-transfer.yml`.
 
 use play::{load, Session, Stop};
 
 const LIGHTHOUSE: &str = include_str!("../../../design/specimen/lighthouse.game");
 const SCRIPT: &str = include_str!("../scripts/lighthouse-won.txt");
+const LOCK: &str = include_str!("../../../design/specimen/lock.game");
+const LOCK_SCRIPT: &str = include_str!("../scripts/lock-won.txt");
+
+fn lines(src: &'static str) -> Vec<&'static str> {
+    src.lines()
+        .map(str::trim)
+        .filter(|l| !l.is_empty() && !l.starts_with('#'))
+        .collect()
+}
 
 fn script() -> Vec<&'static str> {
     SCRIPT
@@ -189,3 +203,77 @@ fn a_winning_run_holds_the_player_for_a_countable_amount() {
 /// about the stair. The whole of the lighthouse, won, is about a paragraph of reading.
 const PACING: usize = 471;
 const LONGEST: usize = 74;
+
+/// **The lock, won, and what a change of player looks like to somebody playing.**
+///
+/// It looks like nothing. `lock.game` hands control over twice in eleven turns and the only thing
+/// that reports it either time is a clause an author wrote: *"and then it is her"*, *"and then it
+/// is him"*. The verb menu does not change, the inventory does not change, the phrasing does not
+/// change, and nothing in `verb-menu`, `interaction-resolver` or `response-presenter` has any
+/// concept that it happened — because in this format it did not. A flag was written.
+///
+/// **The two transfers print differently, and the difference is geography rather than kind.**
+/// Turn 3 crosses a room, so the transcript shows the line and then a room change, exactly as a
+/// door does. Turn 10 happens inside one room and shows no room change at all — the player does
+/// not move, because the character being taken is already standing there. Two spellings of one
+/// act, told apart by nothing a reader of this transcript could name.
+///
+/// That is the specimen's finding rendered as the thing a person can judge:
+/// `.yidam/decisions/control-transfer.yml`.
+#[test]
+fn the_lock_is_played_to_its_ending_and_says_nothing_about_changing_hands() {
+    let game = load(LOCK, "lock").expect("the specimen reads clean");
+    let mut session = Session::start(&game).expect("it starts");
+    assert_eq!(session.here(), "The Chamber");
+
+    assert_eq!(session.play(&lines(LOCK_SCRIPT)), Stop::Ending);
+    assert_eq!(
+        session.transcript(),
+        "\
+> pick-up locker
+  You take the windlass. It is cold and it is heavier than it looks.
+> use-with windlass on coping
+  You send it up underarm. It lands flat, skids, and stops.
+> talk-to mate-above
+  You call up. She comes to the edge and looks down at you, and then it is her.
+  → The Lockside
+> walk-to towpath
+  → The Tail
+> walk-to bottom-beams
+  You walk one round and then the other, and they meet without a sound.
+> walk-to towpath-up
+  → The Lockside
+> walk-to paddle-gear
+  You fit the windlass and wind, and it comes up a click at a time and stays up.
+> walk-to ladder
+  You put a hand down and he comes up the last two rungs on his own.
+> walk-to top-beams
+  You take one and he takes the other, and they come round together the way they are meant to.
+> talk-to boatman
+  He takes his hands out of his pockets, and then it is him.
+> walk-to boat
+  You step down onto the counter and take the tiller, and she goes out under the beams with the water still moving.
+"
+    );
+
+    // Eleven turns, two of which change who the player is, and the only difference between a
+    // transfer and a door is that one of the two transfers does not move anybody.
+    assert_eq!(session.log.len(), 11, "turns taken");
+    let transfers: Vec<&str> = session
+        .log
+        .iter()
+        .filter(|t| t.said.as_deref().is_some_and(|l| l.contains("then it is")))
+        .map(|t| t.picked.as_str())
+        .collect();
+    assert_eq!(
+        transfers,
+        ["talk-to mate-above", "talk-to boatman"],
+        "every turn that changes who the player is, found by reading the prose — \
+         which is the only place it is written down"
+    );
+    assert!(
+        session.log.iter().all(|t| !t.silent()),
+        "a silent turn: {:?}",
+        session.log.iter().find(|t| t.silent())
+    );
+}

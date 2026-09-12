@@ -1,0 +1,19 @@
+# THE TRAP in `design/specimen/lock.game`, walked into.
+#
+# Wind the top paddle before walking the bottom gates shut. The paddle is up, the lock runs
+# through, and gates do not shut against a current — so the boat never comes up and nobody
+# ever gets ashore. The trap is on the lockside and the gates are a walk away, which is the
+# order a person does it in.
+#
+# `crates/reachability` blames `walk-to on lockside.paddle-gear` at line 152, [ordering],
+# 2 states.
+pick-up locker
+use-with windlass on coping
+talk-to mate-above
+walk-to paddle-gear
+walk-to towpath
+walk-to bottom-beams
+look-at bottom-beams
+walk-to towpath-up
+walk-to ladder
+look-at boat

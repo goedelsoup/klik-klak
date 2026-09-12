@@ -1,7 +1,7 @@
 //! **Every specimen has a way to lose, the checker has reported all of them for phases, and
 //! nobody has ever walked into one.**
 //!
-//! Four games, **five stranding bindings**, each named by line, cause and how many reachable
+//! Five games, **six stranding bindings**, each named by line, cause and how many reachable
 //! states it kills. The specimens document them in prose —
 //! *"unwinnable by consumption if the oil goes into the hinge"*, *"unwinnable by ordering if the
 //! river is crossed without the lantern"* — and `ferry.game` states the claim this rests on in a
@@ -13,7 +13,7 @@
 //! `reachability` as a **dev-dependency** and never a dependency. The engine cannot ask whether
 //! the game is still winnable and must not be able to.
 //!
-//! What is held here is the checker's side: five bindings, by line, cause and states killed, and a
+//! What is held here is the checker's side: six bindings, by line, cause and states killed, and a
 //! run written down for every one of them. `.yidam/decisions/walked-in.yml`.
 
 use reachability::{analyse, Cause};
@@ -27,12 +27,13 @@ fn root() -> PathBuf {
         .to_path_buf()
 }
 
-const ALL: [(&str, &str); 4] = [
+const ALL: [(&str, &str); 5] = [
     ("ferry", include_str!("../../../design/specimen/ferry.game")),
     (
         "lighthouse",
         include_str!("../../../design/specimen/lighthouse.game"),
     ),
+    ("lock", include_str!("../../../design/specimen/lock.game")),
     (
         "nightwatch",
         include_str!("../../../design/specimen/nightwatch.game"),
@@ -51,7 +52,7 @@ fn load(source: &str, name: &str) -> game_format::Game {
     g
 }
 
-/// Every way to lose, across the four.
+/// Every way to lose, across the five.
 fn strandings() -> Vec<(&'static str, usize, String, Cause, usize)> {
     let mut out = Vec::new();
     for (name, src) in ALL {
@@ -92,6 +93,13 @@ fn every_specimen_is_stranded_somewhere() {
                 4
             ),
             (
+                "lock",
+                152,
+                "walk-to on lockside.paddle-gear".into(),
+                Cause::Ordering,
+                2
+            ),
+            (
                 "nightwatch",
                 59,
                 "walk-to on yard.hall-door".into(),
@@ -123,6 +131,10 @@ fn every_specimen_is_stranded_somewhere() {
 /// reader meets the pairing before running anything. The two nightwatch strandings are the same
 /// trap by the two doors into the hall — which is what `on-enter` was introduced for, one binding
 /// and two ways in — so one script covers both.
+///
+/// **Two specimens have a winning run written down as well, and the second is not here to be won.**
+/// `lock-won.txt` is the artifact that shows what a change of controlled character looks like to
+/// somebody playing, which is nothing: `engine/play/tests/transcript.rs`.
 #[test]
 fn every_one_of_them_has_a_run_written_down() {
     let dir = root().join("engine/play/scripts");
@@ -138,6 +150,8 @@ fn every_one_of_them_has_a_run_written_down() {
             "ferry-lost.txt",
             "lighthouse-lost.txt",
             "lighthouse-won.txt",
+            "lock-lost.txt",
+            "lock-won.txt",
             "nightwatch-lost.txt",
             "patrol-lost.txt",
         ],

@@ -1,0 +1,242 @@
+# lock — a fifth specimen, for one question: does transferring control between two characters
+# need vocabulary beyond a world flag naming the controlled one?
+#
+# `actor/player-character.yml` has asked it since the root commit and it is the oldest open
+# question in the corpus. It says what would close it: "a game in which the player switches
+# between characters, written in this language, either reaches for a construct the vocabulary
+# does not have or does not — and none of the four in design/specimen switches at all."
+#
+# This is that game. A wide lock at night with a boat in it, and getting a boat up a wide lock
+# is a two-person job: one winds and one holds her, and there are two top gates with a beam
+# each. The proposed vocabulary is one flag — `ashore` — naming the controlled character, which
+# is the shape the question names.
+#
+# Its committed defect is ORDERING, and the gate that closes is water. Wind the top paddle
+# before the bottom gates are shut and the lock runs through; the paddle is latched, and gates
+# do not shut against a current.
+
+# ── declarations ──────────────────────────────────────────────────────────────
+
+room    chamber   "The Chamber"
+room    lockside  "The Lockside"
+room    tail      "The Tail"
+
+actor   boatman   "the boatman"
+actor   mate      "the mate"
+
+# ONE flag, and the question is whether it is enough. Clear is the boatman, set is the mate.
+#
+# It is read in three places and all three are in `lockside`, because everywhere else the room
+# the player is standing in already says who they are: the boatman cannot get out of the
+# chamber and the mate cannot get into it. `lockside` at the end is the one room that holds
+# both, and it is the only place the flag carries anything.
+flag    ashore      "the player has the mate"
+
+flag    windlass-up latched "the windlass has gone up onto the coping"
+flag    gates-shut  latched "the bottom gates are shut"
+flag    paddle-up   latched "the top ground paddle is wound up"
+flag    gates-open  latched "the top gates are open"
+
+item    windlass    "a windlass"
+
+# ── the chamber ───────────────────────────────────────────────────────────────
+#
+# `start` and `holds boatman` are the same fact written twice, and nothing holds them in step.
+# That is not a slip in this file — it is what the format has: the player's room and an actor's
+# room are different slots, and the controlled character needs both.
+
+room chamber
+  start
+  holds boatman
+
+  hotspot locker "the side locker, with the lid up"
+    is windlass
+    look-at:
+      "Rope, a can of oil, and a windlass lying across the top of it all."
+
+    pick-up:
+      say   "You take the windlass. It is cold and it is heavier than it looks."
+      do    give windlass
+
+  hotspot coping "the coping stones, up level with the cabin roof"
+    look-at:
+      when  windlass-up  "Bare, except for the windlass where it came down."
+      otherwise          "Wet stone, eight foot of it, and no way up it from here."
+
+    # No guard and no refusal. `use-with windlass` is offered only while the windlass is
+    # carried, so a refusal saying he has nothing to send up is a line no player can reach —
+    # which is `.yidam/decisions/orphaned-lines.yml`, found again and not committed again.
+    use-with windlass:
+      say   "You send it up underarm. It lands flat, skids, and stops."
+      do    spend windlass
+      do    set windlass-up
+
+    # No `walk-to`. He cannot climb out, and that is the whole reason there are two of them.
+
+  # THE SWITCH, and it has no site of its own. Control transfer is not a verb applied to a
+  # target, so it hangs on a hotspot that stands for the other character — declared here as
+  # scenery, because an `actor mate` site in this room would never be offered: an actor site
+  # is live only where the actor is, and the whole point is that she is not here.
+  hotspot mate-above "the mate, up on the coping"
+    look-at:
+      when  windlass-up  "She has the windlass at her feet and has not picked it up yet."
+      otherwise          "Leaning on the top beam with her arms folded, waiting on you."
+
+    talk-to:
+      when  mate in lockside
+      say   "You call up. She comes to the edge and looks down at you, and then it is her."
+      do    set ashore
+      do    move boatman to chamber
+      do    move lockside
+      else  "She has gone away down to the tail. You can hear her on the gravel."
+
+  # And a SECOND one, for the same transfer to the same character, because the destination is
+  # a literal room and a binding has one guard and one effect list. The count is the product:
+  # one room he can be in, times two she can, times two directions.
+  hotspot lock-tail "the length of the lock behind you, and the bottom gates at the end of it"
+    look-at:
+      when  gates-shut  "Shut, and the boat standing quiet in the water that is holding them."
+      otherwise         "Standing open, and the lock as empty as a dry dock."
+
+    talk-to:
+      when  mate in tail
+      say   "You shout down the lock. She straightens up off the beam, and then it is her."
+      do    set ashore
+      do    move boatman to chamber
+      do    move tail
+      else  "She is up on the coping, not down there."
+
+# ── the lockside ──────────────────────────────────────────────────────────────
+
+room lockside
+  holds mate
+
+  hotspot boat "the boat, down in the dark of the chamber"
+    look-at:
+      when  gates-shut and paddle-up  "Come up level with the stones, and looking twice the size."
+      otherwise                       "Eight foot down, with a man standing on the counter."
+
+    talk-to:
+      when  boatman in chamber
+      say   "You put your head over and call down, and then it is him."
+      do    clear ashore
+      do    move mate to lockside
+      do    move chamber
+      else  "He is up here beside you."
+
+    # The ending, and the one binding in the game that reads the flag for its own sake.
+    walk-to:
+      when  gates-open and not ashore
+      say   "You step down onto the counter and take the tiller, and she goes out under the beams with the water still moving."
+      ending
+      else  "You are not taking a boat out. He is."
+
+  hotspot ladder "the iron ladder set into the chamber wall"
+    look-at:
+      "Four rungs above the water and the rest of it under."
+
+    walk-to:
+      when  gates-shut and paddle-up and boatman in chamber
+      say   "You put a hand down and he comes up the last two rungs on his own."
+      do    move boatman to lockside
+      else  "There is nothing to come up for yet."
+
+  hotspot paddle-gear "the top ground paddle, and the spindle standing up out of it"
+    look-at:
+      when  paddle-up  "Wound up, and the water going in under the gates where you cannot see it."
+      otherwise        "A square spindle with nothing on it."
+
+    # `walk-to` rather than `use-with windlass`, and the reason is the finding: she cannot
+    # carry it. An item has one carried form and one hotspot that is it, so the windlass that
+    # came up off the boat is not an item any more — it is `windlass-up`, a flag.
+    walk-to:
+      when  windlass-up and not paddle-up
+      say   "You fit the windlass and wind, and it comes up a click at a time and stays up."
+      do    set paddle-up
+      else when paddle-up  "It is up. Leave it."
+      else  "Not with your hands. It wants a windlass."
+
+  hotspot towpath "the towpath, running down the side of the lock"
+    look-at:
+      "Cinders, and the rail of the bottom gates showing at the far end."
+
+    walk-to:
+      do    move tail
+
+  hotspot top-beams "the two top beams, one on each side of the lock"
+    look-at:
+      when  gates-open                "Round, and the gates standing back against the coping."
+      when  gates-shut and paddle-up  "The water is level. They will come now, if there are two of you."
+      otherwise                       "Two beams, and a foot of water between this chamber and the pound above."
+
+    # One of the two predicates below reads the controlled character's own slot, which is
+    # stale in general and correct here only because the switch writes it. Nothing in the
+    # format can tell the two readings apart.
+    walk-to:
+      when  gates-shut and paddle-up and boatman in lockside and mate in lockside and not gates-open
+      say   "You take one and he takes the other, and they come round together the way they are meant to."
+      do    set gates-open
+      else when gates-open  "They are back against the stones already."
+      else  "One beam each. You cannot walk both of them."
+
+  # THE SAME TRANSFER WITH A SITE. Once both are in this room, an actor site is live and the
+  # switch is one binding with no destination in it — the player does not move, because the
+  # character being taken is already standing here.
+  actor boatman
+    look-at:
+      when  ashore  "Hands in his pockets, looking at the gates and not at you."
+      otherwise     "You are the one standing there with your hands in your pockets."
+
+    # A bare `when` and no `else`: withheld rather than refused. You are not shown the choice
+    # of talking to yourself. `.yidam/decisions/availability.yml` is the distinction.
+    talk-to:
+      when  ashore
+      say   "He takes his hands out of his pockets, and then it is him."
+      do    clear ashore
+      do    move mate to lockside
+
+  actor mate
+    look-at:
+      when  ashore  "You are the one standing there with the windlass in your hand."
+      otherwise     "She has the windlass in her hand and is waiting to be told."
+
+    talk-to:
+      when  not ashore
+      say   "She looks at you, and then it is her."
+      do    set ashore
+      do    move boatman to lockside
+
+# ── the tail ──────────────────────────────────────────────────────────────────
+
+room tail
+
+  hotspot bottom-beams "the bottom beams, and the gates standing open under them"
+    look-at:
+      when  gates-shut  "Shut, with the water holding them to."
+      otherwise         "Standing open, the way a boat leaves them."
+
+    walk-to:
+      when  not paddle-up and not gates-shut
+      say   "You walk one round and then the other, and they meet without a sound."
+      do    set gates-shut
+      else when paddle-up  "The water is coming through them. You will not shut them against that."
+      else  "They are shut."
+
+  hotspot boat-up-the-lock "the boat, away up the lock with the dark of the chamber round it"
+    look-at:
+      "A cabin light, and the shape of somebody on the counter in front of it."
+
+    talk-to:
+      when  boatman in chamber
+      say   "You shout up the length of the lock, and then it is him."
+      do    clear ashore
+      do    move mate to tail
+      do    move chamber
+      else  "He is up on the lockside with you."
+
+  hotspot towpath-up "the towpath, back up along the lock"
+    look-at:
+      "Cinders, and the paddle gear standing at the top of them."
+
+    walk-to:
+      do    move lockside

@@ -1,0 +1,18 @@
+# `design/specimen/lock.game`, won — and the reason it is pinned is the two lines that say
+# the player changed.
+#
+# Turn 3 hands control to the mate across a room: the transcript prints what the game says
+# and then a room change, exactly as a door does. Turn 10 hands it back inside one room, and
+# prints no room change at all. Nothing else in the interface moves for either — same verbs,
+# same inventory, same phrasing. `.yidam/decisions/control-transfer.yml`.
+pick-up locker
+use-with windlass on coping
+talk-to mate-above
+walk-to towpath
+walk-to bottom-beams
+walk-to towpath-up
+walk-to paddle-gear
+walk-to ladder
+walk-to top-beams
+talk-to boatman
+walk-to boat

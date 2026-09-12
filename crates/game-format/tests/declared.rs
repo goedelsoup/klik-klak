@@ -132,8 +132,8 @@ fn every_item_in_every_specimen_is_reached_by_a_binding() {
     }
     assert_eq!(
         totals,
-        (11, 11),
-        "declared items across four games, and items a binding names"
+        (12, 12),
+        "declared items across five games, and items a binding names"
     );
     assert!(
         unreached.is_empty(),

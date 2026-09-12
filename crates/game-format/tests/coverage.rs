@@ -213,19 +213,28 @@ fn the_count_covers_the_whole_surface() {
     assert_eq!(n.len(), 50, "and each is counted exactly once");
 }
 
-/// **Four constructs have never been written, and nine more were written once or twice.**
+/// **Five constructs have never been written, ten more were written once or twice, and `clear`
+/// came off the never-written list when a game needed to give control back.**
 ///
-/// The evidence that the surface is the right size is four games. A construct with no author
+/// The evidence that the surface is the right size is five games. A construct with no author
 /// behind it is not thereby wrong — `exit` and `or` were both admitted by argument rather than by
 /// demand — but a language proposed as the smallest that can express the form should be able to
 /// say which of its parts have carried weight and which are there on reasoning alone.
+///
+/// **`clear-flag` was on this list for eleven phases and `lock.game` is what took it off.** Four
+/// games wrote 105 response clauses and never once put a flag back, because every flag in them is
+/// a thing that happens to a world and worlds do not un-happen: a crate is not re-nailed, a toll
+/// is not un-paid. The fifth game has two characters and one of them is the player, and *which
+/// one* is the only fact in any specimen that goes both ways. `world-flag.reversible` had no
+/// authored instance until a flag stopped being about the world.
+/// `.yidam/decisions/control-transfer.yml`.
 #[test]
 fn the_constructs_no_specimen_has_written() {
     let n = written();
     let never: Vec<&String> = n.iter().filter(|(_, c)| **c == 0).map(|(k, _)| k).collect();
     assert_eq!(
         never,
-        ["!=", "<=", ">", "clear-flag", "exit", "or"],
+        ["!=", "<=", ">", "exit", "or"],
         "written by no specimen: two comparisons, a keyword and the one connective that \
          distinguishes this language from the interaction table it was designed against"
     );
@@ -238,36 +247,45 @@ fn the_constructs_no_specimen_has_written() {
     };
     assert_eq!(
         by(1, 1).len(),
-        10,
-        "written exactly once, in four games: {:?}",
+        8,
+        "written exactly once, in five games: {:?}",
         by(1, 1)
     );
     assert_eq!(
         by(0, 2).len(),
-        20,
-        "two fifths of the surface, written twice or fewer: {:?}",
+        15,
+        "three tenths of the surface, written twice or fewer: {:?}",
         by(0, 2)
     );
 }
 
-/// **Composition is this language's one advantage over the table it was designed against, and it
-/// has one authored instance.**
+/// **Composition is this language's one advantage over the table it was designed against, and
+/// eleven of its twelve authored instances are in the one game with two characters.**
 ///
 /// `data-format/interaction-table` compared the two item for item and landed it exactly: *"The gap
 /// is real and it is exactly one thing: composition."* AGS had predicates over world state and no
 /// way to combine them — no `or`, no grouping, nesting yielding conjunction only.
 ///
-/// Across four specimens the binary connectives are written **once**: a single `and`, and no `or`
-/// at all. `not` is used ten times and is unary, so it does not combine anything.
+/// For eleven phases the measurement embarrassed the argument. Four specimens wrote the binary
+/// connectives **once between them**: a single `and`, and no `or` at all. The note that stood here
+/// said so — that this was an argument rather than a measurement, and that the node should say so.
 ///
-/// That does not make the argument wrong. It makes it an argument rather than a measurement, which
-/// is a different claim from the one the corpus has been making, and the node now says so.
+/// **`lock.game` writes eleven more, and every one of them is about who the player is or where the
+/// other character is standing.** `gates-shut and paddle-up and boatman in lockside and mate in
+/// lockside`; `gates-open and not ashore`; `windlass-up and not paddle-up`. A game with one
+/// protagonist asks about the world, and a world's facts are independent, so its guards are single
+/// terms. A game with two asks about the world **and** about the pair, and the pair is what makes
+/// a conjunction — which is a claim about the subject rather than about the language, and it is
+/// the first evidence this corpus has that composition is demanded rather than argued.
+/// `.yidam/decisions/control-transfer.yml`.
+///
+/// `or` is still unwritten in five games. `not` is unary and combines nothing.
 #[test]
-fn the_binary_connectives_are_written_once_between_them() {
+fn the_binary_connectives_are_written_twelve_times_and_eleven_are_one_game() {
     let n = written();
     assert_eq!(
         (n["and"], n["or"], n["not"]),
-        (1, 0, 10),
+        (12, 0, 16),
         "conjunction, disjunction, and the unary that combines nothing"
     );
     let comparisons: usize = CMPS.iter().map(|c| n[*c]).sum();

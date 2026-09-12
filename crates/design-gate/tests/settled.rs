@@ -94,7 +94,7 @@ fn every_settled_item_says_what_settled_it() {
     let root = repo_root();
     assert_eq!(
         surface(&root),
-        (50, 4, 662, 91),
+        (50, 5, 904, 120),
         "constructs, specimens, lines, bindings"
     );
 
