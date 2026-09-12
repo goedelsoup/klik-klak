@@ -54,7 +54,7 @@ Fields per crate: name, capability type (connector/calculator/feature-engineerin
 |---|---|
 | [design-gate](design-gate/) | The derivation check for design/: premises still resolve, effects are relationships the ontology declares. |
 | [game-format](game-format/) | The .game specimen format: model, reader, and the admission rule that every operand names something declared. |
-| [reachability](reachability/) | Whether every reachable world state can still reach the ending, and which binding stranded the ones that cannot. |
+| [reachability](reachability/) | Whether every state a player can reach can still reach the ending. |
 <!-- /REGEN -->
 
 ## Index status
