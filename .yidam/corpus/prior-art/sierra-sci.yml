@@ -88,6 +88,23 @@ description: |
   arrival at the same three slots
   ([bounded-expression-language](../../../design/bounded-expression-language.md)) and the only one
   from a system that had to recognise the slots rather than offer them. [inference]
+
+  **And above the language Sierra gave an author a class library, which is a third kind of answer
+  beside a vocabulary and an escape hatch.** *Script Classes for Adventure Games* — Jeff Stephenson,
+  5 April 1988 ([sci-inhouse-docs](../../catalog/sci-inhouse-docs.md)) — opens by saying the language
+  is not the thing: *"simply knowing the syntax and the primitive procedures (kernel calls) of the
+  language does not help you all that much in the actual process of sitting down and embodying an
+  idea using the language."* [verified] Thirty-one classes follow, and **not one of them is a verb
+  bar, icon bar or menu class**. [verified] Every primitive this corpus weighs is a question about
+  what an author may *select*; a class library answers *you may write your own*. [inference]
+  `.yidam/decisions/class-library.yml`.
+
+  **The cost of that answer is that nothing can be reported on.** A `Feature` is *"simply a location
+  on the screen that has a handleEvent method"* — `x`, `y`, `z`, and one method. [verified] What a
+  Feature offers in a given state is inside the method and no reader can enumerate it. A hotspot
+  here carries one binding per verb, each with its own guard and refusal, which is why
+  [failure-mode/orphaned-dialogue-branch](../failure-mode/orphaned-dialogue-branch.yml) has a
+  detector at all. Sierra's authors could express anything and could be told nothing. [inference]
 properties:
   era: |
     AGI 1984–1989; SCI from 1988 into the mid-nineties. [verified] for the AGI range, which the
@@ -108,6 +125,16 @@ properties:
     emergent limit on how much the author wrote. `WORDS.TOK` is a declared dictionary and a Said
     spec draws its roots from it, so a word the game has not declared is not a word: **the bound
     is declared, and it is declared on the input.** [verified]
+
+    **And one thing above the language is declarative: a room's four edges.** `Room.north`,
+    `.east`, `.south` and `.west` each hold *"The number of the room to which you wish to
+    automatically change when ego hits the specified edge of the room"* — and the same sentence
+    gives the way out: *"If you wish to control the room change yourself when ego hits a certain
+    edge, do not specify the room for that edge in the Room instance and check (ego edgeHit?)
+    yourself."* [verified] Four fixed slots, no guard, no refusal, and **the escape hatch is the
+    empty slot**. [verb/walk-to](../verb/walk-to.yml) records two other screen-edge exits — AGS's
+    four room events and Tumbleweed's description-string extension — and both are places to write
+    code. This is the only one an author fills in.
 
     That makes bounded-versus-scripted an axis rather than a scale. Finiteness has a *place* as
     well as an amount, and the two houses everybody compares chose opposite places — Sierra spent
