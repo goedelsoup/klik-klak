@@ -129,15 +129,15 @@ fn the_instrument_is_a_kind_of_evidence_the_register_has_no_slot_for() {
     assert_eq!(
         total,
         Rests {
-            catalog: 119,
-            instrument: 56,
+            catalog: 120,
+            instrument: 60,
             both: 5,
             carried: 153,
         }
     );
     assert_eq!(
         (instrument_only.len(), silenced.len()),
-        (22, 21),
+        (23, 22),
         "nodes with a claim resting on the instrument alone, and how many of them cite a catalog \
          entry for something else — which is every one but the node the lint reports"
     );

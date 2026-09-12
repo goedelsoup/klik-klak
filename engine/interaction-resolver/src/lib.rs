@@ -43,16 +43,26 @@ pub enum Outcome<'a> {
 #[derive(Debug, Clone, Copy)]
 pub struct Fired<'a> {
     pub binding: &'a Binding,
-    pub says: Option<&'a str>,
+    /// The clause rather than its text, because a caller counting which lines a player can
+    /// reach needs to name the line, and only the clause carries where it was written.
+    pub says: Option<&'a Response>,
 }
 
-/// The first line whose predicate holds, or the first with none. A response list is
+/// The first clause whose predicate holds, or the first with none. A response list is
 /// first-match-wins, which is how the author reads it: `otherwise` is a fallback because it is
 /// written last.
-pub fn select<'a>(w: &World, list: &'a [Response], s: &State) -> Option<&'a str> {
+///
+/// [`select`] is this and the text; this is the one that keeps the clause, and it exists because
+/// **a line nobody selects in any reachable state is authored text no player can reach** and
+/// naming which line that is requires the clause rather than the string.
+pub fn clause<'a>(w: &World, list: &'a [Response], s: &State) -> Option<&'a Response> {
     list.iter()
         .find(|r| r.when.as_ref().map(|q| w.holds(q, s)).unwrap_or(true))
-        .map(|r| r.text.as_str())
+}
+
+/// The text of [`clause`] — what a player is told, which is all most callers want.
+pub fn select<'a>(w: &World, list: &'a [Response], s: &State) -> Option<&'a str> {
+    clause(w, list, s).map(|r| r.text.as_str())
 }
 
 /// **The component, in one function.**
@@ -253,7 +263,7 @@ pub fn settle_tracking<'a>(
             if offered(w, b, &cur) {
                 // selected before the effects are folded, because the state it fired from is the
                 // state its guards were written against
-                let says = select(w, &b.says, &cur);
+                let says = clause(w, &b.says, &cur);
                 cur = apply(w, b, &cur);
                 fired.push(Fired { binding: b, says });
             }

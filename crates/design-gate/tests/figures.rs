@@ -139,6 +139,8 @@ fn surface(root: &Path) -> BTreeMap<String, usize> {
 
 /// **One property is nine percent of the corpus and twice the next largest block.**
 ///
+/// It was ten percent for seven phases. The block has not moved; the corpus grew around it.
+///
 /// It is not a rule and there is nothing here to fix by splitting a file: `interaction-table` is
 /// one concept and the prelude's shape has no unit between a node and a property. What the pin does
 /// is make the size visible, because the size is what produced the defect below — a field nobody
@@ -158,7 +160,7 @@ fn the_largest_block_in_the_corpus_is_a_property() {
     );
     assert_eq!(
         (b[0].0 * 100 / total, b[0].0 / b[1].0),
-        (10, 2),
+        (9, 2),
         "share of every block in the corpus, and how many times the next largest"
     );
     assert_eq!(

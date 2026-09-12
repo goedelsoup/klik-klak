@@ -77,6 +77,7 @@ fn the_evaluator_is_public_and_split_where_the_corpus_splits_it() {
     assert_eq!(
         functions(&root, "engine/interaction-resolver/src/lib.rs"),
         [
+            "clause",
             "select",
             "resolve",
             "offered",

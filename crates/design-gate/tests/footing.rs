@@ -74,11 +74,15 @@ fn sources(src: &str) -> (Vec<String>, usize) {
     (entries, lines)
 }
 
-/// **Fifteen of thirty-nine evidenced nodes rest on one source, twelve of them on one line.**
+/// **Fourteen of forty evidenced nodes rest on one source, ten of them on one line.**
 ///
-/// It was sixteen. `class-evidence` brought `interaction/binary-binding` up to the three engines
-/// the class claim it carries now rests on, and a node came off this list by gaining evidence
-/// rather than by anybody looking at the list — which is the only way a node has ever left it.
+/// It was sixteen, then fifteen. `class-evidence` brought `interaction/binary-binding` up to the
+/// three engines the class claim it carries now rests on, and a node came off this list by gaining
+/// evidence rather than by anybody looking at the list — which is the only way a node has ever
+/// left it. `.yidam/decisions/orphaned-lines.yml` did it again to
+/// `failure-mode/orphaned-dialogue-branch`, and by the same accident: the phase was about counting
+/// a defect, and the second source arrived because a shipped engine turned out to declare the
+/// thing that would prevent it.
 ///
 /// Not a defect on its own — a node about one shipped game legitimately cites one entry, and
 /// `walkbox/scaled-polygon` is exactly that: five claims, all Delores, one link that earns them.
@@ -110,13 +114,13 @@ fn the_evidence_base_of_fifteen_nodes_is_a_single_source() {
     }
     assert_eq!(
         (evidenced, one_entry, one_line),
-        (40, 15, 11),
+        (40, 14, 10),
         "nodes with a verified claim; of those, resting on one catalog entry; of those, on one line"
     );
     assert_eq!(
         (held, carried),
-        (90, 40),
-        "claims those sixteen carry, and how many name nothing in their own paragraph"
+        (86, 38),
+        "claims those fourteen carry, and how many name nothing in their own paragraph"
     );
 }
 
@@ -162,7 +166,7 @@ fn one_line_is_the_difference_between_sourced_and_not() {
         }
         flipped.push(name(&root, &p));
     }
-    assert_eq!(flipped.len(), 11);
+    assert_eq!(flipped.len(), 10);
     assert_eq!(
         attributed,
         [
@@ -197,6 +201,11 @@ fn one_line_is_the_difference_between_sourced_and_not() {
 /// their own evidence standing and all four are nodes the lint named at some point; the ones that
 /// have always carried a line have no account of their sourcing and are not better sourced.
 /// `.yidam/decisions/carried-claims.yml`.
+///
+/// `failure-mode/orphaned-dialogue-branch` passed through this list without stopping.
+/// `.yidam/decisions/orphaned-lines.yml` gave it its first test — it had cited one entry and named
+/// none for eleven phases — and in the same phase a second catalog entry, so it left by the door
+/// the list is for before anything could count it at the door it came in by.
 #[test]
 fn a_single_source_node_that_also_rests_on_the_instrument_is_named() {
     let root = repo_root();
