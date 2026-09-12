@@ -66,8 +66,12 @@ fn premises(root: &Path) -> Vec<String> {
 /// change is not a baseline, which is the finding of this phase arriving inside its own check.
 const BEFORE: &str = "^revise: two sentences that were edges";
 
+/// **Twelve of fifteen now**, and the twelfth is `puzzle/state-gate` — which moved because a
+/// question it had closed came back. `.yidam/decisions/unread-specimen.yml`. The window is closed
+/// and the count only grows, so this rising is the ordinary thing; what is not ordinary is the
+/// cause, and a count of moved premises is exactly as unable to report it as the clock is.
 #[test]
-fn eleven_of_fifteen_premises_moved_under_the_proposal() {
+fn twelve_of_fifteen_premises_moved_under_the_proposal() {
     let root = repo_root();
     let found = git(&root, &["log", "--format=%H", "--grep", BEFORE]);
     let last = found
@@ -104,7 +108,7 @@ fn eleven_of_fifteen_premises_moved_under_the_proposal() {
     }
     assert_eq!(
         moved.len(),
-        11,
+        12,
         "premises edited since the document was: {moved:?}"
     );
     assert!(
