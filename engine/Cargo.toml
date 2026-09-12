@@ -1,0 +1,27 @@
+# The engine.
+#
+# `crates/` is the instrument that reads the corpus; this is the artifact the corpus is about.
+# `.claude/CLAUDE.md` calls conflating the two this repository's characteristic mistake, and the
+# two workspaces are how the distinction is kept once both are Rust.
+#
+# **One crate per subsystem.** A member here is a `subsystem` node in `.yidam/corpus/`, by the same
+# name, and `crates/design-gate/tests/engine.rs` holds the two lists against each other. The
+# directory listing is the roadmap.
+#
+# The dependency on `../crates/game-format` reads awkwardly and is deliberate:
+# `.yidam/decisions/engine-directory.yml` calls the parser shared infrastructure rather than an
+# instrument, and `.yidam/decisions/two-components.yml` records why it has not moved.
+
+[workspace]
+resolver = "2"
+members = ["verb-menu", "interaction-resolver"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+publish = false
+
+[workspace.dependencies]
+game-format = { path = "../crates/game-format" }
+verb-menu = { path = "verb-menu" }

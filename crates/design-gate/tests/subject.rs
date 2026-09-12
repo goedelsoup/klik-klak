@@ -167,7 +167,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 68, "every record, in the order it was created");
+    assert_eq!(all.len(), 69, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -180,7 +180,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (32, 32, 22),
+        (32, 33, 23),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -216,11 +216,18 @@ fn the_evidence_each_record_rests_on() {
 /// implemented surface abstract — both preparation, and preparation for building is repository
 /// work by its nature.
 ///
-/// **It is at zero.** `authored-text` gave the parse tree back the response text and the
-/// declaration labels, and it rests on all three evidence paths at once: a shipped game where 91
-/// of 203 bindings are a single `sayLine`, the two crates it changed, and a gate it re-pinned.
-/// The prediction is the part worth keeping — a tripwire that says in advance what would clear it
-/// is testable in a way that one saying only *"do not extend me"* is not.
+/// **It went to zero and back to one.** `authored-text` gave the parse tree back the response text
+/// and the declaration labels, and rested on all three evidence paths at once: a shipped game
+/// where 91 of 203 bindings are a single `sayLine`, the two crates it changed, and a gate it
+/// re-pinned. The prediction is the part worth keeping — a tripwire that says in advance what
+/// would clear it is testable in a way that one saying only *"do not extend me"* is not.
+///
+/// `two-components` put it back to one, and **the gate-alone run is the half that stayed at
+/// zero**, which is the distinction this check was built to make. That phase moved the evaluator
+/// out of the instrument and into `engine/`: it rests on the engine crates, so it is subject work
+/// by the third evidence path, and it needed no document because *where a component lives* is not
+/// a question any adventure-game source answers. A run of one here is a phase about code rather
+/// than about a game, and the record says so.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -236,7 +243,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (0, 0),
+        (1, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }

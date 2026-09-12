@@ -1,0 +1,125 @@
+id: two-components
+summary: >-
+  `engine/` gets its first two crates, one per subsystem, and they are written by moving the
+  evaluator rather than by writing a second one — `crates/reachability` depends on them. The world
+  and its state land in `crates/game-format`, because **no subsystem in this corpus owns state**
+  and the gate will not let a module invent one. The gate's unit becomes a `.rs` file: a manifest
+  is not a module.
+context: |
+  [engine-directory](engine-directory.yml) created `engine/` with a contract, a gate and no code,
+  and the gate pins the four subsystems nothing implements. **It is wrong about two of them.**
+
+  `crates/reachability` declares `struct Index<'a>` — not `pub` — with **fourteen methods across
+  544 lines**, against five public items in the whole crate. [verified] —
+  `crates/design-gate/tests/components.rs`. `Ix::in_menu` is
+  [verb-menu](../corpus/subsystem/verb-menu.yml)'s responsibility verbatim: *"given a target and a
+  state, produce the verbs to display and no others"*. `live`, `offered`, `apply` and `settle` are
+  [interaction-resolver](../corpus/subsystem/interaction-resolver.yml).
+
+  **A method that cannot be called from outside its crate is cited by name in four committed
+  files, one of them a corpus node.** *"`objectTouchable(this, Bank.open ? YES : NO)` is a shipped
+  engine hand-writing `Ix::in_menu`"* — that is a claim about adventure games resting on a private
+  symbol. Both subsystem nodes carry `[verified]` figures against `crates/reachability/tests/`,
+  which is a component verified in the one place `.claude/CLAUDE.md` says the engine is not.
+decision: |
+  **`engine/` is one cargo workspace with one crate per subsystem.** `engine/verb-menu/` and
+  `engine/interaction-resolver/`, each a crate whose name is the corpus node's id and whose
+  `src/lib.rs` declares `realizes: subsystem/<name>`. This answers half of
+  [engine-directory](engine-directory.yml)'s open question — *"whether the engine is one workspace
+  or several"* — and it answers it the way that makes the gate structural: the directory listing
+  is the subsystem list.
+
+  **There is one implementation of the language's semantics and the checker uses the engine's.**
+  `crates/reachability` depends on both engine crates rather than keeping a copy. A checker with
+  its own evaluator is two systems that can disagree, and this corpus holds the case study: AGS
+  ran a declarative layer and a scripting layer side by side, and
+  [effect-list-semantics](effect-list-semantics.yml) records what the disagreement cost.
+
+  The dependency runs instrument → engine, which reads backwards and is right. The checker checks
+  a language; the language's semantics are the engine's. What stays behind is the **search**:
+  `analyse`, `Report`, `Stranding`, `Cause`, and the three methods that serve only it —
+  `observable`, `describe`, `can_finish`.
+
+  | | what it is | where it goes |
+  |---|---|---|
+  | `new`, `initial`, `holds` | the world and what is true in it | `crates/game-format` |
+  | `live`, `in_menu` | what a player is shown | `engine/verb-menu` |
+  | `offered`, `apply`, `apply_without_spending`, `spends`, `settle`, `settle_tracking` | what firing one does | `engine/interaction-resolver` |
+  | `observable`, `describe`, `can_finish` | what the search needs and a player never sees | `crates/reachability` |
+
+  **`World` and `State` go to `crates/game-format`, and the reason is a finding rather than a
+  convenience. No subsystem in this corpus owns state.** All four declare none across frames —
+  the resolver *"None across frames"*, the menu *"None"*, the solver *"None across frames, given
+  the walkbox set"*, and the presenter's is transient and deliberately unsaved. [verified]
+  [save-state](../corpus/data-format/save-state.yml) describes what a save holds and names nobody
+  who holds it.
+
+  So a world cannot live in `engine/` without inventing a fifth subsystem, which is exactly what
+  the gate forbids — and the gate's failure is *"either the module is a component the corpus has
+  not described, or the corpus is missing one the engine needs"*. The answer here is a third
+  thing the gate did not anticipate: **it is not a component at all.** A `World` is the game's
+  declared names arranged for lookup, and `World::holds` is the runtime twin of the admission rule
+  `resolve` already is — `resolve` asks whether an operand *names something declared*, `holds`
+  asks *what it is now*. Same vocabulary, same crate.
+
+  **The gate's unit becomes a `.rs` file.** It asked every file under `engine/` for a `realizes:`
+  in its first ten lines, and a crate's `Cargo.toml` has nowhere to put one. Every source file
+  names its subsystem; a manifest is not a module. Stated in `engine/README.md` rather than left
+  to be inferred.
+
+  **And the gate gains a rule the first crates make checkable: a component may not invent a
+  dependency.** A cargo dependency from one engine crate to another must be a `depends-on` edge
+  between the corresponding subsystem nodes. `interaction-resolver -depends-on-> verb-menu` is
+  declared, and the crates are wired that way because the corpus says so. The converse is not
+  checked: the resolver also depends on `path-solver` and `response-presenter`, and neither
+  exists.
+rationale: |
+  **The strongest argument for moving rather than copying is that the corpus already treats the
+  checker's internals as the engine's.** Four files cite `Ix::in_menu`. `verb-menu`'s whole
+  *"what it is for, in one number"* paragraph — 88 entries, 698 slots, 145 states — is
+  `[verified]` against `crates/reachability/tests/menu.rs`. Those figures do not become less true
+  when the function moves; what changes is that the citation points at the component instead of at
+  a private method of something else. [inference]
+
+  **The dependency direction is the substance and is worth defending.** An instrument that
+  depends on its subject is the normal case — a debugger depends on the thing it debugs — and the
+  alternative here is two evaluators that must agree by inspection. `engine-directory` warned
+  about the opposite confusion and this does not commit it: `crates/` still holds nothing that
+  runs a game, and `engine/` still holds nothing that queries the corpus. What moved is a
+  definition of the language, which was never the instrument's to own.
+
+  **`game-format` stays in `crates/`, and the condition for moving it has now fired.**
+  [engine-directory](engine-directory.yml) wrote: *"The condition for moving it: when `engine/`
+  depends on it and the cross-workspace path dependency is what makes somebody look."* `engine/`
+  depends on it as of this phase and the path dependency is `../../crates/game-format`, which is
+  the sight this condition was written for.
+
+  It does not move, for the reason that record used against renaming `design-gate`: the crate is
+  cited by path in thirty-odd committed records and `crates/design-gate/tests/records.rs` checks
+  every one of those paths resolves. Moving it would rewrite the prose of permanent records to
+  keep a checker green, which is the wrong way round. **The sharper condition:** move it when
+  something other than a path citation makes it necessary — a toolchain the two workspaces
+  disagree about, or a second consumer outside this repository. A path that reads awkwardly is not
+  that. [inference]
+
+  **This record cites no catalog entry and `subject.rs`'s run goes to one.** That check asks
+  whether a phase answered a question about adventure games or about this repository, and the
+  honest answer is the second: *where a component lives* is not a question any source about
+  adventure games answers. What keeps it from being the inward turn `inward-turn` measured is the
+  other half of the same check — **the gate-alone run stays at zero**, because this rests on the
+  engine crates rather than on the instrument that reads the corpus. It is code work about the
+  subject, which is the third evidence path and is the one that check was extended to see.
+
+  **What this does not settle.** Where the world's state lives when there is a save to write.
+  Putting `World` and `State` in the format crate is right for a value derived from declarations
+  and says nothing about the component that owns one at runtime — and this corpus has no such
+  component, which is a gap the tier did not notice while none of its four members needed to
+  persist anything. `save-state` describes an AGS save as *"a dump of all the game objects,
+  regardless of whether they are related to the game progress or not"* and records that as the
+  flaw that breaks saves across a patch; a design with no owner of state has not yet earned the
+  right to call that a flaw. `[open]`
+
+  **And whether one crate per subsystem survives a component with parts.** Two crates of one file
+  each is not evidence that the mapping scales, and the first component that wants three modules
+  will make every one of them declare the same `realizes:` line. That is either the rule working
+  or ceremony, and nothing here can tell which. `[open]`

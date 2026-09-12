@@ -1,0 +1,13 @@
+[package]
+name = "interaction-resolver"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Match a verb, target and second object to a binding, and produce the response or the refusal."
+
+[dependencies]
+game-format.workspace = true
+# `interaction-resolver -depends-on-> verb-menu` in the corpus, and the gate holds this line
+# against that edge: a component may not invent a dependency.
+verb-menu.workspace = true

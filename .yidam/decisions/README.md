@@ -177,6 +177,11 @@ does not re-emit it.
 
 - **:89** — **What this does not settle.** Whether duration should have been refused. Everything above is downstream of `effect-list-semantics`, and a design that admitted duration would need this trigger, a `skippable` property, and the save-boundary problem the same decision record quotes Thimbleweed Park pay…
 
+### [two-components](two-components.yml)
+
+- **:120** — **What this does not settle.** Where the world's state lives when there is a save to write. Putting `World` and `State` in the format crate is right for a value derived from declarations and says nothing about the component that owns one at runtime — and this corpus has no such component, which is a…
+- **:125** — **And whether one crate per subsystem survives a component with parts.** Two crates of one file each is not evidence that the mapping scales, and the first component that wants three modules will make every one of them declare the same `realizes:` line. That is either the rule working or ceremony, a…
+
 ### [unread-clock](unread-clock.yml)
 
 - **:128** — **What this does not settle.** Whether a question's age should be a fact the node carries. Blame is a lower bound and resets on a reword, and the only reason it reads correctly today is that nine phases revised `player-character` around line 14 without touching it — luck rather than design. A `since…
@@ -197,7 +202,7 @@ does not re-emit it.
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
 
-**49 open.**
+**51 open.**
 
 ## What nothing cites
 
@@ -210,6 +215,7 @@ nodes, at four times the rate, and it had never been looked at.
 - [domain-computer](domain-computer.yml)
 - [name-scoping](name-scoping.yml)
 - [settled-surface](settled-surface.yml)
+- [two-components](two-components.yml)
 
 ## What each record rests on
 

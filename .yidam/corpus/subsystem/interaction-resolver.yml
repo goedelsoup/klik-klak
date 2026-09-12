@@ -36,7 +36,8 @@ description: |
   ([delores-source](../../catalog/delores-source.md)). [verified] The 132 presentation statements
   are outside this state model by `.yidam/decisions/effect-list-semantics.yml`, and the 25
   affordance statements are what [verb-menu](verb-menu.yml) computes instead of storing.
-  `objectTouchable(this, Bank.open ? YES : NO)` is a shipped engine hand-writing `Ix::in_menu`.
+  `objectTouchable(this, Bank.open ? YES : NO)` is a shipped engine hand-writing
+  `verb_menu::in_menu`.
   So the component that would have realized arrival in that engine has no work here, and what is
   left is the 8 — which is a binding with effects, which is this component. [inference]
 
@@ -49,6 +50,12 @@ description: |
   failure players read as brokenness*, and a player who has not clicked cannot read one. It was
   always a promise about the composed trigger; nothing else was ever in its scope, and nothing in
   this corpus had said so. `.yidam/decisions/arrival-realizer.yml`.
+
+  **It is built.** `engine/interaction-resolver` is this component: `resolve` produces one outcome
+  and never nothing, `settle` runs the arrival trigger to a fixpoint, and `apply` folds an effect
+  list. It was fourteen private methods of `crates/reachability` for seven phases, and the checker
+  depends on it now rather than keeping a second evaluator — `.yidam/decisions/two-components.yml`.
+  [verified] — `crates/design-gate/tests/components.rs`.
 
   It is also what makes a topic-list conversation work, which is not obvious and is worth
   stating rather than leaving to the edge. [inference] A topic list has no interior state

@@ -1,0 +1,10 @@
+[package]
+name = "verb-menu"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Given a target and a state, the verbs to display and no others."
+
+[dependencies]
+game-format.workspace = true

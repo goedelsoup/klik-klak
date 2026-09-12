@@ -25,6 +25,11 @@ description: |
   line, and the same 3 withholdings, all outside a hotspot verb. [verified] —
   `crates/reachability/tests/menu.rs`. `.yidam/decisions/verb-menu.yml`.
 
+  **It is built.** `engine/verb-menu` is this component: `in_menu` is the three decisions above,
+  `at` is the menu at one target, and an entry now carries what the target is *called* — which it
+  could not before `.yidam/decisions/authored-text.yml` stopped the parse tree discarding labels.
+  [verified] — `crates/design-gate/tests/components.rs`.
+
   **What this component replaces in an engine that does not have one.** Affordance stored per
   object has to be put back in agreement with the world whenever the world moves, and the cheap
   moment to do it is arrival: 25 of the 169 statements in Delores's room `enter` bodies are

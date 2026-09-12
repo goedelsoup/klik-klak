@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (461, 77, 57));
+    assert_eq!((total, mentions, tests.len()), (469, 82, 58));
 }
 
-/// **Five of sixty-eight records are cited by nothing, against three of forty-four nodes.**
+/// **Six of sixty-nine records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -327,13 +327,14 @@ fn a_record_nothing_cites_is_named() {
             "domain-computer",
             "name-scoping",
             "settled-surface",
+            "two-components",
         ],
-        "five for a third phase running, and the ends moved again. `authored-text` joined \
-         when it was written and came off inside its own phase, because the record it corrects \
-         now cites it — which is the shape this list is for"
+        "six, and the newest is on it as almost every newest record is. `authored-text` came \
+         off inside its own phase, because the record it corrects now cites it — which is what \
+         this list is for and is not what usually happens"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (68, 212));
+    assert_eq!((c.len(), edges), (69, 214));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -451,7 +452,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 49, "live open questions in this directory");
+    assert_eq!(total, 51, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
@@ -516,7 +517,7 @@ fn no_record_has_changed_what_it_decided() {
     }
     assert_eq!(
         edited,
-        27,
+        28,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

@@ -19,7 +19,7 @@
 //! *affordance* — what the player may do with a thing — which this design does not store and
 //! recomputes, because [`subsystem/verb-menu`] is *"a pure function of the target and the state,
 //! recomputed whenever either moves"*. `objectTouchable(this, Bank.open ? YES : NO)` is a
-//! shipped engine hand-writing what `Ix::in_menu` derives.
+//! shipped engine hand-writing what `verb_menu::in_menu` derives.
 //!
 //! So the realizer is not missing. **A reconciler is what an engine needs when presentation is
 //! stored, and this one stores none.** What is left at arrival is the 8, and `on-enter` is
@@ -94,7 +94,7 @@ fn arrival_produces_nothing_in_thirteen_rooms_out_of_fourteen() {
 ///
 /// If one component is to answer both, the thing that must not happen is an entry binding
 /// appearing in a menu: it would offer the player a choice about something that fires whether
-/// they choose it or not. `Ix::in_menu` excludes `Site::OnEnter` outright, so the widened
+/// they choose it or not. `verb_menu::in_menu` excludes `Site::OnEnter` outright, so the widened
 /// resolver takes two inputs that cannot collide — a composed verb, target and object, or a room.
 ///
 /// The evidence that this costs nothing is that the specimen carrying the entry binding reports
