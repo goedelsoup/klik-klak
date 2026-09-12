@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (641, 104, 78));
+    assert_eq!((total, mentions, tests.len()), (652, 114, 79));
 }
 
-/// **Eight of eighty-six records are cited by nothing, against three of forty-four nodes.**
+/// **Seven of eighty-seven records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -326,11 +326,11 @@ fn a_record_nothing_cites_is_named() {
             "declared-reach",
             "domain-computer",
             "held",
-            "line-format",
             "name-scoping",
             "settled-surface",
+            "unread-specimen",
         ],
-        "eight, and `normal-form` is not here because the record it answers cites it back. \
+        "seven, and `normal-form` is not here because the record it answers cites it back. \
          A phase that retracts an earlier `[open]` writes into the record that raised it, so \
          the newest record is cited by the oldest thing it touched on the day it lands — which \
          is the one way this list empties from the front. `held` stays for the reason it \
@@ -345,10 +345,17 @@ fn a_record_nothing_cites_is_named() {
          the plainest: it sorted the open questions by what would close each, and the phase \
          that closed one cites the sorting rather than being cited by it. `control-transfer` \
          came off it the same way one commit later, which makes `resolver-kind` the first record \
-         here to be cited by two consecutive phases for having sorted their work for them"
+         here to be cited by two consecutive phases for having sorted their work for them. \
+         `line-format` came off it a fourth way and the only one that is not a phase answering \
+         a question: `unread-specimen` cites it for the *shape* of its finding — a branch \
+         naming its own form is a second copy of the specification — rather than for anything \
+         it decided. A record can be pulled out of this list by being recognised, which is the \
+         one exit that does not require somebody to have owed it something. And \
+         `unread-specimen` lands uncited for the reason `input-side` did: its subject is corpus \
+         nodes and test files, so it revises no record and nothing here has a marker to retract"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (86, 303));
+    assert_eq!((c.len(), edges), (87, 309));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
