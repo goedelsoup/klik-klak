@@ -46,7 +46,24 @@ decision: |
   with one authored use between them can nest the other way is the trade that record was written
   to make visible. What `normal` costs instead is a function nothing calls on real input.
 
-  **5. It is the identity on everything the parser builds.** Every predicate in the four specimens
+  **5. The prior art has no grouping either, and no combination at all, which is what makes the
+  refusal cheap.** AGS 2.x's interaction editor is the nearest thing this corpus holds to a
+  bounded predicate layer — an event list per entity, each command from a closed combobox, one of
+  them `Conditional - if inventory item was used` — and
+  [data-format/interaction-table](../corpus/data-format/interaction-table.yml) reads it exactly:
+  *"A predicate that is a **command in a list** is not an expression language: nothing shows two
+  conditions combined, negated, or grouped."* [verified] ([ags-source](../catalog/ags-source.md),
+  where the 48 action types are enumerated.)
+
+  So the construct being declined here is one the shipped system does not have, in a shipped system
+  that also has no `and`, no `or` and no `not`. What this design has that it does not is
+  **composition**, and disjunctive normal form is precisely the reason composition does not require
+  grouping: with `or` available, every grouping has a flat equivalent. A language without `or`
+  would need parentheses to express what this one writes flat — which is the shape of the gap
+  `interaction-table` called *"exactly one thing"*, seen from the syntax rather than the semantics.
+  [inference]
+
+  **6. It is the identity on everything the parser builds.** Every predicate in the four specimens
   comes back byte-identical, and no figure the checker publishes moves — which is the same
   evidence `round-trip` gave for the writer itself. A normaliser that changed a parsed tree would
   be a normaliser doing something other than spelling. [verified]

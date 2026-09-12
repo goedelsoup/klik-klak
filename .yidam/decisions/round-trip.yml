@@ -84,7 +84,14 @@ decision: |
   say — and the gap is visible in the type. `Pred` can represent `(a or b) and c`, which no
   `.game` file can write and this writer cannot print; the reader cannot build one, because
   `conj` only ever nests `unary`. **The tree is larger than the language**, the writer's
-  precedence assertion is where that is stated, and it has never fired. `[open]`
+  precedence assertion is where that is stated, and it has never fired.
+
+  **The observation holds and the conclusion drawn from it does not.** What is smaller is the set
+  of shapes, not the set of formulas: the grammar is disjunctive normal form, every propositional
+  formula has one, and `(a or b) and c` is written `a and c or b and c`. `Pred::normal` is that
+  rewriting, the writer calls it, and there is no predicate this language cannot say — so the
+  question closes, in the opposite direction to the one this paragraph expected.
+  [normal-form](normal-form.yml).
 rationale: |
   **The finding is that there is nothing to find, and that is worth a phase because of how the
   last three went.** `authored-text`, `verb-names` and `walked-in` each found the tree missing
