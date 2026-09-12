@@ -1,0 +1,138 @@
+id: line-format
+summary: >-
+  **The declaration half gets a specification and it is not a grammar, because it is not the same
+  kind of thing as the half that has one.** Predicates are recursive and need BNF; declarations are
+  flat lines with no nesting, so a grammar for them is sixteen productions of one alternative each
+  — a table wearing a costume. The specification is the reader's own error messages, lifted into
+  one declared table that the reader reads from and the document quotes. Writing it out found the
+  document describing the model in the notation of a syntax, five forms overstating what the reader
+  requires, and a whole argument slot nothing accounts for.
+context: |
+  [parser-silence](parser-silence.yml) closed on it: *"Sixteen branches each stating their own arity
+  is better than sixteen branches stating nothing, and it is not a specification. The boundary this
+  phase draws is that a construct must account for its line; what a construct *is* remains a match
+  arm. Whether the declaration half should be described the way the expression half is — a written
+  grammar, from which the reader is derived rather than compared — is a real question and is not
+  answered here."*
+
+  **The document already describes part of it, and nothing had ever held that part against the
+  reader.** [`design/bounded-expression-language.md`](../../design/bounded-expression-language.md)
+  writes nine productions. Seven are the predicate grammar, which
+  [normal-form](normal-form.yml) showed is disjunctive normal form and which the reader implements
+  exactly. The other two are Layer 0, and two of their three alternatives name an operand the reader
+  rejects: `look-at door` is *"`door` is not part of `look-at`"* and `on-enter hall` is *"`hall` is
+  not part of `on-enter`"*. [verified] — `crates/game-format/tests/forms.rs`.
+decision: |
+  **No — and the reason is the finding.**
+
+  **1. The two halves are different kinds of object and the notation should say so.** A predicate
+  nests: `unary := 'not' unary | atom` is recursive, `conj` contains `unary`, and there is no
+  bound on depth. That is what BNF is for. A declaration does not nest at all. Sixteen keywords,
+  each one line, each with a fixed number of slots and a couple of optional ones, and nothing on a
+  declaration line can contain another declaration. Written as a grammar it is sixteen productions
+  with a single alternative apiece — which is a table, and calling it a grammar would suggest a
+  generality the format does not have and does not want.
+
+  **So the answer to `parser-silence`'s question is: described, yes; described *that way*, no.**
+  The thing it should be described by is the thing it already is — one line per construct, in the
+  notation an author reads.
+
+  **2. The specification is the error messages, and there is now one copy.** `game_format::FORMS`
+  holds a row per construct: the keyword, the form as an author sees it, and whether the construct
+  takes a quoted string. The reader reads its error text out of that table, so a form and the
+  message that teaches it cannot disagree — they are the same string. The document quotes the
+  table, and `crates/game-format/tests/forms.rs` holds the two together.
+
+  **This is the same repair `normal-form` made and the opposite instrument.** There the invariant
+  was moved out of a comment into a function; here a specification scattered across sixteen match
+  arms is moved into a value. In both cases what was written down in prose beside the code became
+  the thing the code uses.
+
+  **3. The Layer 0 block was a description of the model wearing the notation of a syntax, and it
+  is relabelled rather than repaired.** `site := verb target [ object ]` is exactly right about
+  where a binding hangs and exactly wrong about what an author types: the target comes from the
+  `hotspot` or `actor` line above, the room from the `room` section, and only `use-with` writes an
+  operand of its own. Both statements are worth having and neither should be mistaken for the
+  other, so the document now carries the model under a heading that says *model* and the line forms
+  under one that says *written*. [verified]
+
+  `decl := 'exit' name 'to' room` is the one production that was already a line an author types,
+  and it is the one that was written by the phase that *built* the construct rather than by the
+  phase that argued for it. [inference] A specification written while implementing describes what
+  the implementation does; one written while proposing describes what the proposer meant.
+
+  **4. Five forms stated a label the reader does not require, and the reader is right.** `item`,
+  `flag`, `counter`, `hotspot` and `option` all write `"<label>"` unbracketed and all five parse
+  without one. [verified] The repair is to the strings and not to the reader, and the reason is a
+  constraint nobody had noticed: **`exit <name> to <room>` expands into a hotspot declared with no
+  label at all**, and `print` writes that expansion back out as a bare `hotspot door`. A reader
+  that required labels could not read what this crate's own writer produces, and
+  [round-trip](round-trip.yml) is the finding that would break.
+
+  That is the second time a form's optionality has turned out to be load-bearing for a
+  *measurement* rather than for an author: [arity-cost](arity-cost.yml) kept `use-with`'s object
+  optional because the counterfactual it measured is written as a bare `use-with`. Both were found
+  by trying to tighten something and reading what broke. [inference]
+
+  `room` and `actor` are not on that list and are not exceptions. Their two branches are selected
+  *by* the presence of the label, so `room hall` is a section and `room hall "The Hall"` is a
+  declaration — the label is not optional there, it is the discriminator.
+
+  **5. The quoted string is an argument slot and six constructs dropped it silently. They error
+  now.** `start "x"`, `holds ann "x"`, `look-at: "x"`, `on-enter: "x"`, `exit a to b "x"` and
+  `is key "x"` all parsed with the reader's diagnosis byte-for-byte unchanged from the same line
+  without it. [verified]
+
+  This is `parser-silence`'s own rule — *a construct must account for its line* — applied to the
+  half that phase excluded. `crates/game-format/tests/ignored.rs` states the exclusion in its own
+  comment: the mutation goes *"before the first quote, so the mutation lands in the grammar rather
+  than inside a response"*. That was the right call for what it was measuring and it meant the
+  second half of every line had never been tested by anything. **A rule with a stated scope is
+  easier to extend than a rule with an assumed one, and this one had both halves of that: the scope
+  was stated in the test and not in the rule.**
+
+  No specimen writes any of the six, so the cost of enforcing it is zero on authored work and the
+  benefit is that the table now covers the whole line rather than the tokens.
+
+  **What this does not do: derive the reader from the table.** The forms are *held against* the
+  match arms, not generating them — a construct's arity is checked by a row and its meaning is
+  still an arm, which is the same boundary `parser-silence` drew one level in. Deriving a reader
+  from a table means an interpreter for the table, and a sixteen-row table with six shapes in it
+  would need more machinery than the arms it replaced. `[open]`
+rationale: |
+  **The question was posed as a choice between two spellings and the answer is that it was a
+  category error.** `parser-silence` asked whether the declaration half should be described *the
+  way the expression half is*, and took for granted that the two halves were comparable. They are
+  not: one is recursive and one is a line format, and the notation that fits a recursive object
+  makes a flat one look accidental. The sixteen match arms were never a failure to write a grammar.
+  They were a table nobody had collected.
+
+  **And the part of the question that was right is the part that found everything.** *A written
+  specification, from which the reader is derived rather than compared* — the derivation is
+  declined and the writing-down is not, and the writing-down produced three defects in one sitting:
+  a document stating three forms its own reader refuses, five forms overstating what is required,
+  and an argument slot six constructs ignore. None of the three could have been found by reading
+  either artifact alone, because each is a disagreement between two.
+
+  **No adventure-game source answers this and the count should not be read as a gap.** Whether a
+  flat line format is better specified as a table or as a grammar is a question about how to write
+  down a reader, and every document in this catalog describes what some engine offered rather than
+  how anybody wrote its specification. The nearest thing is Sierra's *SCI Parser Programmer's
+  Reference* — a vendor specifying its one declarative construct by taking a worked example apart
+  term by term, which is the notation argued for above — and citing it here would be decorative
+  rather than evidential, because that construct nests and this one does not.
+  `crates/design-gate/tests/subject.rs` holds the run this puts at one, and
+  [parser-silence](parser-silence.yml) is where it stood for the same reason.
+
+  **That is the third consecutive phase where the instrument was a comparison rather than a
+  measurement.** `normal-form` compared a type against a grammar, `input-side` compared a node
+  against a source it did not have, and this compares a document against a reader. A repository
+  that has run out of things to count is not out of things to find; it is at the point where the
+  findings are between artifacts rather than inside them. [inference]
+
+  **The `exit` constraint is the part worth carrying forward.** Five forms were wrong in the safe
+  direction — they demanded more than the reader does — and the obvious repair was to make the
+  reader demand it too. What stopped it was that the language's own archetype generates the shape
+  the stricter reader would reject, and the only reason that was visible is that `round-trip` had
+  built a writer whose output is checked. **A format with a writer can tell you that a rule you
+  are about to add is one your own output would break**, and a format without one cannot.

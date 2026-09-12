@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 79, "every record, in the order it was created");
+    assert_eq!(all.len(), 80, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (40, 42, 29),
+        (40, 43, 30),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -266,6 +266,13 @@ fn the_evidence_each_record_rests_on() {
 /// a phase reached for evidence. Nothing here measures whether the evidence was already in the
 /// house, and for two thirds of this repository's life it always was.
 ///
+/// **`line-format` puts it back to one and the gate-alone half stays at zero**, which is the
+/// distinction working. It asks whether a flat line format is better written down as a table or as
+/// a grammar — a question about how to specify a reader, which no document describing what an
+/// engine offered can answer, and the record says so and names the nearest thing it declined to
+/// cite. It rests on the engine crates, so it is subject work by the third evidence path and not a
+/// phase about this repository.
+///
 /// Two phases on the same tooling, one with a document and one without, is the distinction this
 /// check was built to make visible. A phase that touches no source and knows it is not the same
 /// as one that should have opened a source and did not, and the only thing that tells them apart
@@ -285,7 +292,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (0, 0),
+        (1, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }

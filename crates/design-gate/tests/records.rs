@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (570, 97, 72));
+    assert_eq!((total, mentions, tests.len()), (579, 97, 73));
 }
 
-/// **Eight of seventy-nine records are cited by nothing, against three of forty-four nodes.**
+/// **Nine of eighty records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -328,10 +328,11 @@ fn a_record_nothing_cites_is_named() {
             "domain-computer",
             "held",
             "input-side",
+            "line-format",
             "name-scoping",
             "settled-surface",
         ],
-        "eight, and `normal-form` is not here because the record it answers cites it back. \
+        "nine, and `normal-form` is not here because the record it answers cites it back. \
          A phase that retracts an earlier `[open]` writes into the record that raised it, so \
          the newest record is cited by the oldest thing it touched on the day it lands — which \
          is the one way this list empties from the front. `held` stays for the reason it \
@@ -342,7 +343,7 @@ fn a_record_nothing_cites_is_named() {
          nothing here and lands uncited on the day it arrives"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (79, 265));
+    assert_eq!((c.len(), edges), (80, 269));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -528,6 +529,12 @@ fn no_record_has_changed_what_it_decided() {
     // asked each a question its first draft did not answer, which is the gate working. Three of
     // the four were asked for a source and found one. What this check is for is a record whose
     // *summary* moved, and that is `moved` below.
+    //
+    // It counts what the history holds rather than what happened: `line-format` was extended the
+    // same way and the extension was folded into its `decide:` commit with `--amend`, so it is not
+    // here. That is the check reading the record it was given, which is the only thing it can do —
+    // and a reason to prefer the amend, since a record's history should be the phase's argument
+    // rather than the drafting of it.
     assert_eq!(
         edited,
         34,
