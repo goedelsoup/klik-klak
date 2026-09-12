@@ -62,7 +62,15 @@ properties:
   authored_by: |
     A person, directly. This is the file that carries the writing, and it should read like
     writing rather than like data — which is a constraint on the syntax that pulls against
-    the keying above. [open] Nothing here resolves it, and one thing now tries.
+    the keying above. [open] Nothing here resolves it, and one thing now tries:
+    [bounded-expression-language](../../../design/bounded-expression-language.md), which keys
+    bindings separately from declarations and puts the writing on the same line as the guard.
+
+    **What would close it is a measurement, and the material for one exists.** Four specimens,
+    662 lines and 91 bindings are authored in that syntax, and whether it reads like writing is a
+    question about those lines rather than about the proposal — the kind of thing
+    `crates/game-format/tests/authored.rs` already counts one half of.
+    [resolver-kind](../../decisions/resolver-kind.yml).
 
     A specimen authored in the proposed language resolves it by splitting the two rather than
     reconciling them: declarations are keyed like data, bindings are written as blocks, and the

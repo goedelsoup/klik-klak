@@ -55,6 +55,12 @@ description: |
   edges, and a relationship no author ever writes is the shape
   [found-in](../../decisions/found-in.yml) turned out to have. `[open]`
 
+  **What would close it is that record's own test, applied here.** `found-in` settled a relationship
+  by asking whether anything authors it and what breaks if nothing does; the same question about
+  adjacency has 84 polygons across 15 rooms to ask of, and the answer this node already half-writes
+  is that a derived relation is not an authored one. What it has not done is run it.
+  [resolver-kind](../../decisions/resolver-kind.yml).
+
 properties:
   geometry: polygon
   scaling: |

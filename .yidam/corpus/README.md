@@ -13,6 +13,26 @@ or one open question. Every node must have at least one outgoing link.
 See [corpus conventions](../.vendor/prelude/guidelines/directories.md#corpus) for authoring rules,
 the authored/generated node distinction, and `[verified]`/`[inference]`/`[open]` claim tags.
 
+## What an `[open]` owes
+
+Two things, and the second was practice before it was a rule.
+
+1. **The token names a live question, and a retraction does not re-emit it.** A sentence that
+   answers a marker says so without writing `[open]` again, or the count never falls.
+   [marker-count](../decisions/marker-count.yml), held by
+   `crates/design-gate/tests/markers.rs`.
+2. **The question says what would close it.** A specimen, a measurement, a named artifact, a
+   condition that would reopen a declined question — or, where the honest answer is that nothing in
+   reach can, the account of why.
+   [resolver-kind](../decisions/resolver-kind.yml), held by
+   `crates/design-gate/tests/resolvers.rs`.
+
+The second is written down because six of the nine questions here were already doing it, in five
+spellings, and three were not. The cost of naming a resolver is that it can be wrong — `input-side`
+named a document two years too early to answer it and the next phase found out — and that is the
+argument for it rather than against. A marker that says only *this is open* cannot be checked, and
+nothing can tell it apart from one that is waiting for evidence that does not exist.
+
 ## Node index
 
 <!-- REGEN: yidam corpus-index
