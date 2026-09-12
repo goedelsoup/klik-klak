@@ -56,11 +56,32 @@ decision: |
   takes no object*. The two were doing one job badly between them, and the 76-line gap is what
   that looked like.
 
-  **4. The specimens do not change.** All four read clean before and after, which is the evidence
+  **4. `use-with`'s second object is optional, and the reason had never been written down
+  anywhere.** Every one of the eleven `use-with` bindings in the four specimens supplies an item,
+  so requiring one looked free. It is not: [arity-cost](arity-cost.yml)'s measurement is a
+  **reduction written in this format and read by this reader** — take the second key away, put
+  `carrying <item>` in the guard, and compare — and the reduced form is a bare `use-with`.
+  `crates/reachability/tests/arity.rs` writes 124 characters more of the reduction than of the
+  real thing, which is the whole finding of that record. A stricter reader would have made the
+  counterfactual unwritable and the measurement unrepeatable, and nothing in the format, the
+  corpus or that record said so. The reader says it now, in the form it names.
+
+  This is the one place the phase found where indexing was load-bearing rather than careless, and
+  it was found by the check failing rather than by reading. [inference]
+
+  **5. The specimens do not change.** All four read clean before and after, which is the evidence
   that this is a reader change rather than a format change: the authoring surface is the same size
   it was — `crates/design-gate/tests/figures.rs` is where that figure lives and this record does
   not restate it — and every figure four phases quote is computed from the same parse trees, with
   the same 91 bindings and 81 declared names. [verified]
+
+  **6. This record cites no catalog entry, and that is the shape of the question rather than a gap.**
+  No adventure-game source answers whether this repository's reader keeps a rule this repository's
+  reader states: the question is not what a format should admit but whether the code admits what
+  the format says. [two-components](two-components.yml) set the precedent — *"where a component
+  lives is not a question any adventure-game source answers"* — and
+  `crates/design-gate/tests/subject.rs` is the check that would otherwise read the silence as a
+  phase that should have opened a source and did not.
 
   **What this does not do: give the format a grammar.** Sixteen branches each stating their own
   arity is better than sixteen branches stating nothing, and it is not a specification. The

@@ -236,6 +236,7 @@ nodes, at four times the rate, and it had never been looked at.
 - [held](held.yml)
 - [name-scoping](name-scoping.yml)
 - [orphaned-lines](orphaned-lines.yml)
+- [parser-silence](parser-silence.yml)
 - [settled-surface](settled-surface.yml)
 
 ## What each record rests on

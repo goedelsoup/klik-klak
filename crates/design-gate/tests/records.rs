@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (516, 90, 65));
+    assert_eq!((total, mentions, tests.len()), (529, 90, 67));
 }
 
-/// **Seven of seventy-four records are cited by nothing, against three of forty-four nodes.**
+/// **Eight of seventy-five records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -328,16 +328,17 @@ fn a_record_nothing_cites_is_named() {
             "held",
             "name-scoping",
             "orphaned-lines",
+            "parser-silence",
             "settled-surface",
         ],
-        "seven. `walked-in` leaves as the newest record cites it, and `orphaned-lines` takes \
-         its place: the newest record is always here, because nothing has had a chance to \
-         need it yet. `held` stays for the reason it arrived — it reconciles two standing \
+        "eight, and for the first time two of them are consecutive. `orphaned-lines` is one \
+         phase old and `parser-silence` is the current one, and nothing has had a chance to \
+         need either. `held` stays for the reason it arrived — it reconciles two standing \
          positions rather than answering a question either of them left open, so nothing had \
          a marker to retract. Reconciling is the one kind of work this list cannot see"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (74, 237));
+    assert_eq!((c.len(), edges), (75, 243));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -518,9 +519,12 @@ fn no_record_has_changed_what_it_decided() {
             moved.push(stem(&p));
         }
     }
+    // 31 rather than 30 because `parser-silence` was extended after its `decide:` commit and
+    // before its phase settled — the gate asked it a question its first draft did not answer.
+    // What this check is for is a record whose *summary* moved, and that is `moved` below.
     assert_eq!(
         edited,
-        30,
+        31,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

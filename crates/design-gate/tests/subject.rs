@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 74, "every record, in the order it was created");
+    assert_eq!(all.len(), 75, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (37, 38, 26),
+        (37, 39, 27),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -240,6 +240,14 @@ fn the_evidence_each_record_rests_on() {
 /// script slot and nothing declarative, so the vocabulary has no form of it and the loop is the
 /// engine's. A phase can reach for a source to decide what *not* to write down, which is not a use
 /// of the catalog this check was built expecting.
+///
+/// **And it is back to one, for the reason `two-components` set the precedent for.**
+/// `parser-silence` is a phase about whether this repository's reader keeps a rule this
+/// repository's reader states. No adventure-game source answers that: the question is not what a
+/// format should admit but whether the code admits what the format says. The record says so rather
+/// than leaving the count to be read as a gap. A phase that touches no document and knows it is
+/// not the same as one that should have opened a source and did not, and the only thing that tells
+/// them apart is the record.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -255,7 +263,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (0, 0),
+        (1, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
