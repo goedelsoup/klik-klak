@@ -128,3 +128,198 @@ fn an_attempted_reading_that_failed_says_so() {
         "the convention this is an exception to"
     );
 }
+
+// ── the second half of the same rule ────────────────────────────────────────
+//
+// The check above holds a marker's named resolver against the *date* of the document it names.
+// What nothing held it against is whether the document has already been read — and that is the
+// failure the corpus has been carrying since `class-library` landed.
+
+/// **Documents a catalog entry records as having been read, by the name a marker would call them.**
+///
+/// Hand-written, like `resolvers.rs`'s kinds and `subject.rs`'s evidence paths, because *this
+/// document has been read* is a thing a paragraph says and not a thing a string search settles. The
+/// claim is the table; what the first check below does is refuse to let it invent an entry.
+///
+/// Two entries have a list at all. Every other source in this catalog is one document, retrieved
+/// whole, and there is nothing for a marker to name a part of.
+const READ: &[(&str, &[&str])] = &[
+    (
+        ".yidam/catalog/sci-inhouse-docs.md",
+        &[
+            "SCI Parser Programmer's Reference",
+            "Script Classes for Adventure Games",
+            "Recommended Procedures for SCI Game Programming Coordinators",
+        ],
+    ),
+    (
+        ".yidam/catalog/ags-manual.md",
+        &["scripting language reference"],
+    ),
+];
+
+/// The words an entry uses to say a thing was read, wherever it says it — four spellings, which
+/// is the shape `.yidam/decisions/unread-list.yml` found this catalog's conventions arriving in.
+const WAS_READ: [&str; 4] = [
+    "has been read",
+    "read in full",
+    "Read 2026",
+    "What was read",
+];
+
+/// Every `.yml` under a directory.
+fn yml(dir: &Path) -> Vec<std::path::PathBuf> {
+    let mut out = Vec::new();
+    let mut stack = vec![dir.to_path_buf()];
+    while let Some(d) = stack.pop() {
+        for e in std::fs::read_dir(&d).expect("readable").flatten() {
+            let p = e.path();
+            if p.is_dir() {
+                stack.push(p);
+            } else if p.extension().is_some_and(|x| x == "yml") {
+                out.push(p);
+            }
+        }
+    }
+    out.sort();
+    out
+}
+
+/// The paragraph a marker lives in — which is the unit `resolver-kind`'s convention is about, since
+/// *the question says what would close it* is a sentence beside the token rather than the token.
+fn marker_paragraphs(root: &Path) -> Vec<(String, String)> {
+    let mut out = Vec::new();
+    for p in yml(&root.join(".yidam/corpus")) {
+        let src = std::fs::read_to_string(&p).expect("readable");
+        let lines: Vec<&str> = src.lines().collect();
+        for (i, l) in lines.iter().enumerate() {
+            if !l.contains("[open]") {
+                continue;
+            }
+            let start = lines[..i]
+                .iter()
+                .rposition(|x| x.trim().is_empty())
+                .map_or(0, |j| j + 1);
+            let end = lines[i..]
+                .iter()
+                .position(|x| x.trim().is_empty())
+                .map_or(lines.len(), |j| i + j);
+            let name = p
+                .strip_prefix(root)
+                .unwrap_or(&p)
+                .to_string_lossy()
+                .into_owned();
+            out.push((name, flat(&lines[start..end].join(" "))));
+        }
+    }
+    out
+}
+
+/// **The table names documents the catalog says were read, and invents none.**
+///
+/// The half that keeps the rule below honest. A table of things-already-read that quietly grew a
+/// row nothing supports would turn the check into a way of banning words.
+#[test]
+fn the_table_of_read_documents_is_the_catalogs() {
+    let root = repo_root();
+    for (entry, titles) in READ {
+        let src = flat(&read(&root, entry));
+        for title in *titles {
+            let mut said = false;
+            let mut from = 0;
+            while let Some(at) = src[from..].find(title) {
+                let at = from + at;
+                let lo = at.saturating_sub(160);
+                let window = &src[lo..(at + title.len() + 160).min(src.len())];
+                if WAS_READ.iter().any(|w| window.contains(w)) {
+                    said = true;
+                    break;
+                }
+                from = at + title.len();
+            }
+            assert!(
+                said,
+                "{entry} does not say {title:?} was read, so this table has invented a row"
+            );
+        }
+    }
+}
+
+/// **CENSUS. A marker calls a document unread that the catalog read a phase later, and the node
+/// carrying it quotes that same document at length ninety lines above.**
+///
+/// `prior-art/sierra-sci`'s `source_standing` still reads: *"Script Classes for Adventure Games is
+/// in the retrieved set, **unread**, and is where a verb bar would be declared if Sierra declared
+/// one."* `class-library` read that document in full, dated it 5 April 1988, and established that
+/// it is two years too early to answer the question — and that node's own `description` says so.
+///
+/// **The correction went into the record and stopped there.** `.yidam/decisions/input-side.yml`
+/// carries it, `crates/design-gate/tests/retrieval.rs` checks that it does, and
+/// `crates/design-gate/tests/resolvers.rs` classifies this question as waiting on a **retrieval**
+/// on the strength of the record's wording — while the node names an artifact that is already in
+/// the house.
+///
+/// This is the shape `.yidam/decisions/stale-markers.yml` diagnosed and built no check for —
+/// *"the prose was updated and the marker was not"* — on its third occurrence, and the first where
+/// a check is possible: it is possible because `resolver-kind` made a marker say what would close
+/// it, which is what gave the sentence something to be wrong about.
+#[test]
+fn a_marker_names_a_document_the_catalog_has_already_read() {
+    let root = repo_root();
+    let read_titles: Vec<&str> = READ.iter().flat_map(|(_, t)| t.iter().copied()).collect();
+
+    let mut naming: Vec<(String, &str)> = Vec::new();
+    for (node, para) in marker_paragraphs(&root) {
+        for t in &read_titles {
+            if para.contains(t) {
+                naming.push((node.clone(), t));
+            }
+        }
+    }
+    assert_eq!(
+        naming,
+        [(
+            ".yidam/corpus/prior-art/sierra-sci.yml".to_string(),
+            "Script Classes for Adventure Games"
+        )],
+        "markers naming a document the catalog records as read"
+    );
+
+    // And it says the thing that makes it a contradiction rather than a stale pointer.
+    let node = flat(&read(&root, ".yidam/corpus/prior-art/sierra-sci.yml"));
+    assert!(
+        node.contains("is in the retrieved set, unread"),
+        "the marker no longer calls it unread, which is the half that makes this wrong"
+    );
+    // In the same file, read and dated and used for a finding.
+    assert!(
+        node.contains("Jeff Stephenson, 5 April 1988")
+            && node.contains("Thirty-one classes follow"),
+        "and the node no longer quotes the document it calls unread"
+    );
+}
+
+/// **CENSUS. The node and the record disagree about what would close the question.**
+///
+/// `input-side.yml` says *"What would settle it is an **SCI1-era** artifact: a system script from
+/// 1990 or later, or a shipped title's own `Game` and `User` subclasses."* The node says a document
+/// that was retrieved in the same phase that wrote the record and read in the phase after it.
+///
+/// The record is the copy that gets edited, because a phase is *about* its record. The node is the
+/// copy that gets read — by `yidam open-questions`, by `status`, by `due`, and by anybody following
+/// the corpus rather than the history. **The wrong one of the two has been right for two phases.**
+#[test]
+fn the_node_and_the_record_disagree_about_what_would_close_it() {
+    let root = repo_root();
+    let node = flat(&read(&root, ".yidam/corpus/prior-art/sierra-sci.yml"));
+    let record = flat(&read(&root, ".yidam/decisions/input-side.yml"));
+
+    assert!(
+        record.contains("What would settle it is an **SCI1-era** artifact"),
+        "the record no longer names the resolver"
+    );
+    assert!(
+        !node.contains("SCI1-era"),
+        "the node has been brought into line, which is what this census is waiting to become"
+    );
+}
