@@ -299,12 +299,12 @@ fn no_question_lives_on_a_class_page() {
         n
     };
     let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
-    assert_eq!((corpus, decisions), (8, 51));
-    // 17, 16, 15, 14 and now 13, and never once because a corpus question was closed. Every
-    // phase that settles something opens one or two in the record that settled it, and the
-    // corpus numerator has not moved in six. `authored-text` and `two-components` opened two
-    // each, and 13 is where the two denominators met: the wider one reached it first.
-    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 13);
+    assert_eq!((corpus, decisions), (8, 53));
+    // 17, 16, 15, 14, 13 and now 12, and never once because a corpus question was closed. The
+    // corpus numerator has not moved in seven phases while the records opened twenty-odd, and
+    // `playable` closing one was the first close in that run. The two denominators met at 13 and
+    // have parted again: `markers.rs` still says 13 on the narrower one.
+    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 12);
 }
 
 /// **Every class page was written by this repository's first commit, and for 342 commits its last
