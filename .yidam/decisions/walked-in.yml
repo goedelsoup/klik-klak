@@ -1,0 +1,111 @@
+id: walked-in
+summary: >-
+  Every specimen gets a losing script beside a winning one, and the transcripts are pinned. A
+  forced binding's line is said, and **selected in the state it fired from** — `settle_tracking`
+  returns the words with the bindings, because only it knows the intermediate states. The claim
+  four specimens were written to demonstrate is checked for the first time: after the mistake, the
+  game goes on answering normally, and nothing in the engine can tell it has ended.
+context: |
+  Four games, **five stranding bindings**, each reported by the checker with a line, a cause and
+  how many reachable states it kills. [verified] — `crates/reachability/tests/walked.rs`. The
+  specimens document them in prose and `ferry.game` states the claim in a comment beside its own
+  trap: ***"Reachable, silent, and the game goes on answering normally."***
+
+  **The checker proved the first word and nothing had shown the other two**, because until
+  [playable](playable.yml) nothing could play a game at all, and the one script that existed wins.
+
+  Playing into a trap turned up a defect nothing else could have found. **The longest line anybody
+  wrote in four specimens is one the engine never says.** `nightwatch.game:89` is 143 characters —
+  *"Three steps in, a lamp comes up. The watchman takes the ledger out of your hands without
+  hurrying, and the door at the far end is already open."* — and it is the response of an
+  `on-enter` binding, which is **forced**: it fires inside `interaction_resolver::settle` rather
+  than being chosen. `settle` returns a state and drops every word on the way out. [verified] —
+  `engine/play/tests/forced.rs`.
+
+  A response writes no state, so the search cannot see it; the component fixtures ask one binding
+  at a time, so neither can they. `settle_tracking` has returned the list of fired bindings since
+  it was written — for the cause classifier, which wanted their *effects* — and nobody wanted
+  their words until there was something to say them to.
+decision: |
+  **A forced binding's line is selected in the state it fired from, and the resolver is the only
+  thing that can do it.**
+
+  `settle_tracking` returns `Vec<Fired>` rather than `Vec<&Binding>`, where a `Fired` carries the
+  binding and the line it said. The selection cannot be deferred to the client and this is the
+  substance of the change rather than a detail: a chain of `on-enter` bindings fires each from the
+  state the previous one left, so a guarded response list evaluated afterwards against the
+  *settled* state selects the wrong clause. **Only `settle_tracking` sees the intermediate
+  states**, and this is the first thing that has ever needed them.
+
+  `reachability` reads `.binding.effects` where it read a binding, and reads none of the words —
+  the seam `.yidam/decisions/authored-text.yml` drew is unmoved.
+
+  **Every specimen gets a losing script, and the transcripts are pinned.** `engine/play/scripts/`
+  holds a run per way to lose, each ending where the game stops answering usefully rather than
+  where it stops answering. They are pinned whole, like the winning one, because a transcript is
+  the one artifact here a person can judge without knowing anything about the project.
+
+  **And the claim is checked.** For each specimen: the losing script picks the binding the
+  **checker blames**, at the line the checker names; that turn fires and says something; and every
+  turn after it also produces a response or a move, with a non-empty menu, to a session that ends
+  `OutOfInput` and never `Ending`. That is *"the game goes on answering normally"* as an
+  assertion, and it is the first time a figure the instrument reports has been put beside the
+  turn a player takes.
+rationale: |
+  **The reason to play a trap rather than compute one is that the two say different things and
+  only one of them is about the game.** `analyse` says `use-with oil-can on base.hinge` strands
+  four states by consumption. A transcript says the player is told *"You work the oil in until it
+  swings sweetly. The can comes away empty"* — which reads as a reward — and then goes on being
+  answered for eleven more turns before meeting *"Nothing to burn. You would waste the match"*,
+  which reads as a hint. [verified] Neither sentence is derivable from the other, and
+  `failure-mode/unwinnable-state` rests on the second.
+
+  **The patrol is the sharpest of the four and was the least expected.** After the mistake the
+  corridor offers six entries and every one of them works: the strongroom door opens for the first
+  time, *"The wheel turns without much noise, which is the point of the grease"*, because the
+  porter has left the corridor. The player walks into the room they were trying to reach, finds
+  the cabinet locked, goes back for the key, and is told *"He is in there with his tea, and the
+  door is not wide."* **Every line reads as progress or as a temporary obstacle.** [verified] The
+  failure this design exists to detect looks, from inside, exactly like the game working.
+
+  **The designer of the genre calls this a defect born of not having an instrument, and these are
+  the transcripts of why.** Ron Gilbert, on Maniac Mansion: *"Gary and I didn't have Puzzle
+  Dependency Charts… The game is full of dead end puzzles and the flow is uneven"*
+  ([grumpy-gamer-pdc](../catalog/grumpy-gamer-pdc.md)), and twenty-eight years later,
+  *"Thimbleweed Park will not have the death and dead ends of Maniac Mansion. **Those were born
+  from ignorance more than a focused design decision.**"* ([twp-dev-diary](../catalog/twp-dev-diary.md)).
+  [verified]
+
+  **His remedy is not to ship them; this design's is to detect them, and the transcripts are the
+  argument for why detection is the harder half.** A dead end is invisible from inside — that is
+  what four pinned transcripts now show — so an author cannot find one by playing, and *"born from
+  ignorance"* is a description of a tool gap rather than of carelessness. [inference] The chart
+  Gilbert built to close it is a read-after-write graph maintained by hand;
+  `crates/reachability` derives the same relation from the authored artifact and answers a
+  question the chart cannot, which is whether a *reachable* state can still finish.
+
+  **The engine cannot tell, and cannot be made to.** `analyse` knows; `engine/` does not depend on
+  `crates/reachability` and must not, because [two-components](two-components.yml) put the
+  dependency the other way for a reason — the instrument depends on the subject. So the
+  information that the game is over exists, in this repository, on the other side of a boundary
+  drawn deliberately.
+
+  Whether a runtime should be allowed to ask is a real question and is not answered here. A game
+  that told the player *"you cannot win from here"* would be a different genre; one that quietly
+  declined to let them reach the state would be a different design; one that shipped with the
+  answer computed at build time would be neither, and is the only one of the three this
+  vocabulary's boundedness makes cheap. `[open]`
+
+  **What this does not do: announce anything.** No `Stop::Stranded`, no warning, no hint. The
+  slice reports what the game says and nothing else, because a client that editorialised would be
+  a client claiming to know something the components do not. The transcripts are the finding and
+  adding a line to them would be hiding it.
+
+  **And the second defect is the one worth carrying forward.** *"Selected in the state it fired
+  from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering
+  inside a single transition is observable — a chain of forced bindings.
+  [effect-list-semantics](effect-list-semantics.yml) says a binding is **atomic**: *"nothing
+  observes a value between two effects — not the player, not another binding, not the checker."*
+  A forced chain does not break that rule, because each binding in it is its own transition. But a
+  player reading two lines in sequence is observing an order, and that is the nearest thing to
+  duration this design has produced without anyone deciding to. [inference] `[open]`

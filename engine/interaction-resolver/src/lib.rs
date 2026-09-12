@@ -34,6 +34,18 @@ pub enum Outcome<'a> {
     Refused { says: Option<&'a str> },
 }
 
+/// A forced binding that fired, and what it said.
+///
+/// **The line is selected here rather than by the caller, and that is the whole reason this type
+/// exists.** A chain of `on-enter` bindings fires each from the state the previous one left, so a
+/// guarded response list evaluated afterwards against the settled state selects the wrong clause.
+/// Only [`settle_tracking`] sees the intermediate states. `.yidam/decisions/walked-in.yml`.
+#[derive(Debug, Clone, Copy)]
+pub struct Fired<'a> {
+    pub binding: &'a Binding,
+    pub says: Option<&'a str>,
+}
+
 /// The first line whose predicate holds, or the first with none. A response list is
 /// first-match-wins, which is how the author reads it: `otherwise` is a fallback because it is
 /// written last.
@@ -87,7 +99,7 @@ pub fn spends(w: &World, b: &Binding, s: &State) -> Vec<String> {
     for e in b
         .effects
         .iter()
-        .chain(fired.iter().flat_map(|f| &f.effects))
+        .chain(fired.iter().flat_map(|f| &f.binding.effects))
     {
         if let Effect::Spend(x, _) = e {
             if !out.contains(x) {
@@ -117,7 +129,7 @@ pub fn apply_without_spending(w: &World, b: &Binding, s: &State) -> State {
     for e in b
         .effects
         .iter()
-        .chain(fired.iter().flat_map(|f| &f.effects))
+        .chain(fired.iter().flat_map(|f| &f.binding.effects))
     {
         if let Effect::Spend(x, _) = e {
             if let Some(i) = w.items.iter().position(|y| y == x) {
@@ -219,17 +231,19 @@ pub fn settle(w: &World, cur: State) -> Result<State, usize> {
     settle_tracking(w, cur).map(|(s, _)| s)
 }
 
-/// [`settle`], also reporting which forced bindings fired.
+/// [`settle`], also reporting which forced bindings fired **and what each of them said**.
 ///
-/// The list is what [`apply_without_spending`] needs and could not get from the
-/// binding it was handed: a chosen binding's effect list is no longer everything that
-/// happens when it fires.
+/// The list is what [`apply_without_spending`] needs and could not get from the binding it was
+/// handed: a chosen binding's effect list is no longer everything that happens when it fires. The
+/// words came later and for the same reason — a chosen binding's response is no longer everything
+/// the player is told. `nightwatch.game`'s watchman takes the ledger in the longest line anybody
+/// wrote in four specimens, and it was dropped here for as long as this function existed.
 pub fn settle_tracking<'a>(
     w: &World<'a>,
     mut cur: State,
-) -> Result<(State, Vec<&'a Binding>), usize> {
+) -> Result<(State, Vec<Fired<'a>>), usize> {
     let mut seen: HashSet<State> = HashSet::new();
-    let mut fired: Vec<&'a Binding> = Vec::new();
+    let mut fired: Vec<Fired<'a>> = Vec::new();
     loop {
         if !seen.insert(cur.clone()) {
             return Err(cur.room);
@@ -237,8 +251,11 @@ pub fn settle_tracking<'a>(
         let before = cur.room;
         for b in &w.entries[cur.room] {
             if offered(w, b, &cur) {
+                // selected before the effects are folded, because the state it fired from is the
+                // state its guards were written against
+                let says = select(w, &b.says, &cur);
                 cur = apply(w, b, &cur);
-                fired.push(b);
+                fired.push(Fired { binding: b, says });
             }
         }
         if cur.room == before {

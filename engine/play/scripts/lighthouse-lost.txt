@@ -1,0 +1,20 @@
+# THE TRAP in `design/specimen/lighthouse.game`, walked into.
+#
+# The oil goes into the hinge instead of the lamp. Eleven more turns are answered normally
+# before the match refuses, and the refusal reads as a hint rather than as a wall.
+#
+# `crates/reachability` blames `use-with oil-can on base.hinge` at line 131, [consumption],
+# 4 states.
+pick-up loose-crowbar
+use-with crowbar on crate
+talk-to keeper
+option lamp
+option wick-ask
+option leave
+use-with brass-key on door
+walk-to door
+use-with oil-can on hinge
+walk-to stair
+pick-up loose-match
+use-with wick on lamp
+use-with match on lamp

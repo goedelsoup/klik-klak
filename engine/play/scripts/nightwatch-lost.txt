@@ -1,0 +1,15 @@
+# THE TRAP in `design/specimen/nightwatch.game`, walked into.
+#
+# Carry the ledger into the hall. The watchman takes it — the longest line anybody wrote in
+# four specimens, and one the engine did not say until `.yidam/decisions/walked-in.yml` —
+# and the game lets you out at six, into a yard you can walk around and never leave.
+#
+# `crates/reachability` blames `walk-to on study.hall-door` at line 153, [consumption],
+# 1 state, and the same trap again at line 59 by the other door.
+pick-up loose-wire
+walk-to window
+use-with wire on case
+pick-up ledger-in-case
+walk-to hall-door
+look-at door
+walk-to door

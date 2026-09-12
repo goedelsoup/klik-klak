@@ -92,6 +92,9 @@ fn interactive(session: &mut Session) -> Stop {
                     if let Some(line) = &t.said {
                         println!("  {line}");
                     }
+                    for line in &t.forced {
+                        println!("  {line}");
+                    }
                     if let Some(where_) = &t.moved {
                         println!("  → {where_}");
                     }

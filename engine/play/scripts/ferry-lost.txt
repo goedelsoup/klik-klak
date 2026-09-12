@@ -1,0 +1,13 @@
+# THE TRAP in `design/specimen/ferry.game`, walked into.
+#
+# Cross without the lantern. The boat does not come back, the bar is on the far side of a
+# gate too dark to see, and the game goes on answering. The specimen states the claim in a
+# comment beside the trap: "Reachable, silent, and the game goes on answering normally."
+#
+# `crates/reachability` blames `use-with coin on ferryman` at line 64, [ordering], 2 states.
+pick-up loose-coin
+walk-to path
+pick-up jar
+walk-to door
+use-with coin on ferryman
+look-at gate
