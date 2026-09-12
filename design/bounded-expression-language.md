@@ -1,7 +1,7 @@
 ---
 title: A bounded expression language for authored interaction
 status: proposal
-reconciled: 5fd273ab8d2e6b14f02e870395dbd9b38141e8e3
+reconciled: be19e2828a3cfe21fbc5a0466d15a3cf4bcbf793
 rests_on:
   - .yidam/corpus/actor/player-character.yml
   - .yidam/corpus/data-format/interaction-table.yml
@@ -149,13 +149,21 @@ this document exists to fill is exactly one thing: composition.** Having predica
 distinguishes this proposal from what AGS shipped. Combining them is.
 
 **Half of that sentence is measured and half is not.** What is counted is AGS. What this design
-*does* with composition was counted later and is no longer thin: across the specimens in this
-repository the binary connectives appear **eight times** — eight `and`, no `or` — while `not`, which is
-unary and combines nothing, appears ten times
-(`.yidam/decisions/unwritten.yml`). [verified] Either four small games are too little authoring to
-need a second conjunct, or a puzzle guard in this form is usually one condition — which is what
-AGS's nesting-yields-conjunction structure assumed, and is the reading nobody has looked for
-evidence against. The gap is a fact about AGS and an argument about the remedy.
+*does* with composition was counted later and was thin: across the specimens that existed then, the
+binary connectives appeared **once** — one `and`, no `or`.
+
+**A fifth game moved it to twelve.** Across `design/specimen/` the binary connectives appear
+**twelve times — twelve `and`, no `or`** — in eight guards, while `not`, which is unary and
+combines nothing, appears sixteen times. [verified] —
+`crates/reachability/tests/conditions.rs`, `.yidam/decisions/unwritten.yml`. The widest guard joins five atoms, and one conjunction
+is written by hand into four separate preconditions.
+
+So the answer to *either four small games are too little authoring to need a second conjunct, or a
+puzzle guard in this form is usually one condition* is the first. A game with a mechanism in it —
+a lock with two gates, a paddle and two crew — composes, and the four that did not were four games
+without one. That reopens `puzzle/state-gate`, which had been closed on the census taken before the
+fifth game was read (`.yidam/decisions/unread-specimen.yml`), and it leaves the gap a fact about
+AGS and an argument about the remedy that now has authored evidence on its side.
 
 That is a smaller claim than this document opened with and a much harder one to wave at. It also
 means the proposal cannot be defended as *adding conditionals to a declarative layer* — someone
