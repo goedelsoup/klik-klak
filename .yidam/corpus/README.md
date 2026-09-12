@@ -44,7 +44,7 @@ Sorted by: kind, then alphabetically.
 | Instance | Class | Label | Links out | Claims | Lines |
 |---|---|---|---|---|---|
 | [non-player-character.yml](actor/non-player-character.yml) | actor | Non-Player Character | 2 | 3v / 4i / 0o | 52 |
-| [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 0v / 2i / 1o | 47 |
+| [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 3v / 3i / 0o | 72 |
 | [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 4 | 3v / 4i / 0o | 76 |
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 8v / 5i / 0o | 103 |
 | [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 11v / 12i / 0o | 238 |
@@ -67,7 +67,7 @@ Sorted by: kind, then alphabetically.
 | [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 5 | 18v / 5i / 1o | 184 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 1v / 10i / 0o | 96 |
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 16v / 10i / 1o | 192 |
-| [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 12 | 27v / 11i / 0o | 325 |
+| [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 12 | 29v / 12i / 0o | 351 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
 | [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 8v / 5i / 0o | 111 |
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 6v / 3i / 0o | 73 |
@@ -76,7 +76,7 @@ Sorted by: kind, then alphabetically.
 | [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 0v / 3i / 0o | 45 |
 | [response-presenter.yml](subsystem/response-presenter.yml) | subsystem | Response Presenter | 3 | 5v / 3i / 0o | 93 |
 | [verb-menu.yml](subsystem/verb-menu.yml) | subsystem | Verb Menu | 3 | 8v / 3i / 0o | 94 |
-| [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 10v / 6i / 0o | 140 |
+| [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 11v / 7i / 0o | 155 |
 | [look-at.yml](verb/look-at.yml) | verb | Look At | 2 | 5v / 5i / 0o | 81 |
 | [pick-up.yml](verb/pick-up.yml) | verb | Pick Up | 2 | 3v / 6i / 0o | 99 |
 | [talk-to.yml](verb/talk-to.yml) | verb | Talk To | 2 | 4v / 5i / 0o | 82 |
