@@ -8,4 +8,7 @@ corpus does.
   player can point at and get only a default response from
 - **Whether a hotspot is really an actor that cannot move** — the live collapse; see
   `.yidam/decisions/ontology.yml`
-- *Stub:* `collapse-signature` will compute this class's edge signature against `actor`.
+- **Whether the collapse is decidable by a score** — it is not, and `collapse-signature` is
+  retired for saying so on its own page: a similarity over declared vocabularies cannot see the
+  relationship that is missing from *both* classes, which is what decided the first collapse.
+  `.yidam/decisions/calculators.yml`.

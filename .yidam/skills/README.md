@@ -6,13 +6,18 @@ knowledge of this domain's corpus or toolkit live here.
 
 Three calculators were scaffolded at genesis, each approved in
 [`../decisions/proposals.yml`](../decisions/proposals.yml). **One is implemented and two are
-still stubs**, and the reasons the two are stubs are not the same:
+retired**, and all three questions were answered by reading a *game* — which is corpus input for
+none of them. `.yidam/decisions/calculators.yml`.
 
 | Skill | Reads | State |
 |---|---|---|
-| [`vocabulary-coverage`](vocabulary-coverage.md) | `verb`, `interaction` | Stub. Both its lists have been computed once by hand, over a *specimen* rather than the corpus — whether those are one computation with two inputs is `[open]` |
-| [`collapse-signature`](collapse-signature.md) | every class and instance | Stub. Would run; the ranking would be dominated by how thinly each class is seeded |
+| [`vocabulary-coverage`](vocabulary-coverage.md) | `verb`, `interaction` | **Retired.** Its question — which primitives nothing exercises — was answered over four specimens by `.yidam/decisions/unwritten.yml` |
+| [`collapse-signature`](collapse-signature.md) | every class and instance | **Retired.** Its question was answered by `cutscene/scripted-sequence.yml`, and its own page argues a similarity score is not the instrument |
 | [`reachability`](reachability.md) | an authored game's state graph | **Implemented** — `crates/reachability`. Was blocked for four phases, each time on something different |
+
+The objection recorded at genesis was against `reachability` alone — *"It has nothing to read…
+this corpus holds the vocabulary a game would be authored in, not any game."* It was true of all
+three, and the same artifact resolved it three times. `design/specimen/` did not exist then.
 
 Reachability is the one worth reading about, because what blocked it kept changing and none
 of the reasons were the one predicted. It waited for an authored game; then for a *decidable*
@@ -25,6 +30,12 @@ Its prelude domain is a footnote worth keeping: `graph-topology` was approved fo
 genesis and is not used. Two breadth-first searches over an explicit edge list did not need a
 vendored layer, and reaching for one would have been naming a domain because it sounds
 adjacent.
+
+**And `similarity` is now in the same position for the other reason**: it was kept for
+`collapse-signature`, which is retired, so it is a vendored layer with no caller rather than one
+its caller did not need. Both stay — `.yidam/.vendor/` is read-only and a domain is dropped by
+re-vendoring — and together they are the whole of what the genesis domain selection got wrong:
+thirteen dropped correctly, two kept, and neither keep used.
 
 Beyond these, add a skill when a repeatable procedure emerges from inquiry — not
 preemptively.

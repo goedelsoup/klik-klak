@@ -76,6 +76,13 @@ decision: |
   one carrying a superseded argument, and correcting it in place is what this repository does with
   a claim that was reasonable and is now wrong.
 
+  **6. This record cites no catalog entry, and the shape of the question is why.** No
+  adventure-game source answers whether a calculator this repository approved against its own
+  corpus should be retired. [parser-silence](parser-silence.yml) is the neighbouring case and
+  `crates/design-gate/tests/subject.rs` is the check that would otherwise read the silence as a
+  phase that should have opened a source and did not — the distinction being that a phase which
+  touches no document and says so is not the same as one that needed a document and skipped it.
+
   **What this does not do: conclude the corpus is the wrong evidence base.** It is where the claims
   live and it is what every phase revises. What the three calculators share is narrower: each was
   specified as a computation over the *graph of claims*, and each of the questions turned out to be

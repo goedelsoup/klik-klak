@@ -1,5 +1,5 @@
 //! **Three calculators were approved at genesis to read the corpus. All three were answered by
-//! reading a game, and two of them are still stubs.**
+//! reading a game, and two of them are retired without ever having run.**
 //!
 //! `.yidam/decisions/proposals.yml` approved `vocabulary-coverage`, `collapse-signature` and
 //! `reachability`, each written as a stub, *"none is run at genesis because none has enough to
@@ -17,8 +17,10 @@
 //!   own page says so: *"This skill was scaffolded at genesis to make exactly that argument, and
 //!   it was not what produced the answer. A **specimen** was."*
 //!
-//! Both stubs now carry a live `[open]` arguing they are not the instrument for their own
-//! question, and neither has been edited in 69 and 73 of this repository's 86 phases.
+//! Both stubs had come to argue against themselves — not *"there is not enough to read yet"*,
+//! which is a reason to wait, but *"the computation I was approved to perform is not the one that
+//! answers my question"*. Neither had been edited in 69 and 73 of this repository's 86 phases.
+//! `.yidam/decisions/calculators.yml` retires them.
 //!
 //! And the two prelude domains kept at the vendor step to serve them are cited by nothing.
 
@@ -33,26 +35,27 @@ fn flat(src: &str) -> String {
     src.split_whitespace().collect::<Vec<_>>().join(" ")
 }
 
-/// **Two of three are stubs, and each says why it should not be run.**
+/// **Two of three are retired, and each page says what answered its question.**
 ///
-/// Not *"there is not enough to read yet"*, which is what both said at genesis and would be a
-/// reason to wait. Each now argues the stronger thing: the computation it was approved to perform
-/// is not the one that answers its question.
+/// Retired rather than deleted, the way `verb/give-to.yml` is kept: a list that grows by accident
+/// needs a record of what it declined. The argument each page had come to make against itself is
+/// kept with it — that is the reason, and a reason deleted is a reason somebody re-derives.
 #[test]
-fn two_of_the_three_calculators_are_stubs_that_argue_against_themselves() {
+fn two_of_the_three_calculators_are_retired_and_say_what_answered_them() {
     let root = repo_root();
 
     let coverage = read(&root, ".yidam/skills/vocabulary-coverage.md");
     let collapse = read(&root, ".yidam/skills/collapse-signature.md");
     let reachability = read(&root, ".yidam/skills/reachability.md");
 
-    assert!(coverage.contains("**Status: stub.**"));
-    assert!(collapse.contains("**Status: stub.**"));
+    assert!(coverage.contains("**Status: retired.**"));
+    assert!(collapse.contains("**Status: retired.**"));
     assert!(
         reachability.contains("**Status: implemented.** `crates/reachability`"),
         "and the third is built"
     );
 
+    // the argument each had come to make against itself, kept
     assert!(
         flat(&collapse).contains(
             "The question this skill was built to answer is answerable, and a similarity score \
@@ -67,12 +70,46 @@ fn two_of_the_three_calculators_are_stubs_that_argue_against_themselves() {
         ),
         "`vocabulary-coverage` says the same thing about its own list"
     );
+
+    // and no marker is left standing on a question that is retired rather than answered
+    for (name, page) in [
+        ("vocabulary-coverage", &coverage),
+        ("collapse-signature", &collapse),
+    ] {
+        assert!(
+            !page.contains("[open]"),
+            "{name} still emits a marker for a question nothing is waiting on"
+        );
+    }
+    assert!(
+        flat(&coverage).contains("That question is closed by retirement rather than by answer."),
+        "and the retraction says which kind of closing it was"
+    );
+}
+
+/// **The stale sentence is corrected rather than deleted.**
+///
+/// `vocabulary-coverage` closed on *"The exit primitive it was pointing at is still unwritten"*,
+/// which `.yidam/decisions/exit-archetype.yml` made false 73 phases ago. A retired page carrying a
+/// false claim about the present is worse than one carrying a superseded argument.
+#[test]
+fn the_page_no_longer_says_a_closed_gap_is_open() {
+    let root = repo_root();
+    let coverage = read(&root, ".yidam/skills/vocabulary-coverage.md");
+    assert!(
+        !coverage.contains("The exit primitive it was pointing at is still unwritten."),
+        "the sentence that was false for 73 phases"
+    );
     assert!(
         flat(&coverage).contains(
-            "**It must skip instances whose `earns_its_place` carries a negative verdict**, \
-             which means the property has to be machine-readable in a way it currently is not"
+            "**And the exit primitive it was pointing at was written, one phase later.**"
         ),
-        "and names the blocker it has never come back to"
+        "and what replaced it says what happened"
+    );
+    let parse = read(&root, "crates/game-format/src/parse.rs");
+    assert!(
+        parse.contains("\"exit\" => {"),
+        "the reader dispatches on `exit`"
     );
 }
 
