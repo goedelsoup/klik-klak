@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 82, "every record, in the order it was created");
+    assert_eq!(all.len(), 83, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (41, 44, 32),
+        (42, 45, 33),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -281,9 +281,17 @@ fn the_evidence_each_record_rests_on() {
 /// No adventure-game source answers either, the record says so, and it rests on this crate and
 /// nothing else because this crate is what it is about.
 ///
-/// What would extend the run wrongly is a second consecutive phase of the same kind, and the thing
-/// that clears it is already named in that record: `actor/player-character`'s question wants a
-/// specimen, which is a game.
+/// **And that is what happened.** The sentence above named the thing that would clear it, and the
+/// thing that would clear it cleared it: `control-transfer` wrote the fifth specimen, rested on
+/// `.yidam/catalog/twp-dev-diary.md` and on `engine/play`, and put both runs to zero. This is the
+/// second time a prediction written into this comment has been settled by the phase after it —
+/// `authored-text` was the first — and the reason to keep writing them is that a tripwire saying
+/// only *do not extend me* cannot be wrong, while one that names its own exit can.
+///
+/// The prediction was cheap to make and it was not trivially true. What cleared the run is the
+/// specimen, and a specimen is `design/` — a path this check does not count as an evidence path at
+/// all. It cleared by reaching for a source *about* what the specimen found: a diary post titled
+/// **switching and inventory**, in a catalog entry read five phases earlier for something else.
 ///
 /// Two phases on the same tooling, one with a document and one without, is the distinction this
 /// check was built to make visible. A phase that touches no source and knows it is not the same
@@ -304,7 +312,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (1, 1),
+        (0, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
