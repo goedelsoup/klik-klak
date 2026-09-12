@@ -5,7 +5,15 @@ description: Similarity between class pairs' relationship vocabularies — the f
 
 # collapse-signature
 
-**Status: stub.** Approved in `.yidam/decisions/proposals.yml`; not implemented.
+**Status: retired.** Approved in `.yidam/decisions/proposals.yml` at genesis; never implemented;
+retired after 69 of this repository's 86 phases because **the question it was approved to answer
+has been answered, by an artifact it does not read** — and because the section below already
+argued that a similarity score is not the instrument that answers it.
+
+`corpus/cutscene/scripted-sequence.yml` settled *is `cutscene` just an `interaction`?* against a
+specimen written to want a sequence twice. The page is kept rather than deleted, the way
+`verb/give-to.yml` is kept: a list that grows by accident needs a record of what it declined.
+`.yidam/decisions/calculators.yml`.
 
 ## What it computes
 
@@ -46,7 +54,7 @@ is a judgement about the domain; this narrows where to spend it.
 implementation there is pinned across Rust, TypeScript and Python by shared fixtures, which is
 worth more than a local reimplementation of a formula that is easy to get subtly wrong.
 
-## Why it is a stub
+## Why it stayed a stub
 
 With 30 instances spread across 15 classes, the ranking would be dominated by how thinly each
 class is seeded rather than by how alike the classes are. A class with one instance has one
@@ -72,6 +80,10 @@ never took control, or that what survives is a **trigger neither class declares 
 The decisive observation is about a relationship that is missing from both, and a comparison of
 what each declares cannot see it.
 
-So the stub stands, and for a sharper reason than "the classes are thinly seeded". [open] The
-question this skill was built to answer is answerable, and a similarity score over declared
-vocabularies is not the instrument that answers it.
+So the stub stood, and for a sharper reason than "the classes are thinly seeded". The question
+this skill was built to answer is answerable, and a similarity score over declared vocabularies is
+not the instrument that answers it.
+
+**That is now the reason it is retired rather than something left unsettled.** A skill whose own
+page argues it would not answer its question is not waiting for more data; it is waiting for
+somebody to say so. `.yidam/decisions/calculators.yml`.

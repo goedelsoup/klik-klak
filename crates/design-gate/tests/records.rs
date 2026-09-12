@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (539, 90, 69));
+    assert_eq!((total, mentions, tests.len()), (552, 94, 70));
 }
 
-/// **Seven of seventy-six records are cited by nothing, against three of forty-four nodes.**
+/// **Eight of seventy-seven records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -323,6 +323,7 @@ fn a_record_nothing_cites_is_named() {
         alone,
         [
             "binding-axes",
+            "calculators",
             "declared-reach",
             "domain-computer",
             "held",
@@ -330,15 +331,15 @@ fn a_record_nothing_cites_is_named() {
             "round-trip",
             "settled-surface",
         ],
-        "seven. Both of the last two left in one phase: `round-trip` cites `parser-silence` \
-         for the question it could not reach and `orphaned-lines` for the report it checks, \
-         which is what a run of related phases looks like from this list. `held` stays for \
-         the reason it arrived — it reconciles two standing positions rather than answering a \
+        "eight. `calculators` is the newest and nothing has had a chance to need it; \
+         `round-trip` is one phase old and cites `parser-silence` and `orphaned-lines`, which \
+         is how a run of related phases empties this list from the front. `held` stays for the \
+         reason it arrived — it reconciles two standing positions rather than answering a \
          question either of them left open, so nothing had a marker to retract. Reconciling \
          is the one kind of work this list cannot see"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (76, 249));
+    assert_eq!((c.len(), edges), (77, 257));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -519,13 +520,13 @@ fn no_record_has_changed_what_it_decided() {
             moved.push(stem(&p));
         }
     }
-    // 32 rather than 30 because `parser-silence` and `round-trip` were each extended after
-    // their `decide:` commit and before their phase settled — the gate asked each a question
-    // its first draft did not answer, which is the gate working. What this check is for is a
-    // record whose *summary* moved, and that is `moved` below.
+    // 33 rather than 30 because `parser-silence`, `round-trip` and `calculators` were each
+    // extended after their `decide:` commit and before their phase settled — the gate asked
+    // each a question its first draft did not answer, which is the gate working. What this
+    // check is for is a record whose *summary* moved, and that is `moved` below.
     assert_eq!(
         edited,
-        32,
+        33,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

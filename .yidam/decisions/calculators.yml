@@ -1,0 +1,114 @@
+id: calculators
+summary: >-
+  Two of the three calculators approved at genesis are **retired rather than implemented**, after
+  69 and 73 of this repository's 86 phases as stubs. Each question was answered — and answered by
+  a specimen, which is corpus input for neither. The objection raised at genesis against the third,
+  *"it has nothing to read"*, was true of all three, and the same artifact resolved it three times.
+  The two prelude domains kept to serve them are cited by nothing and stay, because the vendor tree
+  is read-only and the selection was the error rather than the vendoring.
+context: |
+  [proposals](proposals.yml) approved three calculators at genesis, each written as a stub:
+  *"none is run at genesis because none has enough to read."* One objection was recorded, against
+  `reachability` — ***"It has nothing to read.** Unwinnable-state detection is a reachability
+  computation over an authored game's state graph, and this corpus holds the vocabulary a game
+  would be authored in, not any game."*
+
+  All three questions are answered now, and none of them by the calculator:
+
+  * `reachability` was **built**, and reads a `.game` file. The objection was resolved by creating
+    the input rather than by narrowing the question.
+  * `vocabulary-coverage` asked which primitives nothing exercises. [unwritten](unwritten.yml)
+    answered it over four specimens — six constructs written by nothing, twenty written twice or
+    fewer — and is pinned in `crates/game-format/tests/coverage.rs`.
+  * `collapse-signature` asked *"the falsifiable form of 'is cutscene just an interaction?'"*.
+    `corpus/cutscene/scripted-sequence.yml` answered it, and the skill's own page says so: *"This
+    skill was scaffolded at genesis to make exactly that argument, and it was not what produced
+    the answer. A **specimen** was."*
+
+  **Both stubs now argue against themselves, which is a stronger claim than the one they were
+  parked on.** At genesis each said there was not enough to read yet, which is a reason to wait.
+  Each now says the computation it was approved to perform is not the one that answers its
+  question. [verified] — `crates/design-gate/tests/calculators.rs`.
+decision: |
+  **Retired, not implemented — and the files stay.**
+
+  **1. `Status: retired`, with what answered the question.** Keeping a retired skill follows this
+  repository's own convention for a declined verb: `verb/give-to.yml` is kept rather than deleted
+  because *"a vocabulary growing by accident needs a record of what it declined"*, and a skill list
+  is the same shape. Deleting either page would leave `proposals.yml` approving two things that no
+  longer exist, and that record is permanent by [record-lifecycle](record-lifecycle.yml).
+
+  **2. Three `[open]` markers are retracted, and they are retired rather than answered.** This is
+  the first time a question here has closed by the thing that wanted the answer going away.
+  `vocabulary-coverage` asked whether `earns_its_place` should gain a machine-readable companion
+  field; the only reason to want one was so a calculator could skip declined verbs, and there is no
+  calculator. It asked whether a coverage report over the corpus and one over a specimen are the
+  same computation; they are not, and only one of them is informative. `collapse-signature` asked
+  nothing further — its marker sat on the observation that a score is not the instrument, which is
+  now the reason it is retired. Retracted per [marker-count](marker-count.yml): the token names a
+  live question and a retraction does not re-emit it.
+
+  **3. An ontology change is declined by the same stroke, which is the part worth noticing.** The
+  companion field on `earns_its_place` would have been a change to `verb.ont.yml` made to serve a
+  calculator, and the calculator is gone. A property exists to record what is true about a class,
+  not to be readable by a tool that might be written — and this is the second time a constraint on
+  the ontology has been *discovered by trying to specify a calculator over it*. The first was
+  adopted. This one is not.
+
+  **4. Both vendored domains stay, unused — and the second half of that was already known.**
+  `.yidam/skills/README.md` has carried the first half since `reachability` shipped: *"`graph-topology`
+  was approved for it at genesis and is not used. Two breadth-first searches over an explicit edge
+  list did not need a vendored layer."* What is added here is the other one. `similarity` was kept
+  for `collapse-signature`, and retiring that skill turns a domain waiting for its caller into a
+  domain with none — 208 KB of the two together, cited by no line in either workspace. [verified]
+
+  They are not removed: `.yidam/.vendor/` is read-only and a domain is dropped by re-vendoring,
+  never by deleting a directory. **What was wrong is the selection, not the vendoring.**
+  `proposals.yml` closes on `prelude_domains: [similarity, graph-topology]`, thirteen of fifteen
+  dropped — and read as a prediction about which shared library the work would need, it is thirteen
+  right and two wrong, both of the wrong ones on the keep side. A drop is cheap to get right
+  because dropping is the default; a keep is a bet, and both bets were placed before any of the
+  work existed.
+
+  **5. `vocabulary-coverage`'s stale sentence is corrected rather than deleted.** It closes *"The
+  exit primitive it was pointing at is still unwritten"*, which [exit-archetype](exit-archetype.yml)
+  made false 73 phases ago. A retired page carrying a false claim about the present is worse than
+  one carrying a superseded argument, and correcting it in place is what this repository does with
+  a claim that was reasonable and is now wrong.
+
+  **6. This record cites no catalog entry, and the shape of the question is why.** No
+  adventure-game source answers whether a calculator this repository approved against its own
+  corpus should be retired. [parser-silence](parser-silence.yml) is the neighbouring case and
+  `crates/design-gate/tests/subject.rs` is the check that would otherwise read the silence as a
+  phase that should have opened a source and did not — the distinction being that a phase which
+  touches no document and says so is not the same as one that needed a document and skipped it.
+
+  **What this does not do: conclude the corpus is the wrong evidence base.** It is where the claims
+  live and it is what every phase revises. What the three calculators share is narrower: each was
+  specified as a computation over the *graph of claims*, and each of the questions turned out to be
+  about the *language* — which is a different object, held in `design/`, and not one any of them
+  reads. Whether a calculator over the corpus can answer any question this project actually has is
+  not settled here; `reachability` reads a game and is the only one of the three that runs.
+rationale: |
+  **The pattern is three for three and nobody saw it while it was happening.** A stub is a promise
+  with no expiry, and a promise made at genesis against an empty repository is nearly free — which
+  is why three were made. What made them safe to make is what made them invisible afterwards:
+  nothing fails when a stub does not run, so a stub is the exact shape of
+  [inert-reports](inert-reports.yml)'s finding in the other direction. That record named the report
+  nobody reads; this is the calculation nobody runs, and neither announces itself.
+
+  **`crates/design-gate/tests/pages.rs` had already caught the near miss and called it honest.**
+  It records that two of four class-page stubs *"promised `reachability` in the conditional —
+  'given a game to read', 'it has nothing to read' — after it shipped and read four. A repository
+  gets no warning when a promise it made comes true."* It then says of the remaining two: *"The two
+  that remain are honest: `collapse-signature` and `vocabulary-coverage` are still unimplemented."*
+  They were unimplemented and the promise had already come true for them too — by a different route,
+  which is why that reading held. [inference]
+
+  **The specimen answering all three is the finding that generalises.** `design/specimen/` was
+  created to exercise a proposal ([specimen-placement](specimen-placement.yml)) and has since
+  become the thing that settles questions the corpus was seeded to settle: a verb's necessity, a
+  class's redundancy, a game's winnability. None of those is a question about the corpus, and all
+  three were filed as computations over it. [inference] What a graph of claims can be asked is what
+  the claims say and how they connect; what a game can be asked is what happens. The three
+  calculators were all questions of the second kind, written in the vocabulary of the first.

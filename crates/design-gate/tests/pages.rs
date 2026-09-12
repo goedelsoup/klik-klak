@@ -222,18 +222,23 @@ fn every_path_a_class_page_writes_resolves() {
         "a class page points at something that is not there:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!(cites, 30, "paths written across the fifteen pages");
+    assert_eq!(cites, 32, "paths written across the fifteen pages");
 }
 
-/// **No question lives on a class page, and the two stubs left are promises rather than questions.**
+/// **No question lives on a class page, and no stub is left.**
 ///
 /// It was eight and four. Five of the eight had been answered by a later phase, two were live and
 /// are now `[open]` on an instance, one was a duplicate of a marker already on an instance, and
 /// two of the four stubs promised `reachability` in the conditional — *"given a game to read"*, *"it has nothing to read"* — after it shipped and read
 /// four. A repository gets no warning when a promise it made comes true.
 ///
-/// The two that remain are honest: `collapse-signature` and `vocabulary-coverage` are still
-/// unimplemented, and `.yidam/skills/README.md` is the place that tracks them.
+/// **The last two went the way the first two did, and were honest right up until they were not.**
+/// This said of them: *"The two that remain are honest: `collapse-signature` and
+/// `vocabulary-coverage` are still unimplemented."* They were unimplemented and the promise had
+/// already come true for both — by a different route, over a specimen rather than over the corpus
+/// they were specified against, which is why that reading held.
+/// `.yidam/decisions/calculators.yml` retires them, and a class page now names what does answer
+/// the question instead of what was going to.
 ///
 /// The ratio moves **up** for the first time. [`markers.rs`] has watched the visible share fall a
 /// point a phase — 23, 22, 21, 20 — because a phase closes nothing in the corpus and opens one in
@@ -263,7 +268,7 @@ fn no_question_lives_on_a_class_page() {
     );
     assert_eq!(
         (open, stub),
-        (0, 2),
+        (0, 0),
         "was (8, 4) — `.yidam/decisions/action-pages.yml` is the disposition of the other ten"
     );
 
@@ -386,8 +391,10 @@ fn every_class_page_was_written_by_the_root_commit() {
         wrong_origin.join("\n  ")
     );
     assert_eq!(
-        untouched, 4,
-        "was fifteen. The four still untouched are the pages that carried nothing wrong — \
-         data-format, hotspot, prior-art, subsystem"
+        untouched, 3,
+        "was fifteen, then four. `hotspot` leaves because the stub it carried named a calculator \
+         that is retired — the page was right about the class and wrong about what would answer \
+         the question, which is the same defect the other eleven had. The three still untouched \
+         are data-format, prior-art and subsystem"
     );
 }

@@ -5,7 +5,18 @@ description: Which verbs no interaction exercises, and which interactions reach 
 
 # vocabulary-coverage
 
-**Status: stub.** Approved in `.yidam/decisions/proposals.yml`; not implemented.
+**Status: retired.** Approved in `.yidam/decisions/proposals.yml` at genesis; never implemented;
+retired after 73 of this repository's 86 phases because **the question it was approved to answer
+has been answered, by an artifact it does not read**.
+
+`.yidam/decisions/unwritten.yml` counted the whole authoring surface against the four games in
+`design/specimen/`: six constructs written by nothing and twenty written twice or fewer, pinned in
+`crates/game-format/tests/coverage.rs`. That is the question below — *which primitives has nothing
+exercised* — asked of the language rather than of the graph of claims about it.
+
+The page is kept rather than deleted, the way `verb/give-to.yml` is kept: a list that grows by
+accident needs a record of what it declined. Everything below is what was specified and what was
+learned trying to specify it. `.yidam/decisions/calculators.yml`.
 
 ## What it computes
 
@@ -41,9 +52,9 @@ None, deliberately. This is a set difference over verb names, and reaching for a
 library to subtract two sets would be naming a domain because it sounds adjacent. See
 `.yidam/decisions/proposals.yml`.
 
-## Why it is a stub
+## Why it stayed a stub
 
-It would run today and the answer would mean nothing. Three verbs are seeded against four
+It would have run at genesis and the answer would have meant nothing. Three verbs are seeded against four
 interactions; with a vocabulary that small, the uncovered set is a fact about how the corpus
 was seeded rather than about the vocabulary. It becomes informative somewhere north of a
 dozen verbs and enough interactions to have opinions about them.
@@ -79,17 +90,23 @@ A calculator implementing list 1 as written would report the corpus's own bookke
 finding, and would do it more loudly the better the corpus got at assessing verbs. **It must skip
 instances whose `earns_its_place` carries a negative verdict**, which means the property has to
 be machine-readable in a way it currently is not: it is prose, and the verdicts are stated in
-sentences. Either the property gains a companion field or the skill reads nothing at all. `[open]`
-— and it is a constraint on the ontology discovered by trying to specify a calculator over it,
-which is the second time that has happened.
+sentences. Either the property gains a companion field or the skill reads nothing at all.
+
+**That question is closed by retirement rather than by answer.** The only reason to want a
+machine-readable verdict was so a calculator could skip a declined verb, and there is no
+calculator. It was a constraint on the ontology discovered by trying to specify a calculator over
+it — the second time that has happened, and the first one that is declined:
+`.yidam/decisions/calculators.yml`.
 
 Two things follow for this skill and neither is that it should now run.
 
 The specimen is **not corpus input**. This calculator reads `verb` and `interaction` instances,
 and a specimen is a `design/` artifact — so the answer above was reached by reading a file this
 skill does not and should not read. Whether a calculator over the corpus and a coverage report
-over a specimen are the same computation with two inputs, or two different questions, is
-`[open]`.
+over a specimen are the same computation with two inputs, or two different questions, was the
+second thing left unsettled here. **They are two different questions, and only one of them is
+informative.** A report over the corpus counts what the corpus declined; a report over a specimen
+counts what an author did not need.
 
 And the second list is the harder one to compute either way: a binding reaching for an
 undeclared verb is only visible where bindings exist, and the corpus's `interaction` instances
@@ -97,4 +114,10 @@ all cite verbs that exist because they were written to. The specimen found `walk
 was written to be a game rather than to be an example.
 
 With `walk-to` assessed, the second list is empty again — and it emptied by the entry being
-declared, not by the gap being closed. The exit primitive it was pointing at is still unwritten.
+declared, not by the gap being closed.
+
+**And the exit primitive it was pointing at was written, one phase later.** `exit <name> to <room>`
+was admitted by `.yidam/decisions/exit-archetype.yml` — *"the first primitive this corpus has
+admitted on the second question rather than the first"*. The sentence that stood here said it was
+still unwritten, and was false for 73 phases: that is what a document nobody runs looks like from
+the inside. No specimen writes one.

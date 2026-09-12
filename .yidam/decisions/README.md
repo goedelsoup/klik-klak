@@ -231,6 +231,7 @@ word on something nothing else has needed — but it is the shape `orphan-in` re
 nodes, at four times the rate, and it had never been looked at.
 
 - [binding-axes](binding-axes.yml)
+- [calculators](calculators.yml)
 - [declared-reach](declared-reach.yml)
 - [domain-computer](domain-computer.yml)
 - [held](held.yml)
