@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 87, "every record, in the order it was created");
+    assert_eq!(all.len(), 88, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (44, 47, 37),
+        (45, 48, 38),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -333,6 +333,17 @@ fn the_evidence_each_record_rests_on() {
 /// way to clear nothing at all: not a retrieval, not a re-reading, but a source this repository
 /// wrote itself and then failed to open. 242 lines of authored game, committed eleven commits
 /// earlier, unread by three quarters of the suite.
+///
+/// **`reads-like-writing` clears it the next phase, and clears it by re-reading.** The measurement
+/// it took needed a scale — 84% of a line being a sentence means nothing on its own — and
+/// `delores-source.md` had one, taken by `frame-width` for a different question and never read for
+/// this one. So the run is zero and this check counts that identically to going out and retrieving
+/// something nobody had.
+///
+/// **Three of the last five clearances were re-readings and the fourth was a specimen this
+/// repository wrote.** `control-transfer`, `adjacency` and now this one. The unread list says which
+/// documents nobody opened. Nothing says what an opened document was not looked at for, and on the
+/// evidence of five phases that is where most of the answers have been.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -348,7 +359,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (1, 0),
+        (0, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }

@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (659, 114, 79));
+    assert_eq!((total, mentions, tests.len()), (675, 114, 80));
 }
 
-/// **Seven of eighty-seven records are cited by nothing, against three of forty-four nodes.**
+/// **Seven of eighty-eight records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -327,8 +327,8 @@ fn a_record_nothing_cites_is_named() {
             "domain-computer",
             "held",
             "name-scoping",
+            "reads-like-writing",
             "settled-surface",
-            "unread-specimen",
         ],
         "seven, and `normal-form` is not here because the record it answers cites it back. \
          A phase that retracts an earlier `[open]` writes into the record that raised it, so \
@@ -351,11 +351,14 @@ fn a_record_nothing_cites_is_named() {
          naming its own form is a second copy of the specification — rather than for anything \
          it decided. A record can be pulled out of this list by being recognised, which is the \
          one exit that does not require somebody to have owed it something. And \
-         `unread-specimen` lands uncited for the reason `input-side` did: its subject is corpus \
-         nodes and test files, so it revises no record and nothing here has a marker to retract"
+         `unread-specimen` landed uncited for the reason `input-side` did — its subject was corpus \
+         nodes and test files, so it revised no record — and came off one phase later the way \
+         `resolver-kind` did, cited by the phase whose material it corrected rather than by \
+         anything it answered. Twice now, and both times the record that came off was one that had \
+         told a later phase what it was looking at"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (87, 313));
+    assert_eq!((c.len(), edges), (88, 322));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
