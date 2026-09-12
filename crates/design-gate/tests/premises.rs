@@ -44,12 +44,21 @@ fn premises(root: &Path) -> Vec<String> {
     fm.list("rests_on").to_vec()
 }
 
-/// **Fourteen premises, ten of them moved, and the gate reported none of it.**
+/// **Fifteen premises, eleven of them moved, and the gate reported none of it.**
 ///
 /// It was nine for five phases. `failure-mode/orphaned-dialogue-branch` is the tenth, and it is
 /// the first premise to move for a reason the document had itself predicted — it argued the mode
 /// is detectable *given* a bounded language, and `.yidam/decisions/orphaned-lines.yml` ran the
 /// prediction. The watermark moved with it; the count is what the watermark does not say.
+///
+/// **`actor/player-character` is the fifteenth and it was a premise before it was declared.** The
+/// effect table's `move <room>` against `move <actor> to <room>` presumes there is one player and
+/// that the player is not one of the actors, which is that node's claim taken the other way round;
+/// the document argued from it for eleven phases without listing it, and
+/// `.yidam/decisions/control-transfer.yml` is what made the omission visible. A premise nobody
+/// declared is invisible to both halves of this check — the watermark cannot report it moving and
+/// this count cannot include it — which is a worse failure than a stale watermark and has no
+/// remedy here beyond somebody noticing.
 ///
 /// A **closed window**, anchored by commit subject to the edit that stood before `moved-ground`
 /// opened. The first version of this measured from *the document's last commit* and the phase's
@@ -58,7 +67,7 @@ fn premises(root: &Path) -> Vec<String> {
 const BEFORE: &str = "^revise: two sentences that were edges";
 
 #[test]
-fn ten_of_fourteen_premises_moved_under_the_proposal() {
+fn eleven_of_fifteen_premises_moved_under_the_proposal() {
     let root = repo_root();
     let found = git(&root, &["log", "--format=%H", "--grep", BEFORE]);
     let last = found
@@ -67,7 +76,7 @@ fn ten_of_fourteen_premises_moved_under_the_proposal() {
         .expect("the anchor commit is gone, so this window cannot be measured")
         .to_string();
     let all = premises(&root);
-    assert_eq!(all.len(), 14, "premises the proposal declares");
+    assert_eq!(all.len(), 15, "premises the proposal declares");
 
     let mut moved = Vec::new();
     let (mut added, mut removed) = (0usize, 0usize);
@@ -95,7 +104,7 @@ fn ten_of_fourteen_premises_moved_under_the_proposal() {
     }
     assert_eq!(
         moved.len(),
-        10,
+        11,
         "premises edited since the document was: {moved:?}"
     );
     assert!(
