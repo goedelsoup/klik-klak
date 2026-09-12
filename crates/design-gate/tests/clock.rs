@@ -207,9 +207,17 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
         "the genesis question is no longer past the interval, which the blame of its marker line \
          cannot mean unless the line moved"
     );
-    assert!(
-        ages.iter().all(|(_, a)| *a > 0),
-        "a question with no history is a question this check cannot age"
+    // **A question asked by the commit that settles the phase has an age of zero, and until
+    // `input-side` no phase had ever added one.** Every previous movement in the corpus's count
+    // was a closure, so `written()` always had a past commit to blame and the check could assume
+    // one. Zero is not "unaged" here — it is the exact and correct answer for a marker line that
+    // is one commit old, and it decays into an ordinary age on the next commit. What the check
+    // still refuses is a *negative* history, which cannot happen, so the assertion that is left
+    // is the one worth keeping: every question this check reports is one it found a blame for.
+    assert_eq!(
+        ages.len(),
+        asking(&root).len(),
+        "a question this check cannot age at all — the blame found no commit for its marker line"
     );
 }
 
@@ -218,6 +226,11 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
 /// [`REPORTED`] holds what `due` says, read by hand. Five of the nine share a value. The nine
 /// marker lines were written at eight distinct moments and the largest group sharing one is the
 /// three that `marker-count` rewrote in a single commit.
+///
+/// **The corpus is back to nine questions and they are not the same nine.** `declared-reach`
+/// closed `portable-object`'s and `input-side` asked one about Sierra's icon bar, so the count
+/// below matches `REPORTED` again by coincidence rather than by nothing having happened. The
+/// reading held in `REPORTED` is of the nine that stood when it was taken and is not re-taken.
 ///
 /// A five-way tie cannot come out of a three-way maximum, so the report's number is not a count
 /// of commits since the question was asked, under any reading of "asked" this repository can
@@ -228,10 +241,11 @@ fn the_report_ties_five_questions_the_history_keeps_apart() {
     let root = repo_root();
     let computed: Vec<usize> = ages(&root).into_iter().map(|(_, a)| a).collect();
     assert_eq!(
-        computed.len() + 1,
+        computed.len(),
         REPORTED.len(),
-        "eight questions now against the nine `due` reported; `declared-reach` closed \
-         `portable-object`'s and the reading below is of the nine that stood when it was taken"
+        "nine questions now against the nine `due` reported, over a different nine: \
+         `declared-reach` closed `portable-object`'s and `input-side` asked one about Sierra's \
+         icon bar. The reading below is of the nine that stood when it was taken"
     );
 
     let widest = |v: &[usize]| {
@@ -320,7 +334,7 @@ fn every_figure_the_config_states_about_this_clock_is_computed_here() {
     );
     assert_eq!(
         (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
-        (12, 12),
+        (13, 13),
         "the share the config claims, against the share"
     );
 }

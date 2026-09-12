@@ -268,17 +268,22 @@ fn every_path_written_in_corpus_prose_resolves() {
     );
     assert_eq!(
         (own, repo, corpus),
-        (119, 132, 5),
+        (122, 133, 5),
         "the three bases, all load-bearing"
     );
-    assert_eq!((own + repo + corpus, decisions), (256, 142));
+    assert_eq!((own + repo + corpus, decisions), (260, 144));
 }
 
-/// **96 declared edges, 86 prose citations, and 18 pairs in both.**
+/// **99 declared edges, 95 prose citations, and 18 pairs in both.**
 ///
-/// So **68 pairs of nodes are joined by a sentence and by nothing a tool can read**, against 78
-/// joined by an edge and not by a sentence. Two graphs of nearly the same size over the same 42
+/// So **77 pairs of nodes are joined by a sentence and by nothing a tool can read**, against 81
+/// joined by an edge and not by a sentence. Two graphs of nearly the same size over the same 44
 /// nodes, overlapping by a sixth — and one of them is the corpus.
+///
+/// This heading said `(96, 86, 18)` while the assertion below said `(99, 93, 18)`: the pin was
+/// re-pinned and the sentence explaining it was not, which is the failure mode this whole crate
+/// exists to catch happening inside the crate. The derived figures — 68 and 78 — were arithmetic
+/// on the stale pair and were therefore wrong twice over.
 ///
 /// It was (88, 76, 14) when this file was written. The two the reading below found are the
 /// difference, and they are the only two it found in sixty-two.
@@ -291,7 +296,7 @@ fn the_graph_the_tools_read_is_not_the_graph_the_corpus_wrote() {
     let root = repo_root();
     let (e, c) = (edges(&root), citations(&root));
     let both = e.intersection(&c).count();
-    assert_eq!((e.len(), c.len(), both), (99, 93, 18));
+    assert_eq!((e.len(), c.len(), both), (99, 95, 18));
 }
 
 /// **Three nodes have no incoming edge, and every one of them is cited in prose.**
@@ -401,7 +406,7 @@ fn the_vocabulary_had_a_relationship_available_and_was_right_twice() {
             available += 1;
         }
     }
-    assert_eq!((c.difference(&e).count(), available), (75, 16));
+    assert_eq!((c.difference(&e).count(), available), (77, 17));
 }
 
 /// **A declared relationship no instance authors: the design document says two and there is one.**

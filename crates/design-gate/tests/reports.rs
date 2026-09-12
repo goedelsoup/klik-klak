@@ -107,7 +107,7 @@ fn every_due_clock_is_declared_or_declined_in_writing() {
 /// **The questions clock sees a sixth of what the repository owes, and it was a fifth.**
 ///
 /// `yidam open-questions` walks `.yidam/corpus/` and nothing else, so the clock a declared
-/// `questions_after` starts is a clock over 8 markers while 55 more sit in the decision records.
+/// `questions_after` starts is a clock over 9 markers while 56 more sit in the decision records.
 /// [`markers.rs`] measured that ratio and `.yidam/decisions/README.md` lists the larger share; what
 /// this pins is that **declaring the clock does not widen it**, so a green `due` is a statement
 /// about a sixth of the questions and the record says so — a share that falls with every record,
@@ -115,15 +115,20 @@ fn every_due_clock_is_declared_or_declined_in_writing() {
 /// is renamed rather than left to drift, because a fraction nobody re-derives is how every figure
 /// this repository has had to correct got wrong.
 ///
+/// **It went back above a sixth, by the numerator.** `input-side` asked a corpus question, which is
+/// the one thing that widens this fraction without widening the clock, and it is the first phase in
+/// eighty-eight to do it. The heading keeps *a sixth* because that is where the fraction has lived
+/// and where it will return: one question against fifty-six records is not a trend reversing.
+///
 /// [`markers.rs`]: markers.rs
 #[test]
 fn the_clock_that_is_declared_covers_a_sixth_of_what_is_owed() {
     let root = repo_root();
     let (corpus, decisions) = owed(&root);
-    assert_eq!((corpus, decisions), (8, 56));
+    assert_eq!((corpus, decisions), (9, 56));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        12,
+        13,
         "what a declared questions clock can see"
     );
 }

@@ -4,7 +4,7 @@ description: |
   Sierra's engines span the transition this corpus is really about. The earlier of them
   took typed text — the player wrote "open door" and a parser resolved it — which is an
   *unbounded* verb vocabulary: any word the parser knew was a verb, and the author's job
-  was to anticipate phrasings. [inference] The later ones moved to an icon bar, bounding the
+  was to anticipate phrasings. The later ones moved to an icon bar, bounding the
   vocabulary to a handful of pointable actions.
 
   That transition is the single most useful piece of evidence available to this corpus,
@@ -14,13 +14,12 @@ description: |
   expressible to a parser became inexpressible under an icon bar, or whether the parser's
   apparent range was always mostly unused.
 
-  **Answered, and by a substitution this node's framing made hard to see.** The question cannot be
-  asked of Sierra — `source_standing` below still says nothing has been retrieved — and it does not
-  need to be. It is a question about a **large verb vocabulary against a small one**, and this
-  corpus holds the source of a game with 57 declared verbs, 49 of them used and 23 used exactly
-  once, against a design with six ([delores-source](../../catalog/delores-source.md)). [verified]
-  Four phases weighed candidate constructs against that six without anyone noticing the comparison
-  was already available.
+  **Answered, and by a substitution this node's framing made hard to see.** The question was not
+  asked of Sierra — nothing had been retrieved — and it did not need to be. It is a question about
+  a **large verb vocabulary against a small one**, and this corpus holds the source of a game with
+  57 declared verbs, 49 of them used and 23 used exactly once, against a design with six
+  ([delores-source](../../catalog/delores-source.md)). [verified] Four phases weighed candidate
+  constructs against that six without anyone noticing the comparison was already available.
 
   **Neither of the two answers offered here is right. The range was used, and nothing became
   inexpressible.** Mapping all 49 onto the six leaves 19 verbs with no home — `open`, `close`,
@@ -41,20 +40,122 @@ description: |
   carries it in the thing pointed at. [inference] That is why the icon bar was affordable, and it
   is the same exchange `.yidam/decisions/binary-dimension.yml` measured running the other way.
   `.yidam/decisions/verb-count.yml`.
+
+  ---
+
+  **The retrieval has been done, and the paragraph marked `[inference]` above is where it lands.
+  Neither of Sierra's engines had an authoring vocabulary, so the transition between them is not
+  evidence about one.** [`.yidam/decisions/input-side.yml`](../../decisions/input-side.yml).
+
+  **AGI has no declarative layer at all.** *"All rooms have a single LOGIC script that governs what
+  happens within that room"*; `logic.0` runs *"over and over again with each interpretation cycle"*
+  and every other logic executes only when called from it ([agi-specifications](../../catalog/agi-specifications.md)).
+  [verified] Every interaction is a branch in a procedure — no table, no binding list, nothing an
+  author fills in. That makes AGI the second engine here with no declarative layer to escape
+  *from*, after [scumm](scumm.yml), and the stronger instance of the two: SCUMM's absence is read
+  off a reverse-engineered opcode table, and this is a positive statement about where behaviour
+  lives.
+
+  **And the icon bar was not an engine feature.** *"SCI1 also introduced a Point&Click interface (a
+  mouse-driven, icon-based), which was implemented by the game's scripts, not the SCI1
+  interpreter"* ([sci-inhouse-docs](../../catalog/sci-inhouse-docs.md)). [inference] — that is the
+  SCI community's sentence and not Sierra's, and none of Sierra's own documents read here speaks to
+  it; the same page placing generic classes *"for rooms and actors and icon bars"* in **system
+  scripts** is consistent with it.
+
+  So *the same house making both choices* is true and is a fact about two interfaces rather than
+  two vocabularies. Both were built in a general-purpose language on an engine that offered no
+  verb vocabulary at either end, and an engine that offers none cannot testify about what one
+  costs. The sentence above is left standing with its tag rather than deleted, because what it
+  claims is still the reason anyone would look — and looking is what corrected it.
+
+  **What Sierra did bound is the input, and it bounded it declaratively in both engines.** AGI's
+  `WORDS.TOK` is *"used to store the games vocabulary, i.e. the dictionary of words that the
+  interpreter understands"*; `said` is condition `0x0E`, the one test taking a variable number of
+  arguments, and those arguments are word-group numbers from that file. Even the wildcards are
+  declared entries: group 1 is `anyword` and group 9999 is `rol`, rest-of-line. [verified]
+
+  SCI replaces the number list with a grammar, and this is Sierra's own documentation rather than
+  anyone's reconstruction of it — the *SCI Parser Programmer's Reference*, Pablo Ghenis, 21 July
+  1988. *"The parser is the part of SCI that accepts sentences from the user and allows game coders
+  to specify how to respond to it."* A Said spec is `(Said 'take/gold/dwarf<from')`: *"three
+  sections separated by slashes"*, the first the verb, then the direct object, then the indirect,
+  with `<` meaning *"modified by"*. [verified] Two operators, three slots, roots drawn from a
+  dictionary the game declares — and what follows a match is ordinary object-oriented code in a
+  room's `handleEvent`.
+
+  **That is `site := verb target [ object ]` written as a grammar**, which is a second independent
+  arrival at the same three slots
+  ([bounded-expression-language](../../../design/bounded-expression-language.md)) and the only one
+  from a system that had to recognise the slots rather than offer them. [inference]
 properties:
-  era: "1984-1996"
+  era: |
+    AGI 1984–1989; SCI from 1988 into the mid-nineties. [verified] for the AGI range, which the
+    specification states, and for SCI0 shipping in 1988 with King's Quest IV and SCI1 in 1990 with
+    King's Quest V. [inference] for the far end, where the community's accounts differ by a year or
+    two and nothing read here settles it.
+
+    This property said `"1984-1996"` from genesis to the eighty-eighth phase and `source_standing`
+    said underneath it that the range *"is recollection"*. It was close. That it was close is not
+    what makes it evidence now.
   vocabulary_shape: |
-    A text parser in the earlier engines; an icon bar in the later ones. [inference] The
-    parser's vocabulary was open at the surface and closed in fact — bounded by whatever
-    the author had written responses for — which is a third position this corpus's binary
-    of bounded-versus-scripted does not currently have a word for.
+    A text parser in the earlier engines; an icon bar in the later ones. [verified] The parser's
+    vocabulary was open at the surface and closed in fact, and this property used to add that the
+    closure was *"bounded by whatever the author had written responses for — which is a third
+    position this corpus's binary of bounded-versus-scripted does not currently have a word for."*
+
+    **The file formats supply the word, and the closure is not the one described.** It is not an
+    emergent limit on how much the author wrote. `WORDS.TOK` is a declared dictionary and a Said
+    spec draws its roots from it, so a word the game has not declared is not a word: **the bound
+    is declared, and it is declared on the input.** [verified]
+
+    That makes bounded-versus-scripted an axis rather than a scale. Finiteness has a *place* as
+    well as an amount, and the two houses everybody compares chose opposite places — Sierra spent
+    its entire declarative budget on recognising the player's sentence and none on saying what
+    happens next, and this design fixes the site so there is nothing to recognise and spends the
+    budget on the guard and the effect. [inference]
   scripting: |
-    A bytecode virtual machine with its own language. [inference] As with SCUMM, authoring
-    starts inside a general-purpose language rather than escaping to one.
+    A bytecode virtual machine with its own language, in both engines. [verified] AGI's logics are
+    compiled to codes in the range `0x00`–`0xB5` with a separate, much smaller condition range
+    `0x00`–`0x12`; SCI is *"an object-oriented language with message passing semantics (like
+    Objective-C or SmallTalk)"*. As with SCUMM, authoring starts inside a general-purpose language
+    rather than escaping to one.
+
+    **And AGI's action vocabulary grew per title.** *"The value 181 (0xB5) may well be different for
+    each game. Sierra will have added more commands to their set as they went along"*, and five of
+    what accreted stopped doing anything — *"commands 175, 176, 178, 179 and 180 of the last version
+    of AGI (ver 3.002.149) do absolutely nothing."* [verified] The condition range did not grow the
+    same way. [verb/give-to](../verb/give-to.yml) keeps a declined verb as a node because *"a
+    vocabulary growing by accident needs a record of what it declined"*; this is the first
+    measurement in this catalog of what happens without that convention.
+
+    **Its namespace is 256 flags and 256 variables, numbered, declared by nothing.** [verified] An
+    author writes `f5` and remembers. Against this design's admission rule — every operand names
+    something the corpus already declares — that is the exact complement, and it is the first
+    concrete picture here of what the other choice costs. It also explains the one thing Sierra
+    *did* declare: a parser must have a dictionary, because the player's typing has to resolve to
+    something, and nothing forces the same discipline on a flag. [inference]
   source_standing: |
-    Nothing retrieved. The ScummVM and SCI decompilation projects have published
-    substantial documentation of both engines. None of it has been located or read, and the
-    era range above is recollection.
+    **Retrieved, and the two halves do not stand alike.** For SCI this corpus now holds Sierra's own
+    in-house documentation — eleven documents, one read
+    ([sci-inhouse-docs](../../catalog/sci-inhouse-docs.md)) — so claims about what an SCI author
+    wrote may be `[verified]`.
+
+    For AGI it holds a reverse engineering that disclaims the authoring surface in as many words:
+    *"This is the 'official' LOGIC syntax that has been decided on. It is not the same syntax as
+    Sierra used"* ([agi-specifications](../../catalog/agi-specifications.md)). So AGI's **machine**
+    is evidenced and what an AGI author typed is not, and every claim here about AGI authoring
+    practice is `[inference]` on that account.
+
+    This property read *"Nothing retrieved… None of it has been located or read, and the era range
+    above is recollection"* for eighty-eight phases, while the description above it argued from what
+    the retrieval would show. Nothing could see the pair, because a node citing any catalog entry is
+    a sourced node to every check here and this one cited a game by another house on another engine
+    — `crates/design-gate/tests/lineage.rs` is the rule that was missing.
+
+    **Whether SCI1's icon bar was a game script or an engine feature is answerable and unanswered.**
+    *Script Classes for Adventure Games* is in the retrieved set, unread, and is where a verb bar
+    would be declared if Sierra declared one. `[open]`
 links:
   - target: ../verb/look-at.yml
     relationship: implements

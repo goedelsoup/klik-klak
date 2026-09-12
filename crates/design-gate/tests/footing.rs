@@ -4,18 +4,27 @@
 //! catalog entry in their own paragraph, 49 name a committed test, 5 name both, and **150 name
 //! nothing** — continuations of passages sourced earlier, which is how anyone writes.
 //!
-//! What follows from it is a fragility nobody had counted. **Fifteen of the thirty-nine evidenced
-//! nodes rest on exactly one distinct catalog entry, and eleven of those on a single line.** Delete
-//! that line and the node trips `verified-unsourced`; the claims are unchanged. That is the same
+//! What follows from it is a fragility nobody had counted. **Thirteen of the forty evidenced
+//! nodes rest on exactly one distinct catalog entry, and nine of those on a single line.** Delete
+//! that line and the node trips `verified-unsourced`; the claims are unchanged.
+//!
+//! (This paragraph said fifteen of thirty-nine and eleven, while the assertion below held
+//! `(40, 14, 10)`. The pin moved and the sentence did not, which is what the pin is for and what
+//! the sentence beside it is not.) That is the same
 //! node-granularity `evidence-kinds` found adding a line to silence `boolean-flag` and
 //! `counter-flag` — **it cuts both ways, and neither direction has anything to do with whether the
 //! claims are sourced.**
 //!
 //! And it says who wrote about their own evidence standing. Four nodes have, and all four are
-//! nodes the lint had reported at some point; three of those four are single-line. The other nine
+//! nodes the lint had reported at some point; three of those four are single-line. The rest of the
 //! single-line nodes have no account of their sourcing and are not better sourced — they happened
 //! to carry a line from the beginning. **Writing about your footing has required being reported
 //! once.**
+//!
+//! **`prior-art/sierra-sci` left all three lists by being retrieved.** It was single-entry and
+//! single-line, and its one entry was `delores-source` — a source about a different engine, which
+//! is a footing this file could not see was worse than the others it counted.
+//! `.yidam/decisions/input-side.yml`, and `lineage.rs` is the check that can.
 
 use design_gate::repo_root;
 use std::path::{Path, PathBuf};
@@ -114,13 +123,13 @@ fn the_evidence_base_of_fifteen_nodes_is_a_single_source() {
     }
     assert_eq!(
         (evidenced, one_entry, one_line),
-        (40, 14, 10),
+        (40, 13, 9),
         "nodes with a verified claim; of those, resting on one catalog entry; of those, on one line"
     );
     assert_eq!(
         (held, carried),
-        (86, 38),
-        "claims those fourteen carry, and how many name nothing in their own paragraph"
+        (83, 37),
+        "claims those thirteen carry, and how many name nothing in their own paragraph"
     );
 }
 
@@ -166,7 +175,7 @@ fn one_line_is_the_difference_between_sourced_and_not() {
         }
         flipped.push(name(&root, &p));
     }
-    assert_eq!(flipped.len(), 10);
+    assert_eq!(flipped.len(), 9);
     assert_eq!(
         attributed,
         [
@@ -174,7 +183,6 @@ fn one_line_is_the_difference_between_sourced_and_not() {
             "interaction/conversational-binding.yml",
             "interaction/unary-binding.yml",
             "inventory-item/stackable-item.yml",
-            "prior-art/sierra-sci.yml",
             "walkbox/scaled-polygon.yml",
             "world-flag/boolean-flag.yml",
             "world-flag/counter-flag.yml",
@@ -228,7 +236,6 @@ fn a_single_source_node_that_also_rests_on_the_instrument_is_named() {
             "interaction/conversational-binding.yml",
             "interaction/unary-binding.yml",
             "inventory-item/portable-object.yml",
-            "prior-art/sierra-sci.yml",
             "puzzle/state-gate.yml",
             "subsystem/verb-menu.yml",
             "world-flag/boolean-flag.yml",
