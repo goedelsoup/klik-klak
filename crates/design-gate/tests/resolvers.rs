@@ -41,6 +41,12 @@ enum Closes {
     /// Nothing — it is declined, and the marker states the condition that would reopen it.
     Condition,
     /// A game, written in this language, that either reaches for a construct or does not.
+    ///
+    /// **This column is empty and it emptied by being discharged**, which is the only one of the
+    /// six that could. `actor/player-character` was its single member; `.yidam/decisions/
+    /// control-transfer.yml` wrote the game and the question closed. The variant stays because the
+    /// kind is real and the next question of it will want somewhere to go — and because a column
+    /// that vanishes when it empties cannot be told from one nobody thought of.
     Specimen,
     /// A count over work that already exists.
     Measurement,
@@ -54,7 +60,6 @@ enum Closes {
 /// thing a string search can settle. The claim is the classification; the check below is that it
 /// covers every marker on disk and no other.
 const KINDS: &[(&str, Closes)] = &[
-    ("actor/player-character.yml", Closes::Specimen),
     ("data-format/interaction-table.yml", Closes::Measurement),
     (
         "failure-mode/orphaned-dialogue-branch.yml",
@@ -121,8 +126,13 @@ fn the_table_covers_every_question() {
 ///
 /// Three wait on testimony and will not close by anybody doing anything, which is the case worth
 /// having a column for. One waits on an artifact nobody has retrieved. Two are declined and say what
-/// would reopen them. One wants a specimen — a game that switches between characters, which none of
-/// the four in `design/specimen` does — and two want a count over work that already exists.
+/// would reopen them, and two want a count over work that already exists.
+///
+/// **The specimen column is empty and that is this table's first result.** It had one member — a
+/// game that switches between characters, which none of the four in `design/specimen` did — and the
+/// phase after this table was written wrote the fifth. Sorting questions by what would close them
+/// turns out to be a work queue: the one kind whose resolver was a thing somebody could simply go
+/// and make is the one that got made. `.yidam/decisions/control-transfer.yml`.
 #[test]
 fn every_question_says_what_would_close_it() {
     let root = repo_root();
@@ -141,13 +151,13 @@ fn every_question_says_what_would_close_it() {
             count(Closes::Specimen),
             count(Closes::Measurement),
         ),
-        (3, 1, 2, 1, 2),
+        (3, 1, 2, 0, 2),
         "testimony, a named artifact, a condition that would reopen it, a game, and a count"
     );
 
-    // The three that were silent name their resolver and point at the record that asked them to.
+    // Two of the three that were silent name their resolver and point at the record that asked
+    // them to. The third was `actor/player-character` and it has been answered.
     for node in [
-        "actor/player-character.yml",
         "data-format/interaction-table.yml",
         "walkbox/scaled-polygon.yml",
     ] {

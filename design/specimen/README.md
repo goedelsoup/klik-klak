@@ -259,7 +259,7 @@ one refused to, and neither hung it on a target.
 cannot say *go to where she is*; it names a room, and a site is needed per ordered pair of
 positions. The bound is **twice the product of the two characters' room sets** — two rooms each is
 the smallest map that lets both of them move, and it already wants eight sites. This game writes
-six, and the two it leaves out are the pair that never co-occurs.
+six switch sites, and the two it leaves out are the pair that never co-occurs.
 
 Two of the six cost nothing. Once both characters stand in the same room an `actor` site is live
 and the transfer is one binding with **no destination in it at all** — so the only natural site
@@ -445,7 +445,7 @@ artifact they compose into. Noted rather than proposed — and noted more carefu
 
 ## Using them as fixtures
 
-**206 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
+**207 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
 thirty-eight for six phases; the figure was never derived from anything and is held by a check now
 (`crates/design-gate/tests/watermark.rs`).
 

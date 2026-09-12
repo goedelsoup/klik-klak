@@ -235,20 +235,40 @@ fn the_bound_on_switch_sites_is_twice_the_product_of_two_room_sets() {
 #[test]
 fn the_object_the_game_is_about_stops_being_an_item_when_it_changes_hands() {
     let g = game("lock.game");
-    let names =
-        |f: &dyn Fn(&game_format::Binding) -> bool| g.bindings.iter().filter(|b| f(b)).count();
-
-    let item = names(&|b| {
-        b.object.as_deref() == Some("windlass")
-            || b.effects
-                .iter()
-                .any(|e| matches!(e, Effect::Give(i, _) | Effect::Spend(i, _) if i == "windlass"))
-    });
+    let (item, flag) = windlass(&g);
     assert_eq!(
         item, 2,
         "bindings in which the windlass is an item: taken, then spent"
     );
+    assert_eq!(flag, 4, "and bindings in which it is a flag");
 
+    // The binary verb, lost with the item: nothing in this game uses `use-with` on the paddle.
+    let paddle = g
+        .bindings
+        .iter()
+        .find(|b| matches!(&b.site, game_format::Site::InRoom { target, .. } if target == "lockside.paddle-gear")
+            && b.effects.iter().any(|e| matches!(e, Effect::SetFlag(f) if f == "paddle-up")))
+        .expect("the binding that winds the paddle");
+    assert_eq!(
+        paddle.verb, "walk-to",
+        "winding a paddle, without the windlass in hand"
+    );
+    assert_eq!(paddle.object, None);
+}
+
+/// The two lives of the windlass: bindings in which it is an item, and bindings in which the flag
+/// that stands in for it once it has changed hands is read or written.
+fn windlass(g: &Game) -> (usize, usize) {
+    let item = g
+        .bindings
+        .iter()
+        .filter(|b| {
+            b.object.as_deref() == Some("windlass")
+                || b.effects.iter().any(
+                    |e| matches!(e, Effect::Give(i, _) | Effect::Spend(i, _) if i == "windlass"),
+                )
+        })
+        .count();
     let mut flag = 0;
     for b in &g.bindings {
         let mut asks = BTreeSet::new();
@@ -268,20 +288,7 @@ fn the_object_the_game_is_about_stops_being_an_item_when_it_changes_hands() {
             flag += 1;
         }
     }
-    assert_eq!(flag, 4, "and bindings in which it is a flag");
-
-    // The binary verb, lost with the item: nothing in this game uses `use-with` on the paddle.
-    let paddle = g
-        .bindings
-        .iter()
-        .find(|b| matches!(&b.site, game_format::Site::InRoom { target, .. } if target == "lockside.paddle-gear")
-            && b.effects.iter().any(|e| matches!(e, Effect::SetFlag(f) if f == "paddle-up")))
-        .expect("the binding that winds the paddle");
-    assert_eq!(
-        paddle.verb, "walk-to",
-        "winding a paddle, without the windlass in hand"
-    );
-    assert_eq!(paddle.object, None);
+    (item, flag)
 }
 
 fn flags_in(p: &Pred, out: &mut BTreeSet<String>) {
@@ -332,4 +339,79 @@ fn the_only_flag_any_specimen_clears_is_the_one_naming_the_controlled_character(
         3,
         "and the sites that do it — all three of them transfers"
     );
+}
+
+/// The documents that quote these figures, by the path they are quoted at.
+const QUOTING: [&str; 3] = [
+    ".yidam/decisions/control-transfer.yml",
+    "design/specimen/README.md",
+    "design/bounded-expression-language.md",
+];
+
+fn word(n: usize) -> &'static str {
+    [
+        "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+        "eleven", "twelve",
+    ][n]
+}
+
+/// **Nobody may quote one of these figures from memory.**
+///
+/// The four checks above are measurements of one game. This one is the reason they are worth
+/// having: three documents state them in prose — a record, the specimen findings, and the design
+/// the specimen was written against — and prose figures are the defect this repository keeps
+/// finding. `.yidam/decisions/collected-verdict.yml` names the three ways they go wrong
+/// (unreadable, mistaken, decayed) and the remedy that covers all three, which is to compute them
+/// where they are checked and hold the documents to the result.
+///
+/// So the sentences below are built from the parse tree and the documents must contain them. Edit
+/// the specimen and the prose fails until somebody re-reads it; write a number by hand and it
+/// fails on the day it is written.
+#[test]
+fn every_document_quoting_these_figures_quotes_the_computed_one() {
+    let root = root();
+    let g = game("lock.game");
+    // Flattened, because these are wrapped paragraphs and a line break is not a difference of
+    // fact. `crates/design-gate/tests/retrieval.rs` reads documents the same way.
+    let read = |rel: &str| {
+        std::fs::read_to_string(root.join(rel))
+            .expect("readable")
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ")
+    };
+
+    // Six switch sites, in all three, because it is the figure any of them would be tempted to
+    // round.
+    let sites = format!("{} switch sites", word(transfers(&g).len()));
+    for rel in QUOTING {
+        assert!(
+            read(rel).contains(&sites),
+            "{rel} does not say {sites:?}, which is what the game has"
+        );
+    }
+
+    // The bound the sites are counted against, wherever the argument for it is made.
+    let rooms = reachable_rooms(&g);
+    let bound = format!(
+        "{} sites",
+        word(2 * rooms["boatman"].len() * rooms["mate"].len())
+    );
+    for rel in QUOTING.iter().take(2) {
+        assert!(
+            read(rel).contains(&bound),
+            "{rel} does not say {bound:?}, which is the bound the six are counted against"
+        );
+    }
+
+    // And the windlass, which is the sentence a reader is most likely to carry away.
+    let (item, flag) = windlass(&g);
+    let split = format!(
+        "an item for {} bindings and a flag for the other {}",
+        word(item),
+        word(flag)
+    );
+    for rel in QUOTING.iter().take(2) {
+        assert!(read(rel).contains(&split), "{rel} does not say {split:?}");
+    }
 }

@@ -140,17 +140,20 @@ fn ages(root: &Path) -> Vec<(String, usize)> {
     out
 }
 
-/// **The oldest open question was asked in the root commit and has never been touched.**
+/// **The oldest open question was asked in the root commit, and it has been answered.**
 ///
-/// `actor/player-character` asks whether transferring control between actors needs vocabulary
-/// beyond a world flag naming the controlled one. It is the node the whole vocabulary is written
-/// from, the question is on line 14, and line 14 is genesis prose. Nine phases have revised the
-/// node around it.
+/// This held `genesis` for six phases on the stated grounds that *"a figure that decays is a
+/// figure somebody re-pins without reading"*, and that `genesis` does not decay. It does not. It
+/// can be closed, which is the one thing that was never going to happen and now has:
+/// `actor/player-character` asked whether transferring control between characters needs vocabulary
+/// beyond a flag naming the controlled one, and `.yidam/decisions/control-transfer.yml` answered it
+/// with a fifth specimen — **the first corpus question this repository has ever closed.**
 ///
-/// The event is what this holds rather than the count, because the count moves every commit and a
-/// figure that decays is a figure somebody re-pins without reading. `genesis` does not decay.
+/// So the anchor is gone and what is held instead is two things: that no marker in the corpus is
+/// genesis prose any more, and which marker is now the oldest. The first is the durable half. The
+/// second will move again, and moving is what it is for.
 #[test]
-fn the_oldest_open_question_has_stood_since_genesis() {
+fn the_oldest_open_question_is_no_longer_the_one_asked_at_genesis() {
     let root = repo_root();
     let genesis = git(&root, &["rev-list", "--max-parents=0", "HEAD"]);
     let (name, line) = asking(&root)
@@ -170,23 +173,29 @@ fn the_oldest_open_question_has_stood_since_genesis() {
             )
         })
         .expect("nine questions");
+    assert_ne!(
+        line.0.as_str(),
+        genesis.as_str(),
+        "a marker line blamed on the root commit — the genesis question is back, or was reopened"
+    );
     assert_eq!(
-        (name.as_str(), line.0.as_str()),
-        ("actor/player-character.yml", genesis.as_str()),
-        "the oldest question is not the one written at genesis"
+        name.as_str(),
+        "world-flag/latched-flag.yml",
+        "the oldest surviving question"
     );
 }
 
-/// **Four questions are past the declared interval and the report says nothing is due.**
+/// **Four questions are past the declared interval, and the four are not the four.**
 ///
-/// At the time of writing: `actor/player-character` since genesis, `data-format/interaction-table`
-/// at 322, `world-flag/latched-flag` at 185 and `hotspot/static-region` at 157, against
-/// `questions_after = 100`. `yidam due` prints *"9 open question(s), none past 100 commit(s)"* and
-/// `passed: true`.
+/// When this was written `yidam due` printed *"9 open question(s), none past 100 commit(s)"* and
+/// `passed: true`, while this check found four past it: `actor/player-character` since genesis,
+/// `data-format/interaction-table` at 322, `world-flag/latched-flag` at 185 and
+/// `hotspot/static-region` at 157. The finding was the disagreement rather than the number.
 ///
-/// Neither number is pinned. The count only grows — three more cross at 81 — and the point is not
-/// the four, it is that the corpus's own measure and the tool's disagree about whether anything is
-/// owed at all.
+/// The report has since crossed its own threshold and the count here is four again, over a set
+/// missing its oldest member — `control-transfer` closed the genesis question. So the assertion
+/// that named it is gone, and what is left is the shape: the count only grows except by a closure,
+/// and a closure is a thing a record has to have done.
 #[test]
 fn the_corpus_has_questions_past_the_interval_it_declared() {
     let root = repo_root();
@@ -203,9 +212,11 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
          or one was reworded — and only one of those is a reason to lower the number here"
     );
     assert!(
-        past.contains(&"actor/player-character.yml"),
-        "the genesis question is no longer past the interval, which the blame of its marker line \
-         cannot mean unless the line moved"
+        !past.contains(&"actor/player-character.yml")
+            && !asking(&root)
+                .iter()
+                .any(|(p, _)| p.ends_with("player-character.yml")),
+        "the genesis question is back in the corpus, which nothing here did"
     );
     // **A question asked by the commit that settles the phase has an age of zero, and until
     // `input-side` no phase had ever added one.** Every previous movement in the corpus's count
@@ -227,10 +238,11 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
 /// marker lines were written at eight distinct moments and the largest group sharing one is the
 /// three that `marker-count` rewrote in a single commit.
 ///
-/// **The corpus is back to nine questions and they are not the same nine.** `declared-reach`
-/// closed `portable-object`'s and `input-side` asked one about Sierra's icon bar, so the count
-/// below matches `REPORTED` again by coincidence rather than by nothing having happened. The
-/// reading held in `REPORTED` is of the nine that stood when it was taken and is not re-taken.
+/// **The corpus is at eight and [`REPORTED`] holds nine.** `declared-reach` closed
+/// `portable-object`'s, `input-side` asked one about Sierra's icon bar, and `control-transfer`
+/// closed the genesis one — so the reading held below is of the nine that stood when it was taken,
+/// and it is not re-taken. The tie it records is a fact about that reading and does not decay with
+/// the count.
 ///
 /// A five-way tie cannot come out of a three-way maximum, so the report's number is not a count
 /// of commits since the question was asked, under any reading of "asked" this repository can
@@ -241,11 +253,11 @@ fn the_report_ties_five_questions_the_history_keeps_apart() {
     let root = repo_root();
     let computed: Vec<usize> = ages(&root).into_iter().map(|(_, a)| a).collect();
     assert_eq!(
-        computed.len(),
-        REPORTED.len(),
-        "nine questions now against the nine `due` reported, over a different nine: \
-         `declared-reach` closed `portable-object`'s and `input-side` asked one about Sierra's \
-         icon bar. The reading below is of the nine that stood when it was taken"
+        (computed.len(), REPORTED.len()),
+        (8, 9),
+        "the corpus against the reading `REPORTED` holds: `control-transfer` closed the genesis \
+         question, which is the one the report called oldest and the only one this repository \
+         has ever answered"
     );
 
     let widest = |v: &[usize]| {
@@ -334,7 +346,7 @@ fn every_figure_the_config_states_about_this_clock_is_computed_here() {
     );
     assert_eq!(
         (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
-        (13, 13),
+        (12, 12),
         "the share the config claims, against the share"
     );
 }

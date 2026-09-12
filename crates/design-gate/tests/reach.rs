@@ -159,13 +159,19 @@ fn walkbox_is_the_only_authoring_class_the_format_cannot_name() {
     );
 }
 
-/// **The three classes the instrument has never measured are the three with the most drawn in
-/// them.**
+/// **Two classes the instrument has never measured, and `actor` has stopped being one of them.**
 ///
-/// 60 references to 22 committed test files are spread over 24 of the 43 nodes, and every class
-/// has at least one — except these. It is not that the checker is weak there; it is that there is
-/// nothing for it to read. A `.game` file says an actor is in a room and cannot say where in the
-/// room, so no test can measure a claim about a walk cycle or a coordinate space.
+/// It was three, and the argument for all three was the same: it is not that the checker is weak
+/// there, it is that there is nothing for it to read. A `.game` file says an actor is in a room and
+/// cannot say where in the room, so no test can measure a claim about a walk cycle or a coordinate
+/// space.
+///
+/// **The argument held for the drawing and not for the question.** `actor/player-character`'s
+/// oldest claim was about control transferring between characters, which is an authoring question
+/// and not a rendering one, and `.yidam/decisions/control-transfer.yml` measured it with a fifth
+/// specimen and `crates/game-format/tests/transfer.rs`. So a class left this list not by the
+/// instrument getting stronger but by somebody noticing that one of its claims was never on the far
+/// side of the boundary. `room` and `walkbox` stay, and their claims are geometry.
 ///
 /// What did measure them is prior art. `walkbox/scaled-polygon` carries five `[verified]` claims
 /// from 84 real polygons in a shipped game, and `room/scrolling` six. **This corpus can read
@@ -192,10 +198,10 @@ fn the_classes_the_instrument_never_measured_are_the_drawn_ones() {
     }
     assert_eq!(
         untouched,
-        ["actor", "room", "walkbox"],
+        ["room", "walkbox"],
         "classes no node of which cites the instrument"
     );
-    assert_eq!(citing, 25, "nodes resting some claim on a committed test");
+    assert_eq!(citing, 26, "nodes resting some claim on a committed test");
 }
 
 /// **Four nodes carry no `[verified]` claim at all, and three of them are on the drawn side.**
@@ -242,7 +248,6 @@ fn the_nodes_with_no_verified_claim_are_drawn_or_definitional() {
     assert_eq!(
         bare,
         [
-            "actor/player-character",
             "puzzle/lock-and-key",
             "room/single-screen",
             "subsystem/path-solver",

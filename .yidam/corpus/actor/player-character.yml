@@ -10,22 +10,47 @@ description: |
   control transfers. [inference] A game in which the player switches between characters has
   two actors that each take input at different times, and modeling the controlled one as a
   distinct kind means the transfer is a change of kind — which is exactly the thing UFO
-  says a kind cannot undergo. Whether that transfer needs vocabulary beyond a world flag
-  naming the controlled actor is `[open]`.
+  says a kind cannot undergo.
 
-  **What would close it is a specimen.** A game in which the player switches between characters,
-  written in this language, either reaches for a construct the vocabulary does not have or does
-  not — and none of the four in `design/specimen` switches at all, so nothing here has ever put the
-  question to the only instrument that answers it. This is the oldest question in the corpus and
-  it has been waiting for a game rather than for an argument.
-  [resolver-kind](../../decisions/resolver-kind.yml).
+  **Whether that transfer needs vocabulary beyond a world flag naming the controlled actor was
+  this corpus's oldest question, and a fifth specimen closes it. It does, and the question's own
+  phrasing is why.** A flag naming the controlled *actor* presumes the controlled thing is an
+  actor. In the proposed format it is not: the player is a nameless slot with a room and an
+  inventory, an `actor` is a name with a room and no inventory, and the two are separate kinds that
+  no construct relates. [verified] — `design/specimen/lock.game` and
+  `crates/game-format/tests/transfer.rs`, where the contradiction is written out: `start` and
+  `holds <actor>` may name the same person and disagree, and the file parses clean, plays and is
+  winnable.
 
-  **This node has no `[verified]` claim and no source, and that is a standing rather than a
-  backlog.** Almost everything it states is on the far side of a boundary this design has always
-  had and only now records: pathfinding to a clicked point, a walk cycle scaled by the region the
-  actor stands in, arrival at a target. A `.game` file can say `<actor> in <room>` and nothing
-  finer, so no check here can reach a claim about any of it, and none ever will without giving the
-  format coordinates. [inference] `.yidam/decisions/drawn-boundary.yml`.
+  So the paragraph above was right and the format takes the other side of it. **The corpus made
+  `player` a role; the format made it a kind**, and it went unnoticed for eleven phases because no
+  authored game had two characters to transfer between. The class page has carried the same claim
+  since genesis, as one of three reasons it calls itself irreducible: *"control over one may
+  transfer during play."*
+
+  **What a flag cannot do is the measurement, and there are four of them.** A transfer is not a
+  verb applied to a target, so it has no site and hangs on scenery. Its destination is a literal
+  and a binding carries one guard and one effect list, so the bound on switch sites is twice the
+  product of the two characters' room sets. An item has three states and none of them is *in the
+  other character's hands*, so nothing can be handed over. And the player's room and the
+  player-character's room are two records of one fact. [verified] —
+  [control-transfer](../../decisions/control-transfer.yml).
+
+  **What the one shipped engine here that did this used instead was not a flag.** Thimbleweed Park
+  switches between five characters on the number keys, each with an inventory of their own, and
+  what is picked up goes into the active one; Gilbert, asked whether item transfers between
+  characters are necessary for puzzle solutions, answers *"Yes to both questions"*
+  ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] `currentActor` is a **parameter
+  every primitive is threaded through** rather than a value an author reads — which is a different
+  kind of thing from a world flag, and the difference is the answer. [inference]
+
+  **The rest of this node has no `[verified]` claim and no source, and that is a standing rather
+  than a backlog.** Almost everything the properties below state is on the far side of a boundary
+  this design has always had and only now records: pathfinding to a clicked point, a walk cycle
+  scaled by the region the actor stands in, arrival at a target. A `.game` file can say `<actor>
+  in <room>` and nothing finer, so no check here can reach a claim about any of it, and none ever
+  will without giving the format coordinates. [inference]
+  `.yidam/decisions/drawn-boundary.yml`.
 
   The class page one directory away carried this node's open question a second time, in a spelling
   no tool reads, from the root commit until [action-pages](../../decisions/action-pages.yml)

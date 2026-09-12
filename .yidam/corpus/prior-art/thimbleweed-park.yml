@@ -59,6 +59,32 @@ description: |
 
   [inference] — a sample from a development blog is not the game, and the entry says so.
 
+  **And one row of that table is a whole design this corpus had asked about for its entire life.**
+  The game has **five playable characters**, switched on the number keys, each with an inventory of
+  their own, and what is picked up goes into the active one; passing objects between them is
+  necessary to solve puzzles, which Gilbert confirms directly
+  ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified]
+
+  **The mechanism is `currentActor`, and it is not a construct an author writes.** It appears in
+  the first room script the diary ever published — `currentActor.say("It's who cares'o clock.")` —
+  and it is a **parameter every primitive is threaded through**: `say` puts the line over that
+  character's head, `pickup` puts the object in that character's inventory, the panel draws that
+  character's items, and no author writes which character at any of those sites. [inference] — the
+  reading of it as a parameter rather than as a variable is this corpus's; the posts show its uses
+  and never classify it.
+
+  That matters here because it is the one place this system's answer is **not** "an arbitrary
+  closure". Everything else in the table above is a cell whose content is a Squirrel function.
+  Character switching is not authored at all — it is what the interpreter does between clicks —
+  and [control-transfer](../../decisions/control-transfer.yml) is where this corpus found out what
+  the alternative costs.
+
+  **Where the transfer *lives* is the other half, and two games disagree.** *Maniac Mansion* put it
+  in the verb bar — a **New Kid** verb listing the kids — and this engine refused that for a stated
+  reason: *"We don't have the space for another verb."* [verified] Number keys instead, with no
+  interface at all at the time of writing. Same designers, thirty years apart, two answers, and
+  what they agree on is that it is not a binding on a target.
+
   **The finding is in which rows failed.** Not the puzzle rows. Every response in the sample
   that does what an adventure game does — describe a thing, refuse, gate on state, take an
   object, change a room — is inside this vocabulary, including the two that look hardest. What

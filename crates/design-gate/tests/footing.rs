@@ -123,12 +123,12 @@ fn the_evidence_base_of_fifteen_nodes_is_a_single_source() {
     }
     assert_eq!(
         (evidenced, one_entry, one_line),
-        (40, 13, 9),
+        (41, 14, 10),
         "nodes with a verified claim; of those, resting on one catalog entry; of those, on one line"
     );
     assert_eq!(
         (held, carried),
-        (83, 37),
+        (86, 38),
         "claims those thirteen carry, and how many name nothing in their own paragraph"
     );
 }
@@ -175,10 +175,11 @@ fn one_line_is_the_difference_between_sourced_and_not() {
         }
         flipped.push(name(&root, &p));
     }
-    assert_eq!(flipped.len(), 9);
+    assert_eq!(flipped.len(), 10);
     assert_eq!(
         attributed,
         [
+            "actor/player-character.yml",
             "failure-mode/unwinnable-state.yml",
             "interaction/conversational-binding.yml",
             "interaction/unary-binding.yml",
@@ -210,6 +211,15 @@ fn one_line_is_the_difference_between_sourced_and_not() {
 /// have always carried a line have no account of their sourcing and are not better sourced.
 /// `.yidam/decisions/carried-claims.yml`.
 ///
+/// **And `actor/player-character` joined it by the one route nothing here had seen: it stopped
+/// being unsourced.** That node carried a paragraph saying it had no `[verified]` claim and no
+/// source *"and that is a standing rather than a backlog"* — the argument being that everything it
+/// states is on the far side of a boundary no check can reach. The argument was right about its
+/// properties and wrong about its question: `.yidam/decisions/control-transfer.yml` answered the
+/// question with a game and a diary post, so the node now rests on one catalog entry and names
+/// `crates/` beside it, which is this list's exact shape. The paragraph is narrowed to the
+/// properties rather than deleted, because for them it still holds.
+///
 /// `failure-mode/orphaned-dialogue-branch` passed through this list without stopping.
 /// `.yidam/decisions/orphaned-lines.yml` gave it its first test — it had cited one entry and named
 /// none for eleven phases — and in the same phase a second catalog entry, so it left by the door
@@ -231,6 +241,7 @@ fn a_single_source_node_that_also_rests_on_the_instrument_is_named() {
     assert_eq!(
         both,
         [
+            "actor/player-character.yml",
             "failure-mode/unwinnable-state.yml",
             "hotspot/static-region.yml",
             "interaction/conversational-binding.yml",
