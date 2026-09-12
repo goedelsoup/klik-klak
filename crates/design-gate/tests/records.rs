@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (483, 86, 60));
+    assert_eq!((total, mentions, tests.len()), (485, 86, 60));
 }
 
 /// **Six of seventy-one records are cited by nothing, against three of forty-four nodes.**
@@ -518,7 +518,7 @@ fn no_record_has_changed_what_it_decided() {
     }
     assert_eq!(
         edited,
-        28,
+        29,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

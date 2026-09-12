@@ -113,11 +113,19 @@ Stated because a gate mistaken for complete is worse than no gate.
 ```
 cargo run -p play -- ../design/specimen/lighthouse.game
 cargo run -p play -- ../design/specimen/lighthouse.game play/scripts/lighthouse-won.txt
+cargo run -p play -- ../design/specimen/patrol.game    play/scripts/patrol-lost.txt
 ```
 
 With a script it prints a transcript; without one it reads choices from stdin. The transcript of a
-winning run is pinned by `play/tests/transcript.rs` — thirteen turns, and three of them say
-nothing and are not silent, because the world moved and the movement is the response.
+winning run is pinned by `play/tests/transcript.rs` — thirteen turns, and three of them say nothing
+and are not silent, because the world moved and the movement is the response.
+
+**And one losing run per specimen**, pinned by `play/tests/lost.rs`. Each walks into the trap
+`crates/reachability` reports and names the line it blames. What they show is the half of
+`failure-mode/unwinnable-state` a checker cannot: **after the mistake the game goes on answering
+normally.** Read `patrol-lost.txt` if you read one — the strongroom opens for the first time on the
+way out, because the porter has left the corridor, and every line reads as progress.
+[`walked-in`](../.yidam/decisions/walked-in.yml).
 
 **The state is the client's and no component's.** All four subsystems declare none across frames,
 so `World` and `State` live in `crates/game-format` and the loop threads a `State` through itself.

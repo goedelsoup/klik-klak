@@ -68,6 +68,22 @@ rationale: |
   door is not wide."* **Every line reads as progress or as a temporary obstacle.** [verified] The
   failure this design exists to detect looks, from inside, exactly like the game working.
 
+  **The designer of the genre calls this a defect born of not having an instrument, and these are
+  the transcripts of why.** Ron Gilbert, on Maniac Mansion: *"Gary and I didn't have Puzzle
+  Dependency Charts… The game is full of dead end puzzles and the flow is uneven"*
+  ([grumpy-gamer-pdc](../catalog/grumpy-gamer-pdc.md)), and twenty-eight years later,
+  *"Thimbleweed Park will not have the death and dead ends of Maniac Mansion. **Those were born
+  from ignorance more than a focused design decision.**"* ([twp-dev-diary](../catalog/twp-dev-diary.md)).
+  [verified]
+
+  **His remedy is not to ship them; this design's is to detect them, and the transcripts are the
+  argument for why detection is the harder half.** A dead end is invisible from inside — that is
+  what four pinned transcripts now show — so an author cannot find one by playing, and *"born from
+  ignorance"* is a description of a tool gap rather than of carelessness. [inference] The chart
+  Gilbert built to close it is a read-after-write graph maintained by hand;
+  `crates/reachability` derives the same relation from the authored artifact and answers a
+  question the chart cannot, which is whether a *reachable* state can still finish.
+
   **The engine cannot tell, and cannot be made to.** `analyse` knows; `engine/` does not depend on
   `crates/reachability` and must not, because [two-components](two-components.yml) put the
   dependency the other way for a reason — the instrument depends on the subject. So the

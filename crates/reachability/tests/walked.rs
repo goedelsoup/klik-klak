@@ -7,11 +7,14 @@
 //! river is crossed without the lantern"* — and `ferry.game` states the claim this rests on in a
 //! comment beside the trap: ***"Reachable, silent, and the game goes on answering normally."***
 //!
-//! The checker proved the first word. Nothing has ever shown the other two, because until
-//! `.yidam/decisions/playable.yml` nothing could play a game at all — and the one script that
-//! exists wins.
+//! The checker proved the first word. **`engine/play/scripts/` holds the other two now**, one
+//! losing run per specimen beside the winning one, each transcript pinned whole by
+//! `engine/play/tests/lost.rs` — which is also where the two halves meet, because that crate takes
+//! `reachability` as a **dev-dependency** and never a dependency. The engine cannot ask whether
+//! the game is still winnable and must not be able to.
 //!
-//! These checks pin that. They are rewritten into the rule in the same phase.
+//! What is held here is the checker's side: five bindings, by line, cause and states killed, and a
+//! run written down for every one of them. `.yidam/decisions/walked-in.yml`.
 
 use reachability::{analyse, Cause};
 use std::path::{Path, PathBuf};
@@ -114,13 +117,14 @@ fn every_specimen_is_stranded_somewhere() {
     );
 }
 
-/// **And not one of them has been played.**
+/// **And every one of them has a run written down.**
 ///
-/// `engine/play/scripts/` holds one file and it wins. The specimens' own prose is the strongest
-/// statement of what is untested: `ferry.game` says the failure is *"silent, and the game goes on
-/// answering normally"*, and that is a claim about a transcript nobody has produced.
+/// One losing script per specimen, each naming the line the checker blames in its own header, so a
+/// reader meets the pairing before running anything. The two nightwatch strandings are the same
+/// trap by the two doors into the hall — which is what `on-enter` was introduced for, one binding
+/// and two ways in — so one script covers both.
 #[test]
-fn nothing_has_walked_into_one() {
+fn every_one_of_them_has_a_run_written_down() {
     let dir = root().join("engine/play/scripts");
     let mut scripts: Vec<String> = std::fs::read_dir(&dir)
         .expect("the scripts directory")
@@ -130,13 +134,32 @@ fn nothing_has_walked_into_one() {
     scripts.sort();
     assert_eq!(
         scripts,
-        ["lighthouse-won.txt"],
-        "every run ever written down"
+        [
+            "ferry-lost.txt",
+            "lighthouse-lost.txt",
+            "lighthouse-won.txt",
+            "nightwatch-lost.txt",
+            "patrol-lost.txt",
+        ],
+        "every run written down"
     );
+
+    for (name, line) in [
+        ("ferry", 64),
+        ("lighthouse", 131),
+        ("nightwatch", 153),
+        ("patrol", 141),
+    ] {
+        let src = std::fs::read_to_string(dir.join(format!("{name}-lost.txt"))).expect("readable");
+        assert!(
+            src.contains(&format!("line {line}")),
+            "{name}-lost.txt does not name the line the checker blames"
+        );
+    }
 
     let ferry = ALL[0].1;
     assert!(
         ferry.contains("Reachable, silent, and the game goes on answering normally."),
-        "the specimen states the claim beside the trap"
+        "the specimen states the claim the transcripts now hold"
     );
 }

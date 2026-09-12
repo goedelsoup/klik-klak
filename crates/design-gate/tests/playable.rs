@@ -127,12 +127,13 @@ fn the_search_applies_every_offer_and_the_client_applies_one() {
         client.contains("pub state: State,"),
         "the client owns the world"
     );
+    // and neither component mutates a world or itself — both are pure functions of a world and a
+    // state, which is what the corpus says of each: *"None across frames"*, *"None"*.
     for c in ["verb-menu", "interaction-resolver"] {
         let src = read(&root, &format!("engine/{c}/src/lib.rs"));
-        assert!(
-            !src.contains("pub struct") || !src.contains(": State,"),
-            "{c} holds a state between calls"
-        );
+        for form in ["&mut self", "&mut World"] {
+            assert!(!src.contains(form), "{c} takes a {form}");
+        }
     }
 }
 
@@ -203,7 +204,9 @@ fn never_nothing_is_promised_and_something_checks_it() {
     let client = read(&root, "engine/play/src/lib.rs");
     assert!(
         client.contains("pub fn silent(&self) -> bool {")
-            && flat(&client).contains("self.said.is_none() && self.moved.is_none()"),
-        "a turn is silent when nothing was said and nothing visible changed"
+            && flat(&client)
+                .contains("self.said.is_none() && self.forced.is_empty() && self.moved.is_none()"),
+        "a turn is silent when nothing was said — by the player's binding or by a trigger — and \
+         nothing visible changed"
     );
 }

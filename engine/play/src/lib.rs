@@ -19,7 +19,7 @@
 //! was seeded to name.
 
 use game_format::{parse, resolve, Game, State, World};
-use interaction_resolver::{resolve as respond, settle, Outcome};
+use interaction_resolver::{resolve as respond, settle_tracking, Outcome};
 use verb_menu::{shown, Entry};
 
 /// A turn: what the player was shown, what they picked, and what the game said.
@@ -33,6 +33,18 @@ pub struct Turn {
     pub said: Option<String>,
     /// whether the binding fired or declined
     pub fired: bool,
+    /// where the binding that answered was written.
+    ///
+    /// The one field that lets a transcript be matched against a figure the checker reports:
+    /// `crates/reachability` names a stranding by line. `.yidam/decisions/walked-in.yml`.
+    pub line: usize,
+    /// what the **forced** bindings said, in the order they fired.
+    ///
+    /// An `on-enter` binding is not chosen and its line is not a response to anything the player
+    /// picked. It was dropped for as long as this loop existed —
+    /// `interaction_resolver::settle` returns a state — and the longest line in four specimens is
+    /// one of these. `.yidam/decisions/walked-in.yml`.
+    pub forced: Vec<String>,
     /// what the player can *see* changed when nothing was said: the room they are now in, or the
     /// exchange they are now inside.
     ///
@@ -53,7 +65,7 @@ impl Turn {
     /// a flag set with no line is observable to a search and invisible to a player, and this is
     /// the first thing in the repository that can tell those apart.
     pub fn silent(&self) -> bool {
-        self.said.is_none() && self.moved.is_none()
+        self.said.is_none() && self.forced.is_empty() && self.moved.is_none()
     }
 }
 
@@ -107,7 +119,7 @@ impl<'a> Session<'a> {
     /// Start a game: build the world, and settle the arrival the player never chose.
     pub fn start(game: &'a Game) -> Result<Self, Stop> {
         let world = World::new(game);
-        let state = settle(&world, world.initial())
+        let (state, _) = settle_tracking(&world, world.initial())
             .map_err(|room| Stop::EntryCycle(world.rooms[room].clone()))?;
         Ok(Session {
             world,
@@ -138,10 +150,17 @@ impl<'a> Session<'a> {
         let binding = entries[i].binding;
 
         let before = (self.state.room, self.state.mode);
+        let mut forced: Vec<String> = Vec::new();
         let (said, fired) = match respond(&self.world, binding, &self.state) {
             Outcome::Fired { says, next } => {
-                self.state = settle(&self.world, next)
+                let (settled, ran) = settle_tracking(&self.world, next)
                     .map_err(|room| Stop::EntryCycle(self.world.rooms[room].clone()))?;
+                self.state = settled;
+                forced = ran
+                    .iter()
+                    .filter_map(|f| f.says)
+                    .map(str::to_string)
+                    .collect();
                 (says, true)
             }
             Outcome::Refused { says } => (says, false),
@@ -155,6 +174,8 @@ impl<'a> Session<'a> {
             picked: choice.to_string(),
             said: said.map(str::to_string),
             fired,
+            line: binding.line,
+            forced,
             moved,
         });
         Ok((fired && binding.ending).then_some(Stop::Ending))
@@ -178,6 +199,9 @@ impl<'a> Session<'a> {
         for t in &self.log {
             out.push_str(&format!("> {}\n", t.picked));
             if let Some(line) = &t.said {
+                out.push_str(&format!("  {line}\n"));
+            }
+            for line in &t.forced {
                 out.push_str(&format!("  {line}\n"));
             }
             if let Some(where_) = &t.moved {

@@ -1,0 +1,16 @@
+# THE TRAP in `design/specimen/patrol.game`, walked into.
+#
+# Boil the kettle, then leave the canteen without the key. The porter is in there now and
+# the door is not wide. The strongroom opens for the first time on the way out, which reads
+# as the puzzle solving rather than as the game ending.
+#
+# `crates/reachability` blames `walk-to on canteen.corridor-door` at line 141, [ordering],
+# 1 state.
+walk-to inner-door
+walk-to canteen-door
+walk-to switch
+walk-to corridor-door
+walk-to strongroom-door
+look-at cabinet
+walk-to steel-door
+walk-to canteen-door
