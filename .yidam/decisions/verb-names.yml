@@ -1,0 +1,99 @@
+id: verb-names
+summary: >-
+  A verb's display name belongs to `engine/verb-menu` and not to the `.game` surface, because the
+  five verbs are the language's and not the author's. Six templates with noun slots, one of them
+  for `option`, which is not a verb at all. A menu entry gets two spellings — a **phrase** a
+  player reads and a **key** anything referring to it writes — which is what a shipped game has
+  and this repository had conflated into one string.
+context: |
+  `const VERBS: [&str; 5]` in `crates/game-format/src/parse.rs` is the whole of what a verb is
+  here: a token the parser dispatches on. Every other kind of declared thing carries a label and a
+  verb is not a declaration — there is no `Kind::Verb`. [verified] —
+  `crates/design-gate/tests/naming.rs`.
+
+  So the menu prints the token. [verb-menu](../corpus/subsystem/verb-menu.yml)'s `Entry` has
+  carried the *target's* label since [authored-text](authored-text.yml) gave the parse tree labels
+  back, and the one function that turns an entry into a string reads the keys and not the name.
+  Every pinned transcript in the repository reads `use-with crowbar on crate`.
+
+  **A shipped game gives all fifty-seven of its verbs a display template with noun slots.**
+  `master_verb_names` sits beside `master_verb_list`, the two are checked against each other at
+  boot, and an entry reads `"Unlock $NOUN1$ with $NOUN2$"`
+  ([delores-source](../catalog/delores-source.md)). [verified]
+decision: |
+  **The templates live in `engine/verb-menu`.** Six constants, and the `.game` surface stays at
+  fifty constructs:
+
+  | | |
+  |---|---|
+  | `look-at` | `Look at $1` |
+  | `pick-up` | `Pick up $1` |
+  | `talk-to` | `Talk to $1` |
+  | `walk-to` | `Walk to $1` |
+  | `use-with` | `Use $2 with $1` |
+  | `option` | `$1` |
+
+  `$1` is the target's label and `$2` the second object's, which is
+  [delores-source](../catalog/delores-source.md)'s `$NOUN1$`/`$NOUN2$` under a shorter name. A
+  label the author did not write falls back to the canonical name, so a menu is never blank.
+
+  **`option` is in the table and is not a verb.** The parser opens a binding with the verb
+  `"option"` because a conversation choice needed a site and `open_binding` wanted a string, and
+  it has been in every verb census since. Its template is the bare noun, because an option's label
+  **is the line the player says** — *"The lamp is out."* — which
+  [authored-text](authored-text.yml) recorded as the second of the three jobs a trailing quoted
+  string does. Rendering it as *"Look at The lamp is out."* would be the collapse that record
+  named, arriving in the one place it can be seen.
+
+  **A menu entry has two spellings and they are different strings.** `Entry::phrase` is what a
+  player reads; `play::spell` is the key a script writes and a transcript records. They were one
+  function, and a shipped game has had them apart from the beginning — `master_verb_list` holds
+  ids in menu order, `master_verb_names` holds what is shown, and the boot check exists because
+  the two can drift. [verified] The pinned transcripts keep the key, because a transcript that
+  moved every time somebody reworded a template would be pinning prose rather than behaviour.
+rationale: |
+  **The question is whether a verb's name is authoring vocabulary, and the answer is no.** An
+  author here writes bindings against five verbs they did not choose and cannot extend — that is
+  [verb-count](verb-count.yml)'s whole finding, measured by collapsing a shipped game's 49 used
+  verbs onto them. A name for something the author cannot change is not something the author
+  writes. It is the language's, so it belongs to the component that realizes the language's
+  interface.
+
+  **Delores takes the other branch and the difference is the size of the vocabulary, not a
+  disagreement about design.** There, a verb *is* authored data: `VerbHelpers.dinky` opens *"When
+  adding a new verb, it must be added to the following three lists"*, and a name has to travel
+  with it. [verified] Fifty-seven verbs an author maintains need an authored name; five the
+  language fixes do not. The same arithmetic that made a default binding worth 98% of that game
+  and 65% of this one — [default-binding](default-binding.yml) — decides this.
+
+  **The cost, stated.** An author who wants `use-with` to read *"Combine"* cannot have it, and in
+  Delores they could. That is a real loss and it is the loss a closed vocabulary is for: five
+  templates are five strings one person can translate, and a game that renamed its verbs would
+  have a vocabulary of five words that means something different per game. [inference]
+
+  **What the menu now reads, and why it reads slightly oddly.** *"Use a short crowbar with a
+  nailed-shut crate"* — because an author writes hotspot labels as noun phrases with articles, and
+  a template that assumed otherwise would be telling authors how to write. Delores's authors face
+  the same seam and the corpus has no evidence either way about which side should bend. `[open]`
+
+  **Thimbleweed Park removed the sentence line and kept the verbs**, and Delores's popup shows
+  verbs at the object with no sentence at all ([twp-dev-diary](../catalog/twp-dev-diary.md),
+  [delores-source](../catalog/delores-source.md)). [verified] Neither renders a full sentence in
+  the menu, and this design does — because [arity-cost](arity-cost.yml) keys a binary verb's entry
+  by its second object, so an entry here *must* name two nouns where theirs names none. That is a
+  consequence of a decision taken about a checker's cost and it lands, four phases later, on what
+  a player reads. [inference]
+
+  **The figure this phase corrects is the third instance of one error.** `delores-source` has said
+  fifty-seven since it was written; two corpus nodes said sixty-three at `[verified]` for six
+  phases; [verb-count](verb-count.yml) corrected them; and [authored-text](authored-text.yml) wrote
+  sixty-three again two phases later, at `[verified]`, citing the entry that disagrees. **The
+  record that opened this question got the number wrong in the direction the corpus had already
+  been corrected from.**
+
+  `figures.rs` holds every statement of a figure against the test that derives it, and there was
+  no test deriving this one — which is the remedy this repository already knows and had not
+  applied to a figure about somebody else's source. There is one now. `[open]` is what the remedy
+  does not cover: a figure about a *catalogued* artifact can only be derived from the catalog
+  entry, so the check holds the corpus against the entry and nothing holds the entry against the
+  file it describes.

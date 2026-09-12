@@ -67,8 +67,9 @@ fn interactive(session: &mut Session) -> Stop {
     use std::io::Write;
     loop {
         let menu = session.menu();
+        let read = session.reads();
         println!("\n{}", session.here());
-        for (i, e) in menu.iter().enumerate() {
+        for (i, e) in read.iter().enumerate() {
             println!("  {}. {e}", i + 1);
         }
         print!("> ");

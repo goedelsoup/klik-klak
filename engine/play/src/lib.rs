@@ -128,15 +128,41 @@ impl<'a> Session<'a> {
         })
     }
 
-    /// What the player is looking at.
+    /// The **keys** of what the player is looking at: what a script writes and a transcript
+    /// records.
     pub fn menu(&self) -> Vec<String> {
         shown(&self.world, &self.state).iter().map(spell).collect()
     }
 
+    /// The same entries as a player **reads** them, from `verb_menu`'s templates.
+    ///
+    /// Two spellings, kept apart on purpose: a transcript that moved every time somebody reworded
+    /// a template would be pinning prose rather than behaviour, and a script written in phrases
+    /// would break on an author renaming a hotspot. `.yidam/decisions/verb-names.yml`.
+    pub fn reads(&self) -> Vec<String> {
+        shown(&self.world, &self.state)
+            .iter()
+            .map(|e| e.phrase())
+            .collect()
+    }
+
     /// Where they are, as the author wrote it.
-    pub fn here(&self) -> &str {
+    ///
+    /// Inside an exchange that is **who** rather than where, which is a distinction nothing here
+    /// could draw until the format stopped discarding the `with <actor>` half of a conversation
+    /// declaration. It said *"The Quay"* while the player was talking to the keeper.
+    /// `.yidam/decisions/verb-names.yml`.
+    pub fn here(&self) -> String {
+        if let Some(m) = self.state.mode {
+            let conv = &self.world.convs[m];
+            if let Some(actor) = self.world.game.spoken_with.get(conv) {
+                let name = self.world.game.label(actor).unwrap_or(actor);
+                return format!("Talking to {name}");
+            }
+            return conv.clone();
+        }
         let room = &self.world.rooms[self.state.room];
-        self.world.game.label(room).unwrap_or(room)
+        self.world.game.label(room).unwrap_or(room).to_string()
     }
 
     /// Take one turn. The whole of the loop is these fifteen lines, and every one of them is a
@@ -165,10 +191,7 @@ impl<'a> Session<'a> {
             }
             Outcome::Refused { says } => (says, false),
         };
-        let moved = ((self.state.room, self.state.mode) != before).then(|| match self.state.mode {
-            Some(m) => self.world.convs[m].clone(),
-            None => self.here().to_string(),
-        });
+        let moved = ((self.state.room, self.state.mode) != before).then(|| self.here());
         self.log.push(Turn {
             offered,
             picked: choice.to_string(),

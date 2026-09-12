@@ -300,10 +300,10 @@ fn no_question_lives_on_a_class_page() {
     };
     let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
     assert_eq!((corpus, decisions), (8, 53));
-    // 17, 16, 15, 14, 13 and now 12, and never once because a corpus question was closed. The
-    // corpus numerator has not moved in seven phases while the records opened twenty-odd, and
-    // `playable` closing one was the first close in that run. The two denominators met at 13 and
-    // have parted again: `markers.rs` still says 13 on the narrower one.
+    // 17, 16, 15, 14, 13, 12 — never once because a corpus question was closed. The corpus
+    // numerator has not moved in eight phases while the records opened thirty-odd, and
+    // `playable` closing one was the only close in that run. The two denominators parted at 13
+    // and have met again at 12.
     assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 12);
 }
 

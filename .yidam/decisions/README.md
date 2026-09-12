@@ -35,7 +35,6 @@ does not re-emit it.
 ### [authored-text](authored-text.yml)
 
 - **:113** — **What this makes visible for the first time and does not check.** A refusal list with no fallback — states in which a binding is offered, declines, and says nothing. It was not a defect that could exist before, because there were no refusal lines to be missing. The specimens have exactly one candid…
-- **:121** — **And a label the format still has nowhere to put.** Delores's `master_verb_names` gives every one of its 63 verbs a display string with noun slots — `"Unlock $NOUN1$ with $NOUN2$"` ([delores-source](../catalog/delores-source.md)). [verified] This format's verbs are a `const VERBS: [&str; 5]` in the…
 
 ### [availability](availability.yml)
 
@@ -204,6 +203,10 @@ does not re-emit it.
 ### [verb-menu](verb-menu.yml)
 
 - **:97** — **What this does not settle.** Whether the derivation is the *right* interface, which is a question about players and has no instrument here. Every figure above says what this design's menu *is*; none of them says a player could use it, and `.yidam/decisions/default-binding.yml`'s observation that t…
+
+### [verb-names](verb-names.yml)
+
+- **:77** — **What the menu now reads, and why it reads slightly oddly.** *"Use a short crowbar with a nailed-shut crate"* — because an author writes hotspot labels as noun phrases with articles, and a template that assumed otherwise would be telling authors how to write. Delores's authors face the same seam an…
 
 ### [walked-in](walked-in.yml)
 

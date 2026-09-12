@@ -116,7 +116,11 @@ cargo run -p play -- ../design/specimen/lighthouse.game play/scripts/lighthouse-
 cargo run -p play -- ../design/specimen/patrol.game    play/scripts/patrol-lost.txt
 ```
 
-With a script it prints a transcript; without one it reads choices from stdin. The transcript of a
+With a script it prints a transcript; without one it reads choices from stdin — and the two read
+differently on purpose. A **key** is what a script writes and a transcript records
+(`use-with crowbar on crate`); a **phrase** is what a player reads
+(`Use a short crowbar with a nailed-shut crate`), built from six templates in `verb-menu` and the
+labels the author wrote. [`verb-names`](../.yidam/decisions/verb-names.yml). The transcript of a
 winning run is pinned by `play/tests/transcript.rs` — thirteen turns, and three of them say nothing
 and are not silent, because the world moved and the movement is the response.
 

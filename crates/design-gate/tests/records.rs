@@ -296,10 +296,10 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (485, 86, 60));
+    assert_eq!((total, mentions, tests.len()), (496, 88, 61));
 }
 
-/// **Six of seventy-one records are cited by nothing, against three of forty-four nodes.**
+/// **Six of seventy-two records are cited by nothing, against three of forty-four nodes.**
 ///
 /// It was sixteen when this check was written and ten when `action-pages` was written; that record
 /// cited three of the ten, and every one of the three had been uncited for the same reason — the
@@ -329,13 +329,13 @@ fn a_record_nothing_cites_is_named() {
             "settled-surface",
             "walked-in",
         ],
-        "six. `playable` never joined, because the record it answered a question for cites it \
-         back; this one joins, because it answers nobody's question and closes none. The \
-         difference is the whole of what keeps this list from growing, and it is not a \
-         property anybody chose"
+        "six. `verb-names` never joined, for the reason `playable` never did: it answered a \
+         question `authored-text` had left open, and the record it answers cites it back in \
+         the same phase. A phase that answers an open question is cited by construction and a \
+         phase that only opens one is not"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (71, 222));
+    assert_eq!((c.len(), edges), (72, 228));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -518,7 +518,7 @@ fn no_record_has_changed_what_it_decided() {
     }
     assert_eq!(
         edited,
-        29,
+        30,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

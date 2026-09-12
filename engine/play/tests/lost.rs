@@ -66,7 +66,7 @@ const TRAPS: [Trap; 4] = [
 > use-with crowbar on crate
   The lid comes away with a squeal of nails. A can of oil sits in the straw.
 > talk-to keeper
-  → keeper-talk
+  → Talking to the lighthouse keeper
 > option lamp
   Aye. Three nights now. I've not the hands for that stair any more.
 > option wick-ask

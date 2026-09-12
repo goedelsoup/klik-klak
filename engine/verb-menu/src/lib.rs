@@ -19,6 +19,32 @@
 
 use game_format::{slot, Binding, Site, State, World};
 
+/// **What each verb is called, with slots for the nouns.**
+///
+/// `$1` is the target's label and `$2` the second object's. A shipped game does the same and calls
+/// them `$NOUN1$` and `$NOUN2$`: `master_verb_names` gives every one of its fifty-seven verbs a
+/// display string, checked against `master_verb_list` at boot because the two can drift
+/// (`.yidam/catalog/delores-source.md`).
+///
+/// **They are here and not in the `.game` surface**, because an author writes bindings against
+/// five verbs they did not choose and cannot extend — `.yidam/decisions/verb-count.yml` — and a
+/// name for something an author cannot change is not something an author writes. There a verb *is*
+/// authored data and the name travels with it; fifty-seven an author maintains need an authored
+/// name, five the language fixes do not. `.yidam/decisions/verb-names.yml`.
+///
+/// **`option` is in the table and is not a verb.** The parser opens a conversation choice as a
+/// binding with the verb `"option"` because a site wanted a string. Its template is the bare noun,
+/// because an option's label *is the line the player says* — *"The lamp is out."* — and
+/// *"Look at The lamp is out."* would be the collapse `.yidam/decisions/authored-text.yml` named.
+const NAMES: [(&str, &str); 6] = [
+    ("look-at", "Look at $1"),
+    ("pick-up", "Pick up $1"),
+    ("talk-to", "Talk to $1"),
+    ("walk-to", "Walk to $1"),
+    ("use-with", "Use $2 with $1"),
+    ("option", "$1"),
+];
+
 /// One entry a player can point at: a verb, its second object where it has one, and what the
 /// target is called.
 ///
@@ -30,11 +56,37 @@ pub struct Entry<'a> {
     pub verb: &'a str,
     /// the second object of a binary verb, as written
     pub object: Option<&'a str>,
+    /// and what *it* is called
+    pub object_label: Option<&'a str>,
     /// the hotspot, actor or option the entry hangs on, by canonical name
     pub target: &'a str,
     /// what that target is called, when the author gave it a label
     pub label: Option<&'a str>,
     pub binding: &'a Binding,
+}
+
+impl Entry<'_> {
+    /// **What a player reads.**
+    ///
+    /// The other spelling is the *key* — what a script writes and a transcript records — and the
+    /// two are different strings on purpose. `master_verb_list` and `master_verb_names` have been
+    /// two lists in a shipped game from the beginning. `.yidam/decisions/verb-names.yml`.
+    ///
+    /// A label the author did not write falls back to the canonical name, so a menu is never
+    /// blank. It reads slightly oddly — *"Use a short crowbar with a nailed-shut crate"* — because
+    /// an author writes hotspot labels as noun phrases with articles, and a template that assumed
+    /// otherwise would be telling authors how to write.
+    pub fn phrase(&self) -> String {
+        let template = NAMES
+            .iter()
+            .find(|(v, _)| *v == self.verb)
+            .map(|(_, t)| *t)
+            .unwrap_or("$1");
+        let second = self.object_label.or(self.object).unwrap_or("");
+        template
+            .replace("$1", self.label.unwrap_or(self.target))
+            .replace("$2", second)
+    }
 }
 
 /// **The whole of this component: every entry shown at `target` in this state, in written
@@ -65,6 +117,7 @@ pub fn shown<'a>(w: &'a World<'a>, s: &State) -> Vec<Entry<'a>> {
             Entry {
                 verb: b.verb.as_str(),
                 object: b.object.as_deref(),
+                object_label: b.object.as_deref().and_then(|o| w.game.label(o)),
                 target,
                 label: w.game.label(target),
                 binding: b,

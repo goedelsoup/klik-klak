@@ -66,6 +66,26 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
         .collect();
     let mut out = Vec::new();
 
+    // A conversation is held with somebody, and the admission rule applies to them as it does to
+    // every other operand: the name must be declared, and declared as an actor.
+    // `.yidam/decisions/verb-names.yml`.
+    for (conv, actor) in game.spoken_with.clone() {
+        let line = game.declared.get(&conv).map(|(_, l)| *l).unwrap_or(0);
+        match game.lookup(&actor, &Scope::Global) {
+            Some((_, Kind::Actor, _)) => {}
+            Some((_, k, _)) => out.push(Problem {
+                line,
+                message: format!(
+                    "`{conv}` is held with `{actor}`, which is a {k} rather than an actor"
+                ),
+            }),
+            None => out.push(Problem {
+                line,
+                message: format!("`{conv}` is held with `{actor}`, which is not declared"),
+            }),
+        }
+    }
+
     if game.start_room.is_none() {
         out.push(Problem {
             line: 0,

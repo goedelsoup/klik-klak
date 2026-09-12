@@ -301,9 +301,26 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                     line: no,
                 });
             }
+            // `conversation <name> with <actor>`. The `with` half was parsed and dropped from the
+            // day this arm was written: only `t[1]` was read, so `conversation keeper-talk beside
+            // keeper` parsed identically and nothing could say who the player was talking to.
+            // `.yidam/decisions/verb-names.yml`.
             "conversation" => {
                 p.flush();
                 p.declare(t[1], Kind::Conversation, no, line.text.as_deref());
+                match (t.get(2), t.get(3)) {
+                    (Some(&"with"), Some(a)) => {
+                        p.game.spoken_with.insert(t[1].to_string(), a.to_string());
+                    }
+                    _ => p.err(
+                        no,
+                        format!(
+                            "a conversation reads `conversation {} with <actor>` — the `with` is \
+                             what names who it is held with",
+                            t[1]
+                        ),
+                    ),
+                }
                 p.conv = Some(t[1].to_string());
                 p.room = None;
                 p.site = None;
