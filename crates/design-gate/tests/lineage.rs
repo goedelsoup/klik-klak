@@ -42,7 +42,11 @@ const ABOUT: &[(&str, &[&str])] = &[
     ),
     (
         "sierra-sci.yml",
-        &["agi-specifications.md", "sci-inhouse-docs.md"],
+        &[
+            "agi-specifications.md",
+            "sci-inhouse-docs.md",
+            "sci-specifications.md",
+        ],
     ),
     ("thimbleweed-park.yml", &["twp-dev-diary.md"]),
 ];
