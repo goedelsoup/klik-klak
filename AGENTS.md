@@ -196,8 +196,9 @@ neither is a third. A manifest is not a module, and **a component may not invent
 either: a cargo dependency between engine crates must be a `depends-on` edge in the corpus.
 
 **A crate here is a component or a client**, and the declaration inside the file says which.
-`engine/verb-menu` and `engine/interaction-resolver` are components; `path-solver` and
-`response-presenter` are specified and unbuilt; `engine/play` is a client and plays a game. It is a
+`engine/verb-menu`, `engine/interaction-resolver` and `engine/response-presenter` are components;
+`path-solver` is specified and unbuilt, because a text slice has nothing to walk across;
+`engine/play` is a client and plays a game. It is a
 **second cargo workspace** — `crates/` is the instrument that reads the corpus, this is the
 artifact the corpus is about — and `crates/reachability` **depends on it**, which reads backwards
 and is right: the checker checks a language, and the language's semantics are the engine's. One

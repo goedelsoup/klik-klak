@@ -1,4 +1,4 @@
-//! composes: verb-menu, interaction-resolver
+//! composes: verb-menu, interaction-resolver, response-presenter
 //!
 //! **The menu, a choice, the response, and again.**
 //!
@@ -12,15 +12,30 @@
 //! declarative form of it would be unbounded computation on every frame, which is precisely what
 //! `design/bounded-expression-language.md` excludes to keep the reachable set enumerable.
 //!
-//! **What this does that it should not.** It prints a line and returns.
-//! `subsystem/response-presenter` says *"turn a response into something perceived, and do not
-//! return until it is over"*, and a `println!` is the first half without the second. There is no
-//! presenter, so the client does that job inline and does it wrongly, in the exact way that node
-//! was seeded to name.
+//! **What this does that it still cannot.** Every line goes through `response_presenter::present`
+//! now, which returns only when the sink does — and this client's sink writes a line and returns
+//! at once, so it holds the player for nothing at all. The component reports the weight and the
+//! client discards it. That is honest rather than fixed: a terminal with no clock and no input
+//! between turns has nowhere to put an interval, and **the first client that can hold a player is
+//! the first one with a frame.** `.yidam/decisions/held.yml`.
 
 use game_format::{parse, resolve, Game, State, World};
 use interaction_resolver::{resolve as respond, settle_tracking, Outcome};
+use response_presenter::{present_all, Perceive};
 use verb_menu::{shown, Entry};
+
+/// What this client's perceiving is: collecting the lines, and returning at once.
+///
+/// The component's contract is that it returns when this does. This returns immediately, which is
+/// the whole of what a terminal can promise. `.yidam/decisions/held.yml`.
+#[derive(Default)]
+struct Collect(Vec<String>);
+
+impl Perceive for Collect {
+    fn deliver(&mut self, line: &str) {
+        self.0.push(line.to_string());
+    }
+}
 
 /// A turn: what the player was shown, what they picked, and what the game said.
 #[derive(Debug, Clone)]
@@ -45,6 +60,13 @@ pub struct Turn {
     /// `interaction_resolver::settle` returns a state — and the longest line in four specimens is
     /// one of these. `.yidam/decisions/walked-in.yml`.
     pub forced: Vec<String>,
+    /// how much the presenter held the player for, in characters.
+    ///
+    /// **Pacing, measured.** `subsystem/response-presenter` says duration is an accident — *"a
+    /// line's length is how long the game is held… an author who wants a beat writes a longer
+    /// sentence"* — which was an `[inference]` until something counted it.
+    /// `.yidam/decisions/held.yml`.
+    pub held: usize,
     /// what the player can *see* changed when nothing was said: the room they are now in, or the
     /// exchange they are now inside.
     ///
@@ -177,6 +199,7 @@ impl<'a> Session<'a> {
 
         let before = (self.state.room, self.state.mode);
         let mut forced: Vec<String> = Vec::new();
+        let mut sink = Collect::default();
         let (said, fired) = match respond(&self.world, binding, &self.state) {
             Outcome::Fired { says, next } => {
                 let (settled, ran) = settle_tracking(&self.world, next)
@@ -191,6 +214,14 @@ impl<'a> Session<'a> {
             }
             Outcome::Refused { says } => (says, false),
         };
+        // Everything the player is told, in the order they are told it: the chosen binding's line
+        // first, then whatever the arrival triggers said. The presenter returns when the sink does
+        // and reports what it held them for.
+        let held = present_all(
+            &mut sink,
+            said.into_iter().chain(forced.iter().map(String::as_str)),
+        );
+
         let moved = ((self.state.room, self.state.mode) != before).then(|| self.here());
         self.log.push(Turn {
             offered,
@@ -199,6 +230,7 @@ impl<'a> Session<'a> {
             fired,
             line: binding.line,
             forced,
+            held,
             moved,
         });
         Ok((fired && binding.ending).then_some(Stop::Ending))

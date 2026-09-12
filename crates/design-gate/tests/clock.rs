@@ -320,7 +320,7 @@ fn every_figure_the_config_states_about_this_clock_is_computed_here() {
     );
     assert_eq!(
         (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
-        (13, 13),
+        (12, 12),
         "the share the config claims, against the share"
     );
 }

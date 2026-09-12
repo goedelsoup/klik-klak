@@ -69,13 +69,13 @@ to scroll past — [`.yidam/decisions/inert-reports.yml`](../.yidam/decisions/in
 | [`interaction-resolver`](../.yidam/corpus/subsystem/interaction-resolver.yml) | matching a verb, target and second object to a binding, and producing the response or the refusal | **built** |
 | [`verb-menu`](../.yidam/corpus/subsystem/verb-menu.yml) | given a target and a state, the verbs to display and no others | **built** |
 | [`path-solver`](../.yidam/corpus/subsystem/path-solver.yml) | a route across a room's walkboxes, and reporting arrival | — |
-| [`response-presenter`](../.yidam/corpus/subsystem/response-presenter.yml) | making a response perceptible, and not returning until it is over | — |
+| [`response-presenter`](../.yidam/corpus/subsystem/response-presenter.yml) | making a response perceptible, and not returning until it is over | **built** |
 
 And one client, which is not a subsystem and does not claim to be:
 
 | crate | | |
 |---|---|---|
-| [`play`](play/) | the menu, a choice, the response, and again | `composes: verb-menu, interaction-resolver` |
+| [`play`](play/) | the menu, a choice, the response, and again | `composes: verb-menu, interaction-resolver, response-presenter` |
 
 The two that are built were built before this directory existed, as private methods of
 `crates/reachability`. [`two-components`](../.yidam/decisions/two-components.yml) moved them; what
@@ -137,12 +137,18 @@ A component that held it would be a component the other two had to ask.
 
 ## What is not here yet
 
-`path-solver` and `response-presenter`, and **a clock**.
+`path-solver`, and **a clock**.
 
-The slice prints a line and returns, which is the presenter's job done inline and done wrongly —
-that node's responsibility is *"turn a response into something perceived, and do not return until
-it is over"*, and a `println!` is the first half without the second. It declares
-`composes: verb-menu, interaction-resolver` and not the presenter, because it does not use one.
+Every line a player is told goes through `response-presenter`, which returns when its sink
+returns — and this client's sink writes a line and comes back at once, so it holds the player for
+nothing at all. The component reports the weight and the client discards it. That is honest rather
+than fixed: a terminal with no clock and no input between turns has nowhere to put an interval, and
+**the first client that can hold a player is the first one with a frame.**
+[`held`](../.yidam/decisions/held.yml).
+
+The number is real even where the holding is not. A winning run of `lighthouse.game` asks the
+player to read **471 characters across thirteen turns**, the longest single hold is 74, and three
+turns hold for nothing because a movement is a response that takes no reading.
 
 `path-solver` has neither code nor data and stays that way for a reason rather than by neglect: a
 text slice has nothing to walk. `walk-to` moves the player between rooms and never across one, and

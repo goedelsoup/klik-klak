@@ -28,14 +28,13 @@
 # one correct then and stale since. `.yidam/decisions/unread-clock.yml`.
 #
 # What it covers is a fifth. `yidam open-questions` walks `.yidam/corpus/` and nothing
-# else, so this clock watches 8 markers while 53 sit in `.yidam/decisions/`; the larger
+# else, so this clock watches 8 markers while 55 sit in `.yidam/decisions/`; the larger
 # share is listed in `.yidam/decisions/README.md` and is invisible to every yidam
-# command. A green `due` here is a statement about 13% of what is owed on this
-# denominator, and 12% on the wider one `crates/design-gate/tests/pages.rs` uses. It fell
-# 17, 16, 15, 14, 13, 12 without a corpus question ever being closed, and **this is the
-# first phase in which it rose** — `.yidam/decisions/verb-names.yml` answered one of
-# `authored-text`'s two and opened two of its own. The corpus's own eight have not moved
-# in eight phases.
+# command. A green `due` here is a statement about 12% of what is owed, on this
+# denominator and on the wider one `crates/design-gate/tests/pages.rs` uses. It fell 17,
+# 16, 15, 14, 13, 12 without a corpus question ever being closed, rose once when
+# `.yidam/decisions/verb-names.yml` answered one of `authored-text`'s two, and fell back.
+# The corpus's own eight have not moved in nine phases.
 questions_after = 100
 
 # index_after — DECLINED.

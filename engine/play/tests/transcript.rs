@@ -142,3 +142,50 @@ fn a_choice_the_menu_does_not_offer_is_not_resolved() {
     );
     assert!(session.log.is_empty(), "and no turn was taken");
 }
+
+/// **Pacing, measured for the first time.**
+///
+/// `subsystem/response-presenter` says duration is an accident nobody decided on — *"a line's
+/// length is how long the game is held… an author who wants a beat writes a longer sentence"* —
+/// and it was an `[inference]` until the component existed to count it.
+///
+/// The client's sink returns at once, so the holding is nominal and the number is not: a winning
+/// run of `lighthouse.game` asks the player to read a countable amount, and the longest single
+/// hold in the run is the one line the author wrote longest. `.yidam/decisions/held.yml`.
+#[test]
+fn a_winning_run_holds_the_player_for_a_countable_amount() {
+    let game = load(LIGHTHOUSE, "lighthouse").expect("the specimen reads clean");
+    let mut session = Session::start(&game).expect("it starts");
+    assert_eq!(session.play(&script()), Stop::Ending);
+
+    let total: usize = session.log.iter().map(|t| t.held).sum();
+    let longest = session.log.iter().map(|t| t.held).max().expect("a turn");
+    assert_eq!((total, longest), (PACING, LONGEST), "characters held");
+
+    // every character held is a character an author wrote, and nothing else is
+    let written: usize = session
+        .log
+        .iter()
+        .map(|t| {
+            t.said
+                .as_deref()
+                .map(str::chars)
+                .map(Iterator::count)
+                .unwrap_or(0)
+                + t.forced.iter().map(|l| l.chars().count()).sum::<usize>()
+        })
+        .sum();
+    assert_eq!(
+        written, total,
+        "the presenter holds for what was said and no more"
+    );
+
+    // three turns say nothing and hold for nothing, and are not silent
+    let free = session.log.iter().filter(|t| t.held == 0).count();
+    assert_eq!(free, 3, "a movement is a response that takes no reading");
+}
+
+/// 471 characters across thirteen turns, and the longest single hold is 74 — the keeper's answer
+/// about the stair. The whole of the lighthouse, won, is about a paragraph of reading.
+const PACING: usize = 471;
+const LONGEST: usize = 74;
