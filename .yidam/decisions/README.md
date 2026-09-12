@@ -35,7 +35,6 @@ does not re-emit it.
 ### [authored-text](authored-text.yml)
 
 - **:113** — **What this makes visible for the first time and does not check.** A refusal list with no fallback — states in which a binding is offered, declines, and says nothing. It was not a defect that could exist before, because there were no refusal lines to be missing. The specimens have exactly one candid…
-- **:121** — **And a label the format still has nowhere to put.** Delores's `master_verb_names` gives every one of its 63 verbs a display string with noun slots — `"Unlock $NOUN1$ with $NOUN2$"` ([delores-source](../catalog/delores-source.md)). [verified] This format's verbs are a `const VERBS: [&str; 5]` in the…
 
 ### [availability](availability.yml)
 
@@ -214,7 +213,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**54 open.**
+**53 open.**
 
 ## What nothing cites
 
@@ -227,7 +226,6 @@ nodes, at four times the rate, and it had never been looked at.
 - [domain-computer](domain-computer.yml)
 - [name-scoping](name-scoping.yml)
 - [settled-surface](settled-surface.yml)
-- [verb-names](verb-names.yml)
 - [walked-in](walked-in.yml)
 
 ## What each record rests on

@@ -305,6 +305,13 @@ pub struct Game {
     pub holds: Vec<(String, String, usize)>,
     /// actor -> the room it starts in, from `holds`. `actor -occupies-> room`, at rest.
     pub actor_start: BTreeMap<String, String>,
+    /// conversation -> the actor it is held with, from `conversation <name> with <actor>`.
+    ///
+    /// **The `with` was written, unchecked and unread for the whole life of this format.** The
+    /// parser took `t[1]` and never looked at `t[2]` or `t[3]`, so `conversation keeper-talk
+    /// beside keeper` parsed identically and a game could not say who the player was talking to.
+    /// Found by rendering a menu — `.yidam/decisions/verb-names.yml`.
+    pub spoken_with: BTreeMap<String, String>,
     pub start_room: Option<String>,
     pub source: String,
 }

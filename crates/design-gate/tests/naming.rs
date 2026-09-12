@@ -1,14 +1,17 @@
-//! **A verb has no name.**
+//! **A verb has a name, and it is the component's rather than the author's.**
 //!
 //! `crates/game-format/src/parse.rs` declares `const VERBS: [&str; 5]` and that is the whole of
 //! what a verb is here: a token the parser dispatches on. `Game::labels` holds a name for every
 //! other kind of thing an author declares — rooms, actors, items, hotspots, options, flags,
 //! counters — and a verb is not a declaration, so it has nowhere to carry one.
 //!
-//! The menu prints the token. `engine/play`'s transcripts read `use-with crowbar on crate`, and
-//! `verb_menu::Entry` has carried the *target's* label since
-//! `.yidam/decisions/authored-text.yml` gave the parse tree labels back — **and nothing renders
-//! it**. The one component that knows what a thing is called prints its canonical name.
+//! The menu printed the token. `verb_menu::Entry` had carried the *target's* label since
+//! `.yidam/decisions/authored-text.yml` gave the parse tree labels back and nothing rendered it,
+//! so the one component that knew what a thing was called printed its canonical name.
+//!
+//! Six templates in `engine/verb-menu` now — `Use $2 with $1` and five others, one of them for
+//! `option`, which is not a verb — and **a menu entry has two spellings**: a phrase a player reads
+//! and a key a script writes. `.yidam/decisions/verb-names.yml`.
 //!
 //! **A shipped game gives all fifty-seven of its verbs a display template with noun slots.**
 //! `master_verb_names` sits beside `master_verb_list`, the two are checked against each other at
@@ -19,9 +22,8 @@
 //! [`verb-count`](../../../.yidam/decisions/verb-count.yml) corrected two corpus nodes from
 //! sixty-three to fifty-seven, and `.yidam/decisions/authored-text.yml` wrote sixty-three again,
 //! at `[verified]`, two phases later — citing the catalog entry that says fifty-seven. The check
-//! below is the one this repository already knows how to write and had not written here.
-//!
-//! These checks pin the state. They are rewritten into the rule in the same phase.
+//! below is the one `figures.rs` already is, applied to a figure about somebody else's source for
+//! the first time.
 
 use design_gate::repo_root;
 use std::path::Path;
@@ -30,9 +32,13 @@ fn read(root: &Path, rel: &str) -> String {
     std::fs::read_to_string(root.join(rel)).expect("readable")
 }
 
-/// **Five verbs, no names, and a menu that prints tokens.**
+/// **Five verbs the language fixes, six templates the component owns.**
+///
+/// The `.game` surface is unchanged — a verb is still a token the parser dispatches on, and there
+/// is still no `Kind::Verb` — because a name for something an author cannot change is not
+/// something an author writes.
 #[test]
-fn a_verb_is_a_token_the_parser_dispatches_on() {
+fn a_verb_is_a_token_and_its_name_belongs_to_the_menu() {
     let root = repo_root();
 
     let parse = read(&root, "crates/game-format/src/parse.rs");
@@ -67,14 +73,35 @@ fn a_verb_is_a_token_the_parser_dispatches_on() {
         !kinds.contains("Kind::Verb"),
         "and a verb is not one of them"
     );
+
+    let menu = read(&root, "engine/verb-menu/src/lib.rs");
+    assert!(
+        menu.contains("const NAMES: [(&str, &str); 6] = ["),
+        "the names are the component's"
+    );
+    for (verb, template) in [
+        ("look-at", "Look at $1"),
+        ("pick-up", "Pick up $1"),
+        ("talk-to", "Talk to $1"),
+        ("walk-to", "Walk to $1"),
+        ("use-with", "Use $2 with $1"),
+        ("option", "$1"),
+    ] {
+        assert!(
+            menu.contains(&format!("(\"{verb}\", \"{template}\")")),
+            "{verb} reads {template}"
+        );
+    }
 }
 
-/// **The menu holds the label and prints the canonical name.**
+/// **Two spellings, and they are different strings.**
 ///
-/// `Entry` gained `label` when the parse tree stopped discarding it. `spell` — the one function
-/// that turns an entry into a string — reads `verb`, `object` and `target`, and not `label`.
+/// `Entry::phrase` is what a player reads; `play::spell` is the key a script writes and a
+/// transcript records. A shipped game has had them apart from the beginning — `master_verb_list`
+/// holds ids in menu order and `master_verb_names` holds what is shown, checked against each other
+/// at boot because the two can drift.
 #[test]
-fn the_one_component_that_knows_the_name_prints_the_key() {
+fn an_entry_has_a_phrase_and_a_key() {
     let root = repo_root();
     let menu = read(&root, "engine/verb-menu/src/lib.rs");
     let client = read(&root, "engine/play/src/lib.rs");
@@ -87,33 +114,43 @@ fn the_one_component_that_knows_the_name_prints_the_key() {
         .expect("its end");
     assert!(
         body.contains("e.verb") && body.contains("e.object") && body.contains("e.target"),
-        "it reads the keys"
+        "the key reads the keys"
     );
-    assert!(!body.contains("e.label"), "and not the name");
+    assert!(!body.contains("e.label"), "and none of the names");
 
     assert!(
-        menu.contains("pub label: Option<&'a str>,"),
-        "which the entry has been carrying since `authored-text`"
+        menu.contains("pub fn phrase(&self) -> String {")
+            && menu.contains("self.label.unwrap_or(self.target)")
+            && menu.contains("self.object_label.or(self.object)"),
+        "and the phrase reads the names, falling back to the keys so a menu is never blank"
     );
 
-    // and the transcripts show it
+    // The transcripts keep the key. One that moved every time somebody reworded a template would
+    // pin prose rather than behaviour.
     let won = read(&root, "engine/play/tests/transcript.rs");
     assert!(
         won.contains("> use-with crowbar on crate"),
-        "a player reads the token, the second object's key, and the target's key"
+        "a transcript records what was picked, by key"
+    );
+    let client = read(&root, "engine/play/src/lib.rs");
+    assert!(
+        client.contains("pub fn reads(&self)") && client.contains("e.phrase()"),
+        "and the interactive menu reads the phrase"
     );
 }
 
-/// **Fifty-seven, and this repository has written sixty-three three times.**
+/// **Fifty-seven, everywhere, and this is the test that had been missing.**
 ///
 /// The catalog entry has said 57 since it was written. Two corpus nodes said 63 at `[verified]`
-/// for six phases until `verb-count` corrected them, and `authored-text` wrote it again two
-/// phases ago — in a record, at `[verified]`, citing the entry that disagrees.
+/// for six phases until `verb-count` corrected them, and `authored-text` wrote it again two phases
+/// later — in a record, at `[verified]`, citing the entry that disagrees.
 ///
-/// `figures.rs` holds every statement of a figure against the test that derives it. There is no
-/// test that derives this one, which is why nothing caught the third instance.
+/// `figures.rs` holds every statement of a figure against the test that derives it, and there was
+/// no test deriving this one. **What it can hold is the corpus against the catalog entry**, which
+/// is the widest it goes: a figure about a catalogued artifact can only be derived from the entry,
+/// and nothing holds an entry against the file it describes.
 #[test]
-fn the_verb_count_is_wrong_in_a_record_again() {
+fn every_statement_of_delores_verb_count_says_fifty_seven() {
     let root = repo_root();
     let catalog = read(&root, ".yidam/catalog/delores-source.md");
     assert!(
@@ -121,32 +158,38 @@ fn the_verb_count_is_wrong_in_a_record_again() {
         "the entry says fifty-seven"
     );
 
-    let record = read(&root, ".yidam/decisions/authored-text.yml");
-    assert!(
-        record.contains("every\n  one of its 63 verbs a display string"),
-        "and the record written two phases ago says sixty-three"
-    );
-
-    // nothing anywhere derives the figure, which is why nothing caught it
-    let mut deriving: Vec<String> = Vec::new();
-    for dir in ["crates", "engine"] {
+    // Every place in the corpus and the records that states how many verbs that game has.
+    let mut wrong: Vec<String> = Vec::new();
+    for dir in [".yidam/corpus", ".yidam/decisions"] {
         let mut stack = vec![root.join(dir)];
         while let Some(d) = stack.pop() {
             for e in std::fs::read_dir(&d).expect("readable").flatten() {
                 let p = e.path();
                 if p.is_dir() {
-                    if p.file_name().is_some_and(|n| n == "target") {
-                        continue;
-                    }
                     stack.push(p);
-                } else if p.extension().is_some_and(|x| x == "rs")
-                    && p.file_name().is_some_and(|n| n != "naming.rs")
-                    && std::fs::read_to_string(&p).is_ok_and(|s| s.contains("master_verb_names"))
-                {
-                    deriving.push(p.display().to_string());
+                    continue;
+                }
+                let Ok(src) = std::fs::read_to_string(&p) else {
+                    continue;
+                };
+                let flat = src.split_whitespace().collect::<Vec<_>>().join(" ");
+                for bad in ["63 verbs", "sixty-three verbs", "its 63 "] {
+                    // used versus discussed for the thirteenth time: three records quote the wrong
+                    // figure in order to correct it, and a correction that cannot name what it
+                    // corrects is not one
+                    if flat.contains(bad)
+                        && !flat.contains("never right")
+                        && !flat.contains("wrong")
+                    {
+                        wrong.push(format!("{}: {bad}", p.display()));
+                    }
                 }
             }
         }
     }
-    assert!(deriving.is_empty(), "something checks it: {deriving:?}");
+    assert!(
+        wrong.is_empty(),
+        "a statement of somebody else's verb count that the catalog entry contradicts:\n  {}",
+        wrong.join("\n  ")
+    );
 }

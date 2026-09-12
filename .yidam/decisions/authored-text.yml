@@ -113,9 +113,17 @@ rationale: |
   `[open]`
 
   **And a label the format still has nowhere to put.** Delores's `master_verb_names` gives every
-  one of its 63 verbs a display string with noun slots — `"Unlock $NOUN1$ with $NOUN2$"`
-  ([delores-source](../catalog/delores-source.md)). [verified] This format's verbs are a
+  one of its **fifty-seven** verbs a display string with noun slots — `"Unlock $NOUN1$ with
+  $NOUN2$"` ([delores-source](../catalog/delores-source.md)). [verified] This format's verbs are a
   `const VERBS: [&str; 5]` in the parser, so a verb is not a declaration and has no label to keep.
   A menu built on this tree can print `use-with` and nothing better, and the template form means
   the missing thing is not a string but a pattern over the binding's two keys. That lands on
-  [verb-menu](../corpus/subsystem/verb-menu.yml) rather than here. `[open]`
+  [verb-menu](../corpus/subsystem/verb-menu.yml) rather than here.
+
+  *(Two corrections, made by [verb-names](verb-names.yml).* **This paragraph read "its 63 verbs" at
+  `[verified]`**, citing the entry that says fifty-seven. Two corpus nodes carried the same wrong
+  figure for six phases and [verb-count](verb-count.yml) had already corrected them — this record
+  reintroduced it two phases later. `figures.rs` holds every statement of a figure against the test
+  that derives it and there was no test deriving this one; there is now. *And the question is
+  answered:* six templates live in `engine/verb-menu`, one of them for `option`, which is not a
+  verb. The pattern over the binding's two keys is `Use $2 with $1`.)*
