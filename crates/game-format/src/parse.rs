@@ -10,6 +10,22 @@ use crate::*;
 
 const VERBS: [&str; 5] = ["look-at", "use-with", "talk-to", "pick-up", "walk-to"];
 
+/// The written form of a construct, out of [`crate::FORMS`], which is where this format's
+/// declaration half is specified.
+///
+/// The fallback is the keyword itself and is unreachable: `forms.rs` carries a row for every word
+/// this reader dispatches on and `crates/game-format/tests/forms.rs` holds the two lists equal.
+/// Returning the keyword rather than panicking is the reader's standing rule — it reports and does
+/// not abort, which is what `.yidam/decisions/parser-silence.yml` found eight keywords breaking.
+fn fm(keyword: &'static str, quoted: bool) -> &'static str {
+    crate::form(keyword, quoted).unwrap_or(keyword)
+}
+
+/// The same, for a keyword read off the line rather than written into the arm.
+fn fm_dyn(keyword: &str) -> String {
+    crate::form(keyword, false).unwrap_or(keyword).to_string()
+}
+
 struct Line {
     no: usize,
     tokens: Vec<String>,
@@ -253,11 +269,28 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
             continue;
         }
 
+        // **A construct accounts for its whole line, and the quoted half is part of it.**
+        // `.yidam/decisions/parser-silence.yml` established the rule over the bare tokens and
+        // `tests/ignored.rs` states in its own comment that its mutation goes "before the first
+        // quote", so this half had never been checked by anything. Six constructs took a quoted
+        // string and dropped it without a word. `.yidam/decisions/line-format.yml`.
+        if line.text.is_some() && crate::stray_quote(t[0]) {
+            p.err(
+                no,
+                format!(
+                    "`{}` reads no quoted text — the form is `{}`",
+                    t[0],
+                    fm_dyn(t[0])
+                ),
+            );
+            continue;
+        }
+
         match t[0] {
             // ── declarations and sections ───────────────────────────────────
             "room" if line.text.is_some() => {
                 if t.len() != 2 {
-                    p.err(no, "a room declaration is `room <name> \"<label>\"`");
+                    p.err(no, format!("a room declaration is `{}`", fm("room", true)));
                 } else {
                     p.declare(t[1], Kind::Room, no, line.text.as_deref());
                     p.game.rooms.push(t[1].to_string());
@@ -265,28 +298,28 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
             }
             "room" => {
                 p.flush();
-                let Some(name) = p.at(no, &t, 1, "room <name>") else {
+                let Some(name) = p.at(no, &t, 1, fm("room", false)) else {
                     continue;
                 };
-                p.rest(no, &t, 2, "room <name>");
+                p.rest(no, &t, 2, fm("room", false));
                 p.room = Some(name.to_string());
                 p.conv = None;
                 p.site = None;
             }
             "actor" if line.text.is_some() => {
-                const FORM: &str = "actor <name> \"<label>\"";
-                let Some(name) = p.at(no, &t, 1, FORM) else {
+                let form = fm("actor", true);
+                let Some(name) = p.at(no, &t, 1, form) else {
                     continue;
                 };
-                p.rest(no, &t, 2, FORM);
+                p.rest(no, &t, 2, form);
                 p.declare(name, Kind::Actor, no, line.text.as_deref());
             }
             "actor" => {
                 p.flush();
-                let Some(name) = p.at(no, &t, 1, "actor <name>") else {
+                let Some(name) = p.at(no, &t, 1, fm("actor", false)) else {
                     continue;
                 };
-                p.rest(no, &t, 2, "actor <name>");
+                p.rest(no, &t, 2, fm("actor", false));
                 let name = name.to_string();
                 match &p.room {
                     Some(r) => {
@@ -299,8 +332,8 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 }
             }
             "item" => {
-                const FORM: &str = "item <name> [<lo>..<hi>] \"<label>\"";
-                let Some(name) = p.at(no, &t, 1, FORM) else {
+                let form = fm("item", true);
+                let Some(name) = p.at(no, &t, 1, form) else {
                     continue;
                 };
                 let name = name.to_string();
@@ -309,7 +342,7 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 if t.len() > 2 && range.is_none() {
                     p.err(no, format!("`{}` is not a range, as `0..4`", t[2]));
                 }
-                p.rest(no, &t, 2 + usize::from(range.is_some()), FORM);
+                p.rest(no, &t, 2 + usize::from(range.is_some()), form);
                 let cap = match range {
                     Some((_, hi)) => hi.parse().unwrap_or(1),
                     None => 1,
@@ -321,13 +354,13 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 p.game.items.push(name.clone());
                 p.game.item_cap.insert(name, cap.max(1));
             }
-            // `flag <name> [latched] [in <conversation>] "<label>"`, read in that order rather
+            // A flag's modifiers are read in the order the table gives them, rather
             // than searched for. `t.contains(&"latched")` found the word anywhere on the line,
             // so it read a conversation called `latched` as the modifier, and every token it did
             // not recognise fell through. Order is the cheapest grammar there is.
             "flag" => {
-                const FORM: &str = "flag <name> [latched] [in <conversation>] \"<label>\"";
-                let Some(flag) = p.at(no, &t, 1, FORM) else {
+                let form = fm("flag", true);
+                let Some(flag) = p.at(no, &t, 1, form) else {
                     continue;
                 };
                 let mut i = 2;
@@ -335,13 +368,13 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 i += usize::from(latched);
                 let owner = match t.get(i) {
                     Some(&"in") => {
-                        let owner = p.at(no, &t, i + 1, FORM).map(str::to_string);
+                        let owner = p.at(no, &t, i + 1, form).map(str::to_string);
                         i += 2;
                         owner
                     }
                     _ => None,
                 };
-                p.rest(no, &t, i, FORM);
+                p.rest(no, &t, i, form);
                 let scope = match &owner {
                     Some(c) => Scope::Conversation(c.clone()),
                     None => Scope::Global,
@@ -355,12 +388,12 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 });
             }
             "counter" => {
-                const FORM: &str = "counter <name> <lo>..<hi> \"<label>\"";
-                let Some(name) = p.at(no, &t, 1, FORM) else {
+                let form = fm("counter", true);
+                let Some(name) = p.at(no, &t, 1, form) else {
                     continue;
                 };
                 let name = name.to_string();
-                p.rest(no, &t, 3, FORM);
+                p.rest(no, &t, 3, form);
                 let (lo, hi) = match t.get(2).and_then(|r| r.split_once("..")) {
                     Some((a, b)) => (a.parse().unwrap_or(0), b.parse().unwrap_or(0)),
                     None => {
@@ -376,17 +409,17 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                     line: no,
                 });
             }
-            // `conversation <name> with <actor>`. The `with` half was parsed and dropped from the
+            // The `with` half was parsed and dropped from the
             // day this arm was written: only `t[1]` was read, so `conversation keeper-talk beside
             // keeper` parsed identically and nothing could say who the player was talking to.
             // `.yidam/decisions/verb-names.yml`.
             "conversation" => {
                 p.flush();
-                let Some(name) = p.at(no, &t, 1, "conversation <name> with <actor>") else {
+                let Some(name) = p.at(no, &t, 1, fm("conversation", true)) else {
                     continue;
                 };
                 let name = name.to_string();
-                p.rest(no, &t, 4, "conversation <name> with <actor>");
+                p.rest(no, &t, 4, fm("conversation", true));
                 p.declare(&name, Kind::Conversation, no, line.text.as_deref());
                 match (t.get(2), t.get(3)) {
                     (Some(&"with"), Some(a)) => {
@@ -395,8 +428,9 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                     _ => p.err(
                         no,
                         format!(
-                            "a conversation reads `conversation {name} with <actor>` — the \
-                             `with` is what names who it is held with"
+                            "`conversation {name}` is missing its `with` — the form is \
+                             `{}`, and the `with` is what names who it is held with",
+                            fm("conversation", true)
                         ),
                     ),
                 }
@@ -406,12 +440,12 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
             }
             "hotspot" => {
                 p.flush();
-                const FORM: &str = "hotspot <name> \"<label>\"";
-                let Some(name) = p.at(no, &t, 1, FORM) else {
+                let form = fm("hotspot", true);
+                let Some(name) = p.at(no, &t, 1, form) else {
                     continue;
                 };
                 let name = name.to_string();
-                p.rest(no, &t, 2, FORM);
+                p.rest(no, &t, 2, form);
                 match p.room.clone() {
                     Some(r) => {
                         let scope = Scope::Room(r.clone());
@@ -423,12 +457,12 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 }
             }
             "option" => {
-                const FORM: &str = "option <name> \"<line>\"";
-                let Some(name) = p.at(no, &t, 1, FORM) else {
+                let form = fm("option", true);
+                let Some(name) = p.at(no, &t, 1, form) else {
                     continue;
                 };
                 let name = name.to_string();
-                p.rest(no, &t, 2, FORM);
+                p.rest(no, &t, 2, form);
                 match p.conv.clone() {
                     Some(c) => {
                         let scope = Scope::Conversation(c.clone());
@@ -446,24 +480,24 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
 
             // ── room- and site-level facts ──────────────────────────────────
             "start" => {
-                p.rest(no, &t, 1, "start");
+                p.rest(no, &t, 1, fm("start", false));
                 match p.room.clone() {
                     Some(r) => p.game.start_room = Some(r),
                     None => p.err(no, "`start` outside a room section"),
                 }
             }
-            // `holds <actor>` says where an actor begins, and it is the only way to say it.
+            // `holds` says where an actor begins, and it is the only way to say it.
             // It once took an item too; `resolve` is where that stopped, and why. Recorded
             // raw and sorted out there, because a room may be written before the actor is.
             "holds" => {
-                p.rest(no, &t, 2, "holds <actor>");
+                p.rest(no, &t, 2, fm("holds", false));
                 match (p.room.clone(), t.get(1)) {
                     (Some(r), Some(x)) => p.game.holds.push((r, x.to_string(), no)),
                     (None, _) => p.err(no, "`holds` outside a room section"),
                     (_, None) => p.err(no, "`holds` needs a name"),
                 }
             }
-            // `exit <name> to <room>` — the first primitive this corpus has admitted on the
+            // `exit` — the first primitive this corpus has admitted on the
             // second question in `AGENTS.md` rather than the first. Each of the eighteen bare
             // exits in a shipped game is sayable here as a hotspot with a `walk-to` that moves;
             // *an exit* is not, and `chain(n)` writes that shape out once per room in Rust
@@ -475,7 +509,7 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
             // That is the whole of what makes an archetype safe here and is not free elsewhere;
             // see `.yidam/decisions/exit-archetype.yml`.
             "exit" => {
-                p.rest(no, &t, 4, "exit <name> to <room>");
+                p.rest(no, &t, 4, fm("exit", false));
                 match (p.room.clone(), t.get(1), t.get(2), t.get(3)) {
                     (Some(r), Some(name), Some(&"to"), Some(dest)) => {
                         p.flush();
@@ -496,14 +530,15 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                     (_, Some(name), ..) => p.err(
                         no,
                         format!(
-                            "an exit reads `exit {name} to <room>` — the `to` is what names where \
-                         it goes"
+                            "`exit {name}` is missing its `to` — the form is `{}`, and the \
+                         `to` is what names where it goes",
+                            fm("exit", false)
                         ),
                     ),
                 }
             }
             "on-enter" => {
-                p.rest(no, &t, 1, "on-enter");
+                p.rest(no, &t, 1, fm("on-enter", false));
                 match p.room.clone() {
                     Some(r) => {
                         let site = Site::OnEnter { room: r };
@@ -514,12 +549,15 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                 }
             }
             "is" => {
-                p.rest(no, &t, 2, "is <item>");
+                p.rest(no, &t, 2, fm("is", false));
                 match (&p.site, t.get(1)) {
                     (Some(Site::InRoom { target, .. }), Some(item)) => {
                         p.game.carried_form.insert(target.clone(), item.to_string());
                     }
-                    _ => p.err(no, "`is <item>` needs a hotspot and an item"),
+                    _ => p.err(
+                        no,
+                        format!("`{}` needs a hotspot and an item", fm("is", false)),
+                    ),
                 }
             }
 
@@ -539,7 +577,7 @@ pub fn parse(source: &str, name: &str) -> (Game, Vec<Problem>) {
                     // writes 124 characters more of it than of the real thing, which is the
                     // finding. Requiring the object here would make the counterfactual
                     // unwritable and the measurement unrepeatable.
-                    p.rest(no, &t, 2, "use-with [<item>]");
+                    p.rest(no, &t, 2, fm("use-with", false));
                     t.get(1).map(|s| s.to_string())
                 } else {
                     p.rest(no, &t, 1, v);

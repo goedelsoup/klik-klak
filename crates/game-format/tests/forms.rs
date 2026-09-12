@@ -1,5 +1,5 @@
-//! **The declaration half of this format has no written specification, and the two lines the
-//! design document does write about it describe a shape the reader refuses.**
+//! **The declaration half of this format is specified by a table, and this is what holds the table
+//! against the reader and against the document.**
 //!
 //! `.yidam/decisions/parser-silence.yml` closed on it: *"Sixteen branches each stating their own
 //! arity is better than sixteen branches stating nothing, and it is not a specification… Whether
@@ -7,31 +7,25 @@
 //! from which the reader is derived rather than compared — is a real question and is not answered
 //! here."*
 //!
-//! [`design/bounded-expression-language.md`] states **nine productions**. Seven are the predicate
-//! grammar, which `normal-form` showed is disjunctive normal form and which the reader implements
-//! exactly. The other two are Layer 0:
+//! **Described, yes; described that way, no.** A declaration does not nest, so BNF for it is twenty
+//! productions of one alternative each. [`game_format::FORMS`] is those twenty rows, the reader
+//! reads its error text out of them, and [`design/bounded-expression-language.md`] quotes them.
+//! `.yidam/decisions/line-format.yml`.
 //!
-//! ```text
-//! site    :=  verb target [ object ]        -- what the player did
-//!          |  'on-enter' room               -- where the player got to
+//! What this file pinned before the table existed, and now holds as rules:
 //!
-//! decl    :=  'exit' name 'to' room         -- an edge between two rooms
-//! ```
-//!
-//! **Two of those three alternatives name an operand the reader rejects.** `look-at door` is *"`door`
-//! is not part of `look-at`"* and `on-enter hall` is *"`hall` is not part of `on-enter`"*, because a
-//! binding's target and room come from the `hotspot`, `actor` or `room` line above it and never from
-//! the binding's own line. Only `exit <name> to <room>` is a line an author can type.
-//!
-//! So the Layer 0 block is a description of the **model** — where a binding hangs — written in the
-//! notation of a **syntax**, and nothing has ever held it against the thing that reads the file.
-//! Meanwhile the reader states sixteen forms of its own, in a different notation, in error
-//! messages. The document quotes two of their keywords as terminals and describes one of the two
-//! correctly.
+//! - The document's Layer 0 block stated three site forms and the reader refused all three.
+//!   `look-at door` is *"`door` is not part of `look-at`"* and `on-enter hall` is *"`hall` is not
+//!   part of `on-enter`"*, because a binding's target comes from the `hotspot` or `actor` line
+//!   above it and its room from the `room` section. It was a description of the **model** in the
+//!   notation of a **syntax**, and it is labelled as the model now.
+//! - Five forms stated a quoted label the reader has never required. The forms were wrong, not the
+//!   reader: `exit` expands into a hotspot with no label and `print` writes that back out bare.
+//! - A quoted string was an argument slot six constructs dropped in silence.
 //!
 //! [`design/bounded-expression-language.md`]: ../../../design/bounded-expression-language.md
 
-use game_format::{parse, resolve};
+use game_format::{form, parse, resolve, Quoted, FORMS};
 
 /// Does the reader object to this source, at parse or at admission?
 fn complains(src: &str) -> bool {
@@ -62,71 +56,66 @@ fn with(line: &str) -> String {
     GAME.replace("{X}", line)
 }
 
-/// Every form the reader states, transcribed by hand from its error messages.
-///
-/// By hand because there is nowhere else to read them from: they are string literals scattered
-/// across sixteen match arms, six as `const FORM` and the rest inline, and a regular expression
-/// over the source picks up the doc comments that quote them. Each entry is checked below against
-/// the reader's own source, so the transcription is verified even though it is a transcription —
-/// which is the whole of what a single declared table would replace.
-const STATED: &[&str] = &[
-    "room <name> \\\"<label>\\\"",
-    "room <name>",
-    "actor <name> \\\"<label>\\\"",
-    "actor <name>",
-    "item <name> [<lo>..<hi>] \\\"<label>\\\"",
-    "flag <name> [latched] [in <conversation>] \\\"<label>\\\"",
-    "counter <name> <lo>..<hi> \\\"<label>\\\"",
-    "conversation <name> with <actor>",
-    "hotspot <name> \\\"<label>\\\"",
-    "option <name> \\\"<line>\\\"",
-    "start",
-    "holds <actor>",
-    "exit <name> to <room>",
-    "on-enter",
-    "is <item>",
-    "use-with [<item>]",
-];
-
-/// The reader's own source, read as text because that is where its specification currently lives.
+/// The reader's own source, read as text because a literal form string left in it would be a
+/// second copy of the specification.
 const READER: &str = include_str!("../src/parse.rs");
 const DOCUMENT: &str = include_str!("../../../design/bounded-expression-language.md");
 
-/// **Sixteen forms in the reader, nine productions in the document, two keywords in both.**
+/// **The table is the only copy, and the document quotes all of it.**
 ///
-/// And each of the two is spelled twice. `decl := 'exit' name 'to' room` against
-/// `exit <name> to <room>`, which agree; `'on-enter' room` against `on-enter`, which do not.
-/// Two notations for two constructs is what having no specification looks like when somebody
-/// writes half of one — and the half that was written is the half that is wrong.
+/// Three things had to agree and none of them could: forms scattered across sixteen match arms, a
+/// document writing nine productions in a different notation, and a reader nobody had compared to
+/// either. Now there is one list, the reader reads its messages out of it, and the document carries
+/// every row verbatim.
+///
+/// The check against `parse.rs` is the negative half: a form written as a literal there would be a
+/// second copy, and a second copy is what the whole phase was about.
 #[test]
-fn the_reader_and_the_document_describe_one_construct_in_common() {
-    for form in STATED {
+fn the_table_is_the_only_copy_and_the_document_quotes_all_of_it() {
+    for row in FORMS {
         assert!(
-            READER.contains(form),
-            "the transcription is stale: the reader no longer states {form:?}"
+            DOCUMENT.contains(row.written),
+            "the document does not carry the form {:?}",
+            row.written
+        );
+        // A one-word form *is* the keyword the reader matches on, so there is nothing there to
+        // duplicate — `start` appears in `parse.rs` because the arm has to say `"start"`. The
+        // check is for the forms with operands in them, which are the ones that drifted.
+        if row.written != row.keyword {
+            assert!(
+                !READER.contains(row.written),
+                "the reader writes {:?} as a literal, which is a second copy of the specification",
+                row.written
+            );
+        }
+    }
+
+    // Every keyword the reader dispatches on has a row, so `fm`'s fallback is unreachable.
+    for row in FORMS {
+        assert!(
+            READER.contains(&format!("\"{}\"", row.keyword)),
+            "the table carries {:?} and the reader never mentions it",
+            row.keyword
         );
     }
 
-    let productions = DOCUMENT
-        .lines()
-        .filter(|l| l.contains(":=") && !l.trim_start().starts_with('>'))
-        .count();
-    assert_eq!(productions, 9, "production rules written in the document");
-
-    // A construct is in both when the document's grammar names its keyword as a terminal.
-    let keywords: Vec<&str> = STATED
+    // Two keywords have two rows apiece, and the quoted string is what tells them apart.
+    let selects: Vec<&str> = FORMS
         .iter()
-        .map(|f| f.split([' ', '<']).next().unwrap_or(f))
-        .collect();
-    let shared: Vec<&str> = keywords
-        .iter()
-        .filter(|k| DOCUMENT.contains(&format!("'{k}'")))
-        .copied()
+        .filter(|r| r.quoted == Quoted::Selects)
+        .map(|r| r.keyword)
         .collect();
     assert_eq!(
-        shared,
-        ["exit", "on-enter"],
-        "keywords the document's grammar quotes as terminals"
+        selects,
+        ["room", "actor"],
+        "keywords whose quoted string selects the form rather than filling a slot"
+    );
+    assert_eq!(form("room", true), Some("room <name> \"<label>\""));
+    assert_eq!(form("room", false), Some("room <name>"));
+    assert_eq!(
+        form("when", true),
+        None,
+        "the binding body is not a line format"
     );
 }
 
@@ -211,19 +200,19 @@ fn five_forms_state_a_label_the_reader_does_not_require() {
     }
 }
 
-/// **A quoted string is an argument slot, and no construct accounts for it.**
+/// **Every construct accounts for its quoted string, which six of them used to drop in silence.**
 ///
 /// `ignored.rs` holds the rule that *"every construct accounts for every token on its line"*, and
 /// it tests the tokens only — its mutation lands *"before the first quote, so the mutation lands in
-/// the grammar rather than inside a response"*. That is the right call for what it was measuring
-/// and it leaves the other half of every line untested.
+/// the grammar rather than inside a response"*. That was the right call for what it measured and it
+/// left the other half of every line untested by anything.
 ///
-/// The comparison is with and against itself: parse the line, parse the line with a quoted string
-/// appended, and see whether the reader says anything different. At six constructs it says exactly
-/// the same thing, which is the definition of a slot nothing reads. `start "x"`, `holds ann "x"`,
-/// `look-at: "x"` — accepted, dropped, and nothing said.
+/// The comparison is the line against itself: parse it, parse it with a quoted string appended, and
+/// see whether the reader says anything different. At `start`, `holds`, a verb, `on-enter`, `exit`
+/// and `is` it used to say exactly the same thing, which is the definition of a slot nothing reads.
+/// It says something different at all six now, out of the same table that gives them their forms.
 #[test]
-fn a_quoted_string_is_an_argument_slot_no_construct_accounts_for() {
+fn every_construct_accounts_for_its_quoted_string() {
     /// Everything the reader objects to about this source, as one string.
     fn said(src: &str) -> String {
         let (mut game, problems) = parse(src, "forms");
@@ -240,39 +229,46 @@ fn a_quoted_string_is_an_argument_slot_no_construct_accounts_for() {
         out.join("\n")
     }
 
-    let lines = [
-        ("start", "  start"),
-        ("holds", "  holds ann"),
+    // The line under test, and whatever has to stand above it for the line to make sense.
+    let cases = [
+        ("start", "", "  start", ""),
+        ("holds", "", "  holds ann", ""),
         (
             "verb",
-            "  hotspot gate \"a gate\"\n    look-at:\n      \"A gate.\"",
+            "  hotspot gate \"a gate\"\n",
+            "    look-at:",
+            "\n      \"A gate.\"",
         ),
-        ("on-enter", "  on-enter:\n      \"You arrive.\""),
-        ("exit", "  exit stair to hall"),
+        ("on-enter", "", "  on-enter:", "\n      \"You arrive.\""),
+        ("exit", "", "  exit stair to hall", ""),
         (
             "is",
-            "  hotspot gate \"a gate\"\n    is key\n    pick-up:\n      do give key\n      say \"Taken.\"",
+            "  hotspot gate \"a gate\"\n",
+            "    is key",
+            "\n    pick-up:\n      do give key\n      say \"Taken.\"",
         ),
     ];
 
-    // The appended string goes on the first line of each fragment, which is the line under test.
-    let mutate = |frag: &str| -> String {
-        let mut it = frag.splitn(2, '\n');
-        let head = it.next().unwrap_or("");
-        match it.next() {
-            Some(tail) => format!("{head} \"an appended string\"\n{tail}"),
-            None => format!("{head} \"an appended string\""),
-        }
-    };
-
-    let silent: Vec<&str> = lines
+    let silent: Vec<&str> = cases
         .iter()
-        .filter(|(_, l)| said(&with(l)) == said(&with(&mutate(l))))
-        .map(|(n, _)| *n)
+        .filter(|(_, before, line, after)| {
+            let plain = with(&format!("{before}{line}{after}"));
+            let mutated = with(&format!("{before}{line} \"an appended string\"{after}"));
+            said(&plain) == said(&mutated)
+        })
+        .map(|(n, ..)| *n)
         .collect();
-    assert_eq!(
-        silent,
-        ["start", "holds", "verb", "on-enter", "exit", "is"],
-        "constructs whose diagnosis is unchanged by a quoted string their form does not mention"
+    assert!(
+        silent.is_empty(),
+        "constructs that still take a quoted string their form does not mention: {silent:?}"
+    );
+
+    // And the complaint names the form, so an author is told what the line is instead of only that
+    // it is wrong.
+    let src = with("  start \"a label on start\"");
+    assert!(
+        said(&src).contains("`start` reads no quoted text — the form is `start`"),
+        "the diagnosis should quote the row: {}",
+        said(&src)
     );
 }

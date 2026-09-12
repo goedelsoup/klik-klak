@@ -63,10 +63,13 @@ fn flat(src: &str) -> String {
     src.split_whitespace().collect::<Vec<_>>().join(" ")
 }
 
-/// **The crate reads, admits and writes.**
+/// **The crate reads, admits, writes — and says what it reads.**
 ///
 /// Its description said *"model, reader, and the admission rule"* and the fourth module is the
-/// one that lets either direction be checked against the other.
+/// one that lets either direction be checked against the other. The fifth is the specification:
+/// `forms.rs` holds the written form of every construct of the declaration half, which lived in
+/// sixteen match arms and in a document that disagreed with them.
+/// `.yidam/decisions/line-format.yml`.
 #[test]
 fn the_crate_can_write_what_it_reads() {
     let root = root();
@@ -83,7 +86,7 @@ fn the_crate_can_write_what_it_reads() {
         .collect();
     assert_eq!(
         modules,
-        ["lib", "parse", "print", "resolve", "world"],
+        ["forms", "lib", "parse", "print", "resolve", "world"],
         "the modules this crate has"
     );
 
@@ -95,7 +98,7 @@ fn the_crate_can_write_what_it_reads() {
     let manifest =
         std::fs::read_to_string(root.join("crates/game-format/Cargo.toml")).expect("readable");
     assert!(
-        manifest.contains("model, reader, writer, and the admission rule"),
+        manifest.contains("the written form of every construct, a model, a reader, a writer"),
         "and the crate says what it is"
     );
 }
