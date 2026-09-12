@@ -185,31 +185,45 @@ fn every_quoted_string_in_a_specimen_reaches_the_parse_tree() {
 /// its own gate. The behavioural evidence is the rest of the suite: 158 fixtures in
 /// `crates/reachability/tests` passed unchanged through the phase that filled these fields, and
 /// again through the phase that moved the functions reading them into another workspace.
+///
+/// **The seam was `.says` for three phases and is `.text` now, which is narrower and is the rule
+/// that was meant.** `.yidam/decisions/orphaned-lines.yml` gave the search a reason to hold a
+/// response for the first time: a clause no reachable state selects is authored text nobody can
+/// read, and naming which clause needs the clause. What it takes off it is `.line`. **The search
+/// counts lines and reads none**, which is the sentence `two-components` drew the seam for — the
+/// earlier spelling forbade the word rather than the act.
 #[test]
 fn the_search_reads_none_of_it_and_the_components_read_it() {
     let read = |rel: &str| std::fs::read_to_string(root().join(rel)).expect("readable");
 
     let search = read("crates/reachability/src/lib.rs");
-    for field in [".says", ".labels", ".text", "Response"] {
+    for reading in [".text", ".labels", "as_str()", "chars()"] {
         assert!(
-            !search.contains(field),
-            "the reachability search reached for {field}, which is the seam this holds"
+            !search.contains(reading),
+            "the reachability search reached for {reading}, which is the seam this holds"
         );
     }
 
-    // **One exception, and it is the seam being drawn more finely rather than crossed.** The
-    // search reads `b.refusals` in exactly one place: to report a binding that is shown, declines,
-    // and has no line for the state it declined in. It is not reading the text — it never looks at
-    // a character of it — it is asking whether one exists. A count of nothing is state the search
-    // may know about. `.yidam/decisions/playable.yml`.
+    // **Two exceptions, and both are the seam drawn more finely rather than crossed.** The search
+    // reads `b.refusals` to report a binding that is shown, declines, and has no line for the
+    // state it declined in (`.yidam/decisions/playable.yml`), and it reads both lists to report a
+    // clause no reachable state selects (`.yidam/decisions/orphaned-lines.yml`). Neither looks at
+    // a character. One asks whether a line exists and the other asks where it was written, and
+    // both answers are about the graph rather than about the writing.
     assert_eq!(
         search.matches("&b.refusals").count(),
-        1,
-        "the search asks once whether a refusal has a line, and reads no line"
+        3,
+        "the search asks three times whether a refusal has a line, and reads no line"
+    );
+    assert_eq!(
+        search.matches("r.line").count(),
+        5,
+        "and five times where one was written"
     );
     assert!(
-        search.contains("pub silent: Vec<String>,"),
-        "and what it does with the answer is report it"
+        search.contains("pub silent: Vec<String>,")
+            && search.contains("pub orphaned: Vec<String>,"),
+        "and what it does with both answers is report them"
     );
     assert!(
         search.contains("b.effects") && search.contains("resolver::apply("),

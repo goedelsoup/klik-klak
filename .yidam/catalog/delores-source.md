@@ -38,6 +38,7 @@ used-by:
   - ../corpus/inventory-item/portable-object.yml
   - ../corpus/prior-art/ags.yml
   - ../corpus/prior-art/scumm.yml
+  - ../corpus/failure-mode/orphaned-dialogue-branch.yml
   - ../corpus/verb/use-with.yml
   - ../corpus/interaction/binary-binding.yml
   - ../corpus/interaction/conversational-binding.yml

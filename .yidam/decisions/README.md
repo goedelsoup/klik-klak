@@ -133,6 +133,10 @@ does not re-emit it.
 
 - **:84** — **What this does not settle.** Whether `design/` should hold a proposal this long at all. Seven hundred lines resting on fourteen premises is a document that can only be reconciled in one sitting by somebody who has the whole corpus in mind, and the reconciliation above took a phase. A shorter propo…
 
+### [orphaned-lines](orphaned-lines.yml)
+
+- **:99** — **Not proposed here, and this is the third time the same shape has been declined.** A `once` modifier is a 51st construct, and `latch-default` already weighed declaring a property whose truth the checker can compute — *"a declaration that is true and absent costs nothing to make and buys the guarant…
+
 ### [playable](playable.yml)
 
 - **:104** — **What the slice does that it should not, stated rather than hidden.** It prints a line and returns. [response-presenter](../corpus/subsystem/response-presenter.yml)'s responsibility is *"turn a response into something perceived, **and do not return until it is over**"*, and a `println!` is the firs…
@@ -218,7 +222,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**55 open.**
+**56 open.**
 
 ## What nothing cites
 
@@ -231,8 +235,8 @@ nodes, at four times the rate, and it had never been looked at.
 - [domain-computer](domain-computer.yml)
 - [held](held.yml)
 - [name-scoping](name-scoping.yml)
+- [orphaned-lines](orphaned-lines.yml)
 - [settled-surface](settled-surface.yml)
-- [walked-in](walked-in.yml)
 
 ## What each record rests on
 

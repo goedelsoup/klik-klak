@@ -85,11 +85,11 @@ fn the_words_come_back_attached_to_the_bindings_that_said_them() {
     let resolver = include_str!("../../interaction-resolver/src/lib.rs");
     assert!(
         resolver.contains("pub struct Fired<'a> {")
-            && resolver.contains("pub says: Option<&'a str>,"),
+            && resolver.contains("pub says: Option<&'a Response>,"),
         "a fired binding carries what it said"
     );
     assert!(
-        resolver.contains("let says = select(w, &b.says, &cur);"),
+        resolver.contains("let says = clause(w, &b.says, &cur);"),
         "selected before the effects are folded"
     );
 }
@@ -102,6 +102,13 @@ fn the_words_come_back_attached_to_the_bindings_that_said_them() {
 /// dropped by the same arithmetic and nobody noticed, because nothing said words.
 ///
 /// The seam holds: the client reads `.says`, the search reads `.binding.effects` and no text.
+///
+/// **`Fired.says` became the clause rather than the string and the seam held anyway, which is the
+/// sharper statement of it.** `.yidam/decisions/orphaned-lines.yml` gave the search a reason to
+/// touch `.says` for the first time: a line no reachable state selects is authored text nobody
+/// can read, and naming it needs the clause. What the search takes off the clause is `.line`. So
+/// the rule is not that the search never mentions a response — it is that **the search counts
+/// lines and never reads one**, which is what `two-components` drew the seam for.
 #[test]
 fn the_loop_asks_what_was_said_and_the_search_does_not() {
     let src = include_str!("../src/lib.rs");
@@ -110,13 +117,19 @@ fn the_loop_asks_what_was_said_and_the_search_does_not() {
         "the loop takes the state and the list"
     );
     assert!(
-        src.contains(".filter_map(|f| f.says)"),
+        src.contains(".filter_map(|f| f.says.map(|r| r.text.as_str()))"),
         "and reads the words off it"
     );
 
     let search = include_str!("../../../crates/reachability/src/lib.rs");
+    for reading in [".text", "r.text", "says.text"] {
+        assert!(
+            !search.contains(reading),
+            "the search reads a response's text at {reading}"
+        );
+    }
     assert!(
-        !search.contains(".says") && !search.contains("f.says"),
-        "and the search reads none of them"
+        search.contains("f.says.map(|r| r.line)"),
+        "and takes the line off it instead"
     );
 }

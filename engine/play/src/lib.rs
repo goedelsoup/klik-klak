@@ -207,7 +207,7 @@ impl<'a> Session<'a> {
                 self.state = settled;
                 forced = ran
                     .iter()
-                    .filter_map(|f| f.says)
+                    .filter_map(|f| f.says.map(|r| r.text.as_str()))
                     .map(str::to_string)
                     .collect();
                 (says, true)

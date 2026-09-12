@@ -195,7 +195,7 @@ fn the_classes_the_instrument_never_measured_are_the_drawn_ones() {
         ["actor", "room", "walkbox"],
         "classes no node of which cites the instrument"
     );
-    assert_eq!(citing, 24, "nodes resting some claim on a committed test");
+    assert_eq!(citing, 25, "nodes resting some claim on a committed test");
 }
 
 /// **Four nodes carry no `[verified]` claim at all, and three of them are on the drawn side.**

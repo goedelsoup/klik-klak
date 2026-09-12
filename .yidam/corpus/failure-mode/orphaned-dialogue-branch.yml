@@ -9,6 +9,42 @@ description: |
   list has no paths, so it cannot orphan anything; a tree can. Written and never reached and
   written and unreachable look identical in the file, which is the whole difficulty.
 
+  **That scoping is on the wrong axis, and counting it is what showed so. A path is not what
+  orphans content — a guard is.** Four of the 105 authored lines in the four specimens are
+  selected in no reachable state, and **not one of them is in a conversation**: three are
+  `use-with` refusals in a room and the fourth is a `look-at` on an actor. [verified] —
+  `crates/reachability/tests/orphans.rs`. A guarded response list is what this vocabulary chose
+  in place of a tree ([data-format/interaction-table](../data-format/interaction-table.yml)), and
+  a clause whose predicate holds in no reachable state is unreachable by exactly the mechanism
+  described above. The narrower claim survives only as an accident of these four games: a
+  topic-list option is a unary binding with a `when`
+  ([topic-list](../conversation/topic-list.yml)), so it can orphan as any guarded thing can, and
+  here none happens to. `.yidam/decisions/orphaned-lines.yml`.
+
+  **And three of the four are made by the vocabulary rather than by an author.** `lighthouse.game`
+  has three `use-with` bindings that spend their own second object; all three carry the *already
+  done* refusal — *"It is wicked already."*, *"The reservoir is full."*, *"It is already lit."* —
+  and all three are unreachable for one reason. A binary entry is keyed by the object carried
+  (`.yidam/decisions/arity-cost.yml`), so `spend`ing it removes the entry in the same transition
+  that makes the refusal true: **the binding cannot be asked again, so it cannot decline.**
+  [verified] That is a systematic hole rather than three mistakes, and it is on the one refusal an
+  author is most likely to write.
+
+  **A shipped engine declares the thing that would make those three lines unnecessary, 62 times.**
+  Delores's conversations carry bare modifier tags on an option — `once` 47, `showonce` 13,
+  `temponce` 2, against 79 guards written as real expressions
+  ([delores-source](../../catalog/delores-source.md)). [verified] An option marked `once` is gone
+  once taken, so there is nothing to write an *already done* line **for**. This vocabulary has only
+  the predicate, and a predicate that says *not yet* is also the gate — so the author writes the
+  refusal because the language gave them nowhere to say the binding is spent. [inference]
+
+  **The fourth is this mode in its ordinary form, and it is inside a one-way door.**
+  `ferry.game:61` is the ferryman's *"He is already unmooring."*, guarded on `paid`; paying moves
+  the player across a crossing that specimen documents as *"THE TRAP. The boat does not come
+  back."* The flag becomes true and the room holding the line that reads it becomes unreachable in
+  the same act. [verified] A one-way door is a reachability problem and an authoring problem at
+  once, and only the first had ever been looked at here. [inference]
+
   **The mechanism is an authored act, not an automatic one.** This node and
   [prior-art/ags.yml](../prior-art/ags.yml) both said at first that an option is removed "once
   taken", which implied the system does it. [The AGS manual](../../catalog/ags-manual.md) says
@@ -32,12 +68,31 @@ properties:
     does not see it because the file shows the subtree exactly as it always looked. [verified]
     for the commands and their permanence; `[inference]` for the claim that this is how
     orphaning usually arises in practice, which no source here establishes.
-  detectable_at: authoring
+  detectable_at: |
+    Authoring — and it is detected. `Report::orphaned` names every clause no reachable state
+    selects, with its line, and `cargo run -p reachability -- <game>` prints them under
+    *"Written, and selected in no reachable state"*. [verified] —
+    `crates/reachability/tests/orphans.rs`.
+
+    This property said `authoring` since genesis and nothing made it true for eleven phases. It
+    needed two things that arrived for other reasons: the parse tree keeping response text with
+    its line (`.yidam/decisions/authored-text.yml`), and a forced binding's line being selected in
+    the state it fired from (`.yidam/decisions/walked-in.yml`) — a census taken over resting
+    states alone calls every `on-enter` line unreachable.
   player_visible: |
     No. The player experiences a shorter conversation, not a broken one, and has no way to know
     content existed. [inference] That invisibility is why this is under-reported rather than
-    rare. Whether AGS authors experienced it as a loss at all is a question about people rather
-    than about artifacts, and every source this corpus holds is an artifact —
+    rare.
+
+    **It is why this was the last mode here with no detector, too.** Every other failure mode this
+    corpus names has a witness: a stranded state is met by a player who cannot finish, a silent
+    miss by a player who clicks and is told nothing, and `.yidam/decisions/walked-in.yml` found
+    one of those by playing. This one is met by nobody — not the player, and not the author, for
+    whom *"the file shows the subtree exactly as it always looked"* — so nothing short of an
+    instrument reaches it. [inference]
+
+    Whether AGS authors experienced it as a loss at all is a question about people rather than
+    about artifacts, and every source this corpus holds is an artifact —
     `.yidam/decisions/testimony.yml`. `[open]`
 links:
   - target: ../conversation/branching-tree.yml

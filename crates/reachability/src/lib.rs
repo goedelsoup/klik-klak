@@ -134,6 +134,22 @@ pub struct Report {
     /// percentage computed from `u128::MAX` as though it had measured something. A number
     /// that cannot be produced must not be presented as one.
     pub space_saturated: bool,
+    /// Authored lines no reachable state ever selects — `failure-mode/orphaned-dialogue-branch`,
+    /// counted.
+    ///
+    /// That node says the mode *"belongs to `branching-tree` specifically rather than to
+    /// conversations generally. A topic list has no paths, so it cannot orphan anything"*, and
+    /// says of shipped games that this is *"why nobody counts it"*. Both halves are addressed
+    /// here: the guarded response list orphans without any path to orphan it, and this is the
+    /// count.
+    ///
+    /// It could not be asked until the parse tree kept the lines
+    /// (`.yidam/decisions/authored-text.yml`), and not answered correctly until a forced
+    /// binding's line was selected in the state it fired from
+    /// (`.yidam/decisions/walked-in.yml`) — an `on-enter` line is read between two resting
+    /// states and a census taken over the resting states alone would call every one of them
+    /// unreachable.
+    pub orphaned: Vec<String>,
     /// Rooms whose entry bindings move the player in a loop that never settles.
     ///
     /// An `on-enter` binding is forced, so a state in which one is offered is transient — the
@@ -265,9 +281,17 @@ pub fn analyse(game: &Game) -> Report {
         }
     };
 
+    // Lines selected in some reachable state. A forced binding's line is selected in a state
+    // the search never stores — the chain runs between two resting states — so it is collected
+    // here, where `settle_tracking` can still see it, rather than in the loop below.
+    let mut read: BTreeSet<usize> = BTreeSet::new();
+
     // The start room is arrived in too, which is how both AGS eras document it.
-    let start = match resolver::settle(&ix, ix.initial()) {
-        Ok(s) => s,
+    let start = match resolver::settle_tracking(&ix, ix.initial()) {
+        Ok((s, fired)) => {
+            read.extend(fired.iter().filter_map(|f| f.says.map(|r| r.line)));
+            s
+        }
         Err(room) => {
             note_cycle(room, &ix, &mut entry_cycles);
             ix.initial()
@@ -282,8 +306,11 @@ pub fn analyse(game: &Game) -> Report {
             if !resolver::offered(&ix, b, &states[cur]) {
                 continue;
             }
-            let next = match resolver::settle(&ix, resolver::apply(&ix, b, &states[cur])) {
-                Ok(n) => n,
+            let next = match resolver::settle_tracking(&ix, resolver::apply(&ix, b, &states[cur])) {
+                Ok((n, fired)) => {
+                    read.extend(fired.iter().filter_map(|f| f.says.map(|r| r.line)));
+                    n
+                }
                 Err(room) => {
                     note_cycle(room, &ix, &mut entry_cycles);
                     continue;
@@ -464,9 +491,15 @@ pub fn analyse(game: &Game) -> Report {
                 // applies the effect list to build the state it would leave and this loop runs
                 // once per binding per reachable state. The two are the same question: a binding
                 // in the menu that is not offered is one that declines.
-                if !resolver::offered(&ix, b, st)
-                    && resolver::select(&ix, &b.refusals, st).is_none()
-                {
+                // Which line this binding says here — the `says` list when it fires, the
+                // `else` list when it declines, because those are the two things a player can
+                // be told and a list is only read in its own case.
+                let declines = !resolver::offered(&ix, b, st);
+                let list = if declines { &b.refusals } else { &b.says };
+                if let Some(r) = resolver::clause(&ix, list, st) {
+                    read.insert(r.line);
+                }
+                if declines && resolver::select(&ix, &b.refusals, st).is_none() {
                     silent.push(format!(
                         "`{}{}` at line {} is shown and declines in a reachable state, and its \
                          `else` says nothing there",
@@ -497,6 +530,35 @@ pub fn analyse(game: &Game) -> Report {
     unshown.dedup();
     silent.sort();
     silent.dedup();
+
+    // **Authored lines no reachable state selects.** A response list is first-match-wins, so a
+    // clause is reached only where every clause above it fails; the search knows which states
+    // exist and the resolver knows which clause each one picks, and the two together are the
+    // whole question. A binding in no menu orphans every line under it, which is `unshown`
+    // counted a second way and is left in: the line is unreachable either way, and an author
+    // fixing the binding and an author fixing the guard are doing different work.
+    let mut orphaned: Vec<String> = Vec::new();
+    for b in &game.bindings {
+        for (list, kind) in [(&b.says, "line"), (&b.refusals, "refusal")] {
+            for r in list {
+                if !read.contains(&r.line) {
+                    orphaned.push(format!(
+                        "line {}: the {kind} under `{}{}` at line {} — written, and reached in no state a \
+                         player can get to",
+                        r.line,
+                        b.verb,
+                        b.object
+                            .as_ref()
+                            .map(|o| format!(" {o}"))
+                            .unwrap_or_default(),
+                        b.line
+                    ));
+                }
+            }
+        }
+    }
+    orphaned.sort();
+    orphaned.dedup();
 
     // the corpus claims a latching flag never goes back; hold it against the game, both ways
     let mut latch_violations = Vec::new();
@@ -638,6 +700,7 @@ pub fn analyse(game: &Game) -> Report {
         monotone_counters,
         overflows,
         observed_space: observed,
+        orphaned,
     }
 }
 
@@ -721,6 +784,12 @@ impl Report {
         if !self.silent.is_empty() {
             s.push_str("\nShown, declining, and saying nothing:\n");
             for v in &self.silent {
+                s.push_str(&format!("  {v}\n"));
+            }
+        }
+        if !self.orphaned.is_empty() {
+            s.push_str("\nWritten, and selected in no reachable state:\n");
+            for v in &self.orphaned {
                 s.push_str(&format!("  {v}\n"));
             }
         }
