@@ -32,7 +32,7 @@ Sorted by: kind, then alphabetically.
 | [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 46v / 23i / 1o | 582 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 10v / 7i / 0o | 155 |
 | [save-state.yml](data-format/save-state.yml) | data-format | Save State | 4 | 5v / 4i / 0o | 91 |
-| [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 4v / 2i / 1o | 46 |
+| [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 9v / 5i / 1o | 101 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 4v / 5i / 0o | 96 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 20v / 8i / 1o | 203 |
 | [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 5i / 1o | 75 |
