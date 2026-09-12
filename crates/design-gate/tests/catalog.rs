@@ -89,7 +89,7 @@ fn unread(src: &str) -> &str {
 fn no_unread_list_names_an_artifact_the_catalog_holds() {
     let root = repo_root();
     let all = entries(&root);
-    assert_eq!(all.len(), 10, "catalog entries");
+    assert_eq!(all.len(), 11, "catalog entries");
 
     let held: Vec<(String, Vec<String>)> = all
         .iter()
@@ -135,7 +135,11 @@ fn no_unread_list_names_an_artifact_the_catalog_holds() {
 /// alone rather than regularised.
 ///
 /// `agi-specifications` is silent because it is new: an entry has an unread-list and nothing that
-/// has come off one until something does. `sci-inhouse-docs` was silent for one phase and is not
+/// has come off one until something does. `sci-specifications` is silent for the same reason and
+/// nearly was not — its list points at a document **another** entry holds and has read, and the
+/// first draft wrote *has been read* about it. The discriminator is about this entry's own list,
+/// and a sentence about somebody else's reading would have counted. Reworded rather than
+/// exempted, because the check is right and the sentence was ambiguous. `sci-inhouse-docs` was silent for one phase and is not
 /// any more — three items came off its list together, and one of the three came off in a way this
 /// convention has no state for. It is **retrieved, opened, and not readable here**: a scan with no
 /// text layer, on a machine with no OCR. The entry writes that out rather than leaving it on the
@@ -171,9 +175,10 @@ fn most_unread_lists_record_what_has_since_been_read() {
             "agi-specifications.md",
             "ags-272-manual.md",
             "ags-source.md",
+            "sci-specifications.md",
             "wikipedia-scumm.md",
         ],
-        "and the four with nothing to record"
+        "and the five with nothing to record"
     );
 
     let readme = std::fs::read_to_string(root.join(".yidam/catalog/README.md")).expect("readable");

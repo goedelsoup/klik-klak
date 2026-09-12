@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 85, "every record, in the order it was created");
+    assert_eq!(all.len(), 86, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (43, 45, 35),
+        (44, 46, 36),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -305,9 +305,16 @@ fn the_evidence_each_record_rests_on() {
 /// to build a table of what has been read and rests no claim about adventure games on it, which is
 /// the distinction this check cannot draw and the record has to.
 ///
-/// **And what clears it is named in advance for the second time.** The marker that phase corrected
-/// asks for an SCI1-era artifact and nobody holds one, so the phase that goes and gets it is a
-/// retrieval. If the run reaches two, that sentence was wrong.
+/// **And what clears it is named in advance for the second time — and it did.** The marker
+/// `retraction-reach` corrected asked for an SCI1-era artifact, the next phase went and retrieved
+/// one, and `two-bars` rests on it. Three predictions written into this comment, three settled by
+/// the phase after. The run is zero.
+///
+/// **This clearing is the first by a retrieval of something that had never been in the house.**
+/// `input-side` retrieved too, and `control-transfer` and `adjacency` cleared by re-reading sources
+/// already held — which this check counts identically, and should not. A phase that opens a
+/// document nobody had opened and a phase that opens one for a second question are different work,
+/// and both read here as *cited a document*.
 ///
 /// Two phases on the same tooling, one with a document and one without, is the distinction this
 /// check was built to make visible. A phase that touches no source and knows it is not the same
@@ -328,7 +335,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (1, 1),
+        (0, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
