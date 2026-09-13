@@ -294,6 +294,10 @@ const GEOMETRY: &[(&str, Geometry)] = &[
     ("adjacency", Geometry::Rests),
     ("containment", Geometry::Rests),
     ("declared-edge", Geometry::Rests),
+    // One sentence, quoting `declared-edge` on an imported premise. Its own subject is a word this
+    // list cannot tell apart: a **frame** here is a renderer's, not a walkbox's, and the record
+    // says so in the same paragraph — what a frame supplies is a second input channel.
+    ("dismissed-hold", Geometry::Mentions),
     ("drawn-boundary", Geometry::Decides),
     ("engine-directory", Geometry::Mentions),
     ("escape-hatch", Geometry::Rests),
@@ -429,7 +433,7 @@ fn the_premise_is_load_bearing_in_ten_records_and_decided_in_one() {
     );
     assert_eq!(
         of(Geometry::Mentions).len(),
-        5,
+        6,
         "the word without the premise"
     );
     assert_eq!(of(Geometry::AboutTheCheck), ["unread-spelling"]);

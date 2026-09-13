@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 93, "every record, in the order it was created");
+    assert_eq!(all.len(), 94, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (48, 52, 42),
+        (49, 53, 43),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -389,7 +389,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (1, 0),
+        (0, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
@@ -405,13 +405,18 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
 /// Whether a phase **retrieved** a document or **re-read** one it already had is the distinction
 /// the run above cannot draw, so it is drawn here by hand and held against the directory. The
 /// catalog's unread list says which documents nobody opened; nothing says what an opened document
-/// was not looked at for, and four of eight phases is what that costs.
+/// was not looked at for, and five of eight phases is what that costs.
+///
+/// **And the window has gone to zero.** `two-bars` fell off the end and nothing has replaced it:
+/// every phase in the last eight that rested on a document rested on one already in the house. The
+/// last five phases are engine phases, and an engine phase re-reads — it cannot find out what an
+/// author writes by retrieving another manual. That is a real change of mode rather than a lapse,
+/// and it is the first time this figure has been able to say so.
 #[test]
 fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("two-bars", Some(true)),
         ("unread-specimen", None),
         ("reads-like-writing", Some(false)),
         ("unread-spelling", None),
@@ -419,6 +424,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("unbuilt-solver", Some(false)),
         ("or-earns-it", Some(false)),
         ("declared-edge", None),
+        ("dismissed-hold", Some(false)),
     ];
 
     let root = repo_root();
@@ -459,7 +465,7 @@ fn the_last_eight_phases_mostly_re_read() {
     let fresh = RECENT.iter().filter(|(_, r)| *r == Some(true)).count();
     assert_eq!(
         (doc, fresh, doc - fresh),
-        (5, 1, 4),
+        (5, 0, 5),
         "phases resting on a document, on one newly retrieved, and on one already in the house"
     );
 }

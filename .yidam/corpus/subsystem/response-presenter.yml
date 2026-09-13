@@ -32,6 +32,15 @@ description: |
   does not return until the sink does, and `weight` is how much there is to perceive.
   `.yidam/decisions/held.yml` is where that was decided and what it rests on.
 
+  **And the guarantee is exercised.** For one phase the only sinks in the build returned at once,
+  so *"do not return until it is over"* was a promise nothing had ever asked for. `engine/play`'s
+  interactive loop now holds the player on every line and comes back when they ask for the next
+  thing — on a terminal, with no clock and no invented rate, which is what
+  `.yidam/decisions/held.yml` recorded as needing a frame. What a frame supplies is not the clock
+  but a **second channel**: with one stream the dismissal and the choice are the same keypress, so
+  a timed hold could not be cut short by a player who had finished reading.
+  `.yidam/decisions/dismissed-hold.yml`.
+
   The sentence that stood here until `.yidam/decisions/unbuilt-solver.yml` — *"what is still
   unmodelled is this component itself"* — was true when it was written and was left standing for
   five phases after it stopped being. Two of the three built components said they were built and
@@ -102,6 +111,17 @@ properties:
     [inference] An author who wants a beat writes a longer sentence. That is a real authoring
     facility arrived at by nobody deciding anything, and it is worth naming before an engine
     exists to make it accidental in a different way.
+
+    **And it holds under one of two holds, which is the condition that sentence was written
+    without.** A hold that **elapses** ends when a duration is up and honours the length; a hold
+    that is **dismissed** ends when the player asks for the next thing, and under it the author's
+    longest sentence and their shortest cost the same. Measured on a winning run of
+    `lighthouse.game`: 471 characters over ten holds, the two ends 74 characters and 3, one
+    keypress each. [verified] — `engine/play/tests/holding.rs`.
+
+    **Which of the two a game gets is not an authoring question**, which is why it is recorded here
+    rather than mended here: an author writes `say` and there is one spelling, and the client
+    decides once for every line in the game. `.yidam/decisions/dismissed-hold.yml`.
 links:
   - target: ../interaction/unary-binding.yml
     relationship: realizes
