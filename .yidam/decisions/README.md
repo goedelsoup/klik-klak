@@ -106,8 +106,7 @@ does not re-emit it.
 
 ### [held](held.yml)
 
-- **:94** — It is left alone rather than cut. `engine/`'s gate checks that a cargo dependency is a declared edge and not the converse, deliberately: the resolver also declares `depends-on` `path-solver`, which does not exist, and a rule requiring the converse would require building it. An edge the build does no…
-- **:108** — **What a text client cannot do, stated rather than papered over.** `play` implements `Perceive` by printing and returning, so it holds the player for nothing at all. The component reports the weight and the client discards it, which is honest: a terminal with no clock and no input between turns has …
+- **:115** — **What a text client cannot do, stated rather than papered over.** `play` implements `Perceive` by printing and returning, so it holds the player for nothing at all. The component reports the weight and the client discards it, which is honest: a terminal with no clock and no input between turns has …
 
 ### [hotspot-identity](hotspot-identity.yml)
 
@@ -226,7 +225,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**57 open.**
+**56 open.**
 
 ## What nothing cites
 
@@ -237,10 +236,8 @@ nodes, at four times the rate, and it had never been looked at.
 - [binding-axes](binding-axes.yml)
 - [declared-reach](declared-reach.yml)
 - [domain-computer](domain-computer.yml)
-- [held](held.yml)
 - [name-scoping](name-scoping.yml)
 - [settled-surface](settled-surface.yml)
-- [unbuilt-solver](unbuilt-solver.yml)
 
 ## What each record rests on
 
@@ -255,6 +252,7 @@ list is the one that record holds as a tripwire.
 - [action-pages](action-pages.yml)
 - [carried-claims](carried-claims.yml)
 - [class-evidence](class-evidence.yml)
+- [declared-edge](declared-edge.yml)
 - [drawn-boundary](drawn-boundary.yml)
 - [engine-directory](engine-directory.yml)
 - [inert-reports](inert-reports.yml)

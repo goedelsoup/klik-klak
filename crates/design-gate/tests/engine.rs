@@ -32,10 +32,15 @@
 //! list moves, and then it says so loudly.
 //!
 //! The third is a rule the first crates made checkable: **a component may not invent a
-//! dependency.** A cargo dependency from one engine crate to another must be a `depends-on` edge
-//! between the subsystem nodes. The converse is not checked: the resolver declares `depends-on`
-//! `path-solver` and `response-presenter` in the corpus and takes neither as a cargo dependency,
-//! because it is handed what they produce rather than calling them.
+//! dependency**, and the converse — **a component may not declare one it does not take.** A cargo
+//! dependency between engine crates must be a `depends-on` edge, and a `depends-on` edge between
+//! two **built** components must be a cargo dependency.
+//!
+//! The second half could not be written until every component named existed, and this test said so
+//! in writing for six phases — a rule like that *"would require building them"*. `.yidam/decisions/unbuilt-solver.yml` built the last one and
+//! `.yidam/decisions/declared-edge.yml` asked the question, which had three answers and two of them
+//! were no. The rule stays conditional on *built* — an edge to a component nothing has written
+//! cannot be wrong yet, and refusing it would be a rule about work nobody has done.
 //!
 //! `.yidam/decisions/engine-directory.yml`.
 
@@ -291,9 +296,14 @@ fn a_client_composes_exactly_the_components_it_depends_on() {
 /// between the subsystem nodes — `interaction-resolver -depends-on-> verb-menu` is declared, and
 /// the crates are wired that way because the corpus says so rather than the other way round.
 ///
-/// One direction only. The resolver also declares `depends-on` `path-solver` and
-/// `response-presenter`, and a rule that required those to be cargo dependencies would require
-/// building them.
+/// **And a component may not declare a dependency it does not take**, once the thing it names is
+/// built. That direction was impossible to check while `path-solver` did not exist, and asking it
+/// the day it did found `interaction-resolver` declaring three and wiring one.
+/// `.yidam/decisions/declared-edge.yml`.
+///
+/// It is conditional on *built* rather than unconditional. An edge to a component nobody has
+/// written cannot be wrong yet, and a rule that refused it would be a rule about work nobody has
+/// done rather than about an architecture that has met a compiler.
 #[test]
 fn no_crate_depends_on_a_component_the_corpus_does_not_send_it_to() {
     let root = repo_root();
@@ -331,6 +341,46 @@ fn no_crate_depends_on_a_component_the_corpus_does_not_send_it_to() {
              dependency is invented or the corpus is missing one the engine needs"
         );
     }
+
+    // and the converse, over components that are built
+    let built: BTreeSet<String> = modules(&root)
+        .iter()
+        .filter_map(|p| realizes(&std::fs::read_to_string(p).ok()?))
+        .collect();
+    let mut unwired = Vec::new();
+    for from in &known {
+        let Ok(node) =
+            std::fs::read_to_string(root.join(format!(".yidam/corpus/subsystem/{from}.yml")))
+        else {
+            continue;
+        };
+        let Some(links) = node.split("\nlinks:").nth(1) else {
+            continue;
+        };
+        let mut target: Option<String> = None;
+        for line in links.lines() {
+            let l = line.trim();
+            if let Some(t) = l.strip_prefix("- target: ../subsystem/") {
+                target = Some(t.trim_end_matches(".yml").to_string());
+            } else if l == "relationship: depends-on" {
+                if let Some(to) = target.take() {
+                    if built.contains(from)
+                        && built.contains(&to)
+                        && !edges.contains(&(from.clone(), to.clone()))
+                    {
+                        unwired.push(format!("{from} -depends-on-> {to}"));
+                    }
+                }
+            }
+        }
+    }
+    assert!(
+        unwired.is_empty(),
+        "a component declares a dependency on a built component and does not take it — \
+         `depends-on` is \"another component this one requires in order to do its own work\", so \
+         either the edge is wrong or the build is: {}",
+        unwired.join(", ")
+    );
 }
 
 /// **The directory states its contract, and the contract says what the gate cannot see.**

@@ -72,9 +72,9 @@ Sorted by: kind, then alphabetically.
 | [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 12v / 5i / 0o | 170 |
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 6v / 3i / 0o | 73 |
 | [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 3i / 0o | 41 |
-| [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 8 | 5v / 5i / 0o | 105 |
-| [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 3v / 3i / 0o | 87 |
-| [response-presenter.yml](subsystem/response-presenter.yml) | subsystem | Response Presenter | 3 | 5v / 3i / 0o | 103 |
+| [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 6 | 5v / 6i / 0o | 120 |
+| [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 3v / 4i / 0o | 93 |
+| [response-presenter.yml](subsystem/response-presenter.yml) | subsystem | Response Presenter | 3 | 5v / 3i / 0o | 111 |
 | [verb-menu.yml](subsystem/verb-menu.yml) | subsystem | Verb Menu | 3 | 8v / 3i / 0o | 99 |
 | [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 11v / 7i / 0o | 155 |
 | [look-at.yml](verb/look-at.yml) | verb | Look At | 2 | 5v / 5i / 0o | 81 |

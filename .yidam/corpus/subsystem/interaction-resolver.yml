@@ -63,6 +63,25 @@ description: |
   reduces to a unary binding against an actor — so the component that resolves bindings is
   already the component that runs one. The edge is therefore evidence for that reduction
   rather than an independent claim: if the reduction is wrong, this edge is wrong with it.
+
+  **It declared three dependencies and needs one.** `depends-on` is *"another component this one
+  requires in order to do its own work"*, and this node drew it at `path-solver` and
+  [response-presenter](response-presenter.yml) as well as [verb-menu](verb-menu.yml) — at
+  genesis, before any of the three existed. Both
+  are cut. `.yidam/decisions/declared-edge.yml`.
+
+  **It does not depend on a presenter, and its own responsibility is why.** What it is answerable
+  for is *"produce exactly one outcome"*, not deliver one. The thing that needs a presenter is
+  whatever runs the loop, and `engine/play` is what takes it as a dependency in the build. The
+  corpus has no node for a client — `.yidam/decisions/playable.yml` put the loop outside its
+  subject — so the fact had nowhere to live and was written at the nearest node that would hold it.
+
+  **And it does not wait on a path.** [path-solver](path-solver.yml) gave the coupling as *"most
+  bindings wait on arrival before resolving"*, which is true of a point-and-click engine and not of
+  this one: `.yidam/decisions/drawn-boundary.yml` keeps only the half an author types, so a
+  `walk-to` writes `move <room>`, arrival **is** the room, and there is nothing to wait for.
+  [inference]
+
 properties:
   responsibility: |
     Given a composed binding, produce exactly one outcome: an authored response, an authored
@@ -93,11 +112,7 @@ links:
     relationship: realizes
   - target: ../interaction/entry-binding.yml
     relationship: realizes
-  - target: ../subsystem/path-solver.yml
-    relationship: depends-on
   - target: ../subsystem/verb-menu.yml
-    relationship: depends-on
-  - target: ../subsystem/response-presenter.yml
     relationship: depends-on
   - target: ../conversation/topic-list.yml
     relationship: realizes

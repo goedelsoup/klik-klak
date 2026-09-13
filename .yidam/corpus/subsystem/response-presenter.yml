@@ -5,6 +5,14 @@ description: |
   sound played, an animation run — and holds the game until it has finished. It is the last
   component in the chain a player's click starts, and the only one whose output is not state.
 
+  **Nothing points at this node, and that is the honest state.** The one edge that
+  did was `interaction-resolver -depends-on-> response-presenter`, cut by
+  `.yidam/decisions/declared-edge.yml`: the resolver's responsibility is *"produce exactly one
+  outcome"*, not deliver one, and the thing that needs a presenter is whatever runs the loop.
+  `engine/play` is what depends on it in the build. `.yidam/decisions/playable.yml` put clients
+  outside this corpus's subject, so there is no node to draw the edge from — which is why it was
+  drawn from the nearest one that would hold it.
+
   **It is named here because the resolver's output had no consumer.**
   [interaction-resolver](interaction-resolver.yml) is described as producing *"either the response
   or the refusal"*, and nothing in this corpus said what becomes of one. Three subsystems were

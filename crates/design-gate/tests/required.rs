@@ -1,29 +1,31 @@
-//! **One component declares three dependencies and needs one, and the other two were
-//! unfalsifiable until last phase.**
+//! **One `depends-on` edge, and the build takes it.**
 //!
-//! `subsystem -depends-on-> subsystem` is defined in `.yidam/corpus/subsystem.ont.yml` as *"another
-//! component this one requires in order to do its own work"* — a claim about the built system, in a
-//! class whose `responsibility` property insists on *"what this component is answerable for, stated
-//! without reference to any other component."* The one edge that couples two components is the one
-//! the corpus drew three times.
+//! This was a census one commit ago: `interaction-resolver` declared three and
+//! `engine/interaction-resolver/Cargo.toml` took one. `depends-on` is defined in
+//! `.yidam/corpus/subsystem.ont.yml` as *"another component this one requires in order to do its
+//! own work"* — a claim about a built system, in a class that otherwise works hard to avoid one,
+//! since a `responsibility` is *"stated without reference to any other component."*
 //!
-//! `interaction-resolver` declares `depends-on` to `path-solver`, `verb-menu` and
-//! `response-presenter`, and `engine/interaction-resolver/Cargo.toml` takes `verb-menu`.
+//! **The two that went failed differently and only one of them was about the engine.**
 //!
-//! **The gate says in writing why it does not check the other direction.**
-//! `crates/design-gate/tests/engine.rs`: *"One direction only. The resolver also declares
-//! `depends-on` `path-solver` and `response-presenter`, and a rule that required those to be cargo
-//! dependencies would require building them."* That was true and is a dated reason: a rule cannot
-//! ask a component to depend on something that does not exist.
+//! `response-presenter` was a **misfiling**. The resolver's own responsibility is *"produce exactly
+//! one outcome"*, not deliver one; the thing that needs a presenter is whatever runs the loop, and
+//! `.yidam/decisions/playable.yml` put clients outside this corpus's subject. The fact had nowhere
+//! to live and was written at the nearest node that would hold it.
 //!
-//! **`.yidam/decisions/unbuilt-solver.yml` built the last of them.** All four components the corpus
-//! specifies exist, so the converse is askable for the first time, and two edges that could not be
-//! wrong are now either right or not.
+//! `path-solver` was an **imported premise**. Its node argued the coupling *"comes from the
+//! vocabulary rather than from any implementation choice"* — and it does, from the vocabulary a
+//! point-and-click engine normally has. `.yidam/decisions/drawn-boundary.yml` keeps only the half
+//! an author types, so a `walk-to` writes `move <room>`, arrival **is** the room, and nothing waits.
 //!
-//! `.yidam/decisions/held.yml` left a marker on one of the two: *"an edge the build does not need
-//! is exactly as visible as one it does — which is to say invisible — and what this record can say
-//! is that somebody looked once."* This is the second look, and it is a different question because
-//! the thing it asks about is built.
+//! **The rule that catches the next one lives in `engine.rs`**, where the cargo→corpus direction
+//! already did: a `depends-on` between two built components must be a cargo dependency. It could
+//! not be written until every component named existed —
+//! `.yidam/decisions/unbuilt-solver.yml` built the last — and the day it could, two of three edges
+//! turned out to be wrong.
+//!
+//! What is held here is the other half: **the corpus says why each one went**, so a phase redrawing
+//! one meets the argument rather than an empty slot. `.yidam/decisions/declared-edge.yml`.
 
 use design_gate::repo_root;
 use std::path::Path;
@@ -88,78 +90,73 @@ fn wired(root: &Path) -> Vec<(String, String)> {
     out
 }
 
-/// **Three declared, one wired.**
+/// **What the corpus declares and what the build takes are the same list.**
+///
+/// Pinned rather than compared alone, because a list that shrank to nothing would compare equal to
+/// a build that wired nothing. One edge survived contact with a compiler out of three drawn at
+/// genesis, and if a second is ever drawn it should be because somebody wrote a `use`.
 #[test]
-fn the_resolver_declares_three_dependencies_and_the_build_takes_one() {
+fn every_declared_dependency_is_one_the_build_takes() {
     let root = repo_root();
     assert_eq!(
         declared(&root),
-        [
-            (
-                "interaction-resolver".to_string(),
-                "path-solver".to_string()
-            ),
-            ("interaction-resolver".to_string(), "verb-menu".to_string()),
-            (
-                "interaction-resolver".to_string(),
-                "response-presenter".to_string()
-            ),
-        ],
-        "every depends-on the corpus declares between components"
-    );
-    assert_eq!(
         wired(&root),
-        [("interaction-resolver".to_string(), "verb-menu".to_string())],
-        "and every one the build takes"
+        "declared against wired: `depends-on` is a claim about the built system"
     );
-}
-
-/// **The reason the converse was never checked has expired, and it expired last phase.**
-///
-/// A rule cannot ask a component to depend on one that does not exist. All four exist now —
-/// `.yidam/decisions/unbuilt-solver.yml` — so the two unwired edges have stopped being
-/// unfalsifiable and have started being either true or false.
-#[test]
-fn both_unwired_targets_are_built_now() {
-    let root = repo_root();
-    let unwired: Vec<String> = {
-        let w = wired(&root);
-        declared(&root)
-            .into_iter()
-            .filter(|e| !w.contains(e))
-            .map(|(_, to)| to)
-            .collect()
-    };
     assert_eq!(
-        unwired,
-        ["path-solver", "response-presenter"],
-        "declared and not wired"
-    );
-
-    for name in &unwired {
-        assert!(
-            root.join(format!("engine/{name}/src/lib.rs")).exists(),
-            "{name} is not built, and an edge to an unbuilt component cannot be wrong yet"
-        );
-    }
-
-    // and the gate still carries the dated reason, in the test that acts on it
-    let gate = std::fs::read_to_string(root.join("crates/design-gate/tests/engine.rs"))
-        .expect("the engine gate");
-    let flat = gate.replace("//!", "").replace("///", "");
-    let flat = flat.split_whitespace().collect::<Vec<_>>().join(" ");
-    assert!(
-        flat.contains(
-            "a rule that required those to be cargo dependencies would require building them"
-        ),
-        "engine.rs no longer carries the reason this census is about"
+        declared(&root),
+        [("interaction-resolver".to_string(), "verb-menu".to_string())],
+        "the one coupling between components this engine has"
     );
 }
 
-/// **What the relation means, and what the class says about naming another component at all.**
+/// **Each cut edge is argued where a reader meets it, rather than leaving a slot.**
 ///
-/// Both quoted rather than paraphrased, because the census is that two edges do not satisfy the
-/// first and the class was written to discourage the second.
+/// An edge removed in silence is indistinguishable from one nobody thought of — which is the
+/// finding `.yidam/decisions/held.yml` recorded and could not act on, one component short of being
+/// able to. Both nodes say what was claimed, why it was plausible, and what would make it true.
+#[test]
+fn both_cut_edges_are_argued_in_the_nodes() {
+    let root = repo_root();
+    let node = |rel: &str| {
+        std::fs::read_to_string(root.join(".yidam/corpus/subsystem").join(rel))
+            .expect("the node")
+            .replace(['*', '`'], "")
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ")
+    };
+
+    let resolver = node("interaction-resolver.yml");
+    assert!(
+        resolver.contains("It declared three dependencies and needs one."),
+        "the resolver does not say it declared more than it needs"
+    );
+    assert!(
+        resolver.contains("not deliver one. The thing that needs a presenter is"),
+        "nor why it does not depend on a presenter"
+    );
+    assert!(
+        resolver.contains("arrival is the room, and there is nothing to wait for"),
+        "nor why it does not wait on a path"
+    );
+
+    // and the two targets say it from their own side
+    assert!(
+        node("path-solver.yml").contains("This node said the interaction resolver depends on it"),
+        "path-solver still claims a coupling it does not have"
+    );
+    assert!(
+        node("response-presenter.yml").contains("Nothing points at this node"),
+        "response-presenter does not say that nothing points at it"
+    );
+}
+
+/// **The relation still means what made two of the three wrong.**
+///
+/// Quoted rather than paraphrased. If `depends-on` is ever widened to mean *is described in terms
+/// of* or *is sequenced after*, the rule in `engine.rs` stops being a rule and the two edges cut
+/// here come back by definition rather than by evidence.
 #[test]
 fn the_relation_is_defined_as_a_requirement() {
     let root = repo_root();
@@ -174,14 +171,15 @@ fn the_relation_is_defined_as_a_requirement() {
         "nor the class's own rule about naming one"
     );
 
-    // and the resolver's own responsibility says it produces rather than delivers
-    let node =
-        std::fs::read_to_string(root.join(".yidam/corpus/subsystem/interaction-resolver.yml"))
-            .expect("the node");
-    let flat = node.replace(['*', '`'], "");
-    let flat = flat.split_whitespace().collect::<Vec<_>>().join(" ");
+    // and the gate carries the converse, which is what replaced the reason for not checking it
+    let gate = std::fs::read_to_string(root.join("crates/design-gate/tests/engine.rs"))
+        .expect("the engine gate");
     assert!(
-        flat.contains("produce exactly one outcome"),
-        "the resolver's responsibility no longer says what it is answerable for"
+        gate.contains("a component may not declare one it does not take"),
+        "engine.rs no longer states the rule this phase made writable"
+    );
+    assert!(
+        !gate.contains("a rule that required those to be cargo dependencies would require"),
+        "and it still carries the reason that expired"
     );
 }

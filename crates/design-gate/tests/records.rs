@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (738, 127, 84));
+    assert_eq!((total, mentions, tests.len()), (750, 128, 85));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -325,10 +325,8 @@ fn a_record_nothing_cites_is_named() {
             "binding-axes",
             "declared-reach",
             "domain-computer",
-            "held",
             "name-scoping",
             "settled-surface",
-            "unbuilt-solver",
         ],
         "seven, and `normal-form` is not here because the record it answers cites it back. \
          A phase that retracts an earlier `[open]` writes into the record that raised it, so \
@@ -366,10 +364,19 @@ fn a_record_nothing_cites_is_named() {
          and correcting a record means writing into it, so `round-trip` and `normal-form` both \
          cite it before it has answered anybody's question. Every other exit needs a later phase \
          to come looking; this one is the record being wrong about something that was already \
-         written down"
+         written down. And two came off at once for the first time, in one phase, by the two \
+         routes that were already known: `held` raised a marker and `declared-edge` retracts it, \
+         which is the ordinary mechanism; `unbuilt-solver` is cited for what it built, which is \
+         `resolver-kind`'s. What is new is only that a phase can do both, and it can because \
+         building the last component is what made the marker answerable. And `declared-edge` \
+         never joined it either, the way `or-earns-it` did not: retracting a marker means writing \
+         into the record that raised it, so `held` cites the phase that answered it on the day it \
+         lands. Two records in three phases have skipped this list entirely, and both did it by \
+         correcting something already written down rather than by answering a question — which \
+         makes that the ordinary exit for a phase whose subject is this repository"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (92, 365));
+    assert_eq!((c.len(), edges), (93, 373));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -487,7 +494,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 57, "live open questions in this directory");
+    assert_eq!(total, 56, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
@@ -575,9 +582,16 @@ fn no_record_has_changed_what_it_decided() {
     // `subject.rs::the_last_eight_phases_mostly_re_read` now and the two sentences say what it
     // computes. Corrected measurements, like the two exceptions above and for the same reason: a
     // figure is the one thing in a record that can turn out to be wrong.
+    //
+    // The thirty-eighth is `held`, and it is the second kind again and the cleanest instance of
+    // it: the record raised a marker it could not act on — *"an edge the build does not need is
+    // exactly as visible as one it does"* — and `declared-edge` retracted it by writing the answer
+    // where the question is. Nothing about the record changed except that one of its two open
+    // questions stopped being open, which is the shape `marker-count` describes: a retraction does
+    // not re-emit the token.
     assert_eq!(
         edited,
-        37,
+        38,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()
