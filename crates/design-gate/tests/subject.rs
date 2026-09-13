@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 89, "every record, in the order it was created");
+    assert_eq!(all.len(), 90, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (45, 48, 39),
+        (46, 49, 40),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -357,6 +357,14 @@ fn the_evidence_each_record_rests_on() {
 /// nobody may extend it without noticing. One phase on the instrument, immediately after two that
 /// corrected what the instrument had been measuring, is the sequence somebody would choose. A run
 /// of two would be a different conversation.
+///
+/// **It did not reach two.** `restated-guard` cleared both runs the next phase by re-deciding a
+/// question against `.yidam/catalog/delores-source.md` — a shipped game's guard census, taken by
+/// the phase that read that source for what an object declares, and read here for whether a
+/// language needs a name for a condition. **Fourth clearance in six phases by re-reading a source
+/// already in the house**, after `control-transfer`, `adjacency` and `reads-like-writing`. This
+/// check counts all four identically to going out and retrieving something nobody had, and on the
+/// evidence of six phases that is now the main way questions here get answered.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -372,7 +380,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (1, 1),
+        (0, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
