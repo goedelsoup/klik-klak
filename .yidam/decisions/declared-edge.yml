@@ -1,0 +1,92 @@
+id: declared-edge
+summary: >-
+  **A component declared three dependencies and needs one, and the other two could not be wrong
+  until last phase.** `depends-on` is *"another component this one requires in order to do its own
+  work"* — a claim about a built system — and the corpus drew it three times out of
+  `interaction-resolver` while the build took `verb-menu` alone. The gate said in writing why it
+  never checked the other direction: a rule requiring those to be cargo dependencies *"would
+  require building them"*. [unbuilt-solver](unbuilt-solver.yml) built the last one. Both unwired
+  edges are cut, for different reasons: the resolver **produces** an outcome and does not deliver
+  it, and the coupling to `path-solver` belongs to a vocabulary with geometry rather than to this
+  one. The second was written where it was because the corpus has no node for a **client** — by
+  decision — so the only place anybody could say *somebody presents this* was the wrong place.
+context: |
+  `.yidam/corpus/subsystem.ont.yml` gives the class two relations. `realizes` points out at the
+  authoring primitives a component makes work, and `depends-on` is the only one that couples two
+  components: *"Another component this one requires in order to do its own work."*
+
+  It is a claim about a built system, in a class that otherwise works hard to avoid one. The
+  `responsibility` property is *"what this component is answerable for, **stated without reference
+  to any other component**"*, and the class description says a subsystem has *"a responsibility that
+  can be named without naming any other component."*
+
+  **Three of them come out of one node.** `interaction-resolver -depends-on->` `path-solver`,
+  `verb-menu` and `response-presenter`. `engine/interaction-resolver/Cargo.toml` takes `verb-menu`.
+  [verified] — `crates/design-gate/tests/required.rs`.
+
+  **And the gate says why it never asked.** `crates/design-gate/tests/engine.rs` checks that a cargo
+  dependency between engine crates is a declared edge, and states the omission in the test that acts
+  on it: *"One direction only. The resolver also declares `depends-on` `path-solver` and
+  `response-presenter`, and a rule that required those to be cargo dependencies would require
+  building them."* That was correct. A rule cannot ask a component to depend on one that does not
+  exist, and until [unbuilt-solver](unbuilt-solver.yml) one of the two did not.
+
+  [held](held.yml) found the first of them by census and left a marker rather than acting: *"an edge
+  the build does not need is exactly as visible as one it does — which is to say invisible — and
+  what this record can say is that somebody looked once."* The second look is a different question,
+  because the thing it asks about is built.
+decision: |
+  **Cut both edges, and check the converse from now on.**
+
+  - **`interaction-resolver -depends-on-> response-presenter` is false and the resolver's own node
+    says so.** Its responsibility is *"produce exactly one outcome"* — not deliver one. The
+    component that needs a presenter is whatever runs the loop, and `engine/play` is what depends
+    on it in the build.
+  - **`interaction-resolver -depends-on-> path-solver` is false in this design and true in the
+    form.** `subsystem/path-solver.yml` gives the reason as *"most bindings wait on arrival before
+    resolving — which is the one hard coupling between the two halves of this engine, and it comes
+    from the vocabulary rather than from any implementation choice"*. It comes from a vocabulary
+    that has geometry. This one does not ([drawn-boundary](drawn-boundary.yml)): a `walk-to` writes
+    `move <room>`, arrival is the room, and nothing waits. The claim moves into prose, where a
+    conditional belongs.
+
+  **The converse is a rule now.** A `depends-on` between two components that are both built must be
+  a cargo dependency. It could not be written before all four existed and it can be written now,
+  and it is the half of the derivation that catches an architecture drawn before anything ran.
+
+  **No client node.** [playable](playable.yml) decided that a driver is *"a client of components and
+  none of them, and the loop it runs is outside this corpus's subject"*, and that stands. The
+  consequence is stated rather than worked around: `response-presenter` is a corpus node nothing
+  points to, which is what a component whose only consumer is out of scope looks like.
+rationale: |
+  **An edge that costs nothing to draw and nothing to check is drawn on taste.** All three of these
+  were written at genesis, before any of the components existed, and the one that survives is the
+  one somebody later had to write a `use` statement for. That is not an argument against
+  design-time architecture; it is a measurement of how much of it survives contact with a build —
+  **one edge in three.**
+
+  **The two failures are not the same failure and only one of them is about the engine.**
+
+  `response-presenter` is a **misfiling**. The fact is real — something presents what the resolver
+  produces — and the corpus has nowhere to put it, because the thing that presents is a client and
+  [playable](playable.yml) put clients outside the subject. An edge drawn at the nearest available
+  node is the shape [unread-list](unread-list.yml) keeps finding under another name: a convention
+  with nowhere to live migrates to whatever will hold it.
+
+  `path-solver` is an **imported premise**. The node argues the coupling *"comes from the vocabulary
+  rather than from any implementation choice"*, and it does — from the vocabulary a point-and-click
+  engine normally has. [drawn-boundary](drawn-boundary.yml) is the decision that this one keeps only
+  the half an author types, so position is room-granular and there is no arrival to wait on. That is
+  the third time a claim in this corpus has turned out to be about the form rather than about this
+  design, after [unbuilt-solver](unbuilt-solver.yml) and [or-earns-it](or-earns-it.yml), and all
+  three were invisible for the same reason: **nothing exercised the thing the claim was about.**
+
+  **What the rule buys is narrow and worth saying.** It catches an architecture drawn before
+  anything ran, and only once everything named has been built — so it is a rule that arrives late by
+  construction and cannot be written earlier. The four components took eighty-nine phases to exist;
+  the check that holds their couplings honest is one commit.
+
+  **And it leaves a node nothing points at, on purpose.** `response-presenter` has no incoming edge
+  now. The `orphan-in` report is correct and the reason is a decision rather than an oversight,
+  which is the difference between a finding and a defect. `path-solver` keeps one — `room-manifest`
+  is `read-by` it — so the cut does not hide a component.
