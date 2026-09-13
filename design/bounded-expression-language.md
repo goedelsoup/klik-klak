@@ -1,7 +1,7 @@
 ---
 title: A bounded expression language for authored interaction
 status: proposal
-reconciled: 19a3fe57b55a2175c630118b1a9f3efc5bb8ebb5
+reconciled: 3b84ad1afae27c6bf78f66af7ea2fbdbbde5b60b
 rests_on:
   - .yidam/corpus/actor/player-character.yml
   - .yidam/corpus/data-format/interaction-table.yml
@@ -152,11 +152,20 @@ distinguishes this proposal from what AGS shipped. Combining them is.
 *does* with composition was counted later and was thin: across the specimens that existed then, the
 binary connectives appeared **once** — one `and`, no `or`.
 
-**A fifth game moved it to twelve.** Across `design/specimen/` the binary connectives appear
-**twelve times — twelve `and`, no `or`** — in eight guards, while `not`, which is unary and
-combines nothing, appears sixteen times. [verified] —
-`crates/reachability/tests/conditions.rs`, `.yidam/decisions/unwritten.yml`. The widest guard joins five atoms, and one conjunction
-is written by hand into four separate preconditions.
+**A fifth game moved it to twelve and a sixth wrote the half nobody had.** Across
+`design/specimen/` the binary connectives now appear **seventeen times — fifteen `and` and two
+`or`** — while `not`, which is unary and combines nothing, appears sixteen. [verified] —
+`crates/game-format/tests/coverage.rs`, `.yidam/decisions/unwritten.yml`. The widest guard joins
+five atoms, and one conjunction is written by hand into four separate preconditions.
+
+**The disjunction is the half the argument above actually rests on**, and it went unwritten for
+eighty-eight phases — long enough that three separate checks concluded the reader could not build
+`c and (a or b)`, by reading the first three productions of the grammar in section 2 and stopping
+before `atom := '(' pred ')'`. The fourth recurses to the top; the reader could always build it and
+the writer was distributing every predicate into normal form to avoid printing one. A construct
+nothing exercises is not merely unevidenced — **the claims made about it decay, and nothing is
+looking.** [`relay.game`](specimen/relay.game) is written to need one;
+[`or-earns-it`](../.yidam/decisions/or-earns-it.yml) is the record.
 
 So the answer to *either four small games are too little authoring to need a second conjunct, or a
 puzzle guard in this form is usually one condition* is the first. A game with a mechanism in it —
