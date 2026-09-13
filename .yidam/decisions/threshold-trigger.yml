@@ -86,4 +86,22 @@ rationale: |
   **What this does not settle.** Whether duration should have been refused. Everything above is
   downstream of `effect-list-semantics`, and a design that admitted duration would need this trigger,
   a `skippable` property, and the save-boundary problem the same decision record quotes Thimbleweed
-  Park paying. That trade was made once and is now load-bearing in four places. `[open]`
+  Park paying.
+
+  **The figure that stood here was four places and it named none of them.**
+  [refused-duration](refused-duration.yml) counted: **fifteen**. It could not have been counted
+  from here, because `effect-list-semantics` decides two things — that `say` is presentation, and
+  that no effect takes time — and all twenty-two of its citations name the record rather than the
+  line. Five of them rest on the other decision and would not move a word if duration were admitted
+  tomorrow. [verified] — `crates/design-gate/tests/refused.rs`.
+
+  **And each of the three costs named above is now settled on its own.** The trigger, here. The
+  save boundary, in [save-boundary](save-boundary.yml). And `skippable`, which turned out to be
+  cheaper than either this record or `scripted-sequence` had it: not *defined* away by atomicity but
+  **ordered** away by the loop, which settles every write before one character reaches the player —
+  so a player who skips everything ends where a player who reads everything ends. [verified]
+
+  The question itself stays open and is narrower than it was. It is answerable only by a design that
+  admitted duration, which is not this one; what has changed is that the trade can now be examined
+  rather than only asserted, and fifteen is the number of arguments that would have to be re-read.
+  `[open]`

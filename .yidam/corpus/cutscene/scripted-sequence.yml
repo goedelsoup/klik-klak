@@ -229,6 +229,24 @@ properties:
     design: "we're trying to keep all cut-scenes to less than 10 seconds, so you won't really
     loose much." [verified] A limit on how long a scene may be, chosen because of what a save
     file can hold. This design has no such limit because a response has no length. [inference]
+
+    **And the property is answered rather than eliminated, by an ordering rather than by the
+    model.** Saying *there is no part-way* is a claim about atomicity and it defines the failure
+    away. The built loop does something narrower and checkable: `Session::take_with` resolves the
+    binding, settles the chain it starts and assigns the state, and only then hands the lines to the
+    presenter — so **every write has landed before one character reaches the player**. A skip cannot
+    be part-way through anything, because by the time there is something to skip there is nothing
+    left to do.
+
+    Played both ways: a winning run of `lighthouse.game` read in full and skipped entirely ends in
+    the same state, over the same turns, with the same transcript. The trap in
+    `design/specimen/nightwatch.game` springs for a player who walked away before it was said — the
+    ledger is gone and the cell door is shut either way. [verified] —
+    `engine/play/tests/skipped.rs`, `.yidam/decisions/refused-duration.yml`.
+
+    So the two designs land in opposite places for the same reason. Thimbleweed Park commits the
+    save *before* the scene and restores to where it began; this one commits the state before the
+    scene is shown. There is no moment here that is inside one.
   control_return: |
     To the player character, in a room and at a position the sequence chose. A sequence that
     returns control to a position outside the walkbox set is a stranded actor, and nothing

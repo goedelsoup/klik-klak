@@ -61,6 +61,7 @@ const CITING: &[(&str, Line)] = &[
     ("interaction-table", Line::Both),
     ("latch-default", Line::Duration),
     ("presentation-layer", Line::Presentation),
+    ("refused-duration", Line::AboutTheRecord),
     ("response-presenter", Line::Duration),
     ("save-boundary", Line::Duration),
     ("save-state", Line::Duration),
@@ -110,26 +111,24 @@ fn citing(root: &Path) -> Vec<String> {
     out
 }
 
-/// **Fifteen, not four — and the record names no places at all.**
+/// **Fifteen, and the figure that named nothing is gone from where it stood.**
 ///
 /// The trade is load-bearing in every file whose argument would change if an effect could take
-/// time. Counted, that is twelve files resting on the duration line alone and three more that rest
-/// on both lines of the same record. The figure in prose is under it by a factor of nearly four,
-/// and the prose figure cannot be checked because it points at nothing.
+/// time: twelve resting on the duration line alone and three more on both lines of the same
+/// record. `threshold-trigger` said *four places* and named none of them; it carries the count and
+/// points at this table now.
 #[test]
-fn the_trade_is_load_bearing_in_more_places_than_the_record_can_name() {
+fn the_refusal_of_duration_is_load_bearing_in_fifteen_places() {
     let root = repo_root();
 
     let record = flat(&read(&root, ".yidam/decisions/threshold-trigger.yml"));
     assert!(
-        record.contains("That trade was made once and is now load-bearing in four places."),
-        "the figure, in prose"
+        !record.contains("is now load-bearing in four places"),
+        "the uncountable figure still stands"
     );
     assert!(
-        record.contains(
-            "would need this trigger, a `skippable` property, and the save-boundary problem"
-        ),
-        "and the three things it names, which are not four places"
+        record.contains("[refused-duration](refused-duration.yml) counted: **fifteen**"),
+        "and the count is where the question was asked"
     );
 
     let declared: Vec<&str> = CITING.iter().map(|(n, _)| *n).collect();
@@ -147,7 +146,7 @@ fn the_trade_is_load_bearing_in_more_places_than_the_record_can_name() {
             of(Line::Both),
             of(Line::AboutTheRecord)
         ),
-        (12, 5, 3, 2),
+        (12, 5, 3, 3),
         "the duration line, the presentation line, both, and neither"
     );
     assert_eq!(
@@ -157,15 +156,19 @@ fn the_trade_is_load_bearing_in_more_places_than_the_record_can_name() {
     );
 }
 
-/// **The one decision is two decisions, and a third of what cites it rests on the other one.**
+/// **The one decision is two decisions, and the record says so now.**
 ///
 /// Admit duration tomorrow and `scrolling`, `dialogue-script`, `interaction-resolver`,
 /// `arrival-realizer` and `presentation-layer` do not move a word: their argument is that
 /// presentation sits outside the state model, which has nothing to do with how long anything
-/// takes. That is why *four places* could be written and not checked — the record is cited
-/// twenty-two times for two different things and no citation says which.
+/// takes. That is why *four places* could be written and not checked — the record was cited
+/// twenty-three times for two different things and no citation said which.
+///
+/// It names them now, and asks a later phase to say which it means. This test holds the naming
+/// rather than the compliance: what a future citation says is a thing to read, not a string to
+/// match, which is why the table above is by hand.
 #[test]
-fn the_record_draws_two_lines_and_no_citation_says_which() {
+fn the_record_names_the_two_lines_it_decides() {
     let root = repo_root();
     let record = read(&root, ".yidam/decisions/effect-list-semantics.yml");
     assert!(
@@ -176,60 +179,42 @@ fn the_record_draws_two_lines_and_no_citation_says_which() {
         record.contains("**`say` is presentation and not an effect.**"),
         "and the other"
     );
-
-    // and not one citing file names the line rather than the record
-    let mut naming: Vec<&str> = Vec::new();
-    for (stem, _) in CITING {
-        let mut found = None;
-        for dir in [".yidam/corpus", ".yidam/decisions"] {
-            let mut stack = vec![root.join(dir)];
-            while let Some(d) = stack.pop() {
-                for e in std::fs::read_dir(&d).expect("readable").flatten() {
-                    let p = e.path();
-                    if p.is_dir() {
-                        stack.push(p);
-                    } else if p.file_stem().is_some_and(|s| s == *stem) {
-                        found = Some(std::fs::read_to_string(&p).expect("readable"));
-                    }
-                }
-            }
-        }
-        let src = flat(&found.unwrap_or_else(|| panic!("no file for {stem}")));
-        if src.contains("effect-list-semantics`'s duration") || src.contains("the duration half") {
-            naming.push(stem);
-        }
-    }
-    assert!(naming.is_empty(), "a citation names the line: {naming:?}");
+    assert!(
+        flat(&record).contains("is the **presentation line**")
+            && flat(&record).contains("is the **duration line**"),
+        "and the record gives them names a citation can use"
+    );
+    assert!(
+        flat(&record).contains("A later phase citing this record should say which line it means."),
+        "and asks for one"
+    );
 }
 
-/// **What makes a skip safe is an ordering nothing states and nothing checks.**
+/// **The ordering that makes a skip safe is stated, and something plays it both ways.**
 ///
-/// `cutscene/scripted-sequence`'s `skippable` property is the second of the three costs
-/// `threshold-trigger` names, and it is *eliminated* rather than answered: *"a sequence that
-/// writes state part-way through and is cut short leaves the world in a configuration the author
-/// never wrote, and… atomicity means there is no part-way. **That is defining the problem
-/// away.**"* `[inference]`.
+/// `cutscene/scripted-sequence`'s `skippable` is the second of the three costs
+/// `threshold-trigger` names, and it was *eliminated* rather than answered: *"atomicity means
+/// there is no part-way. **That is defining the problem away.**"* `[inference]`.
 ///
 /// It is not defined away in the built system. It is **ordered** away: `Session::take_with`
-/// settles the state and assigns it *before* one character reaches the player, so a player who
-/// skips every line reaches the state of one who reads them all. That is a stronger claim than the
-/// node makes and nothing says it — one file in the build puts the two calls in that order and no
-/// test reads the order.
+/// settles the state and assigns it before one character reaches the player, so a player who skips
+/// every line reaches the state of one who reads them all. The node says so now and
+/// `engine/play/tests/skipped.rs` plays a specimen both ways to find out.
 #[test]
-fn the_ordering_that_makes_a_skip_safe_is_unstated() {
+fn the_ordering_that_makes_a_skip_safe_is_stated_and_played() {
     let root = repo_root();
 
     let node = flat(&read(&root, ".yidam/corpus/cutscene/scripted-sequence.yml"));
     assert!(
         node.contains("atomicity means there is no part-way. That is defining the problem away"),
-        "the claim, at inference"
+        "the claim this phase found, kept where it was made"
     );
     assert!(
-        !node.contains("before the player is shown") && !node.contains("settles before"),
-        "and the node says nothing about when the writes land"
+        node.contains("every write has landed before one character reaches the player"),
+        "and the ordering that makes it true rather than merely stipulated"
     );
 
-    // the order is in one file and is not asserted anywhere
+    // the order is in one file and something reads it now
     let client = read(&root, "engine/play/src/lib.rs");
     let settle = client
         .find("self.state = settled;")
@@ -242,34 +227,25 @@ fn the_ordering_that_makes_a_skip_safe_is_unstated() {
         "the state settles before anything is shown"
     );
 
-    let mut reading: Vec<String> = Vec::new();
-    let mut stack = vec![root.join("engine"), root.join("crates")];
-    while let Some(d) = stack.pop() {
-        for e in std::fs::read_dir(&d).expect("readable").flatten() {
-            let p = e.path();
-            if p.is_dir() {
-                if p.file_name().is_some_and(|n| n != "target") {
-                    stack.push(p);
-                }
-                continue;
-            }
-            let is_test = p.components().any(|c| c.as_os_str() == "tests");
-            let mine = p.file_name().is_some_and(|n| n == "refused.rs");
-            if is_test && !mine && p.extension().is_some_and(|x| x == "rs") {
-                let src = std::fs::read_to_string(&p).expect("readable");
-                if src.contains("settle_tracking") && src.contains("present") {
-                    reading.push(
-                        p.file_name()
-                            .expect("a name")
-                            .to_string_lossy()
-                            .into_owned(),
-                    );
-                }
-            }
-        }
-    }
+    let played = read(&root, "engine/play/tests/skipped.rs");
     assert!(
-        reading.is_empty(),
-        "something checks the order now: {reading:?}"
+        played.contains("fn skipping_every_line_reaches_the_state_of_reading_them_all()")
+            && played.contains("patient.state, impatient.state"),
+        "and a specimen is played both ways"
+    );
+    assert!(
+        played.contains("fn the_trap_is_sprung_before_the_player_is_told_it_sprang()"),
+        "including the one written to spring a trap on an arrival"
+    );
+
+    // and the count the marker gave is corrected where it was given
+    let record = flat(&read(&root, ".yidam/decisions/threshold-trigger.yml"));
+    assert!(
+        !record.contains("is now load-bearing in four places"),
+        "the uncountable figure still stands"
+    );
+    assert!(
+        record.contains("refused-duration"),
+        "and the record that counted it is named where it was asked"
     );
 }

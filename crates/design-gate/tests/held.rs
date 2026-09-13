@@ -1,6 +1,6 @@
 //! **The two positions are a claim and its precondition, and the state graph does not move.**
 //!
-//! Twenty-one files talk about duration. Two decided positions read as contradicting each other.
+//! Twenty-two files talk about duration. Two decided positions read as contradicting each other.
 //!
 //! [`effect-list-semantics`](../../../.yidam/decisions/effect-list-semantics.yml): *"**Instantaneous.**
 //! No effect takes time and no effect yields control… **Atomic.** A binding is one edge in the
@@ -65,7 +65,7 @@ fn talking(root: &Path) -> Vec<String> {
     out
 }
 
-/// **Twenty-one files, two positions, and the model is still free of time.**
+/// **Twenty-two files, two positions, and the model is still free of time.**
 ///
 /// The presenter owns duration and `game-format` does not: the state model has no `Wait`, no
 /// `Pause`, no `Delay`, and eight effects none of which takes one. That is the half of
@@ -87,12 +87,17 @@ fn talking(root: &Path) -> Vec<String> {
 /// **The twenty-first is `dismissed-hold` and it splits the first sense in two.** A duration a
 /// client *elapses* and a duration a player *dismisses* are both this word and only the first is
 /// the lever `subsystem/response-presenter` claims. The model is free of both.
+///
+/// **The twenty-second is `refused-duration`, and it counts what this word costs.** The refusal is
+/// load-bearing in fifteen arguments rather than the four a record claimed, and the reason nobody
+/// could count it is that `effect-list-semantics` decides two things and its citations name the
+/// record instead of the line. `crates/design-gate/tests/refused.rs`.
 #[test]
 fn duration_is_the_presenters_and_the_state_model_is_free_of_it() {
     let root = repo_root();
     assert_eq!(
         talking(&root).len(),
-        21,
+        22,
         "files that say the word — this record is one"
     );
 
