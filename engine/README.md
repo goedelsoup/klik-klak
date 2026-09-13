@@ -68,7 +68,7 @@ to scroll past — [`.yidam/decisions/inert-reports.yml`](../.yidam/decisions/in
 |---|---|---|
 | [`interaction-resolver`](../.yidam/corpus/subsystem/interaction-resolver.yml) | matching a verb, target and second object to a binding, and producing the response or the refusal | **built** |
 | [`verb-menu`](../.yidam/corpus/subsystem/verb-menu.yml) | given a target and a state, the verbs to display and no others | **built** |
-| [`path-solver`](../.yidam/corpus/subsystem/path-solver.yml) | a route across a room's walkboxes, and reporting arrival | — |
+| [`path-solver`](../.yidam/corpus/subsystem/path-solver.yml) | a route across a room's walkboxes, and reporting arrival | **built** |
 | [`response-presenter`](../.yidam/corpus/subsystem/response-presenter.yml) | making a response perceptible, and not returning until it is over | **built** |
 
 And one client, which is not a subsystem and does not claim to be:
@@ -77,10 +77,28 @@ And one client, which is not a subsystem and does not claim to be:
 |---|---|---|
 | [`play`](play/) | the menu, a choice, the response, and again | `composes: verb-menu, interaction-resolver, response-presenter` |
 
-The two that are built were built before this directory existed, as private methods of
+The first two were built before this directory existed, as private methods of
 `crates/reachability`. [`two-components`](../.yidam/decisions/two-components.yml) moved them; what
 that phase built was not the components but the place they say they are — and `crates/reachability`
 now depends on them rather than keeping a second copy of the language's semantics.
+
+**`path-solver` went the same way and the table is four of four for the first time.** Its region
+half was already written — portals, the adjacency graph, a flood fill over it — as private helpers
+to `crates/design-gate/tests/adjacency.rs`, a test about whether adjacency needs a relationship.
+That is the third time a component turned out to exist somewhere that was not saying so.
+[`unbuilt-solver`](../.yidam/decisions/unbuilt-solver.yml).
+
+**Every row of this table is built and one of them has no client.** `play` is a terminal and has
+nothing to cross a room with, so nothing composes `path-solver`. That is the honest state rather
+than a gap to close by wiring: a text slice with a path solver bolted to it would report a
+capability this engine does not have.
+
+**And one of them is exercised against somebody else's game.** A `.game` file cannot state a
+polygon — [`drawn-boundary`](../.yidam/decisions/drawn-boundary.yml) — so `path-solver` is the only
+component whose evidence is not `design/specimen/`. Its test reads two of *Delores*'s rooms out of
+the instrument's transcription rather than copying them, and re-derives the adjacency counts that
+file pins, which is what holds two implementations of one rule equal across a boundary neither may
+cross.
 
 ## The gate
 

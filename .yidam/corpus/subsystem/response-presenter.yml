@@ -18,7 +18,17 @@ description: |
   `.yidam/decisions/authored-text.yml` found the sentence to be two claims and kept only the first:
   the state model ignores presentation, and the parse tree no longer discards it. A `Binding`
   carries what it says and what it refuses, a `Game` carries its labels, and there is now something
-  for this component to be given. [verified] What is still unmodelled is this component itself.
+  for this component to be given. [verified]
+
+  **It is built.** `engine/response-presenter` is this component: `present` delivers a line and
+  does not return until the sink does, and `weight` is how much there is to perceive.
+  `.yidam/decisions/held.yml` is where that was decided and what it rests on.
+
+  The sentence that stood here until `.yidam/decisions/unbuilt-solver.yml` — *"what is still
+  unmodelled is this component itself"* — was true when it was written and was left standing for
+  five phases after it stopped being. Two of the three built components said they were built and
+  named the module; this one had the convention and not the statement, which is the shape
+  `.yidam/decisions/unread-list.yml` named, with a follower left saying the opposite of the truth.
 
   **The surface is unbounded and what a binding reaches for is three kinds wide.** Delores's engine
   manual documents roughly 140 presentation functions — 39 actor, 37 image, 23 object, 19 sound, 19

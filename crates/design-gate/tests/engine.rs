@@ -33,8 +33,9 @@
 //!
 //! The third is a rule the first crates made checkable: **a component may not invent a
 //! dependency.** A cargo dependency from one engine crate to another must be a `depends-on` edge
-//! between the subsystem nodes. The converse is not checked — the resolver also depends on
-//! `path-solver` and `response-presenter`, and neither exists.
+//! between the subsystem nodes. The converse is not checked: the resolver declares `depends-on`
+//! `path-solver` and `response-presenter` in the corpus and takes neither as a cargo dependency,
+//! because it is handed what they produce rather than calling them.
 //!
 //! `.yidam/decisions/engine-directory.yml`.
 
@@ -175,7 +176,7 @@ fn every_module_names_a_subsystem_the_corpus_declares() {
     );
 }
 
-/// **Four subsystems are specified and three are built.**
+/// **Four subsystems are specified and four are built.**
 ///
 /// The engine's roadmap, derived from the corpus rather than written beside it — and pinned, so it
 /// changes only when somebody builds a component or the corpus names one. Both of those should
@@ -190,8 +191,15 @@ fn every_module_names_a_subsystem_the_corpus_declares() {
 /// Only `realizes:` counts here. `engine/play` names both components and is neither, and a list
 /// of what is built that counted its clients would say the engine has more of itself than it
 /// does.
+///
+/// **It read three for six phases and the fourth was half-written the whole time.**
+/// `path-solver` was left out because `.yidam/corpus/subsystem/path-solver.yml` said no check
+/// could ever read it — a conclusion drawn from `.yidam/decisions/drawn-boundary.yml`, which says
+/// something narrower and true about the `.game` format. Meanwhile the region half of the
+/// component sat in `crates/design-gate/tests/adjacency.rs` as private helpers to a different
+/// question. Third time: `.yidam/decisions/unbuilt-solver.yml`.
 #[test]
-fn the_corpus_specifies_four_components_and_three_are_built() {
+fn the_corpus_specifies_four_components_and_all_four_are_built() {
     let root = repo_root();
     assert_eq!(
         declared(&root).into_iter().collect::<Vec<_>>(),
@@ -212,8 +220,13 @@ fn the_corpus_specifies_four_components_and_three_are_built() {
     built.dedup();
     assert_eq!(
         built,
-        ["interaction-resolver", "response-presenter", "verb-menu"],
-        "components that exist; `path-solver` does not"
+        [
+            "interaction-resolver",
+            "path-solver",
+            "response-presenter",
+            "verb-menu",
+        ],
+        "components that exist, which is now all of them"
     );
 
     // and the contract's table says the same, so a reader meets it without running anything
@@ -238,8 +251,11 @@ fn the_corpus_specifies_four_components_and_three_are_built() {
 /// two crates. The declaration is prose and the manifest is the build; holding them together is
 /// what stops the first from becoming decoration.
 ///
-/// `response-presenter` joined when it was built. `path-solver` is not among them and will not be
-/// until something has a path to walk — a text slice has nothing to cross a room with.
+/// `response-presenter` joined when it was built. **`path-solver` is built and is still not among
+/// them**, which is the one row of the contract's table with no client: a text slice has nothing
+/// to cross a room with, and wiring it to one would report a capability this engine does not have.
+/// The argument that kept it unbuilt was two arguments — that, which holds, and a claim that no
+/// check could read it, which did not. `.yidam/decisions/unbuilt-solver.yml`.
 #[test]
 fn a_client_composes_exactly_the_components_it_depends_on() {
     let root = repo_root();

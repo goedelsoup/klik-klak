@@ -56,7 +56,12 @@ fn files(root: &Path, crate_: &str, dir: &str) -> Vec<std::path::PathBuf> {
     out
 }
 
-/// **Four crates, a binary, and something that drives the components.**
+/// **Five crates, a binary, and something that drives the components.**
+///
+/// Four components and one client — and the client composes three of the four.
+/// `.yidam/decisions/unbuilt-solver.yml` built `path-solver` and left it with no consumer,
+/// because `play` is a terminal and has nothing to cross a room with. A component nothing runs is
+/// the honest state of this engine rather than a gap in it.
 #[test]
 fn the_engine_has_components_and_a_client_that_runs_them() {
     let root = repo_root();
@@ -64,11 +69,12 @@ fn the_engine_has_components_and_a_client_that_runs_them() {
         engine_crates(&root),
         [
             "interaction-resolver",
+            "path-solver",
             "play",
             "response-presenter",
             "verb-menu"
         ],
-        "three components and a client"
+        "four components and a client"
     );
 
     let mut bins = 0;

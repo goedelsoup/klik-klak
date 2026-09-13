@@ -121,15 +121,19 @@ fn the_evidence_base_of_fifteen_nodes_is_a_single_source() {
             }
         }
     }
+    // The forty-second is `subsystem/path-solver`, which carried no verified claim at all until
+    // `.yidam/decisions/unbuilt-solver.yml` and had a sentence saying it never would. It joins
+    // this census in the narrowest column: one entry, one line, and the entry is somebody else's
+    // game — the only component in the engine whose evidence is not `design/specimen/`.
     assert_eq!(
         (evidenced, one_entry, one_line),
-        (41, 13, 8),
+        (42, 14, 9),
         "nodes with a verified claim; of those, resting on one catalog entry; of those, on one line"
     );
     assert_eq!(
         (held, carried),
-        (82, 34),
-        "claims those thirteen carry, and how many name nothing in their own paragraph"
+        (85, 36),
+        "claims those fourteen carry, and how many name nothing in their own paragraph"
     );
 }
 
@@ -182,7 +186,7 @@ fn one_line_is_the_difference_between_sourced_and_not() {
         }
         flipped.push(name(&root, &p));
     }
-    assert_eq!(flipped.len(), 8);
+    assert_eq!(flipped.len(), 9);
     assert_eq!(
         attributed,
         [

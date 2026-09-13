@@ -184,6 +184,14 @@ fn walkbox_is_the_only_authoring_class_the_format_cannot_name() {
 /// from 84 real polygons in a shipped game, and `room/scrolling` six. **This corpus can read
 /// geometry it cannot express**, and nothing here distinguishes a claim measured by the instrument
 /// from one read out of somebody else's artifact.
+///
+/// **And it read the same boundary wrong a third time, in a narrower place: it counted `crates/`
+/// and called the result a committed test.** The engine holds committed tests too, and when
+/// `.yidam/decisions/unbuilt-solver.yml` built `path-solver` the node's evidence became
+/// `engine/path-solver/tests/delores.rs` — so a node that gained its first verified claim would
+/// have made this number go **down**. `response-presenter` had been uncounted for five phases for
+/// the same reason. That is `.yidam/decisions/unread-spelling.yml`'s ceiling one phase later: a
+/// hand-written vocabulary that fails silent, where the missing spelling is a directory.
 #[test]
 fn the_classes_the_instrument_never_measured_are_the_drawn_ones() {
     let root = repo_root();
@@ -196,6 +204,9 @@ fn the_classes_the_instrument_never_measured_are_the_drawn_ones() {
                 std::fs::read_to_string(p)
                     .expect("readable")
                     .contains("crates/")
+                    || std::fs::read_to_string(p)
+                        .expect("readable")
+                        .contains("engine/")
             })
             .count();
         citing += n;
@@ -208,21 +219,27 @@ fn the_classes_the_instrument_never_measured_are_the_drawn_ones() {
         ["room"],
         "classes no node of which cites the instrument"
     );
-    assert_eq!(citing, 27, "nodes resting some claim on a committed test");
+    assert_eq!(citing, 28, "nodes resting some claim on a committed test");
 }
 
-/// **Four nodes carry no `[verified]` claim at all, and three of them are on the drawn side.**
+/// **Three nodes carry no `[verified]` claim at all, and two of them are on the drawn side.**
 ///
 /// `actor/player-character` is the starkest: it is the node the whole vocabulary is written from —
 /// *"the player in every interaction's precondition means this actor's position, inventory and
 /// state"* — and it cites no source, no test, and nothing measured. Its locomotion property is
 /// three sentences about pathfinding, walk-cycle scale and arrival, none of which this format can
-/// state. `room/single-screen` is the same shape. `subsystem/path-solver` is the component that
-/// consumes what they describe, and its own `authoring_visibility` names the boundary in passing:
-/// *"an author **draws** walkboxes and never touches this."*
+/// state. `room/single-screen` is the same shape.
 ///
-/// The fourth is not spatial and is here for contrast. `puzzle/lock-and-key` has no verified claim
+/// The third is not spatial and is here for contrast. `puzzle/lock-and-key` has no verified claim
 /// because it is definitional, and its one `[inference]` argues against its own class.
+///
+/// **`subsystem/path-solver` was the fourth and it left.** It was the component that consumes what
+/// the other two describe, and its own `authoring_visibility` named the boundary in passing —
+/// *"an author **draws** walkboxes and never touches this"* — which was the reason offered for a
+/// node that also said no check would ever read it. `.yidam/decisions/unbuilt-solver.yml` built
+/// the component and ran it over two of a shipped game's rooms, and the reason survives the
+/// verification: an author still never touches it. **Drawn does not mean unmeasurable**, which is
+/// the third time this file has had to separate those, and the second in two phases.
 ///
 /// **A tag inside backticks is the token being discussed and not a claim**, which this check
 /// learned by reporting three of these four as newly-verified the moment they were revised to say
@@ -252,14 +269,7 @@ fn the_nodes_with_no_verified_claim_are_drawn_or_definitional() {
         }
     }
     bare.sort();
-    assert_eq!(
-        bare,
-        [
-            "puzzle/lock-and-key",
-            "room/single-screen",
-            "subsystem/path-solver",
-        ]
-    );
+    assert_eq!(bare, ["puzzle/lock-and-key", "room/single-screen"]);
 }
 
 /// What a record mentioning geometry is doing with it. Hand-made, because whether an argument
@@ -294,10 +304,11 @@ const GEOMETRY: &[(&str, Geometry)] = &[
     ("record-layer", Geometry::Mentions),
     ("room-geometry", Geometry::Rests),
     ("round-trip", Geometry::Mentions),
+    ("unbuilt-solver", Geometry::Rests),
     ("unread-spelling", Geometry::AboutTheCheck),
 ];
 
-/// **Eight records rest on *this design has no geometry*, one decides it, and for four phases this
+/// **Nine records rest on *this design has no geometry*, one decides it, and for four phases this
 /// check could see six.**
 ///
 /// It is load-bearing in each: `hotspot-identity` closes both of a node's open questions with it,
@@ -331,11 +342,17 @@ const GEOMETRY: &[(&str, Geometry)] = &[
 /// `lineage.rs` gave the prior-art nodes. What a phrasing does now is suggest; what settles it is
 /// somebody reading the record, and the reading is written down where it can be argued with.
 ///
+/// **The ninth rests on it by finding something built on top of it that does not follow.**
+/// `unbuilt-solver` leaves the premise exactly as it is and withdraws a conclusion drawn from it —
+/// that a claim no `.game` file can state is a claim nothing can check. The phrasings do catch
+/// this one, which is the first useful thing they have done here since the list was written, and
+/// they catch it because a record arguing about the premise has to quote it.
+///
 /// [`record-lifecycle`]: ../../../.yidam/decisions/record-lifecycle.yml
 /// [`save-boundary`]: ../../../.yidam/decisions/save-boundary.yml
 
 #[test]
-fn the_premise_is_load_bearing_in_eight_records_and_decided_in_one() {
+fn the_premise_is_load_bearing_in_nine_records_and_decided_in_one() {
     let root = repo_root();
     // `has none` was in this list for one commit and matched `prose-edges` on a sentence about
     // prose having no schema. The three that remain name the thing — and two of the fifteen below
@@ -394,6 +411,7 @@ fn the_premise_is_load_bearing_in_eight_records_and_decided_in_one() {
             "hotspot-identity",
             "named-condition",
             "room-geometry",
+            "unbuilt-solver",
         ],
         "records that rest on the boundary; none of them is a record about the boundary"
     );
@@ -409,8 +427,11 @@ fn the_premise_is_load_bearing_in_eight_records_and_decided_in_one() {
     );
     assert_eq!(of(Geometry::AboutTheCheck), ["unread-spelling"]);
 
-    // and what the phrasings are worth: they find six of the eight that rest, miss two, and admit
-    // one that does not — a suggestion rather than a classifier
+    // and what the phrasings are worth: they find seven of the nine that rest, miss two, and admit
+    // two that do not — a suggestion rather than a classifier. The newest one they do find, and
+    // for a reason that does not generalise: a record arguing about the premise has to quote it,
+    // so the phrasings catch the records that discuss the boundary and miss the ones that act on
+    // it. That is the ceiling, not a hole in the list.
     let rests: Vec<&str> = of(Geometry::Rests);
     let found = rests
         .iter()
@@ -418,7 +439,7 @@ fn the_premise_is_load_bearing_in_eight_records_and_decided_in_one() {
         .count();
     assert_eq!(
         (found, rests.len(), matched.len()),
-        (6, 8, 8),
+        (7, 9, 9),
         "records the phrasings find, records that rest, and everything a phrasing matched"
     );
 }

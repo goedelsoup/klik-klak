@@ -1,0 +1,127 @@
+id: unbuilt-solver
+summary: >-
+  **A specified component went unbuilt for six phases because a conclusion outlived the argument
+  holding it up.** [drawn-boundary](drawn-boundary.yml) decided that no `.game` file can state a
+  coordinate space; `subsystem/path-solver` read that as *no check can ever read one* and called
+  itself the only subsystem that will never carry a verified claim — and the phase immediately
+  after it measured 84 polygons out of a shipped game. The component is built and verified now.
+  Its region half turned out to be already written, as private helpers to a test in the instrument,
+  which is [two-components](two-components.yml) for the third time. And running it answers the
+  question its own node left open, by relocating it: the two arms are 412 pixels apart, the one
+  that *"reads as intent the player did not have"* is the one that looks like success, and neither
+  is a thing an author could ever have said.
+context: |
+  The corpus specifies four subsystems and the engine built three. **Two documents said why the
+  fourth was not built and they were not making the same argument.**
+
+  - `crates/design-gate/tests/engine.rs`: *"`path-solver` is not among them and will not be until
+    something has a path to walk — a text slice has nothing to cross a room with."* That is about a
+    **client**, and it is true. `engine/play` is a terminal and has no geometry to hand anybody.
+  - [`subsystem/path-solver`](../corpus/subsystem/path-solver.yml): *"It is the only subsystem with
+    no `[verified]` claim, and the only one that never will have one… this component consumes the
+    half of a room a `.game` file cannot state, so there is nothing for a check to read."* That is
+    about **evidence**.
+
+  The second rests on [drawn-boundary](drawn-boundary.yml), which is correct as written:
+  *"nothing can measure a claim about a walk cycle or a coordinate space, because no `.game` file
+  can state one."* The premise is about the **format**. The conclusion drawn from it in the node is
+  about **every possible check**, and the two are not the same claim — the phase directly after
+  drawn-boundary measured a coordinate space. [adjacency](adjacency.yml) ran `found-in`'s test over
+  *Delores*'s 84 walkbox polygons ([delores-source](../catalog/delores-source.md)): 290 within-room
+  pairs, 66 sharing an exact edge, no tolerance needed. [verified] — `crates/design-gate/tests/adjacency.rs`.
+
+  That is the shape [restated-guard](restated-guard.yml) named one phase ago — a decision surviving
+  the collapse of the premise it was made on. Here it is load-bearing rather than incidental: it is
+  the reason a specified component was never attempted.
+
+  **And the attempt had already been made, twice removed from anybody noticing.** `adjacency.rs`
+  defines `edges`, `adjacent`, `components` and `without` — portal extraction, the adjacency graph,
+  a flood fill over it, and state-dependent region removal. That is the region half of a path
+  solver, written as private helpers to a test about whether adjacency needs a relationship.
+  [verified] — `crates/design-gate/tests/unbuilt.rs`. [two-components](two-components.yml) is the
+  record of this happening the first time, when `verb-menu` and `interaction-resolver` turned out
+  to be private methods of `crates/reachability`: *"what that phase built was not the components;
+  it was the place they say they are."*
+
+  **A second defect, found from the other end of the same convention.** A component node says
+  *"**It is built.** `engine/<name>` is this component"*, and two of the three built ones did.
+  `response-presenter` was built and its node still read *"What is still unmodelled is this
+  component itself."* [verified] A convention with a following and no statement is the shape this
+  repository has now found nine times ([unread-list](unread-list.yml),
+  [resolver-kind](resolver-kind.yml)); what is new is a follower left saying the opposite of the
+  truth.
+decision: |
+  **Build it.** `engine/path-solver` realizes `subsystem/path-solver`: given a start point, a goal
+  point and a walkbox set, a route or the reason there is none.
+
+  **Three outcomes, because the node named one failure and there are two.** `Walk`, `Unreachable`
+  — floor no sequence of regions reaches, which is a shut door — and `OffFloor`, which is a wall
+  and is most of a room. Both failures carry `nearest`, the far end of the second arm.
+
+  **The question the node left open is answered by locating it, not by choosing.** It asked
+  *"Doing nothing reads as a broken click; walking as far as possible reads as intent the player
+  did not have. Neither is wrong, and the vocabulary currently has no way for an author to say
+  which they meant."* The last clause reads as a gap in the vocabulary and is not one.
+  [drawn-boundary](drawn-boundary.yml) already settled it: **an author never writes a region**, so
+  there is nowhere for them to put the answer and no reason to want one per region. It is one
+  constant, chosen once, by whatever runs the component. A thing that looked like a missing
+  authoring primitive is an engine constant, and the boundary is what makes the difference.
+
+  **The node drops the claim it could not support and keeps the one it can.** Not *"nothing can
+  check this"* — that is false — but the true and permanent version: this is the **only component
+  whose evidence is borrowed**. Every other one is exercised against `design/specimen/`, five games
+  written in the vocabulary this corpus is about. This one is exercised against somebody else's
+  game, because no game of ours can state a polygon and none ever will.
+
+  **The client argument stands and is written down as the thing that is still missing.**
+  `engine/play` composes three components and not this one. A component with no consumer is the
+  honest report of where this engine is, and pretending otherwise by wiring a terminal to a path
+  solver would be the same mistake in the other direction.
+
+  **The convention is stated rather than left to be copied.** All four component nodes now say
+  *"**It is built.**"* and name the module, and `crates/design-gate/tests/unbuilt.rs` holds it.
+rationale: |
+  **The measurement says the two arms are as far apart as two arms get.** With the cell door hidden,
+  an actor told to walk into the cell walks **up to 412 pixels and stops 10 short**; the other arm
+  moves it none. [verified] — `engine/path-solver/tests/delores.rs`.
+
+  **And 10 pixels is invisible.** The floor strip in that room is 33 pixels tall. The distance is
+  small because adjacency is exact and the hidden door is a quad **7 pixels thick** — in both rooms,
+  independently — so *"as far as possible"* parks the actor flat against the shut door, which is
+  exactly where a player walking to the cell expects to end up and exactly where they would end up
+  if the door were open. **The arm the node worried reads as unintended intent is the one that looks
+  like success**; the one that looks broken is the arm that does nothing. The node had them the
+  right way round about the reading and the wrong way round about which is dangerous.
+
+  **The same answer is a door in one room and a defect in the other.** `Nickel` hides `desk_path` in
+  `enter()` and never shows it again — the only mention of the name in 49 script files
+  ([delores-source](../catalog/delores-source.md)) — so the
+  region behind the counter is authored and can never be stood on. The solver returns the identical
+  shape there as it does for the cell: stop 13 pixels short, after walking up to 288.
+  [adjacency](adjacency.yml) reached this from the geometry — *"nothing in the geometry
+  distinguishes a gap that means you may not go there from one left by a mouse that stopped short"*
+  — and it arrives here from behaviour instead of from gaps, which is a second road to the same
+  place and the reason to trust it.
+
+  **The failure the node describes is the rarer of the two by five to seven times, measured as
+  kindly as possible.** Unreachable floor is 47 and 67 parts per thousand of the floor with the
+  door shut; **33% and 34% of the floor's own bounding box is not floor at all**, by exact area.
+  And a bounding box is the most generous framing there is: these floors are strips 33 and 45
+  pixels tall against room images recorded at 180 and 240
+  ([delores-source](../catalog/delores-source.md)). [inference] The real share is
+  several times that. A component documented only for the interesting failure returns nothing for
+  most of what a player clicks.
+
+  **The evidence is read, not copied.** `engine/path-solver/tests/delores.rs` parses the polygons
+  out of `crates/design-gate/tests/adjacency.rs` rather than transcribing them again, because a
+  second copy of somebody else's coordinates is the purest form of what
+  [unread-specimen](unread-specimen.yml) prohibits. What holds the two implementations equal is
+  arithmetic: the engine re-derives the **6 and 3** adjacent pairs the instrument pins, from the
+  same rings, through its own `adjacent`, and the two never link — the instrument may not depend on
+  the engine and the engine must not depend on the instrument.
+
+  **What this does not do.** It does not give the vocabulary geometry.
+  [drawn-boundary](drawn-boundary.yml) stands in full, and the condition on
+  `hotspot/static-region` — *"this vocabulary has no geometry"* — is exactly where it was. An
+  engine that can solve a path across a room it cannot author is not a contradiction; it is the
+  boundary, stated in a component.

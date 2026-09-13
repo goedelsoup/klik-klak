@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (708, 121, 82));
+    assert_eq!((total, mentions, tests.len()), (720, 123, 83));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -327,8 +327,8 @@ fn a_record_nothing_cites_is_named() {
             "domain-computer",
             "held",
             "name-scoping",
-            "restated-guard",
             "settled-surface",
+            "unbuilt-solver",
         ],
         "seven, and `normal-form` is not here because the record it answers cites it back. \
          A phase that retracts an earlier `[open]` writes into the record that raised it, so \
@@ -356,10 +356,14 @@ fn a_record_nothing_cites_is_named() {
          `resolver-kind` did, cited by the phase whose material it corrected rather than by \
          anything it answered. Four times now, in four consecutive phases, and every time the \
          record that came off was one that had told a later phase what it was looking at — which \
-         has stopped being a mechanism and become the ordinary way a record leaves this list"
+         has stopped being a mechanism and become the ordinary way a record leaves this list. \
+         `restated-guard` came off the way `line-format` did and by the very next phase: \
+         `unbuilt-solver` went looking for a conclusion that had outlived its argument and \
+         cites the record that named the shape, not anything it decided. Five in five \
+         consecutive phases, and twice now for the shape rather than for the finding"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (90, 347));
+    assert_eq!((c.len(), edges), (91, 354));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**

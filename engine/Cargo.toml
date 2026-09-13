@@ -19,7 +19,7 @@
 
 [workspace]
 resolver = "2"
-members = ["verb-menu", "interaction-resolver", "response-presenter", "play"]
+members = ["verb-menu", "interaction-resolver", "path-solver", "response-presenter", "play"]
 
 [workspace.package]
 version = "0.1.0"
@@ -31,4 +31,5 @@ publish = false
 game-format = { path = "../crates/game-format" }
 verb-menu = { path = "verb-menu" }
 interaction-resolver = { path = "interaction-resolver" }
+path-solver = { path = "path-solver" }
 response-presenter = { path = "response-presenter" }
