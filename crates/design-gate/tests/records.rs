@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (758, 130, 86));
+    assert_eq!((total, mentions, tests.len()), (770, 132, 87));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -376,7 +376,7 @@ fn a_record_nothing_cites_is_named() {
          makes that the ordinary exit for a phase whose subject is this repository"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (94, 377));
+    assert_eq!((c.len(), edges), (95, 385));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -591,7 +591,7 @@ fn no_record_has_changed_what_it_decided() {
     // not re-emit the token.
     assert_eq!(
         edited,
-        38,
+        39,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

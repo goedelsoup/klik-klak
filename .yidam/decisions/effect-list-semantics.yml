@@ -54,6 +54,14 @@ decision: |
   which is what the first claim always meant. The evidence that it held is that **not one number
   this project publishes moved** when the fields were filled.)*
 
+  **This record decides two things and they are separable, which nothing said until twenty-two
+  files had cited it.** *`say` is presentation and not an effect* is the **presentation line**;
+  *no effect takes time* is the **duration line**. Admit duration and everything resting on the
+  first is untouched — five of the twenty-two citations are of that kind, and a census that read
+  citations counted both and produced a number about neither.
+  `.yidam/decisions/refused-duration.yml` carries the table and the count: the duration line is
+  load-bearing in fifteen places. A later phase citing this record should say which line it means.
+
   **Duration is a mode in the state, not a pause in a transition.** This vocabulary already has
   one — `interaction -opens-> conversation` enters it, `conversation -returns-control-to->
   actor` leaves it, and both effects are instantaneous while the *mode* persists in the state

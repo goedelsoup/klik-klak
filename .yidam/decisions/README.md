@@ -186,7 +186,7 @@ does not re-emit it.
 
 ### [threshold-trigger](threshold-trigger.yml)
 
-- **:89** — **What this does not settle.** Whether duration should have been refused. Everything above is downstream of `effect-list-semantics`, and a design that admitted duration would need this trigger, a `skippable` property, and the save-boundary problem the same decision record quotes Thimbleweed Park pay…
+- **:107** — The question itself stays open and is narrower than it was. It is answerable only by a design that admitted duration, which is not this one; what has changed is that the trade can now be examined rather than only asserted, and fifteen is the number of arguments that would have to be re-read.
 
 ### [two-components](two-components.yml)
 
