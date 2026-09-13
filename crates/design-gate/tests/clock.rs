@@ -259,7 +259,7 @@ fn the_report_ties_five_questions_the_history_keeps_apart() {
     let computed: Vec<usize> = ages(&root).into_iter().map(|(_, a)| a).collect();
     assert_eq!(
         (computed.len(), REPORTED.len()),
-        (6, 9),
+        (5, 9),
         "the corpus against the reading `REPORTED` holds: three closures, one question asked, and \
          one reopened by `unread-specimen` when the census that closed it turned out to have been \
          reading four of five specimens"
@@ -351,7 +351,7 @@ fn every_figure_the_config_states_about_this_clock_is_computed_here() {
     );
     assert_eq!(
         (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
-        (9, 9),
+        (8, 8),
         "the share the config claims, against the share"
     );
 }
