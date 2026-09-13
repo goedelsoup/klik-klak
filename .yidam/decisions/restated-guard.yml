@@ -1,0 +1,118 @@
+id: restated-guard
+summary: >-
+  **No primitive, a second time, and not one of the reasons is the reason given the first time.**
+  [named-condition](named-condition.yml) declined a named condition because the shape did not occur;
+  the shape occurs now and the answer is still no. One conjunction is restated, four times, in one
+  game — one instance by this repository's own standard. A name would save seventeen characters and
+  express nothing the language cannot already say. And the one shipped game this corpus has read in
+  full composes thirteen times, in a language its author built, without a construct for naming a
+  condition.
+context: |
+  [`puzzle/state-gate`](../corpus/puzzle/state-gate.yml) asked at genesis whether the vocabulary
+  should have a name for a condition itself, and called it *"the strongest live case for adding a
+  primitive rather than removing one"*. The worry, in its own words: **a gate depending on three
+  flags is stated three times, or more, and nothing checks that the statements agree.**
+
+  [named-condition](named-condition.yml) closed it on three legs. The first was decisive and is
+  gone: *"36 predicates across the four specimens. One joins more than one atom."*
+  [unread-specimen](unread-specimen.yml) found that census had been reading four of five specimens
+  for eleven commits. It is **eight in sixty**, seven of them in `lock.game`, and the question
+  reopened — the first reopening this repository has had, with a resolver kind nothing had needed
+  before: a **judgement**.
+
+  The other two legs stand and neither reaches this case. Both are about the **counter**: the
+  successor relation is derivable from the (guard value, written value) pairs, and
+  `unreachable_values` closed the gap a reachability search could not see. That record says in as
+  many words why neither transfers — *"Three latched booleans have no such relation to recover."*
+
+  So the question came back with its original sentence instantiated for the first time, and nothing
+  standing under the answer.
+decision: |
+  **1. No primitive. The shape is here and the evidence under it is one instance.** [verified] —
+  `crates/game-format/tests/guards.rs`.
+
+  Exactly one compound predicate in five games appears in more than one guard: `gates-shut and
+  paddle-up`, in four of `lock.game`'s — twice alone, once carrying `boatman in chamber`, once
+  inside the widest conjunction in the corpus. **Every other compound appears once**, and only two
+  of the five games compose at all.
+
+  One author, one game, one sitting, one condition worth naming.
+  [unread-list](unread-list.yml) is this repository's standard that one instance is not a
+  convention, and [unread-spelling](unread-spelling.yml) applied it one phase ago to a claim this
+  repository made about its own work. It applies here.
+
+  **2. A name expresses nothing the language cannot already say.** The corpus's question is *the
+  smallest set of authoring primitives that can express a classic point-and-click adventure without
+  escaping to a general-purpose scripting language*. The conjunction is writable. A name is a
+  second way to write it, and a second way is not an expressiveness gain.
+
+  **3. `exit` is the counter-precedent and the same standard refuses this one.** [verified] `exit`
+  is the one construct here admitted as a pure convenience, and
+  [exit-archetype](exit-archetype.yml) admitted it on **two independent bodies of authored work** —
+  20 exits in a shipped game, 18 of them bare, against 23 here, 17 bare. This has one body of work
+  and one instance in it.
+
+  And it is smaller than `exit` on the measure that admitted `exit`. The conjunction is 24
+  characters written four times, 96 in all; a declaration carrying a label like everything else
+  declared here, plus four uses of the name, is 79. **Seventeen characters across 904 authored
+  lines** — and [unread-specimen](unread-specimen.yml) showed [frame-width](frame-width.yml)'s
+  ranking reversing on a six per cent margin, which is far larger than this.
+
+  **4. A person shipped a game with this shape and never wanted a name for one.** [verified] —
+  [delores-source](../catalog/delores-source.md). Delores writes **141 guards in square brackets**,
+  79 of them real expressions, using **thirteen composition operators** between them — `&&` 7,
+  `and` 3, `||` 3 — including a three-atom conjunction in a dialogue guard. **Dinky and Yack have no
+  named-condition construct.**
+
+  [two-bars](two-bars.yml) established that a negative claim about an engine needs an enumeration
+  rather than an example, and this is one game's guards rather than a language reference — so it is
+  evidence and not proof. It is the strongest evidence available on this question and it points the
+  same way as everything else. [inference]
+
+  **5. The readability argument is real and it is one line.** `lock.game:176` carries five atoms in
+  **88 characters of condition against a median guard of 13**, and it is the only guard that wide in
+  the corpus. A name would halve it. A construct existing for one line is *a primitive with no site*
+  in everything but the literal sense, which this corpus has refused four times.
+
+  **6. What would reopen it, stated where the question was.** [verified] — the marker on
+  `puzzle/state-gate` is a **condition** now rather than a judgement, which is the kind
+  [resolver-kind](resolver-kind.yml) has for a question declined with terms:
+
+  - **a second game restates a conjunction** — the same condition written at two sites by a
+    different author or in a different mechanism, which would make it a shape rather than an
+    instance; or
+  - **a restatement drifts** — four sites hold one condition today and they agree because they are
+    the same characters. An edit that changes three and leaves the fourth is the failure
+    `state-gate` named, and the first one that happens is the argument this decision cannot answer.
+rationale: |
+  **A decision survived the collapse of the premise it was made on, and that means it was
+  under-argued the first time.** `named-condition` led with the census because the census was
+  decisive: no shape, no question. It had other reasons and they were about counters. When the
+  census turned out to be wrong there was nothing holding the answer up, and the answer was still
+  right — which is the tell. **A reason that expires the moment somebody writes the shape was never
+  the reason; it was the reason that was easiest to check.**
+
+  What this phase did is replace a contingent reason with durable ones. *The shape does not occur*
+  expires on the next specimen. *It expresses nothing new*, *a shipped game composes and does not
+  name*, and *the saving is seventeen characters* do not.
+
+  **So the reopening was worth having even though the answer did not move.** That is not obvious
+  and it is worth writing down: [unread-specimen](unread-specimen.yml) reopened this by correcting a
+  `[verified]` claim, and the value was not in flipping a decision. It was in finding that a
+  standing decision rested on a fact rather than on an argument. [inference]
+
+  **The evidence under a reopening can be narrower than the reopening.** Eight compound predicates
+  in sixty reads like the shape arriving in force; one restated conjunction in one game is what it
+  is. Both are true and only the second bears on the question, because a named condition abbreviates
+  *repetition* and not *composition*. A question that comes back deserves the same measurement
+  discipline as one that never closed, and the first instinct — the premise is gone, so re-decide —
+  is the one to distrust.
+
+  **And the settling evidence was in the house again.** The Delores guard census was taken by the
+  phase that read that source for what an object declares, and read for this question it answers it.
+  That is the **fourth** phase in six to close on a source already retrieved, after
+  [control-transfer](control-transfer.yml), [adjacency](adjacency.yml) and
+  [reads-like-writing](reads-like-writing.yml). `crates/design-gate/tests/subject.rs` counts a
+  re-reading identically to a retrieval and records that it cannot tell them apart; the catalog's
+  unread list says which documents nobody opened and nothing says what an opened document was not
+  looked at for. Four instances is well past the threshold this corpus uses. [inference]

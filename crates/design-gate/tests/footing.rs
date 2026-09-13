@@ -123,12 +123,12 @@ fn the_evidence_base_of_fifteen_nodes_is_a_single_source() {
     }
     assert_eq!(
         (evidenced, one_entry, one_line),
-        (41, 14, 9),
+        (41, 13, 8),
         "nodes with a verified claim; of those, resting on one catalog entry; of those, on one line"
     );
     assert_eq!(
         (held, carried),
-        (90, 39),
+        (82, 34),
         "claims those thirteen carry, and how many name nothing in their own paragraph"
     );
 }
@@ -182,7 +182,7 @@ fn one_line_is_the_difference_between_sourced_and_not() {
         }
         flipped.push(name(&root, &p));
     }
-    assert_eq!(flipped.len(), 9);
+    assert_eq!(flipped.len(), 8);
     assert_eq!(
         attributed,
         [
@@ -252,7 +252,6 @@ fn a_single_source_node_that_also_rests_on_the_instrument_is_named() {
             "interaction/conversational-binding.yml",
             "interaction/unary-binding.yml",
             "inventory-item/portable-object.yml",
-            "puzzle/state-gate.yml",
             "subsystem/verb-menu.yml",
             "walkbox/scaled-polygon.yml",
             "world-flag/boolean-flag.yml",

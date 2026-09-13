@@ -39,15 +39,45 @@ description: |
   where being allowed to act depends on the state of the water **and** on where two other people
   are standing.
 
-  **So the question is open again.** `.yidam/decisions/named-condition.yml` declined the primitive
-  for reasons beyond the census — the successor relation is derivable from the bindings, and a
-  static check closed the gap reachability could not see — and those reasons are untouched. What is
-  gone is the premise it led with. Whether four restatements of one conjunction, in one game, earn
-  a name for the condition is a decision somebody has to take against the corpus that now exists
-  rather than the one that was counted. **What would close it is a decision**, weighing the eight
-  compound predicates and the four restatements against the cost of a new declarable — the same
-  weighing `named-condition` did, on evidence that has reversed.
-  [resolver-kind](../../decisions/resolver-kind.yml). `[open]`
+  **The question came back and the answer did not move, and not one of the reasons is the reason
+  given the first time.** `.yidam/decisions/named-condition.yml` declined on the census above. Its
+  other two reasons are about the **counter** — the successor relation is derivable from the
+  (guard value, written value) pairs, and a static check closed the gap a search could not see — and
+  that record says in as many words why neither transfers: *"Three latched booleans have no such
+  relation to recover."* So when the census fell, nothing was holding the answer up.
+
+  **No primitive, on four grounds that do not expire.** `.yidam/decisions/restated-guard.yml`.
+
+  **One condition in five games is written at more than one site.** `gates-shut and paddle-up`, in
+  four of `lock.game`'s guards. Every other compound in the corpus appears once, and only two of the
+  five games compose at all. [verified] — `crates/game-format/tests/guards.rs`. A named condition
+  abbreviates *repetition* and not *composition*: eight compounds in sixty reads like the shape
+  arriving in force, and the shape a name would serve is one author's one condition.
+
+  **A name expresses nothing this language cannot already say**, and the question this corpus asks
+  is which primitives are necessary. The conjunction is writable. `exit` is the one construct
+  admitted here as a pure convenience and it came in on **two independent bodies of authored work**
+  ([exit-archetype](../../decisions/exit-archetype.yml)); this has one, and the saving is
+  **seventeen characters across 904 authored lines**. [verified]
+
+  **And a person shipped a game with this shape and never wanted a name for one.** Delores writes
+  141 guards in square brackets, 79 of them real expressions, using thirteen composition operators
+  between them — including a three-atom conjunction in a dialogue guard — and Dinky and Yack have no
+  named-condition construct ([delores-source](../../catalog/delores-source.md)). [verified] Evidence
+  rather than proof, on [two-bars](../../decisions/two-bars.yml)'s rule that a negative claim about
+  an engine wants an enumeration; it is the strongest evidence available and it points where
+  everything else here points.
+
+  **The readability argument is real and it is one line.** The five-atom guard is 88 characters of
+  condition against a median guard of 13, and it is the only guard that wide in five games. A
+  construct existing for one line is *a primitive with no site* in everything but the literal sense.
+
+  **What would reopen it**, and it is a condition rather than a question: **a second game that
+  restates a conjunction**, which would make this a shape rather than an instance — or **a
+  restatement that drifts**. The four sites agree today because they are the same characters. An
+  edit that changes three and leaves the fourth is the failure this node named at genesis, and it is
+  the one thing the decision above cannot answer.
+  [resolver-kind](../../decisions/resolver-kind.yml).
 
   **What is restated is a counter's position in a sequence, and it is all on one target.**
   `lighthouse.game`'s `lamp-prep` is read at **nine sites, every one of them sited on the lamp**

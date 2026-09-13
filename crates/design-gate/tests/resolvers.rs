@@ -96,7 +96,6 @@ const KINDS: &[(&str, Closes)] = &[
     ("hotspot/static-region.yml", Closes::Condition),
     ("interaction/acquisition-binding.yml", Closes::Testimony),
     ("prior-art/ags.yml", Closes::Testimony),
-    ("puzzle/state-gate.yml", Closes::Judgement),
     ("world-flag/latched-flag.yml", Closes::Condition),
 ];
 
@@ -201,21 +200,25 @@ fn every_question_says_what_would_close_it() {
             count(Closes::Measurement),
             count(Closes::Judgement),
         ),
-        (3, 0, 2, 0, 0, 1),
+        (3, 0, 2, 0, 0, 0),
         "testimony, a named artifact, a condition that would reopen it, a game, a count, and a \
          decision somebody has to take"
     );
 
-    // All three that were silent have been answered — `actor/player-character` by a specimen,
-    // `walkbox/scaled-polygon` by a measurement, `data-format/interaction-table` by the last
-    // measurement this corpus had to take. The one question added since says what would close it
-    // in the same form, and it is the first to name a judgement.
-    let node = "puzzle/state-gate.yml";
-    let src = std::fs::read_to_string(root.join(".yidam/corpus").join(node)).expect("readable");
-    assert!(
-        src.contains("What would close it is") && src.contains("resolver-kind"),
-        "{node} does not say what would close it"
-    );
+    // Every question whose resolver was a thing somebody could go and do has been answered, and
+    // the one that came back was re-decided. What is left is five, and each says its terms: the
+    // three waiting on testimony name the record that argues no artifact supplies it, and the two
+    // declined name the condition that would reopen them.
+    for (node, kind) in KINDS {
+        if *kind != Closes::Condition {
+            continue;
+        }
+        let src = std::fs::read_to_string(root.join(".yidam/corpus").join(node)).expect("readable");
+        assert!(
+            src.contains("condition") || src.contains("would reopen"),
+            "{node} is declined and does not say what would reopen it"
+        );
+    }
 
     // And the convention is written where the claim tags are, rather than only in a record.
     let readme = std::fs::read_to_string(root.join(".yidam/corpus/README.md")).expect("readable");
