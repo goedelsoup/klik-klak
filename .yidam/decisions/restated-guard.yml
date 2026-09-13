@@ -110,9 +110,11 @@ rationale: |
 
   **And the settling evidence was in the house again.** The Delores guard census was taken by the
   phase that read that source for what an object declares, and read for this question it answers it.
-  That is the **fourth** phase in six to close on a source already retrieved, after
+  That is the **fourth** phase in eight to close on a source already in the house, after
   [control-transfer](control-transfer.yml), [adjacency](adjacency.yml) and
-  [reads-like-writing](reads-like-writing.yml). `crates/design-gate/tests/subject.rs` counts a
+  [reads-like-writing](reads-like-writing.yml) — a fifth retrieved a document nobody had, and three
+  rested on no document at all. (This read *fourth in six* until the window was counted rather than
+  estimated; `crates/design-gate/tests/subject.rs` computes it now.) `crates/design-gate/tests/subject.rs` counts a
   re-reading identically to a retrieval and records that it cannot tell them apart; the catalog's
   unread list says which documents nobody opened and nothing says what an opened document was not
   looked at for. Four instances is well past the threshold this corpus uses. [inference]

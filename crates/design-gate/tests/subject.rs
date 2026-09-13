@@ -340,10 +340,10 @@ fn the_evidence_each_record_rests_on() {
 /// this one. So the run is zero and this check counts that identically to going out and retrieving
 /// something nobody had.
 ///
-/// **Three of the last five clearances were re-readings and the fourth was a specimen this
-/// repository wrote.** `control-transfer`, `adjacency` and now this one. The unread list says which
-/// documents nobody opened. Nothing says what an opened document was not looked at for, and on the
-/// evidence of five phases that is where most of the answers have been.
+/// **Most clearances here are re-readings, and the count is computed below rather than estimated.**
+/// The unread list says which documents nobody opened. Nothing says what an opened document was
+/// **not** looked at for, and on the evidence of the last eight phases that is where most of the
+/// answers have been.
 ///
 /// **`unread-spelling` puts both runs to one, and the gate-alone run is the one that matters.** It
 /// is the first record since `class-evidence` to rest on the gate and nothing else, and the reason
@@ -361,10 +361,9 @@ fn the_evidence_each_record_rests_on() {
 /// **It did not reach two.** `restated-guard` cleared both runs the next phase by re-deciding a
 /// question against `.yidam/catalog/delores-source.md` — a shipped game's guard census, taken by
 /// the phase that read that source for what an object declares, and read here for whether a
-/// language needs a name for a condition. **Fourth clearance in six phases by re-reading a source
-/// already in the house**, after `control-transfer`, `adjacency` and `reads-like-writing`. This
-/// check counts all four identically to going out and retrieving something nobody had, and on the
-/// evidence of six phases that is now the main way questions here get answered.
+/// language needs a name for a condition. `the_last_eight_phases_mostly_re_read` holds the shape:
+/// **four of eight rested on a document already in the house, one retrieved a new one, and three
+/// rested on no document at all.** This check counts the first two identically.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -382,5 +381,75 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
         (no_document, gate_alone),
         (0, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
+    );
+}
+
+/// **Four of the last eight phases answered a question with a source already in the house.**
+///
+/// The figure two records state, computed instead of counted by hand. Both got it wrong the first
+/// time and in the same direction — `reads-like-writing` said *third in five* and `restated-guard`
+/// said *fourth in six*, where the windows are six and eight — which is the ordinary failure of a
+/// ratio asserted in prose, and `.yidam/decisions/unread-specimen.yml` is the record about pinning
+/// a figure to something that cannot compute it.
+///
+/// Whether a phase **retrieved** a document or **re-read** one it already had is the distinction
+/// the run above cannot draw, so it is drawn here by hand and held against the directory. The
+/// catalog's unread list says which documents nobody opened; nothing says what an opened document
+/// was not looked at for, and four of eight phases is what that costs.
+#[test]
+fn the_last_eight_phases_mostly_re_read() {
+    /// Each of the last eight records, and whether the document it rests on was new to this
+    /// repository when the phase opened. `None` where the phase rested on no document.
+    const RECENT: [(&str, Option<bool>); 8] = [
+        ("control-transfer", Some(false)),
+        ("adjacency", Some(false)),
+        ("retraction-reach", None),
+        ("two-bars", Some(true)),
+        ("unread-specimen", None),
+        ("reads-like-writing", Some(false)),
+        ("unread-spelling", None),
+        ("restated-guard", Some(false)),
+    ];
+
+    let root = repo_root();
+    let all = records(&root);
+    let tail: Vec<String> = all[all.len() - RECENT.len()..]
+        .iter()
+        .map(|rel| {
+            std::path::Path::new(rel)
+                .file_stem()
+                .expect("a stem")
+                .to_string_lossy()
+                .into_owned()
+        })
+        .collect();
+    assert_eq!(
+        tail,
+        RECENT
+            .iter()
+            .map(|(n, _)| n.to_string())
+            .collect::<Vec<_>>(),
+        "the eight most recent records, in creation order"
+    );
+
+    // the classification is by hand; that a row's record does or does not cite a catalog entry is
+    // not, and the two have to agree
+    for (name, retrieved) in RECENT {
+        let src =
+            std::fs::read_to_string(root.join(".yidam/decisions").join(format!("{name}.yml")))
+                .expect("readable");
+        assert_eq!(
+            cites(&src, "catalog/"),
+            retrieved.is_some(),
+            "{name} is classified as resting on a document and does not cite one, or the reverse"
+        );
+    }
+
+    let doc = RECENT.iter().filter(|(_, r)| r.is_some()).count();
+    let fresh = RECENT.iter().filter(|(_, r)| *r == Some(true)).count();
+    assert_eq!(
+        (doc, fresh, doc - fresh),
+        (5, 1, 4),
+        "phases resting on a document, on one newly retrieved, and on one already in the house"
     );
 }

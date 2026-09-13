@@ -558,9 +558,16 @@ fn no_record_has_changed_what_it_decided() {
     // answer it, and the correction went where the marker is. A record edited by the phase that
     // drafted it and a record edited by the phase that read it are both edits, and only the second
     // is the graph doing what it is for.
+    //
+    // Thirty-six and thirty-seven are a third kind and the plainest: `reads-like-writing` and
+    // `restated-guard` each stated a ratio in prose — *third in five*, *fourth in six* — and both
+    // were off by the same slip, a window counted from the wrong end. The figure is computed in
+    // `subject.rs::the_last_eight_phases_mostly_re_read` now and the two sentences say what it
+    // computes. Corrected measurements, like the two exceptions above and for the same reason: a
+    // figure is the one thing in a record that can turn out to be wrong.
     assert_eq!(
         edited,
-        35,
+        37,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

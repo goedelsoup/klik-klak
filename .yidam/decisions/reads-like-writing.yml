@@ -94,8 +94,10 @@ rationale: |
   phases.** 84% means nothing on its own. `.yidam/catalog/delores-source.md` carries the same
   measurement over a shipped game, taken by [frame-width](frame-width.yml) for a different question
   — whether an archetype should exist — and never read for this one. **That is the third phase in
-  five to close a question with a source already retrieved**, after
-  [control-transfer](control-transfer.yml) and [adjacency](adjacency.yml).
+  six to close a question with a source already in the house**, after
+  [control-transfer](control-transfer.yml) and [adjacency](adjacency.yml). (This read *third in
+  five* until the window was counted rather than estimated;
+  `crates/design-gate/tests/subject.rs` computes it now.)
 
   The catalog's unread list says which documents nobody opened. Nothing says what an opened document
   was **not** looked at for, and `crates/design-gate/tests/subject.rs` records that its evidence
