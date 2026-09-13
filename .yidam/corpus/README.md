@@ -69,7 +69,7 @@ Sorted by: kind, then alphabetically.
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 18v / 12i / 0o | 230 |
 | [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 12 | 29v / 12i / 0o | 351 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
-| [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 9v / 5i / 1o | 140 |
+| [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 12v / 5i / 0o | 170 |
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 6v / 3i / 0o | 73 |
 | [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 3i / 0o | 41 |
 | [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 8 | 5v / 5i / 0o | 105 |
