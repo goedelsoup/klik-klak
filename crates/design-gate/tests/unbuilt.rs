@@ -1,45 +1,47 @@
-//! **The component the engine says it cannot build has been half-written twice, in the instrument,
-//! by phases that were answering something else.**
+//! **Every component the corpus specifies is built, says so, and names the module.**
 //!
-//! `subsystem/path-solver` is the one subsystem this corpus specifies and the engine does not
-//! provide. Two documents say why and they are not saying the same thing:
+//! This was a census one commit ago and it found two things, which are the same thing read from
+//! two ends.
 //!
-//! - `crates/design-gate/tests/engine.rs` — *"it will not be until something has a path to walk —
-//!   a text slice has nothing to cross a room with."* That is about a **client**, and it is true.
-//! - `.yidam/corpus/subsystem/path-solver.yml` — *"the only subsystem with no `[verified]` claim,
-//!   and the only one that never will have one… there is nothing for a check to read."* That is
-//!   about **evidence**, and this file is the census that says it is not.
+//! `subsystem/path-solver` was the one subsystem specified and not provided, and two documents
+//! said why. `crates/design-gate/tests/engine.rs` said a client has nothing to walk — *"a text
+//! slice has nothing to cross a room with"* — which is about a **consumer** and is true and
+//! still true. The node said it was *"the only subsystem with no `[verified]` claim, and the only
+//! one that never will have one… there is nothing for a check to read"*, which is about
+//! **evidence** and was not. It drew that from `.yidam/decisions/drawn-boundary.yml`, whose claim
+//! is about the `.game` **format** — *"no `.game` file can state one"* — and the phase directly
+//! after it measured a coordinate space out of somebody else's game. A conclusion outliving the
+//! argument holding it up is `.yidam/decisions/restated-guard.yml`'s shape; here it kept a
+//! specified component unbuilt for six phases while the region half of it sat in
+//! `crates/design-gate/tests/adjacency.rs` as private helpers to another question.
 //!
-//! `.yidam/decisions/drawn-boundary.yml` is what the second rests on: *"nothing can measure a
-//! claim about a walk cycle or a coordinate space, because no `.game` file can state one."* The
-//! premise is about the **format** and it holds. The conclusion drawn from it is about **every
-//! possible check**, and the phase immediately after it measured a coordinate space —
-//! `.yidam/decisions/adjacency.yml`, over 84 polygons out of somebody else's game, two rooms of
-//! which are transcribed in `crates/design-gate/tests/adjacency.rs` and executed.
+//! From the other end: a component node says *"**It is built.** `engine/<name>` is this
+//! component"*, and two of the three built ones did. `response-presenter` had been built for five
+//! phases and its node still read *"What is still unmodelled is this component itself."*
 //!
-//! That is the shape `.yidam/decisions/restated-guard.yml` named one phase ago: a conclusion that
-//! outlived the argument holding it up. Here it is load-bearing — it is why a specified component
-//! was never attempted.
-//!
-//! **And the attempt was already made.** `adjacency.rs` defines `edges`, `adjacent`, `components`
-//! and `without`: portal extraction, the adjacency graph, a flood fill over it, and
-//! state-dependent region removal. That is the region half of a path solver, written as private
-//! helpers to a test about something else. `.yidam/decisions/two-components.yml` is the record of
-//! this happening the first time, when `verb-menu` and `interaction-resolver` turned out to be
-//! private methods of `crates/reachability` — *"what that phase built was not the components; it
-//! was the place they say they are."*
-//!
-//! **The second defect is the same convention read from the other end.** A component node says
-//! *"**It is built.** `engine/<name>` is this component"* — two of the three built ones do.
-//! `response-presenter` was built and its node still reads *"What is still unmodelled is this
-//! component itself."* A convention with a following and no statement is what this repository has
-//! now found nine times; what is new is a follower that says the opposite of the truth.
+//! **So the rule is the convention, stated.** A specified component is built; a built component's
+//! node says so and names the module. Both halves would have caught what was found, and the
+//! second is the cheaper of the two: it is the sentence a phase forgets to write on the day it
+//! finishes. `.yidam/decisions/unbuilt-solver.yml`.
 
 use design_gate::repo_root;
 use std::path::Path;
 
-/// Every subsystem the corpus declares, and the module under `engine/` that says it is that
-/// component.
+/// Every subsystem the corpus declares.
+fn specified(root: &Path) -> Vec<String> {
+    let mut out: Vec<String> = std::fs::read_dir(root.join(".yidam/corpus/subsystem"))
+        .expect("the subsystem directory")
+        .flatten()
+        .filter_map(|e| {
+            let p = e.path();
+            (p.extension()? == "yml").then(|| p.file_stem()?.to_str().map(str::to_string))?
+        })
+        .collect();
+    out.sort();
+    out
+}
+
+/// Every subsystem some module under `engine/` says it is.
 fn built(root: &Path) -> Vec<String> {
     let mut out = Vec::new();
     let mut stack = vec![root.join("engine")];
@@ -77,23 +79,59 @@ fn built(root: &Path) -> Vec<String> {
     out
 }
 
-/// **Three of four, and the fourth is the one with the geometry.**
+/// **Nothing is specified and missing.**
+///
+/// `engine.rs` pins the same list and this says the thing that list is *for*: the two are equal.
+/// A component the corpus describes and the engine does not provide is either work nobody has
+/// done or a component the corpus should not have declared, and both are findings that belong in
+/// a record rather than in a dash in a table.
 #[test]
-fn one_specified_component_is_not_built() {
+fn every_specified_component_is_built() {
     let root = repo_root();
     assert_eq!(
         built(&root),
-        ["interaction-resolver", "response-presenter", "verb-menu"],
-        "the components that exist"
+        specified(&root),
+        "a subsystem the corpus declares and no module realizes"
     );
 }
 
-/// **The node says no check will ever read it, and one already did.**
+/// **Every component node says it is built and names the module.**
 ///
-/// Both halves are quoted rather than paraphrased, because the whole census is that two sentences
-/// in this repository disagree and nobody had put them next to each other.
+/// The convention had a following of two and no statement, which is the shape this repository has
+/// now found nine times — `.yidam/decisions/unread-list.yml`, `.yidam/decisions/resolver-kind.yml`.
+/// What was new was a follower left saying the **opposite** of the truth: a node describing a
+/// component that had existed for five phases as the thing still missing. A convention that is
+/// only ever copied is not checked, and an uncopied one decays in the one direction nobody reads.
 #[test]
-fn the_unbuilt_component_declares_itself_unverifiable() {
+fn every_component_node_says_it_is_built_and_names_the_module() {
+    let root = repo_root();
+    let dir = root.join(".yidam/corpus/subsystem");
+    let mut silent = Vec::new();
+    for name in specified(&root) {
+        let src = std::fs::read_to_string(dir.join(format!("{name}.yml"))).expect("the node");
+        if !src.contains(&format!("**It is built.** `engine/{name}`")) {
+            silent.push(name);
+        }
+    }
+    assert!(
+        silent.is_empty(),
+        "a component node that does not say it is built and name the module: {}",
+        silent.join(", ")
+    );
+}
+
+/// **No node claims a check cannot read it while a check reads it.**
+///
+/// The narrow form of the defect, held on the one node that had it. `path-solver` now carries
+/// `[verified]` claims and cites the test that makes them, and the sentence denying that was ever
+/// possible is gone.
+///
+/// The premise underneath is untouched and the check says so: a `.game` file still cannot state a
+/// polygon, which is why this component's evidence is a shipped game's rather than
+/// `design/specimen/`'s — the true and permanent version of what the old sentence was reaching
+/// for.
+#[test]
+fn the_component_with_borrowed_evidence_no_longer_denies_it_has_any() {
     let root = repo_root();
     let node = std::fs::read_to_string(root.join(".yidam/corpus/subsystem/path-solver.yml"))
         .expect("the node");
@@ -102,34 +140,59 @@ fn the_unbuilt_component_declares_itself_unverifiable() {
         .split_whitespace()
         .collect::<Vec<_>>()
         .join(" ");
+    // The sentence is still in the node, once, inside the paragraph that withdraws it. A
+    // retraction quotes what it retracts and a check that forbade the words outright would forbid
+    // saying what changed — which is `.yidam/decisions/marker-count.yml`'s distinction between a
+    // live claim and a quotation of a dead one, in prose rather than in a token.
+    let claim = "the only one that never will have one";
+    assert_eq!(
+        flat.matches(claim).count(),
+        1,
+        "path-solver.yml states the withdrawn claim more than once"
+    );
+    let withdrawn = flat
+        .find("For six phases this node said something stronger and wrong")
+        .expect("the node does not say that it withdrew anything");
     assert!(
-        flat.contains(
-            "the only subsystem with no [verified] claim, and the only one that never will have one"
-        ),
-        "path-solver.yml no longer makes the claim this census is about"
+        flat.find(claim).expect("present") > withdrawn,
+        "path-solver.yml still asserts that no check will ever read it before withdrawing it"
     );
     assert!(
-        flat.contains("there is nothing for a check to read"),
-        "nor the reason it gives for it"
+        node.contains("[verified]") && node.contains("engine/path-solver/tests/delores.rs"),
+        "and it does not carry a verified claim citing the check that makes one"
+    );
+    assert!(
+        flat.contains("only component whose evidence is borrowed"),
+        "nor the claim that replaced it"
     );
 
-    // And the measurement that was run one phase after the premise was decided.
-    let adjacency =
-        std::fs::read_to_string(root.join(".yidam/decisions/adjacency.yml")).expect("the record");
+    // The premise is unchanged and load-bearing, which is the half that was always right.
+    let boundary = std::fs::read_to_string(root.join(".yidam/decisions/drawn-boundary.yml"))
+        .expect("the record");
+    let premise = boundary
+        .replace(['*', '`'], "")
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
     assert!(
-        adjacency.contains("290") && adjacency.contains("66"),
-        "adjacency.yml no longer carries the coordinate-space measurement"
+        premise.contains("this design has no geometry"),
+        "drawn-boundary no longer states the premise this rests on"
     );
 }
 
-/// **The component's core is written, in the instrument, as private helpers to another question.**
+/// **The instrument's private copy of the component declares itself one.**
 ///
-/// Four functions, and between them they are everything a path solver does with regions: turn a
-/// ring into portals, decide adjacency from them, walk the graph, and drop a region because the
-/// world state hid it. What is missing is the part that takes **points** — locating a click, and
-/// reporting that it reached nothing.
+/// `adjacency.rs` defines `edges`, `adjacent`, `components` and `without` — the region half of a
+/// path solver, written before the component and kept, because the instrument may not depend on
+/// the engine and the engine must not depend on the instrument. What is checked is not that the
+/// duplication is gone but that it is **said**: an undeclared second implementation is the defect
+/// `.yidam/decisions/two-components.yml` found twice by accident.
+///
+/// The two are held equal by arithmetic rather than by a shared function — the engine's test reads
+/// these rings and re-derives the pair counts pinned here — and that is checked from the other
+/// side, in `engine/path-solver/tests/delores.rs`.
 #[test]
-fn the_instrument_privately_implements_the_region_half_of_it() {
+fn the_instruments_copy_of_the_component_says_that_is_what_it_is() {
     let root = repo_root();
     let src = std::fs::read_to_string(root.join("crates/design-gate/tests/adjacency.rs"))
         .expect("the measurement");
@@ -143,39 +206,14 @@ fn the_instrument_privately_implements_the_region_half_of_it() {
         "the four helpers that are the component"
     );
     assert!(
-        !src.contains("path_solver") && !src.contains("path-solver`"),
-        "and it does not know that is what they are"
-    );
-}
-
-/// **A component node says it is built and names the module — and the newest one says the
-/// opposite.**
-#[test]
-fn one_built_component_still_says_it_is_unmodelled() {
-    let root = repo_root();
-    let dir = root.join(".yidam/corpus/subsystem");
-    let says: Vec<String> = ["interaction-resolver", "response-presenter", "verb-menu"]
-        .into_iter()
-        .filter(|n| {
-            std::fs::read_to_string(dir.join(format!("{n}.yml")))
-                .expect("the node")
-                .contains(&format!("**It is built.** `engine/{n}`"))
-        })
-        .map(str::to_string)
-        .collect();
-    assert_eq!(
-        says,
-        ["interaction-resolver", "verb-menu"],
-        "built components whose node says so and names the module"
+        src.contains("the region half of `engine/path-solver`"),
+        "and the file does not say that is what they are"
     );
 
-    let presenter = std::fs::read_to_string(dir.join("response-presenter.yml")).expect("the node");
+    let engine = std::fs::read_to_string(root.join("engine/path-solver/tests/delores.rs"))
+        .expect("the component's test");
     assert!(
-        presenter.contains("What is still unmodelled is this component itself."),
-        "response-presenter.yml no longer carries the sentence that is false"
-    );
-    assert!(
-        !presenter.contains("engine/"),
-        "and it still does not name the module that realizes it"
+        engine.contains("crates/design-gate/tests/adjacency.rs"),
+        "the engine's test no longer reads the transcription and must be holding a copy"
     );
 }

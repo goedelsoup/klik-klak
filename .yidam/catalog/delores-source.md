@@ -43,6 +43,8 @@ used-by:
   - ../corpus/interaction/binary-binding.yml
   - ../corpus/interaction/conversational-binding.yml
   - ../corpus/subsystem/response-presenter.yml
+  - ../corpus/puzzle/state-gate.yml
+  - ../corpus/subsystem/path-solver.yml
 ---
 
 **A source of record, and the first one this corpus can *count*.** *Delores: A Thimbleweed Park

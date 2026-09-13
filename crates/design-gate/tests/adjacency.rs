@@ -25,6 +25,21 @@
 //! `crates/reachability/tests/delegation.rs` is the precedent — real authored material,
 //! transcribed, so that a claim about it can be executed.
 //!
+//! **The four helpers below are the region half of `engine/path-solver`, and they were written
+//! here first.** `edges` is portal extraction, `adjacent` is the adjacency graph, `components` is
+//! a flood fill over it and `without` is a walkbox hidden by world state — a path solver with the
+//! points left out. The component did not exist when this file was written because
+//! `.yidam/corpus/subsystem/path-solver.yml` said no check could ever read one, which is the
+//! defect `.yidam/decisions/unbuilt-solver.yml` settles; it is the third time a component turned
+//! out to be living somewhere that was not saying so
+//! (`.yidam/decisions/two-components.yml`).
+//!
+//! **The copy stays and is declared rather than removed.** The instrument may not depend on the
+//! engine and the engine must not depend on the instrument, so what holds the two equal is
+//! arithmetic: `engine/path-solver/tests/delores.rs` reads the rings below out of this file and
+//! re-derives the **6 and 3** pairs pinned here, through its own `adjacent`. Two implementations
+//! of one rule, checked against each other across a boundary neither crosses.
+//!
 //! [`walkbox/scaled-polygon`]: ../../../.yidam/corpus/walkbox/scaled-polygon.yml
 //! [`found-in`]: ../../../.yidam/decisions/found-in.yml
 //! [`delores-source`]: ../../../.yidam/catalog/delores-source.md
