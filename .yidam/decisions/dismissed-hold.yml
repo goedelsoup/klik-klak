@@ -1,0 +1,101 @@
+id: dismissed-hold
+summary: >-
+  A terminal holds a player and needs no clock to do it — `engine/play`'s loop stops on every line
+  now, ten times in a winning run, with nothing in the build that could be called a clock. What a
+  terminal cannot do is **time** the hold, and the two are different: a line's length is a lever
+  over pacing only when the hold **elapses**. So `subsystem/response-presenter`'s *"the only lever
+  over pacing this vocabulary offers"* is conditional on a client property no author writes and no
+  source measures, and a frame supplies not the clock but a **second channel** — which is what lets
+  a timed hold be cut short, and therefore what makes an invented rate survivable.
+context: |
+  [held](held.yml) closed with a marker: *"`play` implements `Perceive` by printing and returning,
+  so it holds the player for nothing at all… a terminal with no clock and no input between turns
+  has nowhere to put an interval. The number is real and the holding is not, and **the first client
+  that can hold a player is the first one with a frame.**"*
+
+  **That reason names two absences and the repository contradicts one of them in the file the
+  marker is about.** `engine/play/src/main.rs` blocks on `stdin().read_line` on every turn, which
+  is input between turns. [verified] — `crates/design-gate/tests/pacing.rs`.
+
+  What actually stopped the client holding was smaller and was here rather than in terminals:
+  `Session::take` built its own `Collect` and took no sink, so **every client of this loop got the
+  one that returns at once, whatever it could have done instead.** Two `impl Perceive` existed in
+  the whole build — `Collect` and a test's `Heard` — and both return immediately, so the lever the
+  node calls the only one this vocabulary offers was inert in everything that had ever run. [verified]
+
+  The half of the reason that was right is the other half, and it is about a **rate** rather than a
+  device. Eleven sources in the catalog and not one states a reading speed: no words per minute, no
+  characters per second. [verified] That is why `engine/response-presenter` reaches for no
+  `Duration` and invents no constant, and it was correct when it was written.
+decision: |
+  **There are two holds, they are not the same thing, and only one of them is what the author was
+  told they controlled.**
+
+  A hold that **elapses** ends when a duration is up. It needs seconds per character, which nothing
+  in the evidence supplies, and under it a longer sentence really does hold the player longer —
+  which is the claim `subsystem/response-presenter` makes.
+
+  A hold that is **dismissed** ends when the player asks for the next thing. It needs no clock and
+  no rate, and under it **a longer sentence buys nothing**: the player takes as long as they take.
+
+  `engine/play` now performs the second. `Await` writes the line and does not come back until the
+  stream does, `Session::take_with` lets a client supply its own sink, and the interactive loop
+  uses it. **The parameter is the whole of the engine change** — one argument where there was a
+  hardcoded `Collect`.
+
+  **Measured on the winning run of `lighthouse.game`: ten lines, ten holds, 471 characters, and the
+  two ends of what the author wrote are 3 and 74.** The author wrote one line twenty-four times the
+  length of another and the player pays one keypress for each. The presenter still reports the
+  weight and the sink cannot act on it. [verified] — `engine/play/tests/holding.rs`.
+
+  **So the node's claim is made conditional rather than withdrawn.** *"A line's length is how long
+  the game is held"* is true of an elapsing hold and false of a dismissed one, and which one a game
+  gets is decided once, by the client, for every line in it. **An author writes `say` and there is
+  one spelling.** This vocabulary has no way to say *hold this one*, and adding one would be adding
+  a construct for a property of the client rather than of the game.
+
+  **The state graph does not move, again and for the same reason.** A dismissed hold is still an
+  interval nothing can act during, so [held](held.yml)'s argument survives its own marker being
+  wrong: *instantaneous* is about the state model, *do not return until it is over* is about the
+  player, and the second is what makes the first true whichever way the hold ends. All figures the
+  search publishes are unchanged. [verified]
+rationale: |
+  **What a frame actually adds, which is not a clock.** `std::thread::sleep` was in the standard
+  library the whole time. What a terminal lacks is a *second* channel: there is one stream, and
+  both the choice and the dismissal come through it, so nothing can listen for a player who has
+  finished reading while it waits for a player who has finished choosing. A frame separates them —
+  and what that separation buys is not the timer, it is the **interruption**.
+
+  [inference] **That is why an invented reading rate is survivable in a shipped game and would not
+  be here.** A timed hold that can be cut short by a click has a rate that is a floor rather than a
+  commitment: get it wrong and the player clicks past it. A timed hold that cannot be interrupted
+  has a rate that is a promise, and this design has no evidence for one. So the honest client for
+  *this* vocabulary, on *this* evidence, is the one that dismisses — and it is reachable today
+  rather than waiting on a renderer.
+
+  **The third time in four phases that something that looked like authoring turned out to be an
+  engine constant.** [unbuilt-solver](unbuilt-solver.yml) found the arm-choice for a walk was one,
+  because an author never writes a region. [declared-edge](declared-edge.yml) found a coupling that
+  was imported from a vocabulary with geometry rather than decided here. This one is the same shape
+  from the other end: the question *how does a line end* is real, it changes what the author's
+  sentences do, and there is still nothing for an author to write, because the answer is the same
+  for every line in the game.
+
+  **The prior art answers it two ways and the corpus already held both.** AGS's declarative
+  interaction editor blocked by default and the author wrote nothing —
+  *"in 2.72, a 'Run Dialog' interaction, for example, waits until the dialog has finished before
+  moving onto the next action"* ([ags-manual](../catalog/ags-manual.md)). [verified] SCUMM put the
+  wait in the author's hands: `wait` is opcode `$AE` and the reference classes it as *control*
+  rather than presentation ([scumm-v5-opcode-reference](../catalog/scumm-v5-opcode-reference.md)).
+  [verified] The catalog records the opcode and not its sub-operations, so what can be said stops
+  there: **one population made the hold an engine default and one made it a statement, and this
+  design has been the first without saying so.**
+
+  **What the marker got right, restated.** It said the number was real and the holding was not, and
+  that was exactly true of the client that existed. What it got wrong was the reason and the
+  remedy — a device instead of a rate, and a renderer instead of a parameter. The correction cost
+  one argument and one sink.
+
+  **And it leaves the smaller hole where [held](held.yml) left it.** Duration for a *sequence* is
+  still unwritable and still `cutscene`, and `cutscene` is still unreachable. Nothing in this phase
+  touched that.
