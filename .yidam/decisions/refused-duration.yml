@@ -1,0 +1,98 @@
+id: refused-duration
+summary: >-
+  The refusal of duration is load-bearing in **fifteen** places and the record that asked about it
+  said four — a figure naming nothing, uncountable because `effect-list-semantics` decides two
+  things and every one of its twenty-two citations names the record rather than the line. Five of
+  those citations rest on the other decision entirely. And one of the three costs the marker names
+  is already paid and paid more cheaply than recorded: `skippable` is not *defined* away by
+  atomicity, it is **ordered** away by the built loop, which settles every write before one
+  character reaches the player. A player who skips everything ends where a player who reads
+  everything ends.
+context: |
+  [threshold-trigger](threshold-trigger.yml) closed with the last marker on `cutscene`: *"Whether
+  duration should have been refused. Everything above is downstream of `effect-list-semantics`, and
+  a design that admitted duration would need this trigger, a `skippable` property, and the
+  save-boundary problem the same decision record quotes Thimbleweed Park paying. **That trade was
+  made once and is now load-bearing in four places.**"*
+
+  **Four is not a count of anything.** It names no places, nothing computes it, and
+  [collected-verdict](collected-verdict.yml) is this corpus's record about exactly that — a figure
+  that lives in prose and cannot be checked.
+
+  **And the reason nobody could count it is structural.** `effect-list-semantics` decides two
+  things in one record: that **`say` is presentation and not an effect**, and that **no effect takes
+  time**. Twenty-two files cite it and not one names which. A census that reads citations counts
+  both lines and produces a number about neither. [verified] — `crates/design-gate/tests/refused.rs`.
+decision: |
+  **Fifteen, and the two lines are named so the next count is possible.**
+
+  Every citing file is classified by which decision its argument needs. Twelve rest on the duration
+  line, three on both, five on the presentation line, and two are about the record rather than what
+  it decided. So the refusal of duration is load-bearing in **fifteen** places — and admit duration
+  tomorrow and `scrolling`, `dialogue-script`, `interaction-resolver`, `arrival-realizer` and
+  `presentation-layer` do not move a word. [verified]
+
+  The table is by hand and its residue is held empty, which is [`reach.rs`]'s shape: a phase that
+  cites this record lands in the census and has to be read rather than falling into a number.
+
+  **`skippable` is answered rather than eliminated, and the answer is an ordering.**
+  [scripted-sequence](../corpus/cutscene/scripted-sequence.yml) names the failure — *"a sequence
+  that writes state part-way through and is cut short leaves the world in a configuration the author
+  never wrote"* — and disposes of it with *"atomicity means there is no part-way. **That is
+  defining the problem away**"*, at `[inference]`.
+
+  It is not defined away in the built system. `Session::take_with` resolves the binding, settles the
+  chain it starts and assigns the state, and **only then** hands the lines to the presenter. Every
+  write has landed before one character reaches the player, so a skip cannot be part-way through
+  anything: by the time there is something to skip there is nothing left to do.
+
+  Measured. A winning run of `lighthouse.game` read in full and skipped entirely ends in the same
+  `State`, over the same turns, with the same transcript — ten holds against nought. `nightwatch`'s
+  trap springs for the player who walks away before it is said: the ledger is gone and the cell door
+  is shut either way. [verified] — `engine/play/tests/skipped.rs`.
+
+  **So the claim is stronger than the node's and it is a fact about this engine rather than about
+  atomicity.** An atomic model says there is no intermediate state to be caught in. The loop says
+  something narrower and more useful: there is no intermediate state *at the moment a player can
+  act*, because the player is only ever shown a world that has finished moving.
+
+  **The marker stays open and is rewritten.** *Whether duration should have been refused* is a
+  question only a design that admitted it can answer, and this is not that design. What changes is
+  that it is no longer unexaminable: the count is fifteen rather than four, and each of the three
+  costs it named is now individually settled — the trigger by [threshold-trigger](threshold-trigger.yml),
+  the save boundary by [save-boundary](save-boundary.yml), and `skippable` here.
+
+  [`reach.rs`]: ../../crates/design-gate/tests/reach.rs
+rationale: |
+  **Thimbleweed Park is the other arm and the corpus already held the result.** That engine cannot
+  save inside a cut-scene — the running threads and the animation state will not serialize — so it
+  saves just *before* one and a restore puts the player back where the scene began
+  ([twp-dev-diary](../catalog/twp-dev-diary.md)). [verified] This design lands in the opposite place
+  for the same reason: the state is committed **before** the scene is shown rather than after. Both
+  are consistent and only one of them needed a rule about how long a scene may be — *"we're trying
+  to keep all cut-scenes to less than 10 seconds, so you won't really loose much."*
+
+  **And the nearest thing to a sequence this vocabulary has is one sentence long.** Thirty-four
+  turns across four fixtures and **not one delivers two lines**: no turn carries both a chosen
+  binding's response and a forced one, and the longest chain an arrival starts is a single binding.
+  [verified] That is the sharpest form the collapse in `scripted-sequence` has been put in — the
+  class was argued away over six phases and the artifact says the same thing in one number.
+
+  **Two pieces of machinery are unexercised by that and both were built on purpose.**
+  `response_presenter::present_all` presents *several in order*, and [walked-in](walked-in.yml) made
+  `settle_tracking` select each binding *"in the state it fired from"* because a chain fires each
+  from what the last one left. Neither has ever had two lines to be right about. That is
+  [or-earns-it](or-earns-it.yml)'s shape a fourth time — a guarantee nothing exercises — with one
+  difference that matters: it is found here **before** anything was built on top of it, rather than
+  after three records had closed on it.
+
+  [inference] Which is the argument for leaving both alone. A guarantee with no instance is not the
+  same defect as a *claim* with no instance: `or-earns-it`'s three checks read a grammar wrong and
+  said so in print, and these two say nothing that is not true of the one line they get. What they
+  lack is evidence, and the way to get it is a specimen whose arrival fires two bindings that both
+  speak — which no phase has had a reason to write.
+
+  **What this does not touch.** The benefit side. Every figure this project publishes about the
+  reachable set is a figure about the graph the refusal preserves, and
+  `effect-list-semantics` amended that sentence twice already for being a thinner endorsement than
+  it read as. Counting the cost at fifteen says the trade is entangled, not that it is wrong.
