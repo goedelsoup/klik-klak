@@ -99,22 +99,30 @@ fn the_nodes_nothing_points_at() {
         [
             "cutscene/scripted-sequence.yml",
             "prior-art/thimbleweed-park.yml",
+            "subsystem/response-presenter.yml",
             "world-flag/object-state.yml",
         ],
-        "the third is the one `yidam lint` does not report"
+        "the first is the one `yidam lint` does not report"
     );
 }
 
 /// **Every node nothing points at says why, in the node.**
 ///
-/// All three have accounts and all three accounts are in records — `prose-edges` for the two the
-/// lint reports, and `scripted-sequence`'s own collapse argument for the third. A reader who opens
-/// one of these nodes to find out why it is unreachable finds nothing; the explanation is one
-/// directory away in a file the node does not cite.
+/// All of them have accounts — `prose-edges` for the two the lint reports, and
+/// `scripted-sequence`'s own collapse argument for the third. A reader who opens one of these
+/// nodes to find out why it is unreachable used to find nothing; the explanation was one directory
+/// away in a file the node does not cite.
 ///
-/// This is the fifth phase in a row to find the same shape and the narrowest instance of it: the
+/// That was the fifth phase in a row to find the same shape and the narrowest instance of it: the
 /// corpus knows the answer, the answer is written down, and it is written where the question does
 /// not get asked.
+///
+/// **The fourth arrived by a route the other three did not: a decision.** `response-presenter` had
+/// one incoming edge and `.yidam/decisions/declared-edge.yml` cut it, because the resolver
+/// *produces* an outcome and does not deliver one. Its only true consumer is a client, and
+/// `.yidam/decisions/playable.yml` put clients outside this corpus's subject — so there is no node
+/// the real edge could come from. An orphan by construction rather than by neglect, and the node
+/// says so in the first sentence, which is what this check is for.
 #[test]
 fn every_orphan_accounts_for_itself() {
     let root = repo_root();

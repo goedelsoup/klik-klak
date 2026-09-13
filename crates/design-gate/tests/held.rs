@@ -229,16 +229,26 @@ fn the_client_presents_and_the_search_does_not() {
         assert!(!search.contains(name), "and never reaches for {name}");
     }
 
-    // And the corpus's edge is still one the build does not have.
+    // **And the corpus's edge is gone.** This asserted that the edge was declared and unwired,
+    // which is what `.yidam/decisions/held.yml` found and left alone — one component short of
+    // being able to act on it. `.yidam/decisions/declared-edge.yml` cut it: the resolver's
+    // responsibility is *"produce exactly one outcome"*, not deliver one, and what needs a
+    // presenter is whatever runs the loop.
     let node = read(&root, ".yidam/corpus/subsystem/interaction-resolver.yml");
     assert!(
-        flat(&node)
+        !flat(&node)
             .contains("- target: ../subsystem/response-presenter.yml relationship: depends-on"),
-        "the corpus declares the edge"
+        "the corpus declares the edge again"
     );
     let resolver = read(&root, "engine/interaction-resolver/Cargo.toml");
     assert!(
         !resolver.contains("response-presenter"),
-        "and the resolver does not have it — `.yidam/decisions/held.yml` leaves it alone"
+        "and the resolver still does not take it, which is the half that was always right"
+    );
+    // the client does, which is where the dependency belongs
+    let client = read(&root, "engine/play/Cargo.toml");
+    assert!(
+        client.contains("response-presenter.workspace = true"),
+        "the client no longer depends on the presenter, so nothing in the build does"
     );
 }

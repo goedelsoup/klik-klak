@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 92, "every record, in the order it was created");
+    assert_eq!(all.len(), 93, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (48, 51, 41),
+        (48, 52, 42),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -364,6 +364,16 @@ fn the_evidence_each_record_rests_on() {
 /// language needs a name for a condition. `the_last_eight_phases_mostly_re_read` holds the shape:
 /// **four of eight rested on a document already in the house, one retrieved a new one, and three
 /// rested on no document at all.** This check counts the first two identically.
+///
+/// **It is at one again, and the tripwire is doing what it is for.** `declared-edge`'s subject is
+/// this repository's own architecture — three `depends-on` edges the corpus declares against the
+/// one the build takes — and no source about SCI, AGS or SCUMM says whether an edge somebody drew
+/// at genesis survives a compiler. It rests on the engine and the gate, which is why the
+/// gate-alone run stays zero: the evidence is a built thing rather than a check reading itself.
+///
+/// That is the second time in five phases the run has been extended by a phase whose subject is
+/// the instrument or the engine, and both times the record said so. A run of two would be a
+/// different conversation and this is not one.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -379,7 +389,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (0, 0),
+        (1, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
@@ -401,7 +411,6 @@ fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("retraction-reach", None),
         ("two-bars", Some(true)),
         ("unread-specimen", None),
         ("reads-like-writing", Some(false)),
@@ -409,6 +418,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("restated-guard", Some(false)),
         ("unbuilt-solver", Some(false)),
         ("or-earns-it", Some(false)),
+        ("declared-edge", None),
     ];
 
     let root = repo_root();

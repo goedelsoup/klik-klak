@@ -91,7 +91,14 @@ rationale: |
   edge and not the converse, deliberately: the resolver also declares `depends-on` `path-solver`,
   which does not exist, and a rule requiring the converse would require building it. An edge the
   build does not need is exactly as visible as one it does — which is to say invisible — and what
-  this record can say is that somebody looked once. `[open]`
+  this record can say is that somebody looked once.
+
+  **It is cut, and so is the other one.** [unbuilt-solver](unbuilt-solver.yml) built `path-solver`,
+  which was the whole of the reason the converse could not be checked, and
+  [declared-edge](declared-edge.yml) took the second look this record said it could not take. Three
+  edges declared, one wired. The resolver does not need a presenter — *"produce exactly one
+  outcome"*, not deliver one — and does not wait on a path, because this vocabulary has no arrival
+  to wait for. [verified] — `crates/design-gate/tests/required.rs`.
 
   **And the census widened a classifier that had gone stale under `engine/`.**
   `crates/design-gate/tests/subject.rs` sorts records by what they rest on — a catalog entry, the

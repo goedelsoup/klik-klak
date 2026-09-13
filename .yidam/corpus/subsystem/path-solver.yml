@@ -2,10 +2,16 @@ class: subsystem
 label: Path Solver
 description: |
   The component that finds a route across a room's walkbox set from where an actor is to
-  where it was told to go, and reports arrival. The interaction resolver depends on it
-  because most bindings wait on arrival before resolving — which is the one hard coupling
-  between the two halves of this engine, and it comes from the vocabulary rather than from
-  any implementation choice.
+  where it was told to go, and reports arrival.
+
+  **This node said the interaction resolver depends on it, and it does not.** The reason given was
+  that *"most bindings wait on arrival before resolving — the one hard coupling between the two
+  halves of this engine, and it comes from the vocabulary rather than from any implementation
+  choice."* It comes from a vocabulary, and not from this one: `.yidam/decisions/drawn-boundary.yml`
+  keeps only the half an author types, so a `walk-to` writes `move <room>`, **arrival is the room**,
+  and nothing waits. In a design with geometry the coupling is real and it is the hard one; the
+  claim is kept here as a conditional and the edge is cut. [inference] —
+  `.yidam/decisions/declared-edge.yml`.
 
   **Two different things are called arrival here and only one of them is this component's.**
   Reaching a point inside a room is what a binding waits on, and that is the coupling above.

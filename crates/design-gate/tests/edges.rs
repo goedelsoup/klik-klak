@@ -268,10 +268,10 @@ fn every_path_written_in_corpus_prose_resolves() {
     );
     assert_eq!(
         (own, repo, corpus),
-        (141, 150, 5),
+        (143, 156, 5),
         "the three bases, all load-bearing"
     );
-    assert_eq!((own + repo + corpus, decisions), (296, 175));
+    assert_eq!((own + repo + corpus, decisions), (304, 181));
 }
 
 /// **99 declared edges, 97 prose citations, and 18 pairs in both.**
@@ -296,7 +296,7 @@ fn the_graph_the_tools_read_is_not_the_graph_the_corpus_wrote() {
     let root = repo_root();
     let (e, c) = (edges(&root), citations(&root));
     let both = e.intersection(&c).count();
-    assert_eq!((e.len(), c.len(), both), (99, 98, 18));
+    assert_eq!((e.len(), c.len(), both), (97, 100, 18));
 }
 
 /// **Three nodes have no incoming edge, and every one of them is cited in prose.**
@@ -324,8 +324,16 @@ fn the_graph_the_tools_read_is_not_the_graph_the_corpus_wrote() {
 ///   propose it: it is *"a record of what a real system keeps and why, and not a primitive
 ///   proposed here."* A kept refusal is invisible in the graph unless somebody else shipped the
 ///   thing, which is why `give-to` and `walk-to`, kept on the same grounds, are not orphans.
+/// * `subsystem/response-presenter` — **the newest, and the only one that became an orphan by a
+///   decision rather than by never having had an edge.** `interaction-resolver -depends-on->` it
+///   until `.yidam/decisions/declared-edge.yml`: the resolver's responsibility is *"produce exactly
+///   one outcome"*, not deliver one, and the thing that needs a presenter is whatever runs the
+///   loop. `.yidam/decisions/playable.yml` put clients outside this corpus's subject, so there is
+///   no node the true edge could come from — which is why the false one was drawn from the nearest
+///   node that would hold it. A component whose only consumer is out of scope has no incoming edge
+///   and should not.
 ///
-/// They are named rather than counted because a fourth appearing is the event worth failing on.
+/// They are named rather than counted because a fifth appearing is the event worth failing on.
 #[test]
 fn the_nodes_nothing_points_at_are_pointed_at_in_prose() {
     let root = repo_root();
@@ -341,7 +349,8 @@ fn the_nodes_nothing_points_at_are_pointed_at_in_prose() {
         [
             "cutscene/scripted-sequence.yml",
             "prior-art/thimbleweed-park.yml",
-            "world-flag/object-state.yml",
+            "subsystem/response-presenter.yml",
+            "world-flag/object-state.yml"
         ]
     );
     for o in &orphans {
@@ -406,7 +415,7 @@ fn the_vocabulary_had_a_relationship_available_and_was_right_twice() {
             available += 1;
         }
     }
-    assert_eq!((c.difference(&e).count(), available), (80, 19));
+    assert_eq!((c.difference(&e).count(), available), (82, 21));
 }
 
 /// **A declared relationship no instance authors: the design document says two and there is one.**

@@ -293,6 +293,7 @@ const GEOMETRY: &[(&str, Geometry)] = &[
     ("action-pages", Geometry::Mentions),
     ("adjacency", Geometry::Rests),
     ("containment", Geometry::Rests),
+    ("declared-edge", Geometry::Rests),
     ("drawn-boundary", Geometry::Decides),
     ("engine-directory", Geometry::Mentions),
     ("escape-hatch", Geometry::Rests),
@@ -308,7 +309,7 @@ const GEOMETRY: &[(&str, Geometry)] = &[
     ("unread-spelling", Geometry::AboutTheCheck),
 ];
 
-/// **Nine records rest on *this design has no geometry*, one decides it, and for four phases this
+/// **Ten records rest on *this design has no geometry*, one decides it, and for four phases this
 /// check could see six.**
 ///
 /// It is load-bearing in each: `hotspot-identity` closes both of a node's open questions with it,
@@ -342,6 +343,11 @@ const GEOMETRY: &[(&str, Geometry)] = &[
 /// `lineage.rs` gave the prior-art nodes. What a phrasing does now is suggest; what settles it is
 /// somebody reading the record, and the reading is written down where it can be argued with.
 ///
+/// **The tenth cuts an edge with it.** `declared-edge` removes
+/// `interaction-resolver -depends-on-> path-solver` because the coupling it recorded — *"most
+/// bindings wait on arrival before resolving"* — belongs to a vocabulary with geometry. Take the
+/// premise away and the edge is correct, which is what load-bearing means.
+///
 /// **The ninth rests on it by finding something built on top of it that does not follow.**
 /// `unbuilt-solver` leaves the premise exactly as it is and withdraws a conclusion drawn from it —
 /// that a claim no `.game` file can state is a claim nothing can check. The phrasings do catch
@@ -352,7 +358,7 @@ const GEOMETRY: &[(&str, Geometry)] = &[
 /// [`save-boundary`]: ../../../.yidam/decisions/save-boundary.yml
 
 #[test]
-fn the_premise_is_load_bearing_in_nine_records_and_decided_in_one() {
+fn the_premise_is_load_bearing_in_ten_records_and_decided_in_one() {
     let root = repo_root();
     // `has none` was in this list for one commit and matched `prose-edges` on a sentence about
     // prose having no schema. The three that remain name the thing — and two of the fifteen below
@@ -405,6 +411,7 @@ fn the_premise_is_load_bearing_in_nine_records_and_decided_in_one() {
         [
             "adjacency",
             "containment",
+            "declared-edge",
             "escape-hatch",
             "evidence-kinds",
             "frame-width",
@@ -427,8 +434,8 @@ fn the_premise_is_load_bearing_in_nine_records_and_decided_in_one() {
     );
     assert_eq!(of(Geometry::AboutTheCheck), ["unread-spelling"]);
 
-    // and what the phrasings are worth: they find seven of the nine that rest, miss two, and admit
-    // two that do not — a suggestion rather than a classifier. The newest one they do find, and
+    // and what the phrasings are worth: they find seven of the ten that rest, miss three, and
+    // admit two that do not — a suggestion rather than a classifier. The newest one they do find, and
     // for a reason that does not generalise: a record arguing about the premise has to quote it,
     // so the phrasings catch the records that discuss the boundary and miss the ones that act on
     // it. That is the ceiling, not a hole in the list.
@@ -439,7 +446,7 @@ fn the_premise_is_load_bearing_in_nine_records_and_decided_in_one() {
         .count();
     assert_eq!(
         (found, rests.len(), matched.len()),
-        (7, 9, 9),
+        (7, 10, 9),
         "records the phrasings find, records that rest, and everything a phrasing matched"
     );
 }
