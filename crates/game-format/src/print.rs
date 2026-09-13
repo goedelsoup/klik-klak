@@ -45,16 +45,23 @@ fn cmp(c: Cmp) -> &'static str {
 
 /// A predicate, written so the reader's precedence puts it back the way it was.
 ///
-/// `or` binds loosest, then `and`, then `not`, and the language has no parentheses — so the only
-/// shapes writable are a disjunction of conjunctions of literals.
+/// `or` binds loosest, then `and`, then `not`, and `atom := '(' pred ')'` — so **a child that
+/// binds looser than its parent is written in brackets** and every tree this type admits is
+/// spellable exactly as it stands.
 ///
-/// **[`Pred::normal`] is what makes this total.** `(a or b) and c` is a tree this type admits and
-/// the reader cannot produce; it is written `a and c or b and c`, which is the same formula in
-/// the form the grammar spells. Every propositional formula has one, so there is no predicate
-/// this cannot write. The assertion below is an invariant of `normal` rather than a limit of the
-/// language, and `.yidam/decisions/normal-form.yml` is the difference between those two things.
+/// **It used to normalise first, and that was a mistake with a record behind it.** The note here
+/// read *"the language has no parentheses — so the only shapes writable are a disjunction of
+/// conjunctions of literals"*, and `.yidam/decisions/normal-form.yml` made the writer total by
+/// putting every predicate in disjunctive normal form. The grammar has carried `atom := '(' pred
+/// ')'` since it was written and `atom()` has always accepted it; nothing had noticed, because
+/// nothing had written a disjunction at all.
+///
+/// What normalising cost is the thing this format exists to protect. An author who writes
+/// `aerial = 2 and (engine-running or carrying lamp)` got back `aerial = 2 and engine-running or
+/// aerial = 2 and carrying lamp` — the same formula, with the conjunct **restated**, which is the
+/// cost `.yidam/decisions/named-condition.yml` weighed a whole phase over. The writer was
+/// generating the defect. `.yidam/decisions/or-earns-it.yml`.
 fn pred(p: &Pred) -> String {
-    let p = &p.normal();
     fn at(p: &Pred, level: u8) -> String {
         let (s, mine) = match p {
             Pred::Flag(f) => (f.clone(), 3),
@@ -67,12 +74,11 @@ fn pred(p: &Pred) -> String {
             Pred::And(a, b) => (format!("{} and {}", at(a, 1), at(b, 1)), 1),
             Pred::Or(a, b) => (format!("{} or {}", at(a, 0), at(b, 0)), 0),
         };
-        assert!(
-            mine >= level,
-            "`Pred::normal` returned a shape the grammar cannot spell, which is a defect in it \
-             and not in the language: {s}"
-        );
-        s
+        if mine < level {
+            format!("({s})")
+        } else {
+            s
+        }
     }
     at(p, 0)
 }

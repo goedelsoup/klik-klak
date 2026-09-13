@@ -96,3 +96,16 @@ rationale: |
   later somebody asked whether the shape was reachable. That is the marker convention paying for
   itself: [marker-count](marker-count.yml) argues the token names a live question, and this is a
   live question that was answered by being legible rather than by anything failing.
+
+  **And it was never needed.** [or-earns-it](or-earns-it.yml) found that the grammar has carried
+  `atom := '(' pred ')'` since it was written, so the writer could always have printed `(a or b)
+  and c` as it stands. Normalising was admitted to close a gap that was not there, and its cost was
+  the thing this format exists to protect: an author who writes `aerial = 2 and (engine-running or
+  carrying lamp)` got it back with the conjunct **restated**, which is the cost
+  [named-condition](named-condition.yml) was weighed over. The writer brackets now and does not
+  call `normal`.
+
+  `normal` stays. It is a property of the language and the only thing in this crate that can answer
+  *is this formula the same as that one* — and the generated proof above is unaffected by nothing
+  calling it. What moved is that it is no longer load-bearing for printing. [verified] —
+  `crates/game-format/tests/normal_form.rs`.

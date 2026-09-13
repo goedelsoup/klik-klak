@@ -52,7 +52,7 @@ fn the_leverage_of_a_default_is_a_function_of_how_many_verbs_there_are() {
             .count();
     }
     let cells = sites * 6;
-    assert_eq!((sites, bindings), (56, 116));
+    assert_eq!((sites, bindings), (72, 144));
     let filled = bindings as f64 / cells as f64;
     assert!(
         (0.33..0.36).contains(&filled),
@@ -248,5 +248,5 @@ fn a_gate_without_a_refusal_appears_only_where_a_refusal_is_impossible() {
         "`lock.game`'s two `talk-to` bindings on the character the player is driving — the first \
          hotspot verbs any author here withheld, and `menu.rs` carries why"
     );
-    assert_eq!(gated_verb, 26);
+    assert_eq!(gated_verb, 30);
 }

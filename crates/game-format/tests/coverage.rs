@@ -213,30 +213,47 @@ fn the_count_covers_the_whole_surface() {
     assert_eq!(n.len(), 50, "and each is counted exactly once");
 }
 
-/// **Five constructs have never been written, ten more were written once or twice, and `clear`
-/// came off the never-written list when a game needed to give control back.**
+/// **Every construct in the surface has an author, for the first time since there was a surface.**
 ///
-/// The evidence that the surface is the right size is five games. A construct with no author
+/// The evidence that this vocabulary is the right size is six games. A construct with no author
 /// behind it is not thereby wrong — `exit` and `or` were both admitted by argument rather than by
 /// demand — but a language proposed as the smallest that can express the form should be able to
-/// say which of its parts have carried weight and which are there on reasoning alone.
+/// say which of its parts have carried weight and which are there on reasoning alone. Until now
+/// the honest answer was *five of fifty are there on reasoning alone*.
 ///
-/// **`clear-flag` was on this list for eleven phases and `lock.game` is what took it off.** Four
-/// games wrote 105 response clauses and never once put a flag back, because every flag in them is
-/// a thing that happens to a world and worlds do not un-happen: a crate is not re-nailed, a toll
-/// is not un-paid. The fifth game has two characters and one of them is the player, and *which
-/// one* is the only fact in any specimen that goes both ways. `world-flag.reversible` had no
-/// authored instance until a flag stopped being about the world.
-/// `.yidam/decisions/control-transfer.yml`.
+/// They came off in three batches and none of them by being argued for again.
+///
+/// - **`clear-flag`** was on this list for eleven phases and `lock.game` took it off. Four games
+///   wrote 105 response clauses and never put a flag back, because every flag in them is a thing
+///   that happens to a world and worlds do not un-happen. The fifth has two characters and *which
+///   one* is the only fact in any specimen that goes both ways.
+///   `.yidam/decisions/control-transfer.yml`.
+/// - **`or`, `exit`, `!=`, `<=` and `>`** came off together, in one game written to need the
+///   first of them. `.yidam/decisions/or-earns-it.yml`.
+///
+/// **The last five are not five findings.** `exit` was written because six sites in the first
+/// specimen wrote the longhand and a sixth author reaching for a room connection now meets the
+/// declaration instead — it is sugar and it took an author who arrived after it. The three
+/// comparisons are one finding: an ordered comparison is only distinguishable from `=` when a
+/// counter has values **between** its bounds, and a counter gets values only from a literal in an
+/// effect, so a progression counter is the whole of the demand for them. `relay.game`'s aerial has
+/// four and reads it at four widths.
+///
+/// `or` is the one that was worth a game. It has its own test below.
+///
+/// **The thin end barely moved and that is the other half of the result.** Fifteen constructs were
+/// written twice or fewer before this game and fourteen are now — a sixth of the corpus's authored
+/// lines arrived and the tail lost one member. What a new game does is empty the *zero* column;
+/// what it does not do is thicken the rest, because an author writing a game reaches for the same
+/// dozen constructs the last five did. The head and the tail are a property of the form rather
+/// than of how much has been written in it.
 #[test]
-fn the_constructs_no_specimen_has_written() {
+fn every_construct_in_the_surface_has_an_author() {
     let n = written();
     let never: Vec<&String> = n.iter().filter(|(_, c)| **c == 0).map(|(k, _)| k).collect();
-    assert_eq!(
-        never,
-        ["!=", "<=", ">", "exit", "or"],
-        "written by no specimen: two comparisons, a keyword and the one connective that \
-         distinguishes this language from the interaction table it was designed against"
+    assert!(
+        never.is_empty(),
+        "written by no specimen, where the whole surface once had five: {never:?}"
     );
 
     let by = |lo: usize, hi: usize| -> Vec<&String> {
@@ -247,14 +264,14 @@ fn the_constructs_no_specimen_has_written() {
     };
     assert_eq!(
         by(1, 1).len(),
-        8,
-        "written exactly once, in five games: {:?}",
+        9,
+        "written exactly once, in six games: {:?}",
         by(1, 1)
     );
     assert_eq!(
         by(0, 2).len(),
-        15,
-        "three tenths of the surface, written twice or fewer: {:?}",
+        14,
+        "written twice or fewer, which is the thin end and no longer the empty end: {:?}",
         by(0, 2)
     );
 }
@@ -285,11 +302,11 @@ fn the_binary_connectives_are_written_twelve_times_and_eleven_are_one_game() {
     let n = written();
     assert_eq!(
         (n["and"], n["or"], n["not"]),
-        (12, 0, 16),
+        (14, 2, 16),
         "conjunction, disjunction, and the unary that combines nothing"
     );
     let comparisons: usize = CMPS.iter().map(|c| n[*c]).sum();
-    assert_eq!(comparisons, 10, "every comparison site in every specimen");
+    assert_eq!(comparisons, 21, "every comparison site in every specimen");
     assert_eq!(
         n["count"], 1,
         "and the quantifier a specimen was written to exercise"

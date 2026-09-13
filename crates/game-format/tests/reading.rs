@@ -221,7 +221,7 @@ fn five_sixths_of_a_response_line_is_the_sentence() {
     let (all, _, _) = corpus();
     assert_eq!(
         all.len(),
-        154,
+        194,
         "response lines — `authored.rs` holds the same figure against the parse tree"
     );
 
@@ -236,7 +236,7 @@ fn five_sixths_of_a_response_line_is_the_sentence() {
     );
     assert_eq!(
         (median(&sentence), *sentence.iter().max().expect("lines")),
-        (55, 145),
+        (56, 145),
         "median and longest sentence"
     );
 
@@ -246,12 +246,12 @@ fn five_sixths_of_a_response_line_is_the_sentence() {
     };
     assert_eq!(
         (share(&prefix), share(&flat)),
-        (84, 66),
+        (84, 67),
         "the sentence's share of its own line, as written and as a flat table would key it"
     );
     assert_eq!(
         (mean(&prefix).round() as usize, mean(&flat).round() as usize),
-        (9, 26),
+        (10, 26),
         "mean prefix, as written and flat"
     );
 }
@@ -283,7 +283,7 @@ fn the_writing_comes_one_sentence_at_a_time_because_the_medium_does() {
             median(&runs),
             *runs.iter().max().expect("runs")
         ),
-        (154, 126, 1, 4),
+        (194, 154, 1, 4),
         "sentences, runs of adjacent sentences, the median run and the longest"
     );
     assert!(
@@ -312,7 +312,7 @@ fn the_writing_comes_one_sentence_at_a_time_because_the_medium_does() {
 #[test]
 fn the_key_is_moved_above_the_line_and_costs_a_median_of_twenty_two_lines() {
     let (all, _, key) = corpus();
-    assert_eq!(key, 2_628, "characters of header, written once each");
+    assert_eq!(key, 3_085, "characters of header, written once each");
 
     let to = |f: &dyn Fn(&Line) -> usize| all.iter().map(f).collect::<Vec<_>>();
     let verb = to(&|l: &Line| l.to_verb);
@@ -344,7 +344,7 @@ fn the_key_is_moved_above_the_line_and_costs_a_median_of_twenty_two_lines() {
         .sum();
     assert_eq!(
         key * 100 / authored,
-        13,
+        12,
         "the share of the file that is keying"
     );
 }
@@ -437,7 +437,7 @@ fn a_binding_here_is_mostly_writing_and_a_shipped_one_is_mostly_machinery() {
     }
     assert_eq!(
         (blocks, frame, prose),
-        (120, 3_838, 7_739),
+        (144, 4_596, 9_949),
         "blocks, frame, prose"
     );
     assert_eq!(
@@ -446,7 +446,7 @@ fn a_binding_here_is_mostly_writing_and_a_shipped_one_is_mostly_machinery() {
             prose * 10 / blocks,
             prose * 100 / frame
         ),
-        (319, 644, 201),
+        (319, 690, 216),
         "frame and prose per block in tenths, and prose as a percentage of frame"
     );
 }

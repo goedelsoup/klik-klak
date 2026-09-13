@@ -162,10 +162,10 @@ fn every_quoted_string_in_a_specimen_reaches_the_parse_tree() {
     }
     assert_eq!(
         (chars, resp_n, resp, labels_n, labels),
-        (19_968, 154, 7_996, 103, 2_671),
+        (25_086, 194, 10_286, 126, 3_407),
         "authored chars, response sites and chars, label sites and chars"
     );
-    assert_eq!((resp + labels) * 100 / chars, 53, "percent of the file");
+    assert_eq!((resp + labels) * 100 / chars, 54, "percent of the file");
 }
 
 /// **The search reads none of it, the components read all of it, and the seam is checked rather
@@ -337,12 +337,12 @@ fn the_trailing_quoted_string_is_three_different_things() {
         seen,
         vec![
             ("actor", 6),
-            ("counter", 1),
-            ("flag", 14),
-            ("hotspot", 50),
-            ("item", 12),
+            ("counter", 2),
+            ("flag", 17),
+            ("hotspot", 62),
+            ("item", 16),
             ("option", 3),
-            ("room", 17),
+            ("room", 20)
         ],
         "declarations carrying a trailing string"
     );
@@ -362,7 +362,7 @@ fn the_trailing_quoted_string_is_three_different_things() {
             author_facing,
             by_kind.values().sum::<usize>() - author_facing
         ),
-        (15, 88),
+        (19, 107),
         "glosses no player can be shown, against text a player reads"
     );
 }

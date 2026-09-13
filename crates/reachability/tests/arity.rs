@@ -143,7 +143,7 @@ fn the_binary_share_is_about_an_eighth_in_both_bodies_of_work() {
         .iter()
         .map(|(_, s)| binary_count(&load(s)))
         .sum();
-    assert_eq!(binary, 12);
+    assert_eq!(binary, 16);
     let share = binary as f64 / total as f64;
     assert!(
         (0.10..0.16).contains(&share),
@@ -268,10 +268,23 @@ fn binary_frame(src: &str) -> usize {
 ///
 /// `binary-dimension` reached the same conclusion structurally — the reduction *"moves the item is
 /// carried out of the first group and into the third"* — and filed the authoring cost as
-/// unmeasured. It is a fifteen per cent surcharge, and it is uniform: every site pays eleven or
-/// twelve characters, because the sentence added is the same sentence. **A fifth specimen with one
-/// more binary site left the surcharge at fifteen per cent** — 868 characters becoming 1,004 —
-/// which is what this check was claiming: the cost is per site and does not depend on which game.
+/// unmeasured. It is uniform per site: **every binary site in every specimen pays eleven or twelve
+/// characters**, because the sentence added is the same sentence.
+///
+/// **This check said that and pinned the other thing.** The prose named the invariant and the
+/// assertion held the aggregate percentage — fifteen, then fifteen again when a fifth specimen
+/// arrived — and read the repeat as confirmation that the cost does not depend on the game. A
+/// sixth moved it to eighteen without a single site's cost changing.
+///
+/// **The spread it was concealing was there the whole time.** Per game the surcharge runs from
+/// **11% in `lighthouse.game` to 34% in `patrol.game`**, and both of those were among the five.
+/// `relay.game` pays 31% and changed nothing except which games are being averaged. An aggregate
+/// that lands on the same number twice is not thereby measuring something stable; these two
+/// landed on fifteen because of how much frame the big game has, and the big game is one of six.
+///
+/// So the invariant is pinned and the percentage is reported as the range it is. The old
+/// assertion would have gone on passing for exactly as long as nobody changed the mix.
+/// `.yidam/decisions/or-earns-it.yml`.
 #[test]
 fn writing_the_reduction_costs_more_than_the_key_it_removes() {
     let (mut before, mut after) = (0usize, 0usize);
@@ -279,8 +292,32 @@ fn writing_the_reduction_costs_more_than_the_key_it_removes() {
         before += binary_frame(&src);
         after += binary_frame(&unarise_source(&src));
     }
-    assert_eq!((before, after), (868, 1004));
-    assert!(after * 100 > before * 114 && after * 100 < before * 116);
+    assert_eq!((before, after), (1019, 1203));
+
+    // **The invariant.** Every binary site in every specimen pays the same sentence, and the
+    // sentence is eleven or twelve characters. This is what the note above always claimed.
+    let mut per_site = Vec::new();
+    let mut percent = Vec::new();
+    for (_, src) in common::sources() {
+        let (b, a) = (binary_frame(&src), binary_frame(&unarise_source(&src)));
+        let sites = binary_count(&load(&src));
+        per_site.push((a - b) / sites);
+        percent.push((a - b) * 100 / b);
+    }
+    assert_eq!(
+        per_site,
+        [11, 11, 12, 11, 11, 12],
+        "characters added at each binary site, per specimen"
+    );
+
+    // And the percentage is not an invariant and never was: it is the per-site cost divided by how
+    // much frame the game already had, which is a fact about the game.
+    percent.sort_unstable();
+    assert_eq!(
+        (percent[0], percent[percent.len() - 1]),
+        (11, 34),
+        "the surcharge as a share, lowest and highest across the six"
+    );
 }
 
 /// And it is a *writable* surcharge on all four specimens — every figure holds, and the cell check
@@ -373,9 +410,9 @@ fn the_binary_verbs_make_the_table_two_dimensional() {
         sites += n.len();
         cells += n.len() * 4 + n.len() * g.items.len() * 2;
     }
-    assert_eq!(sites, 56, "sites, where `default-binding` counted 42");
+    assert_eq!(sites, 72, "sites, where `default-binding` counted 42");
     assert_eq!(
-        cells, 480,
+        cells, 672,
         "and the cell count it should have used, where it used 252"
     );
 
@@ -390,10 +427,10 @@ fn the_binary_verbs_make_the_table_two_dimensional() {
                 .count()
         })
         .sum();
-    assert_eq!(authored, 116, "where `default-binding` counted 87");
+    assert_eq!(authored, 144, "where `default-binding` counted 87");
     assert_eq!(
         authored * 1000 / cells,
-        241,
+        214,
         "24.1%, against the 34.5% the flat count produced"
     );
 }

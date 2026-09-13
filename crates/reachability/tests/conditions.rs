@@ -125,9 +125,9 @@ fn the_multi_flag_gate_is_written_and_one_conjunction_is_written_four_times() {
             }
         }
     }
-    assert_eq!(total, 60, "predicates across the specimens");
+    assert_eq!(total, 76, "predicates across the specimens");
     assert_eq!(
-        compound, 8,
+        compound, 11,
         "predicates joining more than one atom: {shown:#?}"
     );
     assert_eq!(

@@ -1,0 +1,204 @@
+# relay — a sixth specimen, for one question: does `or` earn its place?
+#
+# `data-format/interaction-table` compares this language with the table it was designed
+# against and lands the difference in one word: *"The gap is real and it is exactly one
+# thing: composition."* AGS had predicates over world state and no way to combine them.
+#
+# Five games wrote `and` twelve times and `or` **not once**. `.yidam/decisions/unwritten.yml`
+# pinned it and said the honest thing — that `or` was admitted by argument rather than by
+# demand — and `.yidam/decisions/control-transfer.yml` found that conjunction is demanded by
+# a game with two characters. Nothing has yet found what demands a disjunction.
+#
+# This game is written to need one. A relay hut on a moor in winter, one operator, and a
+# call to pass on. Two independent ways to get power to the set, and one place where the
+# light to work by can come from either of two things that are not the same kind of thing.
+#
+# Its committed defect is CONSUMPTION, where the coil of line is the only line in the game
+# and there are two places that will take it.
+
+# ── declarations ──────────────────────────────────────────────────────────────
+
+room    office  "The Operating Room"
+room    yard    "The Yard"
+room    shed    "The Engine Shed"
+
+item    lamp    "a hand-lamp"
+item    link    "a copper link"
+item    can     "a can of paraffin"
+item    line    "a coil of line"
+
+# The two sources, and they are two flags rather than one because the world tells them
+# apart everywhere except at the switch: the engine lights the yard and makes a noise in
+# it, and the bank does neither.
+flag    engine-running latched "the engine is turning, and the yard light with it"
+flag    bank-live      latched "the accumulator bank is across the busbar"
+
+flag    set-on         latched "the set is switched on and the filaments are up"
+
+counter aerial 0..3 "how far the aerial is up the mast: 0 coiled, 1 reeved, 2 at the crosstrees, 3 at the truck"
+
+# ── the operating room ────────────────────────────────────────────────────────
+
+room office
+  start
+
+  hotspot shelf "a shelf inside the door"
+    is lamp
+    look-at:
+      "A hand-lamp stands on it with the wick trimmed, next to a tin."
+
+    pick-up:
+      say   "You take the hand-lamp. It is cold and the glass is furred."
+      do    give lamp
+
+  hotspot tin "a tobacco tin of oddments"
+    is link
+    look-at:
+      "Screws, a fuse-wire card, and a short copper link with both eyes bright."
+
+    pick-up:
+      say   "You pocket the link."
+      do    give link
+
+  # **The disjunction, undistributed.** Either source will light the filaments and the set
+  # does not care which. There is nothing else in this game that this guard could be, and
+  # the two flags cannot be folded into one, because five other lines in this file read
+  # `engine-running` for what the engine does besides make current.
+  hotspot switch "the mains switch on the front of the set"
+    look-at:
+      when  set-on   "Down, and the meter needle sitting up where it should."
+      otherwise      "Up, and the meter dead."
+
+    pick-up:
+      when  engine-running or bank-live
+      say   "You put the switch down. The filaments come up orange and the set begins to hiss."
+      do    set set-on
+      else  "The switch goes down and nothing happens. There is nothing on the busbar."
+
+  hotspot key "the morse key"
+    look-at:
+      "Brass, screwed to the bench, with the contacts filed flat."
+
+    pick-up:
+      when  set-on and aerial = 3
+      say   "You send it twice and wait, and the coast station comes back at once and takes it all."
+      ending
+      else when set-on  "The set is on and the aerial is not up. You would be talking into the shed."
+      else              "Nothing to send with. The set is dead."
+
+  exit door to yard
+
+# ── the yard ──────────────────────────────────────────────────────────────────
+
+room yard
+
+  hotspot drum "a drum of paraffin on a stand"
+    is can
+    look-at:
+      "Half full, with a can hung on the tap by its handle."
+
+    pick-up:
+      say   "You fill the can and take it off the tap."
+      do    give can
+
+  # The counter is read at four widths, and three of the four are ranges. A guarded list is
+  # first match wins, so each arm is the band the ones above it did not take.
+  hotspot mast "the mast, guyed at three points"
+    look-at:
+      when  aerial = 3   "The wire is up at the truck and standing out stiff in the wind."
+      when  aerial > 1   "The wire is up as far as the crosstrees and no further."
+      when  aerial != 0  "The wire is off the ground and swinging against the mast."
+      otherwise          "Bare. The aerial is coiled at the foot of it."
+
+  hotspot block "the block at the foot of the mast"
+    look-at:
+      when  aerial != 0  "Reeved, and the fall made up on the cleat."
+      otherwise          "The sheave turns. There is nothing rove through it."
+
+    use-with line:
+      say   "You reeve the line through the block and bend it onto the aerial."
+      do    spend line
+      do    set aerial 1
+
+  # **The first group any author has written.** What this says is *the wire is at the crosstrees
+  # and there is light to work by*, where the light is the yard lamp or the hand-lamp in your
+  # hand — two facts of different kinds, so no one flag stands for both: `carrying lamp` is read
+  # off the inventory and nothing can write it.
+  #
+  # `and` binds tighter than `or`, so without the brackets this would read as *at the crosstrees
+  # with the yard light on, or carrying the lamp from anywhere* — a different and wrong game. The
+  # grammar has carried `atom := '(' pred ')'` since it was written and nothing had used it,
+  # because nothing had written a disjunction.
+  #
+  # It is written without spaces inside the brackets because that is how anybody writes it.
+  # Until `.yidam/decisions/or-earns-it.yml` the reader split a line on whitespace only, so
+  # `(engine-running` lexed as a name and came back as *"`(engine-running` is not declared,
+  # wanted a flag"* — an error naming the operand when the fault was the spacing.
+  hotspot halyard "the halyard, made up on a cleat"
+    look-at:
+      when  aerial = 3   "Made up hard. There is nothing left to haul."
+      otherwise          "Tarred rope, stiff with the cold."
+
+    pick-up:
+      when  aerial = 1
+      say   "You haul, and the wire goes up hand over hand as far as the crosstrees."
+      do    set aerial 2
+      else when aerial = 0  "There is nothing bent on. The block is bare."
+      else                  "It is as far up as this haul will take it."
+
+    pick-up:
+      when  aerial = 2 and (engine-running or carrying lamp)
+      say   "You can see the truck well enough to clear the wire past it, and it goes the last of the way."
+      do    set aerial 3
+      else when aerial = 2  "You cannot see the head of the mast to clear the wire past the truck."
+      else when aerial <= 1 "There is no weight on it yet."
+      else                  "Made up hard, and the wire standing out at the truck."
+
+  exit path to office
+  exit doors to shed
+
+# ── the engine shed ───────────────────────────────────────────────────────────
+
+room shed
+
+  hotspot coil "a coil of line on a nail"
+    is line
+    look-at:
+      "Tarred line, dry, and the only line in the place."
+
+    pick-up:
+      say   "You take the coil down off the nail."
+      do    give line
+
+  hotspot engine "the engine, on its bed under the window"
+    look-at:
+      when  engine-running  "Turning over steadily, and the shed warm with it."
+      otherwise             "Cold. The tank cock is open and the tank is dry."
+
+    use-with can:
+      say   "You fill the tank and swing her, and she picks up on the third pull."
+      do    spend can
+      do    set engine-running
+
+  hotspot board "the isolator board"
+    look-at:
+      when  bank-live  "Made up, and the bank across the bar."
+      otherwise        "The isolator stands open, and the link that closes it is gone out of it."
+
+    use-with link:
+      say   "The link drops into the jaws and the board comes alive."
+      do    spend link
+      do    set bank-live
+
+  # **The consumption defect.** The stack really is loose and lashing it really does stop
+  # the noise, and the line is the only line in the game. Spend it here and the aerial can
+  # never leave the ground, and nothing says so at the time.
+  hotspot stack "the exhaust stack, swinging where the stay has rusted through"
+    look-at:
+      "It knocks against the roof sheet every time the wind gets under it."
+
+    use-with line:
+      say   "You take a turn round the stack and back to the purlin, and the knocking stops."
+      do    spend line
+
+  exit door to yard

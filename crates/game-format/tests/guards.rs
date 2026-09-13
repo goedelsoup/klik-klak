@@ -86,8 +86,23 @@ fn guards() -> Vec<(String, Pred)> {
 ///
 /// So the shape `state-gate` predicted is here and the pressure it predicted is not — one author,
 /// one game, one sitting, one condition worth naming.
+///
+/// **`named-condition` said what would reopen it and a game was written that could have.**
+/// `.yidam/decisions/restated-guard.yml` declined the primitive a second time and set the terms:
+/// *a second game that restates a conjunction, or a restatement that drifts.*
+/// `design/specimen/relay.game` is a third composing game, written to need composition — and it
+/// restates nothing. It is still one condition at more than one site, in `lock.game`, and the
+/// count of games that compose has gone from two to three without the count of restatements
+/// moving off one. `.yidam/decisions/or-earns-it.yml`.
+///
+/// **The reason is worth more than the count.** The one thing relay wanted to say twice —
+/// *at the crosstrees, with light to work by* — is written once, in brackets, because
+/// `atom := '(' pred ')'` turned out to have been in the grammar all along. A restatement is what
+/// an author writes when the language cannot group; the pressure `named-condition` was weighed
+/// against is partly a missing production rather than a missing primitive, and this game would
+/// have supplied the second instance if the writer had gone on normalising it away.
 #[test]
-fn one_condition_in_five_games_is_written_at_more_than_one_site() {
+fn one_condition_in_six_games_is_written_at_more_than_one_site() {
     let mut sites: BTreeMap<String, usize> = BTreeMap::new();
     let mut per_game: BTreeMap<String, usize> = BTreeMap::new();
     for (game, p) in guards() {
@@ -114,7 +129,7 @@ fn one_condition_in_five_games_is_written_at_more_than_one_site() {
         "the one restated condition, and how many guards hold it"
     );
 
-    // and it is one game's: `lighthouse` writes the only other compound in the corpus
+    // and it is one game's: two others compose and neither repeats itself
     assert_eq!(
         per_game.get("lock").copied().unwrap_or(0),
         11,
@@ -127,7 +142,7 @@ fn one_condition_in_five_games_is_written_at_more_than_one_site() {
     );
     assert_eq!(
         per_game.len(),
-        2,
+        3,
         "games that compose a condition: {per_game:?}"
     );
 }
@@ -231,7 +246,7 @@ fn the_widest_guard_is_five_atoms_and_there_is_one_of_it() {
             widths[widths.len() / 2],
             widths[widths.len() - 1]
         ),
-        (60, 13, 88),
+        (76, 13, 88),
         "guards, the median width, and the widest"
     );
 }

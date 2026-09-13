@@ -280,7 +280,7 @@ fn a_document_that_declares_no_watermark_fails() {
         })
         .sum::<usize>();
     assert_eq!(
-        actual, 215,
+        actual, 216,
         "the fixtures the document describes carry this many tests"
     );
     assert!(
@@ -293,13 +293,13 @@ fn a_document_that_declares_no_watermark_fails() {
         "a coverage list written at two specimens and never revisited at five"
     );
     assert!(
-        doc.contains("Unexercised across all five games"),
-        "the list is over every game now"
+        doc.contains("Unexercised across all six games: **none.**"),
+        "the list is over every game now, and it is empty"
     );
     let coverage = std::fs::read_to_string(root.join("crates/game-format/tests/coverage.rs"))
         .expect("readable");
     assert!(
-        coverage.contains(r#"["!=", "<=", ">", "exit", "or"]"#),
-        "and the check that counts them over all five finds five"
+        coverage.contains("never.is_empty()"),
+        "and the check that counts them over all six holds the list at empty"
     );
 }

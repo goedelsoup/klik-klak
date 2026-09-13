@@ -63,7 +63,7 @@ fn the_corpus_strands_six_times_and_three_are_a_spend() {
             }
         }
     }
-    assert_eq!((spending, strandings, consumption, ordering), (7, 6, 3, 3));
+    assert_eq!((spending, strandings, consumption, ordering), (11, 7, 4, 3));
 }
 
 /// **A binding that spends is not a consumption stranding, and the difference is a re-run.**

@@ -106,11 +106,13 @@ fn different_second_objects_do_not_collide() {
     .is_empty());
 }
 
-/// **`or` is refused rather than approximated.** Separating a disjunction wants the cross product,
-/// nothing in the corpus writes one in a colliding cell, and asking the author for a clearer guard
-/// is the safe direction to be wrong in.
+/// **A disjunction is separated by distributing, and a pair that can still meet is still
+/// refused.**
+///
+/// `seen or carrying x` and `not seen` both hold when the flag is clear and `x` is in hand, so
+/// this pair is inseparable however the guards are read, and the rule reports it.
 #[test]
-fn a_disjunction_is_treated_as_inseparable() {
+fn a_disjunction_that_can_meet_is_refused() {
     let m = collisions(
         "    use-with:\n      when  seen or carrying x\n      do    set seen\n\
          \x20   use-with:\n      when  not seen\n      say   \"nothing\"\n",
@@ -118,10 +120,64 @@ fn a_disjunction_is_treated_as_inseparable() {
     assert_eq!(m.len(), 1, "{m:?}");
 }
 
-/// The four committed specimens key every cell distinctly, so the check is a rule about what may
-/// be written rather than a report about what is.
+/// **And one that cannot meet is accepted, which it was not for eighty-eight phases.**
+///
+/// `step = 1` against `step = 2 and seen or step = 2 and carrying x`: the counter cannot hold two
+/// values, so no state satisfies both. The flattener used to return `false` on the first `Or` it
+/// met, so **one disjunction anywhere in either guard made the whole pair inseparable** — not the
+/// disjuncts that overlap, the pair.
+///
+/// The approximation was admitted deliberately and said why: *"Separating a disjunction wants the
+/// cross product, nothing in the corpus writes one in a colliding cell, and asking the author for
+/// a clearer guard is the safe direction to be wrong in."* The premise was a census over five
+/// games that write `or` **zero** times, which is a claim about a construct nobody had used.
+/// `design/specimen/relay.game` is the sixth and writes two, one of them in a colliding cell,
+/// and the census stopped being about the language the moment it did.
+///
+/// It bit at exactly one place and it is the place the construct is for: a **staged** puzzle is a
+/// run of bindings on one cell guarded on the counter's current value —
+/// `two_comparisons_on_one_counter_that_cannot_meet_are_accepted` is the shape — so any stage
+/// wanting a disjunction was refused.
+///
+/// What separates them now is the cross product the note named: a guard becomes a disjunction of
+/// conjunctions, and two guards are disjoint when **every** way of satisfying one contradicts
+/// **every** way of satisfying the other. With no `or` on either side that is one pair of atom
+/// lists and the same test as before, so nothing that was accepted has moved.
+/// `.yidam/decisions/or-earns-it.yml`.
 #[test]
-fn no_committed_specimen_writes_two_bindings_into_one_cell() {
+fn a_disjunction_that_cannot_meet_is_separated() {
+    assert!(collisions(
+        "    use-with:\n      when  step = 1\n      do    set step 2\n\
+         \x20   use-with:\n      when  step = 2 and seen or step = 2 and carrying x\n               say   \"nothing\"\n"
+    )
+    .is_empty());
+
+    // the same pair without the disjunction was always accepted, and still is
+    assert!(collisions(
+        "    use-with:\n      when  step = 1\n      do    set step 2\n\
+         \x20   use-with:\n      when  step = 2 and seen\n      say   \"nothing\"\n"
+    )
+    .is_empty());
+
+    // and distributing does not make everything separable: a disjunct that overlaps still does
+    let m = collisions(
+        "    use-with:\n      when  step = 1\n      do    set step 2\n\
+         \x20   use-with:\n      when  step = 2 and seen or step = 1 and carrying x\n               say   \"nothing\"\n",
+    );
+    assert_eq!(m.len(), 1, "one disjunct meets the other guard: {m:?}");
+}
+
+/// **Every committed specimen resolves clean**, which is what makes the check a rule about what
+/// may be written rather than a report about what is.
+///
+/// It was called *no committed specimen writes two bindings into one cell* and the body never
+/// checked that — it checks that nothing is **reported**. Five games happened to key every cell
+/// distinctly and the name recorded the accident; `design/specimen/relay.game` hauls a halyard in
+/// two stages, which is two `pick-up` bindings on one cell told apart by a counter, and the body
+/// stays green while the name goes false. A test whose name outruns its body cannot catch its own
+/// claim expiring. `.yidam/decisions/or-earns-it.yml`.
+#[test]
+fn every_committed_specimen_resolves_clean() {
     for (_, src) in common::sources() {
         let (mut g, mut p) = game_format::parse(&src, "specimen.game");
         p.extend(game_format::resolve(&mut g));

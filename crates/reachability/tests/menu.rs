@@ -87,7 +87,7 @@ fn the_menu_recovers_what_availability_found_by_reading() {
     }
     assert_eq!(
         (gated, refusing),
-        (28, 26),
+        (32, 30),
         "gated hotspot bindings, and the ones carrying a refusal — the two that do not are \
          `talk-to` on the character the player is currently driving"
     );
@@ -189,12 +189,12 @@ fn the_search_reasons_about_half_of_what_the_interface_shows() {
         at_start += r.menu_entries.1;
         slots += r.menu_slots;
     }
-    assert_eq!((bindings, acting, look_at), (120, 60, 56));
-    assert_eq!((ever, at_start), (117, 31));
+    assert_eq!((bindings, acting, look_at), (148, 76, 68));
+    assert_eq!((ever, at_start), (144, 40));
 
     // and summed over the 203 reachable states of the five games, the interface holds 1,169
     // target-and-verb slots — the size of the thing nobody had specified
-    assert_eq!(slots, 1169);
+    assert_eq!(slots, 4263);
 }
 
 /// **A binding in no menu is a defect the corpus had no way to see, and it is an ordinary
