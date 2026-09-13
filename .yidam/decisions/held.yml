@@ -110,6 +110,17 @@ rationale: |
 
   **What a text client cannot do, stated rather than papered over.** `play` implements `Perceive`
   by printing and returning, so it holds the player for nothing at all. The component reports the
-  weight and the client discards it, which is honest: a terminal with no clock and no input between
-  turns has nowhere to put an interval. The number is real and the holding is not, and the first
-  client that can hold a player is the first one with a frame. `[open]`
+  weight and the client discards it, which is honest: the number is real and the holding is not.
+
+  **The reason given for it was wrong and so was the remedy.**
+  [dismissed-hold](dismissed-hold.yml) found that a terminal has input between turns — this
+  client's own loop blocks on stdin on every one — and that what stopped it holding was
+  `Session::take` building its own sink and taking none. One parameter, and the loop holds the
+  player ten times in a winning run with no clock anywhere in the build. What a frame supplies is
+  not the clock but a **second channel**, and what that buys is interruption rather than duration.
+
+  What was right is the number: **holding and weighing are different things.** A hold that
+  *elapses* honours the line's length and needs seconds per character, which no source states; a
+  hold that is *dismissed* needs neither and discards the author's only lever over pacing. This
+  record asserted that lever without naming the condition, and the node does now. [verified] —
+  `crates/design-gate/tests/pacing.rs`.

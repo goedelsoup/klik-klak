@@ -12,16 +12,28 @@
 //! declarative form of it would be unbounded computation on every frame, which is precisely what
 //! `design/bounded-expression-language.md` excludes to keep the reachable set enumerable.
 //!
-//! **What this does that it still cannot.** Every line goes through `response_presenter::present`
-//! now, which returns only when the sink does — and this client's sink writes a line and returns
-//! at once, so it holds the player for nothing at all. The component reports the weight and the
-//! client discards it. That is honest rather than fixed: a terminal with no clock and no input
-//! between turns has nowhere to put an interval, and **the first client that can hold a player is
-//! the first one with a frame.** `.yidam/decisions/held.yml`.
+//! **A terminal holds a player, and what it cannot do is time the hold.** Every line goes through
+//! `response_presenter::present`, which returns only when the sink does, and there are two sinks
+//! here. [`Collect`] returns at once and holds nobody; [`Await`] returns when the player asks for
+//! the next thing, which is a real hold and needs no clock. `.yidam/decisions/dismissed-hold.yml`.
+//!
+//! **The second one is what shows the cost.** Under a dismissed hold the author's longest sentence
+//! and their shortest cost the player one keypress each, so *"a line's length is how long the game
+//! is held"* stops being true — the lever `subsystem/response-presenter` calls the only one this
+//! vocabulary offers is a lever only over a hold that **elapses**, and an elapsing hold needs
+//! seconds per character, which no source in the catalog states.
+//!
+//! **And in a terminal the two cannot both be had, because the dismissal and the choice are one
+//! channel.** There is one stream; a hold that elapses cannot be cut short by a player who has
+//! finished reading, because the thing that would cut it short is the next line of input and the
+//! loop is not reading yet. A frame does not supply the clock — `std::thread::sleep` was always
+//! here — it supplies a *second* channel, which is what lets a timed hold be interrupted and is
+//! therefore what makes an invented rate survivable.
 
 use game_format::{parse, resolve, Game, State, World};
 use interaction_resolver::{resolve as respond, settle_tracking, Outcome};
 use response_presenter::{present_all, Perceive};
+use std::io::{BufRead, Write};
 use verb_menu::{shown, Entry};
 
 /// What this client's perceiving is: collecting the lines, and returning at once.
@@ -34,6 +46,73 @@ struct Collect(Vec<String>);
 impl Perceive for Collect {
     fn deliver(&mut self, line: &str) {
         self.0.push(line.to_string());
+    }
+}
+
+/// **The other perceiving a terminal can do: deliver the line, and return when the player says
+/// go on.**
+///
+/// This is a hold. Nothing in the game advances while it lasts, which is the precondition
+/// `.yidam/decisions/held.yml` argued keeps a binding one edge — and it is arrived at with no
+/// clock and no invented rate, because the interval is the player's rather than the engine's.
+///
+/// **What it gives up is the author's lever.** `weight` still reports the line's length and this
+/// sink cannot act on it: a seventy-four character line and a four character one are one keypress
+/// each. `.yidam/decisions/dismissed-hold.yml`.
+///
+/// It reads from the same stream the choice is read from, because a terminal has one. That is the
+/// whole of what a frame would change.
+pub struct Await<R, W> {
+    input: R,
+    out: W,
+    /// how many times the player was held and asked to go on
+    pub dismissals: usize,
+    /// set once the stream is finished, after which it holds nobody and says so
+    pub closed: bool,
+}
+
+impl<R: BufRead, W: Write> Await<R, W> {
+    pub fn new(input: R, out: W) -> Self {
+        Await {
+            input,
+            out,
+            dismissals: 0,
+            closed: false,
+        }
+    }
+
+    /// One line from the stream, or `None` when it is finished.
+    ///
+    /// The choice and the dismissal come through here both, which is the constraint rather than a
+    /// convenience: a terminal cannot be listening for one while it waits for the other.
+    pub fn line(&mut self) -> Option<String> {
+        let mut line = String::new();
+        match self.input.read_line(&mut line) {
+            Ok(0) | Err(_) => {
+                self.closed = true;
+                None
+            }
+            Ok(_) => Some(line.trim().to_string()),
+        }
+    }
+
+    /// Give it back what it was built on.
+    pub fn into_out(self) -> W {
+        self.out
+    }
+}
+
+impl<R: BufRead, W: Write> Perceive for Await<R, W> {
+    fn deliver(&mut self, line: &str) {
+        let _ = writeln!(self.out, "  {line}");
+        if self.closed {
+            return;
+        }
+        let _ = write!(self.out, "  -- ");
+        let _ = self.out.flush();
+        if self.line().is_some() {
+            self.dismissals += 1;
+        }
     }
 }
 
@@ -190,6 +269,20 @@ impl<'a> Session<'a> {
     /// Take one turn. The whole of the loop is these fifteen lines, and every one of them is a
     /// call into a component except the two that hold the state.
     pub fn take(&mut self, choice: &str) -> Result<Option<Stop>, Stop> {
+        self.take_with(choice, &mut Collect::default())
+    }
+
+    /// The same turn, with the client's own perceiving.
+    ///
+    /// **The parameter is the whole of this phase's engine change.** The loop built its own
+    /// `Collect` and no caller could supply another, so every client that ever ran got the sink
+    /// that returns at once — and `.yidam/decisions/held.yml` recorded that as a fact about
+    /// terminals. `.yidam/decisions/dismissed-hold.yml`.
+    pub fn take_with(
+        &mut self,
+        choice: &str,
+        sink: &mut impl Perceive,
+    ) -> Result<Option<Stop>, Stop> {
         let entries = shown(&self.world, &self.state);
         let offered: Vec<String> = entries.iter().map(spell).collect();
         let Some(i) = offered.iter().position(|s| s == choice) else {
@@ -199,7 +292,6 @@ impl<'a> Session<'a> {
 
         let before = (self.state.room, self.state.mode);
         let mut forced: Vec<String> = Vec::new();
-        let mut sink = Collect::default();
         let (said, fired) = match respond(&self.world, binding, &self.state) {
             Outcome::Fired { says, next } => {
                 let (settled, ran) = settle_tracking(&self.world, next)
@@ -218,7 +310,7 @@ impl<'a> Session<'a> {
         // first, then whatever the arrival triggers said. The presenter returns when the sink does
         // and reports what it held them for.
         let held = present_all(
-            &mut sink,
+            sink,
             said.into_iter().chain(forced.iter().map(String::as_str)),
         );
 

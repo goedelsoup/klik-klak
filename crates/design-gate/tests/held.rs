@@ -1,6 +1,6 @@
 //! **The two positions are a claim and its precondition, and the state graph does not move.**
 //!
-//! Seventeen files talk about duration. Two decided positions read as contradicting each other.
+//! Twenty-one files talk about duration. Two decided positions read as contradicting each other.
 //!
 //! [`effect-list-semantics`](../../../.yidam/decisions/effect-list-semantics.yml): *"**Instantaneous.**
 //! No effect takes time and no effect yields control… **Atomic.** A binding is one edge in the
@@ -65,7 +65,7 @@ fn talking(root: &Path) -> Vec<String> {
     out
 }
 
-/// **Nineteen files, two positions, and the model is still free of time.**
+/// **Twenty-one files, two positions, and the model is still free of time.**
 ///
 /// The presenter owns duration and `game-format` does not: the state model has no `Wait`, no
 /// `Pause`, no `Delay`, and eight effects none of which takes one. That is the half of
@@ -83,12 +83,16 @@ fn talking(root: &Path) -> Vec<String> {
 /// the door shuts and start being walkable only after it has finished opening. That is the cost
 /// `effect-list-semantics` refused, measured in a shipped game rather than argued, and it arrives
 /// in this count as a third sense of the word.
+///
+/// **The twenty-first is `dismissed-hold` and it splits the first sense in two.** A duration a
+/// client *elapses* and a duration a player *dismisses* are both this word and only the first is
+/// the lever `subsystem/response-presenter` claims. The model is free of both.
 #[test]
 fn duration_is_the_presenters_and_the_state_model_is_free_of_it() {
     let root = repo_root();
     assert_eq!(
         talking(&root).len(),
-        20,
+        21,
         "files that say the word — this record is one"
     );
 
@@ -190,6 +194,11 @@ fn nothing_in_the_ontology_points_at_a_cutscene() {
 /// The corpus declares `interaction-resolver -depends-on-> response-presenter` and the built
 /// resolver does not have it: the client presents, which is what that node's own responsibility
 /// says — *produce* an outcome, not deliver one. Left alone rather than cut, and recorded.
+///
+/// `Collect` is still here and still returns at once, because a scripted run has no player to
+/// hold. What it is no longer is the only sink a client can have —
+/// `.yidam/decisions/dismissed-hold.yml`, and `crates/design-gate/tests/pacing.rs` is where the
+/// two are held apart.
 #[test]
 fn the_client_presents_and_the_search_does_not() {
     let root = repo_root();

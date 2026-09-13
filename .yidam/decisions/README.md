@@ -104,10 +104,6 @@ does not re-emit it.
 - **:93** — **What this does not settle.** The identity half is untouched and stands where [hotspot-identity](hotspot-identity.yml) left it — evidenced and named as `parent`, unadopted because this vocabulary has no geometry. And the tractability figures are still measured on games no author would produce, whic…
 - **:103** — **One correction fell out of the measurement and is larger than the finding.** Counting frame against prose across the shipped game's verb slots meant counting `VERB_OK`, and this corpus had it at zero authored sites in three places. There are 62. The search was for `okverb_`, the name the macro exp…
 
-### [held](held.yml)
-
-- **:115** — **What a text client cannot do, stated rather than papered over.** `play` implements `Perceive` by printing and returning, so it holds the player for nothing at all. The component reports the weight and the client discards it, which is honest: a terminal with no clock and no input between turns has …
-
 ### [hotspot-identity](hotspot-identity.yml)
 
 - **:75** — **What this does not decide.** Whether a design that did include geometry should have one relation or three. Nothing here bears on it, and the three are genuinely different — a part is contained by its whole, two regions of one thing are interchangeable, and two things that read alike are not interc…
@@ -225,7 +221,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**56 open.**
+**55 open.**
 
 ## What nothing cites
 

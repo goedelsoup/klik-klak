@@ -3,11 +3,15 @@
 //! `cargo run -p play -- <game> [script]`
 //!
 //! With a script, plays it and prints the transcript. Without one, reads choices from stdin and
-//! prints the menu before each — which is a text adventure with a list instead of a parser, and is
-//! as much interface as a design with no `path-solver` and no `response-presenter` can honestly
-//! offer. `.yidam/decisions/playable.yml`.
+//! prints the menu before each — which is a text adventure with a list instead of a parser.
+//! `.yidam/decisions/playable.yml`.
+//!
+//! **The interactive loop holds the player now.** Its sink is [`play::Await`]: it writes the line
+//! and does not come back until the player asks for the next thing, which is a hold performed by a
+//! terminal with no clock and no invented rate. A script has no player, so a scripted run keeps
+//! the sink that returns at once. `.yidam/decisions/dismissed-hold.yml`.
 
-use play::{load, Session, Stop};
+use play::{load, Await, Session, Stop};
 
 fn main() -> std::process::ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
@@ -65,6 +69,13 @@ fn main() -> std::process::ExitCode {
 
 fn interactive(session: &mut Session) -> Stop {
     use std::io::Write;
+
+    // One stream, and both the choice and the dismissal come through it. That is the constraint a
+    // terminal has and a frame does not: nothing can listen for a player who has finished reading
+    // while it is waiting for a player who has finished choosing.
+    let stdin = std::io::stdin();
+    let mut sink = Await::new(stdin.lock(), std::io::stdout());
+
     loop {
         let menu = session.menu();
         let read = session.reads();
@@ -75,27 +86,21 @@ fn interactive(session: &mut Session) -> Stop {
         print!("> ");
         let _ = std::io::stdout().flush();
 
-        let mut line = String::new();
-        if std::io::stdin().read_line(&mut line).unwrap_or(0) == 0 {
+        let Some(line) = sink.line() else {
             return Stop::OutOfInput;
-        }
-        let line = line.trim();
+        };
         if line.is_empty() || line == "quit" {
             return Stop::OutOfInput;
         }
         let choice = match line.parse::<usize>() {
             Ok(n) if n >= 1 && n <= menu.len() => menu[n - 1].clone(),
-            _ => line.to_string(),
+            _ => line.clone(),
         };
-        match session.take(&choice) {
+        // The lines are written by the sink, one hold each, so nothing is printed here that the
+        // player has already been held for.
+        match session.take_with(&choice, &mut sink) {
             Ok(stop) => {
                 if let Some(t) = session.log.last() {
-                    if let Some(line) = &t.said {
-                        println!("  {line}");
-                    }
-                    for line in &t.forced {
-                        println!("  {line}");
-                    }
                     if let Some(where_) = &t.moved {
                         println!("  → {where_}");
                     }
