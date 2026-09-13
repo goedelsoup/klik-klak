@@ -109,6 +109,10 @@ fn different_second_objects_do_not_collide() {
 /// **`or` is refused rather than approximated.** Separating a disjunction wants the cross product,
 /// nothing in the corpus writes one in a colliding cell, and asking the author for a clearer guard
 /// is the safe direction to be wrong in.
+///
+/// The pair below is genuinely inseparable — `seen or carrying x` and `not seen` both hold when
+/// the flag is clear and `x` is in hand — so it demonstrates the rule working and says nothing
+/// about the approximation. What the approximation costs is the test under this one.
 #[test]
 fn a_disjunction_is_treated_as_inseparable() {
     let m = collisions(
@@ -116,6 +120,42 @@ fn a_disjunction_is_treated_as_inseparable() {
          \x20   use-with:\n      when  not seen\n      say   \"nothing\"\n",
     );
     assert_eq!(m.len(), 1, "{m:?}");
+}
+
+/// **And it refuses a pair that cannot meet, which is the half the rule above did not measure.**
+///
+/// `step = 1` against `step = 2 and seen or step = 2 and carrying x`: the counter cannot hold two
+/// values, so no state satisfies both, and the flattener never gets far enough to notice. It
+/// returns `false` on the first `Or` it meets, so **one disjunction anywhere in either guard makes
+/// the whole pair inseparable** — not the disjuncts that overlap, the pair.
+///
+/// The approximation was admitted on a census: *"nothing in the corpus writes one in a colliding
+/// cell."* That was true of five games, which between them write `or` **zero** times
+/// (`coverage.rs`), so it is a claim about a construct nobody had used rather than a claim about
+/// what happens when somebody does.
+///
+/// It matters at exactly one place: a staged puzzle. Stages are a run of bindings on one cell
+/// guarded on the counter's current value — `two_comparisons_on_one_counter_that_cannot_meet_are_accepted`
+/// is the shape, and the lighthouse's lamp is the instance — so **any stage that wants a
+/// disjunction is refused, and the refusal is the one case this construct is for.**
+#[test]
+fn a_disjunction_that_cannot_meet_is_refused_anyway() {
+    let m = collisions(
+        "    use-with:\n      when  step = 1\n      do    set step 2\n\
+         \x20   use-with:\n      when  step = 2 and seen or step = 2 and carrying x\n               say   \"nothing\"\n",
+    );
+    assert_eq!(
+        m.len(),
+        1,
+        "a pair no state satisfies, reported as ambiguous: {m:?}"
+    );
+
+    // and the same pair without the disjunction is accepted, so the `or` is the whole of it
+    assert!(collisions(
+        "    use-with:\n      when  step = 1\n      do    set step 2\n\
+         \x20   use-with:\n      when  step = 2 and seen\n      say   \"nothing\"\n"
+    )
+    .is_empty());
 }
 
 /// The four committed specimens key every cell distinctly, so the check is a rule about what may
