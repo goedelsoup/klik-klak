@@ -250,5 +250,5 @@ fn the_objection_named_one_calculator_and_was_true_of_three() {
         .flatten()
         .filter(|e| e.path().extension().is_some_and(|x| x == "game"))
         .count();
-    assert_eq!(games, 5, "specimens, in `design/` and not in the corpus");
+    assert_eq!(games, 6, "specimens, in `design/` and not in the corpus");
 }

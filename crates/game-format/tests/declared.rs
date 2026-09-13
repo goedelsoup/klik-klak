@@ -132,7 +132,7 @@ fn every_item_in_every_specimen_is_reached_by_a_binding() {
     }
     assert_eq!(
         totals,
-        (12, 12),
+        (16, 16),
         "declared items across five games, and items a binding names"
     );
     assert!(

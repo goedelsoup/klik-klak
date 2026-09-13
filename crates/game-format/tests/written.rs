@@ -139,13 +139,20 @@ fn two_standing_claims_need_a_file_to_be_checked() {
         "the collapse claim"
     );
 
-    // and nothing uses `exit`, so the expansion has never even been read in anger
-    for (name, src) in common::sources() {
-        assert!(
-            !src.lines().any(|l| l.trim_start().starts_with("exit ")),
-            "{name} writes an `exit` now"
-        );
-    }
+    // and one game writes `exit` now, which is the first time the expansion has been read in
+    // anger. Five specimens wrote the longhand — a hotspot, a `walk-to`, a `do move` — because
+    // they were written before the declaration existed; the sixth was written after it and
+    // reached for it at every room connection it has. `.yidam/decisions/or-earns-it.yml`.
+    let writes: Vec<String> = common::sources()
+        .into_iter()
+        .filter(|(_, src)| src.lines().any(|l| l.trim_start().starts_with("exit ")))
+        .map(|(name, _)| name)
+        .collect();
+    assert_eq!(
+        writes,
+        ["relay"],
+        "specimens that write the declaration rather than its expansion"
+    );
 }
 
 /// **Seventy-three lines are written three ways and the tree holds one thing.**
@@ -169,7 +176,7 @@ fn one_construct_is_written_three_ways() {
             }
         }
     }
-    assert_eq!((say, otherwise, bare), (41, 20, 39), "the three spellings");
+    assert_eq!((say, otherwise, bare), (53, 26, 45), "the three spellings");
 
     // and every one of them is the same thing in the tree
     let mut unguarded = 0;
@@ -211,5 +218,5 @@ fn a_third_of_the_file_is_for_whoever_reads_the_file() {
             }
         }
     }
-    assert_eq!((total, hash, annotation, blank), (904, 186, 3, 185));
+    assert_eq!((total, hash, annotation, blank), (1108, 233, 3, 224));
 }

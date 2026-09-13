@@ -107,7 +107,7 @@ fn rel(root: &Path, p: &Path) -> String {
 fn no_test_names_every_specimen() {
     let root = repo_root();
     let all = on_disk(&root);
-    assert_eq!(all.len(), 5, "specimens on disk");
+    assert_eq!(all.len(), 6, "specimens on disk");
 
     let (mut copies, mut reading, mut study) = (Vec::new(), 0usize, 0usize);
     for p in test_files(&root) {
@@ -132,7 +132,7 @@ fn no_test_names_every_specimen() {
     );
     assert_eq!(
         (reading, study),
-        (33, 15),
+        (30, 18),
         "files reading the directory, and files naming the games they are about"
     );
 }
@@ -172,7 +172,7 @@ fn the_specimen_census_is_what_the_documents_quote() {
     }
     assert_eq!(
         (paths.len(), lines, bindings, declared),
-        (5, 904, 120, 104),
+        (6, 1108, 148, 131),
         "specimens, authored lines, bindings, declared names"
     );
 

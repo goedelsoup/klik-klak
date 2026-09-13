@@ -143,7 +143,7 @@ fn seven_are_loose_and_two_are_contained_and_the_names_say_which() {
             }
         }
     }
-    assert_eq!(loose.len(), 7, "{loose:?}");
+    assert_eq!(loose.len(), 11, "{loose:?}");
     assert_eq!(contained.len(), 2, "{contained:?}");
     for c in &contained {
         assert!(

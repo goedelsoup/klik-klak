@@ -74,7 +74,7 @@ fn only_the_flag_that_is_not_about_the_world_has_more_than_one_writer() {
             }
         }
     }
-    assert_eq!(writers.len(), 18);
+    assert_eq!(writers.len(), 24);
     let multi: Vec<&String> = writers
         .iter()
         .filter(|(_, n)| **n > 1)

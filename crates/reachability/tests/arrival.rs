@@ -75,7 +75,7 @@ fn arrival_produces_nothing_in_sixteen_rooms_out_of_seventeen() {
     }
     assert_eq!(
         (rooms, entries),
-        (17, 1),
+        (20, 1),
         "a fifth game added three rooms and no second entry binding"
     );
 }
@@ -131,8 +131,8 @@ fn affordance_changes_eighty_six_times_and_nothing_is_authored_to_change_it() {
         slots += r.menu_slots;
         states += r.states;
     }
-    assert_eq!((entries, showing, slots, states), (117, 31, 1169, 203));
-    assert_eq!(entries - showing, 86);
+    assert_eq!((entries, showing, slots, states), (144, 40, 4263, 683));
+    assert_eq!(entries - showing, 104);
 }
 
 /// **An entry binding fires into a state nobody rests in, which is the one thing a reconciler

@@ -70,10 +70,43 @@ fn lex(no: usize, raw: &str) -> Option<Line> {
     };
     let tokens: Vec<String> = head
         .split_whitespace()
+        .flat_map(parens)
         .map(|t| t.trim_end_matches(':').to_string())
         .filter(|t| !t.is_empty())
         .collect();
     Some(Line { no, tokens, text })
+}
+
+/// Split a whitespace-delimited token around parentheses, which are tokens in their own right.
+///
+/// The grammar has carried `atom := '(' pred ')'` since it was written and `atom()` has always
+/// accepted it — **as three tokens**. Nothing had ever written a group, because nothing had
+/// written a disjunction, so nobody had found that `(x` lexes as a name and comes back as
+/// *"`(x` is not declared, wanted a flag"*: an error naming the operand when the fault is the
+/// spacing. `.yidam/decisions/or-earns-it.yml`.
+///
+/// Nothing else in the language can hold a parenthesis. A label is quoted and is taken off this
+/// line before it is split; every other token is a declared name, and no name here has ever
+/// contained one.
+fn parens(t: &str) -> Vec<String> {
+    if !t.contains(['(', ')']) {
+        return vec![t.to_string()];
+    }
+    let (mut out, mut cur) = (Vec::new(), String::new());
+    for c in t.chars() {
+        if c == '(' || c == ')' {
+            if !cur.is_empty() {
+                out.push(std::mem::take(&mut cur));
+            }
+            out.push(c.to_string());
+        } else {
+            cur.push(c);
+        }
+    }
+    if !cur.is_empty() {
+        out.push(cur);
+    }
+    out
 }
 
 struct P {

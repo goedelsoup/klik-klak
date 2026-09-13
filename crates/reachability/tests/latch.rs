@@ -82,7 +82,7 @@ fn the_one_flag_anything_clears_is_the_one_that_is_not_about_the_world() {
         assert!(r.latch_violations.is_empty(), "{name}: {r:?}");
         unclaimed.extend(r.unclaimed_latches.iter().map(|u| format!("{name}: {u}")));
     }
-    assert_eq!((flags, declared, clears), (14, 11, 3));
+    assert_eq!((flags, declared, clears), (17, 14, 3));
     assert_eq!(unclaimed.len(), 2, "{unclaimed:#?}");
     assert!(unclaimed[0].contains("door-open") && unclaimed[1].contains("asked-key"));
 

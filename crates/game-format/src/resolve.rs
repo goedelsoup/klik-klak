@@ -424,15 +424,42 @@ fn ambiguous_cells(game: &Game, out: &mut Vec<Problem>) {
 /// product. Nothing in the four specimens writes one in a cell that collides, so this returns
 /// `None` and the caller treats the pair as inseparable — which is the safe direction: it asks the
 /// author for a guard rather than accepting one it did not understand.
-fn atoms(p: &Pred, out: &mut Vec<(bool, Pred)>, sign: bool) -> bool {
-    match p {
-        Pred::And(a, b) => atoms(a, out, sign) && atoms(b, out, sign),
-        Pred::Not(x) => atoms(x, out, !sign),
-        Pred::Or(_, _) => false,
-        atom => {
-            out.push((sign, atom.clone()));
-            true
+/// The same predicate as a disjunction of conjunctions, which is what a disjointness test over
+/// atoms needs before it can say anything about a guard containing `or`.
+const CLAUSE_CEILING: usize = 64;
+
+fn clauses(p: &Pred, sign: bool) -> Option<Vec<Vec<(bool, Pred)>>> {
+    let join = |xs: Vec<Vec<(bool, Pred)>>, ys: Vec<Vec<(bool, Pred)>>| {
+        if xs.len().saturating_mul(ys.len()) > CLAUSE_CEILING {
+            return None;
         }
+        Some(
+            xs.iter()
+                .flat_map(|x| {
+                    ys.iter().map(move |y| {
+                        let mut z = x.clone();
+                        z.extend(y.iter().cloned());
+                        z
+                    })
+                })
+                .collect::<Vec<_>>(),
+        )
+    };
+    let union = |mut xs: Vec<Vec<(bool, Pred)>>, ys: Vec<Vec<(bool, Pred)>>| {
+        if xs.len() + ys.len() > CLAUSE_CEILING {
+            return None;
+        }
+        xs.extend(ys);
+        Some(xs)
+    };
+    match p {
+        // De Morgan: a negated conjunction is a disjunction of negations, and the other way.
+        Pred::And(a, b) if sign => join(clauses(a, sign)?, clauses(b, sign)?),
+        Pred::And(a, b) => union(clauses(a, sign)?, clauses(b, sign)?),
+        Pred::Or(a, b) if sign => union(clauses(a, sign)?, clauses(b, sign)?),
+        Pred::Or(a, b) => join(clauses(a, sign)?, clauses(b, sign)?),
+        Pred::Not(x) => clauses(x, !sign),
+        atom => Some(vec![vec![(sign, atom.clone())]]),
     }
 }
 
@@ -453,12 +480,19 @@ fn disjoint(a: Option<&Pred>, b: Option<&Pred>) -> bool {
     let (Some(a), Some(b)) = (a, b) else {
         return false;
     };
-    let (mut xs, mut ys) = (vec![], vec![]);
-    if !atoms(a, &mut xs, true) || !atoms(b, &mut ys, true) {
+    let (Some(ca), Some(cb)) = (clauses(a, true), clauses(b, true)) else {
         return false;
-    }
-    for (sx, x) in &xs {
-        for (sy, y) in &ys {
+    };
+    // Two guards are disjoint when every way of satisfying one contradicts every way of
+    // satisfying the other. With no `or` on either side that is one pair of atom lists and the
+    // same test as before; with one it is the cross product.
+    ca.iter().all(|xs| cb.iter().all(|ys| contradict(xs, ys)))
+}
+
+/// Whether two conjunctions of atoms cannot hold at once.
+fn contradict(xs: &[(bool, Pred)], ys: &[(bool, Pred)]) -> bool {
+    for (sx, x) in xs {
+        for (sy, y) in ys {
             let contradicts = match (x, y) {
                 (Pred::Flag(p), Pred::Flag(q))
                 | (Pred::Carrying(p), Pred::Carrying(q))

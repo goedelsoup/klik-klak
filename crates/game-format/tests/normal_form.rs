@@ -53,11 +53,16 @@ fn truth(p: &Pred, v: [bool; 3]) -> bool {
     }
 }
 
-/// **The writer writes the shape it used to abort on.**
+/// **The writer writes the shape it used to abort on, and now it writes it as the shape.**
 ///
 /// `And(Or(a, b), c)` is `(a or b) and c`. `Game` can hold one, `print` takes a `&Game`, and the
-/// call used to abort the process. It comes out as `a and c or b and c` — the same formula, in
-/// the form the grammar spells — and reads back as a game that says the same thing.
+/// call used to abort the process. `.yidam/decisions/normal-form.yml` stopped the abort by
+/// putting every predicate in disjunctive normal form first, so it came out **distributed** —
+/// `a and c or b and c`, the same formula with `c` said twice.
+///
+/// It comes out in brackets now, because the grammar has had `atom := '(' pred ')'` since it was
+/// written. Normalising was never needed and its cost was a restatement the author had not
+/// written. `.yidam/decisions/or-earns-it.yml`.
 #[test]
 fn the_writer_writes_the_shape_it_used_to_abort_on() {
     let source = "\
@@ -87,15 +92,24 @@ room r
 
     let written = print(&unspellable);
     assert!(
-        written.contains("when  a and c or b and c"),
-        "distributed into the shape the grammar spells:\n{written}"
+        written.contains("when  (a or b) and c"),
+        "written as it stands, in brackets:\n{written}"
     );
     let (back, problems) = parse(&written, "t");
     assert!(problems.is_empty(), "and it reads: {problems:?}");
     assert_eq!(
         format!("{:?}", back.bindings[0].when),
+        format!("{:?}", unspellable.bindings[0].when),
+        "as the same predicate, rather than as a formula equal to it"
+    );
+
+    // and the distributed spelling is still a thing an author may write, and still comes back as
+    // what they wrote — the two are different predicates that mean the same thing, and the writer
+    // no longer turns the first into the second.
+    assert_ne!(
         format!("{:?}", spelled.bindings[0].when),
-        "as the same predicate the author could have written by hand"
+        format!("{:?}", unspellable.bindings[0].when),
+        "the two spellings are different trees"
     );
 }
 
@@ -163,20 +177,24 @@ fn a_double_negation_survives_unless_it_is_in_the_way() {
     }
 }
 
-/// **It is the identity on everything the reader builds.**
+/// **It is the identity on every predicate but one, and the one is the point.**
 ///
-/// Every predicate in every specimen, unchanged. A normaliser that moved a parsed tree would be
-/// doing something other than spelling — and the round trip in `round_trip.rs` would stop
-/// returning the same game.
+/// This asserted that the reader *cannot build* a predicate the normaliser would move, and read
+/// the identity as confirmation. It held for sixty guards over five games and for a reason that
+/// had nothing to do with normalising: **no author had written a disjunction at all**, so no
+/// author had written one under a conjunction.
 ///
-/// **Sixty now, and it was thirty-six over four games.** The fifth specimen brought twenty-four
-/// more guards than any of the others — it is the one with a controlled character, so most of what
-/// it offers is conditional on who you are — and the normaliser is the identity on all of them. An
-/// identity claim gets stronger by being asked more often, which is the one kind of figure here
-/// that wants its input to grow.
+/// `design/specimen/relay.game` writes `aerial = 2 and (engine-running or carrying lamp)`, which
+/// the reader builds as `And(Cmp, Or(..))` and the normaliser distributes. Nothing is wrong with
+/// either: they are the same formula, and which one is on disk is the author's business, which is
+/// exactly why the writer stopped normalising. `.yidam/decisions/or-earns-it.yml`.
+///
+/// So what is held is the count and the shape of the exception, and the meaning-preservation that
+/// was always the real claim.
 #[test]
 fn normalising_changes_no_predicate_any_specimen_wrote() {
     let mut seen = 0;
+    let mut grouped: Vec<String> = Vec::new();
     for (name, source) in common::sources() {
         let (mut game, problems) = parse(&source, &name);
         assert!(problems.is_empty(), "{name}: {problems:?}");
@@ -190,15 +208,27 @@ fn normalising_changes_no_predicate_any_specimen_wrote() {
             )
         }) {
             seen += 1;
-            assert!(p.is_normal(), "{name}: the reader built {p:?}");
+            if !p.is_normal() {
+                grouped.push(format!("{name}: {p:?}"));
+                assert!(
+                    p.normal().is_normal(),
+                    "{name}: normalising left a shape that is still not normal"
+                );
+                continue;
+            }
             assert_eq!(
                 format!("{:?}", p.normal()),
                 format!("{p:?}"),
-                "{name}: normalising moved a predicate an author wrote"
+                "{name}: normalising moved a predicate that was already normal"
             );
         }
     }
-    assert_eq!(seen, 60, "guards and guarded clauses across the specimens");
+    assert_eq!(
+        grouped,
+        ["relay: And(Cmp(\"aerial\", Eq, 2), Or(Flag(\"engine-running\"), Carrying(\"lamp\")))"],
+        "predicates an author wrote that are not in normal form"
+    );
+    assert_eq!(seen, 76, "guards and guarded clauses across the specimens");
 }
 
 /// **The only thing that builds a predicate outside the parser is the normaliser.**
@@ -263,22 +293,34 @@ fn only_the_parser_and_the_normaliser_build_a_predicate() {
         lib.contains("pub fn normal(&self) -> Pred {") && lib.contains("fn distribute(p: &Pred)"),
         "`normal` is a property of the language rather than of printing"
     );
+    // The writer does not call it. It did until `.yidam/decisions/or-earns-it.yml` — that is what
+    // made `normal` load-bearing — and printing in brackets is what replaced it. `normal` stays
+    // because it is a property of the language and the only thing in this crate that can answer
+    // *is this formula the same as that one*; nothing in the pipeline needs it.
     let writer = std::fs::read_to_string(root.join("crates/game-format/src/print.rs")).expect("it");
     assert!(
-        writer.contains("let p = &p.normal();"),
-        "and the writer calls it rather than re-deriving it"
+        !writer.contains(".normal()"),
+        "the writer normalises again, which restates a conjunct the author did not"
     );
 }
 
-/// **The grammar is disjunctive normal form, which is what makes the gap a spelling and not a
-/// limit.**
+/// **The reader spells more than a disjunction of conjunctions, and this check walked three
+/// levels of a four-level grammar to conclude otherwise.**
 ///
-/// Three levels, each nesting only the one below it. `And`'s children are `unary`, so a
-/// disjunction cannot sit under a conjunction; `Not`'s operand is a `unary`, so a conjunction
-/// cannot sit under a negation. What the reader can spell is a disjunction of conjunctions of
-/// literals, exactly.
+/// It read `disj → conj`, `conj → unary`, `unary → atom`, found each nesting only the level below
+/// it, and concluded that a disjunction cannot sit under a conjunction. The fourth production
+/// closes the loop: **`atom := '(' pred ')'`** goes straight back to the top. `atom()` in
+/// `parse.rs` has had the case since it was written.
+///
+/// Nothing caught it because the conclusion was only ever tested against predicates an author had
+/// written, and for five games no author wrote a disjunction at all — so no author wrote a group.
+/// `.yidam/decisions/round-trip.yml` closed on *"the reader cannot build one, because `conj` only
+/// ever nests `unary`"*, which is the same three-level reading.
+///
+/// `.yidam/decisions/or-earns-it.yml`. All four productions are walked now, and the last one is
+/// checked for the thing it does: recurse.
 #[test]
-fn the_reader_spells_a_disjunction_of_conjunctions_of_literals() {
+fn the_reader_spells_more_than_a_disjunction_of_conjunctions() {
     let src = include_str!("../src/parse.rs");
     for (level, nests) in [
         ("fn disj<'a>", "let (mut left, mut rest) = conj(t)?;"),
@@ -295,6 +337,38 @@ fn the_reader_spells_a_disjunction_of_conjunctions_of_literals() {
     assert!(
         body.contains("\"not\"") && body.contains("unary(") && body.contains("atom("),
         "`not` takes a unary, which is a literal under any number of negations"
+    );
+
+    // **The fourth, and it is the one that matters.** An atom may be a bracketed predicate, which
+    // is the whole grammar again — so every shape `Pred` admits is writable, and the three levels
+    // above describe precedence rather than the set of trees.
+    let at = src.find("fn atom<'a>").expect("the level");
+    let body = &src[at..at + 400];
+    assert!(
+        body.contains("Some(&\"(\")") && body.contains("disj(&t[1..])"),
+        "`atom` no longer recurses through brackets, which is the production this test is about"
+    );
+
+    // and the grammar in the design document says so too, which is where it always said so
+    let grammar =
+        std::fs::read_to_string(common::root().join("design/bounded-expression-language.md"))
+            .expect("the grammar");
+    assert!(
+        grammar.contains("atom    :=  '(' pred ')'"),
+        "the document no longer declares the production the reader implements"
+    );
+
+    // a group reads, which is the one-line check nobody had written
+    let grouped = parse(
+        "flag a \"a\"\nflag b \"b\"\nflag c \"c\"\nroom r \"R\"\nroom r\n  start\n  \
+         hotspot h \"h\"\n    look-at:\n      when (a or b) and c\n      \"x\"\n      ending\n",
+        "t",
+    );
+    assert!(grouped.1.is_empty(), "a bracketed group: {:?}", grouped.1);
+    assert_eq!(
+        format!("{:?}", grouped.0.bindings[0].when),
+        "Some(And(Or(Flag(\"a\"), Flag(\"b\")), Flag(\"c\")))",
+        "and it builds the tree the three-level reading said was unreachable"
     );
 
     // and the four shapes, checked by reading them back

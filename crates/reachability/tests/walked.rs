@@ -105,6 +105,13 @@ fn every_specimen_is_stranded_somewhere() {
                 Cause::Ordering,
                 1
             ),
+            (
+                "relay".to_string(),
+                200,
+                "use-with line on shed.stack".into(),
+                Cause::Consumption,
+                28
+            ),
         ],
         "every way to lose, by line, cause, and states killed"
     );

@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 91, "every record, in the order it was created");
+    assert_eq!(all.len(), 92, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (47, 50, 41),
+        (48, 51, 41),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -401,7 +401,6 @@ fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("adjacency", Some(false)),
         ("retraction-reach", None),
         ("two-bars", Some(true)),
         ("unread-specimen", None),
@@ -409,6 +408,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("unread-spelling", None),
         ("restated-guard", Some(false)),
         ("unbuilt-solver", Some(false)),
+        ("or-earns-it", Some(false)),
     ];
 
     let root = repo_root();

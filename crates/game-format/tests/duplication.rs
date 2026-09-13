@@ -173,15 +173,15 @@ fn eighty_nine_of_a_hundred_and_twenty_bindings_share_their_shape() {
     let m = shapes();
     let total: usize = m.values().sum();
     let repeated: usize = m.values().filter(|n| **n > 1).sum();
-    assert_eq!((total, m.len(), repeated), (120, 41, 89));
+    assert_eq!((total, m.len(), repeated), (148, 49, 111));
 
     let mut top: Vec<(&String, &usize)> = m.iter().collect();
     top.sort_by_key(|(_, n)| std::cmp::Reverse(**n));
-    assert_eq!(*top[0].1, 36, "{}", top[0].0);
+    assert_eq!(*top[0].1, 42, "{}", top[0].0);
     assert!(top[0]
         .0
         .starts_with("room look-at | when - | guards [] | do []"));
-    assert_eq!(*top[1].1, 18, "{}", top[1].0);
+    assert_eq!(*top[1].1, 22, "{}", top[1].0);
     assert!(top[1]
         .0
         .starts_with("room walk-to | when - | guards [] | do [move-player]"));
@@ -212,7 +212,7 @@ fn the_writing_in_an_authored_game_is_all_different() {
         }
     }
     let distinct: BTreeSet<&String> = all.iter().collect();
-    assert_eq!((all.len(), distinct.len()), (258, 256));
+    assert_eq!((all.len(), distinct.len()), (321, 318));
 }
 
 /// **The finding, and the half of it that held.** Eighteen response blocks in nine hundred and
@@ -284,7 +284,7 @@ fn no_verb_costs_more_frame_than_it_carries_writing() {
     );
 
     let (n, frame, prose) = per["look-at"];
-    assert_eq!(n, 56, "look-at is the commonest verb in the corpus");
+    assert_eq!(n, 68, "look-at is the commonest verb in the corpus");
     assert!(
         prose > 4 * frame,
         "and the most prose-dense: {prose} / {frame}"
@@ -293,7 +293,7 @@ fn no_verb_costs_more_frame_than_it_carries_writing() {
     let (total, frame, prose) = per
         .values()
         .fold((0, 0, 0), |a, b| (a.0 + b.0, a.1 + b.1, a.2 + b.2));
-    assert_eq!(total, 120);
+    assert_eq!(total, 144);
     assert!(
         prose > 2 * frame - frame / 10,
         "an authored game is roughly two characters of writing per character of frame: \

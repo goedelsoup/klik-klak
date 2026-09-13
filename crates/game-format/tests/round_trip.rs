@@ -94,7 +94,7 @@ fn a_third_of_the_file_is_for_whoever_reads_the_file() {
         before += src.lines().count();
         after += print(&load(&src, &name)).lines().count();
     }
-    assert_eq!((before, after), (904, 605), "lines written, lines kept");
+    assert_eq!((before, after), (1108, 750), "lines written, lines kept");
 }
 
 /// **An `exit` comes back as the binding an author would have written, which is the claim.**
@@ -158,7 +158,7 @@ fn three_spellings_of_a_line_come_back_as_one() {
             }
         }
     }
-    assert_eq!((say, otherwise, bare), (41, 20, 39), "the three spellings");
+    assert_eq!((say, otherwise, bare), (53, 26, 45), "the three spellings");
 
     // and after a round trip there is one spelling and the same number of lines
     let (mut written_say, mut written_other) = (0, 0);
@@ -188,18 +188,23 @@ fn three_spellings_of_a_line_come_back_as_one() {
     );
 }
 
-/// **The tree is larger than one spelling of the language, and the writer closes the gap rather
-/// than reporting it.**
+/// **The tree is not larger than the language, and this test said so twice in opposite
+/// directions.**
 ///
-/// This test read: *"`Pred::And(Box::new(Pred::Or(..)), ..)` is `(a or b) and c`: constructible in
-/// the type, and unwritable in a `.game` file, which has no parentheses."* The first half stands
-/// and the conclusion does not. The grammar is **disjunctive normal form** — `disj := conj ('or'
-/// conj)*`, `conj := unary ('and' unary)*` — and every propositional formula has one, so `(a or b)
-/// and c` is written `a and c or b and c`. [`Pred::normal`] is that rewriting and `print` calls
-/// it. `.yidam/decisions/normal-form.yml`.
+/// It began as *"`Pred::And(Box::new(Pred::Or(..)), ..)` is `(a or b) and c`: constructible in the
+/// type, and unwritable in a `.game` file, which has no parentheses."* That was corrected once, to
+/// *the grammar is disjunctive normal form, so it is written `a and c or b and c`* — the writer
+/// normalising, `.yidam/decisions/normal-form.yml` — and the correction kept the premise: that the
+/// nesting is one-way and the reader cannot build the shape.
 ///
-/// What the reader still cannot build is the *shape*, and that is why normalising is the identity
-/// on every predicate in every specimen — the round trip below is unchanged by any of it.
+/// **The premise was wrong both times.** `atom := '(' pred ')'` is the fourth production and it
+/// recurses to the top, so the reader has always built `(a or b) and c` from a file that writes
+/// it. Nothing found out for eighty-eight phases because no author had written a disjunction, and
+/// the checks that would have found it read the first three productions and stopped.
+///
+/// So the writer prints brackets and the round trip below is a **structural** identity rather than
+/// a logical one: every predicate comes back as the tree the author wrote, not as a formula equal
+/// to it. `.yidam/decisions/or-earns-it.yml`.
 #[test]
 fn the_reader_builds_only_shapes_the_writer_writes_without_rewriting() {
     let src = include_str!("../src/parse.rs");
@@ -207,12 +212,16 @@ fn the_reader_builds_only_shapes_the_writer_writes_without_rewriting() {
         src.contains("fn conj<'a>(t: &'a [&'a str]) -> Result<(Pred, &'a [&'a str]), String>")
             && src
                 .contains("fn disj<'a>(t: &'a [&'a str]) -> Result<(Pred, &'a [&'a str]), String>"),
-        "the two levels that make the nesting one-way"
+        "the two levels that set the precedence"
+    );
+    assert!(
+        src.contains("Some(&\"(\") => {"),
+        "and the production that makes the nesting two-way after all"
     );
     let writer = include_str!("../src/print.rs");
     assert!(
-        writer.contains("let p = &p.normal();"),
-        "and the writer normalises rather than asserting about the language"
+        !writer.contains(".normal()") && writer.contains("format!(\"({s})\")"),
+        "the writer brackets what binds looser rather than distributing it"
     );
 
     // every predicate in the four specimens prints and reads back as itself, unrewritten
@@ -228,16 +237,10 @@ fn the_reader_builds_only_shapes_the_writer_writes_without_rewriting() {
             })
             .map(|p| format!("{p:?}"))
             .collect();
-        for p in game.bindings.iter().flat_map(|b| {
-            b.when
-                .iter()
-                .chain(b.says.iter().filter_map(|r| r.when.as_ref()))
-        }) {
-            assert!(
-                p.is_normal(),
-                "{name}: the reader built an unspellable shape"
-            );
-        }
+        // Not `is_normal` any more. That assertion was checking the premise above rather than
+        // anything about the round trip, and it read as a property of the reader when it was a
+        // property of what six authors happened to have written. What matters is the line below:
+        // whatever the reader builds, the writer writes back as itself.
         let after: Vec<String> = load(&print(&game), &name)
             .bindings
             .iter()

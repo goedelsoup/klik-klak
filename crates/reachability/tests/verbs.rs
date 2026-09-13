@@ -159,7 +159,7 @@ fn the_five_that_remain_are_all_written_and_the_sixth_never_was() {
             total += 1;
         }
     }
-    assert_eq!(total, 120);
+    assert_eq!(total, 148);
     for v in ["look-at", "use-with", "talk-to", "pick-up", "walk-to"] {
         assert!(used.contains(v), "{v}");
     }

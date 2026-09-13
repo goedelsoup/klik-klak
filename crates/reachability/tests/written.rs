@@ -110,6 +110,7 @@ fn the_figures_records_quote_do_not_move() {
             ("lock".to_string(), 58, 118, 1),
             ("nightwatch".to_string(), 14, 31, 2),
             ("patrol".to_string(), 20, 33, 1),
+            ("relay".to_string(), 480, 1152, 1),
         ],
         "the specimens, as `design/specimen/README.md` states them"
     );

@@ -34,15 +34,21 @@ derives_effects_from:
 
 # what the specimens found
 
-Five games authored in the language proposed by
+Six games authored in the language proposed by
 [`../bounded-expression-language.md`](../bounded-expression-language.md), each written to
 break it.
 
-| | [`lighthouse.game`](lighthouse.game) | [`ferry.game`](ferry.game) | [`nightwatch.game`](nightwatch.game) | [`patrol.game`](patrol.game) | [`lock.game`](lock.game) |
-|---|---|---|---|---|---|
-| written for | *can this say a game at all?* | *does `count item` earn its place?* | *does `cutscene` earn its place?* | *does an actor's position need to be state?* | *does control transfer need more than a flag?* |
-| committed defect | consumption | ordering | consumption | ordering | ordering |
-| reachable states | 91 of 12,288 (0.74%) | 20 of 120 (16.7%) | 14 of 64 (21.9%) | 20 of 128 (15.6%) | 58 of 768 (7.6%) |
+| | [`lighthouse.game`](lighthouse.game) | [`ferry.game`](ferry.game) | [`nightwatch.game`](nightwatch.game) | [`patrol.game`](patrol.game) | [`lock.game`](lock.game) | [`relay.game`](relay.game) |
+|---|---|---|---|---|---|---|
+| written for | *can this say a game at all?* | *does `count item` earn its place?* | *does `cutscene` earn its place?* | *does an actor's position need to be state?* | *does control transfer need more than a flag?* | *does `or` earn its place?* |
+| committed defect | consumption | ordering | consumption | ordering | ordering | consumption |
+| reachable states | 91 of 12,288 (0.74%) | 20 of 120 (16.7%) | 14 of 64 (21.9%) | 20 of 128 (15.6%) | 58 of 768 (7.6%) | 480 of 1,536 (31.3%) |
+
+**The sixth is the widest of them and that is what two routes to one place means.** Every other
+specimen reaches under a quarter of its declared space; this one reaches **31.3%**, because a
+disjunction is an ordering constraint removed. It is also the most stranded — one consumption trap
+that kills 28 states where the largest before it killed four — for the same reason: a game with
+more reachable states has more of them to lose.
 
 **And a fifth thing they found is not in that table, because nothing counted it for eleven
 phases.** The five carry 154 authored response clauses and **four of them are selected in no
@@ -56,7 +62,7 @@ becomes unreachable in the same act. `.yidam/decisions/orphaned-lines.yml`, and
 [`../bounded-expression-language.md`](../bounded-expression-language.md) §4 is where the
 prediction that this would be detectable was written down.
 
-**Each was written to answer one question and none of the five answered only that.** The list
+**Each was written to answer one question and none of the six answered only that.** The list
 below is in the order they were written; `patrol` is the first written *after* a real game's
 source had been read, and it is the only one that exists because a shipped game was found doing
 something this vocabulary could not say.
@@ -288,7 +294,7 @@ and the mate cannot get into it. `lockside` at the end is the one room that hold
 the only place `ashore` carries anything — which is the `holds <item>` question asked from the
 other side: not *does anything read it* but *is there anywhere it could be read*.
 
-**And it is the first flag any specimen has ever put back.** Five games declare fourteen flags and
+**And it is the first flag any specimen has ever put back.** Six games declare seventeen flags and
 until this one no binding had ever cleared a single one; `clear-flag` sat on the never-written list
 for eleven phases and `world-flag.reversible` has had a value with no authored instance since
 genesis. The reason is not a gap in the games. Every flag in the other four is a thing that
@@ -306,6 +312,44 @@ lockside`. A game with one protagonist asks about the world, and a world's facts
 so its guards are single terms. A game with two asks about the world **and** about the pair.
 [inference] — `crates/game-format/tests/coverage.rs`, and
 `crates/game-format/tests/transfer.rs` holds the rest.
+
+## relay — the disjunction
+
+**Written for one question: does `or` earn its place?** Five games had written `and` twelve times
+and `or` **not once**, which left the claim above — that composition is the one thing this language
+has and the interaction table does not — resting on the half of composition nobody had used.
+
+A relay hut on a moor in winter, one operator, a call to pass on. Two independent ways to get power
+to the set, and one place where the light to work by can come from either of two things that are
+**not the same kind of fact**: the yard lamp, which is a world flag, or the hand-lamp, which is an
+item you are carrying. `carrying lamp` is read off the inventory and nothing can write it, so no
+flag stands for *there is light*: a latched flag cannot be cleared when the lamp is spent, and an
+unlatched one maintained by hand at every acquisition site is the drift
+[`delegation`](../../.yidam/decisions/delegation.yml) found in a shipped game. Only a disjunction
+joins them.
+
+**It is the widest specimen and the most stranded, for one reason.** 480 reachable states of 1,536
+— **31.3%**, where no other reaches a quarter of its declared space — and one consumption trap that
+kills 28 states where the largest before it killed four. [verified] —
+`crates/reachability/tests/written.rs`. A disjunction is an ordering constraint removed, and a
+wider reachable set has more to lose.
+
+**And it could not be written, three times over.** The cell check refused a disjunction that no
+state satisfies; the reader lexed `(engine-running` as a name; the writer put every predicate into
+disjunctive normal form, which handed the author back their conjunct **restated**. All three rest
+on the same misreading of this document's own grammar — `atom := '(' pred ')'` is the fourth
+production and it recurses to the top, and three separate checks read the first three and stopped.
+Nothing found out for eighty-eight phases, because each check was tested against predicates authors
+had written and no author had written a disjunction.
+[`or-earns-it`](../../.yidam/decisions/or-earns-it.yml).
+
+**What that says about `named-condition` is worth more than the count.**
+[`restated-guard`](../../.yidam/decisions/restated-guard.yml) declined a way to name a condition and
+set the terms for reopening: *a second game that restates a conjunction.* This is a third composing
+game, written to need composition, and it restates nothing — because the one thing it wanted to say
+twice is written once, in brackets. **A restatement is what an author writes when the language
+cannot group**, so part of the pressure that primitive was weighed against was a missing production
+rather than a missing primitive.
 
 ## Three defects in the calculator, all found by the second specimen
 
@@ -341,21 +385,37 @@ the split does change is the sentence at the end of this paragraph. Grouping par
 grammar — `atom := '(' pred ')'` — and are not in the fifty, which is the distinction it was
 reaching for and did not have the words for.
 
-Unexercised across all five games: **`!=`, `<=`, `>`, `exit`, `or`** — five of the
-fifty constructs the surface declares, counted rather than listed. [verified] —
-`crates/game-format/tests/coverage.rs`. `count` is no longer on the list, and neither is
-`clear-flag`, which came off it when a game needed to hand control back; `exit` is the one worth a
-second look,
-[below](#the-verb-vocabulary). Grouping parentheses came off by being counted: the check reads
-constructs the surface declares, and punctuation is not one.
+Unexercised across all six games: **none.** Every one of the fifty constructs the surface declares
+has an author behind it, which it did not until the sixth game. [verified] —
+`crates/game-format/tests/coverage.rs`.
+
+They came off in three batches and none by being argued for again. `count` went when a game was
+written to tally; `clear-flag` when a game needed to hand control back; and the last five —
+**`or`, `exit`, `!=`, `<=`, `>`** — together, in one game written to need the first of them
+([`relay.game`](relay.game), [`or-earns-it`](../../.yidam/decisions/or-earns-it.yml)). The last
+four are cheap: `exit` is a declaration that arrived after the first five specimens had written
+its expansion longhand, and the three comparisons are one finding — an ordered comparison is only
+distinguishable from `=` when a counter holds values *between* its bounds, and a counter gets
+values only from a literal in an effect, so a staged counter is the whole of the demand for them.
+
+**Grouping parentheses are the exception that proves what a census over specimens can miss.** They
+came off the count by being counted: the check reads constructs the surface declares, and
+punctuation is not one. But `atom := '(' pred ')'` has been in the grammar since it was written,
+`atom()` has always accepted it, and **no game had ever written a group** — because none had
+written a disjunction. Three separate checks concluded from the first three productions that the
+reader spells a disjunction of conjunctions and cannot build anything else; the fourth production
+recurses to the top. The writer was normalising every predicate to close a gap that was not there,
+and what normalising cost was a restated conjunct. All of that surfaced the day an author wrote
+`aerial = 2 and (engine-running or carrying lamp)`.
 
 **The proposal's own first open item is settled and this is half of what settled it.** Section 5
 called the surface abstract and forwarded a reader to
 [`interaction-table.yml`](../../.yidam/corpus/data-format/interaction-table.yml) for an unresolved
 tension between keying and reading like writing; the guarded response list — `when <predicate>
-"<line>"` — does both on one line, and five games are written against fifty constructs.
+"<line>"` — does both on one line, and six games are written against fifty constructs.
 
-**And the marker at the forwarding address has been settled, by these five games.** It asked
+**And the marker at the forwarding address has been settled, and a sixth game re-took the
+measurement without moving it.** It asked
 whether a file that carries the writing reads like writing, which is a measurement over 904 authored
 lines rather than a position anybody can take. Taken: **a response line is 84% sentence** — 51.9
 characters of writing behind 9.2 of prefix — where the same 154 responses keyed as one flat row each
@@ -369,7 +429,7 @@ somebody to say what counting them would answer. `.yidam/decisions/resolver-kind
 
 **One specimen is much better evidence that a primitive was needed than that one is not**, and
 five is only a little better. A hundred and twenty bindings across five deliberately small games is
-a thin basis for removing anything — and the five above are the measurement, not the backlog.
+a thin basis for removing anything — and the list above is the measurement, not the backlog.
 `.yidam/decisions/unwritten.yml`.
 
 ## The verb vocabulary
@@ -423,11 +483,19 @@ shape without having been asked: **23 exits, 17 bare and 6 carrying a guard or r
 Delores's 20, 18 bare and 2 gated. Same count, same dominant shape, arrived at independently.
 `.yidam/decisions/exit-archetype.yml`.
 
-**And no specimen writes it.** `exit` appears zero times in all five games, and `lock.game` adds
-eleven more `walk-to` sites of the long form it was built to replace. [verified] —
-`crates/game-format/tests/coverage.rs`. That is this document's own last question — *whether a
-specimen should be revised to exercise a primitive it argued for* — with a second instance, in a
-section eleven headings above the one that asks it.
+**And for five games no specimen wrote it.** `exit` appeared zero times, and `lock.game` added
+eleven more `walk-to` sites of the long form it was built to replace. That was this document's own
+last question — *whether a specimen should be revised to exercise a primitive it argued for* —
+with a second instance, in a section eleven headings above the one that asks it.
+
+**It is answered from the other side and the question is left standing.**
+[`relay.game`](relay.game) was written after the declaration existed and reaches for it at every
+room connection it has; it is the only specimen that writes one. [verified] —
+`crates/game-format/tests/written.rs`. So a primitive can leave the unexercised list without
+anybody revising a specimen to exercise it — **by somebody writing the next game** — and that says
+nothing about whether the five earlier ones should be rewritten. What it does say is that the list
+empties on its own if games keep being written, which is an argument for writing them rather than
+for going back.
 
 **Declared and not used: `give-to`, and the fifth specimen is where that verdict's evidence base
 shows.** No natural site arose in any of the four, and the silence was counted rather than
@@ -451,12 +519,12 @@ artifact they compose into. Noted rather than proposed — and noted more carefu
 
 ## Using them as fixtures
 
-**215 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
+**216 tests**, in `crates/reachability/tests` and `crates/game-format/tests`. This document said
 thirty-eight for six phases; the figure was never derived from anything and is held by a check now
 (`crates/design-gate/tests/watermark.rs`).
 
 **And three of them are here to say what these games could not have shown.**
-`crates/game-format/tests/declared.rs` counts the twelve items across the five and finds every one
+`crates/game-format/tests/declared.rs` counts the sixteen items across the six and finds every one
 reached by a binding — not because the games were written that way but because an item in this
 format is a name and a ceiling, so no specimen however authored could have produced the
 counterexample [`portable-object`](../../.yidam/corpus/inventory-item/portable-object.yml) asked a

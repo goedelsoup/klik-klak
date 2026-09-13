@@ -88,7 +88,7 @@ fn four_authored_lines_in_a_hundred_and_fifty_four_are_reached_by_nobody() {
         }
     }
     assert_eq!(
-        clauses, 154,
+        clauses, 194,
         "authored response clauses across the specimens"
     );
     assert_eq!(

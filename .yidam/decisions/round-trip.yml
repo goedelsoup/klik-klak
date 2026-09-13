@@ -120,3 +120,16 @@ rationale: |
   written out and read. This writer is the demonstration: the expansion is a shorthand here
   because it can be printed, and the printing is what makes *before the checker* mean something
   a person can inspect rather than a claim about compilation order. [inference]
+
+  **The premise under all of this was wrong, and [or-earns-it](or-earns-it.yml) is where it came
+  apart.** This record closed on *"the reader cannot build one, because `conj` only ever nests
+  `unary`"*. `unary := 'not' unary | atom` and **`atom := '(' pred ')'`** — the fourth production
+  recurses to the top, and `atom()` in `parse.rs` has had the case since it was written. The reader
+  could always build `(a or b) and c` from a file that writes it.
+
+  Nothing found out for eighty-eight phases because the conclusion was only ever tested against
+  predicates authors had written, and for five games **no author wrote a disjunction at all**. The
+  check that would have caught it read the first three productions and stopped. The sixth specimen
+  writes a group and the writer prints brackets now; what stands from this record is the round trip
+  itself, which is a stronger property than it was — structural identity rather than logical.
+  [verified] — `crates/game-format/tests/round_trip.rs`.

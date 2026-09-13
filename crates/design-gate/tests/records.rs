@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (720, 123, 83));
+    assert_eq!((total, mentions, tests.len()), (738, 127, 84));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -360,10 +360,16 @@ fn a_record_nothing_cites_is_named() {
          `restated-guard` came off the way `line-format` did and by the very next phase: \
          `unbuilt-solver` went looking for a conclusion that had outlived its argument and \
          cites the record that named the shape, not anything it decided. Five in five \
-         consecutive phases, and twice now for the shape rather than for the finding"
+         consecutive phases, and twice now for the shape rather than for the finding. `or-earns-it` \
+         never joined it, which is a sixth route and the only one that takes effect on the day a \
+         record lands: it found that two earlier records had closed on a premise that was false, \
+         and correcting a record means writing into it, so `round-trip` and `normal-form` both \
+         cite it before it has answered anybody's question. Every other exit needs a later phase \
+         to come looking; this one is the record being wrong about something that was already \
+         written down"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (91, 354));
+    assert_eq!((c.len(), edges), (92, 365));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
