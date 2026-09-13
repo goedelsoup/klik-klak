@@ -289,13 +289,23 @@ fn the_artifact_that_was_called_unretrieved_is_the_most_cited_source_here() {
     // runs on every phase. `catalog-audit` prints a row per entry with the node count in it;
     // the row saying 27 and the sentence saying nobody has read it are three files apart and
     // nothing compares them. `inert-reports` called this shape "proximity is not a wire".
+    //
+    // The count is read off the row rather than written here twice, which is the rule
+    // `.yidam/decisions/unread-specimen.yml` states: a figure pinned against a copy of itself is
+    // two constants agreeing. What is held is that the row and the census agree, and that the row
+    // still carries a number at all.
     let index = std::fs::read_to_string(root.join(".yidam/catalog/README.md")).expect("readable");
     let row = index
         .lines()
         .find(|l| l.starts_with("| [delores-source.md]"))
         .expect("the generated registry has a row for it");
-    assert!(
-        row.ends_with("| yes | — | 29 | 1 |"),
-        "the generated row already carries the count the sentence denies: {row}"
+    let cells: Vec<&str> = row.split('|').map(str::trim).collect();
+    let nodes: usize = cells[cells.len() - 3]
+        .parse()
+        .unwrap_or_else(|_| panic!("the generated row no longer carries a node count: {row}"));
+    assert_eq!(
+        nodes, counts[0].0,
+        "the generated row and this census disagree about how many nodes cite the entry the \
+         catalog said nobody had read"
     );
 }
