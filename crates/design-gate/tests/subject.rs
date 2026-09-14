@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 95, "every record, in the order it was created");
+    assert_eq!(all.len(), 96, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (50, 54, 45),
+        (50, 55, 45),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -374,6 +374,11 @@ fn the_evidence_each_record_rests_on() {
 /// That is the second time in five phases the run has been extended by a phase whose subject is
 /// the instrument or the engine, and both times the record said so. A run of two would be a
 /// different conversation and this is not one.
+///
+/// `runtime-boundaries` raises the no-document run to one and keeps gate-alone at zero. Its
+/// evidence is the implemented engine and its regression cases: initialization, arrival, save
+/// restoration and floor routing are contracts already stated here, so correcting their
+/// implementation requires no new claim about another engine.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -389,7 +394,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (0, 0),
+        (1, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
@@ -413,12 +418,14 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
 /// out what an author writes by retrieving another manual, and the sixth read this corpus's own
 /// records against each other. That is a real change of mode rather than a lapse, and it is the
 /// first time this figure has been able to say so.
+///
+/// `runtime-boundaries` shifts that window to five re-readings and three records needing no
+/// document; its contribution is implementation against the existing design.
 #[test]
 fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("reads-like-writing", Some(false)),
         ("unread-spelling", None),
         ("restated-guard", Some(false)),
         ("unbuilt-solver", Some(false)),
@@ -426,6 +433,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("declared-edge", None),
         ("dismissed-hold", Some(false)),
         ("refused-duration", Some(false)),
+        ("runtime-boundaries", None),
     ];
 
     let root = repo_root();
@@ -466,7 +474,7 @@ fn the_last_eight_phases_mostly_re_read() {
     let fresh = RECENT.iter().filter(|(_, r)| *r == Some(true)).count();
     assert_eq!(
         (doc, fresh, doc - fresh),
-        (6, 0, 6),
+        (5, 0, 5),
         "phases resting on a document, on one newly retrieved, and on one already in the house"
     );
 }
