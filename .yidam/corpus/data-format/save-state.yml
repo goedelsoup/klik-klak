@@ -33,7 +33,7 @@ description: |
   `.yidam/decisions/observed-state.yml` requires that a component of the searched state exist only
   if some predicate in the game can read it, and applied it four times for a reason that had
   nothing to do with saving. Read from the other side, that rule *is* the save format: room, mode,
-  carried counts, acquisition sites taken, flags, counters, and nothing else, because nothing else
+  carried counts, acquisition sites taken, flags, counters, chosen options, actor rooms, and nothing else, because nothing else
   can be observed. [inference] Every narrowing that made the reachable set smaller also made the
   save smaller, and the corpus has been designing this format for six phases under another name.
 
@@ -46,6 +46,16 @@ description: |
   duration in `.yidam/decisions/effect-list-semantics.yml` and has no inside-a-function to be in.
   [verified] A response with duration is not a state, and a save file is the place that stops being
   an opinion.
+  **Named snapshots are now implemented.** The shared format validates version, game-content
+  checksum, field names, widths and value ranges before returning a state. Restoring in the client
+  does not run arrival bindings. `engine/play/tests/saves.rs` exercises declaration reordering,
+  corrupted input and continuation on both sides of the porter's move. [verified]
+  `.yidam/decisions/runtime-boundaries.yml` records the implementation boundary.
+
+  The graphical inventory introduces another reader: quantities no puzzle predicate reads are
+  still visible to a player. Its snapshots include those quantities, while the checker retains
+  the smaller projection. Different field sets are rejected on load rather than silently losing
+  inventory. [verified] — `engine/play/tests/screen.rs`.
 properties:
   syntax: |
     Unspecified here and not arbitrary. The one decision that matters is whether a slot is

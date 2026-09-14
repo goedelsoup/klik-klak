@@ -107,6 +107,7 @@ fn premises(root: &Path, doc: &str) -> Vec<String> {
 fn every_design_document_records_what_it_was_last_read_against() {
     let root = repo_root();
     let all = designs(&root);
+    let expected = [WATERMARKED, "design/graphical-client.md", BARE];
     assert_eq!(
         all.iter()
             .map(|p| p
@@ -115,11 +116,11 @@ fn every_design_document_records_what_it_was_last_read_against() {
                 .to_string_lossy()
                 .into_owned())
             .collect::<Vec<_>>(),
-        [WATERMARKED, BARE],
+        expected,
         "the documents the gate reads as designs"
     );
 
-    for doc in [WATERMARKED, BARE] {
+    for doc in expected {
         let src = std::fs::read_to_string(root.join(doc)).expect("readable");
         let fm = front_matter(&src).expect("front matter");
         let at = fm

@@ -197,7 +197,7 @@ either: a cargo dependency between engine crates must be a `depends-on` edge in 
 
 **A crate here is a component or a client**, and the declaration inside the file says which.
 `engine/verb-menu`, `engine/interaction-resolver` and `engine/response-presenter` are components;
-`path-solver` is specified and unbuilt, because a text slice has nothing to walk across;
+`path-solver` is built and tested against room geometry;
 `engine/play` is a client and plays a game. It is a
 **second cargo workspace** — `crates/` is the instrument that reads the corpus, this is the
 artifact the corpus is about — and `crates/reachability` **depends on it**, which reads backwards

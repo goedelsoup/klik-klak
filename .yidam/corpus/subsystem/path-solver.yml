@@ -54,12 +54,12 @@ description: |
   in the geometry separates them, which is `.yidam/decisions/adjacency.yml`'s finding arriving from
   behaviour instead of from gaps.
 
-  **It is the only component whose evidence is borrowed, and that is permanent.** The other three
-  run against `design/specimen/`, five games written in the vocabulary this corpus is about. No
-  game of ours can state a polygon and none ever will, so this one can only be run against somebody
-  else's — two of *Delores*'s fifteen rooms, transcribed by the instrument and **read** by the
-  engine's test rather than copied into it. Its own `authoring_visibility` had the reason all along
-  without drawing it — *"an author draws walkboxes and never touches this"* — and drawn, rather
+  **It was the only component whose evidence is borrowed; calling that permanent was too strong.**
+  The other three run against `design/specimen/`, five games written in the vocabulary this corpus is about. No
+  `.game` file states a polygon. The initial evidence came from two of *Delores*'s fifteen rooms,
+  transcribed by the instrument and **read** by the engine's test rather than copied into it.
+  The graphical client now supplies separate scene data, without changing that format boundary.
+  Its own `authoring_visibility` had the reason all along without drawing it — *"an author draws walkboxes and never touches this"* — and drawn, rather
   than typed, is exactly where the line falls. [inference]
 
   **For six phases this node said something stronger and wrong**: that it was *"the only subsystem
@@ -71,9 +71,15 @@ description: |
   it up is `.yidam/decisions/restated-guard.yml`'s shape, and here it kept a specified component
   unbuilt. `.yidam/decisions/unbuilt-solver.yml`.
 
-  **What is still missing is a client.** `engine/play` is a terminal and has nothing to cross a
-  room with, so nothing composes this. A component with no consumer is the honest report of where
-  this engine is. `.yidam/decisions/playable.yml`.
+  **The missing client is built.** The `screen` binary in `engine/play` uses separate room geometry
+  to walk to a target before resolving its binding. `engine/play/tests/screen.rs` checks that the
+  world cannot act during that walk. [verified] `.yidam/decisions/runtime-boundaries.yml` records
+  the change. The terminal remains a separate client with no within-room movement.
+
+  **Connectivity alone was not a valid route.** Joining portal midpoints could leave a concave
+  polygon between valid waypoints. The solver now checks complete visibility segments and finds
+  turns at polygon vertices; invalid rings are reported separately. Its unit tests reproduce the
+  concave failure and verify the returned segments. [verified]
 properties:
   responsibility: |
     Given a start point, a goal point and a walkbox set, return a path or report that none

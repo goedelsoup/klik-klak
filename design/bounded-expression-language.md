@@ -52,8 +52,10 @@ AGS experiments, because this document had been reasoning from the wrong one.
 The proposal survives it and the *argument* for the proposal is weaker than it was. Read section
 1 before section 2.
 
-This is a proposal and not a finding: nothing here is implemented, no engine reads it, and it is
-filed in `design/` rather than in the corpus for exactly that reason.
+This remains a proposal about the authoring vocabulary. Its implemented surface is read by
+`crates/game-format`, executed by `engine/`, and exercised by the specimens. It is filed in
+`design/` because it asserts design intent; implementation does not turn intent into a
+documentary claim.
 
 ## 1. What AGS's two experiments actually show
 

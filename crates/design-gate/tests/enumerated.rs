@@ -132,7 +132,7 @@ fn no_test_names_every_specimen() {
     );
     assert_eq!(
         (reading, study),
-        (30, 19),
+        (30, 21),
         "files reading the directory, and files naming the games they are about"
     );
 }
@@ -261,7 +261,7 @@ fn no_living_document_quotes_a_stale_specimen_figure() {
     );
     assert_eq!(
         (scanned, mentioning),
-        (105, 35),
+        (106, 36),
         "living documents read, and living documents that mention the specimens — the second is \
          what this check is a claim about, and a clean result over a shrinking denominator is not \
          the same result"
