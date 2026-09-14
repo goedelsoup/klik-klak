@@ -256,11 +256,8 @@ fn the_corpus_specifies_four_components_and_all_four_are_built() {
 /// two crates. The declaration is prose and the manifest is the build; holding them together is
 /// what stops the first from becoming decoration.
 ///
-/// `response-presenter` joined when it was built. **`path-solver` is built and is still not among
-/// them**, which is the one row of the contract's table with no client: a text slice has nothing
-/// to cross a room with, and wiring it to one would report a capability this engine does not have.
-/// The argument that kept it unbuilt was two arguments — that, which holds, and a claim that no
-/// check could read it, which did not. `.yidam/decisions/unbuilt-solver.yml`.
+/// The graphical binary now gives `path-solver` a client too. The terminal still does not
+/// walk a room; both binaries share this crate's session and its dependency declaration.
 #[test]
 fn a_client_composes_exactly_the_components_it_depends_on() {
     let root = repo_root();
@@ -269,7 +266,12 @@ fn a_client_composes_exactly_the_components_it_depends_on() {
     assert_eq!(kind, Kind::Composes, "and what it declares is a client");
     assert_eq!(
         names,
-        ["verb-menu", "interaction-resolver", "response-presenter"]
+        [
+            "verb-menu",
+            "interaction-resolver",
+            "response-presenter",
+            "path-solver"
+        ]
     );
 
     let manifest = std::fs::read_to_string(root.join("engine/play/Cargo.toml")).expect("readable");

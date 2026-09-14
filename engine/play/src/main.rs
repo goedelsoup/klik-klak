@@ -76,6 +76,7 @@ fn interactive(session: &mut Session) -> Stop {
     let stdin = std::io::stdin();
     let mut sink = Await::new(stdin.lock(), std::io::stdout());
 
+    response_presenter::present_all(&mut sink, session.opening.iter().map(String::as_str));
     loop {
         let menu = session.menu();
         let read = session.reads();
@@ -91,6 +92,23 @@ fn interactive(session: &mut Session) -> Stop {
         };
         if line.is_empty() || line == "quit" {
             return Stop::OutOfInput;
+        }
+        if let Some(path) = line.strip_prefix("save ") {
+            match session.save_file(std::path::Path::new(path.trim())) {
+                Ok(()) => println!("Saved."),
+                Err(e) => eprintln!("Save failed: {e}"),
+            }
+            continue;
+        }
+        if let Some(path) = line.strip_prefix("load ") {
+            let result = std::fs::read_to_string(path.trim())
+                .map_err(|e| e.to_string())
+                .and_then(|text| session.restore(&text));
+            match result {
+                Ok(()) => println!("Restored."),
+                Err(e) => eprintln!("Load failed: {e}"),
+            }
+            continue;
         }
         let choice = match line.parse::<usize>() {
             Ok(n) if n >= 1 && n <= menu.len() => menu[n - 1].clone(),

@@ -133,6 +133,7 @@ fn every_one_of_them_has_a_run_written_down() {
     let mut scripts: Vec<String> = std::fs::read_dir(&dir)
         .expect("the scripts directory")
         .flatten()
+        .filter(|e| e.path().extension().is_some_and(|x| x == "txt"))
         .map(|e| e.file_name().to_string_lossy().into_owned())
         .collect();
     scripts.sort();

@@ -50,11 +50,11 @@ pub struct Region<'a> {
 /// What the solver answers, and the two failures are not one.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Route {
+    /// Malformed polygon input, named by its position in the supplied floor set.
+    InvalidFloor { region: usize },
     /// Waypoints from the start to the goal, start first and goal last.
     ///
-    /// Interior points are the midpoints of the shared edges crossed. Smoothing them into a
-    /// straight line where one exists is a question about how walking *looks*, which is on the
-    /// far side of `.yidam/decisions/drawn-boundary.yml` and is not asked here.
+    /// Interior points turn at polygon vertices; every segment stays on connected floor.
     Walk(Vec<Point>),
     /// The goal is on the floor and no sequence of regions reaches it.
     ///
@@ -95,20 +95,25 @@ pub fn adjacent(a: &[Point], b: &[Point]) -> bool {
     !edges(a).is_disjoint(&edges(b))
 }
 
-/// The edge two adjacent regions share, as the doorway to walk through.
-fn portal(a: &[Point], b: &[Point]) -> Option<(Point, Point)> {
-    edges(a).intersection(&edges(b)).next().copied()
-}
-
 /// **Whether a point is on a region**, boundary included.
 ///
 /// Ray casting. A point exactly on a shared edge is on both regions, which is what a player
 /// standing in a doorway is.
 pub fn contains(polygon: &[Point], p: Point) -> bool {
-    let (x, y) = (p.0 as f64, p.1 as f64);
+    contains_xy(polygon, (p.0 as f64, p.1 as f64))
+}
+
+fn contains_xy(polygon: &[Point], (x, y): (f64, f64)) -> bool {
     for i in 0..polygon.len() {
         let (a, b) = (polygon[i], polygon[(i + 1) % polygon.len()]);
-        if distance_to_segment(a, b, p).0 == 0.0 {
+        let cross = (b.0 as f64 - a.0 as f64) * (y - a.1 as f64)
+            - (b.1 as f64 - a.1 as f64) * (x - a.0 as f64);
+        if cross.abs() < 1e-8
+            && x >= a.0.min(b.0) as f64
+            && x <= a.0.max(b.0) as f64
+            && y >= a.1.min(b.1) as f64
+            && y <= a.1.max(b.1) as f64
+        {
             return true;
         }
     }
@@ -175,83 +180,275 @@ fn closest(floor: &[Region], within: &[usize], goal: Point) -> (f64, Point) {
             return (0.0, goal);
         }
         for k in 0..p.len() {
-            let d = distance_to_segment(p[k], p[(k + 1) % p.len()], goal);
-            if d.0 < best.0 {
-                best = d;
+            let near = distance_to_segment(p[k], p[(k + 1) % p.len()], goal).1;
+            let mut candidates = vec![p[k]];
+            for dx in -1..=1 {
+                for dy in -1..=1 {
+                    if let (Some(x), Some(y)) = (near.0.checked_add(dx), near.1.checked_add(dy)) {
+                        candidates.push((x, y));
+                    }
+                }
+            }
+            for point in candidates {
+                let d = distance(point, goal);
+                if d < best.0 && contains(p, point) {
+                    best = (d, point);
+                }
             }
         }
     }
     best
 }
 
-/// The sequence of regions from one to another, or nothing.
-fn route(floor: &[Region], from: usize, to: usize) -> Option<Vec<usize>> {
-    let mut came: Vec<Option<usize>> = vec![None; floor.len()];
-    let mut seen = vec![false; floor.len()];
-    let mut queue = std::collections::VecDeque::from([from]);
-    seen[from] = true;
-    while let Some(v) = queue.pop_front() {
-        if v == to {
-            let mut path = vec![to];
-            while let Some(p) = came[*path.last().expect("non-empty")] {
-                path.push(p);
-            }
-            path.reverse();
-            return Some(path);
-        }
-        for (w, r) in floor.iter().enumerate() {
-            if !seen[w] && adjacent(floor[v].polygon, r.polygon) {
-                seen[w] = true;
-                came[w] = Some(v);
-                queue.push_back(w);
+/// Split a candidate segment at every boundary crossing. Each open interval must lie
+/// on the connected floor. Checking only its endpoints misses concave notches and holes.
+fn segment_inside(floor: &[Region], a: Point, b: Point) -> bool {
+    let (ax, ay) = (a.0 as f64, a.1 as f64);
+    let (dx, dy) = (b.0 as f64 - ax, b.1 as f64 - ay);
+    let length2 = dx * dx + dy * dy;
+    if length2 == 0.0 {
+        return locate(floor, a).is_some();
+    }
+    let mut cuts = vec![0.0, 1.0];
+    for region in floor {
+        let p = region.polygon;
+        for i in 0..p.len() {
+            let (c, d) = (p[i], p[(i + 1) % p.len()]);
+            let (cx, cy) = (c.0 as f64 - ax, c.1 as f64 - ay);
+            let (ex, ey) = (d.0 as f64 - c.0 as f64, d.1 as f64 - c.1 as f64);
+            let det = dx * ey - dy * ex;
+            if det.abs() > 1e-8 {
+                let t = (cx * ey - cy * ex) / det;
+                let u = (cx * dy - cy * dx) / det;
+                if (0.0..=1.0).contains(&t) && (0.0..=1.0).contains(&u) {
+                    cuts.push(t);
+                }
+            } else if (cx * dy - cy * dx).abs() < 1e-8 {
+                for v in [c, d] {
+                    let t = ((v.0 as f64 - ax) * dx + (v.1 as f64 - ay) * dy) / length2;
+                    if (0.0..=1.0).contains(&t) {
+                        cuts.push(t);
+                    }
+                }
             }
         }
     }
-    None
+    cuts.sort_by(f64::total_cmp);
+    cuts.windows(2).all(|pair| {
+        let t = (pair[0] + pair[1]) / 2.0;
+        floor
+            .iter()
+            .any(|r| contains_xy(r.polygon, (ax + dx * t, ay + dy * t)))
+    })
 }
 
-/// **Solve one click.**
-///
-/// `from` is where the actor is. An actor is always on the floor — whatever placed it is
-/// responsible for that — and a `from` that is not gets snapped to the nearest region rather than
-/// refused, because a solver that can fail on the actor's own position gives its caller a failure
-/// it has nothing to do with.
-///
-/// The walkbox set is the room *as it is now*. A hidden region is one the caller did not pass.
+fn distance(a: Point, b: Point) -> f64 {
+    (a.0 as f64 - b.0 as f64).hypot(a.1 as f64 - b.1 as f64)
+}
+
+/// Visibility graph over polygon vertices, followed by shortest-path search. Concave
+/// regions need internal turns even when no region boundary is crossed.
+fn path(floor: &[Region], from: Point, to: Point) -> Option<Vec<Point>> {
+    let mut nodes = vec![from, to];
+    for r in floor {
+        for p in r.polygon {
+            if !nodes.contains(p) {
+                nodes.push(*p);
+            }
+        }
+    }
+    let mut distances = vec![f64::INFINITY; nodes.len()];
+    let mut came = vec![None; nodes.len()];
+    let mut visited = vec![false; nodes.len()];
+    distances[0] = 0.0;
+    loop {
+        let u = (0..nodes.len())
+            .filter(|i| !visited[*i])
+            .min_by(|a, b| distances[*a].total_cmp(&distances[*b]))?;
+        if !distances[u].is_finite() {
+            return None;
+        }
+        if u == 1 {
+            let mut route = vec![to];
+            let mut at = u;
+            while let Some(previous) = came[at] {
+                route.push(nodes[previous]);
+                at = previous;
+            }
+            route.reverse();
+            route.dedup();
+            return Some(route);
+        }
+        visited[u] = true;
+        for v in 0..nodes.len() {
+            let cost = distances[u] + distance(nodes[u], nodes[v]);
+            if !visited[v] && cost < distances[v] && segment_inside(floor, nodes[u], nodes[v]) {
+                distances[v] = cost;
+                came[v] = Some(u);
+            }
+        }
+    }
+}
+
+/// Solve on nondegenerate simple polygon rings with exact shared edges. The caller omits
+/// disabled regions. An off-floor actor starts at a snapped, valid floor point in the route.
 pub fn solve(floor: &[Region], from: Point, to: Point) -> Route {
     if floor.is_empty() {
         return Route::OffFloor { nearest: from };
     }
-    let start = locate(floor, from).unwrap_or_else(|| {
-        let all: Vec<usize> = (0..floor.len()).collect();
-        let near = closest(floor, &all, from).1;
-        locate(floor, near).unwrap_or(0)
-    });
+    if let Some(region) = floor.iter().position(|r| !valid_ring(r.polygon)) {
+        return Route::InvalidFloor { region };
+    }
+    let all: Vec<_> = (0..floor.len()).collect();
+    let from = if locate(floor, from).is_some() {
+        from
+    } else {
+        closest(floor, &all, from).1
+    };
+    let start = locate(floor, from).expect("closest returns floor");
     let within = reachable(floor, start);
-
-    let Some(goal) = locate(floor, to) else {
+    if locate(floor, to).is_none() {
         return Route::OffFloor {
             nearest: closest(floor, &within, to).1,
         };
-    };
-    let Some(regions) = route(floor, start, goal) else {
+    }
+    let connected: Vec<_> = within.iter().map(|i| floor[*i]).collect();
+    if locate(&connected, to).is_none() {
         return Route::Unreachable {
             nearest: closest(floor, &within, to).1,
         };
-    };
+    }
+    match path(&connected, from, to) {
+        Some(points) => Route::Walk(points),
+        None => Route::Unreachable {
+            nearest: closest(floor, &within, to).1,
+        },
+    }
+}
 
-    let mut walk = vec![from];
-    for pair in regions.windows(2) {
-        let (a, b) = (floor[pair[0]].polygon, floor[pair[1]].polygon);
-        if let Some((p, q)) = portal(a, b) {
-            let mid = ((p.0 + q.0) / 2, (p.1 + q.1) / 2);
-            if *walk.last().expect("non-empty") != mid {
-                walk.push(mid);
+fn valid_ring(p: &[Point]) -> bool {
+    if p.len() < 3 || p.iter().collect::<BTreeSet<_>>().len() != p.len() {
+        return false;
+    }
+    let cross = |a: Point, b: Point, c: Point| {
+        (b.0 as i128 - a.0 as i128) * (c.1 as i128 - a.1 as i128)
+            - (b.1 as i128 - a.1 as i128) * (c.0 as i128 - a.0 as i128)
+    };
+    let area: i128 = (0..p.len())
+        .map(|i| cross((0, 0), p[i], p[(i + 1) % p.len()]))
+        .sum();
+    if area == 0 {
+        return false;
+    }
+    for i in 0..p.len() {
+        for j in i + 1..p.len() {
+            if j == i + 1 || (i == 0 && j + 1 == p.len()) {
+                continue;
+            }
+            let (a, b, c, d) = (p[i], p[(i + 1) % p.len()], p[j], p[(j + 1) % p.len()]);
+            let intersects = cross(a, b, c).signum() * cross(a, b, d).signum() <= 0
+                && cross(c, d, a).signum() * cross(c, d, b).signum() <= 0
+                && a.0.min(b.0) <= c.0.max(d.0)
+                && c.0.min(d.0) <= a.0.max(b.0)
+                && a.1.min(b.1) <= c.1.max(d.1)
+                && c.1.min(d.1) <= a.1.max(b.1);
+            if intersects {
+                return false;
             }
         }
     }
-    if *walk.last().expect("non-empty") != to {
-        walk.push(to);
+    true
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn concave_floor_requires_a_turn_and_every_segment_stays_inside() {
+        let polygon = [(0, 0), (10, 0), (10, 3), (3, 3), (3, 10), (0, 10)];
+        let floor = [Region {
+            name: "L",
+            polygon: &polygon,
+        }];
+        assert!(!segment_inside(&floor, (8, 1), (1, 8)));
+        let Route::Walk(points) = solve(&floor, (8, 1), (1, 8)) else {
+            panic!("route")
+        };
+        assert!(points.len() >= 3);
+        assert!(points
+            .windows(2)
+            .all(|s| segment_inside(&floor, s[0], s[1])));
+        let Route::Walk(snapped) = solve(&floor, (12, 1), (1, 8)) else {
+            panic!("snap")
+        };
+        assert_ne!(snapped[0], (12, 1));
+        assert!(contains(&polygon, snapped[0]));
+        assert!(snapped
+            .windows(2)
+            .all(|s| segment_inside(&floor, s[0], s[1])));
     }
-    Route::Walk(walk)
+
+    #[test]
+    fn a_hole_between_connected_regions_cannot_be_crossed() {
+        let a = [(0, 0), (3, 0), (3, 8), (0, 8)];
+        let b = [
+            (3, 0),
+            (7, 0),
+            (7, 8),
+            (3, 8),
+            (3, 5),
+            (5, 5),
+            (5, 3),
+            (3, 3),
+        ];
+        let floor = [
+            Region {
+                name: "a",
+                polygon: &a,
+            },
+            Region {
+                name: "b",
+                polygon: &b,
+            },
+        ];
+        // The rings only partially meet; exact shared edges remain the adjacency contract.
+        assert!(!segment_inside(&floor, (2, 4), (6, 4)));
+    }
+
+    #[test]
+    fn malformed_rings_are_distinct_from_unreachable_and_off_floor() {
+        let p = [(0, 0), (8, 8), (0, 8), (8, 0)];
+        assert!(matches!(
+            solve(
+                &[Region {
+                    name: "crossed",
+                    polygon: &p
+                }],
+                (0, 0),
+                (1, 1)
+            ),
+            Route::InvalidFloor { region: 0 }
+        ));
+        let a = [(0, 0), (2, 0), (2, 2), (0, 2)];
+        let b = [(4, 0), (6, 0), (6, 2), (4, 2)];
+        let floor = [
+            Region {
+                name: "a",
+                polygon: &a,
+            },
+            Region {
+                name: "b",
+                polygon: &b,
+            },
+        ];
+        assert!(matches!(
+            solve(&floor, (1, 1), (5, 1)),
+            Route::Unreachable { .. }
+        ));
+        assert!(matches!(
+            solve(&floor, (1, 1), (3, 1)),
+            Route::OffFloor { .. }
+        ));
+    }
 }

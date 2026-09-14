@@ -102,7 +102,7 @@ pub fn offered(w: &World, b: &Binding, s: &State) -> bool {
 /// other side of it takes the ledger.
 pub fn spends(w: &World, b: &Binding, s: &State) -> Vec<String> {
     let after = apply(w, b, s);
-    let fired = settle_tracking(w, after)
+    let fired = settle_after(w, s, after)
         .map(|(_, f)| f)
         .unwrap_or_default();
     let mut out: Vec<String> = Vec::new();
@@ -135,7 +135,7 @@ pub fn apply_without_spending(w: &World, b: &Binding, s: &State) -> State {
     // This is the third time a new primitive has broken the cause classifier, and the
     // third time in the same place: it assumed everything a binding does is written in
     // that binding.
-    let (mut n, fired) = settle_tracking(w, after.clone()).unwrap_or((after, Vec::new()));
+    let (mut n, fired) = settle_after(w, s, after.clone()).unwrap_or((after, Vec::new()));
     for e in b
         .effects
         .iter()
@@ -220,6 +220,21 @@ pub fn apply(w: &World, b: &Binding, s: &State) -> State {
         }
     }
     n
+}
+
+/// Complete an atomic action. Arrival is a change of room, not another turn in it.
+/// A same-room move (including an atomic round trip) does not re-enter the room.
+/// Startup explicitly uses `settle_tracking`; restore uses neither operation.
+pub fn settle_after<'a>(
+    w: &World<'a>,
+    before: &State,
+    next: State,
+) -> Result<(State, Vec<Fired<'a>>), usize> {
+    if before.room == next.room {
+        Ok((next, Vec::new()))
+    } else {
+        settle_tracking(w, next)
+    }
 }
 
 /// Fire the forced bindings until the player stops arriving anywhere.

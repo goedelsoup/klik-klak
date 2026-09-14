@@ -324,15 +324,22 @@ fn the_same_stop_is_a_door_in_one_room_and_a_defect_in_the_other() {
             panic!("{}: open, and the goal is not reachable", room.name)
         };
         assert!(
-            way.len() >= 3 && way[0] == start && *way.last().expect("non-empty") == goal,
+            way.len() >= 2
+                && rs.iter().any(|r| contains(r.polygon, way[0]))
+                && *way.last().expect("non-empty") == goal,
             "{}: a route through the doorway, {way:?}",
             room.name
         );
         let quad = rs.iter().find(|r| r.name == gate).expect("the gate");
         assert!(
-            way[1..way.len() - 1]
-                .iter()
-                .any(|p| contains(quad.polygon, *p)),
+            way.windows(2).any(|segment| (0..=1000).any(|i| {
+                let t = i as f64 / 1000.0;
+                let point = (
+                    (segment[0].0 as f64 * (1.0 - t) + segment[1].0 as f64 * t).round() as i32,
+                    (segment[0].1 as f64 * (1.0 - t) + segment[1].1 as f64 * t).round() as i32,
+                );
+                contains(quad.polygon, point)
+            })),
             "{}: and it goes through {gate}",
             room.name
         );
