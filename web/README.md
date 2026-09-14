@@ -9,12 +9,9 @@ Not applicable at genesis, and no interface is planned. The corpus is read by it
 maintainer and by agents, both of which reach it through `yidam query`, `neighbors` and
 `pack` — a browser adds nothing to either.
 
-What would trigger adding it: a **playable vocabulary probe**. The central question asks
-what a minimal authoring vocabulary can express, and the only honest test of "can express"
-is authoring something in it and playing the result. A web shell that loads a `data-format`
-instance and runs its interactions would turn a claim about expressiveness into an
-observation. That is a real trigger and it is some distance off — it needs the data formats
-specified first, which is corpus work, not web work.
+The playable probe now lives with the engine: `engine/play` serves its graphical client on
+loopback and shares the Rust session with the terminal. See [playing on screen](../engine/README.md#playing-on-screen).
+This directory still holds no deployed corpus interface.
 
 Note the egress hazard before that day arrives: a deployed shell sends every reader request
 to whoever hosts it, and its logs record what was opened. See the directory conventions,

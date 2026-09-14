@@ -163,7 +163,7 @@ fn the_component_with_borrowed_evidence_no_longer_denies_it_has_any() {
     );
     assert!(
         flat.contains("only component whose evidence is borrowed"),
-        "nor the claim that replaced it"
+        "nor the historical claim the graphical client later narrowed"
     );
 
     // The premise is unchanged and load-bearing, which is the half that was always right.

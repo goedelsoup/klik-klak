@@ -1,0 +1,62 @@
+id: runtime-boundaries
+summary: >-
+  A passing shared implementation can agree with itself about the wrong transition. Counter
+  initialization and arrival dispatch now follow the contracts their readers already assumed.
+  Named saves and valid floor routes make those boundaries usable by a graphical client,
+  which plays the existing patrol specimen without adding an authoring primitive.
+context: |
+  [observed-state](observed-state.yml) filters unread counters, but initialization still read every
+  declaration. An unread counter before a read counter shifted the latter's initial value.
+  [playable](playable.yml) composed arrival settling after every successful action, including
+  stationary looks, and discarded the opening arrival's spoken lines.
+  These defects require no new primitive. [inference]
+decision: |
+  Initialize counters from the same ordered names lookup uses. An atomic action arrives only
+  when its final room differs from its initial room; moving to the same room, or away and back
+  inside one effect list, does not re-enter. Startup explicitly arrives once. Restore will not
+  arrive. The resolver's `settle_after` owns this distinction for the player, the search and its
+  spending counterfactuals. Keep startup presentation separately from chosen turns.
+  `engine/play/tests/boundaries.rs` exercises an unread counter with a different lower bound,
+  stationary actions, startup text, chained arrivals and entry cycles. [verified]
+rationale: |
+  [effect-list-semantics](effect-list-semantics.yml) makes a binding atomic: no observer sees
+  intermediate writes. Room change across that boundary supplies the existing arrival trigger;
+  inventing an event for every turn would change the vocabulary. [inference]
+  Existing specimens retain their measured results in the workspace tests. The targeted cases
+  expose behavior none of those specimens exercised. [verified]
+
+  The monotonicity report indexed every declared counter too. Filtering that report to the
+  tracked names removes a panic exposed by correcting initialization. [verified]
+
+  **A resumable boundary is now implemented.** Named snapshots encode all tracked state, including
+  actor rooms and chosen options. Version one compares a checksum of canonical game content with
+  sorted top-level declarations, then validates every field name and value. Declaration reordering
+  is accepted; content changes are refused rather than migrated. Completed sessions cannot save.
+  Terminal `save <path>` writes through a sibling temporary file and `load <path>` validates before
+  replacing state. The basis is [save-boundary](save-boundary.yml), and the acceptance cases are
+  `engine/play/tests/saves.rs`. [verified]
+
+  **A route must stay on floor between its waypoints.** The region traversal in
+  [unbuilt-solver](unbuilt-solver.yml) could cross the outside of a concave ring. Visibility edges
+  now split at every polygon-boundary intersection and test each interval for floor coverage.
+  Shortest-path search over polygon vertices supplies necessary internal turns. Invalid rings are
+  reported separately from unreachable or off-floor destinations. Off-floor starts return a snapped
+  first waypoint, rather than retaining the invalid original coordinate. [verified]
+  The existing borrowed-room test used vertex averages as starting points; one is outside its
+  concave ring. It now requires a valid starting waypoint and tests that the route crosses the
+  doorway, without demanding an unnecessary waypoint inside that doorway. [verified]
+
+  **The first graphical client supplies the missing reader.** The existing vocabulary expresses
+  every patrol binding unchanged; a separate scene joins geometry to canonical entity names.
+  The inventory display reads all carried quantities, so this client requests that observation
+  set explicitly while the checker keeps its reduced state. No new authoring primitive is added.
+  Walking and dismissible speech are client holds, with input exclusion enforced in Rust.
+  Restore chooses the scene's spawn rather than storing within-room coordinates. The proposal is
+  [graphical-client](../../design/graphical-client.md); `engine/play/tests/screen.rs` exercises the
+  boundaries and the browser acceptance script plays the winning route through the visible UI.
+  [verified]
+
+  This also corrects the stronger conclusion in [unbuilt-solver](unbuilt-solver.yml): evidence
+  borrowed from another game need not be permanent. Geometry outside the game file may still be
+  our own scene data. The original shipped-room evidence remains useful and remains in its test.
+  [inference]

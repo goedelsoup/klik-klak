@@ -113,7 +113,8 @@ fn the_words_come_back_attached_to_the_bindings_that_said_them() {
 fn the_loop_asks_what_was_said_and_the_search_does_not() {
     let src = include_str!("../src/lib.rs");
     assert!(
-        src.contains("settle_tracking(&self.world, next)") && !src.contains(" settle(&self.world"),
+        src.contains("settle_after(&self.world, &self.state, next)")
+            && !src.contains(" settle(&self.world"),
         "the loop takes the state and the list"
     );
     assert!(

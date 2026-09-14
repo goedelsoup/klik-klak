@@ -274,6 +274,7 @@ list is the one that record holds as a tripwire.
 - [name-scoping](name-scoping.yml)
 - [ontology](ontology.yml)
 - [proposals](proposals.yml)
+- [runtime-boundaries](runtime-boundaries.yml)
 - [seed-scope](seed-scope.yml)
 - [specimen-placement](specimen-placement.yml)
 - [stale-markers](stale-markers.yml)

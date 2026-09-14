@@ -125,3 +125,8 @@ rationale: |
   `hotspot/static-region` — *"this vocabulary has no geometry"* — is exactly where it was. An
   engine that can solve a path across a room it cannot author is not a contradiction; it is the
   boundary, stated in a component.
+
+  **The exclusive evidence claim did not survive the first graphical client.**
+  [runtime-boundaries](runtime-boundaries.yml) keeps polygons outside `.game` and supplies them in
+  separate scene data. The solver now has both borrowed evidence and an authored consumer.
+  The prohibition was on the game format, not on every drawing artifact. [inference]

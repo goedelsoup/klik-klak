@@ -79,20 +79,18 @@ be declared by the specimen that uses it. That is the predicate layer's own admi
 *an operand names something declared* — applied to a game's declarations instead of the
 corpus's, and it is the strongest property available without an engine to run.
 
-Whether the game is **winnable** is not checked and cannot be. That is `reachability`, and it
-needs the effect vocabulary to be complete.
+The gate checks names and kinds. `crates/reachability` separately checks whether an ending is
+reachable and reports stranded states; specimens deliberately retain the traps they exercise.
 
 ## The gate
 
 ```
-mise run design-check      # or: ./design/check.sh
+mise run design-check      # cargo test -p design-gate --manifest-path crates/Cargo.toml
 ```
 
-Runs inside `mise run ci` and as a step in the corpus CI job. It is bash, awk and grep — no
-toolchain, so it behaves identically in a fresh clone. The honest reason it is a shell script
-rather than a crate is in
-[`.yidam/decisions/design-directory.yml`](../.yidam/decisions/design-directory.yml), along
-with the condition under which it should stop being one.
+Runs inside `mise run ci` as the Rust `design-gate` tests. The earlier shell gate was replaced
+when the domain workspace appeared; [domain-computer](../.yidam/decisions/domain-computer.yml)
+records that transition.
 
 ## What this gate does not catch
 

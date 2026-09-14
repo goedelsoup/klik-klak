@@ -63,6 +63,7 @@ const CITING: &[(&str, Line)] = &[
     ("presentation-layer", Line::Presentation),
     ("refused-duration", Line::AboutTheRecord),
     ("response-presenter", Line::Duration),
+    ("runtime-boundaries", Line::Duration),
     ("save-boundary", Line::Duration),
     ("save-state", Line::Duration),
     ("scaled-polygon", Line::Duration),
@@ -146,12 +147,12 @@ fn the_refusal_of_duration_is_load_bearing_in_fifteen_places() {
             of(Line::Both),
             of(Line::AboutTheRecord)
         ),
-        (12, 5, 3, 3),
+        (13, 5, 3, 3),
         "the duration line, the presentation line, both, and neither"
     );
     assert_eq!(
         of(Line::Duration) + of(Line::Both),
-        15,
+        16,
         "places the refusal of duration is load-bearing"
     );
 }

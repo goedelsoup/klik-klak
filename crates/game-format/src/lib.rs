@@ -18,12 +18,14 @@ mod forms;
 mod parse;
 mod print;
 mod resolve;
+mod save;
 mod world;
 
 pub use forms::{form, stray_quote, Form, Quoted, FORMS};
 pub use parse::parse;
 pub use print::print;
 pub use resolve::resolve;
+pub use save::{restore, save};
 pub use world::{slot, State, World};
 
 // ── model ───────────────────────────────────────────────────────────────────

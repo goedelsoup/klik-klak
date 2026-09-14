@@ -246,6 +246,18 @@ impl<'a> World<'a> {
         }
     }
 
+    /// An inventory display is a reader too. Keep all item quantities for a client
+    /// that shows them, while the checker can retain its smaller predicate projection.
+    pub fn with_inventory(mut self) -> Self {
+        self.items = self.game.items.clone();
+        self.caps = self
+            .items
+            .iter()
+            .map(|name| self.game.item_cap.get(name).copied().unwrap_or(1))
+            .collect();
+        self
+    }
+
     pub fn initial(&self) -> State {
         State {
             room: self
@@ -258,7 +270,18 @@ impl<'a> World<'a> {
             items: vec![0; self.items.len()],
             taken: vec![false; self.takeable.len()],
             flags: vec![false; self.flags.len()],
-            counters: self.game.counters.iter().map(|c| c.lo).collect(),
+            counters: self
+                .counters
+                .iter()
+                .map(|name| {
+                    self.game
+                        .counters
+                        .iter()
+                        .find(|c| &c.name == name)
+                        .expect("declared counter")
+                        .lo
+                })
+                .collect(),
             chosen: vec![false; self.options.len()],
             actors: self
                 .actors

@@ -84,6 +84,7 @@ fn the_evaluator_is_public_and_split_where_the_corpus_splits_it() {
             "spends",
             "apply_without_spending",
             "apply",
+            "settle_after",
             "settle",
             "settle_tracking",
         ],

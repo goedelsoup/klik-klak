@@ -24,6 +24,7 @@ version = "0.1.0"
 dependencies = [
  "game-format",
  "interaction-resolver",
+ "path-solver",
  "reachability",
  "response-presenter",
  "verb-menu",

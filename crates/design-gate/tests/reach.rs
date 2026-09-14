@@ -219,7 +219,7 @@ fn the_classes_the_instrument_never_measured_are_the_drawn_ones() {
         ["room"],
         "classes no node of which cites the instrument"
     );
-    assert_eq!(citing, 28, "nodes resting some claim on a committed test");
+    assert_eq!(citing, 29, "nodes resting some claim on a committed test");
 }
 
 /// **Three nodes carry no `[verified]` claim at all, and two of them are on the drawn side.**
@@ -309,6 +309,7 @@ const GEOMETRY: &[(&str, Geometry)] = &[
     ("record-layer", Geometry::Mentions),
     ("room-geometry", Geometry::Rests),
     ("round-trip", Geometry::Mentions),
+    ("runtime-boundaries", Geometry::Rests),
     ("unbuilt-solver", Geometry::Rests),
     ("unread-spelling", Geometry::AboutTheCheck),
 ];
@@ -422,6 +423,7 @@ fn the_premise_is_load_bearing_in_ten_records_and_decided_in_one() {
             "hotspot-identity",
             "named-condition",
             "room-geometry",
+            "runtime-boundaries",
             "unbuilt-solver",
         ],
         "records that rest on the boundary; none of them is a record about the boundary"
@@ -450,7 +452,7 @@ fn the_premise_is_load_bearing_in_ten_records_and_decided_in_one() {
         .count();
     assert_eq!(
         (found, rests.len(), matched.len()),
-        (7, 10, 9),
+        (7, 11, 9),
         "records the phrasings find, records that rest, and everything a phrasing matched"
     );
 }

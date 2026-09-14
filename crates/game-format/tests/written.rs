@@ -72,7 +72,7 @@ fn the_crate_can_write_what_it_reads() {
         .collect();
     assert_eq!(
         modules,
-        ["forms", "lib", "parse", "print", "resolve", "world"],
+        ["forms", "lib", "parse", "print", "resolve", "save", "world"],
         "the modules this crate has"
     );
 

@@ -231,7 +231,7 @@ fn can_finish(w: &World, acting: &[&Binding], from: &State) -> bool {
             }
             // settled, like the real search — a counterfactual that rests where the game
             // never would is not a counterfactual about this game
-            let Ok(next) = resolver::settle(w, resolver::apply(w, b, &cur)) else {
+            let Ok((next, _)) = resolver::settle_after(w, &cur, resolver::apply(w, b, &cur)) else {
                 continue;
             };
             if seen.insert(next.clone()) {
@@ -306,7 +306,11 @@ pub fn analyse(game: &Game) -> Report {
             if !resolver::offered(&ix, b, &states[cur]) {
                 continue;
             }
-            let next = match resolver::settle_tracking(&ix, resolver::apply(&ix, b, &states[cur])) {
+            let next = match resolver::settle_after(
+                &ix,
+                &states[cur],
+                resolver::apply(&ix, b, &states[cur]),
+            ) {
                 Ok((n, fired)) => {
                     read.extend(fired.iter().filter_map(|f| f.says.map(|r| r.line)));
                     n
@@ -675,11 +679,11 @@ pub fn analyse(game: &Game) -> Report {
     overflows.dedup();
 
     let mut monotone_counters = Vec::new();
-    for (ci, c) in game.counters.iter().enumerate() {
+    for (ci, name) in ix.counters.iter().enumerate() {
         let rises_only = edges
             .iter()
             .all(|(from, to, _)| states[*to].counters[ci] >= states[*from].counters[ci]);
-        monotone_counters.push((c.name.clone(), rises_only));
+        monotone_counters.push((name.clone(), rises_only));
     }
 
     Report {

@@ -1,0 +1,23 @@
+# Drawing data for patrol.game, in a fixed 960 × 540 room coordinate space.
+# A shared floor avoids copying the same geometry for every room.
+floor passage 65 340 895 340 895 505 65 505
+room lobby passage 470 450
+room corridor passage 450 455
+room canteen passage 450 465
+room strongroom passage 480 460
+# target room canonical-name x y width height approach-x approach-y artwork
+# Hit rectangles and approach points are independent from the drawing and the game guards.
+target lobby lobby.street-doors 85 125 180 275 185 440 door
+target lobby lobby.inner-door 695 140 155 260 765 440 door
+target corridor porter 410 220 90 160 390 435 person
+target corridor corridor.lobby-door 75 155 145 240 145 440 door
+target corridor corridor.strongroom-door 275 135 130 265 335 435 door
+target corridor corridor.canteen-door 695 155 155 240 755 440 door
+target canteen canteen.kettle 530 265 105 90 575 435 kettle
+target canteen canteen.switch 735 205 45 65 755 420 switch
+target canteen canteen.tin 350 280 105 55 405 435 tin
+target canteen canteen.corridor-door 90 150 150 245 165 440 door
+figure canteen porter 680 425
+target strongroom strongroom.cabinet 340 175 230 230 440 440 cabinet
+target strongroom strongroom.bond-in-cabinet 610 280 100 65 655 440 paper
+target strongroom strongroom.steel-door 100 150 145 245 170 440 door

@@ -64,3 +64,7 @@ rationale: |
   rule wants both treatments and the deciding question is who wrote the component — the
   instrument's own bookkeeping is narrowed silently, an author's unread declaration is narrowed and
   named. [unread-state](unread-state.yml).
+
+  **Initialization must use the same projection.** Filtering counter names without filtering their
+  initial values attaches a preceding unread counter's lower bound to a read one.
+  [runtime-boundaries](runtime-boundaries.yml) corrects that implementation defect. [verified]

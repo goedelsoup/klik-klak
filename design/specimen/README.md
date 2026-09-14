@@ -1,7 +1,7 @@
 ---
 title: what the specimens found
 status: proposal
-reconciled: 90a4db837c668c9d4e339523d28f484f49a3242d
+reconciled: 12c39d044ea1f5c744a679b28abd08e33b083bd6
 rests_on:
   - design/bounded-expression-language.md
   - .yidam/corpus/actor/player-character.yml
@@ -633,8 +633,9 @@ chart is blurred on purpose. [open]
 - **Not evidence the language is pleasant to write.** All three were written by the party that
   proposed it, which is the weakest possible authoring trial.
 - **Not a test of scale, and the test of scale has since been run without them.** See below.
-- **They do not run.** No engine reads them. Every claim here is about what could be written
-  down and what could be computed from it.
+- **Their original analysis is not runtime evidence.** The specimens now run through
+  [`engine/play`](../../engine/README.md); its transcript tests and graphical client provide
+  separate evidence about execution. The counts here describe what was authored and computed.
 
 ## patrol — a person standing in a doorway
 

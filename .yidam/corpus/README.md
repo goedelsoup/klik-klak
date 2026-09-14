@@ -51,7 +51,7 @@ Sorted by: kind, then alphabetically.
 | [dialogue-script.yml](data-format/dialogue-script.yml) | data-format | Dialogue Script | 2 | 8v / 3i / 0o | 129 |
 | [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 50v / 24i / 0o | 627 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 10v / 7i / 0o | 155 |
-| [save-state.yml](data-format/save-state.yml) | data-format | Save State | 4 | 5v / 4i / 0o | 91 |
+| [save-state.yml](data-format/save-state.yml) | data-format | Save State | 4 | 7v / 4i / 0o | 101 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 9v / 5i / 1o | 101 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 4v / 5i / 0o | 96 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 20v / 8i / 1o | 203 |
@@ -73,7 +73,7 @@ Sorted by: kind, then alphabetically.
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 6v / 3i / 0o | 73 |
 | [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 3i / 0o | 41 |
 | [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 6 | 5v / 6i / 0o | 120 |
-| [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 3v / 4i / 0o | 93 |
+| [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 5v / 4i / 0o | 99 |
 | [response-presenter.yml](subsystem/response-presenter.yml) | subsystem | Response Presenter | 3 | 6v / 3i / 0o | 131 |
 | [verb-menu.yml](subsystem/verb-menu.yml) | subsystem | Verb Menu | 3 | 8v / 3i / 0o | 99 |
 | [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 11v / 7i / 0o | 155 |

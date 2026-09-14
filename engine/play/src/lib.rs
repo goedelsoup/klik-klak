@@ -1,4 +1,4 @@
-//! composes: verb-menu, interaction-resolver, response-presenter
+//! composes: verb-menu, interaction-resolver, response-presenter, path-solver
 //!
 //! **The menu, a choice, the response, and again.**
 //!
@@ -30,8 +30,10 @@
 //! here — it supplies a *second* channel, which is what lets a timed hold be interrupted and is
 //! therefore what makes an invented rate survivable.
 
+pub mod screen;
+
 use game_format::{parse, resolve, Game, State, World};
-use interaction_resolver::{resolve as respond, settle_tracking, Outcome};
+use interaction_resolver::{resolve as respond, settle_after, settle_tracking, Outcome};
 use response_presenter::{present_all, Perceive};
 use std::io::{BufRead, Write};
 use verb_menu::{shown, Entry};
@@ -204,6 +206,9 @@ pub struct Session<'a> {
     pub world: World<'a>,
     pub state: State,
     pub log: Vec<Turn>,
+    /// Lines spoken on the initial arrival, before any choice.
+    pub opening: Vec<String>,
+    pub ended: bool,
 }
 
 pub fn load(source: &str, name: &str) -> Result<Game, Vec<String>> {
@@ -219,14 +224,71 @@ pub fn load(source: &str, name: &str) -> Result<Game, Vec<String>> {
 impl<'a> Session<'a> {
     /// Start a game: build the world, and settle the arrival the player never chose.
     pub fn start(game: &'a Game) -> Result<Self, Stop> {
-        let world = World::new(game);
-        let (state, _) = settle_tracking(&world, world.initial())
+        Self::from_world(World::new(game))
+    }
+
+    /// A graphical inventory observes quantities even when no puzzle predicate does.
+    pub fn start_visible(game: &'a Game) -> Result<Self, Stop> {
+        Self::from_world(World::new(game).with_inventory())
+    }
+
+    fn from_world(world: World<'a>) -> Result<Self, Stop> {
+        let (state, ran) = settle_tracking(&world, world.initial())
             .map_err(|room| Stop::EntryCycle(world.rooms[room].clone()))?;
+        let opening = ran
+            .iter()
+            .filter_map(|f| f.says.map(|r| r.text.clone()))
+            .collect();
         Ok(Session {
             world,
             state,
             log: Vec::new(),
+            opening,
+            ended: false,
         })
+    }
+
+    /// Save between turns. A completed game is not a resumable turn boundary.
+    pub fn save(&self) -> Result<String, String> {
+        if self.ended {
+            return Err("the game has ended".into());
+        }
+        game_format::save(&self.world, &self.state)
+    }
+
+    /// Replace a save only after its complete contents have reached a sibling temporary file.
+    pub fn save_file(&self, path: &std::path::Path) -> Result<(), String> {
+        let text = self.save()?;
+        let stamp = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .map_err(|e| e.to_string())?
+            .as_nanos();
+        let temporary = path.with_extension(format!("klik-{}-{stamp}.tmp", std::process::id()));
+        let mut file = std::fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&temporary)
+            .map_err(|e| e.to_string())?;
+        let result = (|| {
+            file.write_all(text.as_bytes())?;
+            file.sync_all()?;
+            drop(file);
+            std::fs::rename(&temporary, path)
+        })();
+        if result.is_err() {
+            let _ = std::fs::remove_file(&temporary);
+        }
+        result.map_err(|e| e.to_string())
+    }
+
+    /// Restore only after the complete snapshot validates. Loading is not an arrival.
+    pub fn restore(&mut self, text: &str) -> Result<(), String> {
+        let state = game_format::restore(&self.world, text)?;
+        self.state = state;
+        self.log.clear();
+        self.opening.clear();
+        self.ended = false;
+        Ok(())
     }
 
     /// The **keys** of what the player is looking at: what a script writes and a transcript
@@ -283,6 +345,9 @@ impl<'a> Session<'a> {
         choice: &str,
         sink: &mut impl Perceive,
     ) -> Result<Option<Stop>, Stop> {
+        if self.ended {
+            return Ok(Some(Stop::Ending));
+        }
         let entries = shown(&self.world, &self.state);
         let offered: Vec<String> = entries.iter().map(spell).collect();
         let Some(i) = offered.iter().position(|s| s == choice) else {
@@ -294,7 +359,7 @@ impl<'a> Session<'a> {
         let mut forced: Vec<String> = Vec::new();
         let (said, fired) = match respond(&self.world, binding, &self.state) {
             Outcome::Fired { says, next } => {
-                let (settled, ran) = settle_tracking(&self.world, next)
+                let (settled, ran) = settle_after(&self.world, &self.state, next)
                     .map_err(|room| Stop::EntryCycle(self.world.rooms[room].clone()))?;
                 self.state = settled;
                 forced = ran
@@ -325,7 +390,8 @@ impl<'a> Session<'a> {
             held,
             moved,
         });
-        Ok((fired && binding.ending).then_some(Stop::Ending))
+        self.ended = fired && binding.ending;
+        Ok(self.ended.then_some(Stop::Ending))
     }
 
     /// Play a written script to its end, and say why it stopped.
@@ -343,6 +409,9 @@ impl<'a> Session<'a> {
     /// The session as a player would have seen it.
     pub fn transcript(&self) -> String {
         let mut out = String::new();
+        for line in &self.opening {
+            out.push_str(&format!("  {line}\n"));
+        }
         for t in &self.log {
             out.push_str(&format!("> {}\n", t.picked));
             if let Some(line) = &t.said {
