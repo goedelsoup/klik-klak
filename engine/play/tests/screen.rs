@@ -86,3 +86,60 @@ fn the_inventory_display_is_a_reader_even_without_a_puzzle_predicate() {
     screen.session.restore(&saved).unwrap();
     assert_eq!(screen.session.state.items, [1]);
 }
+
+/// **The drawing layer is where a `part-of` would show, and the patrol scene has none of it.**
+///
+/// `hotspot/static-region` declined `part-of` on a condition: this vocabulary has no geometry, so
+/// the relation would join two hotspots with nothing drawn under either. `drawn-boundary` then made
+/// the first half of that permanent for `.game`, and the scene file made the second half false.
+/// *Delores* declares `parent` in its drawing files and nowhere else, so this is the layer the
+/// pressure would arrive in. Here, every target is drawn as exactly one rectangle (a second is
+/// refused), no two rectangles in a room overlap, and the one contained hotspot is drawn beside
+/// its container rather than inside it.
+///
+/// That is a tripwire, not a ban. A scene that wants two regions for one target, or one region
+/// drawn inside another, fails here first. That is the evidence `graphical-client.md` says a
+/// worked game has to supply before the drawing format grows.
+#[test]
+fn a_target_is_one_region_and_no_region_is_drawn_inside_another() {
+    let game = load(GAME, "patrol.game").unwrap();
+    let twice = format!("{SCENE}\ntarget lobby lobby.inner-door 20 20 40 40 765 440 door\n");
+    assert!(
+        Scene::parse(&twice, &game).is_err(),
+        "a second region for one target is a part-of, and the scene format does not hold one"
+    );
+
+    let scene = Scene::parse(SCENE, &game).unwrap();
+    let overlaps = |a: [i32; 4], b: [i32; 4]| {
+        a[0] < b[0] + b[2] && b[0] < a[0] + a[2] && a[1] < b[1] + b[3] && b[1] < a[1] + a[3]
+    };
+    let mut drawn = 0;
+    for (room, r) in &scene.rooms {
+        drawn += r.targets.len();
+        for (i, a) in r.targets.iter().enumerate() {
+            for b in &r.targets[i + 1..] {
+                assert!(
+                    !overlaps(a.rect, b.rect),
+                    "{room}: {} and {} overlap. That is the drawn part-of pressure \
+                     `hotspot/static-region` closed on the absence of",
+                    a.name,
+                    b.name
+                );
+            }
+        }
+    }
+    assert_eq!(drawn, 13, "the census read a different scene");
+
+    let strongroom = &scene.rooms["strongroom"].targets;
+    let rect = |suffix: &str| {
+        strongroom
+            .iter()
+            .find(|t| t.name.ends_with(suffix))
+            .unwrap()
+            .rect
+    };
+    assert!(
+        !overlaps(rect(".bond-in-cabinet"), rect(".cabinet")),
+        "containment is a guard here, not geometry (`.yidam/decisions/containment.yml`)"
+    );
+}
