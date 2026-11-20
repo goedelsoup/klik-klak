@@ -143,3 +143,26 @@ fn a_target_is_one_region_and_no_region_is_drawn_inside_another() {
         "containment is a guard here, not geometry (`.yidam/decisions/containment.yml`)"
     );
 }
+
+/// **A save holds what the session's readers read, and the spot a player stands on is not one.**
+///
+/// `save-boundary` left one candidate for state no predicate reads: within-room position. The
+/// graphical client answered it from both sides. The inventory display is a reader with no
+/// predicate, and its quantities are in the snapshot. Position is the client's own, so two saves
+/// taken at different spots in one room are the same bytes, and a load puts the player at the
+/// room's spawn.
+#[test]
+fn where_the_player_stands_in_a_room_is_not_part_of_the_save() {
+    let game = load(GAME, "patrol.game").unwrap();
+    let mut screen = Screen::new(&game, Scene::parse(SCENE, &game).unwrap()).unwrap();
+    let spawn = screen.scene.rooms["lobby"].spawn;
+    assert_eq!(screen.position, spawn);
+    let at_spawn = screen.command("save", "").unwrap().unwrap();
+    screen.command("walk", "120 480").unwrap();
+    finish(&mut screen);
+    assert_ne!(screen.position, spawn);
+    let elsewhere = screen.command("save", "").unwrap().unwrap();
+    assert_eq!(at_spawn, elsewhere);
+    screen.command("load", &elsewhere).unwrap();
+    assert_eq!(screen.position, spawn);
+}
