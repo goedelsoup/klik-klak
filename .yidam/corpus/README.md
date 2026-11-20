@@ -54,7 +54,7 @@ Sorted by: kind, then alphabetically.
 | [save-state.yml](data-format/save-state.yml) | data-format | Save State | 4 | 7v / 4i / 0o | 101 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 9v / 5i / 1o | 101 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 4v / 5i / 0o | 96 |
-| [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 20v / 8i / 1o | 203 |
+| [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 23v / 9i / 0o | 220 |
 | [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 5i / 1o | 75 |
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 8v / 9i / 0o | 139 |
 | [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 4v / 3i / 0o | 103 |
