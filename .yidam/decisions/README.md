@@ -156,10 +156,6 @@ does not re-emit it.
 
 - **:19** — > *Script Classes for Adventure Games* is in the retrieved set, **unread**, and is where a verb > bar would be declared if Sierra declared one.
 
-### [save-boundary](save-boundary.yml)
-
-- **:102** — **What this does not settle.** Whether a save should hold anything a predicate cannot read. There is one candidate and it is not hypothetical: a player's position *within* a room, which [path-solver](../corpus/subsystem/path-solver.yml) owns and no predicate in this vocabulary can ask about. The sta…
-
 ### [schema-deferral](schema-deferral.yml)
 
 - **:90** — **What this does not settle.** Whether the corpus should count deferrals at all. This record found four instances of one question by matching a phrase, which worked because the four happened to reach for the same words — and `marker-count`'s question, the one still refused, is exactly the machinery …
@@ -221,7 +217,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**55 open.**
+**54 open.**
 
 ## What nothing cites
 
