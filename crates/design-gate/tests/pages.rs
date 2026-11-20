@@ -304,7 +304,7 @@ fn no_question_lives_on_a_class_page() {
         n
     };
     let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
-    assert_eq!((corpus, decisions), (5, 55));
+    assert_eq!((corpus, decisions), (4, 55));
     // 17, 16, 15, 14, 13, 12 — never once because a corpus question was closed. The corpus
     // numerator had not moved in eight phases while the records opened thirty-odd, and
     // `playable` closing one was the only close in that run. The two denominators parted at 13
@@ -323,7 +323,11 @@ fn no_question_lives_on_a_class_page() {
     // thing, which is what a ratio cannot say. It has now risen, and that means a third thing:
     // `unread-specimen` reopened `puzzle/state-gate`, which is the first question here to come
     // back.
-    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 8);
+    //
+    // 6, and the fall is a closure that took no new evidence. `hotspot/static-region` had been
+    // declined on a condition that `drawn-boundary` made permanent and the scene layer moved
+    // elsewhere. Re-reading the marker against those two decisions closed it.
+    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 6);
 }
 
 /// **Every class page was written by this repository's first commit, and for 342 commits its last

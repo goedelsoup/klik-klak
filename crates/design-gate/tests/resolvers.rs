@@ -93,7 +93,6 @@ const KINDS: &[(&str, Closes)] = &[
         "failure-mode/orphaned-dialogue-branch.yml",
         Closes::Testimony,
     ),
-    ("hotspot/static-region.yml", Closes::Condition),
     ("interaction/acquisition-binding.yml", Closes::Testimony),
     ("prior-art/ags.yml", Closes::Testimony),
     ("world-flag/latched-flag.yml", Closes::Condition),
@@ -181,6 +180,14 @@ fn the_table_covers_every_question() {
 /// reading four of five specimens — so a question can be resolved by evidence that is wrong, and
 /// nothing in a resolver kind says how the evidence was gathered. The new column is `Judgement`:
 /// the counting is done and somebody has to weigh it.
+///
+/// **And a declined question closed, by a route this table said would not exist.**
+/// `hotspot/static-region` was declined on the condition that this vocabulary has no geometry.
+/// `.yidam/decisions/drawn-boundary.yml` made that condition permanent, and the scene file then
+/// moved the question to the drawing layer, where `engine/play/tests/screen.rs` finds nothing that
+/// asks for it. No new evidence arrived. Two later decisions had already answered it, and nobody had
+/// read the marker against them. So "not one will close by anybody doing anything" was wrong for a
+/// condition: a condition can be overtaken, and the way to find that out is to re-read it.
 #[test]
 fn every_question_says_what_would_close_it() {
     let root = repo_root();
@@ -200,7 +207,7 @@ fn every_question_says_what_would_close_it() {
             count(Closes::Measurement),
             count(Closes::Judgement),
         ),
-        (3, 0, 2, 0, 0, 0),
+        (3, 0, 1, 0, 0, 0),
         "testimony, a named artifact, a condition that would reopen it, a game, a count, and a \
          decision somebody has to take"
     );

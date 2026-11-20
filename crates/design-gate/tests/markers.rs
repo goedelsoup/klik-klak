@@ -153,7 +153,7 @@ fn no_retraction_re_emits_the_token() {
 /// for it. A figure in a sentence and a figure in an assertion are two copies, and only one of them
 /// fails.
 #[test]
-fn the_corpus_carries_five_questions_and_the_count_is_the_token_count() {
+fn the_corpus_carries_four_questions_and_the_count_is_the_token_count() {
     let root = repo_root();
     let mut open: Vec<String> = Vec::new();
     for p in yml(&root.join(".yidam/corpus")) {
@@ -177,13 +177,13 @@ fn the_corpus_carries_five_questions_and_the_count_is_the_token_count() {
         open,
         [
             "failure-mode/orphaned-dialogue-branch.yml",
-            "hotspot/static-region.yml",
             "interaction/acquisition-binding.yml",
             "prior-art/ags.yml",
             "world-flag/latched-flag.yml",
         ],
-        "five, and not one of them can be closed by anybody doing anything: three wait on \
-         testimony no artifact supplies and two are declined with a condition. \
+        "four: three wait on testimony no artifact supplies and one is declined with a \
+         condition. `hotspot/static-region` was declined on a condition that two later decisions \
+         overtook, and closed when it was re-read against them (`.yidam/decisions/drawn-boundary.yml`). \
          `puzzle/state-gate` reopened when a fifth specimen produced the multi-flag gate it had \
          been closed for lacking and was re-decided two phases later on grounds that do not \
          expire (`.yidam/decisions/unread-specimen.yml`, `.yidam/decisions/restated-guard.yml`)"
@@ -193,14 +193,14 @@ fn the_corpus_carries_five_questions_and_the_count_is_the_token_count() {
 /// **Three quarters of what this corpus still owes is invisible to every tool it has.**
 ///
 /// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds **6 live
-/// markers** — nine, eight, six, seven, six, five. The falls were closures rather than the drift
+/// markers** — nine, eight, six, seven, six, five, four. The falls were closures rather than the drift
 /// this file has otherwise tracked; the rise was the first **reopening**, a question closed on a
 /// census that had been reading four fifths of the specimens; and the last two falls were the last
 /// question anybody could close by counting, and that reopening being re-decided.
 ///
-/// **Not one of the five can be closed by anybody doing anything.** Three wait on testimony no
-/// artifact supplies and two are declined with a condition somebody else's work would have to
-/// meet.
+/// **Three wait on testimony no artifact supplies and one is declined with a condition.** A
+/// fifth was declined too, until re-reading it showed that `drawn-boundary` and the scene layer
+/// had already overtaken its condition. That is how a declined question closes: someone re-reads it.
 /// The decision records hold **57 across 51 files**, and they are counted as zero — by
 /// `status`, by `due`, by the index, by everything. There was a third place and this file could
 /// not see it either: twelve more sat on the class pages in a spelling nothing reads, which
@@ -222,10 +222,10 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (5, 55, 50));
+    assert_eq!((corpus, decisions, records), (4, 55, 50));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        8,
+        6,
         "under a tenth is visible"
     );
 

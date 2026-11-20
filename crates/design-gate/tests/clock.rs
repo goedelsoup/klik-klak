@@ -238,7 +238,7 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
 /// marker lines were written at eight distinct moments and the largest group sharing one is the
 /// three that `marker-count` rewrote in a single commit.
 ///
-/// **The corpus is at seven and [`REPORTED`] holds nine.** `declared-reach` closed
+/// **The corpus is at four and [`REPORTED`] holds nine.** `declared-reach` closed
 /// `portable-object`'s, `input-side` asked one about Sierra's icon bar, `control-transfer` closed
 /// the genesis one, `adjacency` closed `scaled-polygon`'s, `two-bars` closed `sierra-sci`'s, and
 /// `unread-specimen` **reopened** `puzzle/state-gate`'s — so the reading held below is of the nine
@@ -259,8 +259,8 @@ fn the_report_ties_five_questions_the_history_keeps_apart() {
     let computed: Vec<usize> = ages(&root).into_iter().map(|(_, a)| a).collect();
     assert_eq!(
         (computed.len(), REPORTED.len()),
-        (5, 9),
-        "the corpus against the reading `REPORTED` holds: three closures, one question asked, and \
+        (4, 9),
+        "the corpus against the reading `REPORTED` holds: four closures, one question asked, and \
          one reopened by `unread-specimen` when the census that closed it turned out to have been \
          reading four of five specimens"
     );
@@ -351,7 +351,7 @@ fn every_figure_the_config_states_about_this_clock_is_computed_here() {
     );
     assert_eq!(
         (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
-        (8, 8),
+        (6, 6),
         "the share the config claims, against the share"
     );
 }

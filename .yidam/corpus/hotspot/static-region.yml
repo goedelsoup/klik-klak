@@ -120,11 +120,28 @@ description: |
   binding, no helper and no documented engine call reads `parent`, and the manual's only parenting
   concept is `imageParentChild`, which is about images. [verified]
 
-  What remains open is narrower and is this corpus's own question rather than a retrieval. This
-  vocabulary has no geometry, so a `part-of` here would attach hotspot to hotspot with nothing drawn
-  under either, and the specimens exhibit none of it —
-  `crates/reachability/tests/identity.rs` is still the census that says so. The relation is now
-  evidenced, and *named*, and the condition on adopting it has not changed. `[open]`
+  What remained was narrower, and it was this corpus's own question rather than a retrieval. This
+  vocabulary has no geometry, so a `part-of` here would attach one hotspot to another with nothing
+  drawn under either, and the specimens exhibit none of it —
+  `crates/reachability/tests/identity.rs` is the census that says so. The relation was evidenced and
+  *named*, and it was declined on that condition.
+
+  **Both halves of the condition moved after it was written, and neither change was carried back
+  here.** The first became permanent: a day later `.yidam/decisions/drawn-boundary.yml` decided that
+  this vocabulary is what an author types and that *"this design has no geometry"*. That is a
+  standing rule now, not a temporary gap, so the condition can never be met inside `.game`. The
+  second half became false: `.yidam/decisions/runtime-boundaries.yml` added drawing data outside the
+  game file, so hotspots are now things that get drawn. [verified]
+
+  **So `part-of` belongs to the drawing layer and not to this class.** That is where the shipped
+  evidence put it: *Delores* declares `parent` in its `.wimpy` files, and no script reads it
+  ([delores-source](../../catalog/delores-source.md)). [verified] It is also where this repository's own drawing layer would have to say it. The one
+  scene that exists gives every target exactly one rectangle, the parser refuses a second, no two of
+  its thirteen rectangles overlap, and `bond-in-cabinet` is drawn beside its cabinet rather than
+  inside it. [verified] — `engine/play/tests/screen.rs`. Nothing here asks for the relation, in the
+  only place it could be asked for. Whether the drawing format should ever give a target several
+  regions is a question for the drawing format, and `design/graphical-client.md` already says it
+  waits for a worked game that needs it. That test fails on the first scene that does. [inference]
 
   **And a different hotspot-to-hotspot relation is in the specimens after all — it is not identity,
   which is why the census above missed it.** A census of every predicate in the specimens found

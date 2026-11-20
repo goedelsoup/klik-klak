@@ -132,7 +132,7 @@ fn the_evidence_base_of_fifteen_nodes_is_a_single_source() {
     );
     assert_eq!(
         (held, carried),
-        (87, 38),
+        (90, 39),
         "claims those fourteen carry, and how many name nothing in their own paragraph"
     );
 }

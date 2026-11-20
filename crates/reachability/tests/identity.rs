@@ -1,7 +1,7 @@
 //! Whether two hotspots are ever one thing here.
 //!
-//! `hotspot/static-region` carries the question as `[open]`: eleven of Delores's twenty delegation
-//! sites are one object drawn as several regions, and a region that could say it reads as another
+//! `hotspot/static-region` carried this question until the drawing layer closed it: eleven of
+//! Delores's twenty delegation sites are one object drawn as several regions, and a region that could say it reads as another
 //! would remove all eleven. The node declines to choose among the three relations they want —
 //! part-of, same-as, says-the-same — on the grounds that one game is not enough.
 //!
