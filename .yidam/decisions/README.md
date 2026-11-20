@@ -78,10 +78,6 @@ does not re-emit it.
 - **:113** — It settles one shape and not the pressure. `definePseudoRoom` built 110 hotel rooms, which is a *room* template; an archetype per shape does not reach shapes nobody anticipated, and that was the argument against archetypes to begin with.
 - **:119** — **What this does not touch.** Whether the tractability figures should be re-earned on a game that can be written in this language. They are correct measurements of the games measured, and the games are honest instances of the shapes they claim to be; what they cannot be is evidence that an *author* …
 
-### [engine-directory](engine-directory.yml)
-
-- **:98** — **What this does not settle.** Whether the engine is one workspace or several, and whether it shares CI with `crates/`. The `mise` tasks here have a no-op-until-it-exists idiom from when `crates/` was deferred and it is reused rather than redesigned, so the shape is inherited from a decision about a…
-
 ### [evidence-kinds](evidence-kinds.yml)
 
 - **:105** — **What this does not settle.** The 150 that name nothing. They are continuations — a node establishes a source once and argues from it for several paragraphs, which is how anyone writes and is the reason the census is a lower bound rather than a measurement. But it means a claim's footing is a fact …
@@ -101,12 +97,12 @@ does not re-emit it.
 
 ### [frame-width](frame-width.yml)
 
-- **:93** — **What this does not settle.** The identity half is untouched and stands where [hotspot-identity](hotspot-identity.yml) left it — evidenced and named as `parent`, unadopted because this vocabulary has no geometry. And the tractability figures are still measured on games no author would produce, whic…
-- **:103** — **One correction fell out of the measurement and is larger than the finding.** Counting frame against prose across the shipped game's verb slots meant counting `VERB_OK`, and this corpus had it at zero authored sites in three places. There are 62. The search was for `okverb_`, the name the macro exp…
+- **:95** — **What this does not settle.** The identity half is untouched and stands where [hotspot-identity](hotspot-identity.yml) left it — evidenced and named as `parent`, and unadopted. The reason has moved since: `.game` still has no geometry and [drawn-boundary](drawn-boundary.yml) made that permanent, bu…
+- **:105** — **One correction fell out of the measurement and is larger than the finding.** Counting frame against prose across the shipped game's verb slots meant counting `VERB_OK`, and this corpus had it at zero authored sites in three places. There are 62. The search was for `okverb_`, the name the macro exp…
 
 ### [hotspot-identity](hotspot-identity.yml)
 
-- **:75** — **What this does not decide.** Whether a design that did include geometry should have one relation or three. Nothing here bears on it, and the three are genuinely different — a part is contained by its whole, two regions of one thing are interchangeable, and two things that read alike are not interc…
+- **:77** — **What this does not decide.** Whether a design that did include geometry should have one relation or three. That design exists now, as a scene layer beside `.game`, and it has none of the three: every target is one rectangle and no two overlap. [verified] — `engine/play/tests/screen.rs`, where a sc…
 
 ### [inert-reports](inert-reports.yml)
 
@@ -131,10 +127,6 @@ does not re-emit it.
 ### [orphaned-lines](orphaned-lines.yml)
 
 - **:99** — **Not proposed here, and this is the third time the same shape has been declined.** A `once` modifier is a 51st construct, and `latch-default` already weighed declaring a property whose truth the checker can compute — *"a declaration that is true and absent costs nothing to make and buys the guarant…
-
-### [playable](playable.yml)
-
-- **:104** — **What the slice does that it should not, stated rather than hidden.** It prints a line and returns. [response-presenter](../corpus/subsystem/response-presenter.yml)'s responsibility is *"turn a response into something perceived, **and do not return until it is over**"*, and a `println!` is the firs…
 
 ### [priority-edge](priority-edge.yml)
 
@@ -217,7 +209,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**54 open.**
+**52 open.**
 
 ## What nothing cites
 
