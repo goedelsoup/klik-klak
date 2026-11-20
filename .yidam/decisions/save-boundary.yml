@@ -93,10 +93,23 @@ rationale: |
   [verified] A save file is where *a response with duration is not a state* stops being an opinion
   about modelling.
 
-  **What this does not settle.** Whether a save should hold anything a predicate cannot read. There
-  is one candidate and it is not hypothetical: a player's position *within* a room, which
-  [path-solver](../corpus/subsystem/path-solver.yml) owns and no predicate in this vocabulary can
-  ask about. The state vector holds the room and not the spot, so a restored save puts the player
-  somewhere the engine chooses — which is what Thimbleweed Park's re-entering `enter` does on
-  purpose, and what an author would notice. Nothing here has wanted it, and the rule that would
-  admit it is the rule this record has just finished praising. `[open]`
+  **What this did not settle, and the first reader that was not a predicate settled it.** Whether
+  a save should hold anything a predicate cannot read. The answer is yes for one thing and no for
+  the candidate this paragraph named, and the line between them is not the one it drew.
+
+  Yes: the graphical inventory shows quantities no puzzle predicate reads, and a player who saves
+  with two pebbles expects two back. The snapshot holds them, the checker keeps its smaller
+  projection, and a load whose field set differs is refused rather than silently dropping
+  inventory. [verified] — `engine/play/tests/screen.rs`. So the rule was right and its word was too
+  narrow: a component exists if some *reader* reads it, and a display is a reader.
+  [save-state](../corpus/data-format/save-state.yml) records the widening.
+
+  No: within-room position, which [path-solver](../corpus/subsystem/path-solver.yml) owns, is drawn
+  on screen too, so the widened rule alone would admit it. It stays out because it belongs to the
+  client, not to the session the save serializes. [runtime-boundaries](runtime-boundaries.yml)
+  decided that a load puts the player at the scene's spawn, and saves are refused while a walk or a
+  response holds the screen, so no save is taken mid-step. Two saves taken at different spots in
+  one room are byte-identical, and a load lands on the spawn. [verified] —
+  `engine/play/tests/screen.rs`. This is Thimbleweed Park's re-entering `enter`, chosen rather than inherited, and the
+  cost is the one this paragraph foresaw: an author will notice. Nothing has wanted otherwise.
+  [inference]

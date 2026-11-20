@@ -201,7 +201,7 @@ fn the_corpus_carries_four_questions_and_the_count_is_the_token_count() {
 /// **Three wait on testimony no artifact supplies and one is declined with a condition.** A
 /// fifth was declined too, until re-reading it showed that `drawn-boundary` and the scene layer
 /// had already overtaken its condition. That is how a declined question closes: someone re-reads it.
-/// The decision records hold **57 across 51 files**, and they are counted as zero — by
+/// The decision records hold **54 across 49 files**, and they are counted as zero — by
 /// `status`, by `due`, by the index, by everything. There was a third place and this file could
 /// not see it either: twelve more sat on the class pages in a spelling nothing reads, which
 /// `crates/design-gate/tests/pages.rs` now holds at zero. The migration happened quietly: as questions
@@ -222,7 +222,7 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (4, 55, 50));
+    assert_eq!((corpus, decisions, records), (4, 54, 49));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
         6,
