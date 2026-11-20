@@ -1,4 +1,4 @@
-//! composes: verb-menu, interaction-resolver
+//! composes: verb-menu, interaction-resolver, response-presenter
 //!
 //! `cargo run -p play -- <game> [script]`
 //!
