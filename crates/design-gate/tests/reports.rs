@@ -132,10 +132,10 @@ fn every_due_clock_is_declared_or_declined_in_writing() {
 fn the_clock_that_is_declared_covers_a_sixth_of_what_is_owed() {
     let root = repo_root();
     let (corpus, decisions) = owed(&root);
-    assert_eq!((corpus, decisions), (4, 54));
+    assert_eq!((corpus, decisions), (4, 52));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        6,
+        7,
         "what a declared questions clock can see"
     );
 }

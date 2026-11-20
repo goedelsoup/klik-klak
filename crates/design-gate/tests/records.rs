@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (779, 136, 87));
+    assert_eq!((total, mentions, tests.len()), (781, 139, 87));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -376,7 +376,7 @@ fn a_record_nothing_cites_is_named() {
          makes that the ordinary exit for a phase whose subject is this repository"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (96, 393));
+    assert_eq!((c.len(), edges), (96, 395));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -494,7 +494,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 54, "live open questions in this directory");
+    assert_eq!(total, 52, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
@@ -594,9 +594,13 @@ fn no_record_has_changed_what_it_decided() {
     // predicate reads was answered by the graphical client, which put the inventory display's
     // quantities into the save and kept within-room position out of it. The closure went where the
     // question was, and the summary did not move.
+    //
+    // Forty-two to forty-four are the same sweep: `playable` and `engine-directory` were answered
+    // by later phases that never wrote back, and `frame-width` gave a reason geometry had since
+    // moved. Each was re-read and corrected where it stood.
     assert_eq!(
         edited,
-        41,
+        44,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

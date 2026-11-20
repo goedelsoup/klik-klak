@@ -87,8 +87,10 @@ rationale: |
   was built to avoid, already paid.
 
   **What this does not settle.** The identity half is untouched and stands where
-  [hotspot-identity](hotspot-identity.yml) left it — evidenced and named as `parent`, unadopted
-  because this vocabulary has no geometry. And the tractability figures are still measured on games
+  [hotspot-identity](hotspot-identity.yml) left it — evidenced and named as `parent`, and
+  unadopted. The reason has moved since: `.game` still has no geometry and
+  [drawn-boundary](drawn-boundary.yml) made that permanent, but the scene layer draws regions
+  now, and none of its regions wants the relation. And the tractability figures are still measured on games
   no author would produce, which `design/specimen/README.md` has said since it was written and
   which nothing here changes. `[open]`
 

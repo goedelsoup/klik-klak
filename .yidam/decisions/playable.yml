@@ -101,7 +101,13 @@ rationale: |
   `composes: verb-menu, interaction-resolver` and not the presenter, because it does not use one.
   The slice is where duration stops being a design question: it is a text game with no clock, and
   the first line that should hold the player is the first thing a presenter would have to own.
-  `[open]`
+
+  **Answered two phases later, by both clients.** [dismissed-hold](dismissed-hold.yml) moved every
+  line through `response_presenter::present`, and the interactive loop's sink returns only when
+  the player asks for the next thing. [verified] — `engine/play/tests/holding.rs`. The graphical
+  client holds each response until it is dismissed and refuses gameplay and saves while it does.
+  [verified] — `engine/play/tests/screen.rs`. The slice no longer does the presenter's job
+  inline, and both `play` clients declare the presenter among what they compose.
 
   **And `path-solver` is absent because a text slice has nothing to walk.** Not a gap: `walk-to`
   moves the player between rooms and never across one. The component with neither code nor data

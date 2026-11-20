@@ -186,12 +186,12 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (50, 56, 45),
+        (50, 57, 45),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
         (alone, neither),
-        (17, 11),
+        (16, 11),
         "resting on the gate and nothing else, and resting on no evidence path at all"
     );
 }

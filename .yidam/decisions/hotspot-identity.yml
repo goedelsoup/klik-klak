@@ -70,8 +70,10 @@ rationale: |
   ([delores-source](../catalog/delores-source.md)).
 
   **What this does not decide.** Whether a design that did include geometry should have one relation
-  or three. Nothing here bears on it, and the three are genuinely different — a part is contained by
-  its whole, two regions of one thing are interchangeable, and two things that read alike are not
+  or three. That design exists now, as a scene layer beside `.game`, and it has none of the three:
+  every target is one rectangle and no two overlap. [verified] — `engine/play/tests/screen.rs`,
+  where a scene that wants one fails first. So nothing bears on it yet, and the three are
+  genuinely different — a part is contained by its whole, two regions of one thing are interchangeable, and two things that read alike are not
   interchangeable at all, since taking one cone does not take the others. `[open]`
 
   And a limit found while writing the census: **the model cannot see identity, because it does not

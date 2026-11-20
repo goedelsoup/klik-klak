@@ -95,4 +95,14 @@ rationale: |
   `crates/` was deferred and it is reused rather than redesigned, so the shape is inherited from a
   decision about a different directory. That was cheap and it is not evidence the shape is right:
   an engine with a renderer will want a toolchain, a target list and probably a feature matrix that
-  a corpus-querying workspace has no opinion about. `[open]`
+  a corpus-querying workspace has no opinion about.
+
+  **The renderer arrived and wanted none of that.** The graphical client is a browser page served
+  on loopback by the same `play` binary. It adds no crate, no dependency outside the workspace, no
+  toolchain file, no target list and no feature matrix; the engine is still one workspace of five
+  crates. [verified] — `engine/Cargo.toml`, `engine/play/Cargo.toml`. CI is shared: `mise run ci`
+  runs fmt, clippy and test over `engine/` after `crates/`, in one task. [verified] —
+  `mise.toml`. The inherited shape held because the renderer turned out to be a page rather than
+  a toolchain. The one thing outside the gate is the optional browser acceptance check, which
+  needs Node and is run by hand. That is a gap in coverage, not in the directory's shape.
+  [inference]
