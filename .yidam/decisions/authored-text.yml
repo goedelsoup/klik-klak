@@ -102,15 +102,18 @@ rationale: |
   they are all held by tests that were written before this phase. If any of them had moved, the
   position in `effect-list-semantics` would have been wrong rather than merely conflated.
 
-  **What this makes visible for the first time and does not check.** A refusal list with no
+  **What this made visible for the first time, and where it is checked.** A refusal list with no
   fallback — states in which a binding is offered, declines, and says nothing. It was not a
-  defect that could exist before, because there were no refusal lines to be missing. The specimens
-  have exactly one candidate, `use-with oil-can` on the lighthouse's lamp, whose two guarded
-  refusals cover `lamp-prep = 0` and `>= 2` against a firing `= 1` over a `0..3` counter — total,
-  and total only because the counter declares its range. `resolve.rs` already does exactly this
-  kind of reasoning for `unreachable_values` and *"both guards can hold in the same state"*, so
-  the check is cheap and it is deliberately not written in the phase that invents the defect.
-  `[open]`
+  defect that could exist before, because there were no refusal lines to be missing. This record
+  named the lamp's `use-with oil-can` as the one candidate and called the check cheap, since
+  `resolve.rs` reasons about guards over declared ranges. It was built later and elsewhere:
+  `Report::silent` reads the menu over **reachable** states, in
+  `crates/reachability/tests/silence.rs`, and every specimen is total. [verified] The cheap form
+  would have been sound and not exact. Over declared ranges it agrees on all four specimens, and
+  with *"The reservoir is full."* deleted it reports a hole at `lamp-prep >= 2` that no player
+  reaches, because the binding that writes 2 spends the can. [verified] So the oil can was total
+  because of what the game reaches, not because the counter declares its range, and the check
+  belongs to the search.
 
   **And a label the format still has nowhere to put.** Delores's `master_verb_names` gives every
   one of its **fifty-seven** verbs a display string with noun slots — `"Unlock $NOUN1$ with

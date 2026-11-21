@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (782, 139, 88));
+    assert_eq!((total, mentions, tests.len()), (783, 139, 88));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -494,7 +494,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 51, "live open questions in this directory");
+    assert_eq!(total, 50, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
