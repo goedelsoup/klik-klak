@@ -188,10 +188,6 @@ does not re-emit it.
 
 - **:96** — **What this does not settle.** Whether the two live items under the spent one are worth taking. `hints_and_dialogs.html`, `text_lock.html` and `translations.html` cover how the dialogue and text were authored, which the diary retrieval explicitly did not ask about and which [conversation](../corpus/…
 
-### [unread-state](unread-state.yml)
-
-- **:78** — **What this does not settle.** The rule is now applied by hand in five places and nothing checks that a sixth obeys it. That is the original question returning one level up: `observed-state` asked for a check that fails when an unreadable component is added, and what exists is five components each b…
-
 ### [unwritten](unwritten.yml)
 
 - **:96** — **What this does not settle.** Whether the two withdrawn constructs were withdrawn for this reason or in spite of it. `escape-hatch` records two withdrawals and the coverage of the surface at the time is not recoverable — `coverage.rs` reads the specimens as they stand, and a construct's history of …
@@ -209,7 +205,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**52 open.**
+**51 open.**
 
 ## What nothing cites
 
