@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (781, 139, 87));
+    assert_eq!((total, mentions, tests.len()), (782, 139, 88));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -494,7 +494,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 52, "live open questions in this directory");
+    assert_eq!(total, 51, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
@@ -598,9 +598,13 @@ fn no_record_has_changed_what_it_decided() {
     // Forty-two to forty-four are the same sweep: `playable` and `engine-directory` were answered
     // by later phases that never wrote back, and `frame-width` gave a reason geometry had since
     // moved. Each was re-read and corrected where it stood.
+    //
+    // The forty-fifth is `unread-state`, and the second kind: it said a general check needed the
+    // state vector to be data rather than a struct, and `readers.rs` built one on the struct by
+    // destructuring it without `..`. The answer went where the question was.
     assert_eq!(
         edited,
-        44,
+        45,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

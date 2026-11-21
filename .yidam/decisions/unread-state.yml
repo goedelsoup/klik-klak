@@ -71,8 +71,13 @@ rationale: |
   a mode has no existence apart from the world it inheres in, and a value nothing can observe does
   not inhere in anything.
 
-  **What this does not settle.** The rule is now applied by hand in five places and nothing checks
-  that a sixth obeys it. That is the original question returning one level up: `observed-state`
-  asked for a check that fails when an unreadable component is added, and what exists is five
-  components each built correctly. A general form needs the state vector to be data rather than a
-  struct, and nothing here wants that yet. `[open]`
+  **What this does not settle, settled.** The rule was applied by hand in five places and nothing
+  checked that a sixth obeyed it; the record said a general form needed the state vector to be
+  data rather than a struct. It did not. `crates/reachability/tests/readers.rs` destructures
+  `State` without `..`, so a sixth field does not compile until its values are written down, and
+  then varies every slot of every specimen one at a time against `World::new`'s projection, asking
+  whether any binding's liveness or any predicate atom can tell. None is blind. [verified] Put the
+  old enumerations back — `flags` and `counters` from declarations, `items` through
+  `with_inventory` — and it names exactly the three slots the narrowing removed. [verified] The
+  inventory widening is blind to the engine by design: its reader is a person at a screen, which
+  is why the check runs on the checker's projection and not the client's. [inference]
