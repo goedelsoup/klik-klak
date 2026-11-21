@@ -32,10 +32,6 @@ does not re-emit it.
 
 - **:110** — **What this does not settle.** The answer is conditional on two refusals holding, and this is the first place they combine. A design that stored presentation, or that stored affordance instead of computing it, gets the fourth component back — and nothing in this corpus records that choosing to store…
 
-### [authored-text](authored-text.yml)
-
-- **:113** — **What this makes visible for the first time and does not check.** A refusal list with no fallback — states in which a binding is offered, declines, and says nothing. It was not a defect that could exist before, because there were no refusal lines to be missing. The specimens have exactly one candid…
-
 ### [availability](availability.yml)
 
 - **:107** — **What this does not settle.** Whether a binding should be able to carry two gates — one withholding, one refusing — as that game's verb slots do. Nothing here has wanted it, and the evidence for it is a single object in a bathroom.
@@ -205,7 +201,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**51 open.**
+**50 open.**
 
 ## What nothing cites
 
