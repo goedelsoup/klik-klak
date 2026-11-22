@@ -91,6 +91,12 @@ rationale: |
   under it withholds the binding — and [verb-menu](verb-menu.yml) is the component that reads it.
   [verified]
 
-  And the other thing the measurement did not touch: `ambiguous_cells` proves disjointness rather
-  than overlap, so `or` is reported as inseparable. Nothing in the corpus writes one in a colliding
-  cell, so the conservative branch has never been exercised on real authored work. `[open]`
+  And the other thing the measurement did not touch, since answered: `ambiguous_cells` proved
+  disjointness rather than overlap, and reported any guard with an `or` as inseparable. Nothing
+  wrote one in a colliding cell until `design/specimen/relay.game` did, and
+  [or-earns-it](or-earns-it.yml) replaced the refusal with the cross product: a guard becomes a
+  disjunction of conjunctions, and two are disjoint when every way of satisfying one contradicts
+  every way of satisfying the other. `crates/game-format/tests/cells.rs` holds both directions.
+  [verified] It still proves disjointness rather than overlap — a pair it cannot separate is
+  reported — and the only `or` it still declines is one that flattens past `CLAUSE_CEILING`,
+  which no specimen is written near. [inference]
