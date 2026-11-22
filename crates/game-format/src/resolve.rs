@@ -418,16 +418,17 @@ fn ambiguous_cells(game: &Game, out: &mut Vec<Problem>) {
     }
 }
 
-/// The atoms of a guard, with `or` refused rather than approximated.
+/// How many conjunctions a guard may flatten into before the test gives up on it.
 ///
-/// A disjunction is two guards wearing one name, and separating a pair of them wants the cross
-/// product. Nothing in the four specimens writes one in a cell that collides, so this returns
-/// `None` and the caller treats the pair as inseparable — which is the safe direction: it asks the
-/// author for a guard rather than accepting one it did not understand.
-/// The same predicate as a disjunction of conjunctions, which is what a disjointness test over
-/// atoms needs before it can say anything about a guard containing `or`.
+/// Past the ceiling [`clauses`] returns `None` and the caller treats the pair as inseparable —
+/// the safe direction, asking the author for a guard rather than accepting one it did not
+/// understand. That is all that is left of `or` being refused: it used to return `None` on the
+/// first disjunction it met, and `.yidam/decisions/or-earns-it.yml` replaced that with the cross
+/// product once `relay.game` wrote one in a cell that collides.
 const CLAUSE_CEILING: usize = 64;
 
+/// The same predicate as a disjunction of conjunctions, which is what a disjointness test over
+/// atoms needs before it can say anything about a guard containing `or`.
 fn clauses(p: &Pred, sign: bool) -> Option<Vec<Vec<(bool, Pred)>>> {
     let join = |xs: Vec<Vec<(bool, Pred)>>, ys: Vec<Vec<(bool, Pred)>>| {
         if xs.len().saturating_mul(ys.len()) > CLAUSE_CEILING {
