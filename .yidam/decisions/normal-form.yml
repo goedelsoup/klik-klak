@@ -68,12 +68,18 @@ decision: |
   evidence `round-trip` gave for the writer itself. A normaliser that changed a parsed tree would
   be a normaliser doing something other than spelling. [verified]
 
-  **What this does not do: bound the cost.** Distribution to DNF is exponential in the worst case,
-  and nothing here stops a pathological guard from producing a very large one. Measured over
-  ~30,000 generated predicates the worst growth was **8×**, and the specimens contain one `and`
-  and no `or`, so on authored work it has never had anything to do. A language whose guards are
-  written by hand in a line does not reach the pathological case, and that is an observation
-  rather than a bound. `[open]`
+  **What this did not do: bound the cost, and why that stopped mattering.** Distribution to DNF is
+  exponential in the worst case, and nothing here stops a pathological guard from producing a very
+  large one. Measured over ~30,000 generated predicates the worst growth was **8×**. When this was
+  written the specimens contained one `and` and no `or`, so on authored work it had nothing to do.
+  Neither half of that survives. `relay.game` writes `or`, and once [or-earns-it](or-earns-it.yml)
+  had the writer print brackets, nothing outside a test calls `normal` at all. The writer not
+  calling it is asserted in `crates/game-format/tests/normal_form.rs`. [verified] The expansion
+  that does run on authored guards is a different function, `clauses` in
+  `crates/game-format/src/resolve.rs`, which flattens a guard for the disjointness test, and that
+  one has a bound: past `CLAUSE_CEILING` it gives up and reports the pair as inseparable instead
+  of growing. [verified] So the cost this paragraph left unbounded is now reached only by a test
+  that calls `normal` on purpose, and the cost authored work can reach has a declared ceiling.
 rationale: |
   **The finding is that a limit recorded four phases ago was the wrong kind of limit, and the
   correction cost one function.** `round-trip` had the observation exactly right — the type admits
