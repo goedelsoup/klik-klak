@@ -24,10 +24,6 @@ does not re-emit it.
 
 - **:112** — **What is not done.** `nightwatch.game` still says its watchman is down the hall in prose. Rewriting it would make that specimen test what it was written to say it could not, and would move figures that three phases of records quote. Whether a specimen should be revised to exercise a primitive it ar…
 
-### [arity-cost](arity-cost.yml)
-
-- **:96** — And the other thing the measurement did not touch: `ambiguous_cells` proves disjointness rather than overlap, so `or` is reported as inseparable. Nothing in the corpus writes one in a colliding cell, so the conservative branch has never been exercised on real authored work.
-
 ### [arrival-realizer](arrival-realizer.yml)
 
 - **:110** — **What this does not settle.** The answer is conditional on two refusals holding, and this is the first place they combine. A design that stored presentation, or that stored affordance instead of computing it, gets the fourth component back — and nothing in this corpus records that choosing to store…
@@ -201,7 +197,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**50 open.**
+**49 open.**
 
 ## What nothing cites
 
