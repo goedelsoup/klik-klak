@@ -12,7 +12,7 @@
 //!
 //! [`stale-markers`]: ../../../.yidam/decisions/stale-markers.yml
 
-use design_gate::repo_root;
+use design_gate::{ends_question, repo_root};
 use std::path::{Path, PathBuf};
 
 /// Every `.yml` under a directory, sorted.
@@ -45,8 +45,7 @@ fn markers(p: &Path) -> Vec<(usize, String, bool)> {
         .enumerate()
         .filter(|(_, l)| l.contains("[open]"))
         .map(|(i, l)| {
-            let ends = l.trim_end().ends_with("`[open]`")
-                && lines.get(i + 1).is_none_or(|n| n.trim().is_empty());
+            let ends = ends_question(&lines, i);
             (i + 1, l.trim().to_string(), ends)
         })
         .collect()
@@ -201,7 +200,7 @@ fn the_corpus_carries_four_questions_and_the_count_is_the_token_count() {
 /// **Three wait on testimony no artifact supplies and one is declined with a condition.** A
 /// fifth was declined too, until re-reading it showed that `drawn-boundary` and the scene layer
 /// had already overtaken its condition. That is how a declined question closes: someone re-reads it.
-/// The decision records hold **49 across 44 files**, and they are counted as zero — by
+/// The decision records hold **58 across 51 files**, and they are counted as zero — by
 /// `status`, by `due`, by the index, by everything. There was a third place and this file could
 /// not see it either: twelve more sat on the class pages in a spelling nothing reads, which
 /// `crates/design-gate/tests/pages.rs` now holds at zero. The migration happened quietly: as questions
@@ -222,10 +221,10 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (4, 49, 44));
+    assert_eq!((corpus, decisions, records), (4, 58, 51));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        7,
+        6,
         "under a tenth is visible"
     );
 
@@ -253,4 +252,56 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
     // a question by answering it rather than the records gaining one, and the two are
     // indistinguishable in this figure, which is worth knowing about a figure this file has tracked
     // for twenty phases. A ratio cannot tell progress from accumulation.
+    //
+    // 6, and the fall is a correction to the counter, not to the corpus. Nine questions that end a
+    // block, right above `rationale:`, were seen by nothing here, and `design_gate::ends_question`
+    // now sees them. They were all asked before this file counted anything.
+}
+
+/// **A question that ends a block is a question.** The counters here stopped a paragraph at a
+/// blank line or the end of the file, and a block scalar also stops at the next key. Nine questions
+/// sat in that position — the last paragraph of `decision:`, right above `rationale:` — and every
+/// counter in this crate read past them, so the figures above were nine short from the day each was
+/// written. `.yidam/decisions/marker-count.yml`.
+#[test]
+fn a_question_closing_a_block_is_counted() {
+    let rec = "decision: |\n  Whether it pays. `[open]`\nrationale: |\n  \
+               A sentence that names `[open]`\n  and goes on. Then a fact.\n\n  Last. `[open]`";
+    let lines: Vec<&str> = rec.lines().collect();
+    let live: Vec<usize> = (0..lines.len())
+        .filter(|&i| ends_question(&lines, i))
+        .collect();
+    assert_eq!(
+        live,
+        [1, 6],
+        "above a key, and at the end; not mid-paragraph"
+    );
+
+    let mut hidden = Vec::new();
+    for p in yml(&repo_root().join(".yidam/decisions")) {
+        let src = std::fs::read_to_string(&p).expect("readable");
+        let lines: Vec<&str> = src.lines().collect();
+        for i in 0..lines.len() {
+            if ends_question(&lines, i) && lines.get(i + 1).is_some_and(|n| !n.trim().is_empty()) {
+                let stem = p.file_stem().expect("named").to_string_lossy().into_owned();
+                hidden.push(format!("{stem}:{}", i + 1));
+            }
+        }
+    }
+    hidden.sort();
+    assert_eq!(
+        hidden,
+        [
+            "adjacency:101",
+            "class-library:126",
+            "control-transfer:134",
+            "line-format:101",
+            "orphaned-lines:106",
+            "parser-silence:91",
+            "resolver-kind:94",
+            "retraction-reach:81",
+            "two-bars:95",
+        ],
+        "the questions the old rule could not see"
+    );
 }

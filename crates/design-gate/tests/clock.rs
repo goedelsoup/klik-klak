@@ -26,7 +26,7 @@
 //! question standing resets it — and even the lower bound puts four questions past the interval
 //! while `due` reports nothing due.
 
-use design_gate::repo_root;
+use design_gate::{ends_question, repo_root};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
@@ -290,11 +290,7 @@ fn owed_in_records(root: &Path) -> usize {
         n += lines
             .iter()
             .enumerate()
-            .filter(|(i, l)| {
-                l.contains("[open]")
-                    && l.trim_end().ends_with("`[open]`")
-                    && lines.get(i + 1).is_none_or(|x| x.trim().is_empty())
-            })
+            .filter(|(i, _)| ends_question(&lines, *i))
             .count();
     }
     n
@@ -351,7 +347,7 @@ fn every_figure_the_config_states_about_this_clock_is_computed_here() {
     );
     assert_eq!(
         (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
-        (7, 7),
+        (6, 6),
         "the share the config claims, against the share"
     );
 }

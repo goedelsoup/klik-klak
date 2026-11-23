@@ -27,7 +27,7 @@
 //! figure is gone from here because a test header is the last place a number should sit
 //! unchecked. `.yidam/decisions/unread-clock.yml`.
 
-use design_gate::repo_root;
+use design_gate::{ends_question, repo_root};
 use std::path::Path;
 
 fn config(root: &Path) -> String {
@@ -54,12 +54,7 @@ fn owed(root: &Path) -> (usize, usize) {
                 let n = lines
                     .iter()
                     .enumerate()
-                    .filter(|(i, l)| {
-                        l.contains("[open]")
-                            && (!ends
-                                || (l.trim_end().ends_with("`[open]`")
-                                    && lines.get(i + 1).is_none_or(|x| x.trim().is_empty())))
-                    })
+                    .filter(|(i, l)| l.contains("[open]") && (!ends || ends_question(&lines, *i)))
                     .count();
                 *if ends { &mut decisions } else { &mut corpus } += n;
             }
@@ -132,10 +127,10 @@ fn every_due_clock_is_declared_or_declined_in_writing() {
 fn the_clock_that_is_declared_covers_a_sixth_of_what_is_owed() {
     let root = repo_root();
     let (corpus, decisions) = owed(&root);
-    assert_eq!((corpus, decisions), (4, 49));
+    assert_eq!((corpus, decisions), (4, 58));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        7,
+        6,
         "what a declared questions clock can see"
     );
 }

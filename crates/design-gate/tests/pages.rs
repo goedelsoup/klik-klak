@@ -21,7 +21,7 @@
 //! [`edges.rs`]: edges.rs
 //! [`markers.rs`]: markers.rs
 
-use design_gate::repo_root;
+use design_gate::{ends_question, repo_root};
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
 
@@ -285,17 +285,12 @@ fn no_question_lives_on_a_class_page() {
                     stack.push(p);
                 } else if p.extension().is_some_and(|x| x == "yml") {
                     let src = std::fs::read_to_string(&p).expect("readable");
-                    n += src
-                        .lines()
+                    let lines: Vec<&str> = src.lines().collect();
+                    n += lines
+                        .iter()
                         .enumerate()
                         .filter(|(i, l)| {
-                            l.contains("[open]")
-                                && (!ends
-                                    || (l.trim_end().ends_with("`[open]`")
-                                        && src
-                                            .lines()
-                                            .nth(i + 1)
-                                            .is_none_or(|x| x.trim().is_empty())))
+                            l.contains("[open]") && (!ends || ends_question(&lines, *i))
                         })
                         .count();
                 }
@@ -304,7 +299,7 @@ fn no_question_lives_on_a_class_page() {
         n
     };
     let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
-    assert_eq!((corpus, decisions), (4, 49));
+    assert_eq!((corpus, decisions), (4, 58));
     // 17, 16, 15, 14, 13, 12 — never once because a corpus question was closed. The corpus
     // numerator had not moved in eight phases while the records opened thirty-odd, and
     // `playable` closing one was the only close in that run. The two denominators parted at 13
@@ -327,7 +322,10 @@ fn no_question_lives_on_a_class_page() {
     // 6, and the fall is a closure that took no new evidence. `hotspot/static-region` had been
     // declined on a condition that `drawn-boundary` made permanent and the scene layer moved
     // elsewhere. Re-reading the marker against those two decisions closed it.
-    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 7);
+    //
+    // 6 again, and nothing was closed or asked: nine questions ending a block had never been
+    // counted. `.yidam/decisions/marker-count.yml`.
+    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 6);
 }
 
 /// **Every class page was written by this repository's first commit, and for 342 commits its last

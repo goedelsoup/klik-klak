@@ -52,7 +52,7 @@
 //! [`markers.rs`]: markers.rs
 //! [`edges.rs`]: edges.rs
 
-use design_gate::repo_root;
+use design_gate::{ends_question, repo_root};
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
 
@@ -154,10 +154,7 @@ fn questions(src: &str) -> Vec<(usize, String)> {
     lines
         .iter()
         .enumerate()
-        .filter(|(i, l)| {
-            l.trim_end().ends_with("`[open]`")
-                && lines.get(i + 1).is_none_or(|n| n.trim().is_empty())
-        })
+        .filter(|(i, _)| ends_question(&lines, *i))
         .map(|(i, _)| {
             // the sentence the marker ends, gathered backwards to the paragraph break
             let mut start = i;
@@ -494,7 +491,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 49, "live open questions in this directory");
+    assert_eq!(total, 58, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are

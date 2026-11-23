@@ -20,6 +20,21 @@
 use std::fmt::Write as _;
 use std::path::{Path, PathBuf};
 
+/// **Whether line `i` ends a live question**: it closes on the backticked marker, and the paragraph
+/// ends with it.
+///
+/// A paragraph ends at a blank line, at the end of the file, or at the next top-level key, since a
+/// block scalar ends there too. Every counter of decision markers used to stop at the first two
+/// only, so a question closing the last paragraph of a block, right above `rationale:`, was
+/// counted by none of them. Nine were hidden that way, and `.yidam/decisions/marker-count.yml`
+/// records the miss.
+pub fn ends_question(lines: &[&str], i: usize) -> bool {
+    lines[i].trim_end().ends_with("`[open]`")
+        && lines.get(i + 1).is_none_or(|n| {
+            n.trim().is_empty() || (!n.starts_with(char::is_whitespace) && n.contains(':'))
+        })
+}
+
 pub fn repo_root() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR"))
         .ancestors()
