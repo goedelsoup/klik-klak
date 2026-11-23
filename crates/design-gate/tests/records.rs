@@ -599,9 +599,14 @@ fn no_record_has_changed_what_it_decided() {
     // The forty-fifth is `unread-state`, and the second kind: it said a general check needed the
     // state vector to be data rather than a struct, and `readers.rs` built one on the struct by
     // destructuring it without `..`. The answer went where the question was.
+    //
+    // The forty-sixth is `marker-count`, and it is a correction to the rule this file counts with
+    // rather than to a claim about games: a question that closes a block above the next key was
+    // invisible to every counter here, nine of them were, and `ends_question` is the shared rule
+    // that sees them. The record that defined a live marker is where the miss is written down.
     assert_eq!(
         edited,
-        45,
+        46,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

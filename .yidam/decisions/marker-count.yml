@@ -72,6 +72,18 @@ rationale: |
   which is the same failure the corpus measures in specimens and had not looked for in itself.
   [inference] `.yidam/decisions/testimony.yml` is what the three survivors turned out to be.
 
+  **The rule had a second blind spot, and it hid more than the first.** A marker is live when it
+  ends its paragraph, and every counter in `crates/design-gate` took a paragraph to end at a blank
+  line or at the end of the file. A block scalar also ends at the next key, so a question closing the
+  last paragraph of `decision:`, right above `rationale:`, was counted by none of them. Nine sat
+  there. The gate said 49 when there were 58, and the decisions index never listed the nine.
+  [verified] — `design_gate::ends_question`, now the one rule all five counters share, and
+  `a_question_closing_a_block_is_counted` in `crates/design-gate/tests/markers.rs`, which names
+  them. It came to light because closing `normal-form`'s question moved no figure, and a closure
+  that moves nothing is one the counters never saw. The first blind spot counted a closure as a
+  question. This one missed questions in the place a record is most likely to put its last one.
+  [inference]
+
   **What this does not settle.** Whether a marker should carry the phase that opened it. Every one
   of the five stale markers could have been caught by re-reading a record from the phase that
   followed, and nothing connects the two — a marker names no date, no phase and no record, so
