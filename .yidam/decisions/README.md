@@ -24,6 +24,10 @@ does not re-emit it.
 
 - **:112** — **What is not done.** `nightwatch.game` still says its watchman is down the hall in prose. Rewriting it would make that specimen test what it was written to say it could not, and would move figures that three phases of records quote. Whether a specimen should be revised to exercise a primitive it ar…
 
+### [adjacency](adjacency.yml)
+
+- **:101** — **What the geometry cannot say is intent, and that is a different question.** Six of the fifteen rooms are in more than one piece with every region present, across gaps of 3 to 16 pixels in rooms 320 to 600 wide, and **nothing distinguishes a gap that means *you may not go there* from one left by a …
+
 ### [arrival-realizer](arrival-realizer.yml)
 
 - **:110** — **What this does not settle.** The answer is conditional on two refusals holding, and this is the first place they combine. A design that stored presentation, or that stored affordance instead of computing it, gets the fourth component back — and nothing in this corpus records that choosing to store…
@@ -49,9 +53,17 @@ does not re-emit it.
 
 - **:86** — **What this does not settle.** Whether class prose should state propositions at all. The prelude stops short of forbidding it and this record follows, because the six statements in question are load-bearing: `interaction.ont.yml`'s one-property-not-two decision is unintelligible without the sentence…
 
+### [class-library](class-library.yml)
+
+- **:126** — **What this leaves: a third state the catalog has no spelling for.** An unread-list item is on the list or it came off and the list says where the reading went. *Retrieved, opened, and unreadable here* is neither, and it matters because the next reader would otherwise repeat the attempt. The entry s…
+
 ### [collected-verdict](collected-verdict.yml)
 
 - **:89** — **What this does not settle.** Whether a record should carry figures at all. The convention says keep them out of the summary and this record moves two out of one; what neither says is where they should go instead, and the answer here was available only because `surface.rs` existed to point at. Reco…
+
+### [control-transfer](control-transfer.yml)
+
+- **:134** — **What this does not decide: whether this vocabulary should pay for it.** Every cost above is measured and none of them is weighed. A minimal authoring vocabulary is allowed to refuse a feature the form has — this one refuses arithmetic, quantifiers and delegation on exactly that ground — and four o…
 
 ### [conversation-reduction](conversation-reduction.yml)
 
@@ -104,9 +116,13 @@ does not re-emit it.
 
 - **:107** — **What this does not settle.** Whether a record resting on the gate alone is the same *kind* as one resting on a document. The directory holds one kind and `records.rs` gates them identically, but `record-layer` drew a line between a claim about adventure games and a claim about this project on exac…
 
+### [line-format](line-format.yml)
+
+- **:101** — **What this does not do: derive the reader from the table.** The forms are *held against* the match arms, not generating them — a construct's arity is checked by a row and its meaning is still an arm, which is the same boundary `parser-silence` drew one level in. Deriving a reader from a table means…
+
 ### [marker-count](marker-count.yml)
 
-- **:79** — **What this does not settle.** Whether a marker should carry the phase that opened it. Every one of the five stale markers could have been caught by re-reading a record from the phase that followed, and nothing connects the two — a marker names no date, no phase and no record, so "has this been answ…
+- **:91** — **What this does not settle.** Whether a marker should carry the phase that opened it. Every one of the five stale markers could have been caught by re-reading a record from the phase that followed, and nothing connects the two — a marker names no date, no phase and no record, so "has this been answ…
 
 ### [measured-width](measured-width.yml)
 
@@ -119,6 +135,11 @@ does not re-emit it.
 ### [orphaned-lines](orphaned-lines.yml)
 
 - **:99** — **Not proposed here, and this is the third time the same shape has been declined.** A `once` modifier is a 51st construct, and `latch-default` already weighed declaring a property whose truth the checker can compute — *"a declaration that is true and absent costs nothing to make and buys the guarant…
+- **:106** — **What is not decided: whether (2) should be prevented.** The repairs are all worse than the hole. Unkeying the binary entry is the saving `arity-cost` measured, given back. Not spending is not an option the author has. Letting a refusal outlive its entry means a menu showing a verb for an object th…
+
+### [parser-silence](parser-silence.yml)
+
+- **:91** — **What this does not do: give the format a grammar.** Sixteen branches each stating their own arity is better than sixteen branches stating nothing, and it is not a specification. The boundary this phase draws is that a construct must account for its line; what a construct *is* remains a match arm. …
 
 ### [priority-edge](priority-edge.yml)
 
@@ -136,9 +157,14 @@ does not re-emit it.
 
 - **:77** — **What this does not settle.** Whether the four post-creation `decide:` commits should have been new records. Each is a later phase's decision editing a record it did not write — `actor-position`, `availability`, `default-binding`, `observed-state` — and the prelude's remedy for exactly that case is…
 
+### [resolver-kind](resolver-kind.yml)
+
+- **:94** — **And it does not retire the three.** A question nothing in reach can answer is still a live question about adventure games, and `testimony` is a standing account of why rather than a retirement. [calculators](calculators.yml) retired two skills because *the thing that wanted them went away*; nothin…
+
 ### [retraction-reach](retraction-reach.yml)
 
 - **:19** — > *Script Classes for Adventure Games* is in the retrieved set, **unread**, and is where a verb > bar would be declared if Sierra declared one.
+- **:81** — **What this does not settle.** Whether the corpus or the record is the authority anywhere other than a marker. Nothing checks that a node and the record that argued about it agree on anything else, and the two copies have been drifting in whichever direction each phase was looking. What would close …
 
 ### [schema-deferral](schema-deferral.yml)
 
@@ -167,6 +193,10 @@ does not re-emit it.
 ### [threshold-trigger](threshold-trigger.yml)
 
 - **:107** — The question itself stays open and is narrower than it was. It is answerable only by a design that admitted duration, which is not this one; what has changed is that the trade can now be examined rather than only asserted, and fifteen is the number of arguments that would have to be re-read.
+
+### [two-bars](two-bars.yml)
+
+- **:95** — **What the record leaves open is a different thing: what a declaration buys, measured.** Sierra's menu is declared and its icon bar is not, in one engine, by one set of people, at the same time. That is a natural experiment nothing here has run — the obvious candidate is *enumerability*, and whether…
 
 ### [two-components](two-components.yml)
 
@@ -197,7 +227,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**49 open.**
+**58 open.**
 
 ## What nothing cites
 
