@@ -98,12 +98,15 @@ decision: |
   objection applies with the same force: `Report::orphaned` computes the fact, so the declaration
   would buy a better *message* rather than a fact nothing else has. `[open]`
 
-  **What is not decided: whether (2) should be prevented.** The repairs are all worse than the
-  hole. Unkeying the binary entry is the saving `arity-cost` measured, given back. Not spending is
-  not an option the author has. Letting a refusal outlive its entry means a menu showing a verb for
-  an object the player is not carrying, which is the interface `default-binding` refused. What is
-  wanted is not a language change but the thing this record builds: **the author is told.**
-  `[open]`
+  **Whether (2) should be prevented: it should not, and the author is told instead.** This was left
+  undecided, and the paragraph that left it argued the answer. Every repair is worse than the hole.
+  Unkeying the binary entry gives back the saving `arity-cost` measured. Not spending is not an
+  option the author has. Letting a refusal outlive its entry means a menu showing a verb for an
+  object the player is not carrying, which is the interface `default-binding` refused. So the
+  language does not change, and what it gets is the thing this record built: the checker prints
+  every such line under *"Written, and selected in no reachable state"*, from `Report::orphaned`,
+  and `crates/reachability/tests/orphans.rs` pins the four the specimens hold. [verified] An
+  orphan of kind (2) is a decision the author is shown, not a defect the format forbids.
 rationale: |
   **The reason this was the last mode standing is that it is the only one with no witness.** A
   stranded state is met by a player who cannot finish. A silent miss is met by a player who clicks

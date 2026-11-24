@@ -491,7 +491,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 58, "live open questions in this directory");
+    assert_eq!(total, 57, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
@@ -604,9 +604,13 @@ fn no_record_has_changed_what_it_decided() {
     // rather than to a claim about games: a question that closes a block above the next key was
     // invisible to every counter here, nine of them were, and `ends_question` is the shared rule
     // that sees them. The record that defined a live marker is where the miss is written down.
+    //
+    // The forty-seventh is `orphaned-lines`, the second kind, and one of those nine: it left open
+    // whether an orphaned refusal should be prevented, argued in the same paragraph that every
+    // prevention was worse, and named the remedy it had built. Closing it wrote that down.
     assert_eq!(
         edited,
-        46,
+        47,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

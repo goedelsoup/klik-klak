@@ -34,7 +34,7 @@
 # one correct then and stale since. `.yidam/decisions/unread-clock.yml`.
 #
 # What it covers is a fifth. `yidam open-questions` walks `.yidam/corpus/` and nothing
-# else, so this clock watches 4 markers while 58 sit in `.yidam/decisions/`; the larger
+# else, so this clock watches 4 markers while 57 sit in `.yidam/decisions/`; the larger
 # share is listed in `.yidam/decisions/README.md` and is invisible to every yidam
 # command. A green `due` here is a statement about 6% of what is owed, on this
 # denominator and on the wider one `crates/design-gate/tests/pages.rs` uses. It fell 17,
