@@ -281,26 +281,26 @@ fn a_question_closing_a_block_is_counted() {
     for p in yml(&repo_root().join(".yidam/decisions")) {
         let src = std::fs::read_to_string(&p).expect("readable");
         let lines: Vec<&str> = src.lines().collect();
-        for i in 0..lines.len() {
-            if ends_question(&lines, i) && lines.get(i + 1).is_some_and(|n| !n.trim().is_empty()) {
-                let stem = p.file_stem().expect("named").to_string_lossy().into_owned();
-                hidden.push(format!("{stem}:{}", i + 1));
-            }
+        if (0..lines.len()).any(|i| {
+            ends_question(&lines, i) && lines.get(i + 1).is_some_and(|n| !n.trim().is_empty())
+        }) {
+            hidden.push(p.file_stem().expect("named").to_string_lossy().into_owned());
         }
     }
     hidden.sort();
+    // By record rather than by line, so an edit above a question does not move it.
     assert_eq!(
         hidden,
         [
-            "adjacency:101",
-            "class-library:126",
-            "control-transfer:134",
-            "line-format:101",
-            "orphaned-lines:106",
-            "parser-silence:91",
-            "resolver-kind:94",
-            "retraction-reach:81",
-            "two-bars:95",
+            "adjacency",
+            "class-library",
+            "control-transfer",
+            "line-format",
+            "orphaned-lines",
+            "parser-silence",
+            "resolver-kind",
+            "retraction-reach",
+            "two-bars",
         ],
         "the questions the old rule could not see"
     );
