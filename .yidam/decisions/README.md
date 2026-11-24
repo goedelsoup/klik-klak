@@ -135,7 +135,6 @@ does not re-emit it.
 ### [orphaned-lines](orphaned-lines.yml)
 
 - **:99** — **Not proposed here, and this is the third time the same shape has been declined.** A `once` modifier is a 51st construct, and `latch-default` already weighed declaring a property whose truth the checker can compute — *"a declaration that is true and absent costs nothing to make and buys the guarant…
-- **:106** — **What is not decided: whether (2) should be prevented.** The repairs are all worse than the hole. Unkeying the binary entry is the saving `arity-cost` measured, given back. Not spending is not an option the author has. Letting a refusal outlive its entry means a menu showing a verb for an object th…
 
 ### [parser-silence](parser-silence.yml)
 
@@ -227,7 +226,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**58 open.**
+**57 open.**
 
 ## What nothing cites
 
