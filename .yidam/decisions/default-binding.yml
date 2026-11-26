@@ -51,6 +51,13 @@ rationale: |
   makes it, and this design has the smallest vocabulary of anything the corpus has read. A
   conclusion drawn at 57 verbs does not transfer to six. [inference]
 
+  *Since corrected.* Delores declares 160 live objects, not 164 — four of those were commented out
+  — and 45 of them, not 46, carry no binding
+  [data-format/interaction-table](../corpus/data-format/interaction-table.yml). Counted the way
+  [arity-cost](arity-cost.yml) counts, with a binary verb as a second dimension, the table is
+  50,676 cells with 203 authored (0.40%), not 9,348 and 2.17%, and the specimens are 396 with 87
+  (22.0%), not 252 and 34.5%. The direction of the argument does not change. [verified]
+
   **The two branches are a real trade and neither is free.**
 
   | | fixed verb bar | contextual menu |

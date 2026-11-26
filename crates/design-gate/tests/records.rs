@@ -293,7 +293,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (787, 142, 89));
+    assert_eq!((total, mentions, tests.len()), (795, 142, 89));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -373,7 +373,7 @@ fn a_record_nothing_cites_is_named() {
          makes that the ordinary exit for a phase whose subject is this repository"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (96, 397));
+    assert_eq!((c.len(), edges), (96, 401));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -616,9 +616,15 @@ fn no_record_has_changed_what_it_decided() {
     // The forty-ninth is `binary-dimension`, the first kind, and one of those eleven: it called the
     // authoring cost of arity unmeasured after `arity-cost` had measured it. The answer was in
     // another record; the closure points there.
+    //
+    // The fiftieth to fifty-second are `named-condition`, `tier-split` and `resolver-kind`, each
+    // edited for the first time, and all three for the same reason as the other eight of the ten
+    // record-behind sentences, which had been edited before. Each sentence stays as written and a
+    // paragraph under it, beginning *"Since corrected."*, says what a later node found. None of
+    // the summaries moved; the one note that first landed in a `summary:` was moved out of it.
     assert_eq!(
         edited,
-        49,
+        52,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

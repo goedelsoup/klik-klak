@@ -128,6 +128,12 @@ rationale: |
   overreached". No specimen has a cutscene. The edge earns its place when a game needs one, and
   the gap is recorded so the next reader does not rediscover it.
 
+  *Since corrected.* Neither trigger that wanted this edge turned out to need it.
+  [cutscene/scripted-sequence](../corpus/cutscene/scripted-sequence.yml) settled both: a threshold
+  reduces to appending the sequence to the bindings that write the value, and a sequence started
+  by a binding *is* that binding's effects and prose. So there is no game whose need would earn
+  the edge. [verified]
+
   **What the decision found on its first run.** Two of the calculator's own fixtures mutated a
   specimen by appending `clear X` beside `set X` in the same list, which this decision makes a
   dead write rather than the thing each test claimed to be testing.

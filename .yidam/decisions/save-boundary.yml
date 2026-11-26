@@ -32,6 +32,11 @@ decision: |
   flags, counters, and nothing else** — because nothing else can be observed, and a value nothing
   can observe is not part of the world.
 
+  *Since corrected.* The list is missing two components: chosen options and actor rooms are
+  observable too, and [data-format/save-state](../corpus/data-format/save-state.yml) lists them.
+  `reachability::State` has eight fields, and `crates/reachability/tests/readers.rs` checks that
+  every one is read by something. [verified]
+
   So every narrowing that made the reachable set smaller made the save file smaller, and the two
   facts are the same fact. [inference] [data-format/save-state](../corpus/data-format/save-state.yml)
   is the node; this record is why there was nothing left to decide.

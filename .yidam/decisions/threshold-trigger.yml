@@ -29,6 +29,12 @@ decision: |
   With `cutscene`'s last leg gone, **that class has no open question left**. It is kept rather than
   withdrawn, for the reason [give-to](../corpus/verb/give-to.yml) was kept, but it is a finished
   negative result rather than a live one.
+
+  *Since corrected.* Not one binding every time: sixteen of the eighteen distinct state writes
+  across the specimens have exactly one writer. The two that do not are `set ashore` and `clear
+  ashore` in `lock.game`, at three sites each (`crates/reachability/tests/threshold.rs`,
+  [cutscene/scripted-sequence](../corpus/cutscene/scripted-sequence.yml)). The reduction is
+  unchanged: appending the sequence to every writer still expresses the trigger. [verified]
 rationale: |
   **It was documented, in a manual this corpus had already read seventeen pages of, and the page
   names the problem in this corpus's own words.** `RepExec.md` opens: *"One of the most common

@@ -38,6 +38,11 @@ decision: |
     claiming. `Report::unclaimed_latches` is that, computed in the same pass so the two directions
     cannot drift. The specimens hold two: `door-open` and `asked-key`. [verified] —
     `crates/reachability/tests/latch.rs`.
+
+  *Since corrected.* It has been written. There are three `clear` sites in 904 authored lines, all
+  in `design/specimen/lock.game` and all writing `ashore`, the flag that records which character
+  the player drives ([world-flag/latched-flag](../corpus/world-flag/latched-flag.yml),
+  `crates/reachability/tests/latch.rs`). This note leaves the keyword as it is. [verified]
 rationale: |
   **The reason latching is common is machinery, and that is what makes this a fact about
   vocabularies rather than about one game's house style.** Reading where each of the nine reversible

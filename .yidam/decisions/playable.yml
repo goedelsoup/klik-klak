@@ -93,6 +93,11 @@ rationale: |
   ontology that overreached"*. A fifth subsystem nothing in the authoring vocabulary implies would
   be the third.
 
+  *Since corrected.* `room-manifest` no longer says this: the sentence was withdrawn in 20bea90 on
+  2026-09-10, the day before this record quoted it, when Thimbleweed Park's room file settled the
+  `reads` edge it had called unauthored. The refusal does not rest on the quotation; a subsystem
+  that nothing in the authoring vocabulary implies is reason enough. [verified]
+
   **What the slice does that it should not, stated rather than hidden.** It prints a line and
   returns. [response-presenter](../corpus/subsystem/response-presenter.yml)'s responsibility is
   *"turn a response into something perceived, **and do not return until it is over**"*, and a

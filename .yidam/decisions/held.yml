@@ -81,6 +81,11 @@ rationale: |
   already carrying two of and names as *"indistinguishable from an ontology that overreached"*. No
   specimen has a cutscene and none can until something can be written inside one.
 
+  *Since corrected.* `room-manifest` no longer says this: the sentence was withdrawn in 20bea90 on
+  2026-09-10, the day before this record quoted it, when Thimbleweed Park's room file settled the
+  `reads` edge it had called unauthored. The refusal above does not rest on the quotation; an edge
+  no instance authors is reason enough. [verified]
+
   **And the census found a declared edge nothing uses.** `interaction-resolver` links `depends-on`
   to `response-presenter`, and the resolver crate depends on `verb-menu` and nothing else. The
   built system says the resolver *produces* an outcome and the **client** presents it, which is

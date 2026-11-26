@@ -36,6 +36,12 @@ decision: |
   of it. It is a design decision about what the player is shown, and **this design has never
   specified one.**
 
+  *Since corrected.* The design had one and had never said so. Three records not about the player
+  — [default-binding](default-binding.yml), [arity-cost](arity-cost.yml) and
+  [availability](availability.yml) — together specify it, and it is built as `engine/verb-menu`
+  ([subsystem/verb-menu](../corpus/subsystem/verb-menu.yml)). It sits in the engine tier that
+  already exists, so this record's refusal to add a tier stands. [verified]
+
   No tier is added. A tier in `ontology.yml` groups classes and this corpus has no interface
   classes and should not invent them speculatively. What is recorded is that questions of this kind
   have **three** answer sites and the third is not a class.

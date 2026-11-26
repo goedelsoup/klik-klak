@@ -18,8 +18,12 @@
 //! sentence that was a live question — `binary-dimension`'s *"unmeasured here too"*, which
 //! `arity-cost` had measured. Those are checked gone, except one that `refused.rs` keeps where it
 //! was made, which is checked marked as answered instead; the other ten are records of their own
-//! moment, each wrong about something written later, and are checked still there until a phase
-//! takes them up.
+//! moment, each wrong about something written later.
+//!
+//! **The phase after that annotated the ten.** A record is the record of its moment, so none was
+//! rewritten: each sentence stays as it was, and under it a paragraph beginning *"Since
+//! corrected."* says what is true now and where it is kept. Each is checked still there and
+//! annotated. So is `resolver-kind`'s, the eleventh, found by the testimony sweep outside the count.
 //!
 //! [`retraction-reach`]: ../../../.yidam/decisions/retraction-reach.yml
 
@@ -340,13 +344,31 @@ const KEPT: &[(&str, &str)] = &[(
     "as written; the built system does not define it away, and it is answered below, by an ordering",
 )];
 
+/// What opens the paragraph that corrects a record without rewriting it.
+const SINCE: &str = "*Since corrected.*";
+
+/// The record sentence the testimony sweep found outside the count, kept and annotated the same way.
+const ELEVENTH: (&str, &str) = (
+    "decisions/resolver-kind.yml",
+    "every source this corpus holds is an artifact",
+);
+
+/// **The eleventh stands as written and is annotated.**
+#[test]
+fn the_record_sentence_outside_the_count_is_annotated() {
+    let (file, sentence) = ELEVENTH;
+    let src =
+        flat(&std::fs::read_to_string(repo_root().join(".yidam").join(file)).expect("readable"));
+    assert!(src.contains(sentence) && src.contains(SINCE), "{file}");
+}
+
 /// Corrected in the phase after the count: every node row, and the one record row that was open.
 fn corrected(side: &Behind, file: &str) -> bool {
     *side == Node || file == "decisions/binary-dimension.yml"
 }
 
 /// **Every disagreement counted is accounted for, and the split was thirteen to eleven.** Fourteen
-/// are gone and ten still stand.
+/// are gone and ten stand as written, each with its correction under it.
 #[test]
 fn every_counted_disagreement_is_corrected_or_still_stands() {
     let root = repo_root();
@@ -364,9 +386,9 @@ fn every_counted_disagreement_is_corrected_or_still_stands() {
             );
         } else {
             assert!(
-                src.contains(sentence),
-                "{file} no longer says {sentence:?} (it contradicted {against}); \
-                 retraction-reach's standing count is one lower"
+                src.contains(sentence) && src.contains(SINCE),
+                "{file} keeps {sentence:?} as the record of its moment and says under it that \
+                 {against}"
             );
         }
     }
@@ -386,6 +408,7 @@ fn every_counted_disagreement_is_corrected_or_still_stands() {
         "13 are the node behind",
         "11 are the record behind",
         "fourteen were corrected",
+        "the ten are annotated",
     ] {
         assert!(
             record.contains(figure),

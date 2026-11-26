@@ -120,6 +120,15 @@ decision: |
   record sentence of the same kind stands: [resolver-kind](resolver-kind.yml) reads `testimony`'s
   argument as *"every source this corpus holds is an artifact"*, which that record's own table
   does not say. [verified]
+
+  **And then the ten are annotated, not rewritten.** Each record sentence the count found behind
+  its node stays word for word, because a record is the record of its moment, and under it a
+  paragraph beginning *"Since corrected."* says what is true now and where that is kept. So does
+  `resolver-kind`'s, the eleventh. A reader who starts at the record meets the correction at the
+  place the old fact is stated, and no longer has to know which node moved past it. Nine of the
+  eleven leave their decision standing on the corrected fact. `latch-default`'s keyword and
+  `named-condition`'s refusal stand on other grounds, which their notes name. `drift.rs` checks
+  each sentence still there and annotated. [verified]
 rationale: |
   **The finding is not that a marker was stale. It is that the correction existed and had somewhere
   else to be.** A stale marker nobody has revisited is an ordinary backlog. This one was revisited,

@@ -22,6 +22,12 @@ decision: |
   in this language does not write one. The pressure `state-gate` described was imagined before
   anything had been authored and never re-checked against what was.
 
+  *Since corrected.* It was not imagined. `design/specimen/lock.game` writes the gate
+  [puzzle/state-gate](../corpus/puzzle/state-gate.yml) described, as `gates-shut and paddle-up` in
+  four guards, and the census is now sixty predicates with eight joining more than one atom, seven
+  of them in that one game (`crates/reachability/tests/conditions.rs`). There is still no
+  primitive, on different grounds: [restated-guard](restated-guard.yml). [verified]
+
   **What is restated is a counter's position in a sequence, and it is all on one target.**
   `lighthouse.game`'s `lamp-prep` is read at nine sites, every one sited on the lamp. The sequence
   is wick → oil → match, and it exists only as an agreement between the value one binding's body
