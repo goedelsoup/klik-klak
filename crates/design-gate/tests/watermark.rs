@@ -149,7 +149,7 @@ fn every_design_document_records_what_it_was_last_read_against() {
 
 /// **The document without the watermark rests on more and has drifted further.**
 ///
-/// Nineteen premises against fifteen, sixteen moved against eleven, +425/−41 against +410/−22,
+/// Nineteen premises against fifteen, seventeen moved against eleven, +425/−41 against +410/−22,
 /// 148 commits against 102. Worse on every measure the phase that built the instrument used to
 /// argue the instrument was needed.
 ///
@@ -160,7 +160,9 @@ fn every_design_document_records_what_it_was_last_read_against() {
 /// that moved because the thing it described stopped existing, which is a kind of drift this
 /// measure cannot tell from any other. Both documents gained `actor/player-character` when
 /// `control-transfer` found it had been a premise of each for eleven phases without being
-/// declared, so the two counts rose together and the gap between them did not move. What the check is for is the comparison against the
+/// declared, so the two counts rose together and the gap between them did not move. It went to
+/// seventeen when `reachability` gained `status: built` in frontmatter, a line the skills index
+/// reads and the document does not. What the check is for is the comparison against the
 /// watermarked document, not the number — and the comparison has widened, which is the direction
 /// the finding predicted.
 #[test]
@@ -207,7 +209,7 @@ fn the_second_document_rests_on_more_and_has_drifted_further() {
     }
     assert_eq!(
         moved.len(),
-        16,
+        17,
         "premises edited since this document was: {moved:?}"
     );
     assert!(
