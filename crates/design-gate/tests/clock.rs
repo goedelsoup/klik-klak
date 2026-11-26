@@ -196,6 +196,13 @@ fn the_oldest_open_question_is_no_longer_the_one_asked_at_genesis() {
 /// missing its oldest member — `control-transfer` closed the genesis question. So the assertion
 /// that named it is gone, and what is left is the shape: the count only grows except by a closure,
 /// and a closure is a thing a record has to have done.
+///
+/// **Three, and the fourth was a closure.** `ags-testimony` answered why AGS removed the
+/// Interaction Editor, and `prior-art/ags`'s old marker went with it. The marker that node carries
+/// now asks something new and is young. The same phase narrowed two other questions and wrote
+/// around their marker lines without touching them, so those two kept their ages. A narrowed
+/// question is still the same question, and resetting its age would have been the reword this
+/// assertion exists to catch.
 #[test]
 fn the_corpus_has_questions_past_the_interval_it_declared() {
     let root = repo_root();
@@ -207,7 +214,7 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
         .map(|(n, _)| n.as_str())
         .collect();
     assert!(
-        past.len() >= 4,
+        past.len() >= 3,
         "fewer questions past {interval} than when this was written, which means one was answered \
          or one was reworded — and only one of those is a reason to lower the number here"
     );
