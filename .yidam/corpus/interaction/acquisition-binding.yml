@@ -32,10 +32,15 @@ description: |
   conclusions about whose job it is, which is not a thing that happens about a non-problem.
 
   What the evidence does *not* establish is that AGS authors pay for it. The manual's silence is
-  consistent with the window this node predicts and does not demonstrate it, and no AGS source
-  this corpus holds reports what using the thing was like — every one of them is an artifact, and
-  the testimony the corpus does hold is about Gilbert's engines rather than this one.
-  `.yidam/decisions/testimony.yml` is where that kind of question is named; this is the marker for
+  consistent with the window this node predicts and does not demonstrate it. **The first AGS
+  testimony this corpus holds narrows the question without closing it.** In a 2013 beginner thread
+  the answer given is a recipe that writes both halves by hand, "make object visible = false and
+  then add inventory object to player", and the answerer's own game code does the same
+  ([ags-forums](../../catalog/ags-forums.md)). [verified] So the community taught the pair as
+  something an author had to know. That is the cost of the missing bundle, paid in instruction.
+  [inference] What one thread cannot show is anyone forgetting the pair and shipping the
+  window. The threads that might show it were found by search and are listed unread in that
+  entry. `.yidam/decisions/ags-testimony.yml` records the reading; this is the marker for
   it and [verb/pick-up](../verb/pick-up.yml) points here rather than carrying a second. `[open]`
 
   **The ontology's inability to express the second write turned out to be this node counting
