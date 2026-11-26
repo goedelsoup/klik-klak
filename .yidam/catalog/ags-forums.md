@@ -38,8 +38,10 @@ corpus "Gilbert" means Ron Gilbert and Terrible Toybox, so this entry and every 
 
 ## What was read
 
-Each page below was read whole in a browser on 2026-11-26. The quotations are copied from the page
-as rendered.
+Read 2026-11-26, three pages: reply #189 in the beta thread, "Suggestion for a more User-Friendly
+Adventure Game Studio" page 2, and "OBject appearing after dialog has ended" page 1.
+
+Each page was read whole in a browser. The quotations are copied from the page as rendered.
 
 **Chris Jones, 15 August 2007, reply #189.** He was answering a user who could not find the
 Interaction Editor in the 2.8 beta, the beta that became 3.0:
