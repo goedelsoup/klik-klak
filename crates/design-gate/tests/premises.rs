@@ -66,15 +66,21 @@ fn premises(root: &Path) -> Vec<String> {
 /// change is not a baseline, which is the finding of this phase arriving inside its own check.
 const BEFORE: &str = "^revise: two sentences that were edges";
 
-/// **Thirteen of fifteen now.** The thirteenth is `interaction/acquisition-binding`, which moved
+/// **Thirteen of fifteen after the testimony sweep.** The thirteenth is `interaction/acquisition-binding`, which moved
 /// when the testimony sweep narrowed its *"every one of them is an artifact"* to AGS — a copy of a
 /// fact `.yidam/decisions/testimony.yml` had already corrected, found by searching rather than by
 /// following a link (`.yidam/decisions/retraction-reach.yml`). This comment used to name
 /// `puzzle/state-gate` as the twelfth, which is not a premise at all. The window is closed and the count only grows, so this rising is the ordinary
 /// thing; what is not ordinary is the cause, and a count of moved premises is exactly as unable to
 /// report it as the clock is.
+///
+/// **Fourteen, and the fourteenth moved without saying anything new.** `catalog/ags-272-manual`
+/// had not been edited inside the window until `yidam migrate used-by` deleted the `used-by:` list
+/// from every catalog entry. The citations are the record now, so the list was a copy. The
+/// watermark moved after a reading found no sentence behind. The count rises for an edit that
+/// touched no claim, which is the other thing it cannot tell apart.
 #[test]
-fn thirteen_of_fifteen_premises_moved_under_the_proposal() {
+fn fourteen_of_fifteen_premises_moved_under_the_proposal() {
     let root = repo_root();
     let found = git(&root, &["log", "--format=%H", "--grep", BEFORE]);
     let last = found
@@ -111,7 +117,7 @@ fn thirteen_of_fifteen_premises_moved_under_the_proposal() {
     }
     assert_eq!(
         moved.len(),
-        13,
+        14,
         "premises edited since the document was: {moved:?}"
     );
     assert!(
