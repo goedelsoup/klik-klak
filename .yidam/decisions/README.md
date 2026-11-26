@@ -28,6 +28,10 @@ does not re-emit it.
 
 - **:101** — **What the geometry cannot say is intent, and that is a different question.** Six of the fifteen rooms are in more than one piece with every region present, across gaps of 3 to 16 pixels in rooms 320 to 600 wide, and **nothing distinguishes a gap that means *you may not go there* from one left by a …
 
+### [ags-testimony](ags-testimony.yml)
+
+- **:61** — **What testimony bought is a reason, and it does not pretend to be a census.** One maker's post closes a question about that maker's decision. It is the weakest kind of evidence for questions about what authors in general experienced, and two of the three questions are that kind. That is the one par…
+
 ### [arrival-realizer](arrival-realizer.yml)
 
 - **:110** — **What this does not settle.** The answer is conditional on two refusals holding, and this is the first place they combine. A design that stored presentation, or that stored affordance instead of computing it, gets the fourth component back — and nothing in this corpus records that choosing to store…
@@ -157,7 +161,7 @@ does not re-emit it.
 
 ### [resolver-kind](resolver-kind.yml)
 
-- **:99** — **And it does not retire the three.** A question nothing in reach can answer is still a live question about adventure games, and `testimony` is a standing account of why rather than a retirement. [calculators](calculators.yml) retired two skills because *the thing that wanted them went away*; nothin…
+- **:100** — **And it does not retire the three.** A question nothing in reach can answer is still a live question about adventure games, and `testimony` is a standing account of why rather than a retirement. [calculators](calculators.yml) retired two skills because *the thing that wanted them went away*; nothin…
 
 ### [schema-deferral](schema-deferral.yml)
 
@@ -177,7 +181,7 @@ does not re-emit it.
 
 ### [testimony](testimony.yml)
 
-- **:68** — **What this does not settle.** Whether testimony and artifact should carry different evidence standing. The prelude is explicit that `[verified]` is about provenance rather than confidence, and a diary entry is a committed source in exactly the way a header file is; `measured-width` quotes Gilbert's…
+- **:73** — **What this does not settle.** Whether testimony and artifact should carry different evidence standing. The prelude is explicit that `[verified]` is about provenance rather than confidence, and a diary entry is a committed source in exactly the way a header file is; `measured-width` quotes Gilbert's…
 
 ### [third-population](third-population.yml)
 
@@ -220,7 +224,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**54 open.**
+**55 open.**
 
 ## What nothing cites
 
