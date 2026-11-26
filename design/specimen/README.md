@@ -20,6 +20,7 @@ rests_on:
   - .yidam/corpus/failure-mode/unwinnable-state.yml
   - .yidam/corpus/verb/give-to.yml
   - .yidam/catalog/ags-manual.md
+  - .yidam/catalog/lsl5-source.md
   - .yidam/skills/reachability.md
   - .yidam/skills/vocabulary-coverage.md
 derives_effects_from:
@@ -627,6 +628,14 @@ at the median — but **43% opening exactly one**, and two gated exits in twenty
 wants a bottleneck per act. [verified] See `.yidam/decisions/measured-width.yml`. What is still
 missing is a *second* game, and a full-length one: Thimbleweed Park's source is not public and its
 chart is blurred on purpose. [open]
+
+**The second game has been read, and it is full length.** *Leisure Suit Larry 5*'s source
+([lsl5-source](../../.yidam/catalog/lsl5-source.md)) is eight acts behind gates its code
+enforces, and its whole-game antichain, 191, is its act widths added together, 198. [verified]
+So the `acts × width` shape in the table above is the shape a full-length game has. Its `w` is
+the part still unsettled: 3 to 35 units between gates, at most 17 of the designer's scored steps.
+That sits between the table's middle rows and past its last one, and units over-count puzzles.
+See `.yidam/decisions/second-game-width.yml`. [inference]
 
 ## What these specimens are not
 
