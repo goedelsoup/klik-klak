@@ -16,7 +16,7 @@ context: |
   **The corpus node was not touched.** `prior-art/sierra-sci.yml`'s `source_standing` still reads:
 
   > *Script Classes for Adventure Games* is in the retrieved set, **unread**, and is where a verb
-  > bar would be declared if Sierra declared one. `[open]`
+  > bar would be declared if Sierra declared one. `[open]` — *quoted; retired by decision 1 below.*
 
   Ninety lines above it, the same node's `description` quotes that document at length, dates it,
   names thirty-one classes out of it and cites the record that refuted the marker. **Both halves
@@ -73,12 +73,35 @@ decision: |
   the **retrieval** column, and that is still right: what would close it is a named artifact nobody
   holds. What was wrong was which one, and the table read the record to find out.
 
-  **What this does not settle.** Whether the corpus or the record is the authority anywhere other
-  than a marker. Nothing checks that a node and the record that argued about it agree on anything
-  else, and the two copies have been drifting in whichever direction each phase was looking. What
-  would close it is **a measurement**: how often, across 44 nodes and 85 records, a record's summary
-  and the node's prose disagree about a fact either could state. Nobody has counted, and the
-  material is entirely in this repository. `[open]`
+  **What this did not settle, and the count that settles it.** Whether the corpus or the record is
+  the authority anywhere other than a marker. Nothing checked that a node and the record that
+  argued about it agree on anything else, and the question asked for a measurement: how often a
+  record and the node it is paired with disagree about a fact either could state.
+
+  **It was counted.** A record and a node are paired when either links to the other: **241 pairs
+  across 76 records and 46 nodes**. Each pair was read whole on both sides; a pair disagrees when
+  a fact both state is stated incompatibly, and a count a record dates to its own specimens is not
+  a disagreement. **31 pairs disagree** — 13% of all pairs, and 31 of the 237 that share any fact at
+  all. They come down to **24 distinct sentences**, because one stale sentence is read by every
+  record that cites its node: `interaction-table`'s *"one `and`, no `or`"* alone is contradicted by
+  three. [verified] — `crates/design-gate/tests/drift.rs`, which holds all 24 in place and the
+  pair count beside them.
+
+  **The answer to the question is neither.** Of the 24, **13 are the node behind** — a correction
+  the record made that never came back, which is this record's defect found thirteen times over
+  — and **11 are the record behind**, a later specimen or a later phase having moved the node
+  and left the argument where it was. [verified] The drift runs in both directions in nearly equal
+  measure, which is what *"whichever direction each phase was looking"* predicted and nobody had
+  counted. Neither copy can be made the authority by fiat: taking the node as the authority is
+  wrong thirteen times, and taking the record is wrong eleven. [verified]
+
+  **It is concentrated, and the concentration is the useful part.** `interaction-table` carries
+  eight of the 31 disagreeing pairs and four of the 13 stale node sentences; it is the node most
+  records cite, and the one most corrected past. One of the record-side sentences is a live
+  question: `binary-dimension`'s authoring cost of arity, which `arity-cost` has since measured.
+  [verified] The measurement found things, which is the argument for running it again rather than
+  for trusting it once. What it cannot do is notice the next drift: it was a reading, not a gate,
+  and `drift.rs` holds what was found rather than finding more. [inference]
 rationale: |
   **The finding is not that a marker was stale. It is that the correction existed and had somewhere
   else to be.** A stale marker nobody has revisited is an ordinary backlog. This one was revisited,

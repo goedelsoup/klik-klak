@@ -299,7 +299,7 @@ fn no_question_lives_on_a_class_page() {
         n
     };
     let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
-    assert_eq!((corpus, decisions), (4, 57));
+    assert_eq!((corpus, decisions), (4, 55));
     // 17, 16, 15, 14, 13, 12 — never once because a corpus question was closed. The corpus
     // numerator had not moved in eight phases while the records opened thirty-odd, and
     // `playable` closing one was the only close in that run. The two denominators parted at 13
