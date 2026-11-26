@@ -116,6 +116,18 @@ description: |
   unevidenced in either direction. `.yidam/decisions/measured-width.yml` sets out the three readings
   and declines to choose. `[open]`
 
+  **A full-length game has the bottlenecks, and they are code.** *Leisure Suit Larry 5*
+  ([lsl5-source](../../catalog/lsl5-source.md)) is eight acts. Leaving a city closes it on the
+  ticket machine and the limousine, the finale opens when two earlier acts are both done, and the
+  inventory is released whenever the protagonist changes. [verified] Its whole-game antichain, 191,
+  is the sum of its act widths, 198, to within a few units, so a whole-game antichain measures `k·w`
+  rather than `w`. [verified] `.yidam/decisions/second-game-width.yml` chooses on that evidence: the
+  first reading holds and the third fails for the structure. The argument above survives in its
+  structure, as a *sum* over acts of something exponential in each act's width. [inference] What it
+  does not survive with is the figure. Between gates the width is 3 to 35 units and up to 17 of the
+  designer's scored steps, so "design practice bounds the width at 2–5" is unconfirmed in a game
+  that does have acts. Units over-count puzzles, and a points list only bounds them. [inference]
+
   **How many flags in a real game latch has its first evidence, and it points at *most*.** A
   shipped adventure game's save file is quoted in Thimbleweed Park's development diary, with real
   variable names in it ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] The
