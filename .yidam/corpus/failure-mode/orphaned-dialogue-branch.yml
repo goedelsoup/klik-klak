@@ -92,7 +92,8 @@ properties:
     instrument reaches it. [inference]
 
     Whether AGS authors experienced it as a loss at all is a question about people rather than
-    about artifacts, and every source this corpus holds is an artifact —
+    about artifacts, and every AGS source this corpus holds is an artifact; the testimony it has
+    is Gilbert's, about another house —
     `.yidam/decisions/testimony.yml`. `[open]`
 links:
   - target: ../conversation/branching-tree.yml

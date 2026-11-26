@@ -268,6 +268,72 @@ fn the_reading_covered_every_linked_pair() {
     assert_eq!((p.len(), records.len(), nodes.len()), (241, 76, 46));
 }
 
+/// **The pairs were not the whole of it.** The same stale fact written a second time, in a node no
+/// record links or in `design/` and the catalog, is outside every pair the reading covered. The
+/// testimony sweep found ten such copies by searching for each corrected sentence's figure rather
+/// than by following links, and corrected them. Each is checked gone; the path is from the root.
+const COPIES: &[(&str, &str)] = &[
+    (
+        ".yidam/corpus/failure-mode/orphaned-dialogue-branch.yml",
+        "and every source this corpus holds is an artifact",
+    ),
+    (
+        ".yidam/corpus/interaction/acquisition-binding.yml",
+        "no source this corpus holds reports what using the thing was like",
+    ),
+    (
+        ".yidam/corpus/prior-art/ags.yml",
+        "The code, the manual and the interview are artifacts",
+    ),
+    (
+        ".yidam/corpus/subsystem/verb-menu.yml",
+        "The corpus writes the refusing form seventeen times",
+    ),
+    (
+        ".yidam/corpus/subsystem/verb-menu.yml",
+        "twenty-six to two toward showing here",
+    ),
+    (
+        ".yidam/catalog/delores-source.md",
+        "a hotspot verb carries a line.",
+    ),
+    (
+        ".yidam/catalog/delores-source.md",
+        "`when` with an `else` — **26**",
+    ),
+    (
+        ".yidam/catalog/delores-source.md",
+        "seventeen to nothing toward showing here",
+    ),
+    (
+        "design/bounded-expression-language.md",
+        "fifteen `and` and two `or`",
+    ),
+    (
+        "design/bounded-expression-language.md",
+        "twenty-six of the twenty-eight gated bindings",
+    ),
+];
+
+/// **Every copy found outside the pairs is corrected.**
+#[test]
+fn every_copy_outside_the_pairs_is_corrected() {
+    let root = repo_root();
+    for (file, sentence) in COPIES {
+        let src = flat(&std::fs::read_to_string(root.join(file)).expect("readable"));
+        assert!(!src.contains(sentence), "{file} says {sentence:?} again");
+    }
+    assert_eq!(COPIES.len(), 10);
+    let record = flat(
+        &std::fs::read_to_string(root.join(".yidam/decisions/retraction-reach.yml"))
+            .expect("readable"),
+    );
+    assert!(
+        record.contains("ten copies outside every pair"),
+        "retraction-reach states the undercount"
+    );
+}
+
 /// A corrected sentence another test keeps as the claim it was, and the mark that answers it.
 const KEPT: &[(&str, &str)] = &[(
     "That is defining the problem away",

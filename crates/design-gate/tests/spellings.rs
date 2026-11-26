@@ -58,6 +58,7 @@ enum Miss {
 const VOCABULARIES: &[(&str, &str, usize, Miss, &str)] = &[
     // a sentence and what it contradicted, two phrases a row; a sentence corrected fails by name
     ("drift.rs", "STALE", 48, Miss::Loud, ""),
+    ("drift.rs", "COPIES", 10, Miss::Loud, ""),
     ("drift.rs", "KEPT", 2, Miss::Loud, ""),
     (
         "enumerated.rs",
@@ -177,7 +178,7 @@ fn the_table_covers_every_vocabulary_in_the_gate() {
     );
 }
 
-/// **Three of nine fail silent, and every one of the three names what covers it.**
+/// **Three of ten fail silent, and every one of the three names what covers it.**
 ///
 /// The rule. A ceiling is not a defect — there is no `read_dir` for the ways a person might write a
 /// sentence, and a list of phrasings is the only way in. What is a defect is an *undeclared*
@@ -203,7 +204,7 @@ fn three_of_six_vocabularies_fail_silent_and_each_names_its_cover() {
     };
     assert_eq!(
         (count(Miss::Loud), count(Miss::Silent)),
-        (6, 3),
+        (7, 3),
         "vocabularies whose miss is a failure, and whose miss is a pass"
     );
     for (file, name, _, miss, cover) in VOCABULARIES {

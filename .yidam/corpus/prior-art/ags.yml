@@ -151,8 +151,10 @@ properties:
     the thing removed turns out to have been forty-eight commands with a type system rather than
     something thin.
 
-    Three retrievals failing is not three accidents. The code, the manual and the interview are
-    artifacts, and an artifact records what was built rather than why anybody decided to build it —
+    Three retrievals failing is not three accidents. The code and the manual are artifacts, and an
+    artifact records what was built rather than why anybody decided to build it; the interview is
+    testimony, the one piece retrieved for this house, and it is about the rewrite rather than the
+    removal —
     which [delores-source](../../catalog/delores-source.md) states about its own kind in one line:
     *"No design commentary. The source says what was built and never why."*
     `.yidam/decisions/testimony.yml` names the class of question this belongs to, and this node is

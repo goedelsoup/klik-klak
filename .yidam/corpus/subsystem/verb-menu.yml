@@ -82,10 +82,10 @@ properties:
     winnability, and differs only in how many menu slots the entry occupies. [verified] —
     `crates/reachability/tests/menu.rs`.
 
-    **And the two systems lean opposite ways.** The corpus writes the refusing form seventeen times
-    and the withholding form never on a hotspot verb; Delores writes 32 genuine `VERB_OK`
+    **And the two systems lean opposite ways.** The corpus writes the refusing form thirty times on
+    a hotspot verb and the withholding form twice (`crates/reachability/tests/defaults.rs`); Delores writes 32 genuine `VERB_OK`
     withholdings against 3 `VERB_PRE` refusals ([delores-source](../../catalog/delores-source.md)).
-    [verified] Eight to one toward hiding there, twenty-six to two toward showing here, in systems
+    [verified] Eight to one toward hiding there, fifteen to one toward showing here, in systems
     that both offer the choice. [inference] Nothing here explains the difference, and the obvious
     guess — that a handful of small specimens is not a house style — is the honest one. The count
     read *seventeen to nothing* until a fifth specimen withheld twice, at the one site where a

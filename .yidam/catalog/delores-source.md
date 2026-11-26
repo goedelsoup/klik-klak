@@ -590,7 +590,9 @@ replacing the verb rather than declining it.
 So the engine's division is: `VERB_OK` withholds the verb and says nothing, 62 times; `VERB_PRE`
 offers it and declines out loud, 3 times. **Twenty to one in favour of silence** — which is the
 reverse of the ratio in this corpus's own specimens, where every one of seventeen gated bindings on
-a hotspot verb carries a line.
+a hotspot verb carried a line when this was written. Across six specimens it is thirty of
+thirty-two; the two are `lock.game`'s `talk-to` on the character the player is driving
+(`crates/reachability/tests/defaults.rs`).
 
 ## Frame width — 2026-09-10
 
@@ -885,10 +887,11 @@ opposite ways.
 | | withhold | refuse |
 |---|---|---|
 | Delores | `VERB_OK` — **62 sites, 32 of them a genuine availability gate** (the other 30 test `noun2`, which is this design's second key) | `VERB_PRE` — **4 sites, 3 of them a refusal** |
-| this design's specimens | `when` with no `else` — **2** on a hotspot verb, both `talk-to` on the character the player is driving | `when` with an `else` — **26** |
+| this design's specimens | `when` with no `else` — **2** on a hotspot verb, both `talk-to` on the character the player is driving | `when` with an `else` — **30** |
 
 [verified] for every count. Roughly **eight to one toward hiding** in the shipped game, and
-seventeen to nothing toward showing here.
+fifteen to one toward showing here (`crates/reachability/tests/defaults.rs`; it read seventeen
+to nothing first, and twenty-six to two in `.yidam/decisions/unread-specimen.yml`).
 
 **The three refusals, in full, because three is few enough to quote.** `Nickel.fileDrawer`'s `open`
 says *"I should find the camera before setting out. Natalie said it is in the file cabinet"*;
