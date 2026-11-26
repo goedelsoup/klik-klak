@@ -157,7 +157,7 @@ does not re-emit it.
 
 ### [resolver-kind](resolver-kind.yml)
 
-- **:94** — **And it does not retire the three.** A question nothing in reach can answer is still a live question about adventure games, and `testimony` is a standing account of why rather than a retirement. [calculators](calculators.yml) retired two skills because *the thing that wanted them went away*; nothin…
+- **:99** — **And it does not retire the three.** A question nothing in reach can answer is still a live question about adventure games, and `testimony` is a standing account of why rather than a retirement. [calculators](calculators.yml) retired two skills because *the thing that wanted them went away*; nothin…
 
 ### [schema-deferral](schema-deferral.yml)
 
@@ -185,7 +185,7 @@ does not re-emit it.
 
 ### [threshold-trigger](threshold-trigger.yml)
 
-- **:107** — The question itself stays open and is narrower than it was. It is answerable only by a design that admitted duration, which is not this one; what has changed is that the trade can now be examined rather than only asserted, and fifteen is the number of arguments that would have to be re-read.
+- **:113** — The question itself stays open and is narrower than it was. It is answerable only by a design that admitted duration, which is not this one; what has changed is that the trade can now be examined rather than only asserted, and fifteen is the number of arguments that would have to be re-read.
 
 ### [two-bars](two-bars.yml)
 
