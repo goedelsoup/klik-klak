@@ -1,0 +1,7 @@
+format_version: 1
+phase: second-game-width
+type: Investigation
+input:
+  commit: 74ee69b7bd8451f93b7c01f922ecaea69be087a9
+  manifest_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  config_sha256: 5c87f76d12cba09001093d9a18f6b555e007c66c3d0e1bc98e18fbeb14015649
