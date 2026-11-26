@@ -1,6 +1,7 @@
 ---
 name: reachability
 description: Whether every reachable world-state configuration can still reach the ending, and which binding stranded the ones that cannot
+status: built
 ---
 
 # reachability

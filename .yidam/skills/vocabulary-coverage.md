@@ -1,6 +1,7 @@
 ---
 name: vocabulary-coverage
 description: Which verbs no interaction exercises, and which interactions reach for a verb the vocabulary does not declare
+status: stub
 ---
 
 # vocabulary-coverage

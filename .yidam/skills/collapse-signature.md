@@ -1,6 +1,7 @@
 ---
 name: collapse-signature
 description: Similarity between class pairs' relationship vocabularies — the falsifiable form of 'is cutscene just an interaction?'
+status: stub
 ---
 
 # collapse-signature
