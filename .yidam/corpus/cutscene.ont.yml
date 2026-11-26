@@ -43,6 +43,7 @@ properties:
     type: text
     prose: true
     description: Where control is returned to when the sequence ends.
+edge_policy: exhaustive
 edges:
   - relationship: plays-in
     target: room

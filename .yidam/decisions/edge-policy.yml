@@ -1,0 +1,39 @@
+id: edge-policy
+summary: >-
+  **Every class closes its relationship vocabulary.** All fifteen classes with edges now say
+  `edge_policy: exhaustive`, so a relationship a class does not declare is an `unlicensed-edge`
+  error under `yidam lint` rather than a warning. The corpus loses nothing by it: 142 edges across
+  44 instances, and not one of them uses a verb its class leaves undeclared.
+context: |
+  `yidam doctor` at cli/v0.27.0 warns that *"no class says `edge_policy:` (15 with edges)"*. The
+  field was offered in cli/v0.17.0 and this repository never wrote it, so `unlicensed-edge` could
+  report and never gate. `.yidam/.vendor/prelude/GRAPH.md` gives the field three values:
+  `exhaustive` (an undeclared relationship is an error), `characteristic` (it is not reported,
+  because `edges:` names what defines the class and anything else is a deliberate coinage), and
+  absent (a warning).
+
+  Upstream added the field because a derived corpus that coined single-use verbs on purpose had
+  210 errors. That is not this corpus. Before the change, `yidam lint` reported no
+  `unlicensed-edge` at all. [verified]
+decision: |
+  **`edge_policy: exhaustive` on all fifteen classes.** A new relationship is added by declaring
+  it on the class, in the same commit as the first edge that uses it.
+
+  Checked by planting `ocupies` for `occupies` on `actor/non-player-character`. `yidam lint` failed
+  with *"`ocupies` is not a relationship `.yidam/corpus/actor.ont.yml` declares, whose vocabulary
+  is `exhaustive`"*. `graph-check` stayed clean, because the lint is the check that reads the
+  policy. The file was restored. [verified]
+rationale: |
+  **This corpus already treats its edge vocabulary as a contract.** [prose-edges](prose-edges.yml)
+  refused thirteen edges whose only support was that a relationship was available.
+  [declared-edge](declared-edge.yml) cut two `depends-on` edges that the build contradicted. Both
+  records read a relationship as a claim the class licenses. `characteristic` describes a corpus
+  that coins verbs, and this one does not.
+
+  **Absent was the worst of the three choices here.** It reports the typo case and gates nothing,
+  so a misspelled verb would fall out of every typed `query` and still pass CI.
+
+  **The cost is small and stays visible.** A verb that is truly new needs one more line, written on
+  the class where the next reader will look for it. If a class later starts coining verbs on
+  purpose, moving it to `characteristic` is a one-line `decide:`, and the lint finding will name
+  the class that needs it.

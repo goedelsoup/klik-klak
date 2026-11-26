@@ -20,6 +20,7 @@ properties:
     type: text
     prose: true
     description: How the room's appearance and contents change as world state changes.
+edge_policy: exhaustive
 edges:
   - relationship: contains
     target: hotspot

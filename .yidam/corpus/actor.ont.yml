@@ -20,6 +20,7 @@ properties:
   - name: speech
     type: string
     description: How the actor's lines are presented — overhead text, portrait, or none.
+edge_policy: exhaustive
 edges:
   - relationship: occupies
     target: room

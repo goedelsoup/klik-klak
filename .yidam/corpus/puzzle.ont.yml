@@ -19,6 +19,7 @@ properties:
   - name: reversibility
     type: string
     description: Whether the state this puzzle sets can be unset once set.
+edge_policy: exhaustive
 edges:
   - relationship: solved-by
     target: interaction

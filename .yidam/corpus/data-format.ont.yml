@@ -25,6 +25,7 @@ properties:
     type: text
     prose: true
     description: What this format cannot express, and what an author is expected to reach for instead.
+edge_policy: exhaustive
 edges:
   - relationship: encodes
     target: room

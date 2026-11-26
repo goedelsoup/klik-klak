@@ -45,6 +45,7 @@ properties:
     description: >-
       What was weighed for and against this verb being irreducible, and where the weighing
       landed. Absent means the verb has not been assessed, which is a real state and not a gap.
+edge_policy: exhaustive
 edges:
   - relationship: originated-in
     target: prior-art

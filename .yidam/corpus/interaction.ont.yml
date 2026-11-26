@@ -49,6 +49,7 @@ properties:
     type: text
     prose: true
     description: What is said when the precondition does not hold — distinct from a verb's default response.
+edge_policy: exhaustive
 edges:
   - relationship: applies
     target: verb

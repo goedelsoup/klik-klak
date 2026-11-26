@@ -37,6 +37,7 @@ properties:
   - name: state_scope
     type: string
     description: Whether progress within the exchange is local to it or written to world state.
+edge_policy: exhaustive
 edges:
   - relationship: held-with
     target: actor

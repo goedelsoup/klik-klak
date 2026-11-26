@@ -23,6 +23,7 @@ properties:
   - name: source_standing
     type: string
     description: What this corpus has actually read about it, as distinct from what it recalls.
+edge_policy: exhaustive
 edges:
   - relationship: implements
     target: verb

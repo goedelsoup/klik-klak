@@ -20,6 +20,7 @@ properties:
   - name: authoring_visibility
     type: string
     description: Whether an author configures this component directly, indirectly, or not at all.
+edge_policy: exhaustive
 edges:
   - relationship: realizes
     target: interaction

@@ -231,6 +231,7 @@ nodes, at four times the rate, and it had never been looked at.
 - [binding-axes](binding-axes.yml)
 - [declared-reach](declared-reach.yml)
 - [domain-computer](domain-computer.yml)
+- [edge-policy](edge-policy.yml)
 - [name-scoping](name-scoping.yml)
 - [settled-surface](settled-surface.yml)
 
@@ -269,6 +270,7 @@ list is the one that record holds as a tripwire.
 - [conversation-boundary](conversation-boundary.yml)
 - [design-directory](design-directory.yml)
 - [domain-computer](domain-computer.yml)
+- [edge-policy](edge-policy.yml)
 - [effect-vocabulary](effect-vocabulary.yml)
 - [name-scoping](name-scoping.yml)
 - [ontology](ontology.yml)

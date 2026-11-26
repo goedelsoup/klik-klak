@@ -27,6 +27,7 @@ properties:
   - name: icon
     type: string
     description: What the inventory interface draws for it.
+edge_policy: exhaustive
 edges:
   - relationship: found-in
     target: room

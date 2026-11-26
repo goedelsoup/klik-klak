@@ -48,6 +48,7 @@ properties:
     type: text
     prose: true
     description: Whether the flag is written to a save file, and what a save that omits it would lose.
+edge_policy: exhaustive
 edges:
   - relationship: gates
     target: puzzle

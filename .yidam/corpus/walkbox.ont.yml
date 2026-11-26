@@ -35,6 +35,7 @@ properties:
   - name: passability
     type: string
     description: Whether the region is always walkable or conditional on world state.
+edge_policy: exhaustive
 edges:
   - relationship: bounded-by
     target: room

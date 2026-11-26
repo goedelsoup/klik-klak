@@ -20,6 +20,7 @@ properties:
   - name: player_visible
     type: string
     description: Whether a player can tell they are in this state.
+edge_policy: exhaustive
 edges:
   - relationship: arises-from
     target: puzzle
