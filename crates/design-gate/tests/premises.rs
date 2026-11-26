@@ -66,12 +66,15 @@ fn premises(root: &Path) -> Vec<String> {
 /// change is not a baseline, which is the finding of this phase arriving inside its own check.
 const BEFORE: &str = "^revise: two sentences that were edges";
 
-/// **Twelve of fifteen now**, and the twelfth is `puzzle/state-gate` — which moved because a
-/// question it had closed came back. `.yidam/decisions/unread-specimen.yml`. The window is closed
-/// and the count only grows, so this rising is the ordinary thing; what is not ordinary is the
-/// cause, and a count of moved premises is exactly as unable to report it as the clock is.
+/// **Thirteen of fifteen now.** The thirteenth is `interaction/acquisition-binding`, which moved
+/// when the testimony sweep narrowed its *"every one of them is an artifact"* to AGS — a copy of a
+/// fact `.yidam/decisions/testimony.yml` had already corrected, found by searching rather than by
+/// following a link (`.yidam/decisions/retraction-reach.yml`). This comment used to name
+/// `puzzle/state-gate` as the twelfth, which is not a premise at all. The window is closed and the count only grows, so this rising is the ordinary
+/// thing; what is not ordinary is the cause, and a count of moved premises is exactly as unable to
+/// report it as the clock is.
 #[test]
-fn twelve_of_fifteen_premises_moved_under_the_proposal() {
+fn thirteen_of_fifteen_premises_moved_under_the_proposal() {
     let root = repo_root();
     let found = git(&root, &["log", "--format=%H", "--grep", BEFORE]);
     let last = found
@@ -108,7 +111,7 @@ fn twelve_of_fifteen_premises_moved_under_the_proposal() {
     }
     assert_eq!(
         moved.len(),
-        12,
+        13,
         "premises edited since the document was: {moved:?}"
     );
     assert!(
