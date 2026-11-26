@@ -1,7 +1,7 @@
 ---
 title: A bounded expression language for authored interaction
 status: proposal
-reconciled: 3b84ad1afae27c6bf78f66af7ea2fbdbbde5b60b
+reconciled: dc79f7f98d77d20e75379f6f28e89f14184d4e35
 rests_on:
   - .yidam/corpus/actor/player-character.yml
   - .yidam/corpus/data-format/interaction-table.yml
@@ -155,7 +155,7 @@ distinguishes this proposal from what AGS shipped. Combining them is.
 binary connectives appeared **once** — one `and`, no `or`.
 
 **A fifth game moved it to twelve and a sixth wrote the half nobody had.** Across
-`design/specimen/` the binary connectives now appear **seventeen times — fifteen `and` and two
+`design/specimen/` the binary connectives now appear **sixteen times — fourteen `and` and two
 `or`** — while `not`, which is unary and combines nothing, appears sixteen. [verified] —
 `crates/game-format/tests/coverage.rs`, `.yidam/decisions/unwritten.yml`. The widest guard joins
 five atoms, and one conjunction is written by hand into four separate preconditions.
@@ -312,7 +312,8 @@ otherwise without any new syntax**: a `when` with an `else` under it offers the 
 declines out loud, and a `when` with nothing under it withholds it. The specimens use the second
 form five times, all at sites where a refusal cannot exist — two conversation options, one
 `on-enter`, and two `talk-to` bindings on the character the player is currently driving — and
-twenty-six of the twenty-eight gated bindings on a hotspot verb write a line. Nothing in `crates/`
+thirty of the thirty-two gated bindings on a hotspot verb write a line
+(`crates/reachability/tests/defaults.rs`). Nothing in `crates/`
 can tell the two readings apart, by construction: strip every refusal from every specimen and no
 figure moves. See [`availability`](../.yidam/decisions/availability.yml). The two
 assessments wanted arrival at two granularities: a room, and a place within a room. Only the first

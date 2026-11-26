@@ -1,7 +1,7 @@
 ---
 title: A graphical client for the bounded game
 status: proposal
-reconciled: 12c39d044ea1f5c744a679b28abd08e33b083bd6
+reconciled: dc79f7f98d77d20e75379f6f28e89f14184d4e35
 rests_on:
   - .yidam/corpus/subsystem/verb-menu.yml
   - .yidam/corpus/subsystem/interaction-resolver.yml
