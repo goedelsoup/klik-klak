@@ -77,7 +77,7 @@ Fields: corpus node count, open questions, catalog entries, claim counts by
         commit, so no committed value could be green everywhere. `yidam phases`
         holds it, where being current is the point.
 -->
-**44 nodes** · 4 open · 11 sources · claims 394v / 255i / 4o · index not initialized · genesis 2026-09-09
+**44 nodes** · 4 open · 11 sources · claims 394v / 255i / 4o · genesis 2026-09-09
 <!-- /REGEN -->
 
 ## Artifacts
@@ -89,7 +89,7 @@ Fields: each declared vault, its audience, what it holds, how many catalog artif
 Committed files only — never the local cache and never the network, so the block reads
 the same in every clone. `yidam vault status` answers what is on *this* machine.
 -->
-_Run `yidam vault-status` to populate._
+_No vault configured. Artifacts are kept in the local cache and go nowhere else._
 <!-- /REGEN -->
 
 ## Working here
