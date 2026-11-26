@@ -1,7 +1,7 @@
 ---
 title: A bounded expression language for authored interaction
 status: proposal
-reconciled: c77fde923c784f9408fdf4644554435dbded6fad
+reconciled: 3699c7169578f22136ec566a001efa64a8b5e644
 rests_on:
   - .yidam/corpus/actor/player-character.yml
   - .yidam/corpus/data-format/interaction-table.yml
