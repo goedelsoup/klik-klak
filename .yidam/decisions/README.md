@@ -160,11 +160,6 @@ does not re-emit it.
 
 - **:94** — **And it does not retire the three.** A question nothing in reach can answer is still a live question about adventure games, and `testimony` is a standing account of why rather than a retirement. [calculators](calculators.yml) retired two skills because *the thing that wanted them went away*; nothin…
 
-### [retraction-reach](retraction-reach.yml)
-
-- **:19** — > *Script Classes for Adventure Games* is in the retrieved set, **unread**, and is where a verb > bar would be declared if Sierra declared one.
-- **:81** — **What this does not settle.** Whether the corpus or the record is the authority anywhere other than a marker. Nothing checks that a node and the record that argued about it agree on anything else, and the two copies have been drifting in whichever direction each phase was looking. What would close …
-
 ### [schema-deferral](schema-deferral.yml)
 
 - **:90** — **What this does not settle.** Whether the corpus should count deferrals at all. This record found four instances of one question by matching a phrase, which worked because the four happened to reach for the same words — and `marker-count`'s question, the one still refused, is exactly the machinery …
@@ -226,7 +221,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**57 open.**
+**55 open.**
 
 ## What nothing cites
 
