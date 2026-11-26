@@ -52,10 +52,10 @@ Sorted by: kind, then alphabetically.
 | [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 50v / 24i / 0o | 631 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 10v / 7i / 0o | 155 |
 | [save-state.yml](data-format/save-state.yml) | data-format | Save State | 4 | 7v / 4i / 0o | 101 |
-| [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 9v / 5i / 1o | 101 |
+| [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 9v / 5i / 1o | 102 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 4v / 5i / 0o | 96 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 23v / 9i / 0o | 221 |
-| [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 5i / 1o | 75 |
+| [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 5i / 1o | 76 |
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 8v / 9i / 0o | 140 |
 | [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 4v / 3i / 0o | 103 |
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 4v / 1i / 0o | 62 |
@@ -64,7 +64,7 @@ Sorted by: kind, then alphabetically.
 | [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 9v / 2i / 0o | 90 |
 | [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 9v / 4i / 0o | 144 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
-| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 5 | 18v / 5i / 1o | 185 |
+| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 5 | 18v / 5i / 1o | 187 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 1v / 10i / 0o | 96 |
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 18v / 12i / 0o | 231 |
 | [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 12 | 29v / 12i / 0o | 351 |
