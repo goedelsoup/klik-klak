@@ -85,7 +85,7 @@ Sorted by: kind, then alphabetically.
 | [scaled-polygon.yml](walkbox/scaled-polygon.yml) | walkbox | Scaled Polygon | 2 | 9v / 4i / 0o | 120 |
 | [boolean-flag.yml](world-flag/boolean-flag.yml) | world-flag | Boolean Flag | 2 | 4v / 3i / 0o | 63 |
 | [counter-flag.yml](world-flag/counter-flag.yml) | world-flag | Counter Flag | 2 | 4v / 5i / 0o | 83 |
-| [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 16v / 7i / 1o | 201 |
+| [latched-flag.yml](world-flag/latched-flag.yml) | world-flag | Latched Flag | 2 | 16v / 8i / 1o | 208 |
 | [object-state.yml](world-flag/object-state.yml) | world-flag | Object State | 2 | 5v / 5i / 0o | 85 |
 <!-- /REGEN -->
 
