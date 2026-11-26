@@ -486,7 +486,12 @@ jobs:
       run:
         working-directory: crates
     steps:
+      # Full history: design-gate's clock tests date the open questions with `git blame`,
+      # and a depth-1 checkout blames every line on the one commit it has, so the genesis
+      # question reads as reopened and every question as the same age.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
