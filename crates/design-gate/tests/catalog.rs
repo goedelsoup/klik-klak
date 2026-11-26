@@ -251,7 +251,7 @@ fn the_artifact_that_was_called_unretrieved_is_the_most_cited_source_here() {
             (n, stem(p))
         })
         .collect();
-    counts.sort_by(|a, b| b.0.cmp(&a.0));
+    counts.sort_by_key(|a| std::cmp::Reverse(a.0));
     assert_eq!(
         counts[0],
         (31, "delores-source.md".to_string()),

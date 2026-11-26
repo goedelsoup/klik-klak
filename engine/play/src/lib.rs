@@ -14,7 +14,7 @@
 //!
 //! **A terminal holds a player, and what it cannot do is time the hold.** Every line goes through
 //! `response_presenter::present`, which returns only when the sink does, and there are two sinks
-//! here. [`Collect`] returns at once and holds nobody; [`Await`] returns when the player asks for
+//! here. `Collect` returns at once and holds nobody; [`Await`] returns when the player asks for
 //! the next thing, which is a real hold and needs no clock. `.yidam/decisions/dismissed-hold.yml`.
 //!
 //! **The second one is what shows the cost.** Under a dismissed hold the author's longest sentence

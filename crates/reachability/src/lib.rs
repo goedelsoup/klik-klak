@@ -25,7 +25,7 @@
 //! is two systems that can disagree. `.yidam/decisions/two-components.yml`.
 //!
 //! What is left is the **search**: a breadth-first walk of the state graph the engine defines,
-//! and the three functions that serve only it — [`describe`], [`observable`] and [`can_finish`].
+//! and the three functions that serve only it — `describe`, `observable` and `can_finish`.
 
 pub use game_format::State;
 use game_format::{Binding, Effect, Game, Site, World};

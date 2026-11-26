@@ -50,7 +50,8 @@ fn lex(no: usize, raw: &str) -> Option<Line> {
         if bytes[i] == '"' {
             quotes += 1;
         }
-        if bytes[i] == '?' && i + 1 < bytes.len() && bytes[i + 1] == '?' && quotes % 2 == 0 {
+        if bytes[i] == '?' && i + 1 < bytes.len() && bytes[i + 1] == '?' && quotes.is_multiple_of(2)
+        {
             cut = i;
             break;
         }

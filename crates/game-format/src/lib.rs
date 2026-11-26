@@ -6,7 +6,7 @@
 //! an instrument and an engine and is this repository's characteristic hazard.
 //!
 //! The one rule the format rests on is the predicate layer's **admission rule**: every
-//! operand must name something the game declares. [`Game::resolve`] is that rule, and it is
+//! operand must name something the game declares. [`resolve`] is that rule, and it is
 //! type-aware where the shell gate it replaced was not — `carrying` must name an item,
 //! `move` must name a room, `chosen` must name an option. A name that resolves to the wrong
 //! kind used to pass.
