@@ -242,6 +242,9 @@ fn class_of(root: &Path) -> BTreeMap<String, String> {
 /// that measures it. `markers.rs` found the
 /// open questions migrating into the decision records where no tool counts them; this is the
 /// citations doing it, and it is the larger half.
+///
+/// `ags-testimony` added two more, both root-based and both to the decision record: the pointer
+/// `prior-art/ags` and `interaction-table` carry where the removal reason used to be unknown.
 #[test]
 fn every_path_written_in_corpus_prose_resolves() {
     let root = repo_root();
@@ -268,10 +271,10 @@ fn every_path_written_in_corpus_prose_resolves() {
     );
     assert_eq!(
         (own, repo, corpus),
-        (143, 162, 5),
+        (143, 164, 5),
         "the three bases, all load-bearing"
     );
-    assert_eq!((own + repo + corpus, decisions), (310, 187));
+    assert_eq!((own + repo + corpus, decisions), (312, 189));
 }
 
 /// **99 declared edges, 97 prose citations, and 18 pairs in both.**
