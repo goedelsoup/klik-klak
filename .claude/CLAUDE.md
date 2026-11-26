@@ -10,6 +10,8 @@ the prelude's old `bootstrap` skill is history, not an instruction (upstream no 
 Read [AGENTS.md](../AGENTS.md) before taking substantive action. It names the prelude files
 that govern conduct here and the gate that CI runs.
 
+<!-- YIDAM:CLAUDE -->
+
 ## The short version
 
 - **Nodes** are files in [`.yidam/corpus/`](../.yidam/corpus/). One concept per file. Every
@@ -51,3 +53,5 @@ mise run ci              # graph-check, graph-lint, regen --check — the whole 
 `mise run ci` is what CI runs, and the two are held together by a test upstream. Run it
 rather than its parts: `graph-check` reads the graph and says nothing about a stale REGEN
 block, which is a failing build all the same.
+
+<!-- /YIDAM:CLAUDE -->

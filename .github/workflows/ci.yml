@@ -56,6 +56,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  # <!-- YIDAM:CI --> placed by `yidam migrate scaffold`; the next re-vendor fills it
   # ── Paths that may not sit in a public repository ──────────────────────────
   #
   # Opt-in. Absent `.yidam/private-paths`, this job passes immediately and costs
@@ -183,24 +184,6 @@ jobs:
           else
             yidam policy gate disclose/at_rest --public
           fi
-
-  detect:
-    name: detect layers
-    runs-on: ubuntu-latest
-    outputs:
-      crates: ${{ steps.check.outputs.crates }}
-      engine: ${{ steps.check.outputs.engine }}
-      packages: ${{ steps.check.outputs.packages }}
-      web: ${{ steps.check.outputs.web }}
-    steps:
-      - uses: actions/checkout@v4
-      - id: check
-        run: |
-          test -f crates/Cargo.toml     && echo "crates=true"   >> "$GITHUB_OUTPUT" || echo "crates=false"   >> "$GITHUB_OUTPUT"
-          test -f engine/Cargo.toml     && echo "engine=true"   >> "$GITHUB_OUTPUT" || echo "engine=false"   >> "$GITHUB_OUTPUT"
-          test -f packages/pyproject.toml && echo "packages=true" >> "$GITHUB_OUTPUT" || echo "packages=false" >> "$GITHUB_OUTPUT"
-          test -f web/package.json      && echo "web=true"      >> "$GITHUB_OUTPUT" || echo "web=false"      >> "$GITHUB_OUTPUT"
-
   corpus:
     name: corpus (graph gate)
     runs-on: ubuntu-latest
@@ -476,6 +459,24 @@ jobs:
       # job became live the moment crates/Cargo.toml appeared, and the
       # conditional wiring is exactly what it was built for. See
       # .yidam/decisions/domain-computer.yml.
+  # <!-- /YIDAM:CI -->
+
+  detect:
+    name: detect layers
+    runs-on: ubuntu-latest
+    outputs:
+      crates: ${{ steps.check.outputs.crates }}
+      engine: ${{ steps.check.outputs.engine }}
+      packages: ${{ steps.check.outputs.packages }}
+      web: ${{ steps.check.outputs.web }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        run: |
+          test -f crates/Cargo.toml     && echo "crates=true"   >> "$GITHUB_OUTPUT" || echo "crates=false"   >> "$GITHUB_OUTPUT"
+          test -f engine/Cargo.toml     && echo "engine=true"   >> "$GITHUB_OUTPUT" || echo "engine=false"   >> "$GITHUB_OUTPUT"
+          test -f packages/pyproject.toml && echo "packages=true" >> "$GITHUB_OUTPUT" || echo "packages=false" >> "$GITHUB_OUTPUT"
+          test -f web/package.json      && echo "web=true"      >> "$GITHUB_OUTPUT" || echo "web=false"      >> "$GITHUB_OUTPUT"
 
   crates:
     name: crates (domain computer)
