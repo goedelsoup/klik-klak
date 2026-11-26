@@ -1,0 +1,96 @@
+id: second-game-width
+summary: >-
+  A full-length adventure has the acts Delores lacked, and they are enforced in code. Its
+  whole-game antichain, 191, is the sum of its eight act widths, 198, to within a few units. So a
+  whole-game antichain measures k·w rather than w, and Delores's 54 was never evidence against the
+  acts model. The structure the tractability argument needs is present. The width inside an act is
+  larger than Gilbert's two or three, and in puzzles it is still bounded rather than measured.
+context: |
+  [measured-width](measured-width.yml) drew Delores's dependency graph and found no act structure
+  in it. It set out three readings and declined to choose: the measure is not the model's; the game
+  is too small to have acts; the premise is a design rule and not a fact about games. Its `[open]`
+  named what would settle it: "a full-length adventure whose source can be read".
+
+  `phase/second-game-width` found one. [lsl5-source](../catalog/lsl5-source.md) is the script
+  source of *Leisure Suit Larry 5* (Sierra, 1991): 136 script files, eight cities, two
+  protagonists. The repository has no licence. It was cloned outside this repository, and the
+  entry reports figures, file-and-line citations and quotations of a few words only. The method is
+  Delores's: an edge wherever one authored step writes a game-state name another reads. The missing
+  measure was added too, the width of each act on its own, between the gates.
+decision: |
+  **Measured.** On every name, as Delores was measured: 1694 edges, 398 units, a longest chain of
+  7, a whole-game antichain of **191**. [verified] Without room-locals and the names that only route
+  the player between acts: 1005 edges, 251 units, chain 5, antichain **115**. [verified]
+
+  **By act**, between the gates: [verified]
+
+  | Act | every name | locals and routing removed |
+  |---|---|---|
+  | Hollywood | 35 | 13 |
+  | FBI | 8 | 8 |
+  | New York | 22 | 14 |
+  | Atlantic City | 21 | 13 |
+  | Miami | 8 | 7 |
+  | Baltimore | 17 | 20 |
+  | Philadelphia | 14 | 11 |
+  | Washington | 3 | 3 |
+
+  Longest chain inside an act: 2 to 6. The designer's own points list scores 1 to 17 steps per act,
+  which bounds an act's width *in puzzles* at 17. [verified]
+
+  **The acts are enforced, and the enforcement was read.** Leaving a city sets a flag that removes
+  it from the ticket machine and from the limousine (`200.SC:87–112`, `258.SC:512–552`). The finale
+  opens when two earlier acts are both done (`200.SC:239–242`). The protagonist, and with it the
+  whole inventory, changes with the room (`000.SC:703–726`). Act regions share almost no edges:
+  four items in all, plus one limousine flag the code reuses in every city. [verified]
+
+  **The three readings, chosen between:**
+
+  - **The measure is not the model's — established.** The act widths sum to **198** against a
+    whole-game antichain of **191**, and to 148 against 140 without locals. [verified] With gates
+    between them, acts' steps are unordered *across* acts in the graph even though no player can
+    reach two at once, so the whole-game antichain adds the act widths together. It measures `k·w`,
+    and it can only be read as `w` when `k` is 1. [inference] — from one game, but the mechanism is
+    the definition of an antichain and does not depend on the game.
+  - **The game is too small to have acts — supported.** The full-length game has eight acts behind
+    hard gates; the demonstrator has two gated exits in twenty. [verified] That is one game of each
+    size and says nothing about full-length games in general. [inference]
+  - **The premise is a design rule, not a fact about games — rejected for the structure, open for
+    the number.** The bottlenecks `acts(k, w)` assumes are in this game, written as code, and they
+    are absolute: no edge crosses them that the graph can see. [verified] The width between them is
+    3 to 35 units and at most 17 scored steps, not 2 to 3. Units over-count puzzles, and a points
+    list is an upper bound, so whether the width *in puzzles* is inside the 2–5 that
+    [latched-flag](../corpus/world-flag/latched-flag.yml) assumes is not settled by either figure.
+    [inference]
+rationale: |
+  **Why the first reading decides, rather than all three standing.** `measured-width` could not
+  choose because each reading explained Delores equally well. They make different predictions about
+  a game with acts: the first predicts the whole-game antichain will be close to the sum of the act
+  widths; the third predicts a full-length game will show no more bottlenecks than the demonstrator
+  did. The first prediction came true to within six percent, and the second failed outright.
+  [verified]
+
+  **What it does to the tractability argument.** `latched-flag` says the reachable set is "linear in
+  the number of puzzles and exponential in the width". The linear half is the gates' doing, and in
+  this game the gates exist. The exponential half is per act, so the cost is a *sum* over acts of
+  something exponential in each act's width rather than a product. [inference] The width that sum
+  is exponential in is the open part. At 13 independent units an act's ceiling is 8,192 states; at
+  25, Baltimore's figure on its own edges, it is about 33 million. These are ceilings, not
+  measurements: the chains inside an act cut them, and by how much was not measured. [inference]
+
+  **What this corrects in the record.** `measured-width` said "the corpus's tractability claim
+  depends on a structure that the only shipped game available to it does not have". That stays true
+  of Delores and stops being true of the corpus, which now has a game that has the structure.
+  `measured-width` is not rewritten; it gains a correction.
+
+  **What was not done.** Delores's gated exits were counted exit by exit; here the gates were found
+  and read in the source instead, so there is no ratio to set beside "2 of 20". The hint book, which
+  is a dependency chart written for players, was not opened, and it is the reading most likely to
+  give the width in puzzles that the points list only bounds. Cycles through money and inventory
+  merge some units when the antichain is counted, so some act widths are lower bounds. [verified]
+
+  **The question that remains is narrower again.** Not whether games have acts. This one does, and
+  they are enforced. The question is whether an act's width *in puzzles* is small enough for the
+  sum to stay cheap. The next reading is this game's hint book. The next measurement is the other
+  Sierra source on the same account, which would say whether eight gated acts belong to this
+  designer or to the house. `[open]`
