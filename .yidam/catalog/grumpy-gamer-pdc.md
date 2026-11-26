@@ -12,9 +12,6 @@ location:
   - kind: url
     value: https://blog.thimbleweedpark.com/act_123_puzzles.html
     description: "\"Act 1, 2 and 3 Combined Puzzles\", 20 April 2015 — the chart for a game he then shipped"
-used-by:
-  - ../corpus/puzzle/state-gate.yml
-  - ../corpus/world-flag/latched-flag.yml
 ---
 
 **A source of record, and about a narrower thing than it first appears.** Ron Gilbert designed

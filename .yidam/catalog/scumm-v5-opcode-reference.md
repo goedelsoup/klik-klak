@@ -8,16 +8,6 @@ ttl_days: 3650
 location:
   - kind: url
     value: https://www.scummvm.org/old/docs/specs/scrp-v5.php
-used-by:
-  - ../corpus/verb/pick-up.yml
-  - ../corpus/interaction/acquisition-binding.yml
-  - ../corpus/verb/talk-to.yml
-  - ../corpus/conversation/branching-tree.yml
-  - ../corpus/verb/use-with.yml
-  - ../corpus/verb/walk-to.yml
-  - ../corpus/prior-art/scumm.yml
-  - ../corpus/interaction/binary-binding.yml
-  - ../corpus/subsystem/response-presenter.yml
 ---
 
 **Reverse-engineered, and it says so.** The footer reads "All material © 2000-2002 David Given,

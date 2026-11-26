@@ -18,8 +18,6 @@ location:
   - kind: url
     value: https://sciwiki.sierrahelp.com/index.php/SCI_Specifications:_Chapter_6_-_SCI_in_action
     description: event handling, the parser and Said specs — read for the event vocabulary
-used-by:
-  - ../corpus/prior-art/sierra-sci.yml
 ---
 
 **What [`agi-specifications`](agi-specifications.md) is to AGI, this is to SCI**, and the pairing

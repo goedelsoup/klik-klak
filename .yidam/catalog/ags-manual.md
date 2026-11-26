@@ -15,31 +15,6 @@ location:
   - kind: url
     value: https://adventuregamestudio.github.io/ags-manual/
     description: the rendered manual; JavaScript-driven, so a plain fetch returns an empty page
-used-by:
-  - ../corpus/world-flag/boolean-flag.yml
-  - ../corpus/world-flag/counter-flag.yml
-  - ../corpus/world-flag/object-state.yml
-  - ../corpus/data-format/save-state.yml
-  - ../corpus/prior-art/ags.yml
-  - ../corpus/verb/pick-up.yml
-  - ../corpus/interaction/acquisition-binding.yml
-  - ../corpus/verb/talk-to.yml
-  - ../corpus/conversation/branching-tree.yml
-  - ../corpus/conversation/topic-list.yml
-  - ../corpus/data-format/interaction-table.yml
-  - ../corpus/interaction/entry-binding.yml
-  - ../corpus/data-format/dialogue-script.yml
-  - ../corpus/subsystem/interaction-resolver.yml
-  - ../corpus/verb/use-with.yml
-  - ../corpus/verb/give-to.yml
-  - ../corpus/verb/look-at.yml
-  - ../corpus/interaction/default-binding.yml
-  - ../corpus/failure-mode/orphaned-dialogue-branch.yml
-  - ../corpus/world-flag/latched-flag.yml
-  - ../corpus/inventory-item/stackable-item.yml
-  - ../corpus/verb/walk-to.yml
-  - ../corpus/cutscene/scripted-sequence.yml
-  - ../corpus/subsystem/response-presenter.yml
 ---
 
 **This is a source of record and it is the only one this corpus holds.** The AGS manual is

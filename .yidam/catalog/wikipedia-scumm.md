@@ -8,12 +8,6 @@ ttl_days: 730
 location:
   - kind: url
     value: https://en.wikipedia.org/wiki/SCUMM
-used-by:
-  - ../corpus/prior-art/scumm.yml
-  - ../corpus/verb/pick-up.yml
-  - ../corpus/verb/talk-to.yml
-  - ../corpus/verb/look-at.yml
-  - ../corpus/verb/walk-to.yml
 ---
 
 **This is an aggregator and it can never support a `[verified]` claim in this corpus.** SCUMM

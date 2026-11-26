@@ -21,8 +21,6 @@ location:
   - kind: url
     value: https://www.agiwiki.sierrahelp.com/index.php/AGI_Specifications:_Chapter_6_-_Logic_Resources
     description: the same section on the AGI Wiki, read to confirm the per-game command range
-used-by:
-  - ../corpus/prior-art/sierra-sci.yml
 ---
 
 **Reverse-engineered, and it disclaims the one thing this corpus most wanted from it.** The

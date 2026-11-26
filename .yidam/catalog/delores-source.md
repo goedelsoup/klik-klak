@@ -12,39 +12,6 @@ location:
   - kind: url
     value: https://grumpygamer.com/delores_dev/
     description: "\"Delores Source Code Released!\", the announcement"
-used-by:
-  - ../corpus/subsystem/verb-menu.yml
-  - ../corpus/prior-art/sierra-sci.yml
-  - ../corpus/verb/give-to.yml
-  - ../corpus/data-format/dialogue-script.yml
-  - ../corpus/conversation/topic-list.yml
-  - ../corpus/conversation/branching-tree.yml
-  - ../corpus/verb/walk-to.yml
-  - ../corpus/prior-art/thimbleweed-park.yml
-  - ../corpus/data-format/interaction-table.yml
-  - ../corpus/hotspot/static-region.yml
-  - ../corpus/cutscene/scripted-sequence.yml
-  - ../corpus/actor/non-player-character.yml
-  - ../corpus/world-flag/object-state.yml
-  - ../corpus/world-flag/latched-flag.yml
-  - ../corpus/interaction/default-binding.yml
-  - ../corpus/interaction/unary-binding.yml
-  - ../corpus/data-format/room-manifest.yml
-  - ../corpus/walkbox/scaled-polygon.yml
-  - ../corpus/room/scrolling.yml
-  - ../corpus/interaction/entry-binding.yml
-  - ../corpus/interaction/binary-binding.yml
-  - ../corpus/subsystem/interaction-resolver.yml
-  - ../corpus/inventory-item/portable-object.yml
-  - ../corpus/prior-art/ags.yml
-  - ../corpus/prior-art/scumm.yml
-  - ../corpus/failure-mode/orphaned-dialogue-branch.yml
-  - ../corpus/verb/use-with.yml
-  - ../corpus/interaction/binary-binding.yml
-  - ../corpus/interaction/conversational-binding.yml
-  - ../corpus/subsystem/response-presenter.yml
-  - ../corpus/puzzle/state-gate.yml
-  - ../corpus/subsystem/path-solver.yml
 ---
 
 **A source of record, and the first one this corpus can *count*.** *Delores: A Thimbleweed Park

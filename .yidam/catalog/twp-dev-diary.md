@@ -12,18 +12,6 @@ location:
   - kind: url
     value: https://blog.thimbleweedpark.com/
     description: "The blog itself; every post cited below is `<slug>.html` under this host"
-used-by:
-  - ../corpus/data-format/save-state.yml
-  - ../corpus/prior-art/thimbleweed-park.yml
-  - ../corpus/data-format/room-manifest.yml
-  - ../corpus/verb/walk-to.yml
-  - ../corpus/data-format/interaction-table.yml
-  - ../corpus/interaction/entry-binding.yml
-  - ../corpus/cutscene/scripted-sequence.yml
-  - ../corpus/world-flag/latched-flag.yml
-  - ../corpus/failure-mode/unwinnable-state.yml
-  - ../corpus/verb/give-to.yml
-  - ../corpus/actor/player-character.yml
 ---
 
 **A source of record, and the closest one this corpus will ever get to its own question.**

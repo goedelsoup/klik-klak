@@ -15,10 +15,6 @@ location:
   - kind: url
     value: https://ags-archives.github.io/ags272/ags67.htm
     description: Interaction events — the 2.72 counterpart of `EventTypes.md`
-used-by:
-  - ../corpus/prior-art/ags.yml
-  - ../corpus/data-format/interaction-table.yml
-  - ../corpus/interaction/entry-binding.yml
 ---
 
 **This is AGS's own documentation and this corpus is not treating it as a source of record.**

@@ -24,8 +24,6 @@ location:
   - kind: url
     value: https://sciwiki.sierrahelp.com/images/9/95/Laura_Bow_II_-_Programming_Style_Manual.pdf
     description: a 5.4MB scan with no text layer; retrieved and unreadable without OCR
-used-by:
-  - ../corpus/prior-art/sierra-sci.yml
 ---
 
 **The first entry here that is documentation an author was handed by the people who employed them.**
