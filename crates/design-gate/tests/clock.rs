@@ -196,6 +196,13 @@ fn the_oldest_open_question_is_no_longer_the_one_asked_at_genesis() {
 /// missing its oldest member — `control-transfer` closed the genesis question. So the assertion
 /// that named it is gone, and what is left is the shape: the count only grows except by a closure,
 /// and a closure is a thing a record has to have done.
+///
+/// **Three, and the fourth was a closure.** `ags-testimony` answered why AGS removed the
+/// Interaction Editor, and `prior-art/ags`'s old marker went with it. The marker that node carries
+/// now asks something new and is young. The same phase narrowed two other questions and wrote
+/// around their marker lines without touching them, so those two kept their ages. A narrowed
+/// question is still the same question, and resetting its age would have been the reword this
+/// assertion exists to catch.
 #[test]
 fn the_corpus_has_questions_past_the_interval_it_declared() {
     let root = repo_root();
@@ -207,7 +214,7 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
         .map(|(n, _)| n.as_str())
         .collect();
     assert!(
-        past.len() >= 4,
+        past.len() >= 3,
         "fewer questions past {interval} than when this was written, which means one was answered \
          or one was reworded — and only one of those is a reason to lower the number here"
     );
@@ -253,6 +260,10 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
 /// of commits since the question was asked, under any reading of "asked" this repository can
 /// compute. That is the whole finding, and it needs no mapping from node to reported age — which
 /// is fortunate, because the report does not publish one.
+///
+/// **The history's widest group is two now.** `ags-testimony` closed one of `marker-count`'s
+/// three, and the marker `prior-art/ags` carries in its place was written later. `due` still
+/// reports all four as past the interval, the new one included, which is this finding again.
 #[test]
 fn the_report_ties_five_questions_the_history_keeps_apart() {
     let root = repo_root();
@@ -275,7 +286,7 @@ fn the_report_ties_five_questions_the_history_keeps_apart() {
     };
     assert_eq!(
         (widest(&REPORTED), widest(&computed)),
-        (5, 3),
+        (5, 2),
         "the largest group the report calls the same age, against the largest the history wrote \
          together"
     );

@@ -78,18 +78,18 @@ and not cited, because nothing here has established how v1.00's list relates to 
 
 ## What was looked for and not found — read this before citing
 
-**Why the Interaction Editor was removed is not in the code and was not found anywhere.** The
-code says what the thing was and says nothing about the decision. Three retrievals were made for
-the reason and none produced it: the Adventure Classic Gaming interview with Chris Jones, which
-covers AGS 3.0 as "a complete re-write of the editor" and does not mention the Interaction Editor
-at all; and two searches of the AGS forums, which surface the manual's removal note and no
-discussion behind it. The AGS forum's own search, and the 2007-2008 beta threads, have not been
-read.
+**Why the Interaction Editor was removed is not in the code.** The code says what the thing was
+and says nothing about the decision. Three retrievals were made for the reason and none produced
+it: the Adventure Classic Gaming interview with Chris Jones, which covers AGS 3.0 as "a complete
+re-write of the editor" and does not mention the Interaction Editor at all; and two searches of
+the AGS forums, which surface the manual's removal note and no discussion behind it.
 
-That question stays `[open]` in `data-format/interaction-table.yml`, and the reason it is worth
-keeping open rather than settling by inference is that the vocabulary read here is *large* — 48
-commands, seven of them predicates, with a type system for arguments. A removal is not obviously
-explained by the thing being thin.
+The fourth retrieval found it, in the 2007 beta thread, in Jones's own words. It is catalogued as
+[ags-forums](ags-forums.md), and the answer is kept in `prior-art/ags.yml`. This entry used to say
+the question was worth keeping open because the vocabulary read here is *large*: 48 commands,
+seven of them predicates, with a type system for arguments. Jones's reason was that it was too
+simple to make a game with. So a table this size was still, to the man who built it, under the
+ceiling a game needs.
 
 ## What this repository holds that nobody here has looked at
 

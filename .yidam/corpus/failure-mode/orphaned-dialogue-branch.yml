@@ -92,8 +92,11 @@ properties:
     instrument reaches it. [inference]
 
     Whether AGS authors experienced it as a loss at all is a question about people rather than
-    about artifacts, and every AGS source this corpus holds is an artifact; the testimony it has
-    is Gilbert's, about another house —
+    about artifacts. The corpus now holds AGS testimony, [ags-forums](../../catalog/ags-forums.md),
+    and it does not answer this. The dialog threads read for it were how-to questions, and they
+    were read by a fetching agent rather than here. That is what this node predicts of a mode
+    nobody meets, and it is equally what a mode nobody suffered would look like. [inference]
+    `.yidam/decisions/ags-testimony.yml` records the attempt, and the kind of question is named at
     `.yidam/decisions/testimony.yml`. `[open]`
 links:
   - target: ../conversation/branching-tree.yml

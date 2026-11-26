@@ -270,12 +270,17 @@ const STALE: &[(Behind, &str, &str, &str)] = &[
 /// both sides when it was written, and the two agree: seventeen flags, fourteen declared, one
 /// cleared. So the finding stands at 31 of 241 as `retraction-reach` states it, and 31 of 242 is
 /// what the corpus holds now.
+///
+/// It has moved twice. `ags-testimony` is the 78th record and adds four pairs, one to each node it
+/// closed, narrowed or left standing: `prior-art/ags`, `interaction-table`, `acquisition-binding`
+/// and `orphaned-dialogue-branch`. Each was edited in the same phase that wrote the record, so
+/// both sides were read together, and 31 of 246 is what the corpus holds now.
 #[test]
 fn the_reading_covered_every_linked_pair() {
     let p = pairs(&repo_root());
     let records: BTreeSet<_> = p.iter().map(|(r, _)| r).collect();
     let nodes: BTreeSet<_> = p.iter().map(|(_, n)| n).collect();
-    assert_eq!((p.len(), records.len(), nodes.len()), (242, 77, 46));
+    assert_eq!((p.len(), records.len(), nodes.len()), (246, 78, 46));
 }
 
 /// **The pairs were not the whole of it.** The same stale fact written a second time, in a node no

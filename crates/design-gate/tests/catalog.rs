@@ -89,7 +89,7 @@ fn unread(src: &str) -> &str {
 fn no_unread_list_names_an_artifact_the_catalog_holds() {
     let root = repo_root();
     let all = entries(&root);
-    assert_eq!(all.len(), 11, "catalog entries");
+    assert_eq!(all.len(), 12, "catalog entries");
 
     let held: Vec<(String, Vec<String>)> = all
         .iter()
@@ -144,6 +144,10 @@ fn no_unread_list_names_an_artifact_the_catalog_holds() {
 /// convention has no state for. It is **retrieved, opened, and not readable here**: a scan with no
 /// text layer, on a machine with no OCR. The entry writes that out rather than leaving it on the
 /// list, because a reader who saw it listed as unread would repeat the attempt.
+///
+/// `ags-forums` is the sixth that is silent, for `agi-specifications`'s reason. Its first draft had
+/// no unread-list at all, and the section finder panicked on it. That was the convention arriving
+/// as a crash rather than a message.
 #[test]
 fn most_unread_lists_record_what_has_since_been_read() {
     let root = repo_root();
@@ -174,11 +178,12 @@ fn most_unread_lists_record_what_has_since_been_read() {
         [
             "agi-specifications.md",
             "ags-272-manual.md",
+            "ags-forums.md",
             "ags-source.md",
             "sci-specifications.md",
             "wikipedia-scumm.md",
         ],
-        "and the five with nothing to record"
+        "and the six with nothing to record"
     );
 
     let readme = std::fs::read_to_string(root.join(".yidam/catalog/README.md")).expect("readable");

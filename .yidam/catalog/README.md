@@ -18,6 +18,7 @@ Sorted by: type, then slug.
 |---|---|---|---|---|---|---|
 | [agi-specifications.md](agi-specifications.md) | other | Reverse-engineered specification of Sierra's Adventure Game Interpreter — the bytecode, the resource formats, and a LOGIC language the document says is not the one Sierra wrote in. | yes | — | 1 | 0 |
 | [ags-272-manual.md](ags-272-manual.md) | other | The AGS manual as it stood before version 3.0 removed the Interaction Editor — the only description this corpus has of a shipped declarative interaction layer. | yes | — | 3 | 0 |
+| [ags-forums.md](ags-forums.md) | other | The AGS community forums, where Chris Jones announced and argued the 3.0 changes in the beta threads and where beginners' questions record what authoring in AGS was like to do. | yes | — | 3 | 0 |
 | [ags-manual.md](ags-manual.md) | other | The AGS manual's own markdown source, maintained by the AGS project — the authoring surface documented by the people who built it. | yes | — | 24 | 0 |
 | [ags-source.md](ags-source.md) | other | AGS's own editor and engine source, which still contains the complete action table of the Interaction Editor that version 3.0 removed. | yes | — | 4 | 0 |
 | [delores-source.md](delores-source.md) | dataset | The complete authored source of a shipped point-and-click adventure by Ron Gilbert and David Fox, with the engine's reference manual — the first artifact this corpus can count rather than quote. | yes | — | 31 | 1 |

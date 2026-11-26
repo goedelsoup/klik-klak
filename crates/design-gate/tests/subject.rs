@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 98, "every record, in the order it was created");
+    assert_eq!(all.len(), 99, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (50, 59, 45),
+        (51, 59, 45),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -395,6 +395,12 @@ fn the_evidence_each_record_rests_on() {
 /// than by a phase that went to the repository instead of its subject, and the next phase is
 /// still the one that clears it. The record does not say this itself: it was pushed before the
 /// gate counted it, and an edit after its `decide:` would be a fifty-third edited record.
+///
+/// **`ags-testimony` clears it, and by the route this comment has named least often: a retrieval
+/// of something that had never been in the house.** `testimony` had sorted three questions as
+/// ones no artifact answers and said where the testimony was. The phase went to the AGS forums,
+/// waited out a rate limit, and rests on `.yidam/catalog/ags-forums.md`. Both runs are zero.
+/// The fifty-third edited record did arrive, but in `testimony` rather than here.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -410,7 +416,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (3, 0),
+        (0, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
@@ -443,12 +449,14 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
 ///
 /// `edge-policy` pushes `restated-guard` out and rests on no document, so the window holds four
 /// re-readings, nothing retrieved, and four needing no document.
+///
+/// `ags-testimony` pushes `unbuilt-solver` out and is the first retrieval in the window since
+/// `two-bars` left it: three re-readings, one retrieval, four needing no document.
 #[test]
 fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("unbuilt-solver", Some(false)),
         ("or-earns-it", Some(false)),
         ("declared-edge", None),
         ("dismissed-hold", Some(false)),
@@ -456,6 +464,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("runtime-boundaries", None),
         ("one-toggle", None),
         ("edge-policy", None),
+        ("ags-testimony", Some(true)),
     ];
 
     let root = repo_root();
@@ -496,7 +505,7 @@ fn the_last_eight_phases_mostly_re_read() {
     let fresh = RECENT.iter().filter(|(_, r)| *r == Some(true)).count();
     assert_eq!(
         (doc, fresh, doc - fresh),
-        (4, 0, 4),
+        (4, 1, 3),
         "phases resting on a document, on one newly retrieved, and on one already in the house"
     );
 }

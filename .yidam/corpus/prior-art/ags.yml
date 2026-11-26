@@ -134,32 +134,37 @@ properties:
     [verified] The declarative action list was sequential and blocking by default; the language it
     was converted into was not.
 
-    **Why it was removed was looked for directly and was not found.** The manual
-    reasons about migration hazards and never about the decision; it opens by calling 3.0 "this new
-    editor" and "a massive improvement over the old one", and 3.0 was a full editor rewrite, so
-    removal is as consistent with a rewrite's scope as with a judgement about declarative
-    authoring. The code says what the thing was and nothing about why it went.
+    **Why it was removed is answered, and the person who removed it gave the answer.** Chris Jones
+    gave it on 15 August 2007, in the beta thread, to a user who could not find the editor: he "felt
+    that the Interaction Editor in 2.72 was too simple to really be able to make a game with, and
+    that it gave a false sense of "easiness" of game creation to people who would very quickly come
+    across something that it didn't support, and get frustrated with it"
+    ([ags-forums](../../catalog/ags-forums.md)). [verified] The forum moderator Gilbert, who is not
+    Ron Gilbert, gave the same reason six weeks later and added the cost: the editor "requires a lot
+    of work to maintain and update". [verified]
 
-    Three retrievals were made for the reason and none produced it: Adventure Classic Gaming's
-    interview with Chris Jones, which discusses 3.0 as "a complete re-write of the editor" and
-    does not mention the Interaction Editor; and two searches of the AGS forums, which return the
-    manual's removal note and no discussion behind it. The forum's own search and the 2007-2008
-    beta threads have not been read. [inference]
+    **So it was a verdict on declarative authoring after all, and a specific one.** Jones did not
+    say the layer was wrong to have. He said it had a ceiling low enough that a beginner hit it
+    before finishing a game, and that hitting it was worse than never being offered it.
+    The 3.0 rewrite was the occasion for that verdict and not the reason for it. [inference] Two
+    phases of this node held back from reading the removal as a verdict, because the reason had
+    not been found. Now that it has, the caution was right about the method and wrong about the
+    outcome.
 
-    Treating the removal as a verdict would be the same error this node made about cursor modes
-    and about the eight dialog commands — and it is a worse bet than it looked a phase ago, since
-    the thing removed turns out to have been forty-eight commands with a type system rather than
-    something thin.
+    **The remedy he named is the middle this corpus says nobody built.** In the same post: "some
+    sort of auto script-generating tool (maybe as a plugin) that works in a similar way to the
+    interaction editor but it basically creates the script code for you". [verified] That is a
+    declarative surface whose output is the general language. It is not a bounded language with
+    an escape hatch. Whether anything shipped under that description is not recorded here. The
+    2008 plugin, SupSuper's "Simple Scripter", was reported by a fetching agent and was not read
+    here. `[open]`
 
-    Three retrievals failing is not three accidents. The code and the manual are artifacts, and an
-    artifact records what was built rather than why anybody decided to build it; the interview is
-    testimony, the one piece retrieved for this house, and it is about the rewrite rather than the
-    removal —
-    which [delores-source](../../catalog/delores-source.md) states about its own kind in one line:
-    *"No design commentary. The source says what was built and never why."*
-    `.yidam/decisions/testimony.yml` names the class of question this belongs to, and this node is
-    where it is tracked; [data-format/interaction-table](../data-format/interaction-table.yml)
-    points here rather than carrying a second copy. `[open]`
+    The manual and the code still say nothing about why. That was true, and is the reason this
+    took four retrievals: they are artifacts. The first three looked in artifacts and in one
+    interview about the rewrite. The fourth read the house's own testimony, which is the move
+    `.yidam/decisions/testimony.yml` called for. `.yidam/decisions/ags-testimony.yml` records it,
+    and [data-format/interaction-table](../data-format/interaction-table.yml) points here rather
+    than carrying a second copy.
   source_standing: |
     Eight pages of the manual source read on 2026-09-09, listed with what was and was not looked
     for in [the catalog entry](../../catalog/ags-manual.md), which is where that record lives

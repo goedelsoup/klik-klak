@@ -1,7 +1,7 @@
 ---
 title: A bounded expression language for authored interaction
 status: proposal
-reconciled: 6efca951a37d818e57677efa5198600eb8e8572f
+reconciled: 3699c7169578f22136ec566a001efa64a8b5e644
 rests_on:
   - .yidam/corpus/actor/player-character.yml
   - .yidam/corpus/data-format/interaction-table.yml
@@ -18,6 +18,7 @@ rests_on:
   - .yidam/catalog/scumm-v5-opcode-reference.md
   - .yidam/catalog/ags-272-manual.md
   - .yidam/catalog/ags-source.md
+  - .yidam/catalog/ags-forums.md
 derives_effects_from:
   - interaction:sets
   - interaction:opens
@@ -180,11 +181,21 @@ That is a smaller claim than this document opened with and a much harder one to 
 means the proposal cannot be defended as *adding conditionals to a declarative layer* — someone
 did that, at this scope, and it is the composition that is untried.
 
-**Why it was removed is unknown and the manual does not reason about it.** It names migration
-hazards and never the decision, and 3.0 was a complete editor rewrite — "this new editor", "a
-massive improvement over the old one" — so removal is as consistent with a rewrite's scope as
-with a verdict on declarative authoring. [inference] Reading it as a verdict would be this
-project's characteristic error, committed twice already in this document's own sources.
+**Why it was removed is known now, and it was a verdict.** The manual never reasons about the
+decision, and this document used to hold back from reading the removal as a verdict for that
+reason. Chris Jones gave the reason himself in 2007: the editor was "too simple to really be able
+to make a game with", and it gave beginners "a false sense of 'easiness'" until they met
+"something that it didn't support, and get frustrated with it"
+([ags-forums](../.yidam/catalog/ags-forums.md)). [verified]
+
+**That is the test this proposal has to pass, stated by the one person who ran the experiment.**
+The objection is not that a declarative layer is wrong to have. It is that a ceiling low enough
+for a beginner to hit before finishing a game is worse than no layer. Jones's remedy was a tool
+that "basically creates the script code for you". That gives up on the bound rather than raising
+it. This document bets the other way, on composition: a bound high enough that the games in
+`design/specimen/` stay under it. Six small games are not the evidence Jones was answering,
+which was many beginners' unfinished ones. Holding the specimens to his test is the honest
+reading of what they show.
 
 **What the manual says about the difference is not expressiveness. It is time — and the table
 shows how that layer handled it.** Blocking was not a default; it was a **typed argument on the

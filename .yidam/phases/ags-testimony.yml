@@ -1,0 +1,7 @@
+format_version: 1
+phase: ags-testimony
+type: Investigation
+input:
+  commit: 6500b18cf47f8e811bfd2e54cf12d3fa47f809c8
+  manifest_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  config_sha256: f127a0ab5fe71826ff9f22edff2f64ffcfdec172d77815d7b4d4949ec93a62d5

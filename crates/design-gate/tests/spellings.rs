@@ -84,7 +84,7 @@ const VOCABULARIES: &[(&str, &str, usize, Miss, &str)] = &[
         // a residue table: every record the filter admits is classified by hand
         "a record mentioning geometry with no row, or a row with no record",
     ),
-    ("retrieval.rs", "READ", 4, Miss::Loud, ""),
+    ("retrieval.rs", "READ", 7, Miss::Loud, ""),
     ("retrieval.rs", "WAS_READ", 4, Miss::Loud, ""),
     ("routing.rs", "ROUTES", 8, Miss::Loud, ""),
     // this table, which is one: the three covers above are phrases it looks for in other files.
@@ -275,7 +275,7 @@ fn the_geometry_check_publishes_what_its_phrasings_miss() {
 ///
 /// `retrieval.rs`'s `READ` named two catalog entries and the documents each records as read, under
 /// a header stating that *"two entries have a list at all"* — a claim about `.yidam/catalog/`, made
-/// without reading it. It reads it now: `SHAPE` covers all twelve files and `READ` must name
+/// without reading it. It reads it now: `SHAPE` covers all thirteen files and `READ` must name
 /// exactly the two classified as a list.
 ///
 /// **It was offered as the pattern this phase would sweep and it is one instance.** The survey
@@ -295,7 +295,7 @@ fn the_one_table_of_files_reads_its_directory() {
         .flatten()
         .filter(|e| e.path().extension().is_some_and(|x| x == "md"))
         .count();
-    assert_eq!(entries, 12, "files in the catalog");
+    assert_eq!(entries, 13, "files in the catalog");
     assert!(
         src.contains("a catalog entry with no row, or a row with no entry"),
         "`retrieval.rs` claims two entries have a document list and does not read the catalog"

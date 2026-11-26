@@ -167,6 +167,7 @@ const SHAPE: &[(&str, Shape)] = &[
     ("README.md", Shape::Index),
     ("agi-specifications.md", Shape::OneDocument),
     ("ags-272-manual.md", Shape::OneDocument),
+    ("ags-forums.md", Shape::List),
     ("ags-manual.md", Shape::List),
     ("ags-source.md", Shape::OneDocument),
     ("delores-source.md", Shape::OneDocument),
@@ -190,6 +191,14 @@ const READ: &[(&str, &[&str])] = &[
     (
         ".yidam/catalog/ags-manual.md",
         &["scripting language reference"],
+    ),
+    (
+        ".yidam/catalog/ags-forums.md",
+        &[
+            "reply #189",
+            "Suggestion for a more User-Friendly Adventure Game Studio",
+            "OBject appearing after dialog has ended",
+        ],
     ),
 ];
 
@@ -297,8 +306,8 @@ fn every_catalog_entry_is_classified() {
     assert_eq!(
         (listed, named.clone()),
         (
-            vec!["ags-manual.md", "sci-inhouse-docs.md"],
-            vec!["ags-manual.md", "sci-inhouse-docs.md"]
+            vec!["ags-forums.md", "ags-manual.md", "sci-inhouse-docs.md"],
+            vec!["ags-forums.md", "ags-manual.md", "sci-inhouse-docs.md"]
         ),
         "the entries with a document list, and the entries `READ` names"
     );

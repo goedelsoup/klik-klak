@@ -1,0 +1,66 @@
+id: ags-testimony
+summary: >-
+  **The AGS row of the testimony table is filled, and one of its three questions closes.** Chris
+  Jones gave the reason for removing the Interaction Editor himself, in the 2007 beta thread: it was
+  "too simple to really be able to make a game with" and gave beginners "a false sense of
+  'easiness'". The acquisition question narrows: the community taught the hide-and-add pair as a
+  recipe. The orphaned-dialogue question does not move, and the testimony found has nothing on it.
+context: |
+  [testimony](testimony.yml) found that the three questions the corpus could not close were all AGS
+  questions, and that AGS was the one house with artifacts and no testimony. It said a fourth search
+  of the same kind of document was the move to stop, and that the AGS forums, the 2007-2008 beta
+  threads and Jones's own writing were all public.
+
+  `phase/ags-testimony` read them. Forum pages were fetched first by agents. The forum answered a
+  burst of those requests with `503` and `Retry-After: 3600`, and the hour was waited out. Then each
+  page a claim rests on was read again here, whole, in a browser. [ags-forums](../catalog/ags-forums.md)
+  records three pages read and the leads that were not.
+decision: |
+  **Why the Interaction Editor was removed: closed.** Jones, 15 August 2007, reply #189, answering
+  a user who could not find it: "I felt that the Interaction Editor in 2.72 was too simple to really
+  be able to make a game with, and that it gave a false sense of 'easiness' of game creation to
+  people who would very quickly come across something that it didn't support, and get frustrated
+  with it." [verified] The forum moderator Gilbert, who is not Ron Gilbert, repeated the reason on 2
+  October and linked to the post. [verified] [prior-art/ags](../corpus/prior-art/ags.yml) holds the
+  answer, and [interaction-table](../corpus/data-format/interaction-table.yml) keeps the pointer.
+
+  It was a verdict on declarative authoring, and a specific one. The layer had a ceiling, and a
+  beginner hit it before finishing a game. Jones's remedy, in the same post, was a tool that "works
+  in a similar way to the interaction editor but it basically creates the script code for you".
+  [verified] That remedy gives up the bound rather than raising it.
+  [the proposal](../../design/bounded-expression-language.md) now names this as the test it has to
+  pass, and declares [ags-forums](../catalog/ags-forums.md) as a premise.
+
+  **Whether AGS authors pay for the acquisition gap: narrowed, still open.** In a 2013 beginner
+  thread the answer is a recipe that writes both halves by hand, and the answerer's own code does
+  the same. [verified] That shows the pair was something an author had to be taught. It does not
+  show anyone forgetting it. [acquisition-binding](../corpus/interaction/acquisition-binding.yml)
+  keeps the marker. The threads that might settle it are listed unread in the catalog entry.
+
+  **Whether AGS authors felt an orphaned dialogue branch as a loss: not moved.** The four dialog
+  threads read were how-to questions. They were read by a fetching agent, and none of them was
+  re-read here, so nothing rests on them.
+  [orphaned-dialogue-branch](../corpus/failure-mode/orphaned-dialogue-branch.yml) keeps the marker.
+rationale: |
+  **The classification was right, and the result is the evidence for it.** Three retrievals in
+  artifacts found nothing. One retrieval of the right kind of source found the answer in the first
+  thread it followed, through a link a moderator had left nineteen years earlier. [testimony](testimony.yml)
+  predicted exactly that: the gap was in the kind of source, not in the effort spent on retrieval.
+
+  **The corpus's caution was right about method and wrong about outcome.** Three nodes and the
+  proposal declined to read the removal as a verdict, because a 3.0 editor rewrite explained it as
+  well. The reason turned out to be the verdict. Refusing to infer it was still correct. The
+  inference would have been right by luck, and that luck is the failure AGENTS.md records three
+  times.
+
+  **What testimony bought is a reason, and it does not pretend to be a census.** One maker's post
+  closes a question about that maker's decision. It is the weakest kind of evidence for questions
+  about what authors in general experienced, and two of the three questions are that kind. That is
+  the one part of testimony's own `[open]` this reading speaks to. A maker's testimony settles a
+  claim about the maker. An author's testimony is one data point toward a base rate. The tag
+  vocabulary still cannot tell those apart. `[open]`
+
+  **Why not close the other two on what was found.** The pickup recipe is consistent with authors
+  paying for the gap, and it is also consistent with the recipe working. One thread does not
+  separate the two. Closing on it would repeat the move the Interaction Editor question was just
+  rescued from.

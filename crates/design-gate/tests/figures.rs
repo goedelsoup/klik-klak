@@ -139,7 +139,7 @@ fn surface(root: &Path) -> BTreeMap<String, usize> {
     out
 }
 
-/// **One property is nine percent of the corpus, and twice the next largest block again.**
+/// **One property is eight percent of the corpus, and twice the next largest block again.**
 ///
 /// It was ten percent for seven phases and twice the runner-up for longer. The block has not
 /// moved; the corpus grew around it, and then one other block caught up —
@@ -154,6 +154,10 @@ fn surface(root: &Path) -> BTreeMap<String, usize> {
 /// ratio is two by one line in the divisor. The repair grew the block, which is the trouble the
 /// module doc names.
 ///
+/// `ags-testimony` took three lines back out: the paragraph that said *why* AGS removed its
+/// Interaction Editor was unknown became a shorter pointer to where the answer is. With the
+/// corpus still growing around it, the share fell to eight percent.
+///
 /// It is not a rule and there is nothing here to fix by splitting a file: `interaction-table` is
 /// one concept and the prelude's shape has no unit between a node and a property. What the pin does
 /// is make the size visible, because the size is what produced the defect below — a field nobody
@@ -167,13 +171,13 @@ fn the_largest_block_in_the_corpus_is_a_property() {
     assert_eq!(
         (b[0].0, b[0].1.as_str()),
         (
-            495,
+            492,
             "data-format/interaction-table.yml  properties.escape_hatch"
         )
     );
     assert_eq!(
         (b[0].0 * 100 / total, b[0].0 / b[1].0),
-        (9, 2),
+        (8, 2),
         "share of every block in the corpus, and how many times the next largest"
     );
     assert_eq!(

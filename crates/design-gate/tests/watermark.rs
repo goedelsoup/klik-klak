@@ -179,7 +179,7 @@ fn the_second_document_rests_on_more_and_has_drifted_further() {
     assert_eq!(all.len(), 19, "premises the specimen document declares");
     assert_eq!(
         premises(&root, WATERMARKED).len(),
-        15,
+        16,
         "against the document that got the watermark"
     );
 
