@@ -50,7 +50,7 @@ is a judgement about the domain; this narrows where to spend it.
 
 ## Prelude domain
 
-`similarity` — vendored at `.yidam/.vendor/prelude/domains/similarity/`. The Jaccard
+`similarity` — vendored at `.yidam/.vendor/domains/similarity/`. The Jaccard
 implementation there is pinned across Rust, TypeScript and Python by shared fixtures, which is
 worth more than a local reimplementation of a formula that is easy to get subtly wrong.
 

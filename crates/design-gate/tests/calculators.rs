@@ -168,9 +168,7 @@ fn the_two_domains_kept_for_the_calculators_are_used_by_neither() {
 
     for domain in ["similarity", "graph-topology"] {
         assert!(
-            root.join(".yidam/.vendor/prelude/domains")
-                .join(domain)
-                .is_dir(),
+            root.join(".yidam/.vendor/domains").join(domain).is_dir(),
             "{domain} is vendored"
         );
     }

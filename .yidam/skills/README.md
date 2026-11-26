@@ -1,8 +1,8 @@
 # skills
 
-Domain-specific skills available to agents in this repository. Generic skills inherited
-from yidam live in [`.yidam/.vendor/prelude/skills/`](../.vendor/prelude/skills/); skills that require
-knowledge of this domain's corpus or toolkit live here.
+Domain-specific skills available to agents in this repository: skills that require
+knowledge of this domain's corpus or toolkit live here. The yidam prelude no longer vendors
+any skills of its own.
 
 Three calculators were scaffolded at genesis, each approved in
 [`../decisions/proposals.yml`](../decisions/proposals.yml). **One is implemented and two are
@@ -55,9 +55,8 @@ Fields per skill: filename, name, description, agents that invoke it.
 
 ## Inherited from prelude
 
-| Skill | Purpose |
-|---|---|
-| [`bootstrap`](../.vendor/prelude/skills/bootstrap.md) | Repository initialization |
+Nothing, as of the re-vendor at `b99f5603`: upstream dropped `prelude/skills/`, and with it
+`bootstrap`, which this repository had already finished with.
 
 `judge` used to be listed here. It scores runs of yidam's own bootstrap test harness, which
 a derived repository has no copy of and cannot run — and listing it as inherited was the

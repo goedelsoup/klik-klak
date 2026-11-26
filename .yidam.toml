@@ -4,13 +4,18 @@
 # repository. Updated by `mise run yidam-vendor-update`.
 #
 # `commit` is the resolvable pin: it is what the re-vendor procedure and CI
-# check out. `template` is the release tag at that commit, or "untagged".
-# `committed` is that commit's date — how old the vendored prelude is.
+# check out. `template` is the nearest template tag at or before it, `+n` when
+# n commits past, or "untagged". `committed` is that commit's date.
+# `release` is the cli/v* release the pin installs, `+n` when past it.
+# `cli` is the binary that wrote this file, not the one the pin installs:
+# version (build commit).
 #
 # See .yidam/.vendor/prelude/guidelines/directories.md for the re-vendor procedure.
 
 [yidam]
 origin    = "https://github.com/goedelsoup/yidam.git"
-commit    = "20e75112307b775cff46ba726d4107488d13c861"
-template  = "untagged"
-committed = "2026-09-10"
+commit    = "b99f56036bbc240dc364976bd211a24885ca039b"
+template  = "v0.17.0+4"
+committed = "2026-11-26"
+release   = "cli/v0.27.0+4"
+cli       = "0.27.0 (b99f5603)"

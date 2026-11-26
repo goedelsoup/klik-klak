@@ -21,7 +21,8 @@ accountability beyond the individual commit.
 the corpus — with `yidam query`, `neighbors` and `pack`, not with `grep`; see
 [Reading the corpus](guidelines/reading-the-corpus.md) — queries external sources, and
 produces findings. Output: new corpus nodes, new catalog edges, updated open-question nodes.
-The investigation → distill → commit cycle is the standard pattern.
+The investigation → distill → commit cycle is the standard pattern. It is the one type
+with no verb of its own: each output commits under its own verb, and `phase:` names it.
 
 **Extraction** — Structured data is pulled from a primary source and committed as corpus
 nodes. Output: validated authored or generated nodes linked to catalog entries. Extraction
@@ -45,6 +46,39 @@ is looking for, and a `grep` returning zero lines reports none of it.
 
 [Reading the corpus](guidelines/reading-the-corpus.md) is the surface. The input state a phase
 declares is what those commands answered.
+
+## The commands
+
+The discipline below is what a phase *is*; `yidam phase` is what holds it. Three acts, and a
+phase run by hand is still a phase — `git switch -c phase/<name>` remains this document's flow
+and nothing here refuses it.
+
+```
+yidam phase start outcome-axis --type Investigation
+git switch phase/outcome-axis
+yidam phase run
+yidam phase settle
+```
+
+`start` opens the branch and commits the **input state** the anatomy table above names: the
+baseline commit, the digests of the manifest and the config, and the revision of the kuten the
+declared type was checked against. It lands at `.yidam/phases/<name>.yml`, on the phase's own
+branch, so a phase somebody else opened is as legible from a fresh clone as one you opened
+yourself.
+
+`run` invokes the manifest's runnable steps, recording the plan before the first step and each
+step as it completes. A step already recorded is not re-invoked, so a run killed partway
+completes rather than restarts — and until every step is recorded, `yidam phases` reads the
+phase as **interrupted** rather than active. That is the state nothing could say before: a
+phase whose run died and a phase opened this morning were the same row.
+
+`settle` refreshes the REGEN blocks and stages them, checks the phase produced outputs and
+drafts the merge subject. A block still stale after that, or one no generator writes, is not
+ready: closing a phase over it is a merge that fails its first build. It merges only
+under `--merge` — see the next section.
+
+A phase without a record is listed exactly as it always was, with its state read from the ref
+and the table saying how many rows are an inference.
 
 ## Phase discipline
 
@@ -73,6 +107,13 @@ declares is what those commands answered.
 
   An authored merge subject is checked against the vocabulary like any other commit; a
   git-generated one is exempt. See [GRAPH.md](GRAPH.md), "Commit vocabulary".
+
+  `yidam phase settle` drafts that subject and prints those three lines — four, when it
+  refreshed a REGEN block: the `regen:` commit goes first, on the phase branch, because a
+  `--no-ff` merge refuses a dirty index. A person decides a phase is finished, then runs
+  them or has `--merge` write one merge, blocks included, under the `yidam phase` author.
+  So the merge introduces nothing, as [Article V](CONSTITUTION.md) asks, it takes a ready
+  `phase/*` ref only, onto a baseline the phase descends from, from a checkout that is the commit.
 
   **If you settle through a pull request, check which merge button your repository uses.**
   *Rebase and merge* and *Squash and merge* both write a single-parent commit onto the baseline

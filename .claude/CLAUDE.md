@@ -5,7 +5,7 @@ games, maintained alongside the development of an engine for them in Rust.
 
 This is a yidam-derived repository: a living knowledge artifact whose git history is the
 knowledge graph. It has already been bootstrapped — there is no bootstrap mode here, and
-`.yidam/.vendor/prelude/skills/bootstrap.md` is history, not an instruction.
+the prelude's old `bootstrap` skill is history, not an instruction (upstream no longer vendors it).
 
 Read [AGENTS.md](../AGENTS.md) before taking substantive action. It names the prelude files
 that govern conduct here and the gate that CI runs.
