@@ -1,0 +1,62 @@
+id: one-toggle
+summary: >-
+  The `latched` keyword stays opt-in. Its refusal had rested on `clearable` being a keyword no
+  specimen would exercise, and one specimen now would, so that ground is gone. The record that made
+  the refusal also named the test for reopening it, a specimen full of toggles, and the one toggle
+  written is not one. It is the player's identity, held in a flag because the format has no other
+  place for it.
+context: |
+  [latch-default](latch-default.yml) kept the format's polarity on one ground: inverting it would
+  introduce `clearable`, *"a keyword **no specimen would exercise** — the `clear` effect has never
+  been written here."* It also wrote down what would reopen the question: *"A future specimen full
+  of toggles can reopen it; that is what a specimen is for."*
+
+  The ground fell a day and a half later, when `design/specimen/lock.game` was written with
+  `clear` in it three times, and the census that would have shown it held a hardcoded list of four
+  games ([unread-specimen](unread-specimen.yml)). [verified] The record now carries a note
+  saying so, and leaves the keyword alone. This is the phase that note deferred to.
+decision: |
+  **The keyword stays as it is, for a different reason than before.**
+
+  **The census, as the gate counts it now.** There are seventeen flags across six specimens.
+  Fourteen are declared `latched`, two hold the latch without declaring it (`door-open` and
+  `asked-key`), and one is cleared: `ashore`, at three sites in `lock.game`. [verified] —
+  `crates/reachability/tests/latch.rs`. Inverted, the format would drop fourteen `latched` and
+  add one `clearable`. The trade is more lopsided than the seven-to-none `latch-default` refused,
+  and this time it is not to none.
+
+  **So the old ground is gone, and the stated test is what is left to apply.** The test was a
+  specimen *full of toggles*. A toggle is a fact about the world that can go back: a valve
+  loosened and tightened, a light switched on and off. `ashore` is none of these. It records
+  which character the player is driving. [control-transfer](control-transfer.yml) found that the
+  player is not an actor in this format and that a transfer of control has no site, so an author
+  has to spend a flag on it. [verified] The one `clearable` the inversion would exercise exists
+  because a different construct is missing. [inference]
+
+  **That decides it, and not on taste.** A keyword whose only use is a stand-in for a missing
+  construct would be evidenced by the gap rather than by the thing it names. If control transfer
+  ever gets a site, `ashore` goes, and `clearable` is back to being written nowhere. [inference]
+  The question reopens on the test `latch-default` set: the first time `clear` writes a flag that
+  records something about the world. `latch.rs` already refuses to re-pin a second cleared flag
+  without asking that question.
+rationale: |
+  **Neither polarity is safer, so the decision cannot rest on safety.** Both errors an author can
+  make are reported either way. Today, a flag that is never cleared but is not declared `latched`
+  is listed in `unclaimed_latches`, and a flag declared `latched` that something clears is a
+  `latch_violations` entry. [verified] — `latch.rs`. Inverted, a forgotten `clearable` on `ashore`
+  would be a latch violation, and a needless one would be the unclaimed case turned around.
+  [inference] The checker sees both directions either way, which is the ground `latch-default`
+  kept the declaration on.
+
+  **What the count did show is how the corpus's figures for this drift.** The node and the census
+  test's own doc comment said fourteen flags and eleven declared from the evening `relay.game`
+  brought the count to seventeen and fourteen until this phase, while the assertion between them
+  was correct. [verified] The prose was right when it was written, and the number under it moved. That is
+  [retraction-reach](retraction-reach.yml)'s finding again, inside one file.
+
+  **It cites no document, and that is the subject rather than an omission.** Which polarity this
+  format's keyword takes is decided by what these six specimens write, and the specimens are this
+  repository's own. No source about SCI, AGS or SCUMM declares whether a flag latches, so none of
+  them could weigh the trade. It rests on the engine crates, as
+  [unread-specimen](unread-specimen.yml) did for the same flag, so the gate-alone run stays at
+  zero while the no-document run reaches two, after `runtime-boundaries`. [inference]

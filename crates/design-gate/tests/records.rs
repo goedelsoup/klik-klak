@@ -293,7 +293,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (795, 142, 89));
+    assert_eq!((total, mentions, tests.len()), (801, 143, 89));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -373,7 +373,7 @@ fn a_record_nothing_cites_is_named() {
          makes that the ordinary exit for a phase whose subject is this repository"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (96, 401));
+    assert_eq!((c.len(), edges), (97, 406));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**

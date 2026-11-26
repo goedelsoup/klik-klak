@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 96, "every record, in the order it was created");
+    assert_eq!(all.len(), 97, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (50, 58, 45),
+        (50, 59, 45),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -379,6 +379,14 @@ fn the_evidence_each_record_rests_on() {
 /// evidence is the implemented engine and its regression cases: initialization, arrival, save
 /// restoration and floor routing are contracts already stated here, so correcting their
 /// implementation requires no new claim about another engine.
+///
+/// **`one-toggle` makes it two, which is the different conversation, and the record has it.** Its
+/// question is which polarity this format's `latched` keyword should take, and the only evidence
+/// that can weigh it is what the six specimens write, which this repository wrote itself. No
+/// source about another engine declares whether a flag latches. It rests on `latch.rs`, so it reads
+/// as engine and the gate-alone run stays at zero. Two engine phases in a row is the run this check
+/// was built to make somebody notice, and what clears it is the next phase that has a question a
+/// document can answer.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -394,7 +402,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (1, 0),
+        (2, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
@@ -421,12 +429,14 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
 ///
 /// `runtime-boundaries` shifts that window to five re-readings and three records needing no
 /// document; its contribution is implementation against the existing design.
+///
+/// `one-toggle` pushes `unread-spelling` out of the window and both rest on no document, so the
+/// figures stand: five re-readings, nothing retrieved, three needing no document.
 #[test]
 fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("unread-spelling", None),
         ("restated-guard", Some(false)),
         ("unbuilt-solver", Some(false)),
         ("or-earns-it", Some(false)),
@@ -434,6 +444,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("dismissed-hold", Some(false)),
         ("refused-duration", Some(false)),
         ("runtime-boundaries", None),
+        ("one-toggle", None),
     ];
 
     let root = repo_root();

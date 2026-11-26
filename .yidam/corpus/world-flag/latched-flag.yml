@@ -156,12 +156,13 @@ description: |
   writer is a player-triggered binding, latching is not the common case but very nearly the only
   one — and the specimens bear it out, in a way sharper than a zero would have been.
 
-  **Fourteen flags. Eleven declare the latch, two hold it without saying so, and exactly one is
+  **Seventeen flags. Fourteen declare the latch, two hold it without saying so, and exactly one is
   genuinely two-way.** [verified] — `crates/reachability/tests/latch.rs`. The one is `ashore`, the
   flag `design/specimen/lock.game` spends on recording **which character the player is driving**,
   because this format has no site for a control switch and an author has to put it somewhere
-  ([control-transfer](../../decisions/control-transfer.yml)). All three `clear` sites in 904
-  authored lines write it.
+  ([control-transfer](../../decisions/control-transfer.yml)). All three `clear` sites in the six
+  specimens' 1,108 lines write it. (This read fourteen and eleven, and 904 lines, until a phase
+  after `relay.game` added three latched flags.)
 
   So the division is not *most flags latch*. It is: **a flag recording something about the world is
   latched, because a door that has been unlocked does not re-lock itself and nothing in this
@@ -176,7 +177,13 @@ description: |
   What follows for the schema is `.yidam/decisions/latch-default.yml`. The short version is that
   the default is backwards in two places at once — here, where `reversible: no` is written out as
   though it were the exception, and in the format, where `latched` is the word an author types to
-  get the behaviour that is already true seven times in nine.
+  get the behaviour that is already true sixteen times in seventeen.
+
+  **The format's polarity was asked about again once `clear` had been written, and it stays.**
+  `.yidam/decisions/one-toggle.yml`. Inverting it would now trade fourteen `latched` for one
+  `clearable`, and that one would be `ashore`, the stand-in for a control switch the format does
+  not have. `latch-default` named a specimen full of toggles as what would reopen the question,
+  and one flag about the player is not that. [inference]
 properties:
   domain: boolean
   scope: global

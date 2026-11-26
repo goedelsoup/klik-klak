@@ -252,7 +252,7 @@ const STALE: &[(Behind, &str, &str, &str)] = &[
         Record,
         "decisions/latch-default.yml",
         "effect has never been written here",
-        "latched-flag: three clear sites in 904 lines",
+        "latched-flag: three clear sites in 1,108 lines",
     ),
     (
         Record,
@@ -264,12 +264,18 @@ const STALE: &[(Behind, &str, &str, &str)] = &[
 
 /// **The pairs the reading covered are the pairs there are.** A new link moves this, and the
 /// finding is then a count of fewer pairs than exist.
+///
+/// It has moved once. `one-toggle` and `latched-flag` are the 242nd pair, joined in both
+/// directions by the phase that asked whether `clear` reopens the keyword. That pair was read on
+/// both sides when it was written, and the two agree: seventeen flags, fourteen declared, one
+/// cleared. So the finding stands at 31 of 241 as `retraction-reach` states it, and 31 of 242 is
+/// what the corpus holds now.
 #[test]
 fn the_reading_covered_every_linked_pair() {
     let p = pairs(&repo_root());
     let records: BTreeSet<_> = p.iter().map(|(r, _)| r).collect();
     let nodes: BTreeSet<_> = p.iter().map(|(_, n)| n).collect();
-    assert_eq!((p.len(), records.len(), nodes.len()), (241, 76, 46));
+    assert_eq!((p.len(), records.len(), nodes.len()), (242, 77, 46));
 }
 
 /// **The pairs were not the whole of it.** The same stale fact written a second time, in a node no

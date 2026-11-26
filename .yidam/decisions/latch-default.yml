@@ -39,10 +39,13 @@ decision: |
     cannot drift. The specimens hold two: `door-open` and `asked-key`. [verified] —
     `crates/reachability/tests/latch.rs`.
 
-  *Since corrected.* It has been written. There are three `clear` sites in 904 authored lines, all
+  *Since corrected.* It has been written. There are three `clear` sites in the six specimens, all
   in `design/specimen/lock.game` and all writing `ashore`, the flag that records which character
   the player drives ([world-flag/latched-flag](../corpus/world-flag/latched-flag.yml),
-  `crates/reachability/tests/latch.rs`). This note leaves the keyword as it is. [verified]
+  `crates/reachability/tests/latch.rs`). The summary's figures moved with them: sixteen of
+  seventeen flags latch here, `latched` is typed fourteen times, and `clearable` would be typed
+  once. This note leaves the keyword as it is; [one-toggle](one-toggle.yml) asks whether that one
+  `clearable` reopens it, and finds it does not. [verified]
 rationale: |
   **The reason latching is common is machinery, and that is what makes this a fact about
   vocabularies rather than about one game's house style.** Reading where each of the nine reversible

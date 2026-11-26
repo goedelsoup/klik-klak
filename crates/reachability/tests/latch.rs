@@ -17,8 +17,10 @@
 //!
 //! **The `clear` count went from zero to three and the argument got better.**
 //! `.yidam/decisions/unread-specimen.yml` is why this file could not see the fifth game for
-//! eleven commits. What it says now is sharper than what it said: fourteen flags, eleven declaring
-//! the latch, two holding it silently, and **exactly one that is genuinely two-way**.
+//! eleven commits. What it says now is sharper than what it said: seventeen flags, fourteen
+//! declaring the latch, two holding it silently, and **exactly one that is genuinely two-way**.
+//! Whether that one reopens the keyword's polarity is `.yidam/decisions/one-toggle.yml`, and it
+//! does not.
 //!
 //! [`world-flag/latched-flag`]: ../../../.yidam/corpus/world-flag/latched-flag.yml
 //! [delores-source]: ../../../.yidam/catalog/delores-source.md
@@ -42,9 +44,9 @@ fn load(src: &str) -> game_format::Game {
 /// appears zero times"* for eleven commits after that stopped being true, because its input was a
 /// list of four games and there were five (`.yidam/decisions/unread-specimen.yml`).
 ///
-/// The corrected census is a better argument than the zero was. **Fourteen flags across the
-/// specimens, and the three `clear` sites all write one of them: `ashore`.** Eleven of the
-/// remaining thirteen declare `latched`; the other two hold the guarantee without claiming it, and
+/// The corrected census is a better argument than the zero was. **Seventeen flags across the
+/// specimens, and the three `clear` sites all write one of them: `ashore`.** Fourteen of the
+/// remaining sixteen declare `latched`; the other two hold the guarantee without claiming it, and
 /// are reported.
 ///
 /// `ashore` is the flag `lock.game` uses to record **which character the player is driving** —
@@ -56,7 +58,7 @@ fn load(src: &str) -> game_format::Game {
 /// - the one flag recording something about the **player** is cleared, because you can stop being
 ///   who you were.
 ///
-/// Thirteen of fourteen, and the exception is the one flag that is not a fact about the world at
+/// Sixteen of seventeen, and the exception is the one flag that is not a fact about the world at
 /// all. That is the case `world-flag/latched-flag` was arguing and it could not have been made
 /// before somebody wrote the game.
 ///
