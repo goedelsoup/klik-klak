@@ -104,6 +104,9 @@ fn rests(src: &str) -> Rests {
 /// the count is pinned here and not in a summary, and is the lesson `record-lifecycle` drew from
 /// the only other record whose figure moved.
 ///
+/// The catalog count went from 136 to 138 when `second-game-width` gave `latched-flag` a
+/// paragraph resting on `catalog/lsl5-source`: two catalog-sourced claims, about a second game.
+///
 /// The catalog is not the remedy. An entry for `crates/` would silence `verified-unsourced` on
 /// every node at once, which is the unearned silencing the four nodes below documented, applied
 /// globally and on purpose. `.yidam/decisions/evidence-kinds.yml`.
@@ -129,7 +132,7 @@ fn the_instrument_is_a_kind_of_evidence_the_register_has_no_slot_for() {
     assert_eq!(
         total,
         Rests {
-            catalog: 136,
+            catalog: 138,
             instrument: 66,
             both: 6,
             carried: 178,

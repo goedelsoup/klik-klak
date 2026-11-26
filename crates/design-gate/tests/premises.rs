@@ -85,8 +85,12 @@ const BEFORE: &str = "^revise: two sentences that were edges";
 /// Interaction Editor. A premise written after the window opened counts as moved from its first
 /// line, so the count rises on the day the premise is declared. The watermark was read against it
 /// that day.
+///
+/// **Sixteen of seventeen, and the seventeenth was declared moving too.** `catalog/lsl5-source`
+/// arrived in `second-game-width` as the second game the proposal's width argument can be
+/// measured on, and counts as moved from its first line for the same reason `ags-forums` did.
 #[test]
-fn fifteen_of_sixteen_premises_moved_under_the_proposal() {
+fn sixteen_of_seventeen_premises_moved_under_the_proposal() {
     let root = repo_root();
     let found = git(&root, &["log", "--format=%H", "--grep", BEFORE]);
     let last = found
@@ -95,7 +99,7 @@ fn fifteen_of_sixteen_premises_moved_under_the_proposal() {
         .expect("the anchor commit is gone, so this window cannot be measured")
         .to_string();
     let all = premises(&root);
-    assert_eq!(all.len(), 16, "premises the proposal declares");
+    assert_eq!(all.len(), 17, "premises the proposal declares");
 
     let mut moved = Vec::new();
     let (mut added, mut removed) = (0usize, 0usize);
@@ -123,7 +127,7 @@ fn fifteen_of_sixteen_premises_moved_under_the_proposal() {
     }
     assert_eq!(
         moved.len(),
-        15,
+        16,
         "premises edited since the document was: {moved:?}"
     );
     assert!(

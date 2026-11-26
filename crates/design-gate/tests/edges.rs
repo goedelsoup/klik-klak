@@ -245,6 +245,9 @@ fn class_of(root: &Path) -> BTreeMap<String, String> {
 ///
 /// `ags-testimony` added two more, both root-based and both to the decision record: the pointer
 /// `prior-art/ags` and `interaction-table` carry where the removal reason used to be unknown.
+///
+/// `second-game-width` added one, root-based and to its own record: the pointer `latched-flag`
+/// carries where it says which reading the second game chose.
 #[test]
 fn every_path_written_in_corpus_prose_resolves() {
     let root = repo_root();
@@ -271,10 +274,10 @@ fn every_path_written_in_corpus_prose_resolves() {
     );
     assert_eq!(
         (own, repo, corpus),
-        (143, 164, 5),
+        (143, 165, 5),
         "the three bases, all load-bearing"
     );
-    assert_eq!((own + repo + corpus, decisions), (312, 189));
+    assert_eq!((own + repo + corpus, decisions), (313, 190));
 }
 
 /// **99 declared edges, 97 prose citations, and 18 pairs in both.**

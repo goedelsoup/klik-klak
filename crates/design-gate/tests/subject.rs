@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 99, "every record, in the order it was created");
+    assert_eq!(all.len(), 100, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -186,7 +186,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (51, 59, 45),
+        (52, 59, 45),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -401,6 +401,9 @@ fn the_evidence_each_record_rests_on() {
 /// ones no artifact answers and said where the testimony was. The phase went to the AGS forums,
 /// waited out a rate limit, and rests on `.yidam/catalog/ags-forums.md`. Both runs are zero.
 /// The fifty-third edited record did arrive, but in `testimony` rather than here.
+///
+/// `second-game-width` keeps both at zero by retrieving a second game's source,
+/// `.yidam/catalog/lsl5-source.md`.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -452,12 +455,14 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
 ///
 /// `ags-testimony` pushes `unbuilt-solver` out and is the first retrieval in the window since
 /// `two-bars` left it: three re-readings, one retrieval, four needing no document.
+///
+/// `second-game-width` pushes `or-earns-it` out and is a second retrieval in a row: a game's source
+/// that had never been in the house. Two re-readings, two retrievals, four needing no document.
 #[test]
 fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("or-earns-it", Some(false)),
         ("declared-edge", None),
         ("dismissed-hold", Some(false)),
         ("refused-duration", Some(false)),
@@ -465,6 +470,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("one-toggle", None),
         ("edge-policy", None),
         ("ags-testimony", Some(true)),
+        ("second-game-width", Some(true)),
     ];
 
     let root = repo_root();
@@ -505,7 +511,7 @@ fn the_last_eight_phases_mostly_re_read() {
     let fresh = RECENT.iter().filter(|(_, r)| *r == Some(true)).count();
     assert_eq!(
         (doc, fresh, doc - fresh),
-        (4, 1, 3),
+        (4, 2, 2),
         "phases resting on a document, on one newly retrieved, and on one already in the house"
     );
 }

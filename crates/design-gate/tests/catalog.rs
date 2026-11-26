@@ -89,7 +89,7 @@ fn unread(src: &str) -> &str {
 fn no_unread_list_names_an_artifact_the_catalog_holds() {
     let root = repo_root();
     let all = entries(&root);
-    assert_eq!(all.len(), 12, "catalog entries");
+    assert_eq!(all.len(), 13, "catalog entries");
 
     let held: Vec<(String, Vec<String>)> = all
         .iter()
@@ -123,7 +123,7 @@ fn no_unread_list_names_an_artifact_the_catalog_holds() {
     );
 }
 
-/// **Six of ten record what has since been read, and the rule is written down now.**
+/// **Six of thirteen record what has since been read, and the rule is written down now.**
 ///
 /// It was four, in four spellings, with nothing asking them to. The discriminator is exact: the
 /// entries that record a retrieval write some form of *been read* in the list itself and the ones
@@ -148,6 +148,9 @@ fn no_unread_list_names_an_artifact_the_catalog_holds() {
 /// `ags-forums` is the sixth that is silent, for `agi-specifications`'s reason. Its first draft had
 /// no unread-list at all, and the section finder panicked on it. That was the convention arriving
 /// as a crash rather than a message.
+///
+/// `lsl5-source` is the seventh, for the same reason. It arrived with its list written, and nothing
+/// has come off it yet.
 #[test]
 fn most_unread_lists_record_what_has_since_been_read() {
     let root = repo_root();
@@ -180,10 +183,11 @@ fn most_unread_lists_record_what_has_since_been_read() {
             "ags-272-manual.md",
             "ags-forums.md",
             "ags-source.md",
+            "lsl5-source.md",
             "sci-specifications.md",
             "wikipedia-scumm.md",
         ],
-        "and the six with nothing to record"
+        "and the seven with nothing to record"
     );
 
     let readme = std::fs::read_to_string(root.join(".yidam/catalog/README.md")).expect("readable");

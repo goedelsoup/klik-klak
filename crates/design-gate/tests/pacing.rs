@@ -129,14 +129,14 @@ fn exactly_one_sink_in_the_build_holds_the_player() {
 
 /// **No source states a rate, which is the half of the reason that was right.**
 ///
-/// Twelve sources and not one says what a character is worth in seconds. That is why
+/// Thirteen sources and not one says what a character is worth in seconds. That is why
 /// `engine/response-presenter` reaches for no `Duration` and invents no constant, and it is a fact
 /// about the evidence rather than about terminals.
 #[test]
 fn no_source_in_the_catalog_states_a_reading_speed() {
     let root = repo_root();
     let names = sources(&root);
-    assert_eq!(names.len(), 12, "sources in the catalog");
+    assert_eq!(names.len(), 13, "sources in the catalog");
 
     let mut stating: Vec<&String> = Vec::new();
     for name in &names {

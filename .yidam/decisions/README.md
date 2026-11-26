@@ -241,7 +241,6 @@ nodes, at four times the rate, and it had never been looked at.
 - [domain-computer](domain-computer.yml)
 - [edge-policy](edge-policy.yml)
 - [name-scoping](name-scoping.yml)
-- [second-game-width](second-game-width.yml)
 - [settled-surface](settled-surface.yml)
 
 ## What each record rests on
