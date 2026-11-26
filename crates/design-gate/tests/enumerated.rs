@@ -216,6 +216,9 @@ fn the_specimen_census_is_what_the_documents_quote() {
 /// enumerate the ways a person might write a number, so what is enumerated instead is **how much
 /// material the check looked at** — every living document that mentions the specimens at all. When
 /// that figure moves, somebody reads the new document rather than trusting a silence.
+///
+/// The 107th is `catalog/ags-forums.md`, read when it was written. It does not mention the
+/// specimens, so the 36 the check is a claim about did not move.
 #[test]
 fn no_living_document_quotes_a_stale_specimen_figure() {
     let root = repo_root();
@@ -261,7 +264,7 @@ fn no_living_document_quotes_a_stale_specimen_figure() {
     );
     assert_eq!(
         (scanned, mentioning),
-        (106, 36),
+        (107, 36),
         "living documents read, and living documents that mention the specimens — the second is \
          what this check is a claim about, and a clean result over a shrinking denominator is not \
          the same result"

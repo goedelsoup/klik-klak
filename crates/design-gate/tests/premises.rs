@@ -79,8 +79,14 @@ const BEFORE: &str = "^revise: two sentences that were edges";
 /// from every catalog entry. The citations are the record now, so the list was a copy. The
 /// watermark moved after a reading found no sentence behind. The count rises for an edit that
 /// touched no claim, which is the other thing it cannot tell apart.
+///
+/// **Fifteen of sixteen, and the sixteenth was declared moving.** `catalog/ags-forums` arrived in
+/// `ags-testimony` as the source of the proposal's new test: Jones's reason for removing the
+/// Interaction Editor. A premise written after the window opened counts as moved from its first
+/// line, so the count rises on the day the premise is declared. The watermark was read against it
+/// that day.
 #[test]
-fn fourteen_of_fifteen_premises_moved_under_the_proposal() {
+fn fifteen_of_sixteen_premises_moved_under_the_proposal() {
     let root = repo_root();
     let found = git(&root, &["log", "--format=%H", "--grep", BEFORE]);
     let last = found
@@ -89,7 +95,7 @@ fn fourteen_of_fifteen_premises_moved_under_the_proposal() {
         .expect("the anchor commit is gone, so this window cannot be measured")
         .to_string();
     let all = premises(&root);
-    assert_eq!(all.len(), 15, "premises the proposal declares");
+    assert_eq!(all.len(), 16, "premises the proposal declares");
 
     let mut moved = Vec::new();
     let (mut added, mut removed) = (0usize, 0usize);
@@ -117,7 +123,7 @@ fn fourteen_of_fifteen_premises_moved_under_the_proposal() {
     }
     assert_eq!(
         moved.len(),
-        14,
+        15,
         "premises edited since the document was: {moved:?}"
     );
     assert!(
