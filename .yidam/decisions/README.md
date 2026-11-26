@@ -39,7 +39,6 @@ does not re-emit it.
 ### [binary-dimension](binary-dimension.yml)
 
 - **:79** — **What stays open.** The reduction being free to the analysis is a fact about *this* checker, and this checker treats inventory as a count per item with a declared ceiling. A checker that modelled the item's identity — which of two crowbars — might not be indifferent, and nothing here has one.
-- **:84** — And the thing the measurement did not touch: **a binary verb makes the table two-dimensional**, which is `binary-binding`'s combinatorics argument, and n×m cells is a cost to an *author* rather than to a checker. Every measurement in this record is a checker's. The authoring cost of arity is the sam…
 
 ### [binding-axes](binding-axes.yml)
 
@@ -221,7 +220,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**55 open.**
+**54 open.**
 
 ## What nothing cites
 

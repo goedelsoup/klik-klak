@@ -47,33 +47,33 @@ Sorted by: kind, then alphabetically.
 | [player-character.yml](actor/player-character.yml) | actor | Player Character | 3 | 3v / 3i / 0o | 72 |
 | [branching-tree.yml](conversation/branching-tree.yml) | conversation | Branching Tree | 4 | 3v / 4i / 0o | 76 |
 | [topic-list.yml](conversation/topic-list.yml) | conversation | Topic List | 4 | 8v / 5i / 0o | 103 |
-| [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 12v / 12i / 0o | 264 |
+| [scripted-sequence.yml](cutscene/scripted-sequence.yml) | cutscene | Scripted Sequence | 5 | 12v / 12i / 0o | 265 |
 | [dialogue-script.yml](data-format/dialogue-script.yml) | data-format | Dialogue Script | 2 | 8v / 3i / 0o | 129 |
-| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 50v / 24i / 0o | 627 |
+| [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 50v / 24i / 0o | 631 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 10v / 7i / 0o | 155 |
 | [save-state.yml](data-format/save-state.yml) | data-format | Save State | 4 | 7v / 4i / 0o | 101 |
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 9v / 5i / 1o | 101 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 4v / 5i / 0o | 96 |
-| [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 23v / 9i / 0o | 220 |
+| [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 23v / 9i / 0o | 221 |
 | [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 1v / 5i / 1o | 75 |
-| [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 8v / 9i / 0o | 139 |
+| [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 8v / 9i / 0o | 140 |
 | [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 4v / 3i / 0o | 103 |
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 4v / 1i / 0o | 62 |
 | [default-binding.yml](interaction/default-binding.yml) | interaction | Default Binding | 2 | 4v / 2i / 0o | 66 |
 | [entry-binding.yml](interaction/entry-binding.yml) | interaction | Entry Binding | 3 | 10v / 9i / 0o | 172 |
-| [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 9v / 2i / 0o | 89 |
+| [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 9v / 2i / 0o | 90 |
 | [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 9v / 4i / 0o | 144 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
-| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 5 | 18v / 5i / 1o | 184 |
+| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 5 | 18v / 5i / 1o | 185 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 1v / 10i / 0o | 96 |
-| [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 18v / 12i / 0o | 230 |
+| [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 18v / 12i / 0o | 231 |
 | [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 12 | 29v / 12i / 0o | 351 |
 | [lock-and-key.yml](puzzle/lock-and-key.yml) | puzzle | Lock And Key | 2 | 0v / 1i / 0o | 26 |
-| [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 12v / 5i / 0o | 170 |
+| [state-gate.yml](puzzle/state-gate.yml) | puzzle | State Gate | 2 | 12v / 5i / 0o | 172 |
 | [scrolling.yml](room/scrolling.yml) | room | Scrolling Room | 2 | 6v / 3i / 0o | 73 |
 | [single-screen.yml](room/single-screen.yml) | room | Single-Screen Room | 4 | 0v / 3i / 0o | 41 |
 | [interaction-resolver.yml](subsystem/interaction-resolver.yml) | subsystem | Interaction Resolver | 6 | 5v / 6i / 0o | 120 |
-| [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 5v / 4i / 0o | 99 |
+| [path-solver.yml](subsystem/path-solver.yml) | subsystem | Path Solver | 2 | 5v / 4i / 0o | 100 |
 | [response-presenter.yml](subsystem/response-presenter.yml) | subsystem | Response Presenter | 3 | 6v / 3i / 0o | 131 |
 | [verb-menu.yml](subsystem/verb-menu.yml) | subsystem | Verb Menu | 3 | 8v / 3i / 0o | 99 |
 | [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 11v / 7i / 0o | 155 |
