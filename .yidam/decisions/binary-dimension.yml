@@ -81,4 +81,8 @@ rationale: |
   And the thing the measurement did not touch: **a binary verb makes the table two-dimensional**,
   which is `binary-binding`'s combinatorics argument, and n×m cells is a cost to an *author* rather
   than to a checker. Every measurement in this record is a checker's. The authoring cost of arity is
-  the same axis `duplication` found this corpus cannot see, and it is unmeasured here too. `[open]`
+  the same axis `duplication` found this corpus cannot see, and it was unmeasured here too. `[open]`
+  — *quoted; answered by [arity-cost](arity-cost.yml).* Measured there in cells, Delores's table
+  is 50,676 cells with 203 authored, 0.40%, and none of the other 50,473 is offered to the player
+  by any of its 18 binary verbs ([delores-source](../catalog/delores-source.md)). The author never
+  writes n×m; the cost is in telling the written cells apart. [verified]

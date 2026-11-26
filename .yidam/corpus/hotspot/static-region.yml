@@ -77,11 +77,12 @@ description: |
   removes any of them. [inference] What it would cost is a decision this corpus has not made: the
   eleven want at least three different relations — part-of, same-as, and says-the-same.
 
-  **A second game was never what this needed.** Ten of the eleven are two regions of one *drawn*
+  **A second game was never what this needed.** Nine of the eleven are two regions of one *drawn*
   thing, or several drawn things that read alike: a sink and its tap, a circus wanting two click
   regions, a hotel and its roofline, three traffic cones on a street with one of them seen again
-  from another screen. The eleventh is state rather than geometry — a candy display reading as the
-  candy once you have taken one. [verified]
+  from another screen. The other two are state rather than geometry — the shut bank's door reading
+  as its sign while a flag holds. [verified] (`.yidam/decisions/hotspot-identity.yml` counted
+  ten and one, with a candy display as the one; `delegation`'s table, by site, has two.)
 
   The specimens have none of it, and that is a committed census rather than an impression: the
   only bindings two hotspots share are bare exits with the same destination, which is two doors and

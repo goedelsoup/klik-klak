@@ -102,6 +102,12 @@ decision: |
   [verified] The measurement found things, which is the argument for running it again rather than
   for trusting it once. What it cannot do is notice the next drift: it was a reading, not a gate,
   and `drift.rs` holds what was found rather than finding more. [inference]
+
+  **The phase after it took the count up.** Of the 24 sentences, fourteen were corrected: all
+  thirteen on the node side, each against the record or test that had moved past it, and
+  `binary-dimension`'s question, closed on `arity-cost`'s measurement. The other ten are record
+  sentences and stay as written — a record is the record of its moment — and `drift.rs` now checks
+  the fourteen gone and the ten still there. [verified]
 rationale: |
   **The finding is not that a marker was stale. It is that the correction existed and had somewhere
   else to be.** A stale marker nobody has revisited is an ordinary backlog. This one was revisited,

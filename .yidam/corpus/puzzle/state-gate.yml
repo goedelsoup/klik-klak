@@ -146,7 +146,9 @@ properties:
     single home in the vocabulary; it is restated at each site that reads it.
 
     **Measured, the "several flags" half is wrong and the "restated" half is right about
-    something else.** One predicate in thirty-six joins two atoms. What is restated is a
+    something else.** In the first count, over four games, one predicate in thirty-six joined
+    two atoms; the six there are now write seventy-six and eleven of them join more than one,
+    seven in `lock.game` (`crates/reachability/tests/conditions.rs`). What is restated is a
     counter's position in a staged sequence — nine sites on one hotspot in `lighthouse.game` —
     and what has no home is not the condition but the *step*: which value follows which.
     [verified] The condition already has a name, and it is the counter.

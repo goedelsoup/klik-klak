@@ -293,7 +293,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (786, 140, 89));
+    assert_eq!((total, mentions, tests.len()), (787, 140, 89));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -373,7 +373,7 @@ fn a_record_nothing_cites_is_named() {
          makes that the ordinary exit for a phase whose subject is this repository"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (96, 396));
+    assert_eq!((c.len(), edges), (96, 397));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -491,7 +491,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 55, "live open questions in this directory");
+    assert_eq!(total, 54, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
@@ -612,9 +612,13 @@ fn no_record_has_changed_what_it_decided() {
     // The forty-eighth is `retraction-reach`, closed by a count rather than an argument: it asked
     // how often a record and its node disagree, and `drift.rs` holds the answer — 31 pairs of 241,
     // thirteen sentences with the node behind and eleven with the record behind.
+    //
+    // The forty-ninth is `binary-dimension`, the first kind, and one of those eleven: it called the
+    // authoring cost of arity unmeasured after `arity-cost` had measured it. The answer was in
+    // another record; the closure points there.
     assert_eq!(
         edited,
-        48,
+        49,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

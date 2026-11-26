@@ -130,9 +130,9 @@ fn the_instrument_is_a_kind_of_evidence_the_register_has_no_slot_for() {
         total,
         Rests {
             catalog: 134,
-            instrument: 65,
+            instrument: 66,
             both: 5,
-            carried: 178,
+            carried: 177,
         }
     );
     assert_eq!(

@@ -82,7 +82,8 @@ description: |
   This property names a real failure — a sequence cut short part-way leaves a configuration the
   author never wrote — and atomicity means there is no part-way. That is defining the problem
   away, and it is legitimate only because the design paid for it explicitly, refusing AGS's
-  per-command blocking flag. Under a design that admitted duration, this property would
+  per-command blocking flag. — *as written; the built system does not define it away, and it is
+  answered below, by an ordering* (`.yidam/decisions/refused-duration.yml`). Under a design that admitted duration, this property would
   distinguish the class. Under this one it cannot. [inference]
 
   *`control_return`* reduces to `occupies`: a binding that never took control has none to return,

@@ -93,8 +93,8 @@ properties:
 
     **What no count reaches is whether 84% is enough** — whether a person writing a game in this
     syntax experiences it as writing. That is testimony, and
-    [testimony](../../decisions/testimony.yml) established that every source here is an artifact
-    and an artifact records what was built rather than what building it was like. It is stated
+    [testimony](../../decisions/testimony.yml) established that every AGS source here is an
+    artifact and an artifact records what was built rather than what building it was like. It is stated
     rather than left open, because a question nothing can close is not a question this corpus
     keeps. [inference]
 
@@ -348,8 +348,9 @@ properties:
     **It has one, it is `when` with nothing under it, and it is used five times in 904 lines.**
     Twice on a conversation option, where an unavailable choice is simply not shown, and once on an
     `on-enter`, where [entry-binding](../interaction/entry-binding.yml) argued a refusal *cannot*
-    exist because nobody tried anything. Every one of the **seventeen** gated bindings on a hotspot
-    verb carries a refusal, without exception, in four games by one hand. [verified] —
+    exist because nobody tried anything. In four games by one hand every one of the **seventeen**
+    gated bindings on a hotspot verb carried a refusal; across six it is **thirty of thirty-two**,
+    and the two are `lock.game`'s `talk-to` on the character the player is driving. [verified] —
     `crates/reachability/tests/defaults.rs`. So the form exists, it means *not offered* at both
     sites where it appears, and the author has never once reached for it where a refusal was
     possible.
@@ -357,8 +358,9 @@ properties:
     **And the choice cannot be settled here, which is the finding rather than an excuse.** Strip
     every refusal from every specimen — every bare `else` and every `otherwise` — and no state,
     transition, stranding or winnability moves. [verified] `offered` gates on `when` at all three
-    sites and `Binding` carries no text, so *refused out loud* and *never offered* are the same
-    program. The instrument was built to be blind to exactly this.
+    sites, and the text a `Binding` carries — `says` and `refusals` — is read by no state, edge or
+    verdict, so *refused out loud* and *never offered* are the same program to the checker. The
+    instrument was built to be blind to exactly this.
 
     So it is read rather than measured, and a shipped game does it on one verb slot: `sink`'s
     `turn_on` is withheld silently when the tap is already running or the room is dark, and offered
@@ -532,8 +534,10 @@ properties:
     **Half of that sentence is measured and half is not, and it reads as though both were.** What
     was counted is AGS: no `or`, no grouping, no negation, no comparison beyond equality, in a
     forty-eight-entry table read from the source. What this design *does* with composition was
-    never counted. Counted, across every game anyone has written in it, the binary connectives
-    appear **once** — one `and`, no `or` — while `not` is used ten times and is unary. [verified]
+    never counted. Counted when this was written, across four games, the binary connectives
+    appeared **once**, a single conjunction with no disjunction anywhere. Counted now, across six, `and` is written fourteen
+    times and `or` twice, most of the conjunctions in `lock.game` and the first `or` in
+    `relay.game`, while `not` is written sixteen times and is unary. [verified]
     — `crates/game-format/tests/coverage.rs`, `.yidam/decisions/unwritten.yml`.
 
     So the gap is real as a fact about AGS and is an argument as a claim about the remedy. Either

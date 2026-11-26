@@ -35,8 +35,9 @@ properties:
   shape: unary
   response: |
     A line of description or a short action performed by the player character at the target.
-    Authored for this verb-target pair specifically; where it is absent, the verb's own
-    default response stands in.
+    Authored for this verb-target pair specifically. Where it is absent nothing stands in: an
+    unauthored pair is not offered, and the menu holds only what was written.
+    (`.yidam/decisions/verb-menu.yml`, `.yidam/decisions/default-binding.yml`.)
   precondition: |
     Optional. A unary binding with no precondition is the common case and is what makes this
     shape cheap to author.

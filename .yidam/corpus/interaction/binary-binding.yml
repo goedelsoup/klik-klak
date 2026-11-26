@@ -99,8 +99,9 @@ properties:
     **That last sentence is the availability question, written eleven months before it was asked**,
     and the vocabulary does let an author say which: a `when` with no `else` under it withholds the
     binding and leaks nothing, and a `when` with an `else` offers it and says the line.
-    `.yidam/decisions/availability.yml`. What the specimens show is that the author never chose —
-    all seventeen gated bindings on a hotspot verb carry a line. [verified]
+    `.yidam/decisions/availability.yml`. What the specimens show is that the author almost never
+    chose — thirty of the thirty-two gated bindings on a hotspot verb carry a line, and the two
+    that withhold are `lock.game`'s `talk-to` on the character the player is driving. [verified]
 
     **And a binary binding has a third state the unary one does not, which is why two of this
     corpus's refusals were unreachable.** `ferry`'s gate said *"You can feel the bar but not the

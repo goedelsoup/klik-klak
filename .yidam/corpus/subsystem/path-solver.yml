@@ -49,7 +49,8 @@ description: |
   and it is ten because the hidden door is a quad **7 pixels thick** — in both rooms, independently
   — so *as far as possible* parks the actor flat against the door, exactly where a player expects
   to end up and exactly where they would end up if it were open. [verified] The same answer comes
-  back for `natalie_desk`, a region a shipped game hides on entry and never shows again: stop 13
+  back for `natalie_desk`, the region a shipped game cuts off by hiding `desk_path` on entry and
+  never showing it again: stop 13
   pixels short after walking up to 288. **A door and a defect are the same behaviour** and nothing
   in the geometry separates them, which is `.yidam/decisions/adjacency.yml`'s finding arriving from
   behaviour instead of from gaps.

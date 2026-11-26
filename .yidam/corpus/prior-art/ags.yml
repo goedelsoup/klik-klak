@@ -109,7 +109,8 @@ properties:
     inventory item`. Predicates nest, guarding a child command list; the structure is bounded at
     30 events per entity and 40 commands per list ([ags-source](../../catalog/ags-source.md)).
     [verified] What it has no form of is composition: no disjunction, no negation, no grouping,
-    no comparison beyond equality. The full table and what follows from it are in
+    no comparison beyond equality. The full table is recorded in
+    [ags-source](../../catalog/ags-source.md), and what follows from it is in
     [data-format/interaction-table](../data-format/interaction-table.yml), **which this node now
     reads as an edge rather than as a sentence.** `prior-art -reads-> data-format` has been
     declared since genesis and authored twice by other systems; the node holding the only

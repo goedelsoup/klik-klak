@@ -85,11 +85,11 @@ description: |
 
   **That question closes by counting the twin, and the one example was representative.** Every one
   of the 20 rooms declares both halves, because the room template ships both.
-  **`enter` carries 237 statements across 17 non-empty bodies; `exit` carries 15 across 6, and 14
-  of the 20 are empty** ([delores-source](../../catalog/delores-source.md)). [verified] Sixteen to
+  **`enter` carries 237 non-blank lines across 17 non-empty bodies — 169 statements; `exit`
+  carries 15 lines across 6, and 14 of the 20 are empty** ([delores-source](../../catalog/delores-source.md)). [verified] Sixteen to
   one, in a game where the author had no reason to prefer one over the other.
 
-  **Eleven of those 15 statements are presentation teardown** — `stopRoomMusic`, `stopSound`,
+  **Eleven of those 15 lines are presentation teardown** — `stopRoomMusic`, `stopSound`,
   `deleteImage`, `deleteExitButton`, the last two from the three close-up rooms that draw a page of
   text and take it away again. [verified] One is a flag being released (`toilet.inUse = NO`). The
   remaining six are one room's: SheriffsOffice checks where two non-player actors are as the player

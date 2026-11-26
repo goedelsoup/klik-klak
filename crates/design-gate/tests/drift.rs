@@ -12,8 +12,14 @@
 //!
 //! This holds what was found rather than finding more. A reading cannot be a gate. What a test can
 //! do is keep the finding honest: the pair count is recomputed, and every sentence counted is
-//! checked to be still there. Correcting one fails this file, and the record is then updated, which
-//! is the same practice as quoting an old claim rather than deleting it.
+//! checked to be where the record says it is.
+//!
+//! **The phase after it corrected fourteen.** All thirteen node sentences, and the one record
+//! sentence that was a live question — `binary-dimension`'s *"unmeasured here too"*, which
+//! `arity-cost` had measured. Those are checked gone, except one that `refused.rs` keeps where it
+//! was made, which is checked marked as answered instead; the other ten are records of their own
+//! moment, each wrong about something written later, and are checked still there until a phase
+//! takes them up.
 //!
 //! [`retraction-reach`]: ../../../.yidam/decisions/retraction-reach.yml
 
@@ -262,20 +268,46 @@ fn the_reading_covered_every_linked_pair() {
     assert_eq!((p.len(), records.len(), nodes.len()), (241, 76, 46));
 }
 
-/// **Every disagreement counted is still there, and the split is thirteen to eleven.**
+/// A corrected sentence another test keeps as the claim it was, and the mark that answers it.
+const KEPT: &[(&str, &str)] = &[(
+    "That is defining the problem away",
+    "as written; the built system does not define it away, and it is answered below, by an ordering",
+)];
+
+/// Corrected in the phase after the count: every node row, and the one record row that was open.
+fn corrected(side: &Behind, file: &str) -> bool {
+    *side == Node || file == "decisions/binary-dimension.yml"
+}
+
+/// **Every disagreement counted is accounted for, and the split was thirteen to eleven.** Fourteen
+/// are gone and ten still stand.
 #[test]
-fn every_counted_disagreement_still_stands() {
+fn every_counted_disagreement_is_corrected_or_still_stands() {
     let root = repo_root();
-    for (_, file, sentence, against) in STALE {
+    for (side, file, sentence, against) in STALE {
         let src = flat(&std::fs::read_to_string(root.join(".yidam").join(file)).expect("readable"));
-        assert!(
-            src.contains(sentence),
-            "{file} no longer says {sentence:?} (it contradicted {against}); \
-             retraction-reach's count is one lower"
-        );
+        if let Some((_, mark)) = KEPT.iter().find(|k| k.0 == *sentence) {
+            assert!(
+                src.contains(sentence) && src.contains(mark),
+                "{file} keeps {sentence:?} and marks it answered"
+            );
+        } else if corrected(side, file) {
+            assert!(
+                !src.contains(sentence),
+                "{file} says {sentence:?} again, which contradicted {against}"
+            );
+        } else {
+            assert!(
+                src.contains(sentence),
+                "{file} no longer says {sentence:?} (it contradicted {against}); \
+                 retraction-reach's standing count is one lower"
+            );
+        }
     }
     let node = STALE.iter().filter(|s| s.0 == Node).count();
+    let fixed = STALE.iter().filter(|s| corrected(&s.0, s.1)).count();
     assert_eq!((STALE.len(), node, STALE.len() - node), (24, 13, 11));
+    assert_eq!((fixed, STALE.len() - fixed), (14, 10));
 
     let record = flat(
         &std::fs::read_to_string(root.join(".yidam/decisions/retraction-reach.yml"))
@@ -287,6 +319,7 @@ fn every_counted_disagreement_still_stands() {
         "24 distinct sentences",
         "13 are the node behind",
         "11 are the record behind",
+        "fourteen were corrected",
     ] {
         assert!(
             record.contains(figure),

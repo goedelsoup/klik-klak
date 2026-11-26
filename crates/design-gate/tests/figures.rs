@@ -1,8 +1,8 @@
 //! **The corpus's largest block is a property, and the record that collected its verdict has the
 //! verdict's headline figure wrong.**
 //!
-//! `data-format/interaction-table.escape_hatch` is **491 lines — 10% of every block in the corpus,
-//! and 2.1× the next largest**. It has grown seven lines since, correcting figures a stale census
+//! `data-format/interaction-table.escape_hatch` is **495 lines — 10% of every block in the corpus,
+//! and 2.1× the next largest**. It has grown eleven lines since, correcting figures a stale census
 //! had put into it (`.yidam/decisions/unread-specimen.yml`), which is the trouble with a block this
 //! size: every repair makes it bigger. It carries two `---` horizontal rules, which is the tell: an
 //! author reaching for a section break inside a YAML scalar is an author whose field has stopped
@@ -139,7 +139,7 @@ fn surface(root: &Path) -> BTreeMap<String, usize> {
     out
 }
 
-/// **One property is nine percent of the corpus and is no longer twice the next largest block.**
+/// **One property is nine percent of the corpus, and twice the next largest block again.**
 ///
 /// It was ten percent for seven phases and twice the runner-up for longer. The block has not
 /// moved; the corpus grew around it, and then one other block caught up —
@@ -147,6 +147,12 @@ fn surface(root: &Path) -> BTreeMap<String, usize> {
 /// lines and which passed it by taking on the switching material
 /// `.yidam/decisions/control-transfer.yml` needed. The ratio is a visibility pin and it has now
 /// done the thing a visibility pin is for twice.
+///
+/// Then the block moved the other way. The phase after `retraction-reach` corrected four of its
+/// sentences that records had moved past, and each correction said what the old figure was as
+/// well as what the new one is: 491 lines became 495 against `thimbleweed-park`'s 246, and the
+/// ratio is two by one line in the divisor. The repair grew the block, which is the trouble the
+/// module doc names.
 ///
 /// It is not a rule and there is nothing here to fix by splitting a file: `interaction-table` is
 /// one concept and the prelude's shape has no unit between a node and a property. What the pin does
@@ -161,13 +167,13 @@ fn the_largest_block_in_the_corpus_is_a_property() {
     assert_eq!(
         (b[0].0, b[0].1.as_str()),
         (
-            491,
+            495,
             "data-format/interaction-table.yml  properties.escape_hatch"
         )
     );
     assert_eq!(
         (b[0].0 * 100 / total, b[0].0 / b[1].0),
-        (9, 1),
+        (9, 2),
         "share of every block in the corpus, and how many times the next largest"
     );
     assert_eq!(
