@@ -70,6 +70,12 @@ dist/
 
 # LanceDB — the vector index `yidam index-build` writes.
 *.lance/
+# …and the two directories `yidam embed` and `yidam index-build` write it from and into.
+# `.github/workflows/index.yml` says nothing keeps the index in git: it goes to the vault
+# and only `.yidam/index.lock` is committed. A local build left both untracked, in a
+# repository whose protocols stage with `git add -A`.
+.yidam/embeddings/
+.yidam/index/
 
 # mise
 .mise.local.toml
