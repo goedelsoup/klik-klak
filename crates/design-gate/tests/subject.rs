@@ -173,7 +173,7 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 97, "every record, in the order it was created");
+    assert_eq!(all.len(), 98, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -191,7 +191,7 @@ fn the_evidence_each_record_rests_on() {
     );
     assert_eq!(
         (alone, neither),
-        (16, 11),
+        (16, 12),
         "resting on the gate and nothing else, and resting on no evidence path at all"
     );
 }
@@ -387,6 +387,14 @@ fn the_evidence_each_record_rests_on() {
 /// as engine and the gate-alone run stays at zero. Two engine phases in a row is the run this check
 /// was built to make somebody notice, and what clears it is the next phase that has a question a
 /// document can answer.
+///
+/// **`edge-policy` makes it three, and it is not a phase.** A re-vendor's `yidam doctor` asked
+/// every class to say whether its relationship vocabulary is closed, and the answer was a census
+/// of this corpus's own edges, so no document could weigh it. It rests on no evidence path at
+/// all, which is why `neither` went up with it. The tripwire is extended by maintenance rather
+/// than by a phase that went to the repository instead of its subject, and the next phase is
+/// still the one that clears it. The record does not say this itself: it was pushed before the
+/// gate counted it, and an edit after its `decide:` would be a fifty-third edited record.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -402,7 +410,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (2, 0),
+        (3, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
@@ -432,12 +440,14 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
 ///
 /// `one-toggle` pushes `unread-spelling` out of the window and both rest on no document, so the
 /// figures stand: five re-readings, nothing retrieved, three needing no document.
+///
+/// `edge-policy` pushes `restated-guard` out and rests on no document, so the window holds four
+/// re-readings, nothing retrieved, and four needing no document.
 #[test]
 fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("restated-guard", Some(false)),
         ("unbuilt-solver", Some(false)),
         ("or-earns-it", Some(false)),
         ("declared-edge", None),
@@ -445,6 +455,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("refused-duration", Some(false)),
         ("runtime-boundaries", None),
         ("one-toggle", None),
+        ("edge-policy", None),
     ];
 
     let root = repo_root();
@@ -485,7 +496,7 @@ fn the_last_eight_phases_mostly_re_read() {
     let fresh = RECENT.iter().filter(|(_, r)| *r == Some(true)).count();
     assert_eq!(
         (doc, fresh, doc - fresh),
-        (5, 0, 5),
+        (4, 0, 4),
         "phases resting on a document, on one newly retrieved, and on one already in the house"
     );
 }
