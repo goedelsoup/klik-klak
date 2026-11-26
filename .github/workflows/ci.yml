@@ -56,7 +56,20 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  # <!-- YIDAM:CI --> placed by `yidam migrate scaffold`; the next re-vendor fills it
+  # <!-- YIDAM:CI --> written by yidam-vendor-update from the yidam scaffold — do not edit
+  #
+  # Everything between this line and its closing marker is yidam's: the jobs that
+  # run the corpus gate. `mise run yidam-vendor-update` replaces the region with the
+  # scaffold's at the new pin, so a gate added upstream reaches this repository at
+  # its next re-vendor (#1054). Before these markers existed, this file was
+  # installed once at genesis and never updated, and a derived repository ran
+  # whatever gates its genesis happened to know — one of them, none.
+  #
+  # So an edit inside the region is lost at the next re-vendor. A step you want
+  # beside the gate goes in a job of your own, below the closing marker; a job
+  # here you need changed is an issue upstream. `yidam doctor` checks that the
+  # markers are here and that some workflow still runs a corpus gate.
+  #
   # ── Paths that may not sit in a public repository ──────────────────────────
   #
   # Opt-in. Absent `.yidam/private-paths`, this job passes immediately and costs
@@ -132,25 +145,70 @@ jobs:
           origin=$(echo "$origin" | sed 's|^git@github.com:|https://github.com/|')
           { echo "source=$origin"; echo "commit=$commit"; } >> "$GITHUB_OUTPUT"
 
-      - uses: dtolnay/rust-toolchain@stable
+      # Download, then cache, then compile: the corpus job's sequence below,
+      # where each step's reasoning is written out. A pin with a release never
+      # provisions a toolchain here (#1308). The scripts are the corpus job's byte
+      # for byte, and `derived_ci_binary.rs` holds every job that installs yidam to them.
+      - name: Resolve the pin to a release tag
+        id: release
         if: steps.declared.outputs.any == 'true'
+        run: |
+          set -eu
+          resolve_tag='
+            { ref = $2; sub(/^refs\/tags\//, "", ref)
+              if (ref ~ /\^\{\}$/) { sub(/\^\{\}$/, "", ref); sha[ref] = $1 }
+              else if (!(ref in sha)) sha[ref] = $1 }
+            END { for (t in sha) if (sha[t] == c) { print t; exit } }'
+          tag=$(git ls-remote --tags "${{ steps.pin.outputs.source }}" 'cli/v*' 2>/dev/null \
+                | awk -v c='${{ steps.pin.outputs.commit }}' "$resolve_tag" || true)
+          if [ -n "$tag" ]; then
+            echo "the pinned commit was released as $tag"
+          else
+            echo "no release is tagged at this pin; the source build will run"
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
-      # Same cache key the corpus job uses, so at most one job per pinned commit
-      # pays for the build.
-      - name: Cache the pinned yidam binary
+      - name: Download the released binary
+        id: download
+        if: steps.declared.outputs.any == 'true' && steps.release.outputs.tag != ''
+        continue-on-error: true
+        run: |
+          set -eu
+          tag='${{ steps.release.outputs.tag }}'
+          repo=$(echo '${{ steps.pin.outputs.source }}' | sed -e 's|\.git$||')
+          name="yidam-${tag#cli/v}-x86_64-unknown-linux-gnu"
+          url="$repo/releases/download/$tag/$name.tar.gz"
+          dl=$(mktemp -d)
+          curl -fsSL "$url"        -o "$dl/$name.tar.gz"
+          curl -fsSL "$url.sha256" -o "$dl/$name.tar.gz.sha256"
+          ( cd "$dl" && sha256sum -c "$name.tar.gz.sha256" )
+          tar -xzf "$dl/$name.tar.gz" -C "$dl"
+          mkdir -p "$HOME/.local/bin"
+          install -m 0755 "$dl/$name/yidam" "$HOME/.local/bin/yidam"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          echo "ok=true" >> "$GITHUB_OUTPUT"
+
+      - name: Cache the compiled binary
         id: yidam-cache
-        if: steps.declared.outputs.any == 'true'
+        if: steps.declared.outputs.any == 'true' && steps.download.outputs.ok != 'true'
         uses: actions/cache@v4
         with:
           path: ~/.cargo/bin/yidam
           key: yidam-cli-${{ runner.os }}-${{ steps.pin.outputs.commit }}
 
-      - name: Install the yidam CLI (light build)
-        if: steps.declared.outputs.any == 'true' && steps.yidam-cache.outputs.cache-hit != 'true'
+      - uses: dtolnay/rust-toolchain@stable
+        if: steps.declared.outputs.any == 'true' && steps.download.outputs.ok != 'true' && steps.yidam-cache.outputs.cache-hit != 'true'
+
+      - name: Compile the yidam CLI (light build)
+        if: steps.declared.outputs.any == 'true' && steps.download.outputs.ok != 'true' && steps.yidam-cache.outputs.cache-hit != 'true'
         run: |
           git clone --filter=blob:none --no-checkout "${{ steps.pin.outputs.source }}" /tmp/yidam
           git -C /tmp/yidam checkout --quiet "${{ steps.pin.outputs.commit }}"
           cargo install --path /tmp/yidam/yidam/cli --locked
+
+      - name: Say which yidam is answering
+        if: steps.declared.outputs.any == 'true'
+        run: yidam --version
 
       # Why this exists at all: a repository took on an advocacy layer holding
       # worked lines of attack and material its own publication gate computes as
@@ -184,15 +242,13 @@ jobs:
           else
             yidam policy gate disclose/at_rest --public
           fi
+
   corpus:
     name: corpus (graph gate)
     runs-on: ubuntu-latest
     steps:
-      # Full history, for two reasons. The commit-vocabulary check needs origin/main to
-      # resolve a range against, and a depth-1 checkout does not have it. And `yidam regen`
-      # refuses a shallow clone outright as of cli/v0.12.0: the status block names the
-      # corpus genesis, git calls a truncated history's boundary commit a root, and the
-      # block was therefore written from a date the clone invented.
+      # Full history: the commit-vocabulary check needs origin/main to resolve a range
+      # against, and a depth-1 checkout does not have it.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -337,7 +393,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         if: steps.download.outputs.ok != 'true' && steps.yidam-cache.outputs.cache-hit != 'true'
 
-      # The light `reports` build — no protoc, no fastembed, no lancedb. The
+      # The light `reports` build — no fastembed, no ONNX runtime. The
       # graph gate needs none of them, and the heavy feature set turns a
       # 40-second job into a five-minute one.
       - name: Compile the yidam CLI (light build)
@@ -393,23 +449,47 @@ jobs:
               '${{ steps.pin.outputs.source }}' /tmp/yidam
           fi
           cd /tmp/yidam
-          if ! git rev-parse --verify --quiet "origin/HEAD" >/dev/null; then
-            echo "::notice::cannot resolve origin/HEAD; skipping the staleness report."
+          # Measured against the newest `cli/v*` release, which is what
+          # `yidam-vendor-update` adopts by default (#1308) — not origin/HEAD, which is
+          # rarely tagged, so this reported nearly every repository as behind and told it
+          # to run an update that would change nothing. The resolver is the task's own,
+          # byte for byte; a test holds the copies together.
+          # NEWEST-RELEASE BEGIN
+          # The newest `cli/vX.Y.Z` tag at an origin, as `<tag> <commit>`; nothing if it has none.
+          # By version, not by date: `releases/latest` and tag dates span four layers. The peeled
+          # `^{}` line is the commit of an annotated (signed) tag, so it wins over the bare line,
+          # and the refspec globs because ls-remote emits peeled lines only for a glob.
+          # No backslashes, for the reason the tools block gives.
+          newest_release() {
+            git ls-remote --tags "$1" 'refs/tags/cli/v*' 2>/dev/null | awk '
+              { ref = substr($2, 11); peeled = 0
+                if (substr(ref, length(ref) - 2) == "^{}") { ref = substr(ref, 1, length(ref) - 3); peeled = 1 }
+                if (ref !~ "^cli/v[0-9]+[.][0-9]+[.][0-9]+$") next
+                if (peeled || !(ref in sha)) sha[ref] = $1 }
+              END { for (t in sha) print substr(t, 6), t, sha[t] }
+            ' | sort -t. -k1,1n -k2,2n -k3,3n | tail -n1 | cut -d' ' -f2,3
+          }
+          # NEWEST-RELEASE END
+          release=$(newest_release '${{ steps.pin.outputs.source }}')
+          if [ -z "$release" ]; then
+            echo "::notice::the origin has no cli/v* release; skipping the staleness report."
             exit 0
           fi
-          behind=$(git rev-list --count "$pin..origin/HEAD" 2>/dev/null || echo 0)
-          if [ "$behind" -eq 0 ]; then
-            echo "::notice::vendored prelude is current with upstream."
+          tag="${release%% *}"
+          target="${release#* }"
+          if git merge-base --is-ancestor "$target" "$pin" 2>/dev/null; then
+            echo "::notice::vendored prelude is at or ahead of the newest release ($tag)."
             exit 0
           fi
+          behind=$(git rev-list --count "$pin..$target" 2>/dev/null || echo 0)
           pinned_at=$(git log -1 --format=%at "$pin")
           days=$(( ( $(date +%s) - pinned_at ) / 86400 ))
-          moved=$(git diff --name-only "$pin" origin/HEAD -- yidam/prelude/ | wc -l | tr -d ' ')
-          echo "This repository is pinned $behind commit(s) behind upstream, $days day(s) old."
+          moved=$(git diff --name-only "$pin" "$target" -- yidam/prelude/ | wc -l | tr -d ' ')
+          echo "This repository is pinned $behind commit(s) behind $tag, $days day(s) old."
           echo "$moved file(s) under yidam/prelude/ have changed since. Re-pin with:"
           echo "  mise run yidam-vendor-update"
-          if git diff --name-only "$pin" origin/HEAD -- yidam/prelude/GRAPH.md | grep -q .; then
-            echo "::warning::GRAPH.md has moved upstream since this pin — the closed commit \
+          if git diff --name-only "$pin" "$target" -- yidam/prelude/GRAPH.md | grep -q .; then
+            echo "::warning::GRAPH.md has moved in $tag since this pin — the closed commit \
           vocabulary may have gained or lost a verb. Your log is already written against \
           the old one and cannot be rewritten to match. Review before writing more history: \
           mise run yidam-vendor-update"
@@ -439,13 +519,18 @@ jobs:
       # produce a diff the gate had never asked for. The set now lives in one place in the
       # CLI and both callers ask for it by name.
       #
-      # This paragraph used to justify the fetch above by the phase count. As of
-      # cli/v0.12.0 the count is gone from the block: it read refs, which is a property of
-      # how a checkout was fetched rather than of the commit, so for one commit there was
-      # no value green both in a default CI checkout and in a clone that had fetched. The
-      # gate was unwinnable rather than wrong, and it moved with no commit at all — pushing
-      # a phase branch reddened this step on every open pull request. `fetch-depth: 0` is
-      # still required, for the two reasons named at the checkout.
+      # **The `fetch-depth: 0` above is load-bearing for this step**, and the reason is
+      # history rather than branches. `yidam status` reports the corpus's genesis date, which
+      # is its first commit — and in a depth-1 checkout git names the boundary commit a root,
+      # so the block would hold the date of whatever was checked out. `yidam regen` refuses
+      # outright in a shallow clone rather than generating from one (#647); without the full
+      # fetch, this step fails with that refusal and not with a stale block.
+      #
+      # It is no longer load-bearing for phase counts, because the block no longer holds any.
+      # Those moved to `yidam status --format json` and `yidam phases`: a count of refs is a
+      # property of how a checkout was fetched rather than of the commit, so no committed
+      # value could be green both here and on a machine that had run `git fetch`.
+      #
       # `--check` rather than run-and-diff. The old form regenerated into the working
       # tree and asked git whether anything moved, which works in CI and cannot be run
       # locally with work in flight — the diff it reads is every diff, not just its own.
@@ -454,11 +539,6 @@ jobs:
       - name: REGEN blocks are current
         run: yidam regen --check
 
-      # The gate for `design/` used to be a shell step here. It is now
-      # `cargo test -p design-gate`, which the `crates` job below runs — that
-      # job became live the moment crates/Cargo.toml appeared, and the
-      # conditional wiring is exactly what it was built for. See
-      # .yidam/decisions/domain-computer.yml.
   # <!-- /YIDAM:CI -->
 
   detect:
@@ -478,6 +558,10 @@ jobs:
           test -f packages/pyproject.toml && echo "packages=true" >> "$GITHUB_OUTPUT" || echo "packages=false" >> "$GITHUB_OUTPUT"
           test -f web/package.json      && echo "web=true"      >> "$GITHUB_OUTPUT" || echo "web=false"      >> "$GITHUB_OUTPUT"
 
+  # The gate for `design/` used to be a shell step in the corpus job. It is now
+  # `cargo test -p design-gate`, which this job runs — it became live the moment
+  # crates/Cargo.toml appeared, and the conditional wiring is exactly what it was
+  # built for. See .yidam/decisions/domain-computer.yml.
   crates:
     name: crates (domain computer)
     needs: detect
