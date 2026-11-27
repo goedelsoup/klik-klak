@@ -1,7 +1,7 @@
 ---
 title: what the specimens found
 status: proposal
-reconciled: 7aaeab17426e5bdc88caded2fd5ba10ad5ad1af3
+reconciled: 2bea1de27d567431125bb7970c40f1f967a4eca3
 rests_on:
   - design/bounded-expression-language.md
   - .yidam/corpus/actor/player-character.yml
@@ -684,3 +684,10 @@ rooms^n for the *n* actors it actually moves, and nothing otherwise.
 would make the specimen test what it was written to say it could not, and would move figures three
 phases of records quote. It has not been done, and whether a specimen should be revised to
 exercise a primitive it argued for is a question this directory has not had to answer before.
+
+**Since answered: yes, when the verdict does not move.** `nightwatch` now holds its watchman in
+the hall, and his site is there. Its states, bindings, strandings and scripted loss are what they
+were, because nobody moves him or asks where he is. Seven lines and two offered slots moved, and
+nothing a record quotes. The revision also found that the writer reordered a site authored above
+an `on-enter`, which no specimen had done before. [verified] —
+[`revised-specimen`](../../.yidam/decisions/revised-specimen.yml).

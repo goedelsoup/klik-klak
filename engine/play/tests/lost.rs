@@ -92,7 +92,7 @@ const TRAPS: [Trap; 5] = [
     Trap {
         name: "nightwatch",
         script: include_str!("../scripts/nightwatch-lost.txt"),
-        blamed: 153,
+        blamed: 160,
         at_turn: 4,
         transcript: "\
 > pick-up loose-wire

@@ -246,7 +246,7 @@ fn a_large_game_at_the_prescribed_width_is_small() {
 /// about tractability, quoted in `world-flag/latched-flag` and in the design. **The games that
 /// carry that argument are games this vocabulary could not express.**
 ///
-/// The numbers, at the sizes the tests above actually run: 1,108 lines of hand-authored game
+/// The numbers, at the sizes the tests above actually run: 1,115 lines of hand-authored game
 /// across the specimens, and 6,315 generated across seventeen.
 ///
 /// **The ratio only ever moves one way, and the sixth specimen took it under six.** It was
@@ -276,7 +276,7 @@ fn the_corpus_still_generates_more_game_source_than_it_writes() {
         generated += acts(k, w).lines().count();
     }
 
-    assert_eq!(authored, 1108, "the specimens, by hand");
+    assert_eq!(authored, 1115, "the specimens, by hand");
     assert_eq!(generated, 6315, "seventeen games, by loop");
     assert!(
         generated > authored,

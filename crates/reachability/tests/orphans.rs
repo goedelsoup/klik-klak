@@ -294,6 +294,6 @@ fn the_census_sees_a_line_said_between_two_resting_states() {
         .flat_map(|b| &b.says)
         .max_by_key(|r| r.text.chars().count())
         .expect("a line");
-    assert_eq!(longest.line, 89);
+    assert_eq!(longest.line, 100);
     assert!(forced.contains(&longest.line), "and it is forced");
 }

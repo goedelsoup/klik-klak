@@ -172,7 +172,7 @@ fn the_specimen_census_is_what_the_documents_quote() {
     }
     assert_eq!(
         (paths.len(), lines, bindings, declared),
-        (6, 1108, 148, 131),
+        (6, 1115, 148, 131),
         "specimens, authored lines, bindings, declared names"
     );
 

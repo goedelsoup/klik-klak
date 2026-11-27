@@ -252,7 +252,7 @@ const STALE: &[(Behind, &str, &str, &str)] = &[
         Record,
         "decisions/latch-default.yml",
         "effect has never been written here",
-        "latched-flag: three clear sites in 1,108 lines",
+        "latched-flag: three clear sites in 1,115 lines",
     ),
     (
         Record,
@@ -309,12 +309,15 @@ const STALE: &[(Behind, &str, &str, &str)] = &[
 ///
 /// `forced-order`, the 90th, adds one, to `failure-mode/unwinnable-state`, whose
 /// `detectable_at: authoring` is the first ground of its answer to `walked-in`'s runtime question.
+///
+/// `revised-specimen`, the 91st, adds one, to `world-flag/latched-flag`, whose count of the
+/// specimens' lines its revision of `nightwatch` moved from 1,108 to 1,115.
 #[test]
 fn the_reading_covered_every_linked_pair() {
     let p = pairs(&repo_root());
     let records: BTreeSet<_> = p.iter().map(|(r, _)| r).collect();
     let nodes: BTreeSet<_> = p.iter().map(|(_, n)| n).collect();
-    assert_eq!((p.len(), records.len(), nodes.len()), (262, 90, 46));
+    assert_eq!((p.len(), records.len(), nodes.len()), (263, 91, 46));
 }
 
 /// **The pairs were not the whole of it.** The same stale fact written a second time, in a node no

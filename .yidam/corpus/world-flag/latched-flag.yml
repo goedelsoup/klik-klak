@@ -222,7 +222,7 @@ description: |
   flag `design/specimen/lock.game` spends on recording **which character the player is driving**,
   because this format has no site for a control switch and an author has to put it somewhere
   ([control-transfer](../../decisions/control-transfer.yml)). All three `clear` sites in the six
-  specimens' 1,108 lines write it. (This read fourteen and eleven, and 904 lines, until a phase
+  specimens' 1,115 lines write it. (This read fourteen and eleven, and 904 lines, until a phase
   after `relay.game` added three latched flags.)
 
   So the division is not *most flags latch*. It is: **a flag recording something about the world is

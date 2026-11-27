@@ -218,5 +218,5 @@ fn a_third_of_the_file_is_for_whoever_reads_the_file() {
             }
         }
     }
-    assert_eq!((total, hash, annotation, blank), (1108, 233, 3, 224));
+    assert_eq!((total, hash, annotation, blank), (1115, 238, 3, 225));
 }
