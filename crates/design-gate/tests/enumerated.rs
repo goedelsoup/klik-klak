@@ -227,6 +227,8 @@ fn the_specimen_census_is_what_the_documents_quote() {
 /// specimens either.
 ///
 /// The 110th is `catalog/sierra-agi-source.md`, read when it was written. Nor does it.
+///
+/// The 111th is `catalog/ags-game-sources.md`, read when it was written. Nor does it.
 #[test]
 fn no_living_document_quotes_a_stale_specimen_figure() {
     let root = repo_root();
@@ -272,7 +274,7 @@ fn no_living_document_quotes_a_stale_specimen_figure() {
     );
     assert_eq!(
         (scanned, mentioning),
-        (110, 36),
+        (111, 36),
         "living documents read, and living documents that mention the specimens — the second is \
          what this check is a claim about, and a clean result over a shrinking denominator is not \
          the same result"

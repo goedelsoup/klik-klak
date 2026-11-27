@@ -257,6 +257,9 @@ fn class_of(root: &Path) -> BTreeMap<String, String> {
 /// `pq-acts` added one, root-based: the pointer to its record under `latched-flag`'s marker.
 ///
 /// `pq-stops` added one, root-based, in the same place.
+///
+/// `ags-pickups` added two, root-based and to its own record: the pointer `acquisition-binding`
+/// carries under its closed marker, and the one `pick-up` carries where it says the marker closed.
 #[test]
 fn every_path_written_in_corpus_prose_resolves() {
     let root = repo_root();
@@ -283,10 +286,10 @@ fn every_path_written_in_corpus_prose_resolves() {
     );
     assert_eq!(
         (own, repo, corpus),
-        (143, 175, 5),
+        (143, 177, 5),
         "the three bases, all load-bearing"
     );
-    assert_eq!((own + repo + corpus, decisions), (323, 200));
+    assert_eq!((own + repo + corpus, decisions), (325, 202));
 }
 
 /// **99 declared edges, 97 prose citations, and 18 pairs in both.**

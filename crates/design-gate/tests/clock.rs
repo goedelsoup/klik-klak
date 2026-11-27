@@ -223,7 +223,7 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
         .map(|(n, _)| n.as_str())
         .collect();
     assert!(
-        past.len() >= 1,
+        !past.is_empty(),
         "fewer questions past {interval} than when this was written, which means one was answered \
          or one was reworded — and only one of those is a reason to lower the number here"
     );

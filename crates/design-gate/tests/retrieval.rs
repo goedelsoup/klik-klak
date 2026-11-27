@@ -171,6 +171,7 @@ const SHAPE: &[(&str, Shape)] = &[
     ("agi-specifications.md", Shape::OneDocument),
     ("ags-272-manual.md", Shape::OneDocument),
     ("ags-forums.md", Shape::List),
+    ("ags-game-sources.md", Shape::OneDocument),
     ("ags-manual.md", Shape::List),
     ("ags-source.md", Shape::OneDocument),
     ("ags-tracker.md", Shape::List),
