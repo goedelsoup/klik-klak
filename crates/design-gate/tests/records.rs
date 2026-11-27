@@ -284,6 +284,10 @@ fn summary(src: &str) -> String {
 /// `revised-specimen` moved it from 887 to 895: its citations of the two records it answers, the
 /// node whose count it moved, the specimen it points at and the files its measurements were read
 /// from, and the one each of the two records gained pointing back.
+///
+/// `one-place` moved it from 895 to 900: its citations of the record it answers and the files its
+/// measurements were read from, and the one `found-in` gained pointing back. One of those files is
+/// a test no record had cited, which is the 91st.
 #[test]
 fn every_path_written_in_a_record_resolves() {
     let root = repo_root();
@@ -307,7 +311,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (895, 146, 90));
+    assert_eq!((total, mentions, tests.len()), (900, 146, 91));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -419,7 +423,10 @@ fn a_record_nothing_cites_is_named() {
     //
     // `revised-specimen` is the 112th and adds four: it cites `actor-position` and
     // `second-document`, and the marker each of them closed cites it back on the day it lands.
-    assert_eq!((c.len(), edges), (112, 457));
+    //
+    // `one-place` is the 113th and adds two: it cites `found-in`, and the marker it closed cites
+    // it back on the day it lands.
+    assert_eq!((c.len(), edges), (113, 459));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -537,7 +544,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 52, "live open questions in this directory");
+    assert_eq!(total, 51, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
