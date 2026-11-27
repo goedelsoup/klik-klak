@@ -306,12 +306,15 @@ const STALE: &[(Behind, &str, &str, &str)] = &[
 ///
 /// `ags-pickups`, the 88th, adds two, to `acquisition-binding`, whose marker it closed, and to
 /// `pick-up`, which pointed at that marker — both revised in the same phase. 31 of 259.
+///
+/// `forced-order`, the 90th, adds one, to `failure-mode/unwinnable-state`, whose
+/// `detectable_at: authoring` is the first ground of its answer to `walked-in`'s runtime question.
 #[test]
 fn the_reading_covered_every_linked_pair() {
     let p = pairs(&repo_root());
     let records: BTreeSet<_> = p.iter().map(|(r, _)| r).collect();
     let nodes: BTreeSet<_> = p.iter().map(|(_, n)| n).collect();
-    assert_eq!((p.len(), records.len(), nodes.len()), (261, 89, 46));
+    assert_eq!((p.len(), records.len(), nodes.len()), (262, 90, 46));
 }
 
 /// **The pairs were not the whole of it.** The same stale fact written a second time, in a node no

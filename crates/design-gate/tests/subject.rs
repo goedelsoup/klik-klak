@@ -195,11 +195,14 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 ///
 /// `ags-dialogs` is the 110th and the 62nd: `catalog/ags-game-sources` again, the same games'
 /// dialogs and their histories.
+///
+/// `forced-order` is the 111th and the 63rd: `catalog/twp-dev-diary`, through the node whose remedy
+/// it quotes, beside the engine test it played.
 #[test]
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 110, "every record, in the order it was created");
+    assert_eq!(all.len(), 111, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -212,7 +215,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (62, 59, 45),
+        (63, 60, 45),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -518,12 +521,14 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
 ///
 /// `ags-dialogs` pushes `maker-tracker` out and re-reads the AGS clones `ags-pickups` retrieved, for
 /// their dialogs. A re-reading replaces a retrieval: six re-readings and two retrievals.
+///
+/// `forced-order` pushes `puzzle-width` out and re-reads Thimbleweed Park's diary through the node
+/// that quotes it. A re-reading replaces a re-reading: six and two.
 #[test]
 fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("puzzle-width", Some(false)),
         ("house-width", Some(true)),
         ("pq-acts", Some(false)),
         ("pq-stops", Some(false)),
@@ -531,6 +536,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("latched-close", Some(false)),
         ("ags-pickups", Some(true)),
         ("ags-dialogs", Some(false)),
+        ("forced-order", Some(false)),
     ];
 
     let root = repo_root();
