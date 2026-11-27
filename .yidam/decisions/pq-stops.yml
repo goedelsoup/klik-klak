@@ -1,0 +1,56 @@
+id: pq-stops
+summary: >-
+  Police Quest's patrol is wide in steps and narrow in state. Its 25 street steps fall into seven
+  incidents, three traffic stops among them, and none is wider than 5. The street's width is the sum
+  of theirs. The incidents are not independent: a few names carry order between them, chiefly who
+  is in custody and which scene the dispatcher has started. So the widest act measured is a sum of
+  small checks joined by a small shared state, not one large check.
+context: |
+  [pq-acts](pq-acts.yml) cut Police Quest by region and found the street 15 to 22 wide, outside the
+  2–5 that [latched-flag](../corpus/world-flag/latched-flag.yml)'s cost argument assumes. That left
+  one question: is a wide act wide in state, or only in scored steps? The measurement it named was
+  whether any award in one traffic stop reads a flag that another stop writes.
+
+  `phase/pq-stops` made it on the clone already held
+  ([sierra-agi-source](../catalog/sierra-agi-source.md)), with the same extractor and readings.
+decision: |
+  **In steps the street splits.** Assigned to the incident whose room awards them, the 25 steps
+  form seven groups: the felony, drunk and fox stops, the murder scene, the cafe, the biker bar and
+  the squad car. The widest, the felony stop, is 4 to 5 wide, and the rest are 1 to 4. [verified]
+  The street's width equals the sum of the incidents' widths in five of the six readings and is one
+  short in the sixth. [verified] So the street is wide because it holds seven incidents side by side,
+  not because any one of them is wide. [inference]
+
+  **The named test fails, and narrowly.** The felony stop's awards read `has.suspect` and `Sdoor`,
+  and the drunk stop writes both. The cafe's and the biker bar's read `current.suspect` and the
+  dispatcher's scene vars. [verified] Steps in different incidents are ordered in every reading.
+  [verified] What carries the order is a handful of names that sequence the patrol: one suspect in
+  the car at a time, which suspect that is, and which call is active. [inference] In five
+  readings of six they do not shrink the width, so the incidents' widest antichains stay unordered
+  with each other. [verified]
+
+  **So the cost is a sum with a small interface.** At *k*=8 with locals removed, the sum over
+  incidents of 2^w is 68, against 2^18 for the street as one act. [verified] A check composed by
+  incident has to carry the shared names across the joins as well. `current.suspect` takes about
+  eight values and the rest are flags or short scene counters, so that state is small. Its size was
+  not measured. [inference] This is the cost argument's structure from LSL5's acts again, a sum of
+  terms exponential in a small width, found inside one act instead of between acts.
+
+  `latched-flag`'s marker is narrowed, not closed. The widest act measured is tractable by an
+  incident cut. What is left is whether the cut exists where no act counter or room naming suggests
+  it. Larry, at 25 to 37 wide with no acts, is the case. The measurement would be the same one:
+  group its steps by the room that awards them and see whether its width is the sum of small groups.
+rationale: |
+  **Why incidents by room.** Each incident has its own room in `ROOMNUMS.H`, and a step's awarding
+  unit lives in one file, so the assignment is read from the source and not from memory of the game.
+  The squad car's rooms and the radio were grouped as one incident because they serve every call.
+  [inference]
+
+  **Why the sum matters more than the failed test.** The test asked for no shared flag at all, which
+  is the condition for checking each incident in isolation. The width sum shows something weaker that
+  still bounds the cost: the shared names order incidents without ordering their widest parts.
+  A checker still pays for the shared state, and this record does not count it. [inference]
+
+  **What was not done.** The shared state's size was not measured, only its names. The station was
+  still not divided. Nothing was checked against a playthrough. The dispatcher was read only for the
+  names it writes.
