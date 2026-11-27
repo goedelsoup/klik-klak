@@ -126,15 +126,18 @@ fn every_due_clock_is_declared_or_declined_in_writing() {
 /// so the clock watches three. The name keeps *a sixth* for the reason given above, and the figure
 /// is the assertion's.
 ///
+/// **And to a thirtieth by another.** `latched-close` closed `world-flag/latched-flag`'s, so it
+/// watches two.
+///
 /// [`markers.rs`]: markers.rs
 #[test]
 fn the_clock_that_is_declared_covers_a_sixth_of_what_is_owed() {
     let root = repo_root();
     let (corpus, decisions) = owed(&root);
-    assert_eq!((corpus, decisions), (3, 56));
+    assert_eq!((corpus, decisions), (2, 56));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        5,
+        3,
         "what a declared questions clock can see"
     );
 }

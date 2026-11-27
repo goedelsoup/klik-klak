@@ -203,6 +203,43 @@ read 11 global names that some other room writes, and no room reads more than 4 
 location it is 9 names. The Police Quest street, counted the same way and including writers off
 the street, is 20. [verified] How many values those names take was not counted.
 
+## King's Quest III by room
+
+`phase/latched-close` cut the last of the three AGI games the same way as Larry. Its 67 steps are
+awarded in 36 rooms, no more than 7 in one. Across the six readings, no room is wider than 6 or 7,
+the rooms' widths add up to 51 to 65 against the whole game's 31 to 64, and the sum of 2^w is 180
+to 380. [verified]
+
+## The state the joins carry
+
+`phase/latched-close` counted the values of the names that the cuts above share. A name's values
+are the constants the source assigns it, plus zero. A counter that the source does arithmetic on is
+bounded two ways: by the largest constant it is compared to or assigned, and by the number of
+comparisons, plus one, since a check can only tell the classes those comparisons divide it into.
+Flags and items held are two values each. [verified] At *k*=8:
+
+| cut | names | flags and items | other names, values each | product, concrete | by comparisons |
+|---|---|---|---|---|---|
+| Police Quest street, by incident | 20 | 13 | custody 4, suspect 7, three scene vars 5–7, a distance 2, the player's *y* 168 | 2^34 | 2^31 |
+| Larry, by room | 11 | 10 | money 251 | 2^18 | 2^12 |
+| King's Quest III, by room | 45 | 42 | three counters, 8 to 104 | 2^55 | 2^50 |
+
+The player's *y* is compared at 19 constants, and money at 4. [verified]
+
+**A check composed by part pays 2^w times the values of that part's own shared names**, summed
+over parts. A check of the whole act pays 2^w times the values of all of them, so the two are
+counted alike here.
+
+| cut | whole, same state | composed, concrete | composed, by comparisons | worst part |
+|---|---|---|---|---|
+| Police Quest street | 2^47–2^52 | 2^16.5–2^17.5 | 2^14.2–2^14.8 | the felony stop: 4–5 wide, 6 names, 640–5,376 values |
+| Larry | 2^37–2^55 | 2^13.1–2^14.0 | 2^8.3–2^9.2 | the disco's room 25: 2–3 wide, 4 names, money among them |
+| King's Quest III | 2^89–2^111 | 2^14.2–2^14.9 | 2^12.1–2^13.6 | room 39 or 10: 5–6 wide, 6 names |
+
+The ranges are the locals-kept and locals-removed readings. [verified] The shared state is the
+larger factor in both games' worst part. [verified] A product of value counts treats every
+combination as reachable, so it bounds the state from above. [inference]
+
 ## What this does not say
 
 - **Police Quest's acts were measured by region, not by stage.** The stage var guards three
@@ -225,4 +262,5 @@ vocabulary resources were not opened. Police Quest's acts, the next reading `hou
 have since been read, by region rather than by stage, in `pq-acts`; see above. The traffic stops
 have since been read as incidents, in `pq-stops`; see above. The dispatcher in rooms 96 and 119,
 which decides which call the patrol answers next, was read only for the names it writes. Larry's steps
-have since been grouped by room, in `larry-rooms`; see above. King's Quest III has not been cut.
+have since been grouped by room, in `larry-rooms`; see above. The state the joins carry has been
+counted, in `latched-close`; see above. King's Quest III has since been cut by room, in `latched-close`; see above.

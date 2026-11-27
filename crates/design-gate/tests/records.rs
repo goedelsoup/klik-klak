@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (854, 143, 89));
+    assert_eq!((total, mentions, tests.len()), (863, 143, 89));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -394,7 +394,7 @@ fn a_record_nothing_cites_is_named() {
     //
     // `pq-stops` is the 106th and adds two: it cites `pq-acts`, and that record's narrowing
     // paragraph cites it back on the day it lands.
-    assert_eq!((c.len(), edges), (107, 430));
+    assert_eq!((c.len(), edges), (108, 436));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -683,9 +683,14 @@ fn no_record_has_changed_what_it_decided() {
     // The sixty-first is `pq-stops`, the first kind and the same route a fourth time: it named Larry
     // by room as the next cut, and `larry-rooms` made it. A *"Since narrowed."* paragraph follows
     // the `[open]`-bearing one, and the summary did not move.
+    //
+    // The sixty-second is `larry-rooms`, the first kind for the last time: it left LSL5's wide acts
+    // and the state at the joins, and `latched-close` measured both and closed the marker. A
+    // *"Since closed."* paragraph follows the one that asked whether to close, and the summary did
+    // not move.
     assert_eq!(
         edited,
-        61,
+        62,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

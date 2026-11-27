@@ -113,8 +113,8 @@ description: |
   bottlenecks* — is not exhibited by the one shipped game available to check it against. That is not
   a refutation: a whole-game antichain is not "how many are open at once", and a demonstrator game
   is not the full-length adventure the rule was written about. What it is not any more is
-  unevidenced in either direction. `.yidam/decisions/measured-width.yml` sets out the three readings
-  and declines to choose. `[open]`
+  unevidenced in either direction. `.yidam/decisions/measured-width.yml` set out the three readings
+  and declined to choose, which was the question this paragraph left.
 
   **A full-length game has the bottlenecks, and they are code.** *Leisure Suit Larry 5*
   ([lsl5-source](../../catalog/lsl5-source.md)) is eight acts. Leaving a city closes it on the
@@ -166,6 +166,16 @@ description: |
   so the rooms are ordered across the cut through 11 shared names. [verified] What is left is
   LSL5's four wide acts, which have not been cut further, and the size of the state the joins
   carry, which no game has had counted.
+
+  **Both have now been measured, and the question is closed**
+  ([lsl5-source](../../catalog/lsl5-source.md), [sierra-agi-source](../../catalog/sierra-agi-source.md),
+  `.yidam/decisions/latched-close.yml`). LSL5 cut by room is 56 parts none wider than 6, and King's
+  Quest III 36 rooms none wider than 7. [verified] Counting the values of the names each part shares
+  with others, a check composed by part costs 2^8 to 2^17.5 in the three AGI games, against 2^37 to
+  2^111 for the same state checked whole. [verified] So the figure fails and the structure holds:
+  2–5 is not a design constant, but every game measured is a sum of small parts at a cut its source
+  names. [inference] In the worst parts the cost is a shared position or counter, not the width.
+  [verified] Delores was not cut by room, and the value counts are an upper bound.
 
   **How many flags in a real game latch has its first evidence, and it points at *most*.** A
   shipped adventure game's save file is quoted in Thimbleweed Park's development diary, with real

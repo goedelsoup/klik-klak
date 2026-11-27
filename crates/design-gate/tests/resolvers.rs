@@ -46,6 +46,10 @@ enum Closes {
     /// is a failure no check here could have caught and only going and looking finds.
     Retrieval,
     /// Nothing — it is declined, and the marker states the condition that would reopen it.
+    ///
+    /// **Empty, and its last member closed by meeting its own condition.** `world-flag/latched-flag`
+    /// declined to choose between three readings of a measured width until more games were cut.
+    /// Seven phases cut four, and `.yidam/decisions/latched-close.yml` closed it.
     Condition,
     /// A game, written in this language, that either reaches for a construct or does not.
     ///
@@ -94,7 +98,6 @@ const KINDS: &[(&str, Closes)] = &[
         Closes::Testimony,
     ),
     ("interaction/acquisition-binding.yml", Closes::Testimony),
-    ("world-flag/latched-flag.yml", Closes::Condition),
 ];
 
 /// Every corpus node carrying a live marker, in the order the table expects them.
@@ -193,6 +196,11 @@ fn the_table_covers_every_question() {
 /// artifact asked of testimony: `.yidam/decisions/forum-witnesses.yml` read the release thread and
 /// a later statement that the tool was never finished. The two left in the column ask what authors
 /// experienced, and the same reading narrowed them without closing either.
+///
+/// **And the last declined question closed, by the measuring its condition asked for.**
+/// `world-flag/latched-flag` was declined until the width was measured in more games. Seven phases
+/// cut four Sierra games into parts and counted the state at their joins, and
+/// `.yidam/decisions/latched-close.yml` closed it. What is left is two questions, both testimony.
 #[test]
 fn every_question_says_what_would_close_it() {
     let root = repo_root();
@@ -212,15 +220,15 @@ fn every_question_says_what_would_close_it() {
             count(Closes::Measurement),
             count(Closes::Judgement),
         ),
-        (2, 0, 1, 0, 0, 0),
+        (2, 0, 0, 0, 0, 0),
         "testimony, a named artifact, a condition that would reopen it, a game, a count, and a \
          decision somebody has to take"
     );
 
     // Every question whose resolver was a thing somebody could go and do has been answered, and
-    // the one that came back was re-decided. What is left is five, and each says its terms: the
-    // three waiting on testimony name the record that argues no artifact supplies it, and the two
-    // declined name the condition that would reopen them.
+    // the one that came back was re-decided. What is left is two, both waiting on testimony, and
+    // each names the record that argues no artifact supplies it. The declined column is empty; a
+    // question declined later must still name the condition that would reopen it.
     for (node, kind) in KINDS {
         if *kind != Closes::Condition {
             continue;

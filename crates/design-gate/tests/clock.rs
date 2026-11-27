@@ -178,9 +178,10 @@ fn the_oldest_open_question_is_no_longer_the_one_asked_at_genesis() {
         genesis.as_str(),
         "a marker line blamed on the root commit — the genesis question is back, or was reopened"
     );
+    // `world-flag/latched-flag.yml` until `latched-close` closed it by measuring.
     assert_eq!(
         name.as_str(),
-        "world-flag/latched-flag.yml",
+        "interaction/acquisition-binding.yml",
         "the oldest surviving question"
     );
 }
@@ -203,6 +204,9 @@ fn the_oldest_open_question_is_no_longer_the_one_asked_at_genesis() {
 /// around their marker lines without touching them, so those two kept their ages. A narrowed
 /// question is still the same question, and resetting its age would have been the reword this
 /// assertion exists to catch.
+///
+/// **Two, and the third was a closure.** `latched-close` answered `world-flag/latched-flag`'s
+/// question after seven phases had narrowed it around its marker line.
 #[test]
 fn the_corpus_has_questions_past_the_interval_it_declared() {
     let root = repo_root();
@@ -214,7 +218,7 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
         .map(|(n, _)| n.as_str())
         .collect();
     assert!(
-        past.len() >= 3,
+        past.len() >= 2,
         "fewer questions past {interval} than when this was written, which means one was answered \
          or one was reworded — and only one of those is a reason to lower the number here"
     );
@@ -267,14 +271,16 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
 ///
 /// **Three now.** `forum-witnesses` closed the marker `prior-art/ags` carried, the one written
 /// later, and the reading held in [`REPORTED`] is not re-taken.
+///
+/// **Two now.** `latched-close` closed `world-flag/latched-flag`'s.
 #[test]
 fn the_report_ties_five_questions_the_history_keeps_apart() {
     let root = repo_root();
     let computed: Vec<usize> = ages(&root).into_iter().map(|(_, a)| a).collect();
     assert_eq!(
         (computed.len(), REPORTED.len()),
-        (3, 9),
-        "the corpus against the reading `REPORTED` holds: five closures, one question asked, and \
+        (2, 9),
+        "the corpus against the reading `REPORTED` holds: six closures, one question asked, and \
          one reopened by `unread-specimen` when the census that closed it turned out to have been \
          reading four of five specimens"
     );
@@ -361,8 +367,9 @@ fn every_figure_the_config_states_about_this_clock_is_computed_here() {
     );
     assert_eq!(
         (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
-        // 5 when `forum-witnesses` closed `prior-art/ags`'s question and the corpus held three.
-        (5, 5),
+        // 5 when `forum-witnesses` closed `prior-art/ags`'s question and the corpus held three;
+        // 3 when `latched-close` closed `latched-flag`'s and it held two.
+        (3, 3),
         "the share the config claims, against the share"
     );
 }

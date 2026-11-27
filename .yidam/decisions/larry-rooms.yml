@@ -41,6 +41,9 @@ decision: |
   no acts both have a cut with no part wider than 6: Police Quest's patrol by incident, Larry by
   room. [verified] LSL5's four wide acts, 5 to 11, have not been cut further. Whether this closes the
   question, or whether the interface's state has to be counted first, is for a person.
+
+  *Since closed.* [latched-close](latched-close.yml) cut LSL5's wide acts and King's Quest III by
+  room, counted the interface's state, and closed the marker.
 rationale: |
   **Why two groupings.** The room is what the source names. The location is the cut LSL5's cities
   suggested, taken from the room files' header comments, so it is read from the source too. Taking

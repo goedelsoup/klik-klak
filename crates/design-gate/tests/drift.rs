@@ -300,12 +300,15 @@ const STALE: &[(Behind, &str, &str, &str)] = &[
 ///
 /// `larry-rooms`, the 86th, adds one, to `latched-flag`, whose marker it narrowed a sixth time in
 /// the same phase. 31 of 256.
+///
+/// `latched-close`, the 87th, adds one, to `latched-flag`, whose marker it closed in the same
+/// phase. 31 of 257.
 #[test]
 fn the_reading_covered_every_linked_pair() {
     let p = pairs(&repo_root());
     let records: BTreeSet<_> = p.iter().map(|(r, _)| r).collect();
     let nodes: BTreeSet<_> = p.iter().map(|(_, n)| n).collect();
-    assert_eq!((p.len(), records.len(), nodes.len()), (256, 86, 46));
+    assert_eq!((p.len(), records.len(), nodes.len()), (257, 87, 46));
 }
 
 /// **The pairs were not the whole of it.** The same stale fact written a second time, in a node no
