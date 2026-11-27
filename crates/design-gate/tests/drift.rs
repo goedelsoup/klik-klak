@@ -303,12 +303,15 @@ const STALE: &[(Behind, &str, &str, &str)] = &[
 ///
 /// `latched-close`, the 87th, adds one, to `latched-flag`, whose marker it closed in the same
 /// phase. 31 of 257.
+///
+/// `ags-pickups`, the 88th, adds two, to `acquisition-binding`, whose marker it closed, and to
+/// `pick-up`, which pointed at that marker — both revised in the same phase. 31 of 259.
 #[test]
 fn the_reading_covered_every_linked_pair() {
     let p = pairs(&repo_root());
     let records: BTreeSet<_> = p.iter().map(|(r, _)| r).collect();
     let nodes: BTreeSet<_> = p.iter().map(|(_, n)| n).collect();
-    assert_eq!((p.len(), records.len(), nodes.len()), (257, 87, 46));
+    assert_eq!((p.len(), records.len(), nodes.len()), (259, 88, 46));
 }
 
 /// **The pairs were not the whole of it.** The same stale fact written a second time, in a node no

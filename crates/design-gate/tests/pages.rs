@@ -299,7 +299,7 @@ fn no_question_lives_on_a_class_page() {
         n
     };
     let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
-    assert_eq!((corpus, decisions), (2, 56));
+    assert_eq!((corpus, decisions), (1, 56));
     // 17, 16, 15, 14, 13, 12 — never once because a corpus question was closed. The corpus
     // numerator had not moved in eight phases while the records opened thirty-odd, and
     // `playable` closing one was the only close in that run. The two denominators parted at 13
@@ -331,7 +331,10 @@ fn no_question_lives_on_a_class_page() {
     //
     // 3, and the oldest corpus question closed by measuring: `latched-close` cut the last Sierra
     // games into parts and counted the state they share.
-    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 3);
+    //
+    // 1, and a testimony question closed by an artifact: `ags-pickups` read released AGS games'
+    // scripts for the pickup window `acquisition-binding` predicted, and found none shipped.
+    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 1);
 }
 
 /// **Every class page was written by this repository's first commit, and for 342 commits its last

@@ -273,6 +273,9 @@ fn summary(src: &str) -> String {
 ///
 /// `forum-witnesses` moved the total from 819 to 826: its citations of two catalog entries, the
 /// three nodes it revised and `ags-testimony`, and the one `ags-testimony` gained pointing back.
+///
+/// `ags-pickups` moved it from 863 to 868: its citations of the catalog entry, the node it closed
+/// and the two records it follows, and the one `forum-witnesses` gained pointing back.
 #[test]
 fn every_path_written_in_a_record_resolves() {
     let root = repo_root();
@@ -296,7 +299,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (863, 143, 89));
+    assert_eq!((total, mentions, tests.len()), (868, 143, 89));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -394,7 +397,10 @@ fn a_record_nothing_cites_is_named() {
     //
     // `pq-stops` is the 106th and adds two: it cites `pq-acts`, and that record's narrowing
     // paragraph cites it back on the day it lands.
-    assert_eq!((c.len(), edges), (108, 436));
+    //
+    // `ags-pickups` is the 109th and adds three: it cites `ags-testimony` and `forum-witnesses`,
+    // and `forum-witnesses`'s closing paragraph cites it back on the day it lands.
+    assert_eq!((c.len(), edges), (109, 439));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**

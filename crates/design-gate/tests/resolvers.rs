@@ -35,6 +35,10 @@ use std::path::{Path, PathBuf};
 enum Closes {
     /// Testimony: an account of what authoring was like. No artifact supplies it and
     /// `.yidam/decisions/testimony.yml` is where that is argued.
+    ///
+    /// **Two of its three have closed, and both turned out to be about an artifact.**
+    /// `prior-art/ags` asked whether a tool shipped, and `interaction/acquisition-binding` whether a
+    /// window reached players, which a released script shows. `.yidam/decisions/ags-pickups.yml`.
     Testimony,
     /// A specific artifact, named, and not yet retrieved.
     ///
@@ -92,13 +96,10 @@ enum Closes {
 /// Hand-classified, like `subject.rs`'s evidence paths, because what a paragraph *means* is not a
 /// thing a string search can settle. The claim is the classification; the check below is that it
 /// covers every marker on disk and no other.
-const KINDS: &[(&str, Closes)] = &[
-    (
-        "failure-mode/orphaned-dialogue-branch.yml",
-        Closes::Testimony,
-    ),
-    ("interaction/acquisition-binding.yml", Closes::Testimony),
-];
+const KINDS: &[(&str, Closes)] = &[(
+    "failure-mode/orphaned-dialogue-branch.yml",
+    Closes::Testimony,
+)];
 
 /// Every corpus node carrying a live marker, in the order the table expects them.
 fn asking(root: &Path) -> Vec<String> {
@@ -201,6 +202,12 @@ fn the_table_covers_every_question() {
 /// `world-flag/latched-flag` was declined until the width was measured in more games. Seven phases
 /// cut four Sierra games into parts and counted the state at their joins, and
 /// `.yidam/decisions/latched-close.yml` closed it. What is left is two questions, both testimony.
+///
+/// **And a second testimony question closed by an artifact.** `interaction/acquisition-binding`
+/// asked whether AGS authors pay for the missing pickup bundle, which reads as a question about
+/// what they experienced. The window it predicted is in a script, so released scripts could show
+/// it, and `.yidam/decisions/ags-pickups.yml` read eleven games' and found none shipped. What is
+/// left is one question, and it is testimony.
 #[test]
 fn every_question_says_what_would_close_it() {
     let root = repo_root();
@@ -220,14 +227,14 @@ fn every_question_says_what_would_close_it() {
             count(Closes::Measurement),
             count(Closes::Judgement),
         ),
-        (2, 0, 0, 0, 0, 0),
+        (1, 0, 0, 0, 0, 0),
         "testimony, a named artifact, a condition that would reopen it, a game, a count, and a \
          decision somebody has to take"
     );
 
     // Every question whose resolver was a thing somebody could go and do has been answered, and
-    // the one that came back was re-decided. What is left is two, both waiting on testimony, and
-    // each names the record that argues no artifact supplies it. The declined column is empty; a
+    // the one that came back was re-decided. What is left is one, waiting on testimony, and it
+    // names the record that argues no artifact supplies it. The declined column is empty; a
     // question declined later must still name the condition that would reopen it.
     for (node, kind) in KINDS {
         if *kind != Closes::Condition {

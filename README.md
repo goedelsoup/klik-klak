@@ -77,7 +77,7 @@ Fields: corpus node count, open questions, catalog entries, claim counts by
         commit, so no committed value could be green everywhere. `yidam phases`
         holds it, where being current is the point.
 -->
-**44 nodes** · 2 open · 15 sources · claims 421v / 268i / 2o · genesis 2026-09-09
+**44 nodes** · 1 open · 16 sources · claims 425v / 269i / 1o · genesis 2026-09-09
 <!-- /REGEN -->
 
 ## Artifacts
