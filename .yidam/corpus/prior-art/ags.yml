@@ -159,6 +159,16 @@ properties:
     2008 plugin, SupSuper's "Simple Scripter", was reported by a fetching agent and was not read
     here. `[open]`
 
+    *Since narrowed.* It has now been read ([ags-forums](../../catalog/ags-forums.md)). SupSuper
+    released it as v0.01 on 1 February 2008, a plugin that wrote script from an editor form and
+    read script back into one. It worked "with a rather strict coding style (only one expression
+    per line)" and did not support conditionals. [verified] The thread ends three weeks later with
+    no further release. In 2012 monkey0506 described it as something "SupSuper began, but
+    unfortunately never completed". [verified] So the remedy Jones named was attempted by a
+    community member and stopped at a prototype. That nothing else shipped under that description
+    is an inference from that statement and from absence. [inference]
+    `.yidam/decisions/forum-witnesses.yml` records the reading.
+
     The manual and the code still say nothing about why. That was true, and is the reason this
     took four retrievals: they are artifacts. The first three looked in artifacts and in one
     interview about the rewrite. The fourth read the house's own testimony, which is the move
