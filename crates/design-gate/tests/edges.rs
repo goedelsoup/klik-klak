@@ -251,6 +251,8 @@ fn class_of(root: &Path) -> BTreeMap<String, String> {
 ///
 /// `forum-witnesses` added three, root-based and to its own record: the pointer each of
 /// `prior-art/ags`, `acquisition-binding` and `orphaned-dialogue-branch` carries under its marker.
+///
+/// `house-width` added one, root-based: the pointer to its record under `latched-flag`'s marker.
 #[test]
 fn every_path_written_in_corpus_prose_resolves() {
     let root = repo_root();
@@ -277,10 +279,10 @@ fn every_path_written_in_corpus_prose_resolves() {
     );
     assert_eq!(
         (own, repo, corpus),
-        (143, 170, 5),
+        (143, 171, 5),
         "the three bases, all load-bearing"
     );
-    assert_eq!((own + repo + corpus, decisions), (318, 195));
+    assert_eq!((own + repo + corpus, decisions), (319, 196));
 }
 
 /// **99 declared edges, 97 prose citations, and 18 pairs in both.**

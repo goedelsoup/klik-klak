@@ -134,11 +134,13 @@ fn exactly_one_sink_in_the_build_holds_the_player() {
 /// about the evidence rather than about terminals.
 ///
 /// Fourteen since `maker-tracker` added `ags-tracker`, an issue tracker, which states no rate either.
+/// Fifteen since `house-width` added `sierra-agi-source`, three games' logic source, which states
+/// none.
 #[test]
 fn no_source_in_the_catalog_states_a_reading_speed() {
     let root = repo_root();
     let names = sources(&root);
-    assert_eq!(names.len(), 14, "sources in the catalog");
+    assert_eq!(names.len(), 15, "sources in the catalog");
 
     let mut stating: Vec<&String> = Vec::new();
     for name in &names {

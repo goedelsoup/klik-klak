@@ -147,6 +147,8 @@ fn an_attempted_reading_that_failed_says_so() {
 /// below covers the directory, so a twelfth source arriving with a list of documents inside it has
 /// to be classified rather than sliding past. `lsl5-source` is classified the way `delores-source`
 /// is: a repository retrieved whole at one commit, with its design documents inside it.
+/// `sierra-agi-source` is three repositories and is classified the same way, because each is
+/// retrieved whole at one commit and what a marker would name is a game, not a document in one.
 /// Whether a catalog entry is one document or a list of them.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Shape {
@@ -178,6 +180,7 @@ const SHAPE: &[(&str, Shape)] = &[
     ("sci-inhouse-docs.md", Shape::List),
     ("sci-specifications.md", Shape::OneDocument),
     ("scumm-v5-opcode-reference.md", Shape::OneDocument),
+    ("sierra-agi-source.md", Shape::OneDocument),
     ("twp-dev-diary.md", Shape::OneDocument),
     ("wikipedia-scumm.md", Shape::OneDocument),
 ];
