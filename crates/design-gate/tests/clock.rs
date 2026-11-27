@@ -178,10 +178,12 @@ fn the_oldest_open_question_is_no_longer_the_one_asked_at_genesis() {
         genesis.as_str(),
         "a marker line blamed on the root commit — the genesis question is back, or was reopened"
     );
-    // `world-flag/latched-flag.yml` until `latched-close` closed it by measuring.
+    // `world-flag/latched-flag.yml` until `latched-close` closed it by measuring, then
+    // `interaction/acquisition-binding.yml` until `ags-pickups` closed it by reading released
+    // scripts.
     assert_eq!(
         name.as_str(),
-        "interaction/acquisition-binding.yml",
+        "failure-mode/orphaned-dialogue-branch.yml",
         "the oldest surviving question"
     );
 }
@@ -207,6 +209,9 @@ fn the_oldest_open_question_is_no_longer_the_one_asked_at_genesis() {
 ///
 /// **Two, and the third was a closure.** `latched-close` answered `world-flag/latched-flag`'s
 /// question after seven phases had narrowed it around its marker line.
+///
+/// **One, and the second was a closure.** `ags-pickups` answered
+/// `interaction/acquisition-binding`'s question from eleven AGS games' released scripts.
 #[test]
 fn the_corpus_has_questions_past_the_interval_it_declared() {
     let root = repo_root();
@@ -218,7 +223,7 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
         .map(|(n, _)| n.as_str())
         .collect();
     assert!(
-        past.len() >= 2,
+        past.len() >= 1,
         "fewer questions past {interval} than when this was written, which means one was answered \
          or one was reworded — and only one of those is a reason to lower the number here"
     );
@@ -273,14 +278,16 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
 /// later, and the reading held in [`REPORTED`] is not re-taken.
 ///
 /// **Two now.** `latched-close` closed `world-flag/latched-flag`'s.
+///
+/// **One now.** `ags-pickups` closed `interaction/acquisition-binding`'s.
 #[test]
 fn the_report_ties_five_questions_the_history_keeps_apart() {
     let root = repo_root();
     let computed: Vec<usize> = ages(&root).into_iter().map(|(_, a)| a).collect();
     assert_eq!(
         (computed.len(), REPORTED.len()),
-        (2, 9),
-        "the corpus against the reading `REPORTED` holds: six closures, one question asked, and \
+        (1, 9),
+        "the corpus against the reading `REPORTED` holds: seven closures, one question asked, and \
          one reopened by `unread-specimen` when the census that closed it turned out to have been \
          reading four of five specimens"
     );
@@ -295,7 +302,8 @@ fn the_report_ties_five_questions_the_history_keeps_apart() {
     };
     assert_eq!(
         (widest(&REPORTED), widest(&computed)),
-        (5, 2),
+        // a group of one now: the history cannot tie a single question with anything
+        (5, 1),
         "the largest group the report calls the same age, against the largest the history wrote \
          together"
     );
@@ -368,8 +376,9 @@ fn every_figure_the_config_states_about_this_clock_is_computed_here() {
     assert_eq!(
         (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
         // 5 when `forum-witnesses` closed `prior-art/ags`'s question and the corpus held three;
-        // 3 when `latched-close` closed `latched-flag`'s and it held two.
-        (3, 3),
+        // 3 when `latched-close` closed `latched-flag`'s and it held two; 1 when `ags-pickups`
+        // closed `acquisition-binding`'s and it held one.
+        (1, 1),
         "the share the config claims, against the share"
     );
 }

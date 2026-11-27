@@ -92,6 +92,11 @@ properties:
     marker for it is on [acquisition-binding](../interaction/acquisition-binding.yml), which is the
     node that predicts the window; this one carried a second copy of the same question and now
     carries a pointer. `.yidam/decisions/testimony.yml` says what kind of question it is.
+
+    *Since closed.* They pay before release. In eleven AGS games' scripts every pickup writes both
+    halves by hand or keeps the object on purpose, and none ships the window
+    ([ags-game-sources](../../catalog/ags-game-sources.md), `.yidam/decisions/ags-pickups.yml`).
+    [verified]
 links:
   - target: ../prior-art/scumm.yml
     relationship: originated-in

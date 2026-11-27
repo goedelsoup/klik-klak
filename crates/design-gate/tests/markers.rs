@@ -156,8 +156,13 @@ fn no_retraction_re_emits_the_token() {
 /// whether the tool Chris Jones named had shipped. `.yidam/decisions/forum-witnesses.yml` read the
 /// plugin thread and a later statement that it was never finished. The other two testimony
 /// questions ask what authors experienced, and the same reading only narrowed them.
+///
+/// **It is one, and a second testimony question closed by an artifact.**
+/// `interaction/acquisition-binding` asked whether authors pay for AGS's missing pickup bundle.
+/// The window it predicted is in a script, and `.yidam/decisions/ags-pickups.yml` read eleven
+/// released games' scripts and found none shipped.
 #[test]
-fn the_corpus_carries_two_questions_and_the_count_is_the_token_count() {
+fn the_corpus_carries_one_question_and_the_count_is_the_token_count() {
     let root = repo_root();
     let mut open: Vec<String> = Vec::new();
     for p in yml(&root.join(".yidam/corpus")) {
@@ -179,11 +184,10 @@ fn the_corpus_carries_two_questions_and_the_count_is_the_token_count() {
     }
     assert_eq!(
         open,
-        [
-            "failure-mode/orphaned-dialogue-branch.yml",
-            "interaction/acquisition-binding.yml",
-        ],
-        "two, and both wait on testimony no artifact supplies. `world-flag/latched-flag` was \
+        ["failure-mode/orphaned-dialogue-branch.yml"],
+        "one, and it waits on testimony no artifact supplies. `interaction/acquisition-binding` \
+         waited on testimony too, and closed when released games' scripts were read \
+         (`.yidam/decisions/ags-pickups.yml`). `world-flag/latched-flag` was \
          declined with a condition, and closed when seven phases had measured it \
          (`.yidam/decisions/latched-close.yml`). `prior-art/ags` waited on testimony too, and closed when the plugin thread \
          was read (`.yidam/decisions/forum-witnesses.yml`). `hotspot/static-region` was declined on a condition that two later decisions \
@@ -196,14 +200,15 @@ fn the_corpus_carries_two_questions_and_the_count_is_the_token_count() {
 
 /// **Three quarters of what this corpus still owes is invisible to every tool it has.**
 ///
-/// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds **2 live
-/// markers** — nine, eight, six, seven, six, five, four, three, two. The falls were closures rather than the drift
+/// `yidam open-questions` walks `.yidam/corpus/` and nothing else. The corpus holds **1 live
+/// marker** — nine, eight, six, seven, six, five, four, three, two, one. The falls were closures rather than the drift
 /// this file has otherwise tracked; the rise was the first **reopening**, a question closed on a
 /// census that had been reading four fifths of the specimens; and the last two falls were the last
 /// question anybody could close by counting, and that reopening being re-decided.
 ///
-/// **Both wait on testimony no artifact supplies.** One was declined with a condition and closed
-/// when `latched-close` finished measuring what the condition named. A third
+/// **It waits on testimony no artifact supplies.** One was declined with a condition and closed
+/// when `latched-close` finished measuring what the condition named. Another waited on testimony
+/// and closed when `ags-pickups` read released scripts instead. A third
 /// waited on testimony and closed when `forum-witnesses` read it. A
 /// fifth was declined too, until re-reading it showed that `drawn-boundary` and the scene layer
 /// had already overtaken its condition. That is how a declined question closes: someone re-reads it.
@@ -228,10 +233,10 @@ fn most_of_the_open_questions_are_where_nothing_looks() {
         decisions += live;
         records += usize::from(live > 0);
     }
-    assert_eq!((corpus, decisions, records), (2, 56, 52));
+    assert_eq!((corpus, decisions, records), (1, 56, 52));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        3,
+        1,
         "under a tenth is visible"
     );
 

@@ -40,8 +40,8 @@ description: |
   something an author had to know. That is the cost of the missing bundle, paid in instruction.
   [inference] What one thread cannot show is anyone forgetting the pair and shipping the
   window. The threads that might show it were found by search and are listed unread in that
-  entry. `.yidam/decisions/ags-testimony.yml` records the reading; this is the marker for
-  it and [verb/pick-up](../verb/pick-up.yml) points here rather than carrying a second. `[open]`
+  entry. `.yidam/decisions/ags-testimony.yml` records the reading; this was the marker for
+  it and [verb/pick-up](../verb/pick-up.yml) pointed here rather than carrying a second.
 
   *Since narrowed.* The threads listed unread have been read
   ([ags-forums](../../catalog/ags-forums.md), `.yidam/decisions/forum-witnesses.yml`), and they
@@ -55,6 +55,15 @@ description: |
   instance was caught on the forum, before release. So authors pay for the missing bundle in
   debugging. Whether the window ships is still not shown, and a beginners' board is the wrong
   place to look for it. [inference]
+
+  **The released scripts close it** ([ags-game-sources](../../catalog/ags-game-sources.md),
+  `.yidam/decisions/ags-pickups.yml`). Eleven AGS games' scripts hold 24 object pickups, and none
+  leaves a pickable copy. 21 hide the object, one of them through a helper, and three keep it on
+  purpose behind a flag. [verified] All 12 hotspot pickups test a flag or `HasInventory` before
+  adding. [verified] No game wrote a helper that does both writes. [verified] So authors pay for
+  the missing bundle before release, by writing both halves at every pickup, and in this sample
+  the window does not reach players. [inference] Twelve small games are not the AGS catalogue, and
+  players' bug reports were not read.
 
   **The ontology's inability to express the second write turned out to be this node counting
   wrong.** A specimen marked the removal unsayable, and the weighing that followed found there is

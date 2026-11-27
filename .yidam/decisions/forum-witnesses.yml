@@ -80,6 +80,9 @@ rationale: |
   authors do pay. The cost observed is debugging time before release, not a shipped bug.
   [inference] What stays open is whether the window ships.
 
+  *Since closed.* [ags-pickups](ags-pickups.yml) read eleven AGS games' released scripts. None of
+  their 24 object pickups ships the window, and the marker closed.
+
   **The dialog question has a witness, and the witness is a script, not a person.** The orphan in
   the 2004 example is exactly the mechanism the node describes: a permanent off, written in one
   place, removing a subtree that the file still shows. It survived because the only check the
