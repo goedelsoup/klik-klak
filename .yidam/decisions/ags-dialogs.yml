@@ -1,0 +1,62 @@
+id: ags-dialogs
+summary: >-
+  orphaned-dialogue-branch's question is closed. Nobody experienced an orphaned option as a loss,
+  because nobody met one. Read across six released AGS games and 71 commits of their histories,
+  orphans ship in the largest game and nowhere else, and no orphan was ever repaired. The forum,
+  the maintainers' tracker and the games all show the same thing: the loss is real, and no one
+  felt it.
+context: |
+  [orphaned-dialogue-branch](../corpus/failure-mode/orphaned-dialogue-branch.yml) asked whether AGS
+  authors experienced an orphaned dialogue branch as a loss.
+  [ags-testimony](ags-testimony.yml) and [forum-witnesses](forum-witnesses.yml) found no author
+  who did, and one orphan sitting unremarked in a helper's example.
+  [maker-tracker](maker-tracker.yml) found that the maintainers never treated it as one. It also
+  named the move left: no released game's dialogs had been run through anything, and doing that
+  would count the orphans that shipped.
+
+  `phase/ags-dialogs` did that over the twelve repositories of
+  [ags-game-sources](../catalog/ags-game-sources.md). It read `Game.agf`'s dialogs, worked out
+  which options any code that can run ever shows, and repeated this at every commit of six
+  repositories' histories.
+decision: |
+  **Orphans ship, and they are concentrated.** In five of the six released games with dialogs,
+  every option in a started dialog can be shown. [verified] Cart Life, which has 194 dialogs and 648
+  options, ships 11 options that no code turns on and four dialogs that no script names. Its
+  response blocks hold 20 lines nobody reaches. [verified] With none in the other five, an orphan
+  looks like something a large dialog tree accumulates, not a rate every author pays. [inference]
+
+  **No orphan was ever repaired.** Across 71 commits, the number of options in started dialogs that can never be shown never fell.
+  In five histories it is zero throughout, and in Cart Life's it is 11 throughout. [verified] Each
+  of the three dialogs that went unstarted during development had only just been created, and each
+  was started within days. That is a tree being built, not an orphan being found. [inference]
+
+  **A cut and an orphan look the same in the data.** Two of Cart Life's six unstarted dialogs are
+  started only by commented-out lines, so they were cut on purpose. [verified] Nothing in the
+  dialog data tells them apart from the four with no trace, and only a comment left in a script
+  does. That is the node's *written and never reached* against *written and unreachable*, met in
+  a shipped game. [inference]
+
+  **So the answer is no, and it is the node's own answer.** Three surfaces have now been read: the
+  forum authors ask on, the tracker the makers keep, and the games themselves with their histories.
+  On none of them did anyone act on an orphaned option. Nobody asked about one, nobody asked for a
+  check, and nobody fixed one, including in the one game that has eleven. [verified] for each of
+  those absences, in what was read. The content is lost: 20 written lines in a commercial game go
+  unseen. It is not felt, because neither the player nor the author ever meets it, which is what
+  the node said in its first paragraph. [inference]
+rationale: |
+  **Why close rather than narrow again.** The question asked about people, and
+  [testimony](testimony.yml) filed it as one no artifact answers. That holds for one reading of it:
+  no artifact shows what an author felt. But a loss that is experienced leaves traces, such as a
+  thread, a request or a fix, and every place those traces would be has now been read. The same
+  turn closed [acquisition-binding](../corpus/interaction/acquisition-binding.yml) in
+  [ags-pickups](ags-pickups.yml): a testimony question whose answer was in the script. Another
+  reading would not change what the node draws from this, which is that orphaning is a cost only an
+  instrument can see, and so it belongs to the checker rather than to the author's attention.
+  [inference]
+
+  **What is not done stays as residuals.** Twelve small games are not the AGS catalogue, and the
+  one large game is the one with orphans, so a sample with more large games could show a rate.
+  Cart Life's history before 2015 is not public, so whether its author ever found and fixed an
+  orphan before release cannot be read. A player's account of missing content was not looked for,
+  and the node argues there cannot be one. A cut that left no comment behind would be counted here
+  as an orphan, so the 11 options and four dialogs are an upper bound on what was lost by accident.
