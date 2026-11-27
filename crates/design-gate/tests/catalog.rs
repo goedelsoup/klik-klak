@@ -89,7 +89,7 @@ fn unread(src: &str) -> &str {
 fn no_unread_list_names_an_artifact_the_catalog_holds() {
     let root = repo_root();
     let all = entries(&root);
-    assert_eq!(all.len(), 14, "catalog entries");
+    assert_eq!(all.len(), 15, "catalog entries");
 
     let held: Vec<(String, Vec<String>)> = all
         .iter()
@@ -123,7 +123,7 @@ fn no_unread_list_names_an_artifact_the_catalog_holds() {
     );
 }
 
-/// **Six of thirteen record what has since been read, and the rule is written down now.**
+/// **Seven of fifteen record what has since been read, and the rule is written down now.**
 ///
 /// It was four, in four spellings, with nothing asking them to. The discriminator is exact: the
 /// entries that record a retrieval write some form of *been read* in the list itself and the ones
@@ -149,8 +149,10 @@ fn no_unread_list_names_an_artifact_the_catalog_holds() {
 /// no unread-list at all, and the section finder panicked on it. That was the convention arriving
 /// as a crash rather than a message.
 ///
-/// `lsl5-source` is the seventh, for the same reason. It arrived with its list written, and nothing
-/// has come off it yet.
+/// `lsl5-source` was the seventh, for the same reason, and is not any more. Its list named the
+/// account's other Sierra games as unopened, and three of them were opened in `house-width`. The
+/// list now says so and names `sierra-agi-source` as where the reading went. That entry is the
+/// new silent one, for `agi-specifications`'s reason.
 #[test]
 fn most_unread_lists_record_what_has_since_been_read() {
     let root = repo_root();
@@ -170,6 +172,7 @@ fn most_unread_lists_record_what_has_since_been_read() {
             "ags-manual.md",
             "delores-source.md",
             "grumpy-gamer-pdc.md",
+            "lsl5-source.md",
             "sci-inhouse-docs.md",
             "scumm-v5-opcode-reference.md",
             "twp-dev-diary.md",
@@ -184,8 +187,8 @@ fn most_unread_lists_record_what_has_since_been_read() {
             "ags-forums.md",
             "ags-source.md",
             "ags-tracker.md",
-            "lsl5-source.md",
             "sci-specifications.md",
+            "sierra-agi-source.md",
             "wikipedia-scumm.md",
         ],
         "and the eight with nothing to record"

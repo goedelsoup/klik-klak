@@ -43,6 +43,10 @@ decision: |
 
   `latched-flag`'s marker is narrowed, not closed. What is left is whether this is one designer's
   shape or Sierra's, and the second source would answer that.
+
+  *Since narrowed.* [house-width](house-width.yml) took the second source, three AGI games. The
+  wide, shallow shape is Sierra's. The act structure belongs to some games and not to a designer:
+  Lowe's 1987 Larry has none. [verified]
 rationale: |
   **Why scored steps.** They are the only unit in the source that the designer chose: a `Points`
   call is a statement that this step counts. The hint book was the hoped-for alternative and does
