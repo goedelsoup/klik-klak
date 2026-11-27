@@ -1,0 +1,54 @@
+id: larry-rooms
+summary: >-
+  Larry's 1987 game, which has no act counter, splits by room. None of its 22 awarding rooms is
+  wider than 6, and the sum of 2^w over them is under 160, against 2^25 or more for the game as one
+  act. The rooms share 11 global names. The cut is coarser than it looks only by room, though: by
+  location the bar and the hotel are 6 to 12 wide, and unlike Police Quest's patrol the parts'
+  widths add up to more than the whole game's.
+context: |
+  [pq-stops](pq-stops.yml) found that Police Quest's widest act, the patrol, is a sum of seven
+  incidents none wider than 5. That left [latched-flag](../corpus/world-flag/latched-flag.yml)
+  asking whether such a cut exists where no act counter or room naming suggests one. Larry was the
+  case: 49 scored steps, read as one act 25 to 37 wide. The measurement named was to group its steps
+  by the room that awards them and see whether its width is the sum of small groups.
+
+  `phase/larry-rooms` made it on the clone already held
+  ([sierra-agi-source](../catalog/sierra-agi-source.md)), with the same extractor and readings.
+decision: |
+  **By room, every part is small.** Larry's 49 steps are awarded in 22 rooms. On the whole game's
+  order, no room is wider than 6, and that room is the one with 6 steps. The sum over rooms of 2^w
+  is 94 to 154 across the readings. [verified] At *k*=8, the awarding units of a room read 11 global
+  names that another room writes, against 20 for Police Quest's street. [verified]
+
+  **By location, two parts are not.** Grouping rooms by the place their names give, the bar is 6 to
+  12 wide and the hotel 8 to 10, and the sum of 2^w reaches 5,516. [verified] So the cut that works
+  is the finest one available. [inference]
+
+  **The width is not a sum here.** In Police Quest the street's width equalled the incidents'
+  widths added together, in five readings of six. In Larry the parts' widths add up to 29 to 45,
+  more than the whole game's 25 to 37, under either grouping. [verified] So steps in different rooms
+  are ordered across the cut, 19 to 400 pairs of them, and the rooms' widest antichains are not
+  independent of each other. [verified] A check composed by room pays for that order at the joins.
+  [inference]
+
+  **So a game without acts is tractable by room, with a caveat.** A room's width can never exceed
+  its steps, and no room holds more than 6. That bound is a fact of how Lowe spread his awards, but
+  it is not evidence that the rooms are units of design, the way the patrol's incidents were.
+  [inference] What the measurement does show is the cost: a sum of 22 terms none above 2^6, joined
+  by a dozen names.
+
+  `latched-flag`'s marker is narrowed. The widest act found in an AGI game and the one AGI game with
+  no acts both have a cut with no part wider than 6: Police Quest's patrol by incident, Larry by
+  room. [verified] LSL5's four wide acts, 5 to 11, have not been cut further. Whether this closes the
+  question, or whether the interface's state has to be counted first, is for a person.
+rationale: |
+  **Why two groupings.** The room is what the source names. The location is the cut LSL5's cities
+  suggested, taken from the room files' header comments, so it is read from the source too. Taking
+  both shows how fine the cut has to be. [inference]
+
+  **Why measure on the whole game's order.** As in [pq-acts](pq-acts.yml), the induced order inside
+  each part keeps every order the graph has and invents none, so a part's width is at most what the
+  graph admits. [inference]
+
+  **What was not done.** The shared names were counted, not their values. King's Quest III was not
+  cut. Nothing was checked against a playthrough.

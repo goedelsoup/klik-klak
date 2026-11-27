@@ -180,6 +180,29 @@ the dispatcher logic in 119 and the scene logic in 106 write. `current.suspect` 
 eight distinct values. [verified] So the incidents share a handful of names: who is in custody,
 the car door, which suspect is current, and which scene the dispatcher has started. [inference]
 
+## Larry by room and by location
+
+`.yidam/decisions/larry-rooms.yml` asked whether Lowe's 1987 game, which has no act counter, splits
+the way Police Quest's patrol did. Larry names no regions in a header, but every room file's first
+line names its room. Its 49 steps were grouped two ways: by the room that awards them (22 rooms),
+and by location, from those names (the bar and its alleys, the store, the disco, the casino, the
+chapel, the hotel, the taxi, and the shared logic in room 0).
+
+| cut | parts | widest part over the six readings | parts' widths summed | sum of 2^w | whole game |
+|---|---|---|---|---|---|
+| by location | 8 | 6–12 (the bar), 8–10 (the hotel) | 29–43 | 404–5,516 | 25–37 |
+| by room | 22 | 5–6 (outside the store, 6 steps) | 35–45 | 94–154 | 25–37 |
+
+All figures are `[verified]` counts. **By room, no part is wider than 6.** By location, the bar,
+the hotel and the store are 6 to 12 wide. [verified] **Unlike the patrol, the parts' widths sum to
+more than the whole game's**, so the parts' widest antichains are ordered across the cut. Steps in
+different rooms are ordered in 19 to 400 pairs, depending on the reading. [verified]
+
+**The shared state is a handful of names in both games.** At *k*=8, the awarding units of one room
+read 11 global names that some other room writes, and no room reads more than 4 of them. By
+location it is 9 names. The Police Quest street, counted the same way and including writers off
+the street, is 20. [verified] How many values those names take was not counted.
+
 ## What this does not say
 
 - **Police Quest's acts were measured by region, not by stage.** The stage var guards three
@@ -201,4 +224,5 @@ each room's text, were read only where a binding was checked by hand. The pictur
 vocabulary resources were not opened. Police Quest's acts, the next reading `house-width` named,
 have since been read, by region rather than by stage, in `pq-acts`; see above. The traffic stops
 have since been read as incidents, in `pq-stops`; see above. The dispatcher in rooms 96 and 119,
-which decides which call the patrol answers next, was read only for the names it writes.
+which decides which call the patrol answers next, was read only for the names it writes. Larry's steps
+have since been grouped by room, in `larry-rooms`; see above. King's Quest III has not been cut.

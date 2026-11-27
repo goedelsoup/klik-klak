@@ -40,6 +40,10 @@ decision: |
   incident cut. What is left is whether the cut exists where no act counter or room naming suggests
   it. Larry, at 25 to 37 wide with no acts, is the case. The measurement would be the same one:
   group its steps by the room that awards them and see whether its width is the sum of small groups.
+
+  *Since narrowed.* [larry-rooms](larry-rooms.yml) made it. No room is wider than 6 and the sum of
+  2^w is under 160, but the rooms' widths add up to more than the game's, so it is not a sum.
+  [verified]
 rationale: |
   **Why incidents by room.** Each incident has its own room in `ROOMNUMS.H`, and a step's awarding
   unit lives in one file, so the assignment is read from the source and not from memory of the game.

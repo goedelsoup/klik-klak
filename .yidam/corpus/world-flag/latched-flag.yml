@@ -159,6 +159,14 @@ description: |
   street as one act is 2^18. [verified] What is left is whether such a cut exists in a game with no
   act counter at all, Larry's 1987 game, which reads as one act 25 to 37 wide.
 
+  *Since narrowed.* It does, by room ([sierra-agi-source](../../catalog/sierra-agi-source.md),
+  `.yidam/decisions/larry-rooms.yml`). Larry's 22 awarding rooms are none wider than 6, and the sum
+  over them of 2^w is 94 to 154. [verified] By location the bar and the hotel are 6 to 12, so only
+  the finest cut works. Unlike the patrol, the parts' widths add up to more than the whole game's,
+  so the rooms are ordered across the cut through 11 shared names. [verified] What is left is
+  LSL5's four wide acts, which have not been cut further, and the size of the state the joins
+  carry, which no game has had counted.
+
   **How many flags in a real game latch has its first evidence, and it points at *most*.** A
   shipped adventure game's save file is quoted in Thimbleweed Park's development diary, with real
   variable names in it ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] The
