@@ -284,21 +284,34 @@ fn section_room(out: &mut String, game: &Game, room: &str, label: &dyn Fn(&str) 
         }
     }
     // every site in this room, in the order its first binding was written — which is the order
-    // its hotspot or actor heading was, because a heading opens the site the bindings land in
-    let mut sites: Vec<&String> = Vec::new();
+    // its hotspot or actor heading was, because a heading opens the site the bindings land in.
+    //
+    // **`on-enter` takes its place in that order and not ahead of it.** It was written the moment
+    // it was met while every other site waited for the loop below, so a site authored above an
+    // `on-enter` came back below it: the same bindings in a different order, and a round trip that
+    // was not one. No specimen put a site there until `nightwatch` was revised to hold its
+    // watchman in the hall. `.yidam/decisions/revised-specimen.yml`.
+    let mut parts: Vec<Result<&Binding, &String>> = Vec::new();
     for b in &game.bindings {
         match &b.site {
-            Site::OnEnter { room: r } if r == room => {
-                let _ = writeln!(out, "\n  on-enter");
-                body(out, b);
-            }
-            Site::InRoom { room: r, target } if r == room && !sites.contains(&target) => {
-                sites.push(target)
+            Site::OnEnter { room: r } if r == room => parts.push(Ok(b)),
+            Site::InRoom { room: r, target }
+                if r == room && !parts.iter().any(|p| matches!(p, Err(t) if *t == target)) =>
+            {
+                parts.push(Err(target))
             }
             _ => {}
         }
     }
-    for target in sites {
+    for part in parts {
+        let target = match part {
+            Ok(b) => {
+                let _ = writeln!(out, "\n  on-enter");
+                body(out, b);
+                continue;
+            }
+            Err(target) => target,
+        };
         let kind = game.declared.get(target).map(|(k, _)| *k);
         let head = if kind == Some(Kind::Actor) {
             "actor"

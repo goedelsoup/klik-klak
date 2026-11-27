@@ -1,0 +1,81 @@
+id: revised-specimen
+summary: >-
+  A specimen may be revised to write a primitive that arrived after it, when the revision leaves
+  what the checker says about the game where it was. `nightwatch.game` now holds its watchman in
+  the hall instead of saying in prose that he is there. Its 683 states, 148 bindings, strandings
+  and transcript are unchanged; seven lines and two offered slots moved. Revising it found a writer
+  defect that no specimen had reached. The `exit` half of the same question had already been
+  answered by a newer specimen, without revising anything.
+context: |
+  Two records asked the same question and neither could answer it from where it stood.
+
+  [actor-position](actor-position.yml) built `holds`, `move <actor> to <room>` and
+  `<actor> in <room>`, and left `nightwatch.game` saying its watchman was *"somewhere down the
+  hall"* in prose. Its reason: rewriting it would make the specimen test what it was written to say
+  it could not, and would move figures that records quote.
+  [second-document](second-document.yml) asked the same thing with a second instance, `exit`. It
+  said a coverage list of primitives argued into existence and never written is *"either an honest
+  measurement or a growing pile of dead grammar"*.
+
+  Both treated the cost as known. It had not been measured.
+decision: |
+  **1. Revise when it is cheap, and "cheap" has a definition.** A specimen may be revised to write a
+  primitive declared after it when the revision moves none of the checker's verdict on that game:
+  its states, its bindings, and each stranding's cause and state count. Line numbers and line
+  counts may move. They are re-pinned in the same commit, and the old text stays in git. A
+  revision that changes the verdict is a new game, and goes in a new specimen. This was chosen by
+  the person who decides, over "never revise" and "revise freely". [verified] for the choice.
+
+  **2. `nightwatch` is revised under it.** The watchman's site moves from the study to the hall,
+  and `holds watchman` says he is there. What that moved, measured by running both suites before
+  and after [verified]:
+
+  - **Unchanged.** 683 states and 148 bindings across the six specimens. The same
+    strandings, with the same causes and state counts. The scripted loss in
+    `engine/play/scripts/nightwatch-lost.txt` produces the same transcript.
+  - **Moved, by position.** 1,108 authored lines become 1,115, mostly the comment saying what was
+    revised. The study's lines shift down by seven, so pins on line 153 and line 89 now read 160
+    and 100. About fifteen pins moved, and one corpus sentence:
+    [latched-flag](../corpus/world-flag/latched-flag.yml) counts the specimens' lines.
+  - **Moved, by meaning.** Offered slots summed over reachable states go from 4,263 to 4,261. The
+    watchman can now be looked at in the hall's states, not the study's, and the hall is reached in
+    two fewer of them. [inference] for the reason. That is the revision's whole point: he is
+    addressable where he stands. No record quoted the figure.
+
+  Nobody moves him and nobody asks where he is, so under actor-position's own rule he is never
+  state. That is why the verdict could not move. The figures "three phases of records quote" were
+  verdict figures, and none of them changed. [verified]
+
+  **3. Revising found a writer defect.** `crates/game-format/src/print.rs` promised to write a
+  room's sites *"in the order its first binding was written"*, but it wrote `on-enter` as soon as
+  it met it and held every other site back. A site authored above an `on-enter` therefore came
+  back below it. `every_specimen_comes_back_as_the_same_game` failed on the revised nightwatch,
+  the first specimen to put a site there. The writer now keeps `on-enter` in its authored place.
+  [verified]
+
+  **4. `exit` needed no revision.** [`relay.game`](../../design/specimen/relay.game) was written
+  the day after second-document asked, and it writes `exit` at every room connection.
+  `crates/game-format/tests/coverage.rs` already records it leaving the unwritten list.
+  [verified] The person who decides chose to convert nightwatch's four doors to `exit`, on the
+  premise, stated when the question was put, that no specimen wrote it. That premise was wrong,
+  so the conversion has not been made. It would not be cheap anyway: `exit` carries no label, so
+  each door's label would be lost and the label census would move. [inference]
+rationale: |
+  **Why the line is the verdict.** A specimen's job is to be a game the checker reads, and every
+  record that cites a specimen cites what the checker said about it. A revision that leaves the
+  verdict alone changes nothing those records rest on. A revision that changes it leaves them
+  quoting a game that no longer exists. Line positions are already re-pinned every time a
+  specimen gains a comment, so they cannot be what a record depends on. [inference]
+
+  **What the question looked like before it was measured, and why that mattered.** Both records
+  expected the revision to move figures that records quote, and that expectation kept it from
+  being tried for three phases. Trying it took one edit and one test run. The cost was real, but
+  it was positional: pins on line numbers, not verdicts. And the one thing it found was a defect
+  in the writer, which the edit would never have reached had it stayed unwritten. [inference]
+
+  **Why "dead grammar" stays a fair worry, though nothing here is dead.** Every primitive
+  second-document named is now written by some specimen: `exit` by relay, and the actor-position
+  pair by patrol, lock and now nightwatch. The list emptied the way
+  `design/specimen/README.md` predicted: by somebody writing the next game. Revision is the second
+  way, and this record adds that it is available. [verified] for what is written;
+  [inference] for the prediction.

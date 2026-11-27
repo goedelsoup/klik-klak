@@ -94,7 +94,7 @@ fn a_third_of_the_file_is_for_whoever_reads_the_file() {
         before += src.lines().count();
         after += print(&load(&src, &name)).lines().count();
     }
-    assert_eq!((before, after), (1108, 750), "lines written, lines kept");
+    assert_eq!((before, after), (1115, 751), "lines written, lines kept");
 }
 
 /// **An `exit` comes back as the binding an author would have written, which is the claim.**

@@ -252,7 +252,7 @@ const STALE: &[(Behind, &str, &str, &str)] = &[
         Record,
         "decisions/latch-default.yml",
         "effect has never been written here",
-        "latched-flag: three clear sites in 1,108 lines",
+        "latched-flag: three clear sites in 1,115 lines",
     ),
     (
         Record,

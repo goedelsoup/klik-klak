@@ -131,7 +131,7 @@ fn affordance_changes_eighty_six_times_and_nothing_is_authored_to_change_it() {
         slots += r.menu_slots;
         states += r.states;
     }
-    assert_eq!((entries, showing, slots, states), (144, 40, 4263, 683));
+    assert_eq!((entries, showing, slots, states), (144, 40, 4261, 683));
     assert_eq!(entries - showing, 104);
 }
 

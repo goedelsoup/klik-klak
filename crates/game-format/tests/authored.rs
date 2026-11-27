@@ -162,7 +162,7 @@ fn every_quoted_string_in_a_specimen_reaches_the_parse_tree() {
     }
     assert_eq!(
         (chars, resp_n, resp, labels_n, labels),
-        (25_086, 194, 10_286, 126, 3_407),
+        (25_096, 194, 10_280, 126, 3_407),
         "authored chars, response sites and chars, label sites and chars"
     );
     assert_eq!((resp + labels) * 100 / chars, 54, "percent of the file");

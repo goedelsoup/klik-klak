@@ -93,7 +93,7 @@ fn every_specimen_is_stranded_somewhere() {
             ),
             (
                 "nightwatch".to_string(),
-                153,
+                160,
                 "walk-to on study.hall-door".into(),
                 Cause::Consumption,
                 1
@@ -154,7 +154,7 @@ fn every_one_of_them_has_a_run_written_down() {
     for (name, line) in [
         ("ferry", 64),
         ("lighthouse", 131),
-        ("nightwatch", 153),
+        ("nightwatch", 160),
         ("patrol", 141),
     ] {
         let src = std::fs::read_to_string(dir.join(format!("{name}-lost.txt"))).expect("readable");

@@ -4,7 +4,7 @@
 # four specimens, and one the engine did not say until `.yidam/decisions/walked-in.yml` —
 # and the game lets you out at six, into a yard you can walk around and never leave.
 #
-# `crates/reachability` blames `walk-to on study.hall-door` at line 153, [consumption],
+# `crates/reachability` blames `walk-to on study.hall-door` at line 160, [consumption],
 # 1 state, and the same trap again at line 59 by the other door.
 pick-up loose-wire
 walk-to window

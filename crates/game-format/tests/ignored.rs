@@ -135,7 +135,7 @@ fn census(declared: bool) -> (Vec<(String, usize, usize)>, usize, usize) {
 fn nothing_on_a_line_goes_unread() {
     for declared in [false, true] {
         let (rows, quiet, total) = census(declared);
-        assert_eq!(total, 603, "mutable lines across the specimens");
+        assert_eq!(total, 604, "mutable lines across the specimens");
         let loud: Vec<&(String, usize, usize)> = rows.iter().filter(|(_, s, _)| *s > 0).collect();
         assert!(
             quiet == 0,

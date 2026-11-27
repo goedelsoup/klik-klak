@@ -71,10 +71,21 @@ room yard
 
 # ── the hall ──────────────────────────────────────────────────────────────────
 #
-# Nothing here. The hall exists to be a room with two doors, which is what makes the cost of
+# Nothing here but the watchman. The hall exists to be a room with two doors, which is what makes the cost of
 # the workaround countable rather than arguable.
 
 room hall
+
+  # REVISED, and the only passage in this file that has been. The watchman's site stood in the
+  # study and said in prose that he was down the hall, because when this was written nothing
+  # could say where anybody but the player was. `holds` can now, so he is held here and his
+  # site is here. Nothing moves him and nothing asks, so he is never state: the game's states,
+  # strandings and transcripts are what they were. `.yidam/decisions/revised-specimen.yml`.
+  holds watchman
+
+  actor watchman
+    look-at:
+      "He stands at the far end with his lamp, facing the yard door."
 
   # THE SECOND SHAPE, and the reason this specimen exists. The watchman intercepts you for
   # ARRIVING, which is not a verb applied to a target. It used to be written twice — once per
@@ -107,10 +118,6 @@ room hall
 # ── the study ─────────────────────────────────────────────────────────────────
 
 room study
-
-  actor watchman
-    look-at:
-      "Not here. He is somewhere down the hall, and the hall is very long."
 
   # THE FIRST SHAPE. A scripted beat — the wire goes in, the lock turns over, the lid comes up,
   # the room gets brighter — written as one binding, because that is all it is. The response is

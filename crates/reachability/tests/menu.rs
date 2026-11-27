@@ -194,7 +194,7 @@ fn the_search_reasons_about_half_of_what_the_interface_shows() {
 
     // and summed over the 203 reachable states of the five games, the interface holds 1,169
     // target-and-verb slots — the size of the thing nobody had specified
-    assert_eq!(slots, 4263);
+    assert_eq!(slots, 4261);
 }
 
 /// **A binding in no menu is a defect the corpus had no way to see, and it is an ordinary

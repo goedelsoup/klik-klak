@@ -437,7 +437,7 @@ fn a_binding_here_is_mostly_writing_and_a_shipped_one_is_mostly_machinery() {
     }
     assert_eq!(
         (blocks, frame, prose),
-        (144, 4_596, 9_949),
+        (144, 4_596, 9_943),
         "blocks, frame, prose"
     );
     assert_eq!(
