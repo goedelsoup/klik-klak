@@ -1,0 +1,79 @@
+id: forced-order
+summary: >-
+  walked-in's two questions are closed. A shipped game is never told whether a state can still be
+  won: winnability is an authoring-time question, the checker answers it, and the runtime carries
+  nothing of the answer. And the order a chain of forced bindings shows the player is not duration.
+  It is the order in which a transition that has already finished is presented. A test now
+  exercises a two-line chain, which no specimen does: each line is selected in the state its binding
+  fired from, the lines arrive in firing order, and a player who skips both ends where a player who
+  reads both ends.
+context: |
+  [walked-in](walked-in.yml) left two markers.
+
+  The first asked whether a runtime should be allowed to ask if the game can still be won. It named
+  three answers: tell the player, quietly keep them out of the state, or ship the answer computed at
+  build time.
+
+  The second said a player reading two lines from a chain of forced bindings observes an order, and
+  called that *"the nearest thing to duration this design has produced without anyone deciding
+  to."* [refused-duration](refused-duration.yml) narrowed the ground under it. `Session::take_with`
+  settles every write before the presenter sees a line, so a skip cannot stop a transition part-way.
+  But it found that no turn in four fixtures delivers two lines, so the case that question was
+  about had never run.
+
+  `phase/walked-in` put the first question to the person who decides and built the missing case
+  for the second.
+decision: |
+  **1. Never at runtime.** A shipped game does not ask whether it can still be won, and does not
+  carry an answer that was computed for it. This was decided by the person who decides, on four
+  grounds. [verified] for the choice; the grounds are cited below.
+
+  - Winnability is answered when the game is written.
+    [unwinnable-state](../corpus/failure-mode/unwinnable-state.yml) declares it `detectable_at:
+    authoring`, and `crates/reachability` is the instrument that detects it.
+  - So the shipped game knows nothing. The three answers walked-in named were three ways for a
+    runtime to know something. The vocabulary's boundedness makes it cheap to ensure there is
+    nothing to know, by not shipping a game the checker can strand.
+  - [two-components](two-components.yml) put the dependency one way: the instrument depends on the
+    subject, and `engine/` never depends on `crates/reachability`. A reachability table shipped
+    inside the game would cross that boundary in data where it cannot cross it in code. The
+    boundary holds in both.
+  - The unwinnable-state node's own remedy agrees. It quotes Gilbert setting Thimbleweed Park's
+    rules: the game *"will not have the death and dead ends"* of Maniac Mansion. [verified] by that
+    node's citation of [twp-dev-diary](../catalog/twp-dev-diary.md). The remedy is a game without
+    dead ends, not a game that reports them. [inference]
+
+  **2. The order is presentation, not duration.** `engine/play/tests/chained.rs` writes the smallest
+  arrival that fires two bindings that both speak. Both are guarded on a flag the first one sets.
+  Walking through one door produces both lines in one turn. [verified]
+
+  - The first line is the clause its binding selects *before* its own `set`, and the second is the
+    clause selected *after* it. So each is read in the state it fired from. Reading both in the
+    final state, or both in the starting state, would each get one line wrong.
+  - They arrive in the order fired, in `Turn::forced` and in the transcript.
+  - A player who dismisses each line is held twice. A player who dismisses nothing reaches the same
+    room with the same lines logged.
+
+  The order the player sees is real, but nothing in the world happens in it. `take_with` assigns
+  the settled state before `present_all` delivers the first line. [verified] in
+  `engine/play/src/lib.rs`. So between the two lines there is no state for the player to act in,
+  save, or be shown, and nothing another binding could observe.
+  [effect-list-semantics](effect-list-semantics.yml)'s atomicity is kept at the level the player
+  meets: the chain is several transitions to the resolver, and one completed turn to the player.
+  The player reads a transition's account in order. They do not live through it in order.
+  [inference] for the last sentence, which is a reading of the two facts before it.
+rationale: |
+  **Why a test and not a specimen.** [refused-duration](refused-duration.yml) said the way to get
+  the case was *"a specimen whose arrival fires two bindings that both speak."* A specimen is a
+  worked adventure and enters every census that reads `design/specimen/`. This game is not an
+  adventure. It is three rooms and a flag, built to isolate one rule. Written inline in the test,
+  it exercises the rule without moving any figure that counts specimens. [inference]
+
+  **Why the first answer is a decision and not a finding.** No source can settle whether a runtime
+  *should* ask. walked-in was right to call it a real question. It is closed because the person who
+  decides chose, and the grounds above are why that choice costs this design nothing it already had.
+
+  **What stays open elsewhere.** Whether an author would ever *want* a beat between two forced
+  lines, a pause the world waits through, is the duration question itself.
+  [refused-duration](refused-duration.yml) holds it, and this record does not reopen it. It only
+  shows that the chain does not already admit duration by accident.

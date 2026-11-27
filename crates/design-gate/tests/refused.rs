@@ -56,6 +56,7 @@ const CITING: &[(&str, Line)] = &[
     ("effect-half", Line::Both),
     ("entry-binding", Line::Duration),
     ("escape-hatch", Line::Both),
+    ("forced-order", Line::Duration),
     ("held", Line::Duration),
     ("interaction-resolver", Line::Presentation),
     ("interaction-table", Line::Both),
@@ -147,12 +148,12 @@ fn the_refusal_of_duration_is_load_bearing_in_fifteen_places() {
             of(Line::Both),
             of(Line::AboutTheRecord)
         ),
-        (13, 5, 3, 3),
+        (14, 5, 3, 3),
         "the duration line, the presentation line, both, and neither"
     );
     assert_eq!(
         of(Line::Duration) + of(Line::Both),
-        16,
+        17,
         "places the refusal of duration is load-bearing"
     );
 }
