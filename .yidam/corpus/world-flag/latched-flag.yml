@@ -143,6 +143,14 @@ description: |
   one act 25 to 37 wide. [verified] So 2–5 is a figure about games that are cut into acts, not about
   a designer. [inference] What is left is whether a game without acts is tractable by another cut.
 
+  *Since narrowed.* Police Quest was cut by room, because its act counter guards only 3 of its 111
+  scored steps ([sierra-agi-source](../../catalog/sierra-agi-source.md),
+  `.yidam/decisions/pq-acts.yml`). [verified] The hotel, the one region that is also a stage, is 4
+  to 7 wide. The patrol's streets are 15 to 22. [verified] So a game with acts can still have one
+  act as wide as a game without them, and 2–5 holds for some acts in every game measured and for
+  no game whole. [inference] What is left is whether a wide act is wide in state or only in steps:
+  whether its independent parts, such as a patrol's separate traffic stops, split into small checks.
+
   **How many flags in a real game latch has its first evidence, and it points at *most*.** A
   shipped adventure game's save file is quoted in Thimbleweed Park's development diary, with real
   variable names in it ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] The

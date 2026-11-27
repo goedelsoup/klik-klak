@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (841, 143, 89));
+    assert_eq!((total, mentions, tests.len()), (845, 143, 89));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -388,7 +388,10 @@ fn a_record_nothing_cites_is_named() {
     //
     // `house-width` is the 104th and adds two: it cites `puzzle-width`, and that record's
     // narrowing paragraph cites it back on the day it lands.
-    assert_eq!((c.len(), edges), (104, 423));
+    //
+    // `pq-acts` is the 105th and adds two: it cites `house-width`, and that record's narrowing
+    // paragraph cites it back on the day it lands.
+    assert_eq!((c.len(), edges), (105, 425));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -665,9 +668,13 @@ fn no_record_has_changed_what_it_decided() {
     // of whose shape LSL5's is and named a second Sierra source, and `house-width` read three. A
     // *"Since narrowed."* paragraph follows the one that narrowed the marker, and the summary did
     // not move.
+    //
+    // The fifty-ninth is `house-width`, the first kind and the same route again: it named Police
+    // Quest's stages as the next cut, and `pq-acts` made it by region. A *"Since narrowed."*
+    // paragraph follows the one that narrowed the marker, and the summary did not move.
     assert_eq!(
         edited,
-        58,
+        59,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

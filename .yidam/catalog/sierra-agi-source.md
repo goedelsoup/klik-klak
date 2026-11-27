@@ -123,10 +123,37 @@ so far divides its steps, though that was looked for only by name. [inference] I
 11. [verified] Read as one act, it is far wider than the 2–5 the tractability argument assumes,
 and its cost of 2^25 or more is the size that argument rules out. [inference]
 
+## Police Quest by region
+
+`.yidam/decisions/pq-acts.yml` tried to cut Police Quest's steps by its `progress` stages, as LSL5's
+were cut by city. **The stages do not reach the steps.** Only 3 of the 111 award sites sit under a
+condition on `progress`: one in a briefing room and one in each poker room. [verified] The stage
+var decides which scene a room sets up, not which awards it offers. So the cut was made by room
+instead, with the regions named in `ROOMNUMS.H`, and each region's steps were measured on the
+whole game's order.
+
+| region | rooms | steps | width, k=16, 8, 4, locals kept | width, k=8, 4, locals removed | chain |
+|---|---|---|---|---|---|
+| street and squad car | maps 10–25, the three traffic stops, the cafe, the biker bar, the murder scene | 25 | 15, 16, 17 | 18, 22 | 2–3 |
+| station | halls, offices, locker room, briefings, narcotics office | 33 | 8, 9, 16 | 14, 26 | 3–5 |
+| park and Cotton Cove | 56, 57, 60 | 14 | 4, 4, 4 | 6, 9 | 2–4 |
+| hotel | 63–71, lobby to the card room | 10 | 4, 5, 5 | 7, 7 | 3–4 |
+| jail and court | 40–41, 53–55 and the jail logics | 10 | 2, 2, 3 | 3, 4 | 2–4 |
+| Blue Room | 33, 34 | 3 | 2, 2, 2 | 2, 3 | 1–2 |
+| other logics | 0, 38, 79, 94, 103, 109, 110, 112 | 16 | 7, 7, 9 | 12, 15 | 2–3 |
+
+All figures are `[verified]` counts by the method above. **Only the hotel is a stage as well as a
+region.** Its rooms are the ones that move `progress` through the values from 101 to 190, the
+undercover case and both poker games. [verified] The street is where the uniformed patrol
+happens, and the squad car's room tests `progress` against the second briefing. That makes it the
+patrol stage. [inference] The station is visited in every stage, and nothing in the source divides
+its steps among them. [verified]
+
 ## What this does not say
 
-- **Acts in Police Quest were not measured.** Its `progress` stages could be used to divide its
-  steps the way LSL5's routing names divided LSL5's, and that was not done.
+- **Police Quest's acts were measured by region, not by stage.** The stage var guards three
+  awards, so a cut by stage would have needed the order in which the dispatcher and the timers
+  send the player to each room, and that order is carried by timers this extractor cannot see.
 - **The scratch threshold moves every figure.** Police Quest's width runs from 41 to 74 across
   readings. The table gives the range, and no single value is offered as the game's width.
 - **AGI's units are finer than SCI's.** One `if` branch is a unit, so there are 2 to 4 times as
@@ -140,5 +167,6 @@ and its cost of 2^25 or more is the size that argument rules out. [inference]
 Everything outside `SRC/*.CG` and the headers the extractor reads. Police Quest's `Fastback Backup`
 and Larry's are dated archives of the working tree and were not opened. The `.MSG` files, which hold
 each room's text, were read only where a binding was checked by hand. The picture, view, sound and
-vocabulary resources were not opened. Police Quest's acts by `progress` stage were not measured;
-that is the next reading `house-width` names.
+vocabulary resources were not opened. Police Quest's acts, the next reading `house-width` named,
+have since been read, by region rather than by stage, in `pq-acts`; see above. The dispatcher in
+rooms 96 and 119, which decides which call the patrol answers next, was not read.

@@ -1,0 +1,58 @@
+id: pq-acts
+summary: >-
+  Police Quest's act counter does not reach its scored steps. Only 3 of 111 awards sit under a
+  condition on `progress`, so the game was cut by room instead. The hotel, which is the one region
+  that is also a stage, is 4 to 7 wide, just above 2–5. The patrol's streets are 15 to 22 wide. So
+  a game with an act counter can still have an act as wide as a game without one, and what bounds
+  the cost is how a game spreads its steps, not whether it declares acts.
+context: |
+  [house-width](house-width.yml) found that the wide, shallow shape of scored steps is Sierra's and
+  that acts belong to some games and not to a designer. That left
+  [latched-flag](../corpus/world-flag/latched-flag.yml) asking whether a game without acts is
+  tractable by another cut, and named one measurement: divide Police Quest's steps by its
+  `progress` stages, as LSL5's were divided by city, and see whether those acts fall inside 2–5.
+
+  `phase/pq-acts` made that measurement on the clone already held
+  ([sierra-agi-source](../catalog/sierra-agi-source.md)), with the same extractor and readings.
+decision: |
+  **The stage var does not cut the steps.** `progress` is set in 14 files and tested in 26, but
+  only 3 of the 111 award sites have a condition on it among their own or enclosing conditions: one
+  in the second briefing and one in each poker room. [verified] The var picks which scene a room
+  sets up. Which award a player can reach is decided by the room the player is in and by flags
+  local to the scene. [inference] So a cut by stage reduces to a cut by room, and the regions
+  `ROOMNUMS.H` names are the honest version of it.
+
+  **By region, one act is near 2–5 and one is far outside it.** On the whole game's order, the
+  hotel's 10 steps are 4 to 7 wide across the readings, and its rooms are the ones that move
+  `progress` from 101 to 190. [verified] The street region's 25 steps, the patrol in the squad car,
+  are 15 to 22 wide. [verified] The station's 33 steps are 8 to 26 wide but are visited in every
+  stage, and nothing divides them. Park, jail and court, and the Blue Room are 2 to 9. [verified]
+  The chain in every region is 1 to 5. [verified]
+
+  **So declaring acts is not what bounds the cost.** Police Quest has an act counter and its
+  patrol act alone is 2^15 or more, the size latched-flag's argument rules out. Larry has none and
+  is 25 to 37 as one act. LSL5 has acts and half of them fall inside 2–5. [inference] Across the
+  three games, an act with a narrow width is one where the designer put few independent awards in
+  one place, and an open patrol or an open town is where they put many. Tractability by acts is a
+  property of individual acts, and the open-world act is the case it does not cover.
+
+  `latched-flag`'s marker is narrowed, not closed. What is left is whether the wide acts are wide
+  in state, or only wide in scored steps. A patrol's traffic stops are independent of each other
+  and could each be a small bounded check, which would make the width a sum of small problems
+  rather than one large one. The measurement would be the per-step flags each stop's awards read:
+  if no award in one stop reads a flag another stop writes, the street act splits into its stops.
+rationale: |
+  **Why regions and not stages.** Assigning a room to a stage needs the order in which the game
+  sends the player there. In Police Quest that order is carried by the dispatcher, which counts down
+  timers in rooms 96 and 119 and chooses the next call. [verified] A dependency carried by a timer
+  is invisible to this extractor, so a stage assignment would have been read from memory of the game.
+  Regions are named in the source. [inference]
+
+  **Why measure on the whole game's order.** A step in one region can be ordered after a step in
+  another through a shared flag, and that order is real. Taking the induced order inside each region
+  keeps it and does not invent order the whole graph lacks, so a region's width is at most what
+  the graph admits. [inference]
+
+  **What was not done.** The station was not divided, and it is the largest region. The dispatcher
+  was not read. The jail logics and court were grouped together by their room numbers, not by
+  stage. Nothing here checks the region boundaries against a playthrough.

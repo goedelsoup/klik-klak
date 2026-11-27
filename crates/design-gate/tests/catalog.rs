@@ -123,7 +123,7 @@ fn no_unread_list_names_an_artifact_the_catalog_holds() {
     );
 }
 
-/// **Seven of fifteen record what has since been read, and the rule is written down now.**
+/// **Eight of fifteen record what has since been read, and the rule is written down now.**
 ///
 /// It was four, in four spellings, with nothing asking them to. The discriminator is exact: the
 /// entries that record a retrieval write some form of *been read* in the list itself and the ones
@@ -153,6 +153,10 @@ fn no_unread_list_names_an_artifact_the_catalog_holds() {
 /// account's other Sierra games as unopened, and three of them were opened in `house-width`. The
 /// list now says so and names `sierra-agi-source` as where the reading went. That entry is the
 /// new silent one, for `agi-specifications`'s reason.
+///
+/// `sierra-agi-source` was that one for a phase. Its list named Police Quest's acts as the reading
+/// `house-width` had not done, and `pq-acts` did it, by region rather than by stage. The list says
+/// so and names where it went, which makes it the eighth that records.
 #[test]
 fn most_unread_lists_record_what_has_since_been_read() {
     let root = repo_root();
@@ -175,6 +179,7 @@ fn most_unread_lists_record_what_has_since_been_read() {
             "lsl5-source.md",
             "sci-inhouse-docs.md",
             "scumm-v5-opcode-reference.md",
+            "sierra-agi-source.md",
             "twp-dev-diary.md",
         ],
         "unread-lists that say an item on them has since been read"
@@ -188,10 +193,9 @@ fn most_unread_lists_record_what_has_since_been_read() {
             "ags-source.md",
             "ags-tracker.md",
             "sci-specifications.md",
-            "sierra-agi-source.md",
             "wikipedia-scumm.md",
         ],
-        "and the eight with nothing to record"
+        "and the seven with nothing to record"
     );
 
     let readme = std::fs::read_to_string(root.join(".yidam/catalog/README.md")).expect("readable");

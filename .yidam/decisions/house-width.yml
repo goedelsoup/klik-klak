@@ -40,6 +40,10 @@ decision: |
   still tractable by some other cut, for example by region or by inventory. One measurement would
   test it: divide Police Quest's steps by its `progress` stages, as LSL5's were divided by city,
   and see whether those acts fall inside 2–5.
+
+  *Since narrowed.* [pq-acts](pq-acts.yml) made it. The stages guard 3 of the 111 steps, so the cut
+  was by room. The hotel act is 4 to 7 wide and the patrol's streets 15 to 22. [verified] Having
+  acts does not keep every act narrow.
 rationale: |
   **Why AGI and not LSL3.** The same account publishes LSL3, which is Lowe's on SCI. It would have
   compared Lowe with Lowe on one engine, and that cannot separate designer from house. Three AGI
