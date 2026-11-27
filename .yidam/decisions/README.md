@@ -96,7 +96,6 @@ does not re-emit it.
 ### [found-in](found-in.yml)
 
 - **:131** — **There are two of them now.** `interaction/binary-binding` arrived in the same position from [binary-dimension](binary-dimension.yml) — claims measured on committed tests, no catalog entry to cite. One instance was a curiosity about a lint; two is a gap in the evidence vocabulary, and this corpus's…
-- **:137** — Whether the check should also refuse a give of some *other* item on a hotspot that stands for one is untested. All eight `is` sites in the four specimens give exactly what they stand for and nothing else [verified], so the corpus has no case where a hotspot legitimately hands over something besides …
 
 ### [frame-width](frame-width.yml)
 
@@ -215,7 +214,7 @@ does not re-emit it.
 
 - **:77** — **What the menu now reads, and why it reads slightly oddly.** *"Use a short crowbar with a nailed-shut crate"* — because an author writes hotspot labels as noun phrases with articles, and a template that assumed otherwise would be telling authors how to write. Delores's authors face the same seam an…
 
-**52 open.**
+**51 open.**
 
 ## What nothing cites
 
