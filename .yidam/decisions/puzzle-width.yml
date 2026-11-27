@@ -1,0 +1,65 @@
+id: puzzle-width
+summary: >-
+  An act's width in the designer's own units is measured now, not bounded. Projected onto the
+  124 scored steps of Leisure Suit Larry 5, four of its eight acts are 1 to 5 wide and four are 5 to
+  11, with chains of 2 to 4 inside them. So "design practice bounds the width at 2–5" holds for
+  half the acts and fails for the rest. The sum over acts of 2^w is at most about 3,000, so the
+  tractability argument holds in cost even where the 2–5 figure does not.
+context: |
+  [second-game-width](second-game-width.yml) found the act structure the tractability argument in
+  [latched-flag](../corpus/world-flag/latched-flag.yml) needs, and left one question: whether an
+  act's width *in puzzles* is inside the 2–5 that node assumes. Between the gates an act was 3 to 35
+  units wide, and its points list allowed up to 17 scored steps. Units over-count puzzles, and a
+  count of awards only bounds a width. That record's `[open]` named the next reading, the hint
+  book, and the next measurement, a second Sierra source.
+
+  `phase/puzzle-width` read the hint book and measured the width. The second source was not taken.
+decision: |
+  **The hint book is not a chart.** `DOCO/HINTBOOK.DOC` is 131 questions under eleven places, with
+  graded answers and no dependencies between questions
+  ([lsl5-source](../catalog/lsl5-source.md)). [verified] It counts where players got stuck, by act.
+  It does not give a width.
+
+  **The width was measured on the designer's unit instead.** A step is a `Points` award, and the
+  unit graph second-game-width drew is projected onto the 124 distinct steps. One step is ordered
+  before another when an awarding unit of one reaches an awarding unit of the other. One change came
+  first. Counting a give-up as a write closed cycles through money and inventory that held up to 12
+  of New York's 15 steps, so only acquisition counts as a write here. [verified]
+
+  **By act, over four readings:** Hollywood 9, FBI 4, New York 7–8, Atlantic City 5, Miami 4–5,
+  Baltimore 3–11, Philadelphia 5–7, Washington 1. The chain inside an act is 2 to 4, so acts are
+  wide and shallow. Five of Hollywood's eleven steps are ordered with nothing in the game: looks,
+  drinks and things picked up that open nothing. [verified]
+
+  **So 2–5 is right for four acts and does not hold for the other four.** FBI, Atlantic City, Miami and Washington are
+  inside it. Hollywood and New York are above it on every reading. Philadelphia is at 5 on every
+  name and 7 without locals and routing, and Baltimore is above it on three readings of four.
+  [verified]
+
+  **The cost is not what fails.** The sum of 2^w over the eight acts is 746, 1,266, 1,986 and 3,026
+  across the readings, against act ceilings of 8,192 to 33 million counted in units. [verified]
+  A scored step is not one bit of state, so these are a ceiling on a model and not a count of
+  reachable states. [inference]
+
+  `latched-flag`'s marker is narrowed, not closed. What is left is whether this is one designer's
+  shape or Sierra's, and the second source would answer that.
+rationale: |
+  **Why scored steps.** They are the only unit in the source that the designer chose: a `Points`
+  call is a statement that this step counts. The hint book was the hoped-for alternative and does
+  not order anything. A unit over-counts and a room under-counts. [inference]
+
+  **Why acquisition only.** A dependency chart reads *get the key, then open the door*. The unit
+  graph also drew *spend the coin* as a write, so every step that spends reached every step that
+  earns, and the cycles collapsed half an act into one node. With acquisition only, 1495 of 1694
+  edges remain and the cycles left are room-local. The largest holds nine awarding units at the
+  Atlantic City casino. [verified]
+
+  **Why four readings and not one.** The measure moves with two choices this record cannot settle:
+  whether locals and routing names count, and whether a step reached by any of its awarders is
+  ordered or only one reached by all of them. Baltimore moves from 3 to 11 across them. A figure
+  given as one number would hide that. [verified]
+
+  **What was not done.** No second Sierra source, so the question of designer against house is
+  where second-game-width left it. `DOCO/DESIGN.DOC` was not opened. A dependency carried by a
+  position, a timer or a cel is invisible here, which widens an act. A surviving cycle narrows it.
+  [inference]
