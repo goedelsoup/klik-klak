@@ -94,7 +94,10 @@ rationale: |
   that told the player *"you cannot win from here"* would be a different genre; one that quietly
   declined to let them reach the state would be a different design; one that shipped with the
   answer computed at build time would be neither, and is the only one of the three this
-  vocabulary's boundedness makes cheap. `[open]`
+  vocabulary's boundedness makes cheap. `[open]` — *quoted; answered by
+  [forced-order](forced-order.yml).* Never at runtime: winnability is answered when the game is
+  written, by the checker, and the shipped game carries nothing of the answer, so the boundary
+  two-components drew holds in data as well as in code.
 
   **What this does not do: announce anything.** No `Stop::Stranded`, no warning, no hint. The
   slice reports what the game says and nothing else, because a client that editorialised would be
@@ -108,4 +111,8 @@ rationale: |
   observes a value between two effects — not the player, not another binding, not the checker."*
   A forced chain does not break that rule, because each binding in it is its own transition. But a
   player reading two lines in sequence is observing an order, and that is the nearest thing to
-  duration this design has produced without anyone deciding to. [inference] `[open]`
+  duration this design has produced without anyone deciding to. [inference] `[open]` — *quoted;
+  answered by [forced-order](forced-order.yml).* `engine/play/tests/chained.rs` runs a two-line
+  chain. Each line is selected in the state its binding fired from, and the two arrive in firing
+  order. But the turn's state is settled before the first line is shown, so the order is how a
+  finished transition is presented, not a span the world passes through. [verified]
