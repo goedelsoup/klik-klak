@@ -1,0 +1,59 @@
+id: one-place
+summary: >-
+  An item that is one thing is in one place. A single item that has a carried form may be given
+  only by bindings on the hotspot it stands for, and the format now refuses a give of it from
+  anywhere else. The broader rule [found-in](found-in.yml) asked about, refusing any other give on
+  a hotspot that stands for something, is declined: it would refuse a sound game and miss the
+  same defect when a plain hotspot causes it.
+context: |
+  [found-in](found-in.yml) made `is <item>` and `give <item>` hold each other in step in one
+  direction: a hotspot that stands for an item must hand it over. It left the other direction at
+  `[open]`: *"Whether the check should also refuse a give of some other item on a hotspot that
+  stands for one is untested."* It had no case either way, because all eight `is` sites in the
+  four specimens of the time gave exactly what they stood for. *"The narrow rule is what the
+  derivation needs; the broad one is a guess."*
+decision: |
+  **1. The specimens still have no case, so the cases were made.** There are 13 `is` sites in six
+  specimens now, and every one gives exactly its own item, once. `crates/reachability/tests/one_place.rs`
+  holds both figures. [verified] So the test takes every specimen with two such sites and, for
+  each ordered pair, adds one line: the first hotspot's `give` is followed by a `give` of the item
+  the second stands for. That makes twenty mutations across five games.
+
+  **2. Before this phase, all twenty resolved without a word, and the verdict moved under them.**
+  The checker removes a hotspot from its room only when a binding on that hotspot gives that item.
+  So a mutated game had the item carried and still lying in the room. In four of the twenty
+  mutations a stranding got smaller: `ferry` from two states killed to one, and `relay` from 28 to
+  14, 20 and 20. A stranding that shrinks silently is the direction [found-in](found-in.yml)
+  wrote its check against. [verified]
+
+  **3. The broad rule is the wrong shape, in both directions.** It would refuse a hotspot that
+  stands for a coat and also hands over the key in its pocket, and nothing is wrong with that
+  game: the key lies nowhere else. And it would pass the same defect when the second give comes
+  from a hotspot that stands for nothing, such as a till handing over the coin that lies under a
+  stone. Both cases are fixtures in `crates/game-format/tests/placement.rs`. [verified]
+
+  **4. The rule adopted is the item's: one thing, one place.** A give of an item that has a
+  carried form, from a binding not on that hotspot, is refused, unless the item is counted.
+  `ferry.game`'s jar gives three coins beside a loose one, and `coin 0..4` is many things by
+  declaration. The rule is in `crates/game-format/src/resolve.rs`. Under it 19 of the twenty
+  mutations are refused, and the twentieth is `ferry`'s lantern handing over a coin, which is
+  counted and moved no stranding. No specimen trips it. [verified] The person who decides chose
+  this over the broad rule and over changing nothing, on the measurement above. [verified] for
+  the choice.
+rationale: |
+  **Why the item and not the hotspot.** [found-in](found-in.yml) showed that where an item is
+  found is derived: it is the room of the hotspot it stands for. That derivation needs one
+  carried form per item, which the format already enforces, and one way out of the room, which it
+  did not. A give from somewhere else is a second way out, and the derivation cannot see it. So
+  the rule belongs to whatever the derivation is about, which is the item. Which hotspot carries
+  the extra give is incidental. [inference]
+
+  **Why the counted exemption is principled and not a patch.** `inventory-item.quantity` already
+  distinguishes a crowbar from coins, and the checker treats a counted item as a number with a
+  ceiling, not as a thing with a location. A loose coin and a jar of coins are two sources of
+  one count. Nothing about either is in two places. [inference]
+
+  **What this does not settle.** Conversation choices and actors can also give an item. The rule
+  covers them, since it reads every binding's site. But no specimen gives an item with a carried
+  form from a conversation, so that reach is covered by the code and not by any case.
+  [verified] for the census, [inference] for the reach.

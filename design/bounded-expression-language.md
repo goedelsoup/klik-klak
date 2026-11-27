@@ -1,7 +1,7 @@
 ---
 title: A bounded expression language for authored interaction
 status: proposal
-reconciled: c8b92d1e9369bc4ac3ccb08cf0bb39530f9b36e5
+reconciled: 0be685d8767d4783b3fda5ec8d116a41b1cd6ca9
 rests_on:
   - .yidam/corpus/actor/player-character.yml
   - .yidam/corpus/data-format/interaction-table.yml
@@ -559,6 +559,14 @@ player carries the thing — resolving without a word, and taking `nightwatch.ga
 reachable states and two strandings to six and none, still reported winnable. A defect that
 lengthens a report gets investigated; one that shortens it looks like progress. The two are held
 against each other now, and the check is sited the way the derivation is.
+
+**The same fact needs the other direction as well: nothing else may give that item.** When
+something else does, the player carries the item while its hotspot is still in the room. Twenty
+mutations of the specimens did this and every one resolved silently. Four of them made a
+stranding smaller. The rule belongs to the item and not to the hotspot. A coat that hands over the
+key in its pocket is fine, because the key lies nowhere else. A counted item is many things by
+declaration, so `ferry.game`'s jar of coins beside a loose one is fine too.
+`.yidam/decisions/one-place.yml`.
 
 **`holds <item>` is gone**, and it is the third row of the same table. It realised `inventory-item
 -found-in-> room`, which is a relationship a hotspot's own room already answers — and which two of

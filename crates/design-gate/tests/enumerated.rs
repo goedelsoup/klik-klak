@@ -132,7 +132,7 @@ fn no_test_names_every_specimen() {
     );
     assert_eq!(
         (reading, study),
-        (31, 21),
+        (32, 21),
         "files reading the directory, and files naming the games they are about"
     );
 }
