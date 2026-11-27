@@ -149,6 +149,37 @@ happens, and the squad car's room tests `progress` against the second briefing. 
 patrol stage. [inference] The station is visited in every stage, and nothing in the source divides
 its steps among them. [verified]
 
+## The patrol by incident
+
+`.yidam/decisions/pq-stops.yml` asked whether the street's 25 steps split into the patrol's separate
+incidents. Each step was assigned to the incident whose room awards it: the three traffic stops
+(rooms 30, 31 and 32, named for the stops in `ROOMNUMS.H`), the murder scene (26), the cafe (35–36),
+the biker bar (37), and the squad car's own rooms and radio (8, 9, 96). The widths are on the whole
+game's order, as before.
+
+| incident | rooms | steps | width over the six readings |
+|---|---|---|---|
+| felony stop | 32 | 8 | 4–5 |
+| drunk stop | 31 | 4 | 2–4 |
+| squad car | 8, 9, 96 | 4 | 3–4 |
+| cafe | 35, 36 | 3 | 2–3 |
+| fox stop | 30 | 2 | 2 |
+| murder scene | 26 | 2 | 1–2 |
+| biker bar | 37 | 2 | 1–2 |
+
+All figures are `[verified]` counts. **No incident is wider than 5**, and the felony stop is the
+widest. **The street's width is the sum of its incidents' widths** in five of the six readings, and
+one short in the sixth (17 against 18 at *k*=4, locals kept). [verified]
+
+**The incidents are not independent in state.** Steps in different incidents are ordered in every
+reading. At *k*=4 with locals kept, 38 such pairs remain, and all but two leave the felony stop.
+[verified] The felony stop's awards read `has.suspect`, which both the drunk and the felony stop set
+when a suspect goes into the car (`RM31.CG:310`, `RM32.CG:1553`), and `Sdoor`, which only those two
+rooms write. The cafe's and the biker bar's awards read `current.suspect` and two scene vars, which
+the dispatcher logic in 119 and the scene logic in 106 write. `current.suspect` is assigned about
+eight distinct values. [verified] So the incidents share a handful of names: who is in custody,
+the car door, which suspect is current, and which scene the dispatcher has started. [inference]
+
 ## What this does not say
 
 - **Police Quest's acts were measured by region, not by stage.** The stage var guards three
@@ -168,5 +199,6 @@ Everything outside `SRC/*.CG` and the headers the extractor reads. Police Quest'
 and Larry's are dated archives of the working tree and were not opened. The `.MSG` files, which hold
 each room's text, were read only where a binding was checked by hand. The picture, view, sound and
 vocabulary resources were not opened. Police Quest's acts, the next reading `house-width` named,
-have since been read, by region rather than by stage, in `pq-acts`; see above. The dispatcher in
-rooms 96 and 119, which decides which call the patrol answers next, was not read.
+have since been read, by region rather than by stage, in `pq-acts`; see above. The traffic stops
+have since been read as incidents, in `pq-stops`; see above. The dispatcher in rooms 96 and 119,
+which decides which call the patrol answers next, was read only for the names it writes.

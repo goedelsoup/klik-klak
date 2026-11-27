@@ -255,6 +255,8 @@ fn class_of(root: &Path) -> BTreeMap<String, String> {
 /// `house-width` added one, root-based: the pointer to its record under `latched-flag`'s marker.
 ///
 /// `pq-acts` added one, root-based: the pointer to its record under `latched-flag`'s marker.
+///
+/// `pq-stops` added one, root-based, in the same place.
 #[test]
 fn every_path_written_in_corpus_prose_resolves() {
     let root = repo_root();
@@ -281,10 +283,10 @@ fn every_path_written_in_corpus_prose_resolves() {
     );
     assert_eq!(
         (own, repo, corpus),
-        (143, 172, 5),
+        (143, 173, 5),
         "the three bases, all load-bearing"
     );
-    assert_eq!((own + repo + corpus, decisions), (320, 197));
+    assert_eq!((own + repo + corpus, decisions), (321, 198));
 }
 
 /// **99 declared edges, 97 prose citations, and 18 pairs in both.**
