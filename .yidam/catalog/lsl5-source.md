@@ -136,6 +136,51 @@ aeroplane 2; and 18 attached to the inventory, the battery charger and Patti rat
 The two finales score 100 each, at `rm390` and `rm460`. [verified] **That is an upper bound on an
 act's width in the designer's own units — puzzles rather than bindings — of 1 to 17.**
 
+## Width in scored steps
+
+`phase/puzzle-width` turned that bound into a width. **A step is a `Points` award, and it is
+ordered before another step when some unit that awards it reaches some unit that awards the other
+in the unit graph above.** The source makes 139 `Points` calls, which award 124 distinct steps.
+The unit graph is the one measured above, and a recount reproduces its 2001 units and 1694 edges
+before anything is changed. [verified]
+
+**One change was needed first, and it is about direction.** In the graph above, an item is written
+when it is taken and again when it is given up, and a counter is written when it rises and again
+when it falls. So a step that spends a quarter and a step that wins one each reach the other, and
+the cycles through money and inventory hold up to 12 of an act's 15 steps. Counting only
+acquisition as a write — `get:`, `++` and `+=`, and not `put:`, `--` or `-=` — leaves 1495 edges
+and draws the graph in the get-it-then-use-it direction a dependency chart draws. The largest cycle
+left inside an act holds 9 awarding units, in Atlantic City, carried by silver dollars and the
+rollerblades: winning and spending at the casino. [verified]
+
+Width of each act, in steps, over four readings. A step counts in the act whose rooms award it.
+"Some" orders a step after another when any of its awarding units is reached. "Every" orders it
+only when all of them are. [verified]
+
+| Act | steps | every name, some | every name, every | locals and routing removed, some | removed, every |
+|---|---|---|---|---|---|
+| Hollywood | 11 | 9 | 9 | 9 | 9 |
+| FBI | 6 | 4 | 4 | 4 | 4 |
+| New York | 15 | 7 | 7 | 8 | 8 |
+| Atlantic City | 13 | 5 | 5 | 5 | 5 |
+| Miami | 9 | 4 | 5 | 4 | 5 |
+| Baltimore | 13 | 3 | 9 | 10 | 11 |
+| Philadelphia | 17 | 5 | 5 | 7 | 7 |
+| Washington | 1 | 1 | 1 | 1 | 1 |
+| **sum** | **85** | **38** | **45** | **48** | **50** |
+
+The longest chain of steps inside an act is 2 to 4. Five of Hollywood's eleven steps are ordered
+with no other step in the game: they read no game state and enable nothing. **Summing 2^w over the
+eight acts gives 746, 1,266, 1,986 and 3,026.** [verified]
+
+**The hint book was opened for this, and it is not a chart.** `DOCO/HINTBOOK.DOC` is 131
+questions, grouped under eleven numbered places in two halves, Larry's and Patti's. Each place
+lists its questions with graded answers, and no question says what it depends on. By act: Hollywood
+8, New York 12, Atlantic City 27, Miami 12, the FBI 5, Philadelphia 13, Baltimore 10 and Washington
+2, with 18 for the limousine and airports in Larry's half and 7 in Patti's. [verified] A question is
+a place a player got stuck, and some are jokes, so this is a count of stuck points by act, not a
+width.
+
 ## What this does not say — read this before citing
 
 - **Units over-count puzzles.** A binding that reads a flag to choose a reply is a unit, and so is a
@@ -150,15 +195,20 @@ act's width in the designer's own units — puzzles rather than bindings — of 
   comparable ratio.
 - **A dependency carried by anything but a named variable is invisible**, as it was in Delores —
   an actor's position, a timer, a cel.
+- **The width in steps is an upper bound one way and a lower bound the other.** An invisible
+  dependency leaves two steps unordered that a player must do in order, which widens an act. A cycle
+  that survives the acquisition rule makes its steps one node, which narrows it. Baltimore moves from
+  3 to 11 between readings for the second reason. A scored step is the designer's unit, and it
+  includes looks and drinks of water that no chart would draw.
 
 ## What the repository holds that nobody here has looked at
 
 `DOCO/DESIGN.DOC` was opened for its date and not otherwise studied. It is
 the designer's statement of the game before it was built, and a comparison of its act list with the
-shipped gates is the obvious next reading. `DOCO/HINTBOOK.DOC` was not opened: a hint book is a
-puzzle dependency chart written for players, and it may give the per-act width in puzzles that the
-points list only bounds. The script source beyond what the extractor parsed, and the four verb
-switches it missed, were not studied by hand.
+shipped gates is the obvious next reading. `DOCO/HINTBOOK.DOC` was expected to be a dependency chart
+written for players. It was opened in `phase/puzzle-width` and is not one; see above. The script
+source beyond what the extractor parsed, and the four verb switches it missed, were not studied by
+hand.
 
 The same account publishes the source of other Sierra adventures — the first three Leisure Suit
 Larry games and the remake of the first, King's Quest III, Police Quest and The Black Cauldron.
