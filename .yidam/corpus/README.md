@@ -52,7 +52,7 @@ Sorted by: kind, then alphabetically.
 | [interaction-table.yml](data-format/interaction-table.yml) | data-format | Interaction Table | 3 | 50v / 23i / 0o | 628 |
 | [room-manifest.yml](data-format/room-manifest.yml) | data-format | Room Manifest | 3 | 10v / 7i / 0o | 155 |
 | [save-state.yml](data-format/save-state.yml) | data-format | Save State | 4 | 7v / 4i / 0o | 101 |
-| [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 14v / 8i / 1o | 136 |
+| [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 17v / 9i / 0o | 148 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 4v / 5i / 0o | 96 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 23v / 9i / 0o | 221 |
 | [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 7v / 9i / 0o | 103 |
