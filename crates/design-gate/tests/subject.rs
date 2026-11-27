@@ -198,11 +198,15 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 ///
 /// `forced-order` is the 111th and the 63rd: `catalog/twp-dev-diary`, through the node whose remedy
 /// it quotes, beside the engine test it played.
+///
+/// `revised-specimen` is the 112th and rests on no document. Its evidence is the format and the
+/// checker, run before and after one edit to a specimen this repository wrote, so it counts as
+/// engine and nothing else.
 #[test]
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 111, "every record, in the order it was created");
+    assert_eq!(all.len(), 112, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -215,7 +219,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (63, 60, 45),
+        (63, 61, 45),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -433,6 +437,11 @@ fn the_evidence_each_record_rests_on() {
 ///
 /// `second-game-width` keeps both at zero by retrieving a second game's source,
 /// `.yidam/catalog/lsl5-source.md`.
+///
+/// **`revised-specimen` makes it one, and says why.** Its question was about this repository's own
+/// specimens: whether one should be revised to write a primitive that arrived after it. No source
+/// about another engine can say that. What could was the format and the checker run on the
+/// revision, so it reads as engine and the gate-alone run stays at zero.
 #[test]
 fn the_run_of_records_that_needed_no_document_is_broken() {
     let root = repo_root();
@@ -448,7 +457,7 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
     let gate_alone = run(&|r: &Rests| r.gate && !r.document && !r.engine);
     assert_eq!(
         (no_document, gate_alone),
-        (0, 0),
+        (1, 0),
         "consecutive newest records citing no catalog entry, and resting on the gate alone"
     );
 }
@@ -524,12 +533,16 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
 ///
 /// `forced-order` pushes `puzzle-width` out and re-reads Thimbleweed Park's diary through the node
 /// that quotes it. A re-reading replaces a re-reading: six and two.
+///
+/// `revised-specimen` pushes `house-width` out and rests on no document: its question was whether
+/// to revise a specimen this repository wrote, and the evidence was the checker run on it before
+/// and after. A no-document record replaces a retrieval: six re-readings, one retrieval, one
+/// needing no document.
 #[test]
 fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("house-width", Some(true)),
         ("pq-acts", Some(false)),
         ("pq-stops", Some(false)),
         ("larry-rooms", Some(false)),
@@ -537,6 +550,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("ags-pickups", Some(true)),
         ("ags-dialogs", Some(false)),
         ("forced-order", Some(false)),
+        ("revised-specimen", None),
     ];
 
     let root = repo_root();
@@ -577,7 +591,7 @@ fn the_last_eight_phases_mostly_re_read() {
     let fresh = RECENT.iter().filter(|(_, r)| *r == Some(true)).count();
     assert_eq!(
         (doc, fresh, doc - fresh),
-        (8, 2, 6),
+        (7, 1, 6),
         "phases resting on a document, on one newly retrieved, and on one already in the house"
     );
 }
