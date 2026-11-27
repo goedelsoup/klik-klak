@@ -64,7 +64,7 @@ Sorted by: kind, then alphabetically.
 | [unary-binding.yml](interaction/unary-binding.yml) | interaction | Unary Binding | 3 | 9v / 2i / 0o | 90 |
 | [portable-object.yml](inventory-item/portable-object.yml) | inventory-item | Portable Object | 4 | 9v / 4i / 0o | 144 |
 | [stackable-item.yml](inventory-item/stackable-item.yml) | inventory-item | Stackable Item | 3 | 1v / 5i / 0o | 52 |
-| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 5 | 23v / 6i / 1o | 202 |
+| [ags.yml](prior-art/ags.yml) | prior-art | Adventure Game Studio | 5 | 23v / 6i / 0o | 202 |
 | [scumm.yml](prior-art/scumm.yml) | prior-art | SCUMM | 3 | 1v / 10i / 0o | 96 |
 | [sierra-sci.yml](prior-art/sierra-sci.yml) | prior-art | Sierra AGI and SCI | 3 | 18v / 12i / 0o | 231 |
 | [thimbleweed-park.yml](prior-art/thimbleweed-park.yml) | prior-art | Thimbleweed Park | 12 | 29v / 12i / 0o | 351 |

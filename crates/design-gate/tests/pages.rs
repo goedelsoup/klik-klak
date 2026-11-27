@@ -299,7 +299,7 @@ fn no_question_lives_on_a_class_page() {
         n
     };
     let (corpus, decisions) = (live(".yidam/corpus", false), live(".yidam/decisions", true));
-    assert_eq!((corpus, decisions), (4, 56));
+    assert_eq!((corpus, decisions), (3, 56));
     // 17, 16, 15, 14, 13, 12 — never once because a corpus question was closed. The corpus
     // numerator had not moved in eight phases while the records opened thirty-odd, and
     // `playable` closing one was the only close in that run. The two denominators parted at 13
@@ -325,7 +325,10 @@ fn no_question_lives_on_a_class_page() {
     //
     // 6 again, and nothing was closed or asked: nine questions ending a block had never been
     // counted. `.yidam/decisions/marker-count.yml`.
-    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 6);
+    //
+    // 5, and a testimony question closed by testimony: `forum-witnesses` read the plugin thread
+    // `prior-art/ags` had named and found the tool was never finished.
+    assert_eq!((corpus * 100) / (corpus + decisions + open + stub), 5);
 }
 
 /// **Every class page was written by this repository's first commit, and for 342 commits its last

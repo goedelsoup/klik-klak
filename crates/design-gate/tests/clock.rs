@@ -264,14 +264,17 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
 /// **The history's widest group is two now.** `ags-testimony` closed one of `marker-count`'s
 /// three, and the marker `prior-art/ags` carries in its place was written later. `due` still
 /// reports all four as past the interval, the new one included, which is this finding again.
+///
+/// **Three now.** `forum-witnesses` closed the marker `prior-art/ags` carried, the one written
+/// later, and the reading held in [`REPORTED`] is not re-taken.
 #[test]
 fn the_report_ties_five_questions_the_history_keeps_apart() {
     let root = repo_root();
     let computed: Vec<usize> = ages(&root).into_iter().map(|(_, a)| a).collect();
     assert_eq!(
         (computed.len(), REPORTED.len()),
-        (4, 9),
-        "the corpus against the reading `REPORTED` holds: four closures, one question asked, and \
+        (3, 9),
+        "the corpus against the reading `REPORTED` holds: five closures, one question asked, and \
          one reopened by `unread-specimen` when the census that closed it turned out to have been \
          reading four of five specimens"
     );
@@ -358,7 +361,8 @@ fn every_figure_the_config_states_about_this_clock_is_computed_here() {
     );
     assert_eq!(
         (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
-        (6, 6),
+        // 5 when `forum-witnesses` closed `prior-art/ags`'s question and the corpus held three.
+        (5, 5),
         "the share the config claims, against the share"
     );
 }

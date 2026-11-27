@@ -122,15 +122,19 @@ fn every_due_clock_is_declared_or_declined_in_writing() {
 /// — and the second is the more urgent of the two, because something downstream is resting on the
 /// answer.
 ///
+/// **And it fell to a twentieth by a closure.** `forum-witnesses` closed `prior-art/ags`'s question,
+/// so the clock watches three. The name keeps *a sixth* for the reason given above, and the figure
+/// is the assertion's.
+///
 /// [`markers.rs`]: markers.rs
 #[test]
 fn the_clock_that_is_declared_covers_a_sixth_of_what_is_owed() {
     let root = repo_root();
     let (corpus, decisions) = owed(&root);
-    assert_eq!((corpus, decisions), (4, 56));
+    assert_eq!((corpus, decisions), (3, 56));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        6,
+        5,
         "what a declared questions clock can see"
     );
 }
