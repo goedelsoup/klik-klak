@@ -128,6 +128,14 @@ description: |
   designer's scored steps, so "design practice bounds the width at 2–5" is unconfirmed in a game
   that does have acts. Units over-count puzzles, and a points list only bounds them. [inference]
 
+  *Since narrowed.* The width in puzzles has been measured, on the designer's own scored steps
+  ([lsl5-source](../../catalog/lsl5-source.md), `.yidam/decisions/puzzle-width.yml`). Four acts
+  are 1 to 5 wide and four are 5 to 11, and the chain inside an act is 2 to 4. [verified] So 2–5
+  describes half this game's acts, not design practice. The sum over acts of 2^w is at most about
+  3,000, so the argument above holds in cost where the figure does not. [inference] The hint book
+  orders nothing, so it could not settle this. What is left is whether the shape is one designer's
+  or Sierra's.
+
   **How many flags in a real game latch has its first evidence, and it points at *most*.** A
   shipped adventure game's save file is quoted in Thimbleweed Park's development diary, with real
   variable names in it ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] The

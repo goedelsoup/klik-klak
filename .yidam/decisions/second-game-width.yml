@@ -94,3 +94,9 @@ rationale: |
   sum to stay cheap. The next reading is this game's hint book. The next measurement is the other
   Sierra source on the same account, which would say whether eight gated acts belong to this
   designer or to the house. `[open]`
+
+  *Since narrowed.* `phase/puzzle-width` took the next reading and measured the width another way
+  ([puzzle-width](puzzle-width.yml)). The hint book is 131 questions under eleven places and orders
+  nothing. Projected onto the 124 scored steps, an act is 1 to 11 wide with chains of 2 to 4, and
+  the sum of 2^w over acts is 746 to 3,026. [verified] The second Sierra source was not taken, so
+  designer against house is still open.

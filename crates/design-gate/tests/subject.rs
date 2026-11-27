@@ -174,11 +174,14 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 /// for eleven threads.
 ///
 /// `maker-tracker` is the 102nd and the 54th: `catalog/ags-tracker`, the maintainers' issues.
+///
+/// `puzzle-width` is the 103rd and the 55th: `catalog/lsl5-source` again, for its hint book and
+/// its points awards.
 #[test]
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 102, "every record, in the order it was created");
+    assert_eq!(all.len(), 103, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -191,7 +194,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (54, 59, 45),
+        (55, 59, 45),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -472,12 +475,14 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
 /// `maker-tracker` pushes `dismissed-hold` out and is a fourth retrieval in a row, from a kind of
 /// document the house had not held: the AGS maintainers' tracker. One re-reading, four retrievals,
 /// three needing no document.
+///
+/// `puzzle-width` pushes `refused-duration` out, and both re-read: it went back to the LSL5 clone
+/// for the hint book and the points awards, which were in the house and unopened. The figures stand.
 #[test]
 fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("refused-duration", Some(false)),
         ("runtime-boundaries", None),
         ("one-toggle", None),
         ("edge-policy", None),
@@ -485,6 +490,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("second-game-width", Some(true)),
         ("forum-witnesses", Some(true)),
         ("maker-tracker", Some(true)),
+        ("puzzle-width", Some(false)),
     ];
 
     let root = repo_root();
