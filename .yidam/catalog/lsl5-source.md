@@ -213,4 +213,6 @@ hand.
 The same account publishes the source of other Sierra adventures — the first three Leisure Suit
 Larry games and the remake of the first, King's Quest III, Police Quest and The Black Cauldron.
 None was opened. Each is a further game to measure by the same method, and the SCI ones would test
-whether the act structure here is one designer's or the engine's.
+whether the act structure here is one designer's or the engine's. Three of them — Police Quest, King's
+Quest III and the first Larry on AGI — have since been read, in
+[sierra-agi-source](sierra-agi-source.md). The SCI games and The Black Cauldron have not.

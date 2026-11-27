@@ -134,3 +134,11 @@ and its cost of 2^25 or more is the size that argument rules out. [inference]
   figure meant to survive the change of engine. [inference]
 - **A dependency carried by position, a timer or a room exit is invisible,** as in LSL5. Missing
   edges widen a game, and the surviving cycles narrow it. [inference]
+
+## What these repositories hold that nobody here has looked at
+
+Everything outside `SRC/*.CG` and the headers the extractor reads. Police Quest's `Fastback Backup`
+and Larry's are dated archives of the working tree and were not opened. The `.MSG` files, which hold
+each room's text, were read only where a binding was checked by hand. The picture, view, sound and
+vocabulary resources were not opened. Police Quest's acts by `progress` stage were not measured;
+that is the next reading `house-width` names.
