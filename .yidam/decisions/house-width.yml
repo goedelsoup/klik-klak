@@ -1,0 +1,63 @@
+id: house-width
+summary: >-
+  The shape LSL5 showed is Sierra's, not Al Lowe's. Three AGI games by three lead designers are
+  wide and shallow in their scored steps, as LSL5 is, with chains of 2 to 9 and widths of a third to
+  nearly all of their steps. The act structure is not Lowe's either. His own 1987 game has no act
+  counter and reads as one act 25 to 37 wide, while Jim Walls's Police Quest has one. What 2–5
+  needs is acts, and nobody's design guarantees them.
+context: |
+  [puzzle-width](puzzle-width.yml) measured LSL5's acts in the designer's scored steps. Four acts
+  were inside 2–5 and four were 5 to 11 wide, so the figure in
+  [latched-flag](../corpus/world-flag/latched-flag.yml) held for half the game. That record left
+  one question, whether the shape is one designer's or the house's, and named the measurement that
+  would answer it: a second Sierra source.
+
+  `phase/house-width` took three ([sierra-agi-source](../catalog/sierra-agi-source.md)). Police
+  Quest and King's Quest III are by other lead designers on the engine before SCI. The 1987 Leisure
+  Suit Larry is Lowe's own game on that engine. Same engine with a different designer compares
+  designers. Same designer with a different engine compares engines and years.
+decision: |
+  **Width in scored steps is a house shape.** Over the readings the AGI source needs, the widest
+  antichain of scored steps is 41–74 of Police Quest's 111, 31–64 of King's Quest III's 67 and 25–37
+  of Larry's 49. LSL5's is 49–67 of 124. The longest chain is 2 to 9 in all four games.
+  [verified] As a share of steps, LSL5 is at the narrow end and Lowe's own 1987 game is not. No lead
+  designer's games stand apart. [inference]
+
+  **Acts are not a house shape, and not Lowe's either.** Police Quest declares var 31 `progress`
+  and moves it through named stages that only increase, from the briefings through two cases to the
+  end. [verified] Neither King's Quest III nor Larry declares anything of the kind, and LSL5's acts
+  were found from its routing names and the code that closes a city. [verified] So one of Lowe's
+  two games is cut into acts and the other is not, and the AGI game cut into stages is Walls's.
+  [inference]
+
+  **So the figure in latched-flag is about games with acts, not games by a designer.** Where a game
+  has acts, half of LSL5's are inside 2–5 and the cost is a sum over acts. Where it does not,
+  Larry read as one act is 25 or more wide, and 2^25 is the size the argument rules out.
+  [inference] What design practice bounds, if anything, is the number of steps per act, and that
+  is a choice each game makes. It is not a constant of Sierra's or of Lowe's. [inference]
+
+  `latched-flag`'s marker is narrowed, not closed. What is left is whether a game without acts is
+  still tractable by some other cut, for example by region or by inventory. One measurement would
+  test it: divide Police Quest's steps by its `progress` stages, as LSL5's were divided by city,
+  and see whether those acts fall inside 2–5.
+rationale: |
+  **Why AGI and not LSL3.** The same account publishes LSL3, which is Lowe's on SCI. It would have
+  compared Lowe with Lowe on one engine, and that cannot separate designer from house. Three AGI
+  games hold the engine fixed across designers, and Larry holds the designer fixed across engines.
+  [inference]
+
+  **Why scope the shared scratch vars to their rooms.** AGI rooms run timed sequences through a
+  few shared vars written in 20 to 80 files. Counted as global, they put 78 of Police Quest's 111
+  steps into one cycle. SCI keeps that state on each Script object, where the LSL5 extractor never
+  saw it. [verified] Scoping them is the parity choice, and a threshold sweep shows how far it moves
+  the figures. [inference]
+
+  **Why the confound does not void it.** Lowe is listed among Police Quest's programmers, and
+  "Al's flags" are a block of King's Quest III's. [verified] So all four games have his hand in the
+  code. The question was about design, and the lead designers differ. [inference] A shape that
+  holds across all four is still the house's at the level of who chose the steps.
+
+  **What was not done.** Police Quest's acts were not measured, and no act of an AGI game has a
+  width yet. The bottleneck test found no gates in any game, LSL5 included, so its silence says
+  nothing. AGI units are finer than SCI's, so only widths in steps are compared, never edges.
+  [inference]
