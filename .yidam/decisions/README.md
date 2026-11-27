@@ -20,10 +20,6 @@ does not re-emit it.
 
 - **:136** — The corpus has a de facto home for these already — [ontology](ontology.yml) holds both live class collapses and has since genesis — and what it does not have is any way to count what is in it. That is [marker-count](marker-count.yml)'s threshold again, reached from a third side: a typed `claim_tag` …
 
-### [actor-position](actor-position.yml)
-
-- **:112** — **What is not done.** `nightwatch.game` still says its watchman is down the hall in prose. Rewriting it would make that specimen test what it was written to say it could not, and would move figures that three phases of records quote. Whether a specimen should be revised to exercise a primitive it ar…
-
 ### [adjacency](adjacency.yml)
 
 - **:101** — **What the geometry cannot say is intent, and that is a different question.** Six of the fifteen rooms are in more than one piece with every region present, across gaps of 3 to 16 pixels in rooms 320 to 600 wide, and **nothing distinguishes a gap that means *you may not go there* from one left by a …
@@ -171,10 +167,6 @@ does not re-emit it.
 
 - **:96** — **What this does not settle.** What authors actually do with the arithmetic. The cut is clean and the *cost* of the cut is unmeasured: `Globalfunctions_General`, the `Maths` page and the fifty-odd other API pages are still unread, and the question *how often does a shipped AGS game reach the hatch f…
 
-### [second-document](second-document.yml)
-
-- **:91** — **What this does not settle.** Whether a specimen should be revised to exercise a primitive it argued for. The document's own question, and it now has two instances rather than one — the watchman who moves in prose, and `exit`, which this document's argument built and none of the four games writes. …
-
 ### [second-game-width](second-game-width.yml)
 
 - **:96** — **The question that remains is narrower again.** Not whether games have acts. This one does, and they are enforced. The question is whether an act's width *in puzzles* is small enough for the sum to stay cheap. The next reading is this game's hint book. The next measurement is the other Sierra sourc…
@@ -223,7 +215,7 @@ does not re-emit it.
 
 - **:77** — **What the menu now reads, and why it reads slightly oddly.** *"Use a short crowbar with a nailed-shut crate"* — because an author writes hotspot labels as noun phrases with articles, and a template that assumed otherwise would be telling authors how to write. Delores's authors face the same seam an…
 
-**54 open.**
+**52 open.**
 
 ## What nothing cites
 
