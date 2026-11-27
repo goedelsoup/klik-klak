@@ -192,11 +192,14 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 /// the last wide acts by room and the state at the joins.
 ///
 /// `ags-pickups` is the 109th and the 61st: `catalog/ags-game-sources`, twelve AGS games' scripts.
+///
+/// `ags-dialogs` is the 110th and the 62nd: `catalog/ags-game-sources` again, the same games'
+/// dialogs and their histories.
 #[test]
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 109, "every record, in the order it was created");
+    assert_eq!(all.len(), 110, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -209,7 +212,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (61, 59, 45),
+        (62, 59, 45),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -512,12 +515,14 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
 /// `ags-pickups` pushes `forum-witnesses` out and retrieves a document new to this repository: the
 /// script source of twelve AGS games. A retrieval replaces a retrieval, so the counts hold at five
 /// re-readings and three retrievals.
+///
+/// `ags-dialogs` pushes `maker-tracker` out and re-reads the AGS clones `ags-pickups` retrieved, for
+/// their dialogs. A re-reading replaces a retrieval: six re-readings and two retrievals.
 #[test]
 fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("maker-tracker", Some(true)),
         ("puzzle-width", Some(false)),
         ("house-width", Some(true)),
         ("pq-acts", Some(false)),
@@ -525,6 +530,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("larry-rooms", Some(false)),
         ("latched-close", Some(false)),
         ("ags-pickups", Some(true)),
+        ("ags-dialogs", Some(false)),
     ];
 
     let root = repo_root();
@@ -565,7 +571,7 @@ fn the_last_eight_phases_mostly_re_read() {
     let fresh = RECENT.iter().filter(|(_, r)| *r == Some(true)).count();
     assert_eq!(
         (doc, fresh, doc - fresh),
-        (8, 3, 5),
+        (8, 2, 6),
         "phases resting on a document, on one newly retrieved, and on one already in the house"
     );
 }
