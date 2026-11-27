@@ -1,7 +1,7 @@
 ---
 title: what the specimens found
 status: proposal
-reconciled: 2bea1de27d567431125bb7970c40f1f967a4eca3
+reconciled: 63cbc29da9416aa2201677e76c701e31ce1b52b0
 rests_on:
   - design/bounded-expression-language.md
   - .yidam/corpus/actor/player-character.yml
@@ -96,6 +96,11 @@ since it was seeded. Roughly one site in four was what it said it was. The reaso
 strandings to **six and none**, still winnable, without a word at resolve. An entailment is only
 as good as the agreement it rests on, and this list did not ask what its three rested on. The pair
 is checked now — `.yidam/decisions/found-in.yml`.
+
+The other direction went unasked for longer. Nothing stopped a second binding from giving the same
+single item, which leaves the player carrying it while its hotspot is still in the room. Twenty
+mutations of these games did that, all twenty resolved silently, and four made a stranding smaller.
+It is refused now unless the item is counted — `.yidam/decisions/one-place.yml`.
 
 The one that was real mattered more than the count suggested. The lighthouse's deliberate
 defect is a can of oil poured into a rusted hinge instead of the lamp — `unwinnable-state` by
