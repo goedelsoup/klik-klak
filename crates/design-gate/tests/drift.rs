@@ -311,7 +311,7 @@ fn the_reading_covered_every_linked_pair() {
     let p = pairs(&repo_root());
     let records: BTreeSet<_> = p.iter().map(|(r, _)| r).collect();
     let nodes: BTreeSet<_> = p.iter().map(|(_, n)| n).collect();
-    assert_eq!((p.len(), records.len(), nodes.len()), (259, 88, 46));
+    assert_eq!((p.len(), records.len(), nodes.len()), (261, 89, 46));
 }
 
 /// **The pairs were not the whole of it.** The same stale fact written a second time, in a node no

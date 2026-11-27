@@ -92,6 +92,10 @@ rationale: |
   check `Report::orphaned` makes on a specimen, and that is the node's own claim about where
   detection has to come from.
 
+  *Since closed.* [ags-dialogs](ags-dialogs.yml) made that reading over six released games' dialogs
+  and their histories. It found orphans shipped in one game and never repaired in any, and the
+  marker closed on that.
+
   **What was not done.** The guga2112, TheRoger and Fluxpuppy threads were not found again. The
   leads the second search returned are listed unread in the catalog entry. Nothing outside the
   forum was searched for a later version of Simple Scripter.

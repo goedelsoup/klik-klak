@@ -96,8 +96,8 @@ properties:
     and it does not answer this. The dialog threads read for it were how-to questions, and they
     were read by a fetching agent rather than here. That is what this node predicts of a mode
     nobody meets, and it is equally what a mode nobody suffered would look like. [inference]
-    `.yidam/decisions/ags-testimony.yml` records the attempt, and the kind of question is named at
-    `.yidam/decisions/testimony.yml`. `[open]`
+    `.yidam/decisions/ags-testimony.yml` records the attempt, and the kind of question was named at
+    `.yidam/decisions/testimony.yml`. This was the marker for it.
 
     *Since narrowed.* More dialog threads have been read here
     ([ags-forums](../../catalog/ags-forums.md), `.yidam/decisions/forum-witnesses.yml`), and they
@@ -129,6 +129,18 @@ properties:
     that can never be shown. [inference] So the people who build AGS's checks did not treat
     orphaning as a loss. Whether its authors did is still not shown, and a tracker cannot show it,
     since an author who never knew would file nothing.
+
+    **The released games close it** ([ags-game-sources](../../catalog/ags-game-sources.md),
+    `.yidam/decisions/ags-dialogs.yml`). Six released AGS games' dialogs were read, along with 71
+    commits of six repositories' histories. In five of the games every option in a started dialog
+    can be shown. Cart Life ships 11 options that no code turns on, and four dialogs no script
+    names. [verified] Across every history read, the count of options that can never be shown never
+    fell: no orphan was ever found and repaired. [verified] Two more unstarted Cart Life dialogs are
+    started only by commented-out lines, and in the dialog data they look the same as the four
+    orphans, which is this node's second paragraph met in a shipped game. [verified] So no, authors
+    did not experience it as a loss. The content is lost and nobody meets it, so nobody felt it,
+    and the only thing that has found one here is an instrument. [inference] Twelve small games are
+    not the AGS catalogue, and Cart Life's history before 2015 is not public.
 links:
   - target: ../conversation/branching-tree.yml
     relationship: arises-from

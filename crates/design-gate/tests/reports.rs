@@ -132,15 +132,19 @@ fn every_due_clock_is_declared_or_declined_in_writing() {
 /// **And to a fiftieth by a third.** `ags-pickups` closed `interaction/acquisition-binding`'s, so
 /// it watches one.
 ///
+/// **And to nothing by a fourth.** `ags-dialogs` closed `failure-mode/orphaned-dialogue-branch`'s,
+/// the last, so the declared clock watches no question and everything owed is in the records it
+/// cannot see.
+///
 /// [`markers.rs`]: markers.rs
 #[test]
 fn the_clock_that_is_declared_covers_a_sixth_of_what_is_owed() {
     let root = repo_root();
     let (corpus, decisions) = owed(&root);
-    assert_eq!((corpus, decisions), (1, 56));
+    assert_eq!((corpus, decisions), (0, 56));
     assert_eq!(
         corpus * 100 / (corpus + decisions),
-        1,
+        0,
         "what a declared questions clock can see"
     );
 }

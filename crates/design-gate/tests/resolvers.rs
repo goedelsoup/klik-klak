@@ -39,6 +39,12 @@ enum Closes {
     /// **Two of its three have closed, and both turned out to be about an artifact.**
     /// `prior-art/ags` asked whether a tool shipped, and `interaction/acquisition-binding` whether a
     /// window reached players, which a released script shows. `.yidam/decisions/ags-pickups.yml`.
+    ///
+    /// **All three have closed, and the third by reading for the traces a felt loss would leave.**
+    /// `failure-mode/orphaned-dialogue-branch` asked whether authors experienced an orphaned option
+    /// as a loss. The forum, the tracker and six released games with 71 commits of history show
+    /// nobody acting on one, including in the game that ships eleven.
+    /// `.yidam/decisions/ags-dialogs.yml`. The column is empty, which this table said it could not be.
     Testimony,
     /// A specific artifact, named, and not yet retrieved.
     ///
@@ -96,10 +102,7 @@ enum Closes {
 /// Hand-classified, like `subject.rs`'s evidence paths, because what a paragraph *means* is not a
 /// thing a string search can settle. The claim is the classification; the check below is that it
 /// covers every marker on disk and no other.
-const KINDS: &[(&str, Closes)] = &[(
-    "failure-mode/orphaned-dialogue-branch.yml",
-    Closes::Testimony,
-)];
+const KINDS: &[(&str, Closes)] = &[];
 
 /// Every corpus node carrying a live marker, in the order the table expects them.
 fn asking(root: &Path) -> Vec<String> {
@@ -208,6 +211,12 @@ fn the_table_covers_every_question() {
 /// what they experienced. The window it predicted is in a script, so released scripts could show
 /// it, and `.yidam/decisions/ags-pickups.yml` read eleven games' and found none shipped. What is
 /// left is one question, and it is testimony.
+///
+/// **And the last closed the same way.** `failure-mode/orphaned-dialogue-branch` asked what authors
+/// felt about an orphaned option, and a felt loss leaves traces: a thread, a request, a fix.
+/// `.yidam/decisions/ags-dialogs.yml` read every place those would be and found none. The table is
+/// empty. Every column it sorted for has emptied, and the one it said would never empty emptied by
+/// its questions turning out to be about artifacts.
 #[test]
 fn every_question_says_what_would_close_it() {
     let root = repo_root();
@@ -227,15 +236,14 @@ fn every_question_says_what_would_close_it() {
             count(Closes::Measurement),
             count(Closes::Judgement),
         ),
-        (1, 0, 0, 0, 0, 0),
+        (0, 0, 0, 0, 0, 0),
         "testimony, a named artifact, a condition that would reopen it, a game, a count, and a \
          decision somebody has to take"
     );
 
-    // Every question whose resolver was a thing somebody could go and do has been answered, and
-    // the one that came back was re-decided. What is left is one, waiting on testimony, and it
-    // names the record that argues no artifact supplies it. The declined column is empty; a
-    // question declined later must still name the condition that would reopen it.
+    // Every question has been answered, and the one that came back was re-decided. Nothing is
+    // left. A question opened later must still say what would close it, and a declined one must
+    // name the condition that would reopen it.
     for (node, kind) in KINDS {
         if *kind != Closes::Condition {
             continue;
@@ -254,7 +262,7 @@ fn every_question_says_what_would_close_it() {
         "the convention has a following and still no statement"
     );
 
-    // The three blocked on testimony each point at the record that argues no artifact supplies it.
+    // Any question blocked on testimony points at the record that argues no artifact supplies it.
     for (node, kind) in KINDS {
         if *kind != Closes::Testimony {
             continue;

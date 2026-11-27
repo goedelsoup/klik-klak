@@ -1,6 +1,6 @@
 ---
 name: AGS game sources on GitHub
-description: The script source of twelve Adventure Game Studio games their authors published, most of them released to players. Read for what authors wrote when they made an object pickable, rather than what they asked about it.
+description: The script source of twelve Adventure Game Studio games their authors published, most of them released to players. Read for what authors wrote when they made an object pickable, rather than what they asked about it, and later for the dialog options no code of theirs ever shows.
 type: dataset
 obtained: true
 retrieved: 2026-11-27
@@ -108,6 +108,50 @@ The one helper found only hides. [verified] Cart Life adds an item in 33 functio
 room object's handler: what is carried is bought through its interface, not picked up.
 [verified]
 
+## The dialogs, read later
+
+`ags-dialogs` came back for a second question: whether any of these games ships a dialog option
+that no path ever shows. It fetched each repository again with `Game.agf` added, which holds every
+dialog's options, the visibility each starts with, and the dialog's own script. A second scanner,
+also kept outside the repository, works out which options can ever be shown. An option is shown if
+it starts visible, or if code that can run turns it on. That code is `option-on` in the dialog's
+own script, or `SetOptionState(…, eOptionOn)` in a script file. A dialog's script can run only if
+the dialog is started somewhere, and the scanner repeats until nothing changes. It counts a dialog
+as possibly started wherever its name is passed as a value, because *I Rented a Boat* starts
+dialogs through a helper. `option-off-forever` was not modelled. Both options it retires after an
+enable were read by hand, and each is turned off after it has been used.
+
+**Which games have dialogs.** Nine of the twelve. Six of them are released: *10 Ways from
+Sunday* (18 dialogs, 48 options), *The 4th Wall* (5, 16), *I Rented a Boat* (24, 75), the demo game
+(1, 14), Demo Quest (5, 33) and Cart Life (194, 648). [verified] *Wilfred*, *Pink Sky* and the
+starter pack have none.
+
+**Options never shown.** In five of the six released games, every option in a started dialog can
+be shown. [verified] Cart Life has 11 of its 648 that cannot. Each starts hidden, and no code turns
+it on, commented-out code included: dGlenda_p 6, dAlice_m1 4, dFaith_0 5, dBram 1 and 5,
+dSteph_1 2, dBarneys_gotbook 3, dBarneys_last2 4, dBarneys_last_ego 3, and dTommy_Addict 2 and 7.
+[verified] Ten have option text, and the eleven response blocks hold 20 script lines between them. dBram's two are
+only ever turned off (`DialogRequesting.asc` 2542 and 2557), which reads as an option written
+visible and hidden later. [inference]
+
+**Dialogs never started.** Cart Life has six. Four are named nowhere in any script:
+dRichard_a1, dGlenda_1, dBas_AP_2 and dOmar1, holding 17 options between them. [verified] The other
+two are started only by lines that are commented out: dTarred (`GlobalScript.asc` 4535–4536) and
+dTommyCarbon (`DialogRequesting.asc` 9021). [verified] Those two are cuts. In the dialog data
+they look exactly like the four with no trace. Demo Quest has one, an unnamed dialog with three
+options. *10 Ways from Sunday* has two, and both are empty. Cargo, not counted as released, has
+one. [verified]
+
+**The histories.** Each repository was then fetched with its full history, and the scanner was run
+at every commit that touches a script or `Game.agf` and has a `Game.agf`. That is 71 commits in six
+repositories. [verified] In the other five, no commit has an option
+that can never be shown. A dialog not started appears three times, each a dialog just created and
+started a few days later: `dDialog0` and `dDialog1` in *10 Ways from Sunday*, and `dBalloonist1` in
+*I Rented a Boat*. [verified] Cart Life's public history begins in 2015 with the whole game
+present, and all five of its commits carry the same 11 options and 6 dialogs. [verified] So no
+orphan in this sample was ever repaired, and the one game that has orphans has had the same ones
+for as long as its source has been public. [inference]
+
 ## What was looked for and not found
 
 A shipped pickup that leaves the object pickable. None in 24. Twelve small games are not the AGS
@@ -117,9 +161,11 @@ board's threads were not read for player reports, because the forum rate-limits 
 
 ## What these hold that nobody here has looked at
 
-- Everything in the repositories but the `.asc` and `.ash` files: rooms, sprites, the dialog
-  scripts, and the editor's project files. A pickup written in a dialog script would not have been
-  seen.
-- The repositories' histories. Only the tip of each was fetched, so a window fixed before release
-  would not show.
+- Rooms, sprites, and every project file but `Game.agf`. The dialog scripts and `Game.agf` have
+  been read, for the dialogs above, and they were not searched for pickups: a pickup written in a
+  dialog script would not have been seen.
+- The repositories' histories have been read for the dialogs, at every commit that has a
+  `Game.agf`. They were not read for pickups, so a pickup window fixed before release would not
+  show.
+- Cart Life's development before 2015, which its repository does not hold.
 - Every AGS game on GitHub outside these twelve, and every one whose source was never published.

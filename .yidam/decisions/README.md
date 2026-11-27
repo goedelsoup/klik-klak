@@ -185,7 +185,7 @@ does not re-emit it.
 
 ### [testimony](testimony.yml)
 
-- **:73** — **What this does not settle.** Whether testimony and artifact should carry different evidence standing. The prelude is explicit that `[verified]` is about provenance rather than confidence, and a diary entry is a committed source in exactly the way a header file is; `measured-width` quotes Gilbert's…
+- **:79** — **What this does not settle.** Whether testimony and artifact should carry different evidence standing. The prelude is explicit that `[verified]` is about provenance rather than confidence, and a diary entry is a committed source in exactly the way a header file is; `measured-width` quotes Gilbert's…
 
 ### [third-population](third-population.yml)
 

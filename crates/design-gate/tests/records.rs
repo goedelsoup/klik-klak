@@ -299,7 +299,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (868, 143, 89));
+    assert_eq!((total, mentions, tests.len()), (880, 143, 89));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -400,7 +400,11 @@ fn a_record_nothing_cites_is_named() {
     //
     // `ags-pickups` is the 109th and adds three: it cites `ags-testimony` and `forum-witnesses`,
     // and `forum-witnesses`'s closing paragraph cites it back on the day it lands.
-    assert_eq!((c.len(), edges), (109, 439));
+    //
+    // `ags-dialogs` is the 110th and adds nine: it cites `ags-testimony`, `forum-witnesses`,
+    // `maker-tracker`, `testimony` and `ags-pickups`, and the first four's closing paragraphs cite it
+    // back on the day it lands.
+    assert_eq!((c.len(), edges), (110, 448));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -694,9 +698,14 @@ fn no_record_has_changed_what_it_decided() {
     // and the state at the joins, and `latched-close` measured both and closed the marker. A
     // *"Since closed."* paragraph follows the one that asked whether to close, and the summary did
     // not move.
+    //
+    // The sixty-third is `maker-tracker`, the first kind and edited for the first time: it named
+    // running the released games' dialogs through something as the move left, and `ags-dialogs`
+    // made it and closed the marker. A *"Since closed."* paragraph follows, and the summary did not
+    // move.
     assert_eq!(
         edited,
-        62,
+        63,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

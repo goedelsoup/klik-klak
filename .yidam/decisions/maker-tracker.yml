@@ -65,3 +65,8 @@ rationale: |
   project moved to GitHub, was not searched. No released AGS game's dialog scripts were run through
   anything. That would count orphans that shipped, which is the artifact half of the question, and
   it is the reading this record and the node say is the only one that finds them.
+
+  *Since closed.* [ags-dialogs](ags-dialogs.yml) ran six released games' dialogs and 71 commits of
+  history through a reachability scan. Cart Life ships 11 options that no code shows, the other five
+  ship none, and no orphan was ever repaired in any history read. The marker closed: authors did
+  not experience it as a loss, because none of them ever met one.

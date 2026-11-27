@@ -132,6 +132,10 @@ fn rests(src: &str) -> Rests {
 /// And from 155 to 159 when `ags-pickups` closed `acquisition-binding` from
 /// `catalog/ags-game-sources`: four catalog-sourced claims, three on the node and one on `pick-up`.
 ///
+/// And from 159 to 162 when `ags-dialogs` closed `orphaned-dialogue-branch` from the same entry:
+/// three catalog-sourced claims, the orphans that shipped, the histories, and the cut that looks
+/// like one.
+///
 /// The catalog is not the remedy. An entry for `crates/` would silence `verified-unsourced` on
 /// every node at once, which is the unearned silencing the four nodes below documented, applied
 /// globally and on purpose. `.yidam/decisions/evidence-kinds.yml`.
@@ -157,7 +161,7 @@ fn the_instrument_is_a_kind_of_evidence_the_register_has_no_slot_for() {
     assert_eq!(
         total,
         Rests {
-            catalog: 159,
+            catalog: 162,
             instrument: 66,
             both: 6,
             carried: 182,
