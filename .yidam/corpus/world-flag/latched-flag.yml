@@ -136,6 +136,13 @@ description: |
   orders nothing, so it could not settle this. What is left is whether the shape is one designer's
   or Sierra's.
 
+  *Since narrowed.* Three AGI games by other lead designers, and Lowe's own 1987 game, answer it
+  ([sierra-agi-source](../../catalog/sierra-agi-source.md), `.yidam/decisions/house-width.yml`).
+  All four are wide and shallow in scored steps, with chains of 2 to 9. [verified] That is the
+  house's shape. Acts are not: Police Quest has an act counter, while Larry has none and reads as
+  one act 25 to 37 wide. [verified] So 2–5 is a figure about games that are cut into acts, not about
+  a designer. [inference] What is left is whether a game without acts is tractable by another cut.
+
   **How many flags in a real game latch has its first evidence, and it points at *most*.** A
   shipped adventure game's save file is quoted in Thimbleweed Park's development diary, with real
   variable names in it ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] The
