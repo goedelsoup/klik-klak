@@ -89,7 +89,7 @@ fn unread(src: &str) -> &str {
 fn no_unread_list_names_an_artifact_the_catalog_holds() {
     let root = repo_root();
     let all = entries(&root);
-    assert_eq!(all.len(), 13, "catalog entries");
+    assert_eq!(all.len(), 14, "catalog entries");
 
     let held: Vec<(String, Vec<String>)> = all
         .iter()
@@ -183,11 +183,12 @@ fn most_unread_lists_record_what_has_since_been_read() {
             "ags-272-manual.md",
             "ags-forums.md",
             "ags-source.md",
+            "ags-tracker.md",
             "lsl5-source.md",
             "sci-specifications.md",
             "wikipedia-scumm.md",
         ],
-        "and the seven with nothing to record"
+        "and the eight with nothing to record"
     );
 
     let readme = std::fs::read_to_string(root.join(".yidam/catalog/README.md")).expect("readable");

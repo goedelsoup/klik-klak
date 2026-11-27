@@ -114,6 +114,21 @@ properties:
     mark options unread again, so that players would know new content was there. That is caring
     about content players miss, though none of it was unreachable. [verified] Whether anyone felt
     an orphaned option as a loss has still not been shown.
+
+    *Since corrected.* The halt is the engine of 2011. AGS 3.5.1 (June 2021) ends a dialog with no
+    options left and logs a debug warning instead. [verified] —
+    [ags-tracker](../../catalog/ags-tracker.md). The one reachability condition AGS checked is now a
+    log line.
+
+    *Since narrowed.* The maintainers' own tracker was read, `.yidam/decisions/maker-tracker.yml`.
+    The issue that relaxed the halt gives what the "user expects" as its reason: a dialog that runs
+    out of options should just end. [verified] The editor's converter checks only that an
+    `option-off-forever` names an option that exists, and writes it as an ordinary call. The AGS 4
+    compiler's unreachable-code warning sees control flow inside one option's block and nothing
+    across them. [verified] Searches of about 3,200 issues found no request to detect an option
+    that can never be shown. [inference] So the people who build AGS's checks did not treat
+    orphaning as a loss. Whether its authors did is still not shown, and a tracker cannot show it,
+    since an author who never knew would file nothing.
 links:
   - target: ../conversation/branching-tree.yml
     relationship: arises-from

@@ -171,6 +171,7 @@ const SHAPE: &[(&str, Shape)] = &[
     ("ags-forums.md", Shape::List),
     ("ags-manual.md", Shape::List),
     ("ags-source.md", Shape::OneDocument),
+    ("ags-tracker.md", Shape::List),
     ("delores-source.md", Shape::OneDocument),
     ("grumpy-gamer-pdc.md", Shape::OneDocument),
     ("lsl5-source.md", Shape::OneDocument),
@@ -202,6 +203,7 @@ const READ: &[(&str, &[&str])] = &[
             "OBject appearing after dialog has ended",
         ],
     ),
+    (".yidam/catalog/ags-tracker.md", &["#1134", "#2981"]),
 ];
 
 /// The words an entry uses to say a thing was read, wherever it says it — four spellings, which
@@ -308,8 +310,18 @@ fn every_catalog_entry_is_classified() {
     assert_eq!(
         (listed, named.clone()),
         (
-            vec!["ags-forums.md", "ags-manual.md", "sci-inhouse-docs.md"],
-            vec!["ags-forums.md", "ags-manual.md", "sci-inhouse-docs.md"]
+            vec![
+                "ags-forums.md",
+                "ags-manual.md",
+                "ags-tracker.md",
+                "sci-inhouse-docs.md"
+            ],
+            vec![
+                "ags-forums.md",
+                "ags-manual.md",
+                "ags-tracker.md",
+                "sci-inhouse-docs.md"
+            ]
         ),
         "the entries with a document list, and the entries `READ` names"
     );

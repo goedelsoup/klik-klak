@@ -295,7 +295,7 @@ fn the_one_table_of_files_reads_its_directory() {
         .flatten()
         .filter(|e| e.path().extension().is_some_and(|x| x == "md"))
         .count();
-    assert_eq!(entries, 14, "files in the catalog");
+    assert_eq!(entries, 15, "files in the catalog");
     assert!(
         src.contains("a catalog entry with no row, or a row with no entry"),
         "`retrieval.rs` claims two entries have a document list and does not read the catalog"

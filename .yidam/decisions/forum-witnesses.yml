@@ -62,6 +62,11 @@ decision: |
 
   The 2009 request to mark options unread is an author caring that players miss content. It is not
   about content that cannot be reached. [verified]
+
+  *Since corrected.* The halt was the engine of 2011. AGS 3.5.1 (June 2021) ends a dialog with no
+  options left and logs a debug warning instead, because the maintainer read that state as an ending
+  authors expect. [verified] — [ags-tracker](../catalog/ags-tracker.md),
+  [maker-tracker](maker-tracker.yml).
 rationale: |
   **Why the first marker can close and the other two only narrow.** The first question asked whether
   something shipped, and the answer is a release, its limits, and a later statement that it was
