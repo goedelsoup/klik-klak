@@ -1,0 +1,71 @@
+id: latched-close
+summary: >-
+  latched-flag's question is closed. Every Sierra game measured splits into parts none wider than 7
+  in scored steps, LSL5's four wide acts and King's Quest III by room included. Counting the values
+  of the names those parts share, a check composed by part costs 2^8 to 2^17.5, against 2^37 to
+  2^111 for the same state checked whole. The 2–5 figure is not a design constant; the structure
+  the argument needs is there, and in the worst parts what costs is a shared position or counter,
+  not the width.
+context: |
+  [latched-flag](../corpus/world-flag/latched-flag.yml) asked whether design practice bounds the
+  number of puzzles open at once, so that a check summed over bottlenecks stays small. Six phases
+  narrowed it. [puzzle-width](puzzle-width.yml) found LSL5's acts 1 to 11 wide,
+  [house-width](house-width.yml) found the shape in three other AGI games, [pq-acts](pq-acts.yml)
+  and [pq-stops](pq-stops.yml) cut Police Quest's patrol into incidents none wider than 5, and
+  [larry-rooms](larry-rooms.yml) cut Larry by room into parts none wider than 6. What larry-rooms
+  left was LSL5's four wide acts, not cut further, and the size of the state the joins carry, which
+  no game had had counted.
+
+  `phase/latched-close` measured both on the clones already held
+  ([lsl5-source](../catalog/lsl5-source.md), [sierra-agi-source](../catalog/sierra-agi-source.md)),
+  and cut King's Quest III by room, the one AGI game left uncut.
+decision: |
+  **LSL5's wide acts split by room.** Hollywood is at most 4 wide in a room, New York 6, Baltimore
+  5 and Philadelphia 4. The whole game cut by room is 56 parts, none wider than 6, and the sum of
+  2^w is 214 to 296. [verified] The awards made from the inventory, with no room, are 15 wide
+  together and at most 1 wide item by item. [verified]
+
+  **King's Quest III splits the same way.** 67 steps in 36 rooms, no room wider than 7, the sum of
+  2^w 180 to 380. [verified]
+
+  **The state at the joins has been counted, and it is not small, but it is local.** At *k*=8 the
+  names a part reads that another part writes number 11 in Larry, 20 on Police Quest's street and
+  45 in King's Quest III, most of them binary. [verified] Counting each name's values from the
+  constants the source assigns it, a check composed by part costs 2^13 to 2^14 in Larry, 2^16.5 to
+  2^17.5 on the street and 2^14 to 2^15 in King's Quest III; abstracting each counter to the values
+  the source tests, 2^8 to 2^15. [verified] The same state checked as one part costs 2^37 to 2^111.
+  [verified] The value product is an upper bound: it counts every combination of the names a part
+  reads, reachable or not. [inference]
+
+  **What fails is the figure.** "Design practice bounds the width at 2–5" holds for some acts in
+  every game measured and for no game whole. [verified] It is not a constant of the house or of a
+  designer, and this corpus should not cite it as one. [inference]
+
+  **What holds is the structure.** All four Sierra games split into parts no wider than 7 in scored
+  steps, at a cut the source names: an act, an incident, a room. [verified] The argument in
+  latched-flag needed a sum over parts of something exponential in each part's width, and that is
+  what the measurements give. [inference]
+
+  **And the cost is the state, not the width.** In the worst part of each game, the felony stop on
+  Police Quest's street and the disco in Larry, the width is 2 to 5 and the cost comes from one or
+  two shared names: the player's position and a counter such as money. [verified] In a bounded
+  vocabulary, a position would be a region and money a counter with declared thresholds, so the
+  values a check must carry are the ones the author named. [inference]
+
+  The marker is closed. What is not done stays as residuals, not questions: Delores was not cut by
+  room; the value product was not reduced to reachable states; and because parts' widths sum to
+  more than the whole in Larry and LSL5, the parts are ordered across the cut, and a composed check
+  pays for that order at the joins. [inference]
+rationale: |
+  **Why close rather than narrow again.** The question was whether a game is tractable by parts.
+  Every game this corpus holds the source of has now been cut, and every one is. What a further
+  phase could add is a reachable-state count, which would tighten an upper bound that already
+  answers the question. [inference] The user asked for this phase to be taken to completion.
+
+  **Why count values from the source's constants.** A name assigned only a few constants holds only
+  those, plus its initial zero. A name with arithmetic is bounded by the largest value tested plus
+  one, or, abstracted, by the thresholds it is tested against. Both readings are reported because
+  the second is what a bounded vocabulary would declare. [inference]
+
+  **What was not done.** Delores was not cut by room. Nothing was checked against a playthrough.
+  The figures are the source's, not a run's.
