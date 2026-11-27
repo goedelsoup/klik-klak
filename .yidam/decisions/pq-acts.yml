@@ -41,6 +41,10 @@ decision: |
   and could each be a small bounded check, which would make the width a sum of small problems
   rather than one large one. The measurement would be the per-step flags each stop's awards read:
   if no award in one stop reads a flag another stop writes, the street act splits into its stops.
+
+  *Since narrowed.* [pq-stops](pq-stops.yml) made it. The test fails, since the stops share custody
+  and the car door, but the street's width is the sum of seven incidents, none wider than 5.
+  [verified] The patrol is wide in steps and narrow in state.
 rationale: |
   **Why regions and not stages.** Assigning a room to a stage needs the order in which the game
   sends the player there. In Police Quest that order is carried by the dispatcher, which counts down

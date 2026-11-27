@@ -151,6 +151,14 @@ description: |
   no game whole. [inference] What is left is whether a wide act is wide in state or only in steps:
   whether its independent parts, such as a patrol's separate traffic stops, split into small checks.
 
+  *Since narrowed.* They do, in steps ([sierra-agi-source](../../catalog/sierra-agi-source.md),
+  `.yidam/decisions/pq-stops.yml`). The street's 25 steps are seven incidents, three traffic stops
+  among them, none wider than 5, and the street's width is their sum. [verified] The incidents share
+  a few names, chiefly who is in custody and which call is active, so a check composed by incident
+  carries a small state across the joins. [inference] The sum over incidents of 2^w is 68 where the
+  street as one act is 2^18. [verified] What is left is whether such a cut exists in a game with no
+  act counter at all, Larry's 1987 game, which reads as one act 25 to 37 wide.
+
   **How many flags in a real game latch has its first evidence, and it points at *most*.** A
   shipped adventure game's save file is quoted in Thimbleweed Park's development diary, with real
   variable names in it ([twp-dev-diary](../../catalog/twp-dev-diary.md)). [verified] The
