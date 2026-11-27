@@ -175,6 +175,10 @@ does not re-emit it.
 
 - **:91** — **What this does not settle.** Whether a specimen should be revised to exercise a primitive it argued for. The document's own question, and it now has two instances rather than one — the watchman who moves in prose, and `exit`, which this document's argument built and none of the four games writes. …
 
+### [second-game-width](second-game-width.yml)
+
+- **:96** — **The question that remains is narrower again.** Not whether games have acts. This one does, and they are enforced. The question is whether an act's width *in puzzles* is small enough for the sum to stay cheap. The next reading is this game's hint book. The next measurement is the other Sierra sourc…
+
 ### [settled-surface](settled-surface.yml)
 
 - **:95** — **What this does not settle.** Whether an unsettled list should be a list at all. Three items here are struck through and kept, which makes the section a record of what was asked as well as what is open — good for a reader who wants the history and bad for one who wants the current state, since eigh…
@@ -224,7 +228,7 @@ does not re-emit it.
 - **:97** — Whether a runtime should be allowed to ask is a real question and is not answered here. A game that told the player *"you cannot win from here"* would be a different genre; one that quietly declined to let them reach the state would be a different design; one that shipped with the answer computed at…
 - **:111** — **And the second defect is the one worth carrying forward.** *"Selected in the state it fired from"* is a rule about ordering, and this vocabulary has exactly one construct where ordering inside a single transition is observable — a chain of forced bindings. [effect-list-semantics](effect-list-seman…
 
-**55 open.**
+**56 open.**
 
 ## What nothing cites
 

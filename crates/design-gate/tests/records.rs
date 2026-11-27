@@ -293,7 +293,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (814, 143, 89));
+    assert_eq!((total, mentions, tests.len()), (819, 143, 89));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -374,7 +374,7 @@ fn a_record_nothing_cites_is_named() {
          makes that the ordinary exit for a phase whose subject is this repository"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (99, 411));
+    assert_eq!((c.len(), edges), (100, 413));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -492,7 +492,7 @@ fn the_index_this_directory_never_had_is_current() {
         have, full,
         "the index is stale — REGEN=1 cargo test -p design-gate --test records"
     );
-    assert_eq!(total, 55, "live open questions in this directory");
+    assert_eq!(total, 56, "live open questions in this directory");
 }
 
 /// **What a record decided has never changed. What it owes changes constantly, and the two are
@@ -628,9 +628,14 @@ fn no_record_has_changed_what_it_decided() {
     // labelled rather than retried, and `ags-testimony` retrieved the testimony and closed one.
     // A *"Since corrected."* paragraph says so above the sentence it corrects, and the summary
     // did not move.
+    //
+    // The fifty-fourth is `measured-width`, the first kind: it declined to choose between three
+    // readings and named the game that would choose, and `second-game-width` measured one. The
+    // correction is a paragraph under the `[open]` rather than a rewrite of it, and the record that
+    // answered lands cited by the record it corrected, which is `or-earns-it`'s route.
     assert_eq!(
         edited,
-        53,
+        54,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

@@ -165,6 +165,9 @@ fn every_design_document_records_what_it_was_last_read_against() {
 /// reads and the document does not. What the check is for is the comparison against the
 /// watermarked document, not the number — and the comparison has widened, which is the direction
 /// the finding predicted.
+///
+/// Both documents gained `catalog/lsl5-source` in `second-game-width`, so the two premise counts
+/// rose together again, to twenty and seventeen, and the moved count to eighteen.
 #[test]
 fn the_second_document_rests_on_more_and_has_drifted_further() {
     let root = repo_root();
@@ -176,10 +179,10 @@ fn the_second_document_rests_on_more_and_has_drifted_further() {
         .to_string();
 
     let all = premises(&root, BARE);
-    assert_eq!(all.len(), 19, "premises the specimen document declares");
+    assert_eq!(all.len(), 20, "premises the specimen document declares");
     assert_eq!(
         premises(&root, WATERMARKED).len(),
-        16,
+        17,
         "against the document that got the watermark"
     );
 
@@ -209,7 +212,7 @@ fn the_second_document_rests_on_more_and_has_drifted_further() {
     }
     assert_eq!(
         moved.len(),
-        17,
+        18,
         "premises edited since this document was: {moved:?}"
     );
     assert!(

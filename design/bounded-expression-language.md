@@ -1,7 +1,7 @@
 ---
 title: A bounded expression language for authored interaction
 status: proposal
-reconciled: 3699c7169578f22136ec566a001efa64a8b5e644
+reconciled: dd182e19cc192d5444ae3358abdfbafb96f0dbb2
 rests_on:
   - .yidam/corpus/actor/player-character.yml
   - .yidam/corpus/data-format/interaction-table.yml
@@ -19,6 +19,7 @@ rests_on:
   - .yidam/catalog/ags-272-manual.md
   - .yidam/catalog/ags-source.md
   - .yidam/catalog/ags-forums.md
+  - .yidam/catalog/lsl5-source.md
 derives_effects_from:
   - interaction:sets
   - interaction:opens
@@ -892,6 +893,17 @@ or that anybody would enjoy writing in it.
   exhibited by the only shipped game available to check it against, and `.yidam/decisions/measured-width.yml`
   sets out why that is weaker than a refutation and much stronger than the silence it replaces.
   `[open]`
+
+  **A full-length game has the bottlenecks, and they are written as code.** *Leisure Suit Larry 5*
+  is eight acts, and its source closes each city when the player leaves it and opens the finale
+  only when two earlier acts are both done ([lsl5-source](../.yidam/catalog/lsl5-source.md)).
+  Its whole-game antichain is 191, and its act widths sum to 198. [verified] So a whole-game
+  antichain adds the act widths together, and Delores's 54 was never a width. The structure this
+  design's tractability rests on is in the only full-length game measured, and
+  `.yidam/decisions/second-game-width.yml` chooses that reading. What is not confirmed is the
+  figure: between gates the width is 3 to 35 units and up to 17 of the designer's scored steps,
+  against the prescribed two or three. The cost is a sum over acts of something exponential in
+  each act's width, and how wide an act is in puzzles is now the whole of the question. [inference]
 - **Nothing here is implemented as an engine**, and there is now somewhere for one to be. No
   engine reads this. It is exercised by five specimens and analysed by `crates/reachability`,
   which is a checker rather than a runtime — the analysis says a game *can* be finished, and

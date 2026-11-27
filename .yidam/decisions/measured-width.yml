@@ -86,3 +86,14 @@ rationale: |
   act when the game has no acts, and what a second, larger game would say. Thimbleweed Park's source
   is not public; its chart is blurred; and the one thing that would settle it is a full-length
   adventure whose source can be read. `[open]`
+
+  *Since corrected.* A full-length adventure's source has been measured
+  ([second-game-width](second-game-width.yml), [lsl5-source](../catalog/lsl5-source.md)), and it
+  chooses between the readings above. *Leisure Suit Larry 5* has eight acts behind gates its code
+  enforces, and its whole-game antichain, 191, is the sum of its act widths, 198, to within a few
+  units. [verified] So the first reading holds: a whole-game antichain measures the act widths added
+  together, and Delores's 54 says nothing against the acts model. The second is supported by one
+  game of each size. The third is rejected for the structure and stays open for the number, because
+  the width inside an act is 3 to 35 units, at most 17 of the designer's scored steps.
+  [inference] The sentence above saying the claim "depends on a structure that the only shipped game
+  available to it does not have" stays true of Delores and is no longer true of the corpus.

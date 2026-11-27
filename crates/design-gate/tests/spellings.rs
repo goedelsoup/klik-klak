@@ -275,7 +275,7 @@ fn the_geometry_check_publishes_what_its_phrasings_miss() {
 ///
 /// `retrieval.rs`'s `READ` named two catalog entries and the documents each records as read, under
 /// a header stating that *"two entries have a list at all"* — a claim about `.yidam/catalog/`, made
-/// without reading it. It reads it now: `SHAPE` covers all thirteen files and `READ` must name
+/// without reading it. It reads it now: `SHAPE` covers all fourteen files and `READ` must name
 /// exactly the two classified as a list.
 ///
 /// **It was offered as the pattern this phase would sweep and it is one instance.** The survey
@@ -295,7 +295,7 @@ fn the_one_table_of_files_reads_its_directory() {
         .flatten()
         .filter(|e| e.path().extension().is_some_and(|x| x == "md"))
         .count();
-    assert_eq!(entries, 13, "files in the catalog");
+    assert_eq!(entries, 14, "files in the catalog");
     assert!(
         src.contains("a catalog entry with no row, or a row with no entry"),
         "`retrieval.rs` claims two entries have a document list and does not read the catalog"

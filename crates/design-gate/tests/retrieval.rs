@@ -145,7 +145,8 @@ fn an_attempted_reading_that_failed_says_so() {
 /// whole, and there is nothing for a marker to name a part of — and that was a claim about
 /// `.yidam/catalog/` made without reading it until `.yidam/decisions/unread-spelling.yml`. `SHAPE`
 /// below covers the directory, so a twelfth source arriving with a list of documents inside it has
-/// to be classified rather than sliding past.
+/// to be classified rather than sliding past. `lsl5-source` is classified the way `delores-source`
+/// is: a repository retrieved whole at one commit, with its design documents inside it.
 /// Whether a catalog entry is one document or a list of them.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Shape {
@@ -172,6 +173,7 @@ const SHAPE: &[(&str, Shape)] = &[
     ("ags-source.md", Shape::OneDocument),
     ("delores-source.md", Shape::OneDocument),
     ("grumpy-gamer-pdc.md", Shape::OneDocument),
+    ("lsl5-source.md", Shape::OneDocument),
     ("sci-inhouse-docs.md", Shape::List),
     ("sci-specifications.md", Shape::OneDocument),
     ("scumm-v5-opcode-reference.md", Shape::OneDocument),
