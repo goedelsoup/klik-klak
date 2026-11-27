@@ -55,7 +55,7 @@ Sorted by: kind, then alphabetically.
 | [orphaned-dialogue-branch.yml](failure-mode/orphaned-dialogue-branch.yml) | failure-mode | Orphaned Dialogue Branch | 2 | 14v / 8i / 1o | 136 |
 | [unwinnable-state.yml](failure-mode/unwinnable-state.yml) | failure-mode | Unwinnable State | 4 | 4v / 5i / 0o | 96 |
 | [static-region.yml](hotspot/static-region.yml) | hotspot | Static Region | 2 | 23v / 9i / 0o | 221 |
-| [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 4v / 8i / 1o | 94 |
+| [acquisition-binding.yml](interaction/acquisition-binding.yml) | interaction | Acquisition Binding | 4 | 7v / 9i / 0o | 103 |
 | [binary-binding.yml](interaction/binary-binding.yml) | interaction | Binary Binding | 5 | 8v / 9i / 0o | 140 |
 | [consuming-binding.yml](interaction/consuming-binding.yml) | interaction | Consuming Binding | 6 | 4v / 3i / 0o | 103 |
 | [conversational-binding.yml](interaction/conversational-binding.yml) | interaction | Conversational Binding | 3 | 4v / 1i / 0o | 62 |
@@ -78,7 +78,7 @@ Sorted by: kind, then alphabetically.
 | [verb-menu.yml](subsystem/verb-menu.yml) | subsystem | Verb Menu | 3 | 8v / 3i / 0o | 99 |
 | [give-to.yml](verb/give-to.yml) | verb | Give To | 3 | 11v / 7i / 0o | 155 |
 | [look-at.yml](verb/look-at.yml) | verb | Look At | 2 | 5v / 5i / 0o | 81 |
-| [pick-up.yml](verb/pick-up.yml) | verb | Pick Up | 2 | 3v / 6i / 0o | 99 |
+| [pick-up.yml](verb/pick-up.yml) | verb | Pick Up | 2 | 4v / 6i / 0o | 104 |
 | [talk-to.yml](verb/talk-to.yml) | verb | Talk To | 2 | 4v / 5i / 0o | 82 |
 | [use-with.yml](verb/use-with.yml) | verb | Use With | 2 | 11v / 5i / 0o | 106 |
 | [walk-to.yml](verb/walk-to.yml) | verb | Walk To | 3 | 24v / 10i / 0o | 314 |
