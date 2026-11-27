@@ -222,6 +222,9 @@ fn the_specimen_census_is_what_the_documents_quote() {
 ///
 /// The 108th is `catalog/lsl5-source.md`, read when it was written, and for the same reason the
 /// 36 stays where it is.
+///
+/// The 109th is `catalog/ags-tracker.md`, read when it was written. It does not mention the
+/// specimens either.
 #[test]
 fn no_living_document_quotes_a_stale_specimen_figure() {
     let root = repo_root();
@@ -267,7 +270,7 @@ fn no_living_document_quotes_a_stale_specimen_figure() {
     );
     assert_eq!(
         (scanned, mentioning),
-        (108, 36),
+        (109, 36),
         "living documents read, and living documents that mention the specimens — the second is \
          what this check is a claim about, and a clean result over a shrinking denominator is not \
          the same result"

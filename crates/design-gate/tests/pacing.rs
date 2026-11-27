@@ -132,11 +132,13 @@ fn exactly_one_sink_in_the_build_holds_the_player() {
 /// Thirteen sources and not one says what a character is worth in seconds. That is why
 /// `engine/response-presenter` reaches for no `Duration` and invents no constant, and it is a fact
 /// about the evidence rather than about terminals.
+///
+/// Fourteen since `maker-tracker` added `ags-tracker`, an issue tracker, which states no rate either.
 #[test]
 fn no_source_in_the_catalog_states_a_reading_speed() {
     let root = repo_root();
     let names = sources(&root);
-    assert_eq!(names.len(), 13, "sources in the catalog");
+    assert_eq!(names.len(), 14, "sources in the catalog");
 
     let mut stating: Vec<&String> = Vec::new();
     for name in &names {

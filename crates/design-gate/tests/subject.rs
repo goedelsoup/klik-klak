@@ -172,11 +172,13 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 ///
 /// `forum-witnesses` is the 101st and the 53rd to cite a document: `catalog/ags-forums`, read again
 /// for eleven threads.
+///
+/// `maker-tracker` is the 102nd and the 54th: `catalog/ags-tracker`, the maintainers' issues.
 #[test]
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 101, "every record, in the order it was created");
+    assert_eq!(all.len(), 102, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -189,7 +191,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (53, 59, 45),
+        (54, 59, 45),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -466,12 +468,15 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
 /// entry was already in the house, but every thread it rests on was fetched for the first time,
 /// which is what this column means by new. Two re-readings, three retrievals, three needing no
 /// document.
+///
+/// `maker-tracker` pushes `dismissed-hold` out and is a fourth retrieval in a row, from a kind of
+/// document the house had not held: the AGS maintainers' tracker. One re-reading, four retrievals,
+/// three needing no document.
 #[test]
 fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("dismissed-hold", Some(false)),
         ("refused-duration", Some(false)),
         ("runtime-boundaries", None),
         ("one-toggle", None),
@@ -479,6 +484,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("ags-testimony", Some(true)),
         ("second-game-width", Some(true)),
         ("forum-witnesses", Some(true)),
+        ("maker-tracker", Some(true)),
     ];
 
     let root = repo_root();
@@ -519,7 +525,7 @@ fn the_last_eight_phases_mostly_re_read() {
     let fresh = RECENT.iter().filter(|(_, r)| *r == Some(true)).count();
     assert_eq!(
         (doc, fresh, doc - fresh),
-        (5, 3, 2),
+        (5, 4, 1),
         "phases resting on a document, on one newly retrieved, and on one already in the house"
     );
 }

@@ -282,12 +282,15 @@ const STALE: &[(Behind, &str, &str, &str)] = &[
 /// Four. `forum-witnesses` is the 80th record and adds three pairs, to the three nodes whose AGS
 /// markers it narrowed or answered — `prior-art/ags`, `acquisition-binding` and
 /// `orphaned-dialogue-branch` — each revised in the same phase. 31 of 250.
+///
+/// One. `maker-tracker` is the 81st and adds one pair, to `orphaned-dialogue-branch`, the node whose
+/// marker it narrowed, revised in the same phase. 31 of 251.
 #[test]
 fn the_reading_covered_every_linked_pair() {
     let p = pairs(&repo_root());
     let records: BTreeSet<_> = p.iter().map(|(r, _)| r).collect();
     let nodes: BTreeSet<_> = p.iter().map(|(_, n)| n).collect();
-    assert_eq!((p.len(), records.len(), nodes.len()), (250, 80, 46));
+    assert_eq!((p.len(), records.len(), nodes.len()), (251, 81, 46));
 }
 
 /// **The pairs were not the whole of it.** The same stale fact written a second time, in a node no

@@ -42,6 +42,9 @@ checks, so it shows what they treated as a problem.
 
 ## What was read
 
+Issues #1134 and #2981 with their comments, commit 197d5ac, the 3.5.1 changelog section, and two
+files from the ags4 branch, each read in full here.
+
 **Searches.** GitHub issue search over the repository, which held about 3,200 issues and pull
 requests when read. All 37 issues with "dialog" in the title were listed. Searches for
 "unreachable", "dead code", "never shown", "option state", "OptionOffForever", "eOptionOffForever" and

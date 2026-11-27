@@ -296,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (826, 143, 89));
+    assert_eq!((total, mentions, tests.len()), (833, 143, 89));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -379,7 +379,10 @@ fn a_record_nothing_cites_is_named() {
     let edges: usize = c.values().map(|v| v.len()).sum();
     // `forum-witnesses` is the 101st and adds two edges: it cites `ags-testimony`, and
     // `ags-testimony`'s narrowing paragraph cites it back on the day it lands.
-    assert_eq!((c.len(), edges), (101, 415));
+    //
+    // `maker-tracker` is the 102nd and adds four: it cites `testimony`, `ags-testimony` and
+    // `forum-witnesses`, and `forum-witnesses`'s correction cites it back on the day it lands.
+    assert_eq!((c.len(), edges), (102, 419));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -642,9 +645,13 @@ fn no_record_has_changed_what_it_decided() {
     // The fifty-fifth is `ags-testimony`, the same kind and the same route: it narrowed two AGS
     // questions and listed the leads unread, and `forum-witnesses` read them. A *"Since narrowed."*
     // paragraph follows the rationale, and the summary did not move.
+    //
+    // The fifty-sixth is `forum-witnesses`, the second kind: it called the all-off halt the one
+    // dialog reachability condition AGS checks, and `maker-tracker` found that 3.5.1 made it a
+    // warning. A *"Since corrected."* paragraph follows the sentence, and the summary did not move.
     assert_eq!(
         edited,
-        55,
+        56,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()
