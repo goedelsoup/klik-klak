@@ -1,0 +1,49 @@
+id: ags-pickups
+summary: >-
+  acquisition-binding's question is closed. Authors pay for AGS's missing pickup bundle in
+  instruction and in debugging, as the forum showed. In the scripts of the games they released,
+  no pickup leaves the object pickable: 24 object pickups in eleven games either hide the object or
+  keep it on purpose, and every hotspot pickup tests first. The bundle the engine leaves out is
+  written by hand at every site, and no game wrote a helper for it.
+context: |
+  [acquisition-binding](../corpus/interaction/acquisition-binding.yml) asked whether AGS authors
+  pay for `AddInventory` adding the item and nothing else. [ags-testimony](ags-testimony.yml) found
+  the pair taught as a recipe, and [forum-witnesses](forum-witnesses.yml) found beginners leaving
+  out the hide, every time caught on the forum before release. What it left was whether the window
+  ships, and it said a beginners' board was the wrong place to look.
+
+  The window is in the script, so released scripts are the place. `phase/ags-pickups` read the
+  script files of twelve AGS games published on GitHub ([ags-game-sources](../catalog/ags-game-sources.md)):
+  eight that say they were released, three that do not say, and one template, which was not
+  counted.
+decision: |
+  **No shipped pickup leaves the object pickable.** The eight released games hold 16 object
+  handlers that add an item, and the three others 8. 20 of the 24 hide the object in the same
+  function, and one through a helper it calls. [verified] The other three keep the object on
+  purpose: a cup bought from a stack the room keeps, and the laces taken from two pairs of boots,
+  each behind a flag. [verified] With none in 24, a rate above about one pickup in eight would be
+  unlikely to show none. [inference]
+
+  **The precondition is written by hand wherever the hide does not enforce it.** 11 of the 20
+  hiding handlers test nothing first, and need not: a hidden object cannot be clicked again.
+  [inference] All 12 hotspot pickups test a flag or `HasInventory` before adding, and one also
+  disables its hotspot. [verified]
+
+  **Nobody wrote the bundle.** No game has a helper that hides an object and adds an item. The one
+  helper found only hides. [verified]
+
+  So the cost the node predicted is real and is paid before release: in the forum's instruction, in
+  beginners' debugging, and in the pair written out again at every pickup in every game read. The
+  window does not reach players in this sample. [inference]
+rationale: |
+  **Why close rather than narrow again.** The question was whether AGS authors pay for the missing
+  bundle. The forum showed the payment in instruction and debugging, and the released scripts show
+  where it stops: at the author, who writes both halves every time. A larger sample could still
+  find a shipped instance. It would not change what the node draws from this, which is that the
+  bundle is an operation authors perform and the engine does not, and so belongs in the vocabulary.
+  [inference]
+
+  **What is not done stays as residuals.** Twelve small games are not the AGS catalogue. Players'
+  bug reports in the forum's *Completed Game Announcements* board were not read, because the forum
+  rate-limits automated reading. An object hidden in a separate room event was not looked for,
+  because no handler needed one.
