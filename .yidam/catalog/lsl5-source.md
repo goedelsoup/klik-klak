@@ -181,6 +181,28 @@ lists its questions with graded answers, and no question says what it depends on
 a place a player got stuck, and some are jokes, so this is a count of stuck points by act, not a
 width.
 
+## The wide acts by room
+
+`phase/latched-close` cut the four acts wider than 5 by the room that awards each step, on the same
+order and the same four readings. A room number below is the room's script. [verified]
+
+| Act | steps | act's width | rooms | widest room | rooms' widths summed | sum of 2^w |
+|---|---|---|---|---|---|---|
+| Hollywood | 11 | 9 | 4 | 4 (room 170, 5 steps) | 10 | 30 |
+| New York | 15 | 7–8 | 5 | 6 (room 535, 6 steps) | 10–11 | 72–74 |
+| Baltimore | 13 | 3–11 | 3 | 1–5 (rooms 640 and 660) | 3–11 | 6–66 |
+| Philadelphia | 17 | 5–7 | 4 | 2–4 (room 890) | 5–7 | 10–22 |
+
+**No room in a wide act is wider than 6.** [verified] Baltimore's and Philadelphia's widths are the
+sum of their rooms'. Hollywood's and New York's are one to four less, so a few steps in different
+rooms are ordered. [verified]
+
+**The whole game cuts the same way.** Sixteen of the 124 steps are awarded outside any room, 13 in
+the inventory script and 3 in the camcorder charger's, and as one group they are 15 wide. Cut by
+the item that awards them, none is wider than 1. Over the whole game, by room and by item, that is
+56 parts, none wider than 6, and a sum of 2^w of 214 to 296, against a whole-game width of 49 to
+70. The parts' widths add up to 75 to 90, so the parts are ordered across the cut. [verified]
+
 ## What this does not say — read this before citing
 
 - **Units over-count puzzles.** A binding that reads a flag to choose a reply is a unit, and so is a
