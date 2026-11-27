@@ -184,11 +184,14 @@ fn seven_phases_put_five_percent_of_their_lines_in_the_corpus() {
 ///
 /// `pq-stops` is the 106th and the 58th: `catalog/sierra-agi-source` a third time, the patrol by
 /// incident.
+///
+/// `larry-rooms` is the 107th and the 59th: `catalog/sierra-agi-source` a fourth time, Larry by
+/// room.
 #[test]
 fn the_evidence_each_record_rests_on() {
     let root = repo_root();
     let all = records(&root);
-    assert_eq!(all.len(), 106, "every record, in the order it was created");
+    assert_eq!(all.len(), 107, "every record, in the order it was created");
 
     let (mut document, mut engine, mut gate, mut alone, mut neither) = (0, 0, 0, 0, 0);
     for rel in &all {
@@ -201,7 +204,7 @@ fn the_evidence_each_record_rests_on() {
     }
     assert_eq!(
         (document, engine, gate),
-        (58, 59, 45),
+        (59, 59, 45),
         "records citing a document, the engine crates, and the gate — they overlap"
     );
     assert_eq!(
@@ -494,12 +497,14 @@ fn the_run_of_records_that_needed_no_document_is_broken() {
 ///
 /// `pq-stops` pushes `edge-policy` out and re-reads the same clone again. Three re-readings and five
 /// retrievals, and every one of the eight rests on a document.
+///
+/// `larry-rooms` pushes `ags-testimony` out and re-reads the same clone a fourth time. Four
+/// re-readings and four retrievals.
 #[test]
 fn the_last_eight_phases_mostly_re_read() {
     /// Each of the last eight records, and whether the document it rests on was new to this
     /// repository when the phase opened. `None` where the phase rested on no document.
     const RECENT: [(&str, Option<bool>); 8] = [
-        ("ags-testimony", Some(true)),
         ("second-game-width", Some(true)),
         ("forum-witnesses", Some(true)),
         ("maker-tracker", Some(true)),
@@ -507,6 +512,7 @@ fn the_last_eight_phases_mostly_re_read() {
         ("house-width", Some(true)),
         ("pq-acts", Some(false)),
         ("pq-stops", Some(false)),
+        ("larry-rooms", Some(false)),
     ];
 
     let root = repo_root();
@@ -547,7 +553,7 @@ fn the_last_eight_phases_mostly_re_read() {
     let fresh = RECENT.iter().filter(|(_, r)| *r == Some(true)).count();
     assert_eq!(
         (doc, fresh, doc - fresh),
-        (8, 5, 3),
+        (8, 4, 4),
         "phases resting on a document, on one newly retrieved, and on one already in the house"
     );
 }
