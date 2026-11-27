@@ -1,7 +1,7 @@
 ---
 title: what the specimens found
 status: proposal
-reconciled: 7aaeab17426e5bdc88caded2fd5ba10ad5ad1af3
+reconciled: 2bea1de27d567431125bb7970c40f1f967a4eca3
 rests_on:
   - design/bounded-expression-language.md
   - .yidam/corpus/actor/player-character.yml
