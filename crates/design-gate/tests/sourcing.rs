@@ -126,6 +126,9 @@ fn rests(src: &str) -> Rests {
 /// And from 148 to 150 when `pq-stops` narrowed it a fifth time from the same entry: two
 /// catalog-sourced claims, the incident widths and their sum.
 ///
+/// And from 152 to 155 when `latched-close` closed it from `catalog/lsl5-source` and
+/// `catalog/sierra-agi-source`: three catalog-sourced claims, the cuts by room and the composed cost.
+///
 /// The catalog is not the remedy. An entry for `crates/` would silence `verified-unsourced` on
 /// every node at once, which is the unearned silencing the four nodes below documented, applied
 /// globally and on purpose. `.yidam/decisions/evidence-kinds.yml`.
@@ -151,7 +154,7 @@ fn the_instrument_is_a_kind_of_evidence_the_register_has_no_slot_for() {
     assert_eq!(
         total,
         Rests {
-            catalog: 152,
+            catalog: 155,
             instrument: 66,
             both: 6,
             carried: 182,
