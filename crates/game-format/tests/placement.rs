@@ -170,3 +170,75 @@ fn the_mutation_that_made_the_checker_quieter_is_now_refused() {
         "{msgs:?}"
     );
 }
+
+/// **The other direction: what else may hand the item over.** `.yidam/decisions/one-place.yml`.
+///
+/// The checks above hold that a hotspot standing for an item gives it. Nothing asked whether
+/// anything *else* did, and when something does, the item is in two places at once — carried,
+/// and still lying in the room offering itself. The rule is the item's: a single item that has a
+/// carried form is given by that form and nowhere else.
+#[test]
+fn a_single_item_given_anywhere_but_where_it_lies_is_reported() {
+    let p = game(&format!(
+        "{GOOD}\
+         \x20 hotspot till \"a till\"\n\
+         \x20   pick-up:\n\
+         \x20     do    give coin\n"
+    ));
+    assert!(
+        p.iter().any(
+            |m| m.contains("gives `coin`, which is one thing") && m.contains("hall.loose-coin")
+        ),
+        "the coin lies under the stone and comes out of the till as well; got {p:?}"
+    );
+}
+
+/// The shape the question was asked about, and the one it would have caught.
+#[test]
+fn a_hotspot_handing_over_what_another_hotspot_stands_for_is_reported() {
+    let p = game(&format!(
+        "{GOOD}\
+         \x20     do    give lantern\n\
+         \x20 hotspot hook \"a lantern on a hook\"\n\
+         \x20   is lantern\n\
+         \x20   pick-up:\n\
+         \x20     do    give lantern\n"
+    ));
+    assert!(
+        p.iter()
+            .any(|m| m.contains("gives `lantern`, which is one thing")),
+        "{p:?}"
+    );
+}
+
+/// **And the broad rule, refused.** A hotspot that stands for one thing may hand over another
+/// that stands nowhere: picking up a coat and finding a key in its pocket is one place for each.
+#[test]
+fn a_hotspot_may_hand_over_something_that_lies_nowhere_else() {
+    let p = game(&format!("{GOOD}\x20     do    give lantern\n"));
+    assert!(p.is_empty(), "{p:?}");
+}
+
+/// A counted item is many things by declaration. `ferry.game`'s jar gives three coins beside a
+/// loose one, and that is the specimen this exemption keeps.
+#[test]
+fn a_counted_item_may_come_from_more_than_one_place() {
+    let source = "room  hall \"The Hall\"\n\
+                  item  coin 0..4 \"a coin\"\n\
+                  \n\
+                  room hall\n\
+                  \x20 start\n\
+                  \x20 hotspot loose-coin \"a coin under a stone\"\n\
+                  \x20   is coin\n\
+                  \x20   pick-up:\n\
+                  \x20     do    give coin\n\
+                  \x20 hotspot jar \"a jar\"\n\
+                  \x20   pick-up:\n\
+                  \x20     do    give coin 3\n\
+                  \x20 hotspot door \"the door\"\n\
+                  \x20   walk-to:\n\
+                  \x20     ending\n";
+    let (mut g, mut p) = parse(source, "fixture.game");
+    p.extend(resolve(&mut g));
+    assert!(p.is_empty(), "{p:?}");
+}

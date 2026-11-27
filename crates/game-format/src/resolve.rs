@@ -347,6 +347,37 @@ pub fn resolve(game: &mut Game) -> Vec<Problem> {
         }
     }
 
+    // **And the other direction: an item that is one thing is in one place.** The check above
+    // holds that the hotspot an item stands for hands it over. It never asked whether anything
+    // *else* does, and when something does the item is in two places: the player carries it
+    // and its hotspot is still in the room, offering it again. Twenty such mutations of the
+    // specimens all resolved without a word, and four of them made a stranding smaller — the
+    // direction the check above was written against. The rule is the item's, not the
+    // hotspot's: a coat that gives the key in its pocket is one place for each, and a jar of
+    // coins beside a loose coin is a counted item, which is many things by declaration.
+    // `.yidam/decisions/one-place.yml`.
+    for b in &game.bindings {
+        for e in &b.effects {
+            let Effect::Give(x, _) = e else { continue };
+            if game.item_cap.get(x).copied().unwrap_or(1) > 1 {
+                continue;
+            }
+            let Some((hotspot, _)) = game.carried_form.iter().find(|(_, i)| *i == x) else {
+                continue;
+            };
+            let here = matches!(&b.site, Site::InRoom { target, .. } if target == hotspot);
+            if !here {
+                out.push(Problem {
+                    line: b.line,
+                    message: format!(
+                        "this gives `{x}`, which is one thing and stands in the room as \
+                         `{hotspot}`, so the player would carry it while it is still there"
+                    ),
+                });
+            }
+        }
+    }
+
     dead_writes(game, &mut out);
     unreachable_values(game, &mut out);
     ambiguous_cells(game, &mut out);
