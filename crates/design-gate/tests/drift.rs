@@ -285,12 +285,15 @@ const STALE: &[(Behind, &str, &str, &str)] = &[
 ///
 /// One. `maker-tracker` is the 81st and adds one pair, to `orphaned-dialogue-branch`, the node whose
 /// marker it narrowed, revised in the same phase. 31 of 251.
+///
+/// And `puzzle-width`, the 82nd, adds one, to `latched-flag`, whose marker it narrowed in the same
+/// phase. 31 of 252.
 #[test]
 fn the_reading_covered_every_linked_pair() {
     let p = pairs(&repo_root());
     let records: BTreeSet<_> = p.iter().map(|(r, _)| r).collect();
     let nodes: BTreeSet<_> = p.iter().map(|(_, n)| n).collect();
-    assert_eq!((p.len(), records.len(), nodes.len()), (251, 81, 46));
+    assert_eq!((p.len(), records.len(), nodes.len()), (252, 82, 46));
 }
 
 /// **The pairs were not the whole of it.** The same stale fact written a second time, in a node no

@@ -114,6 +114,9 @@ fn rests(src: &str) -> Rests {
 /// `catalog/ags-tracker`: one catalog-sourced claim and two carried ones, from the maintainers'
 /// issues and the source they changed.
 ///
+/// And from 143 to 144 when `puzzle-width` narrowed `latched-flag` again from `catalog/lsl5-source`:
+/// one catalog-sourced claim, the width in scored steps per act.
+///
 /// The catalog is not the remedy. An entry for `crates/` would silence `verified-unsourced` on
 /// every node at once, which is the unearned silencing the four nodes below documented, applied
 /// globally and on purpose. `.yidam/decisions/evidence-kinds.yml`.
@@ -139,7 +142,7 @@ fn the_instrument_is_a_kind_of_evidence_the_register_has_no_slot_for() {
     assert_eq!(
         total,
         Rests {
-            catalog: 143,
+            catalog: 144,
             instrument: 66,
             both: 6,
             carried: 182,
