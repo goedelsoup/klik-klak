@@ -22,6 +22,12 @@ context: |
   none producing it** — the Adventure Classic Gaming interview with Chris Jones, which covers 3.0
   as "a complete re-write of the editor" and never mentions the Interaction Editor, and two forum
   searches returning the manual's removal note and nothing behind it. [verified]
+
+  *Since closed, all three.* [ags-testimony](ags-testimony.yml) closed the Interaction Editor
+  question by finding the testimony. [ags-pickups](ags-pickups.yml) and
+  [ags-dialogs](ags-dialogs.yml) closed the other two from released games' scripts instead. Both
+  asked what authors experienced, and in both cases an experienced cost would leave its trace in
+  the script or its history, and those could be read.
 decision: |
   **These are not unanswerable and they are not retrieval failures. They are a source-type gap, and
   it is on one side.** Sorting the eight catalogued sources by what they are rather than what they

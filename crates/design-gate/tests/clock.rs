@@ -152,11 +152,15 @@ fn ages(root: &Path) -> Vec<(String, usize)> {
 /// So the anchor is gone and what is held instead is two things: that no marker in the corpus is
 /// genesis prose any more, and which marker is now the oldest. The first is the durable half. The
 /// second will move again, and moving is what it is for.
+///
+/// **It moved to nothing.** `ags-dialogs` closed `failure-mode/orphaned-dialogue-branch`'s
+/// question, the last one the corpus carried, so no marker is the oldest. A question asked later
+/// is young by construction, and the assertion below names what it would mean if one were found.
 #[test]
 fn the_oldest_open_question_is_no_longer_the_one_asked_at_genesis() {
     let root = repo_root();
     let genesis = git(&root, &["rev-list", "--max-parents=0", "HEAD"]);
-    let (name, line) = asking(&root)
+    let oldest = asking(&root)
         .into_iter()
         .map(|(p, line)| {
             let (sha, age) = written(&root, &p, line);
@@ -171,20 +175,23 @@ fn the_oldest_open_question_is_no_longer_the_one_asked_at_genesis() {
                     .into_owned(),
                 (sha, line),
             )
-        })
-        .expect("nine questions");
-    assert_ne!(
-        line.0.as_str(),
-        genesis.as_str(),
-        "a marker line blamed on the root commit — the genesis question is back, or was reopened"
-    );
+        });
+    if let Some((_, (sha, _))) = &oldest {
+        assert_ne!(
+            sha.as_str(),
+            genesis.as_str(),
+            "a marker line blamed on the root commit — the genesis question is back, or was reopened"
+        );
+    }
     // `world-flag/latched-flag.yml` until `latched-close` closed it by measuring, then
     // `interaction/acquisition-binding.yml` until `ags-pickups` closed it by reading released
-    // scripts.
+    // scripts, then `failure-mode/orphaned-dialogue-branch.yml` until `ags-dialogs` closed it by
+    // reading released games' dialogs and their histories.
     assert_eq!(
-        name.as_str(),
-        "failure-mode/orphaned-dialogue-branch.yml",
-        "the oldest surviving question"
+        oldest.map(|(name, _)| name),
+        None,
+        "a corpus question again, after `ags-dialogs` closed the last — asked by a phase, or \
+         reopened, and either is a reason to name it here"
     );
 }
 
@@ -212,8 +219,13 @@ fn the_oldest_open_question_is_no_longer_the_one_asked_at_genesis() {
 ///
 /// **One, and the second was a closure.** `ags-pickups` answered
 /// `interaction/acquisition-binding`'s question from eleven AGS games' released scripts.
+///
+/// **None, and the last was a closure.** `ags-dialogs` answered
+/// `failure-mode/orphaned-dialogue-branch`'s from six released games' dialogs and their histories.
+/// The count only grows except by a closure, and from zero the only movement left is a question
+/// asked, which is young, so past the interval is empty until the interval has passed again.
 #[test]
-fn the_corpus_has_questions_past_the_interval_it_declared() {
+fn the_corpus_had_questions_past_the_interval_it_declared() {
     let root = repo_root();
     let interval = interval(&root);
     let ages = ages(&root);
@@ -223,9 +235,8 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
         .map(|(n, _)| n.as_str())
         .collect();
     assert!(
-        !past.is_empty(),
-        "fewer questions past {interval} than when this was written, which means one was answered \
-         or one was reworded — and only one of those is a reason to lower the number here"
+        past.is_empty(),
+        "a question past {interval} in a corpus that held none when this was written: {past:?}"
     );
     assert!(
         !past.contains(&"actor/player-character.yml")
@@ -280,14 +291,16 @@ fn the_corpus_has_questions_past_the_interval_it_declared() {
 /// **Two now.** `latched-close` closed `world-flag/latched-flag`'s.
 ///
 /// **One now.** `ags-pickups` closed `interaction/acquisition-binding`'s.
+///
+/// **None now.** `ags-dialogs` closed `failure-mode/orphaned-dialogue-branch`'s, the last.
 #[test]
 fn the_report_ties_five_questions_the_history_keeps_apart() {
     let root = repo_root();
     let computed: Vec<usize> = ages(&root).into_iter().map(|(_, a)| a).collect();
     assert_eq!(
         (computed.len(), REPORTED.len()),
-        (1, 9),
-        "the corpus against the reading `REPORTED` holds: seven closures, one question asked, and \
+        (0, 9),
+        "the corpus against the reading `REPORTED` holds: eight closures, one question asked, and \
          one reopened by `unread-specimen` when the census that closed it turned out to have been \
          reading four of five specimens"
     );
@@ -302,8 +315,8 @@ fn the_report_ties_five_questions_the_history_keeps_apart() {
     };
     assert_eq!(
         (widest(&REPORTED), widest(&computed)),
-        // a group of one now: the history cannot tie a single question with anything
-        (5, 1),
+        // no group at all now: the corpus holds no question for the history to tie
+        (5, 0),
         "the largest group the report calls the same age, against the largest the history wrote \
          together"
     );
@@ -377,8 +390,9 @@ fn every_figure_the_config_states_about_this_clock_is_computed_here() {
         (figure("% of what is owed"), corpus * 100 / (corpus + owed)),
         // 5 when `forum-witnesses` closed `prior-art/ags`'s question and the corpus held three;
         // 3 when `latched-close` closed `latched-flag`'s and it held two; 1 when `ags-pickups`
-        // closed `acquisition-binding`'s and it held one.
-        (1, 1),
+        // closed `acquisition-binding`'s and it held one; 0 when `ags-dialogs` closed
+        // `orphaned-dialogue-branch`'s and it held none.
+        (0, 0),
         "the share the config claims, against the share"
     );
 }

@@ -25,8 +25,9 @@
 # first time a corpus question has ever been closed here and the one movement in the
 # figures below that is a numerator falling. The oldest surviving marker was
 # `world-flag/latched-flag.yml`'s until `latched-close` closed it, then
-# `interaction/acquisition-binding.yml`'s until `ags-pickups` closed that, and is now
-# `failure-mode/orphaned-dialogue-branch.yml`'s; the anchor this clock's gauge was written against
+# `interaction/acquisition-binding.yml`'s until `ags-pickups` closed that, then
+# `failure-mode/orphaned-dialogue-branch.yml`'s until `ags-dialogs` closed that, and none is
+# left; the anchor this clock's gauge was written against
 # is gone — an event that does not decay, until it happens.
 #
 # So the gauge is `crates/design-gate/tests/clock.rs`, which ages a question by the commit
@@ -36,9 +37,9 @@
 # one correct then and stale since. `.yidam/decisions/unread-clock.yml`.
 #
 # What it covers is a fifth. `yidam open-questions` walks `.yidam/corpus/` and nothing
-# else, so this clock watches 1 marker while 56 sit in `.yidam/decisions/`; the larger
+# else, so this clock watches 0 markers while 56 sit in `.yidam/decisions/`; the larger
 # share is listed in `.yidam/decisions/README.md` and is invisible to every yidam
-# command. A green `due` here is a statement about 1% of what is owed, on this
+# command. A green `due` here is a statement about 0% of what is owed, on this
 # denominator and on the wider one `crates/design-gate/tests/pages.rs` uses. It fell 17,
 # 16, 15, 14, 13, 12 without a corpus question ever being closed, rose once when
 # `.yidam/decisions/verb-names.yml` answered one of `authored-text`'s two, and fell back.
@@ -119,6 +120,14 @@
 # on testimony. The window it predicted is in a game's script, so released scripts could show it.
 # `.yidam/decisions/ags-pickups.yml` read eleven games' and found no shipped pickup that leaves
 # the object pickable. The corpus holds one.
+#
+# **None, and the last testimony question closed by reading for its traces.**
+# `failure-mode/orphaned-dialogue-branch` asked whether AGS authors experienced an orphaned
+# option as a loss. A felt loss leaves a thread, a request or a fix, and
+# `.yidam/decisions/ags-dialogs.yml` read the games and 71 commits of their histories and found
+# none, including in the one that ships eleven. The corpus holds no question for the first time
+# since genesis, so this clock watches nothing and all of what is owed is in the records.
+#
 # **It has fired, and what it reports is one of four things.** `due` called nothing past this
 # interval for this repository's whole life and now calls five of nine — and three of those five
 # are waiting on testimony no artifact supplies, which is a condition nobody can clear. A clock
