@@ -92,12 +92,17 @@ fn talking(root: &Path) -> Vec<String> {
 /// load-bearing in fifteen arguments rather than the four a record claimed, and the reason nobody
 /// could count it is that `effect-list-semantics` decides two things and its citations name the
 /// record instead of the line. `crates/design-gate/tests/refused.rs`.
+///
+/// **The twenty-third is `forced-order`, and it is the word refused once more.** A chain of forced
+/// bindings shows the player its lines in order, and `walked-in` asked whether that order was
+/// duration nobody had decided on. It is not: the turn's state is settled before the first line is
+/// shown, so the order belongs to the presenter and the state model has no instant between them.
 #[test]
 fn duration_is_the_presenters_and_the_state_model_is_free_of_it() {
     let root = repo_root();
     assert_eq!(
         talking(&root).len(),
-        22,
+        23,
         "files that say the word — this record is one"
     );
 
