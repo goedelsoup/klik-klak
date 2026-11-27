@@ -1,0 +1,7 @@
+format_version: 1
+phase: forum-witnesses
+type: Investigation
+input:
+  commit: 327f7a131e8472472b54ea1feb83735ba69ce88e
+  manifest_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  config_sha256: 1b108ac24b9359124aa6f387e483142bb42b374b7c7b68fa10f04abb57018d55

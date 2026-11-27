@@ -43,6 +43,19 @@ description: |
   entry. `.yidam/decisions/ags-testimony.yml` records the reading; this is the marker for
   it and [verb/pick-up](../verb/pick-up.yml) points here rather than carrying a second. `[open]`
 
+  *Since narrowed.* The threads listed unread have been read
+  ([ags-forums](../../catalog/ags-forums.md), `.yidam/decisions/forum-witnesses.yml`), and they
+  show authors forgetting the pair. In 2010 and 2012 a beginner's pickup adds the item and never
+  hides the room object. In 2020 both halves are written, the undo too, and they come apart: a
+  second `AddInventory` elsewhere leaves the item held while the object is back in the room.
+  [verified] Khris, answering in 2010, gives the reason in the terms this node uses: room objects
+  and inventory items "are two completely seperate things as far as the engine is concerned; the
+  idea that both represent the same object in the game world is in the designer's mind only."
+  [verified] That is `carried-form-of` named as the relation AGS does not hold. [inference] Every
+  instance was caught on the forum, before release. So authors pay for the missing bundle in
+  debugging. Whether the window ships is still not shown, and a beginners' board is the wrong
+  place to look for it. [inference]
+
   **The ontology's inability to express the second write turned out to be this node counting
   wrong.** A specimen marked the removal unsayable, and the weighing that followed found there is
   no second write: `inventory-item` is typed a UFO **role**, and `carried-form-of` names the

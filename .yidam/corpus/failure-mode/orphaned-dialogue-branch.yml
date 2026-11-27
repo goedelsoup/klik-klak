@@ -98,6 +98,22 @@ properties:
     nobody meets, and it is equally what a mode nobody suffered would look like. [inference]
     `.yidam/decisions/ags-testimony.yml` records the attempt, and the kind of question is named at
     `.yidam/decisions/testimony.yml`. `[open]`
+
+    *Since narrowed.* More dialog threads have been read here
+    ([ags-forums](../../catalog/ags-forums.md), `.yidam/decisions/forum-witnesses.yml`), and they
+    found an instance rather than a witness. In a 2004 worked example given to a beginner, one
+    option turns option 14 off forever and then on in the next line. The only code that enables
+    option 15 is run by option 14, so option 15's line is reached by no path. Nobody in the thread
+    mentions it. [inference] — read from the posted script against the manual's documented
+    permanence; it was not run. It is this node's mechanism exactly: a permanent off, written at
+    one site, removing content that the file still shows.
+
+    The dialog failures authors do report are the visible ones. A missing `return` that gives the
+    player extra options gets a thread. So does AGS halting when every option is off, the one
+    reachability condition the engine checks itself, at run time. [verified] One author asked to
+    mark options unread again, so that players would know new content was there. That is caring
+    about content players miss, though none of it was unreachable. [verified] Whether anyone felt
+    an orphaned option as a loss has still not been shown.
 links:
   - target: ../conversation/branching-tree.yml
     relationship: arises-from

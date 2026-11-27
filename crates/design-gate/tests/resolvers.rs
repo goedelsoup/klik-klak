@@ -94,7 +94,6 @@ const KINDS: &[(&str, Closes)] = &[
         Closes::Testimony,
     ),
     ("interaction/acquisition-binding.yml", Closes::Testimony),
-    ("prior-art/ags.yml", Closes::Testimony),
     ("world-flag/latched-flag.yml", Closes::Condition),
 ];
 
@@ -188,6 +187,12 @@ fn the_table_covers_every_question() {
 /// asks for it. No new evidence arrived. Two later decisions had already answered it, and nobody had
 /// read the marker against them. So "not one will close by anybody doing anything" was wrong for a
 /// condition: a condition can be overtaken, and the way to find that out is to re-read it.
+///
+/// **And a testimony question closed, which this table also said would not happen.**
+/// `prior-art/ags` asked whether a tool had shipped, and that turned out to be a question about an
+/// artifact asked of testimony: `.yidam/decisions/forum-witnesses.yml` read the release thread and
+/// a later statement that the tool was never finished. The two left in the column ask what authors
+/// experienced, and the same reading narrowed them without closing either.
 #[test]
 fn every_question_says_what_would_close_it() {
     let root = repo_root();
@@ -207,7 +212,7 @@ fn every_question_says_what_would_close_it() {
             count(Closes::Measurement),
             count(Closes::Judgement),
         ),
-        (3, 0, 1, 0, 0, 0),
+        (2, 0, 1, 0, 0, 0),
         "testimony, a named artifact, a condition that would reopen it, a game, a count, and a \
          decision somebody has to take"
     );

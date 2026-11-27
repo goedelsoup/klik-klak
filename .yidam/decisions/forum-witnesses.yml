@@ -1,0 +1,89 @@
+id: forum-witnesses
+summary: >-
+  The three AGS questions left open by the first forum reading were read against eleven more
+  threads. The script-generating tool Jones proposed was attempted as a v0.01 plugin with no
+  conditionals and was never finished. Beginners did leave out the second half of a pickup, and in
+  one game the two halves came apart, all caught before release. The dialog threads show the one
+  orphan found sitting unnoticed in a helper's example, which is what the failure mode predicts and
+  is not testimony that anyone felt it.
+context: |
+  [ags-testimony](ags-testimony.yml) filled the AGS row of the testimony table from three forum
+  pages. It closed why the Interaction Editor was removed and left three markers open:
+
+  - whether anything shipped as Jones's "auto script-generating tool", at
+    [prior-art/ags](../corpus/prior-art/ags.yml);
+  - whether AGS authors pay for the missing pickup bundle, at
+    [acquisition-binding](../corpus/interaction/acquisition-binding.yml);
+  - whether AGS authors felt an orphaned dialogue option as a loss, at
+    [orphaned-dialogue-branch](../corpus/failure-mode/orphaned-dialogue-branch.yml).
+
+  For each, [ags-forums](../catalog/ags-forums.md) listed leads found by search and not read, and
+  four dialog threads read only by a fetching agent. `phase/forum-witnesses` read the leads, one page
+  at a time in a browser because the forum rate-limits. The catalog entry's *Second reading* section
+  holds what each thread says.
+decision: |
+  **The tool Jones named was attempted and not finished.** SupSuper's "Simple Scripter" was
+  released as v0.01 on 1 February 2008. It wrote script from an editor form and read script back
+  into one, in "a rather strict coding style (only one expression per line)", and it did not
+  support conditionals. [verified] The thread ends on 19 February 2008 with no further release.
+  In 2012 monkey0506 called it something "SupSuper began, but unfortunately never completed".
+  [verified] That nothing else shipped under that description is an inference from one statement
+  and from absence. [inference]
+
+  **Authors do miss the second write, and it is caught before release on this evidence.** Three
+  beginners' pickups were read: [verified] — [ags-forums](../catalog/ags-forums.md)
+
+  - In 2010 the room object is never hidden. The compiler stops the code only because of an
+    unrelated mistake on the same line.
+  - In 2012 the room object is never hidden, and Crimson Wizard explains that giving the item "does
+    not mean object will dissapear on its own".
+  - In 2020 both halves are written, and the undo too, and they come apart. A second
+    `AddInventory` elsewhere leaves the item held after the object is back in the room.
+
+  Khris stated the cause in 2010: room objects and inventory items "are two completely seperate
+  things as far as the engine is concerned; the idea that both represent the same object in the
+  game world is in the designer's mind only." [verified] That is the corpus's
+  `carried-form-of` relation stated by an AGS expert as something the engine does not know.
+  [inference] No thread shows a released game with the window open. A forum for beginners is the
+  wrong place to see one. [inference]
+
+  **The dialog evidence is of the predicted kind, and the prediction cannot be told apart from
+  absence.** In "Dialog puzzle" (2004), Ishmael's worked example disables option 14 permanently and
+  then turns it on in the next line. Option 15 can only be enabled by the code option 14 runs, so
+  nothing reaches it. [inference] — read from the posted script against the manual's documented
+  permanence, which is [verified] at [ags-manual](../catalog/ags-manual.md). Nobody in the thread
+  mentions it. The dialog failures that are reported are the visible ones:
+
+  - Dannymac247's 2015 fall-through gave the player extra options. [verified] It is now read
+    here, and it agrees with the agent's report.
+  - The 2011 thread is about AGS stopping the game when every option is off. [verified] That is
+    the one dialog reachability condition the engine checks itself. It checks it at run time, by
+    halting.
+
+  The 2009 request to mark options unread is an author caring that players miss content. It is not
+  about content that cannot be reached. [verified]
+rationale: |
+  **Why the first marker can close and the other two only narrow.** The first question asked whether
+  something shipped, and the answer is a release, its limits, and a later statement that it was
+  never completed. That is a question about artifacts, and the artifacts were found. The other two
+  ask what authors experienced, which [ags-testimony](ags-testimony.yml) already said a forum can
+  only sample. More sampling found more instances. It did not find a different kind of instance.
+
+  **The pickup question has changed shape.** Before this reading the evidence was a recipe, which is
+  equally consistent with authors paying for the gap and with the recipe working. Now there are
+  three authors who did not follow it or could not keep it, and one expert explaining why. So
+  authors do pay. The cost observed is debugging time before release, not a shipped bug.
+  [inference] What stays open is whether the window ships.
+
+  **The dialog question has a witness, and the witness is a script, not a person.** The orphan in
+  the 2004 example is exactly the mechanism the node describes: a permanent off, written in one
+  place, removing a subtree that the file still shows. It survived because the only check the
+  engine makes is the all-off case. [inference] But an unnoticed orphan is what this mode predicts
+  and also what a mode nobody suffered would look like, so the person-shaped half of the question
+  has not moved. An instrument found this one. It was a reading against the manual, the same
+  check `Report::orphaned` makes on a specimen, and that is the node's own claim about where
+  detection has to come from.
+
+  **What was not done.** The guga2112, TheRoger and Fluxpuppy threads were not found again. The
+  leads the second search returned are listed unread in the catalog entry. Nothing outside the
+  forum was searched for a later version of Simple Scripter.
