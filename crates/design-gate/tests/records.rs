@@ -270,6 +270,9 @@ fn summary(src: &str) -> String {
 /// commit that added it. Records carry more citations than nodes do and a wider range of target:
 /// a renamed test file under `crates/` silently unsources a `[verified]` claim, and 23 records
 /// cite one.
+///
+/// `forum-witnesses` moved the total from 819 to 826: its citations of two catalog entries, the
+/// three nodes it revised and `ags-testimony`, and the one `ags-testimony` gained pointing back.
 #[test]
 fn every_path_written_in_a_record_resolves() {
     let root = repo_root();
@@ -293,7 +296,7 @@ fn every_path_written_in_a_record_resolves() {
         "a path written in a decision record must point at something:\n  {}",
         bad.join("\n  ")
     );
-    assert_eq!((total, mentions, tests.len()), (819, 143, 89));
+    assert_eq!((total, mentions, tests.len()), (826, 143, 89));
 }
 
 /// **Seven of ninety records are cited by nothing, against three of forty-four nodes.**
@@ -374,7 +377,9 @@ fn a_record_nothing_cites_is_named() {
          makes that the ordinary exit for a phase whose subject is this repository"
     );
     let edges: usize = c.values().map(|v| v.len()).sum();
-    assert_eq!((c.len(), edges), (100, 413));
+    // `forum-witnesses` is the 101st and adds two edges: it cites `ags-testimony`, and
+    // `ags-testimony`'s narrowing paragraph cites it back on the day it lands.
+    assert_eq!((c.len(), edges), (101, 415));
 }
 
 /// **The directory holding half the artifact had no index, and now the index is the listing.**
@@ -633,9 +638,13 @@ fn no_record_has_changed_what_it_decided() {
     // readings and named the game that would choose, and `second-game-width` measured one. The
     // correction is a paragraph under the `[open]` rather than a rewrite of it, and the record that
     // answered lands cited by the record it corrected, which is `or-earns-it`'s route.
+    //
+    // The fifty-fifth is `ags-testimony`, the same kind and the same route: it narrowed two AGS
+    // questions and listed the leads unread, and `forum-witnesses` read them. A *"Since narrowed."*
+    // paragraph follows the rationale, and the summary did not move.
     assert_eq!(
         edited,
-        54,
+        55,
         "records with a commit after the one that wrote them \
          ({} not yet committed, and not judged: {uncommitted:?})",
         uncommitted.len()

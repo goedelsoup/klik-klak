@@ -240,7 +240,6 @@ nodes, at four times the rate, and it had never been looked at.
 - [declared-reach](declared-reach.yml)
 - [domain-computer](domain-computer.yml)
 - [edge-policy](edge-policy.yml)
-- [forum-witnesses](forum-witnesses.yml)
 - [name-scoping](name-scoping.yml)
 - [settled-surface](settled-surface.yml)
 

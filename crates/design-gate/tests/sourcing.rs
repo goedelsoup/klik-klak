@@ -107,6 +107,9 @@ fn rests(src: &str) -> Rests {
 /// The catalog count went from 136 to 138 when `second-game-width` gave `latched-flag` a
 /// paragraph resting on `catalog/lsl5-source`: two catalog-sourced claims, about a second game.
 ///
+/// And from 138 to 142 when `forum-witnesses` narrowed three AGS markers from
+/// `catalog/ags-forums`: four catalog-sourced claims and two carried ones, all forum threads.
+///
 /// The catalog is not the remedy. An entry for `crates/` would silence `verified-unsourced` on
 /// every node at once, which is the unearned silencing the four nodes below documented, applied
 /// globally and on purpose. `.yidam/decisions/evidence-kinds.yml`.
@@ -132,10 +135,10 @@ fn the_instrument_is_a_kind_of_evidence_the_register_has_no_slot_for() {
     assert_eq!(
         total,
         Rests {
-            catalog: 138,
+            catalog: 142,
             instrument: 66,
             both: 6,
-            carried: 178,
+            carried: 180,
         }
     );
     assert_eq!(
