@@ -1,0 +1,67 @@
+id: maker-tracker
+summary: >-
+  The orphaned-option question was taken to the AGS maintainers' own tracker after the forum had been
+  sampled twice. The one dialog reachability condition AGS checked stopped being an error in 3.5.1
+  (June 2021), because the maintainer read an all-off dialog as an ending authors expect. Every static
+  check AGS now has over dialog scripts sees option state only as a runtime argument, and nobody in
+  the tracker asked for more. The makers did not treat orphaning as a loss; whether authors did is
+  still not shown.
+context: |
+  [orphaned-dialogue-branch](../corpus/failure-mode/orphaned-dialogue-branch.yml) has carried one
+  question since [ags-testimony](ags-testimony.yml): whether AGS authors experienced an orphaned
+  dialogue option as a loss. [forum-witnesses](forum-witnesses.yml) read more forum threads for it.
+  It found one orphan, unnoticed, in a helper's worked example, and it found that the dialog failures
+  authors report are the visible ones. One of those was AGS halting when every option is off, which
+  that record called "the one dialog reachability condition the engine checks itself".
+
+  [testimony](testimony.yml) says a fourth search of the same kind of document is the move to stop.
+  So this phase did not read the forum again. It read the project's issue tracker and changelog,
+  which the maintainers after Chris Jones write. They decide what the engine and the editor check.
+  That reading is catalogued as [ags-tracker](../catalog/ags-tracker.md).
+decision: |
+  **The one check AGS made was relaxed, on purpose, for authors.** Issue #1134 (November 2020) asks
+  that a dialog with no options left should end rather than stop the game, because that is what the
+  "user expects". Commit 197d5ac replaced the `quit` with a debug warning. The 3.5.1 changelog (June
+  2021) records it as "Dialogs with no enabled options left will be now stopped, instead of raising
+  script error." [verified] — [ags-tracker](../catalog/ags-tracker.md). The 2011 forum thread
+  describes the engine before that change. Since 3.5.1 the engine ends such a dialog instead of
+  stopping the game.
+
+  **No static check AGS has can see an option's state.** In the ags4 branch:
+
+  - The dialog-script converter checks that an `option-off-forever` names an option that exists, and
+    then writes it as an ordinary `SetOptionState` call. [verified]
+  - The AGS 4 compiler warns "Code execution cannot reach this point" on control flow inside one
+    function. In dialog scripts its one known effect is a false positive after a `return`, issue
+    #2981 (June 2026). [verified]
+
+  So the newest unreachability warning AGS has stops at the edge of an option's block, which is
+  where an orphan begins. That no other check reads option state is [inference] from the two read
+  and from the tracker searches.
+
+  **Nobody asked.** Searches of about 3,200 issues and pull requests found no request to detect an
+  option that can never be shown. [inference] — an absence in a search.
+rationale: |
+  **This is testimony from the side that would have had to act.** An author who felt the loss would
+  have had to bring it to the people who build the checks, and their tracker shows the opposite
+  movement. They removed the only alarm and kept it as a log line, and their reason was what authors
+  want. That answers the question for the makers: they did not treat orphaning, or its visible
+  extreme, as a loss. [inference] — read from one issue's stated reason and from the absence of any
+  request.
+
+  **It does not close the marker.** The question is whether AGS *authors* felt it. A tracker records
+  what reached the maintainers. An author who never knew an option was orphaned would never file
+  anything, so absence there is again what this mode predicts as well as what nobody suffering it
+  would look like. The forum, the tracker and the reading of Ishmael's script now agree, and they
+  agree in the way the node predicted: the only thing that has found an orphan is a reading of the
+  script against its semantics. [inference]
+
+  **It corrects a sentence two records wrote.** [forum-witnesses](forum-witnesses.yml) and the node
+  both call the all-off halt the one dialog reachability condition AGS checks. That was true of the
+  engine the 2011 thread used. It has not been true of a released engine since June 2021. Both are
+  corrected by a paragraph after them, not by rewording.
+
+  **What was not done.** The forum's Editor Development board, where features were argued before the
+  project moved to GitHub, was not searched. No released AGS game's dialog scripts were run through
+  anything. That would count orphans that shipped, which is the artifact half of the question, and
+  it is the reading this record and the node say is the only one that finds them.
