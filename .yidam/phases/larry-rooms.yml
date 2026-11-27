@@ -1,0 +1,7 @@
+format_version: 1
+phase: larry-rooms
+type: Investigation
+input:
+  commit: 1779784c844c1a9dc373836667ab465dfecad298
+  manifest_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  config_sha256: c4e254c5e479cbfe34c17216a0d15f36bfb675f332a12039cac4b49ab07e7e8e
