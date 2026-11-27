@@ -28,6 +28,7 @@ Sorted by: type, then slug.
 | [sci-inhouse-docs.md](sci-inhouse-docs.md) | other | Eleven documents Sierra wrote for its own game programmers between 1988 and the early nineties, preserved by the SCI community — the first source here written by a working author's employer to tell them how to write. | yes | — | 1 | 0 |
 | [sci-specifications.md](sci-specifications.md) | other | The SCI community's reverse engineering of Sierra's Creative Interpreter — resource formats, the virtual machine, and the kernel function table, which is the whole of what the engine offered a game script. | yes | — | 1 | 0 |
 | [scumm-v5-opcode-reference.md](scumm-v5-opcode-reference.md) | other | Reverse-engineered listing of SCUMM v5 script opcodes by number and name, hosted by ScummVM. | yes | — | 9 | 0 |
+| [sierra-agi-source.md](sierra-agi-source.md) | dataset | The AGI logic source of three 1986–87 Sierra adventures by three different lead designers, one of them Al Lowe. Read to tell one designer's shape from the house's, against Leisure Suit Larry 5. | yes | — | 1 | 0 |
 | [twp-dev-diary.md](twp-dev-diary.md) | other | A near-daily record, 2015-2019, of a classic point-and-click adventure being designed and its engine being built, written by the people who invented the form. | yes | — | 11 | 0 |
 | [wikipedia-scumm.md](wikipedia-scumm.md) | other | Tertiary account of the SCUMM engine, its verb interface, and the years it was in use. | yes | — | 5 | 0 |
 
